@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Charlie Brown Jr.</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-image: url('fundo-cbjr.jpg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-color: #000;
+      color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .quiz-container {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 600px;
+      margin: 60px auto;
+      box-shadow: 0 0 20px #000;
+      text-align: center;
+      display: none;
+    }
+
+    button {
+      background-color: #ffcc00;
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ffe066;
+    }
+
+    audio {
+      display: none;
+    }
+
+    h1 {
+      color: #ffcc00;
+    }
+
+    #feedback {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    #start-screen {
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    #toggle-music-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="start-screen">
+    <h1>🎸 Quiz Charlie Brown Jr.</h1>
+    <p>Clique abaixo para começar e ouvir "Não Deixe o Mar Te Engolir"</p>
+    <button id="start-btn">Iniciar Quiz</button>
+  </div>
+
+  <div class="quiz-container" id="quiz-container">
+    <button id="toggle-music-btn">⏸️ Parar Música</button>
+    <h1>Quiz: Charlie Brown Jr.</h1>
+    <div id="question-container">
+      <p id="question-text">Carregando pergunta...</p>
+      <div id="answers"></div>
+    </div>
+    <p id="feedback"></p>
+    <button id="next-btn" style="display: none;">Próxima</button>
+  </div>
+
+  <!-- Música local -->
+  <audio id="bg-music" loop>
+    <source src="nao-deixe-o-mar-te-engolir.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <script>
+    const quiz = [
+      {
+        pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?",
+        opcoes: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"],
+        resposta: "I Feel So Good Today"
+      },
+      {
+        pergunta: "Qual cidade é berço do Charlie Brown Jr.?",
+        opcoes: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"],
+        resposta: "Santos"
+      },
+      {
+        pergunta: "Quem era o baixista original da banda?",
+        opcoes: ["Chorão", "Marcão", "Champignon", "Heitor"],
+        resposta: "Champignon"
+      }
+    ];
+
+    let indice = 0;
+
+    const musica = document.getElementById('bg-music');
+    const quizContainer = document.getElementById('quiz-container');
+    const questionText = document.getElementById("question-text");
+    const answersDiv = document.getElementById("answers");
+    const feedback = document.getElementById("feedback");
+    const nextBtn = document.getElementById("next-btn");
+    const toggleMusicBtn = document.getElementById("toggle-music-btn");
+
+    document.getElementById('start-btn').addEventListener('click', () => {
+      document.getElementById('start-screen').style.display = 'none';
+      quizContainer.style.display = 'block';
+      carregarPergunta();
+      musica.play().catch(err => {
+        alert("Clique necessário para liberar o som. Atualize a página e clique novamente.");
+        console.warn(err);
+      });
+    });
+
+    toggleMusicBtn.addEventListener("click", () => {
+      if (musica.paused) {
+        musica.play();
+        toggleMusicBtn.textContent = "⏸️ Parar Música";
+      } else {
+        musica.pause();
+        toggleMusicBtn.textContent = "🔊 Tocar Música";
+      }
+    });
+
+    function carregarPergunta() {
+      const atual = quiz[indice];
+      questionText.textContent = atual.pergunta;
+      answersDiv.innerHTML = "";
+      feedback.textContent = "";
+      nextBtn.style.display = "none";
+
+      atual.opcoes.forEach(opcao => {
+        const btn = document.createElement("button");
+        btn.textContent = opcao;
+        btn.onclick = () => verificarResposta(opcao, atual.resposta);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function verificarResposta(escolhida, correta) {
+      if (escolhida === correta) {
+        feedback.textContent = "🎯 Acertou, campeão!";
+      } else {
+        feedback.textContent = `😬 Errou! A certa era: ${correta}`;
+      }
+      nextBtn.style.display = "inline-block";
+    }
+
+    nextBtn.onclick = () => {
+      indice++;
+      if (indice < quiz.length) {
+        carregarPergunta();
+      } else {
+        questionText.textContent = "🏁 Acabou o quiz!";
+        answersDiv.innerHTML = "";
+        feedback.textContent = "Valeu por jogar, guerreiro!";
+        nextBtn.style.display = "none";
+      }
+    };
+  </script>
+
+</body>
+</html>
