@@ -4,9 +4,18 @@
   <meta charset="UTF-8" />
   <title>Quiz Charlie Brown Jr.</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Incluindo o Font Awesome para os ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
     .progress-bar-container {
       width: 100%;
       height: 8px;
@@ -26,7 +35,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 20px;
+      margin: 60px 0 20px; /* movido mais pra baixo */
     }
 
     .player-buttons {
@@ -38,32 +47,31 @@
     .icon {
       font-size: 30px;
     }
+
+    #score-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin: 20px auto;
+    }
+
     @media (max-width: 600px) {
-  .player {
-    margin-top: 40px;
-    padding-left: 30px;
-    align-items: flex-start;
-  }
+      .music-controls {
+        margin-top: 60px;
+        padding: 0 10px;
+      }
 
-  #score {
-    position: relative;
-    top: 80px;
-  }
-}
-@media (max-width: 600px) {
-  .player {
-    margin-top: 40px;
-    align-items: flex-end;
-    padding-right: 20px;
-  }
+      #score {
+        margin-top: 20px;
+        font-size: 16px;
+      }
 
-  #score {
-    display: block;
-    margin-top: 60px;
-    text-align: center;
-  }
-}
-
+      .quiz-container {
+        padding: 0 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -77,7 +85,6 @@
     <div class="medalha" id="medalha"></div>
   </div>
 
-  <!-- Player de Música Atualizado -->
   <div class="music-controls">
     <div class="music-title">
       <span id="current-music">Tocando agora: Nenhuma</span>
@@ -96,7 +103,6 @@
     <div class="music-time">
       <span id="current-time">0:00</span> / <span id="total-time">0:00</span>
     </div>
-    <!-- Barra de progresso abaixo dos botões -->
     <div class="progress-bar-container">
       <div id="progress-bar" class="progress-bar"></div>
     </div>
@@ -113,14 +119,15 @@
     <div id="feedback"></div>
   </div>
 
+  <!-- O restante do seu script JavaScript segue abaixo sem alterações -->
   <script>
     const musicas = [
-    { nome: 'I Feel So Good Today', arquivo: 'musicas/i-feel-so-good-today.mp3' },
-    { nome: 'Como Tudo Deve Ser', arquivo: 'musicas/como-tudo-deve-ser.mp3' },
-    { nome: 'Lugar ao Sol', arquivo: 'musicas/lugar-ao-sol.mp3' },
-    { nome: 'Tamo ai na Atividade', arquivo: 'musicas/tamo-ai-na-atividade.mp3' },
-    { nome: 'Uma Criança com Seu Olhar', arquivo: 'musicas/uma-criança-com-seu-olhar.mp3' },
-    { nome: 'Não Deixe o Mar Te Engolir', arquivo: 'musicas/nao-deixe-o-mar-te-engolir.mp3' }
+      { nome: 'I Feel So Good Today', arquivo: 'musicas/i-feel-so-good-today.mp3' },
+      { nome: 'Como Tudo Deve Ser', arquivo: 'musicas/como-tudo-deve-ser.mp3' },
+      { nome: 'Lugar ao Sol', arquivo: 'musicas/lugar-ao-sol.mp3' },
+      { nome: 'Tamo ai na Atividade', arquivo: 'musicas/tamo-ai-na-atividade.mp3' },
+      { nome: 'Uma Criança com Seu Olhar', arquivo: 'musicas/uma-criança-com-seu-olhar.mp3' },
+      { nome: 'Não Deixe o Mar Te Engolir', arquivo: 'musicas/nao-deixe-o-mar-te-engolir.mp3' }
     ];
     let musicIndex = 0;
     const music = document.getElementById('bg-music');
@@ -155,26 +162,16 @@
       updateMusic();
     }
 
-    // Adiciona um ouvinte para passar para a próxima música quando a atual terminar
     music.addEventListener('ended', nextMusic);
-
-    // Atualiza o tempo da música e a barra de progresso
     music.addEventListener('timeupdate', () => {
       const currentTime = music.currentTime;
       const totalTime = music.duration;
-
-      // Exibe o tempo atual formatado
       currentTimeDisplay.textContent = formatTime(currentTime);
-
-      // Exibe o tempo total formatado
       totalTimeDisplay.textContent = formatTime(totalTime);
-
-      // Atualiza a barra de progresso
       const progress = (currentTime / totalTime) * 100;
       progressBar.style.width = `${progress}%`;
     });
 
-    // Formata o tempo no formato minutos:segundos
     function formatTime(seconds) {
       const minutes = Math.floor(seconds / 60);
       const remainingSeconds = Math.floor(seconds % 60);
@@ -184,56 +181,16 @@
     updateMusic();
 
     const perguntas = [
-      {
-        pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?",
-        respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"],
-        correta: "Chorão"
-      },
-      {
-        pergunta: "Qual álbum tem a música 'Zóio de Lula'?",
-        respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"],
-        correta: "Nadando com os Tubarões"
-      },
-      {
-        pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?",
-        respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"],
-        correta: "Santos"
-      },
-      {
-        pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?",
-        respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"],
-        correta: "I Feel So Good Today"
-      },
-      {
-        pergunta: "Qual cidade é berço do Charlie Brown Jr.?",
-        respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"],
-        correta: "Santos"
-      },
-      {
-        pergunta: "Quem era o baixista original da banda?",
-        respostas: ["Chorão", "Marcão", "Champignon", "Heitor"],
-        correta: "Champignon"
-      },
-      {
-        pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?",
-        respostas: ["2000", "2002", "1999", "2001"],
-        correta: "2000"
-      },
-      {
-        pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?",
-        respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"],
-        correta: "Champanhe e Água Benta"
-      },
-      {
-        pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?",
-        respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"],
-        correta: "Champignon"
-      },
-      {
-        pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?",
-        respostas: ["1997", "1995", "2000", "1998"],
-        correta: "1997"
-      }
+      { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
+      { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
+      { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
+      { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
+      { pergunta: "Qual cidade é berço do Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
+      { pergunta: "Quem era o baixista original da banda?", respostas: ["Chorão", "Marcão", "Champignon", "Heitor"], correta: "Champignon" },
+      { pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
+      { pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" },
+      { pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?", respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"], correta: "Champignon" },
+      { pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997" }
     ];
 
     let currentQuestion = 0;
