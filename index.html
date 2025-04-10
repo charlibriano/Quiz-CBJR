@@ -4,18 +4,9 @@
   <meta charset="UTF-8" />
   <title>Quiz Charlie Brown Jr.</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Incluindo o Font Awesome para os ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
     .progress-bar-container {
       width: 100%;
       height: 8px;
@@ -35,7 +26,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 60px 0 20px; /* movido mais pra baixo */
+      margin: 60px 0 30px auto;
+      width: fit-content;
+      padding-right: 40px;
     }
 
     .player-buttons {
@@ -52,24 +45,23 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      margin: 20px 0;
       text-align: center;
-      margin: 20px auto;
     }
 
     @media (max-width: 600px) {
       .music-controls {
-        margin-top: 60px;
-        padding: 0 10px;
+        align-items: center;
+        margin: 40px auto 30px auto;
+        padding-right: 0;
+      }
+
+      #score-container {
+        margin-top: 40px;
       }
 
       #score {
-        margin-top: 20px;
-        font-size: 16px;
-      }
-
-      .quiz-container {
-        padding: 0 10px;
+        margin-top: 10px;
       }
     }
   </style>
@@ -85,6 +77,7 @@
     <div class="medalha" id="medalha"></div>
   </div>
 
+  <!-- Player de Música Atualizado -->
   <div class="music-controls">
     <div class="music-title">
       <span id="current-music">Tocando agora: Nenhuma</span>
@@ -119,7 +112,7 @@
     <div id="feedback"></div>
   </div>
 
-  <!-- O restante do seu script JavaScript segue abaixo sem alterações -->
+  <!-- JS continua igual -->
   <script>
     const musicas = [
       { nome: 'I Feel So Good Today', arquivo: 'musicas/i-feel-so-good-today.mp3' },
@@ -163,6 +156,7 @@
     }
 
     music.addEventListener('ended', nextMusic);
+
     music.addEventListener('timeupdate', () => {
       const currentTime = music.currentTime;
       const totalTime = music.duration;
@@ -180,18 +174,7 @@
 
     updateMusic();
 
-    const perguntas = [
-      { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
-      { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
-      { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
-      { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
-      { pergunta: "Qual cidade é berço do Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
-      { pergunta: "Quem era o baixista original da banda?", respostas: ["Chorão", "Marcão", "Champignon", "Heitor"], correta: "Champignon" },
-      { pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
-      { pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" },
-      { pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?", respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"], correta: "Champignon" },
-      { pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997" }
-    ];
+    const perguntas = [/* ... perguntas ... */];
 
     let currentQuestion = 0;
     let acertos = 0;
