@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz Charlie Brown Jr.</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Incluindo o Font Awesome para os ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background-color: #ddd;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #4caf50;
+      border-radius: 5px;
+    }
+
+    .music-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .player-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .icon {
+      font-size: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <h1>Quiz: Charlie Brown Jr</h1>
+    <p>Venha testar seus conhecimentos!</p>
+  </div>
+
+  <div id="score-container">
+    <div id="score">Acertos: 0 | Erros: 0</div>
+    <div class="medalha" id="medalha"></div>
+  </div>
+
+  <!-- Player de Música Atualizado -->
+  <div class="music-controls">
+    <div class="music-title">
+      <span id="current-music">Tocando agora: Nenhuma</span>
+    </div>
+    <div class="player-buttons">
+      <button class="previous-btn icon" onclick="previousMusic()">
+        <i class="fas fa-backward"></i>
+      </button>
+      <button class="play-btn icon" onclick="playPause()">
+        <i class="fas fa-play"></i>
+      </button>
+      <button class="next-btn icon" onclick="nextMusic()">
+        <i class="fas fa-forward"></i>
+      </button>
+    </div>
+    <div class="music-time">
+      <span id="current-time">0:00</span> / <span id="total-time">0:00</span>
+    </div>
+    <!-- Barra de progresso abaixo dos botões -->
+    <div class="progress-bar-container">
+      <div id="progress-bar" class="progress-bar"></div>
+    </div>
+    <audio id="bg-music" autoplay loop>
+      <source src="musicas/i-feel-so-good-today.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <div class="quiz-container">
+    <h2 id="question">Clique em Iniciar para começar o Quiz</h2>
+    <div id="answers"></div>
+    <button id="start-btn" onclick="startQuiz()">Iniciar</button>
+    <button id="restart-btn" onclick="restartQuiz()" style="display:none">Reiniciar</button>
+    <div id="feedback"></div>
+  </div>
+
+  <script>
+    const musicas = [
+    { nome: 'I Feel So Good Today', arquivo: 'musicas/i-feel-so-good-today.mp3' },
+    { nome: 'Como Tudo Deve Ser', arquivo: 'musicas/como-tudo-deve-ser.mp3' },
+    { nome: 'Lugar ao Sol', arquivo: 'musicas/lugar-ao-sol.mp3' },
+    { nome: 'Tamo ai na Atividade', arquivo: 'musicas/tamo-ai-na-atividade.mp3' },
+    { nome: 'Uma Criança com Seu Olhar', arquivo: 'musicas/uma-criança-com-seu-olhar.mp3' },
+    { nome: 'Não Deixe o Mar Te Engolir', arquivo: 'musicas/nao-deixe-o-mar-te-engolir.mp3' }
+    ];
+    let musicIndex = 0;
+    const music = document.getElementById('bg-music');
+    const musicTitle = document.getElementById('current-music');
+    const currentTimeDisplay = document.getElementById('current-time');
+    const totalTimeDisplay = document.getElementById('total-time');
+    const progressBar = document.getElementById('progress-bar');
+
+    function updateMusic() {
+      music.src = musicas[musicIndex].arquivo;
+      musicTitle.textContent = `Tocando agora: ${musicas[musicIndex].nome}`;
+      music.play();
+    }
+
+    function playPause() {
+      if (music.paused) {
+        music.play();
+        document.querySelector('.play-btn i').classList.replace('fa-play', 'fa-pause');
+      } else {
+        music.pause();
+        document.querySelector('.play-btn i').classList.replace('fa-pause', 'fa-play');
+      }
+    }
+
+    function nextMusic() {
+      musicIndex = (musicIndex + 1) % musicas.length;
+      updateMusic();
+    }
+
+    function previousMusic() {
+      musicIndex = (musicIndex - 1 + musicas.length) % musicas.length;
+      updateMusic();
+    }
+
+    // Adiciona um ouvinte para passar para a próxima música quando a atual terminar
+    music.addEventListener('ended', nextMusic);
+
+    // Atualiza o tempo da música e a barra de progresso
+    music.addEventListener('timeupdate', () => {
+      const currentTime = music.currentTime;
+      const totalTime = music.duration;
+
+      // Exibe o tempo atual formatado
+      currentTimeDisplay.textContent = formatTime(currentTime);
+
+      // Exibe o tempo total formatado
+      totalTimeDisplay.textContent = formatTime(totalTime);
+
+      // Atualiza a barra de progresso
+      const progress = (currentTime / totalTime) * 100;
+      progressBar.style.width = `${progress}%`;
+    });
+
+    // Formata o tempo no formato minutos:segundos
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.floor(seconds % 60);
+      return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    }
+
+    updateMusic();
+
+    const perguntas = [
+      {
+        pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?",
+        respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"],
+        correta: "Chorão"
+      },
+      {
+        pergunta: "Qual álbum tem a música 'Zóio de Lula'?",
+        respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"],
+        correta: "Nadando com os Tubarões"
+      },
+      {
+        pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?",
+        respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"],
+        correta: "Santos"
+      },
+      {
+        pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?",
+        respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"],
+        correta: "I Feel So Good Today"
+      },
+      {
+        pergunta: "Qual cidade é berço do Charlie Brown Jr.?",
+        respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"],
+        correta: "Santos"
+      },
+      {
+        pergunta: "Quem era o baixista original da banda?",
+        respostas: ["Chorão", "Marcão", "Champignon", "Heitor"],
+        correta: "Champignon"
+      },
+      {
+        pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?",
+        respostas: ["2000", "2002", "1999", "2001"],
+        correta: "2000"
+      },
+      {
+        pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?",
+        respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"],
+        correta: "Champanhe e Água Benta"
+      },
+      {
+        pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?",
+        respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"],
+        correta: "Champignon"
+      },
+      {
+        pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?",
+        respostas: ["1997", "1995", "2000", "1998"],
+        correta: "1997"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let acertos = 0;
+    let erros = 0;
+
+    function startQuiz() {
+      document.getElementById("start-btn").style.display = "none";
+      document.getElementById("restart-btn").style.display = "none";
+      currentQuestion = 0;
+      acertos = 0;
+      erros = 0;
+      atualizarScore();
+      document.getElementById("medalha").textContent = "";
+      mostrarPergunta();
+    }
+
+    function mostrarPergunta() {
+      const q = perguntas[currentQuestion];
+      document.getElementById("question").textContent = q.pergunta;
+      const answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+      q.respostas.forEach((resposta) => {
+        const btn = document.createElement("button");
+        btn.textContent = resposta;
+        btn.onclick = () => verificarResposta(resposta);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function verificarResposta(resposta) {
+      const q = perguntas[currentQuestion];
+      const botoes = document.querySelectorAll("#answers button");
+      botoes.forEach((btn) => {
+        btn.disabled = true;
+        if (btn.textContent === q.correta) {
+          btn.classList.add("correto");
+        } else if (btn.textContent === resposta) {
+          btn.classList.add("errado");
+        }
+      });
+
+      if (resposta === q.correta) {
+        document.getElementById("feedback").textContent = "Resposta correta!";
+        acertos++;
+      } else {
+        document.getElementById("feedback").textContent = "Resposta errada.";
+        erros++;
+      }
+
+      atualizarScore();
+
+      setTimeout(() => {
+        document.getElementById("feedback").textContent = "";
+        currentQuestion++;
+        if (currentQuestion < perguntas.length) {
+          mostrarPergunta();
+        } else {
+          mostrarResultado();
+        }
+      }, 1000);
+    }
+
+    function atualizarScore() {
+      document.getElementById("score").textContent = `Acertos: ${acertos} | Erros: ${erros}`;
+    }
+
+    function mostrarResultado() {
+      document.getElementById("question").textContent = "Quiz finalizado!";
+      document.getElementById("answers").innerHTML = "";
+      document.getElementById("restart-btn").style.display = "inline-block";
+      atualizarScore();
+
+      const medalha = document.getElementById("medalha");
+      if (acertos === perguntas.length) {
+        medalha.textContent = "🏅 Ouro! Você é um fã raiz do CBJR!";
+      } else if (acertos >= perguntas.length / 2) {
+        medalha.textContent = "🥈 Prata! Mandou bem!";
+      } else {
+        medalha.textContent = "🥉 Bronze! Dá pra melhorar!";
+      }
+    }
+
+    function restartQuiz() {
+      startQuiz();
+    }
+  </script>
+
+  <script src="player-visualizer.js"></script>
+</body>
+</html>
