@@ -2,318 +2,153 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quiz Charlie Brown Jr.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Charlie Brown Jr</title>
   <style>
     body {
-      background: url('fundo-cbjr.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      padding: 20px;
       margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://i.imgur.com/1KsP2g4.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
     }
     .container {
-      max-width: 800px;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+      max-width: 900px;
+      margin: auto;
+      background-color: rgba(0, 0, 0, 0.75);
       padding: 20px;
-      border-radius: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      border-radius: 16px;
     }
-    .intro-text {
-      text-align: center;
-      font-size: 22px;
-      margin-bottom: 20px;
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
     }
-    .player {
-      background-color: #1e1e1e;
-      padding: 15px;
-      border-radius: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
+    #player-controls {
+      margin: 20px 0;
     }
-    .controls {
-      display: flex;
-      gap: 15px;
-      align-items: center;
+    .question {
+      margin: 20px 0;
     }
-    .music-info {
-      margin: 10px 0;
-      font-size: 14px;
-      color: #ccc;
-    }
-    button {
-      background-color: #282828;
-      border: none;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 50px;
+    .question button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 1em;
       cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #3e3e3e;
-    }
-    #quiz-container {
-      background-color: rgba(30, 30, 30, 0.8);
-      padding: 20px;
-      border-radius: 15px;
-    }
-    .option-btn {
-      display: block;
-      width: 100%;
-      margin: 5px 0;
-      padding: 15px;
       border-radius: 10px;
-      background-color: #282828;
       border: none;
-      color: #fff;
-      cursor: pointer;
-      transition: 0.3s;
-      font-size: 18px;
+      background-color: #f1c40f;
+      color: black;
     }
-    .option-btn:hover {
-      background-color: #3e3e3e;
-    }
-    .correct { background-color: green !important; }
-    .incorrect { background-color: red !important; }
-    .hidden { display: none; }
-    #visualizer {
-      width: 100%;
-      height: 60px;
-      background: #111;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 30px;
-    }
-    canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-    .option-container {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-    .option-block {
-      display: flex;
-      flex-direction: column;
-      width: 45%;
-    }
-    @media (max-width: 600px) {
-      .controls {
-        justify-content: center;
-        width: 100%;
-      }
-      .option-btn {
-        width: 100%;
-        margin: 5px 0;
-      }
-    }
-    #start-btn, #restart-btn {
-      background-color: #ff6600;
-      color: white;
-      font-size: 20px;
-      padding: 15px 30px;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      border: none;
-      width: 250px;
+    #score, #medal {
       margin-top: 20px;
-      text-align: center;
-    }
-
-    #start-btn:hover, #restart-btn:hover {
-      background-color: #e65c00;
+      font-size: 1.3em;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="intro-text">🎸 Quiz Charlie Brown Jr. – Venha testar seus conhecimentos!</div>
-
-    <div class="player">
-      <div class="controls">
-        <button onclick="prevSong()">⏮</button>
-        <button onclick="togglePlay()" id="playPause">▶️</button>
-        <button onclick="nextSong()">⏭</button>
-      </div>
-      <div class="music-info" id="song-title">Carregando música...</div>
-      <div id="music-time">00:00</div>
+    <h1>Quiz Charlie Brown Jr</h1>
+    <div id="player-controls">
+      <button onclick="prevSong()">⏮️ Anterior</button>
+      <button onclick="togglePlay()">▶️/⏸️</button>
+      <button onclick="nextSong()">⏭️ Próxima</button>
+      <p id="current-song"></p>
     </div>
 
-    <button id="start-btn">Começar Quiz</button>
-    <button id="restart-btn" class="hidden" onclick="restartQuiz()">Reiniciar Quiz</button>
-
-    <div id="quiz-container" class="hidden">
-      <h2 id="question"></h2>
-      <div id="options" class="option-container"></div>
-    </div>
-
-    <div id="result" class="hidden">
-      <h3>Resultado</h3>
-      <button id="retry-btn" onclick="restartQuiz()">Tente Novamente</button>
-    </div>
-
-    <div id="visualizer"><canvas id="canvas"></canvas></div>
-
-    <audio id="music-player" controls>
-      <source id="audio-source" src="" type="audio/mp3">
-      Seu navegador não suporta áudio.
-    </audio>
+    <div id="quiz"></div>
+    <p id="score"></p>
+    <p id="medal"></p>
   </div>
 
+  <audio id="audio" controls style="display:none"></audio>
+
   <script>
-    const perguntas = [
-      { pergunta: "Qual o primeiro álbum do Charlie Brown Jr.?", opcoes: ["Transpiração Contínua Prolongada", "Imunidade Musical", "Acústico MTV", "Ritmo, Ritual e Raiva"], resposta: "Transpiração Contínua Prolongada" },
-      { pergunta: "Quem foi o vocalista da banda?", opcoes: ["Chorão", "Marcelo D2", "Belo", "Tiago Iorc"], resposta: "Chorão" },
-      { pergunta: "Em que ano foi lançado o álbum 'Ritmo, Ritual e Raiva'?", opcoes: ["2000", "2002", "2004", "2006"], resposta: "2002" },
-      { pergunta: "Qual é a música mais famosa do álbum 'Transpiração Contínua Prolongada'?", opcoes: ["Zóio de Lula", "Céu Azul", "Tudo que Você Podia Ser", "Quero ver o Céu"], resposta: "Céu Azul" },
-      { pergunta: "Qual desses álbuns NÃO é um álbum de estúdio do Charlie Brown Jr.?", opcoes: ["Acústico MTV", "Música Popular Caiçara", "Ritmo, Ritual e Raiva", "Mundo Ideal"], resposta: "Música Popular Caiçara" },
-      { pergunta: "Quem era o guitarrista da banda?", opcoes: ["Marcelo Moreira", "Tutti", "Roger", "Fábio Brasil"], resposta: "Marcelo Moreira" },
-      { pergunta: "Em que ano Charlie Brown Jr. foi formado?", opcoes: ["1992", "1994", "1996", "1998"], resposta: "1992" },
-      { pergunta: "Qual a música mais tocada de Charlie Brown Jr.?", opcoes: ["Só os Loucos Sabem", "Papo Reto", "O Sonho Não Acabou", "Céu Azul"], resposta: "Só os Loucos Sabem" },
-      { pergunta: "Qual a principal influência musical de Charlie Brown Jr.?", opcoes: ["Rap", "Rock", "MPB", "Samba"], resposta: "Rap" },
-      { pergunta: "Quem foi o baterista da banda?", opcoes: ["Heitor", "Marcão", "Fábio Brasil", "Branco Mello"], resposta: "Marcão" },
-      { pergunta: "Qual desses é um álbum solo do Chorão?", opcoes: ["Viver é Difícil", "Nossos Momentos", "Chorão Acústico", "O Canto de Adão"], resposta: "O Canto de Adão" },
-      { pergunta: "Em qual cidade o Charlie Brown Jr. foi formado?", opcoes: ["São Paulo", "Rio de Janeiro", "Campinas", "Santos"], resposta: "Santos" },
-      { pergunta: "Qual foi a última turnê do Charlie Brown Jr.?", opcoes: ["A Última Canção", "O Último Show", "Festa na Fábrica", "Viver é Difícil"], resposta: "Festa na Fábrica" },
-      { pergunta: "Qual a primeira música do Charlie Brown Jr. que tocou na rádio?", opcoes: ["Ritmo, Ritual e Raiva", "Te Levar", "Papo Reto", "Céu Azul"], resposta: "Te Levar" },
-      { pergunta: "Qual desses músicos NUNCA fez parte da formação do Charlie Brown Jr.?", opcoes: ["Banda da Marca", "Nando Reis", "Fábio Lima", "Fábio Brasil"], resposta: "Nando Reis" },
-      { pergunta: "O que significa o nome da banda, 'Charlie Brown Jr.'?", opcoes: ["Um personagem de HQ", "Nome de uma música", "Uma homenagem ao músico Charlie Brown", "Inspiração de uma música do Nirvana"], resposta: "Um personagem de HQ" },
-      { pergunta: "Onde Chorão nasceu?", opcoes: ["São Paulo", "Santos", "Campinas", "Rio de Janeiro"], resposta: "Santos" },
-      { pergunta: "Em que álbum a música 'O Sonho Não Acabou' foi lançada?", opcoes: ["Ritmo, Ritual e Raiva", "Imunidade Musical", "Música Popular Caiçara", "Acústico MTV"], resposta: "Música Popular Caiçara" },
-      { pergunta: "Quem foi o produtor de alguns dos álbuns do Charlie Brown Jr.?", opcoes: ["Tutti", "Rick Bonadio", "Marcelo D2", "Tavinho"], resposta: "Rick Bonadio" },
-      { pergunta: "Qual é a frase famosa de Chorão?", opcoes: ["Fazer música é viver", "Eu sou Charlie Brown", "O sonho não acabou", "O que importa é o amor"], resposta: "O sonho não acabou" }
-    ];
+    const audio = document.getElementById('audio');
+    const currentSongText = document.getElementById('current-song');
+    let playlist = [];
+    let currentIndex = 0;
+    let isPlaying = false;
 
-    let currentQuestion = 0;
-    let score = 0;
-    let songs = [];
-    let currentSongIndex = 0;
-
-    // Carregar músicas do JSON
     fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
-        songs = data.songs;
+        playlist = data;
         loadSong();
-      })
-      .catch(err => console.error("Erro ao carregar o JSON:", err));
+      });
 
     function loadSong() {
-      if (songs.length > 0) {
-        const song = songs[currentSongIndex];
-        document.getElementById('audio-source').src = song.url;
-        document.getElementById('song-title').textContent = song.title;
-        document.getElementById('music-player').load();
-        document.getElementById('music-player').play();
-      }
-    }
-
-    function prevSong() {
-      currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-      loadSong();
-    }
-
-    function nextSong() {
-      currentSongIndex = (currentSongIndex + 1) % songs.length;
-      loadSong();
+      if (!playlist.length) return;
+      const song = playlist[currentIndex];
+      audio.src = song.url;
+      currentSongText.textContent = `Tocando agora: ${song.title}`;
+      if (isPlaying) audio.play();
     }
 
     function togglePlay() {
-      const player = document.getElementById('music-player');
-      if (player.paused) {
-        player.play();
-        document.getElementById('playPause').textContent = "⏸";
+      if (audio.paused) {
+        audio.play();
+        isPlaying = true;
       } else {
-        player.pause();
-        document.getElementById('playPause').textContent = "▶️";
+        audio.pause();
+        isPlaying = false;
       }
     }
 
-    // Quiz functionality
-    document.getElementById('start-btn').addEventListener('click', () => {
-      document.getElementById('start-btn').classList.add('hidden');
-      document.getElementById('quiz-container').classList.remove('hidden');
-      document.getElementById('restart-btn').classList.remove('hidden');
-      shuffleQuestions();  // Embaralha as perguntas
-      loadQuestion();
-    });
-
-    function shuffleQuestions() {
-      for (let i = perguntas.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [perguntas[i], perguntas[j]] = [perguntas[j], perguntas[i]];  // Troca as perguntas
-      }
+    function nextSong() {
+      currentIndex = (currentIndex + 1) % playlist.length;
+      loadSong();
     }
 
-    function loadQuestion() {
-      const q = perguntas[currentQuestion];
-      document.getElementById('question').textContent = q.pergunta;
-      const options = document.getElementById('options');
-      options.innerHTML = '';
-
-      // Criar dois blocos de duas opções lado a lado
-      for (let i = 0; i < 2; i++) {
-        const block = document.createElement('div');
-        block.className = 'option-block';
-        for (let j = 0; j < 2; j++) {
-          const index = i * 2 + j;
-          const opt = q.opcoes[index];
-          const button = document.createElement('button');
-          button.textContent = opt;
-          button.classList.add('option-btn');
-          button.onclick = () => checkAnswer(opt === q.resposta, button);
-          block.appendChild(button);
-        }
-        options.appendChild(block);
-      }
+    function prevSong() {
+      currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+      loadSong();
     }
 
-    function checkAnswer(isCorrect, btn) {
-      if (isCorrect) {
-        score++;
-        btn.classList.add('correct');
-      } else {
-        btn.classList.add('incorrect');
-      }
+    // QUIZ
+    const quiz = document.getElementById('quiz');
+    const scoreText = document.getElementById('score');
+    const medalText = document.getElementById('medal');
 
-      setTimeout(() => {
-        currentQuestion++;
-        if (currentQuestion < perguntas.length) {
-          loadQuestion();
+    const questions = [
+      { q: "Qual é o vocalista da banda?", a: ["Chorão", "Champignon", "Renato Russo", "Digão"], c: 0 },
+      { q: "Em que ano a banda foi formada?", a: ["1991", "1992", "1993", "1994"], c: 1 },
+      { q: "Qual o nome do primeiro álbum?", a: ["Tamo Aí na Atividade", "Transpiração Contínua Prolongada", "Nadando com os Tubarões", "Imunidade Musical"], c: 1 },
+      { q: "Quantos integrantes tinham originalmente?", a: ["3", "4", "5", "6"], c: 1 },
+      { q: "Qual música tem o verso 'dias de luta, dias de glória'?", a: ["Proibida pra Mim", "Zóio de Lula", "Só os Loucos Sabem", "Dias de Luta, Dias de Glória"], c: 3 },
+      // Adicione até 20 perguntas
+    ];
+
+    let score = 0;
+    let currentQuestion = 0;
+
+    function showQuestion() {
+      if (currentQuestion >= questions.length) {
+        scoreText.textContent = `Pontuação final: ${score}/${questions.length}`;
+        if (score === questions.length) {
+          medalText.textContent = "🏅 Medalha de Ouro! Você é fã raiz!";
+        } else if (score >= questions.length / 2) {
+          medalText.textContent = "🥈 Medalha de Prata! Mandou bem!";
         } else {
-          showResult();
+          medalText.textContent = "🥉 Medalha de Bronze! Pode ouvir mais Charlie Brown Jr!";
         }
-      }, 1000);
+        return;
+      }
+
+      const q = questions[currentQuestion];
+      quiz.innerHTML = `<div class="question">
+        <h3>${q.q}</h3>
+        ${q.a.map((alt, i) => `<button onclick="answer(${i})">${alt}</button>`).join('')}
+      </div>`;
     }
 
-    function showResult() {
-      document.getElementById('quiz-container').classList.add('hidden');
-      document.getElementById('result').classList.remove('hidden');
-      document.getElementById('result').innerHTML = `Você acertou ${score} de ${perguntas.length}`;
+    function answer(i) {
+      if (i === questions[currentQuestion].c) score++;
+      currentQuestion++;
+      showQuestion();
     }
 
-    function restartQuiz() {
-      currentQuestion = 0;
-      score = 0;
-      shuffleQuestions();
-      loadQuestion();
-      document.getElementById('result').classList.add('hidden');
-      document.getElementById('quiz-container').classList.remove('hidden');
-    }
+    showQuestion();
   </script>
 </body>
 </html>
