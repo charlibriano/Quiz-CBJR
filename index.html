@@ -4,39 +4,50 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Charlie Brown Jr</title>
+
   <style>
+    @font-face {
+      font-family: 'Elektrix';
+      src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix%20Bold.ttf') format('truetype');
+      font-weight: bold;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-
-      background-color: black; /* fundo preto base */
+      background-color: black;
       background-image: url('fundo-cbjr.jpg');
       background-repeat: no-repeat;
       background-position: center center;
       background-size: contain;
       background-attachment: fixed;
-
       color: white;
       text-align: center;
-
       min-height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+    }
+
+    header {
+      margin: 30px 0 10px;
+    }
+
+    header h1 {
+      font-family: 'Elektrix',  sans-serif;
+      font-size: 3em;
+      color: #f1c40f;
+      text-shadow: 2px 2px 5px black;
     }
 
     .container {
       max-width: 900px;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* transparência */
+      background-color: rgba(0, 0, 0, 0.5);
       padding: 40px;
       border-radius: 16px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
+      margin-bottom: 40px;
     }
 
     #player-controls {
@@ -65,9 +76,11 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Quiz Charlie Brown Jr</h1>
+  <header>
+    <h1>Quiz: <br> Charlie Brown Jr</h1>
+  </header>
 
+  <div class="container">
     <div id="player-controls">
       <button onclick="prevSong()">⏮️ Anterior</button>
       <button onclick="togglePlay()">▶️/⏸️</button>
@@ -124,7 +137,6 @@
       loadSong();
     }
 
-    // QUIZ
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score');
     const medalText = document.getElementById('medal');
@@ -135,7 +147,6 @@
       { q: "Qual o nome do primeiro álbum?", a: ["Tamo Aí na Atividade", "Transpiração Contínua Prolongada", "Nadando com os Tubarões", "Imunidade Musical"], c: 1 },
       { q: "Quantos integrantes tinham originalmente?", a: ["3", "4", "5", "6"], c: 1 },
       { q: "Qual música tem o verso 'dias de luta, dias de glória'?", a: ["Proibida pra Mim", "Zóio de Lula", "Só os Loucos Sabem", "Dias de Luta, Dias de Glória"], c: 3 },
-      // Adicione até 20 perguntas
     ];
 
     let score = 0;
