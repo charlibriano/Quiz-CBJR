@@ -2,300 +2,350 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quiz Charlie Brown Jr.</title>
-  <link rel="stylesheet" href="style.css" />
-  <!-- Incluindo o Font Awesome para os ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-    .progress-bar-container {
+    body {
+      background: url('fundo-cbjr.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      max-width: 800px;
       width: 100%;
-      height: 8px;
-      background-color: #ddd;
-      border-radius: 5px;
-      margin-top: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background-color: #4caf50;
-      border-radius: 5px;
+    .intro-text {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 20px;
     }
-
-    .music-controls {
+    .player {
+      background-color: #1e1e1e;
+      padding: 15px;
+      border-radius: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-bottom: 20px;
     }
-
-    .player-buttons {
+    .controls {
       display: flex;
-      justify-content: center;
-      gap: 20px;
+      gap: 15px;
+      align-items: center;
+    }
+    .music-info {
+      margin: 10px 0;
+      font-size: 14px;
+      color: #ccc;
+    }
+    button {
+      background-color: #282828;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #3e3e3e;
+    }
+    #quiz-container {
+      background-color: rgba(30, 30, 30, 0.8);
+      padding: 20px;
+      border-radius: 15px;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 15px;
+      border-radius: 10px;
+      background-color: #282828;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 18px;
+    }
+    .option-btn:hover {
+      background-color: #3e3e3e;
+    }
+    .correct { background-color: green !important; }
+    .incorrect { background-color: red !important; }
+    .hidden { display: none; }
+    #visualizer {
+      width: 100%;
+      height: 60px;
+      background: #111;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 30px;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .option-container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .option-block {
+      display: flex;
+      flex-direction: column;
+      width: 45%;
+    }
+    @media (max-width: 600px) {
+      .controls {
+        justify-content: center;
+        width: 100%;
+      }
+      .option-btn {
+        width: 100%;
+        margin: 5px 0;
+      }
+    }
+    /* Estilo para o botão "Começar Quiz" e "Reiniciar Quiz" */
+    #start-btn, #restart-btn {
+      background-color: #ff6600; /* Cor chamativa (laranja) */
+      color: white;
+      font-size: 20px; /* Aumenta o tamanho da fonte */
+      padding: 15px 30px; /* Aumenta o tamanho do botão */
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      border: none;
+      width: 250px; /* Aumenta a largura do botão */
+      margin-top: 20px;
+      text-align: center;
     }
 
-    .icon {
-      font-size: 30px;
+    #start-btn:hover, #restart-btn:hover {
+      background-color: #e65c00; /* Cor de hover (laranja mais escuro) */
     }
   </style>
 </head>
 <body>
-  <div class="banner">
-    <h1>Quiz: Charlie Brown Jr</h1>
-    <p>Venha testar seus conhecimentos!</p>
-  </div>
+  <div class="container">
+    <div class="intro-text">🎸 Quiz Charlie Brown Jr. – Venha testar seus conhecimentos!</div>
 
-  <div id="score-container">
-    <div id="score">Acertos: 0 | Erros: 0</div>
-    <div class="medalha" id="medalha"></div>
-  </div>
+    <div class="player">
+      <div class="controls">
+        <button onclick="prevSong()">⏮</button>
+        <button onclick="togglePlay()" id="playPause">▶️</button>
+        <button onclick="nextSong()">⏭</button>
+      </div>
+      <div class="music-info" id="song-title">Carregando música...</div>
+      <div id="music-time">00:00</div>
+    </div>
 
-  <!-- Player de Música Atualizado -->
-  <div class="music-controls">
-    <div class="music-title">
-      <span id="current-music">Tocando agora: Nenhuma</span>
-    </div>
-    <div class="player-buttons">
-      <button class="previous-btn icon" onclick="previousMusic()">
-        <i class="fas fa-backward"></i>
-      </button>
-      <button class="play-btn icon" onclick="playPause()">
-        <i class="fas fa-play"></i>
-      </button>
-      <button class="next-btn icon" onclick="nextMusic()">
-        <i class="fas fa-forward"></i>
-      </button>
-    </div>
-    <div class="music-time">
-      <span id="current-time">0:00</span> / <span id="total-time">0:00</span>
-    </div>
-    <!-- Barra de progresso abaixo dos botões -->
-    <div class="progress-bar-container">
-      <div id="progress-bar" class="progress-bar"></div>
-    </div>
-    <audio id="bg-music" autoplay loop>
-      <source src="musicas/i-feel-so-good-today.mp3" type="audio/mpeg">
-    </audio>
-  </div>
+    <button id="start-btn">Começar Quiz</button>
+    <button id="restart-btn" class="hidden" onclick="restartQuiz()">Reiniciar Quiz</button>
 
-  <div class="quiz-container">
-    <h2 id="question">Clique em Iniciar para começar o Quiz</h2>
-    <div id="answers"></div>
-    <button id="start-btn" onclick="startQuiz()">Iniciar</button>
-    <button id="restart-btn" onclick="restartQuiz()" style="display:none">Reiniciar</button>
-    <div id="feedback"></div>
+    <div id="quiz-container" class="hidden">
+      <h2 id="question"></h2>
+      <div id="options" class="option-container"></div>
+    </div>
+
+    <div id="result" class="hidden">
+      <h3>Resultado</h3>
+      <button id="retry-btn" onclick="restartQuiz()">Tente Novamente</button>
+    </div>
+
+    <div id="visualizer"><canvas id="canvas"></canvas></div>
+
+    <iframe id="ytplayer" type="text/html" width="0" height="0"
+      src="https://www.youtube.com/embed/videoseries?list=PLJmulQFvligpW37ra1gKM_lHld4k7BfkC&autoplay=1&enablejsapi=1"
+      frameborder="0" allow="autoplay" allowfullscreen></iframe>
   </div>
 
   <script>
-    const musicas = [
-    { nome: 'I Feel So Good Today', arquivo: 'musicas/i-feel-so-good-today.mp3' },
-    { nome: 'Como Tudo Deve Ser', arquivo: 'musicas/como-tudo-deve-ser.mp3' },
-    { nome: 'Lugar ao Sol', arquivo: 'musicas/lugar-ao-sol.mp3' },
-    { nome: 'Tamo ai na Atividade', arquivo: 'musicas/tamo-ai-na-atividade.mp3' },
-    { nome: 'Uma Criança com Seu Olhar', arquivo: 'musicas/uma-criança-com-seu-olhar.mp3' },
-    { nome: 'Não Deixe o Mar Te Engolir', arquivo: 'musicas/nao-deixe-o-mar-te-engolir.mp3' }
-    ];
-    let musicIndex = 0;
-    const music = document.getElementById('bg-music');
-    const musicTitle = document.getElementById('current-music');
-    const currentTimeDisplay = document.getElementById('current-time');
-    const totalTimeDisplay = document.getElementById('total-time');
-    const progressBar = document.getElementById('progress-bar');
-
-    function updateMusic() {
-      music.src = musicas[musicIndex].arquivo;
-      musicTitle.textContent = `Tocando agora: ${musicas[musicIndex].nome}`;
-      music.play();
-    }
-
-    function playPause() {
-      if (music.paused) {
-        music.play();
-        document.querySelector('.play-btn i').classList.replace('fa-play', 'fa-pause');
-      } else {
-        music.pause();
-        document.querySelector('.play-btn i').classList.replace('fa-pause', 'fa-play');
-      }
-    }
-
-    function nextMusic() {
-      musicIndex = (musicIndex + 1) % musicas.length;
-      updateMusic();
-    }
-
-    function previousMusic() {
-      musicIndex = (musicIndex - 1 + musicas.length) % musicas.length;
-      updateMusic();
-    }
-
-    // Adiciona um ouvinte para passar para a próxima música quando a atual terminar
-    music.addEventListener('ended', nextMusic);
-
-    // Atualiza o tempo da música e a barra de progresso
-    music.addEventListener('timeupdate', () => {
-      const currentTime = music.currentTime;
-      const totalTime = music.duration;
-
-      // Exibe o tempo atual formatado
-      currentTimeDisplay.textContent = formatTime(currentTime);
-
-      // Exibe o tempo total formatado
-      totalTimeDisplay.textContent = formatTime(totalTime);
-
-      // Atualiza a barra de progresso
-      const progress = (currentTime / totalTime) * 100;
-      progressBar.style.width = `${progress}%`;
-    });
-
-    // Formata o tempo no formato minutos:segundos
-    function formatTime(seconds) {
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = Math.floor(seconds % 60);
-      return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-    }
-
-    updateMusic();
-
     const perguntas = [
-      {
-        pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?",
-        respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"],
-        correta: "Chorão"
-      },
-      {
-        pergunta: "Qual álbum tem a música 'Zóio de Lula'?",
-        respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"],
-        correta: "Nadando com os Tubarões"
-      },
-      {
-        pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?",
-        respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"],
-        correta: "Santos"
-      },
-      {
-        pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?",
-        respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"],
-        correta: "I Feel So Good Today"
-      },
-      {
-        pergunta: "Qual cidade é berço do Charlie Brown Jr.?",
-        respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"],
-        correta: "Santos"
-      },
-      {
-        pergunta: "Quem era o baixista original da banda?",
-        respostas: ["Chorão", "Marcão", "Champignon", "Heitor"],
-        correta: "Champignon"
-      },
-      {
-        pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?",
-        respostas: ["2000", "2002", "1999", "2001"],
-        correta: "2000"
-      },
-      {
-        pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?",
-        respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"],
-        correta: "Champanhe e Água Benta"
-      },
-      {
-        pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?",
-        respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"],
-        correta: "Champignon"
-      },
-      {
-        pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?",
-        respostas: ["1997", "1995", "2000", "1998"],
-        correta: "1997"
-      }
-    ];
+    { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
+    { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
+    { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
+    { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
+    { pergunta: "Qual cidade é berço do Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
+    { pergunta: "Quem era o baixista original da banda?", respostas: ["Chorão", "Marcão", "Champignon", "Heitor"], correta: "Champignon" },
+    { pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
+    { pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" },
+    { pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?", respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"], correta: "Champignon" },
+    { pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997" },
+    { pergunta: "Em que ano a banda Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992" },
+    { pergunta: "Qual é o nome do primeiro álbum da banda?", respostas: ["Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Transpiração Contínua Prolongada" },
+    { pergunta: "Qual música da banda tem a frase 'História nossas histórias'?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória" },
+    { pergunta: "Qual é o nome do álbum lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
+    { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" },
+    { pergunta: "Qual álbum da banda foi lançado em 2003?", respostas: ["Tâmo Aí na Atividade", "Nadando com os Tubarões", "Acustico MTV", "Imunidade Musical"], correta: "Acustico MTV" },
+    { pergunta: "Qual é o nome do baterista que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado" },
+    { pergunta: "Qual álbum da banda foi lançado em 2010?", respostas: ["Camisa 10 Joga Bola Até na Chuva", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Camisa 10 Joga Bola Até na Chuva" },
+    { pergunta: "Qual música da banda tem a frase 'Eu descobri que é azul a cor da parede da casa de DEUS'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Proibida Pra Mim", "Lugar ao Sol"], correta: "Lugar ao Sol" },
+    { pergunta: "Qual música da banda tem a frase 'O livro que ela ama eu não li'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Vícios e Virtudes", "Lugar ao Sol"], correta: "Vícios e Virtudes" }
+  ];
 
     let currentQuestion = 0;
-    let acertos = 0;
-    let erros = 0;
+    let score = 0;
+    let ytPlayer;
+    let musicTime = 0;
+    let musicInterval;
+    let canvasCtx, analyser, dataArray;
 
-    function startQuiz() {
-      document.getElementById("start-btn").style.display = "none";
-      document.getElementById("restart-btn").style.display = "none";
-      currentQuestion = 0;
-      acertos = 0;
-      erros = 0;
-      atualizarScore();
-      document.getElementById("medalha").textContent = "";
-      mostrarPergunta();
-    }
+    document.getElementById('start-btn').addEventListener('click', () => {
+      document.getElementById('start-btn').classList.add('hidden');
+      document.getElementById('quiz-container').classList.remove('hidden');
+      document.getElementById('restart-btn').classList.remove('hidden');
+      shuffleQuestions();  // Embaralha as perguntas
+      loadQuestion();
+      if (ytPlayer) ytPlayer.playVideo();
+    });
 
-    function mostrarPergunta() {
-      const q = perguntas[currentQuestion];
-      document.getElementById("question").textContent = q.pergunta;
-      const answersDiv = document.getElementById("answers");
-      answersDiv.innerHTML = "";
-      q.respostas.forEach((resposta) => {
-        const btn = document.createElement("button");
-        btn.textContent = resposta;
-        btn.onclick = () => verificarResposta(resposta);
-        answersDiv.appendChild(btn);
-      });
-    }
-
-    function verificarResposta(resposta) {
-      const q = perguntas[currentQuestion];
-      const botoes = document.querySelectorAll("#answers button");
-      botoes.forEach((btn) => {
-        btn.disabled = true;
-        if (btn.textContent === q.correta) {
-          btn.classList.add("correto");
-        } else if (btn.textContent === resposta) {
-          btn.classList.add("errado");
-        }
-      });
-
-      if (resposta === q.correta) {
-        document.getElementById("feedback").textContent = "Resposta correta!";
-        acertos++;
-      } else {
-        document.getElementById("feedback").textContent = "Resposta errada.";
-        erros++;
+    function shuffleQuestions() {
+      for (let i = perguntas.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [perguntas[i], perguntas[j]] = [perguntas[j], perguntas[i]];  // Troca as perguntas
       }
+    }
 
-      atualizarScore();
+    function loadQuestion() {
+      const q = perguntas[currentQuestion];
+      document.getElementById('question').textContent = q.pergunta;
+      const options = document.getElementById('options');
+      options.innerHTML = '';
 
+      // Criar dois blocos de duas opções lado a lado
+      for (let i = 0; i < 2; i++) {
+        const block = document.createElement('div');
+        block.className = 'option-block';
+        for (let j = 0; j < 2; j++) {
+          const index = i * 2 + j;
+          const opt = q.respostas[index];
+          const btn = document.createElement('button');
+          btn.textContent = opt;
+          btn.className = 'option-btn';
+          btn.onclick = () => selectAnswer(btn, opt === q.correta);
+          block.appendChild(btn);
+        }
+        options.appendChild(block);
+      }
+    }
+
+    function selectAnswer(btn, isCorrect) {
+      document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+      btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+      if (isCorrect) score++;
       setTimeout(() => {
-        document.getElementById("feedback").textContent = "";
         currentQuestion++;
         if (currentQuestion < perguntas.length) {
-          mostrarPergunta();
+          loadQuestion();
         } else {
-          mostrarResultado();
+          endQuiz();
         }
       }, 1000);
     }
 
-    function atualizarScore() {
-      document.getElementById("score").textContent = `Acertos: ${acertos} | Erros: ${erros}`;
-    }
-
-    function mostrarResultado() {
-      document.getElementById("question").textContent = "Quiz finalizado!";
-      document.getElementById("answers").innerHTML = "";
-      document.getElementById("restart-btn").style.display = "inline-block";
-      atualizarScore();
-
-      const medalha = document.getElementById("medalha");
-      if (acertos === perguntas.length) {
-        medalha.textContent = "🏅 Ouro! Você é um fã raiz do CBJR!";
-      } else if (acertos >= perguntas.length / 2) {
-        medalha.textContent = "🥈 Prata! Mandou bem!";
-      } else {
-        medalha.textContent = "🥉 Bronze! Dá pra melhorar!";
-      }
+    function endQuiz() {
+      const resultDiv = document.getElementById('result');
+      const percent = (score / perguntas.length) * 100;
+      let medal = '';
+      if (percent < 50) medal = '🥉 Bronze (acho que vc não conhece CBJR)';
+      else if (percent < 90) medal = '🥈 Prata (Muito bom mas um fã faz melhor que isso)';
+      else medal = '🥇 Ouro (vc é um fã de verdade)';
+      resultDiv.innerHTML = `<h3>Você acertou ${score} de ${perguntas.length}</h3><p>${medal}</p>`;
+      resultDiv.classList.remove('hidden');
+      document.getElementById('retry-btn').classList.remove('hidden');
     }
 
     function restartQuiz() {
-      startQuiz();
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById('result').classList.add('hidden');
+      document.getElementById('quiz-container').classList.remove('hidden');
+      shuffleQuestions();  // Embaralha as perguntas novamente
+      loadQuestion();
     }
-  </script>
 
-  <script src="player-visualizer.js"></script>
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('ytplayer', {
+        events: {
+          'onReady': () => {
+            musicInterval = setInterval(() => {
+              if (ytPlayer && ytPlayer.getCurrentTime) {
+                musicTime = Math.floor(ytPlayer.getCurrentTime());
+                const min = String(Math.floor(musicTime / 60)).padStart(2, '0');
+                const sec = String(musicTime % 60).padStart(2, '0');
+                document.getElementById('music-time').textContent = `${min}:${sec}`;
+                updateSongTitle();
+              }
+            }, 1000);
+            setupVisualizer();
+          }
+        }
+      });
+    }
+
+    function updateSongTitle() {
+      const videoData = ytPlayer.getVideoData();
+      document.getElementById('song-title').textContent = videoData.title || 'Tocando música...';
+    }
+
+    function togglePlay() {
+      if (ytPlayer.getPlayerState() === 1) ytPlayer.pauseVideo();
+      else ytPlayer.playVideo();
+    }
+
+    function nextSong() {
+      ytPlayer.nextVideo();
+    }
+
+    function prevSong() {
+      ytPlayer.previousVideo();
+    }
+
+    // Visualizador de frequência com base nos dados de áudio
+    function setupVisualizer() {
+      const canvas = document.getElementById('canvas');
+      canvasCtx = canvas.getContext('2d');
+      analyser = ytPlayer.getAudioContext().createAnalyser();
+      analyser.fftSize = 256;
+      const bufferLength = analyser.frequencyBinCount;
+      dataArray = new Uint8Array(bufferLength);
+
+      function draw() {
+        analyser.getByteFrequencyData(dataArray);
+        const width = canvas.width;
+        const height = canvas.height;
+        canvasCtx.clearRect(0, 0, width, height);
+
+        const bars = 40;
+        const barWidth = width / bars;
+        for (let i = 0; i < bars; i++) {
+          const barHeight = dataArray[i] * 2;
+          canvasCtx.fillStyle = `hsl(${i * 9}, 100%, 50%)`;
+          canvasCtx.fillRect(i * barWidth, height - barHeight, barWidth - 2, barHeight);
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+  </script>
 </body>
 </html>
