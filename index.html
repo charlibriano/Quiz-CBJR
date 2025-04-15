@@ -8,13 +8,18 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: url('fundo-cbjr.jpg') no-repeat center center fixed;
-      background-size: contain; /* Garante que a imagem será totalmente visível sem cortes */
-      background-position: center; /* Centraliza a imagem */
-      background-attachment: fixed; /* Garante que a imagem de fundo não se mova ao rolar a página */
+
+      background-color: black; /* fundo preto base */
+      background-image: url('fundo-cbjr.jpg');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: contain;
+      background-attachment: fixed;
+
       color: white;
       text-align: center;
-      height: 100vh;
+
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,11 +28,10 @@
     .container {
       max-width: 900px;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* Maior transparência */
+      background-color: rgba(0, 0, 0, 0.5); /* transparência */
       padding: 40px;
       border-radius: 16px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-      text-align: center;
     }
 
     h1 {
@@ -58,12 +62,12 @@
       margin-top: 20px;
       font-size: 1.3em;
     }
-
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Quiz Charlie Brown Jr</h1>
+
     <div id="player-controls">
       <button onclick="prevSong()">⏮️ Anterior</button>
       <button onclick="togglePlay()">▶️/⏸️</button>
