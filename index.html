@@ -120,23 +120,22 @@
         margin: 5px 0;
       }
     }
-    /* Estilo para o botão "Começar Quiz" e "Reiniciar Quiz" */
     #start-btn, #restart-btn {
-      background-color: #ff6600; /* Cor chamativa (laranja) */
+      background-color: #ff6600;
       color: white;
-      font-size: 20px; /* Aumenta o tamanho da fonte */
-      padding: 15px 30px; /* Aumenta o tamanho do botão */
+      font-size: 20px;
+      padding: 15px 30px;
       border-radius: 50px;
       cursor: pointer;
       transition: background-color 0.3s;
       border: none;
-      width: 250px; /* Aumenta a largura do botão */
+      width: 250px;
       margin-top: 20px;
       text-align: center;
     }
 
     #start-btn:hover, #restart-btn:hover {
-      background-color: #e65c00; /* Cor de hover (laranja mais escuro) */
+      background-color: #e65c00;
     }
   </style>
 </head>
@@ -169,49 +168,88 @@
 
     <div id="visualizer"><canvas id="canvas"></canvas></div>
 
-    <iframe id="ytplayer" type="text/html" width="0" height="0"
-      src="https://www.youtube.com/embed/videoseries?list=PLJmulQFvligpW37ra1gKM_lHld4k7BfkC&autoplay=1&enablejsapi=1"
-      frameborder="0" allow="autoplay" allowfullscreen></iframe>
+    <audio id="music-player" controls>
+      <source id="audio-source" src="" type="audio/mp3">
+      Seu navegador não suporta áudio.
+    </audio>
   </div>
 
   <script>
     const perguntas = [
-    { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
-    { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
-    { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
-    { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
-    { pergunta: "Qual cidade é berço do Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
-    { pergunta: "Quem era o baixista original da banda?", respostas: ["Chorão", "Marcão", "Champignon", "Heitor"], correta: "Champignon" },
-    { pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
-    { pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" },
-    { pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?", respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"], correta: "Champignon" },
-    { pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997" },
-    { pergunta: "Em que ano a banda Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992" },
-    { pergunta: "Qual é o nome do primeiro álbum da banda?", respostas: ["Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Transpiração Contínua Prolongada" },
-    { pergunta: "Qual música da banda tem a frase 'História nossas histórias'?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória" },
-    { pergunta: "Qual é o nome do álbum lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
-    { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" },
-    { pergunta: "Qual álbum da banda foi lançado em 2003?", respostas: ["Tâmo Aí na Atividade", "Nadando com os Tubarões", "Acustico MTV", "Imunidade Musical"], correta: "Acustico MTV" },
-    { pergunta: "Qual é o nome do baterista que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado" },
-    { pergunta: "Qual álbum da banda foi lançado em 2010?", respostas: ["Camisa 10 Joga Bola Até na Chuva", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Camisa 10 Joga Bola Até na Chuva" },
-    { pergunta: "Qual música da banda tem a frase 'Eu descobri que é azul a cor da parede da casa de DEUS'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Proibida Pra Mim", "Lugar ao Sol"], correta: "Lugar ao Sol" },
-    { pergunta: "Qual música da banda tem a frase 'O livro que ela ama eu não li'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Vícios e Virtudes", "Lugar ao Sol"], correta: "Vícios e Virtudes" }
-  ];
+      { pergunta: "Qual o primeiro álbum do Charlie Brown Jr.?", opcoes: ["Transpiração Contínua Prolongada", "Imunidade Musical", "Acústico MTV", "Ritmo, Ritual e Raiva"], resposta: "Transpiração Contínua Prolongada" },
+      { pergunta: "Quem foi o vocalista da banda?", opcoes: ["Chorão", "Marcelo D2", "Belo", "Tiago Iorc"], resposta: "Chorão" },
+      { pergunta: "Em que ano foi lançado o álbum 'Ritmo, Ritual e Raiva'?", opcoes: ["2000", "2002", "2004", "2006"], resposta: "2002" },
+      { pergunta: "Qual é a música mais famosa do álbum 'Transpiração Contínua Prolongada'?", opcoes: ["Zóio de Lula", "Céu Azul", "Tudo que Você Podia Ser", "Quero ver o Céu"], resposta: "Céu Azul" },
+      { pergunta: "Qual desses álbuns NÃO é um álbum de estúdio do Charlie Brown Jr.?", opcoes: ["Acústico MTV", "Música Popular Caiçara", "Ritmo, Ritual e Raiva", "Mundo Ideal"], resposta: "Música Popular Caiçara" },
+      { pergunta: "Quem era o guitarrista da banda?", opcoes: ["Marcelo Moreira", "Tutti", "Roger", "Fábio Brasil"], resposta: "Marcelo Moreira" },
+      { pergunta: "Em que ano Charlie Brown Jr. foi formado?", opcoes: ["1992", "1994", "1996", "1998"], resposta: "1992" },
+      { pergunta: "Qual a música mais tocada de Charlie Brown Jr.?", opcoes: ["Só os Loucos Sabem", "Papo Reto", "O Sonho Não Acabou", "Céu Azul"], resposta: "Só os Loucos Sabem" },
+      { pergunta: "Qual a principal influência musical de Charlie Brown Jr.?", opcoes: ["Rap", "Rock", "MPB", "Samba"], resposta: "Rap" },
+      { pergunta: "Quem foi o baterista da banda?", opcoes: ["Heitor", "Marcão", "Fábio Brasil", "Branco Mello"], resposta: "Marcão" },
+      { pergunta: "Qual desses é um álbum solo do Chorão?", opcoes: ["Viver é Difícil", "Nossos Momentos", "Chorão Acústico", "O Canto de Adão"], resposta: "O Canto de Adão" },
+      { pergunta: "Em qual cidade o Charlie Brown Jr. foi formado?", opcoes: ["São Paulo", "Rio de Janeiro", "Campinas", "Santos"], resposta: "Santos" },
+      { pergunta: "Qual foi a última turnê do Charlie Brown Jr.?", opcoes: ["A Última Canção", "O Último Show", "Festa na Fábrica", "Viver é Difícil"], resposta: "Festa na Fábrica" },
+      { pergunta: "Qual a primeira música do Charlie Brown Jr. que tocou na rádio?", opcoes: ["Ritmo, Ritual e Raiva", "Te Levar", "Papo Reto", "Céu Azul"], resposta: "Te Levar" },
+      { pergunta: "Qual desses músicos NUNCA fez parte da formação do Charlie Brown Jr.?", opcoes: ["Banda da Marca", "Nando Reis", "Fábio Lima", "Fábio Brasil"], resposta: "Nando Reis" },
+      { pergunta: "O que significa o nome da banda, 'Charlie Brown Jr.'?", opcoes: ["Um personagem de HQ", "Nome de uma música", "Uma homenagem ao músico Charlie Brown", "Inspiração de uma música do Nirvana"], resposta: "Um personagem de HQ" },
+      { pergunta: "Onde Chorão nasceu?", opcoes: ["São Paulo", "Santos", "Campinas", "Rio de Janeiro"], resposta: "Santos" },
+      { pergunta: "Em que álbum a música 'O Sonho Não Acabou' foi lançada?", opcoes: ["Ritmo, Ritual e Raiva", "Imunidade Musical", "Música Popular Caiçara", "Acústico MTV"], resposta: "Música Popular Caiçara" },
+      { pergunta: "Quem foi o produtor de alguns dos álbuns do Charlie Brown Jr.?", opcoes: ["Tutti", "Rick Bonadio", "Marcelo D2", "Tavinho"], resposta: "Rick Bonadio" },
+      { pergunta: "Qual é a frase famosa de Chorão?", opcoes: ["Fazer música é viver", "Eu sou Charlie Brown", "O sonho não acabou", "O que importa é o amor"], resposta: "O sonho não acabou" }
+    ];
 
     let currentQuestion = 0;
     let score = 0;
-    let ytPlayer;
-    let musicTime = 0;
-    let musicInterval;
-    let canvasCtx, analyser, dataArray;
+    let songs = [];
+    let currentSongIndex = 0;
 
+    // Carregar músicas do JSON
+    fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
+      .then(response => response.json())
+      .then(data => {
+        songs = data.songs;
+        loadSong();
+      })
+      .catch(err => console.error("Erro ao carregar o JSON:", err));
+
+    function loadSong() {
+      if (songs.length > 0) {
+        const song = songs[currentSongIndex];
+        document.getElementById('audio-source').src = song.url;
+        document.getElementById('song-title').textContent = song.title;
+        document.getElementById('music-player').load();
+        document.getElementById('music-player').play();
+      }
+    }
+
+    function prevSong() {
+      currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+      loadSong();
+    }
+
+    function nextSong() {
+      currentSongIndex = (currentSongIndex + 1) % songs.length;
+      loadSong();
+    }
+
+    function togglePlay() {
+      const player = document.getElementById('music-player');
+      if (player.paused) {
+        player.play();
+        document.getElementById('playPause').textContent = "⏸";
+      } else {
+        player.pause();
+        document.getElementById('playPause').textContent = "▶️";
+      }
+    }
+
+    // Quiz functionality
     document.getElementById('start-btn').addEventListener('click', () => {
       document.getElementById('start-btn').classList.add('hidden');
       document.getElementById('quiz-container').classList.remove('hidden');
       document.getElementById('restart-btn').classList.remove('hidden');
       shuffleQuestions();  // Embaralha as perguntas
       loadQuestion();
-      if (ytPlayer) ytPlayer.playVideo();
     });
 
     function shuffleQuestions() {
@@ -233,119 +271,49 @@
         block.className = 'option-block';
         for (let j = 0; j < 2; j++) {
           const index = i * 2 + j;
-          const opt = q.respostas[index];
-          const btn = document.createElement('button');
-          btn.textContent = opt;
-          btn.className = 'option-btn';
-          btn.onclick = () => selectAnswer(btn, opt === q.correta);
-          block.appendChild(btn);
+          const opt = q.opcoes[index];
+          const button = document.createElement('button');
+          button.textContent = opt;
+          button.classList.add('option-btn');
+          button.onclick = () => checkAnswer(opt === q.resposta, button);
+          block.appendChild(button);
         }
         options.appendChild(block);
       }
     }
 
-    function selectAnswer(btn, isCorrect) {
-      document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
-      btn.classList.add(isCorrect ? 'correct' : 'incorrect');
-      if (isCorrect) score++;
+    function checkAnswer(isCorrect, btn) {
+      if (isCorrect) {
+        score++;
+        btn.classList.add('correct');
+      } else {
+        btn.classList.add('incorrect');
+      }
+
       setTimeout(() => {
         currentQuestion++;
         if (currentQuestion < perguntas.length) {
           loadQuestion();
         } else {
-          endQuiz();
+          showResult();
         }
       }, 1000);
     }
 
-    function endQuiz() {
-      const resultDiv = document.getElementById('result');
-      const percent = (score / perguntas.length) * 100;
-      let medal = '';
-      if (percent < 50) medal = '🥉 Bronze (acho que vc não conhece CBJR)';
-      else if (percent < 90) medal = '🥈 Prata (Muito bom mas um fã faz melhor que isso)';
-      else medal = '🥇 Ouro (vc é um fã de verdade)';
-      resultDiv.innerHTML = `<h3>Você acertou ${score} de ${perguntas.length}</h3><p>${medal}</p>`;
-      resultDiv.classList.remove('hidden');
-      document.getElementById('retry-btn').classList.remove('hidden');
+    function showResult() {
+      document.getElementById('quiz-container').classList.add('hidden');
+      document.getElementById('result').classList.remove('hidden');
+      document.getElementById('result').innerHTML = `Você acertou ${score} de ${perguntas.length}`;
     }
 
     function restartQuiz() {
       currentQuestion = 0;
       score = 0;
+      shuffleQuestions();
+      loadQuestion();
       document.getElementById('result').classList.add('hidden');
       document.getElementById('quiz-container').classList.remove('hidden');
-      shuffleQuestions();  // Embaralha as perguntas novamente
-      loadQuestion();
     }
-
-    function onYouTubeIframeAPIReady() {
-      ytPlayer = new YT.Player('ytplayer', {
-        events: {
-          'onReady': () => {
-            musicInterval = setInterval(() => {
-              if (ytPlayer && ytPlayer.getCurrentTime) {
-                musicTime = Math.floor(ytPlayer.getCurrentTime());
-                const min = String(Math.floor(musicTime / 60)).padStart(2, '0');
-                const sec = String(musicTime % 60).padStart(2, '0');
-                document.getElementById('music-time').textContent = `${min}:${sec}`;
-                updateSongTitle();
-              }
-            }, 1000);
-            setupVisualizer();
-          }
-        }
-      });
-    }
-
-    function updateSongTitle() {
-      const videoData = ytPlayer.getVideoData();
-      document.getElementById('song-title').textContent = videoData.title || 'Tocando música...';
-    }
-
-    function togglePlay() {
-      if (ytPlayer.getPlayerState() === 1) ytPlayer.pauseVideo();
-      else ytPlayer.playVideo();
-    }
-
-    function nextSong() {
-      ytPlayer.nextVideo();
-    }
-
-    function prevSong() {
-      ytPlayer.previousVideo();
-    }
-
-    // Visualizador de frequência com base nos dados de áudio
-    function setupVisualizer() {
-      const canvas = document.getElementById('canvas');
-      canvasCtx = canvas.getContext('2d');
-      analyser = ytPlayer.getAudioContext().createAnalyser();
-      analyser.fftSize = 256;
-      const bufferLength = analyser.frequencyBinCount;
-      dataArray = new Uint8Array(bufferLength);
-
-      function draw() {
-        analyser.getByteFrequencyData(dataArray);
-        const width = canvas.width;
-        const height = canvas.height;
-        canvasCtx.clearRect(0, 0, width, height);
-
-        const bars = 40;
-        const barWidth = width / bars;
-        for (let i = 0; i < bars; i++) {
-          const barHeight = dataArray[i] * 2;
-          canvasCtx.fillStyle = `hsl(${i * 9}, 100%, 50%)`;
-          canvasCtx.fillRect(i * barWidth, height - barHeight, barWidth - 2, barHeight);
-        }
-        requestAnimationFrame(draw);
-      }
-      draw();
-    }
-
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.body.appendChild(tag);
   </script>
 </body>
 </html>
