@@ -2,9 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quiz Charlie Brown Jr</title>
-
   <style>
     @font-face {
       font-family: 'Elektrix';
@@ -88,11 +87,18 @@
       gap: 10px;
     }
 
-    canvas {
+    #visualizer {
       width: 100%;
       height: 100px;
-      background-color: black;
+      background: black;
       display: block;
+    }
+
+    footer {
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
     }
   </style>
 </head>
@@ -115,16 +121,23 @@
     <button id="restart-btn" onclick="restartQuiz()" style="display:none; padding: 10px 20px; margin-top: 20px; background-color: #f1c40f; color: black; cursor: pointer;">Reiniciar Quiz</button>
   </div>
 
-  <audio id="audio" controls style="display:none"></audio>
-  <canvas id="visualizer"></canvas>
+  <audio id="audio"></audio>
+  <footer>
+    <canvas id="visualizer"></canvas>
+  </footer>
 
   <script>
     const audio = document.getElementById('audio');
+    const canvas = document.getElementById('visualizer');
+    const ctx = canvas.getContext('2d');
     const currentSongText = document.getElementById('current-song');
+
     let playlist = [];
     let currentIndex = 0;
     let isPlaying = false;
-    let audioStarted = false;
+
+    let audioContext, analyser, source;
+    let animationId;
 
     fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
       .then(res => res.json())
@@ -146,50 +159,62 @@
       if (audio.paused) {
         audio.play();
         isPlaying = true;
+        startVisualizer();
       } else {
         audio.pause();
         isPlaying = false;
+        stopVisualizer();
       }
     }
 
     function nextSong() {
       currentIndex = (currentIndex + 1) % playlist.length;
       loadSong();
+      if (isPlaying) {
+        audio.play();
+        startVisualizer();
+      }
     }
 
     function prevSong() {
       currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
       loadSong();
+      if (isPlaying) {
+        audio.play();
+        startVisualizer();
+      }
     }
 
-    // Visualizer
-    const canvas = document.getElementById('visualizer');
-    const ctx = canvas.getContext('2d');
-    let audioCtx, analyser, source, dataArray;
+    function startVisualizer() {
+      if (!audioContext) {
+        audioContext = new AudioContext();
+        analyser = audioContext.createAnalyser();
+        source = audioContext.createMediaElementSource(audio);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+      }
 
-    function setupVisualizer() {
-      if (audioCtx) return;
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      analyser = audioCtx.createAnalyser();
-      source = audioCtx.createMediaElementSource(audio);
-      source.connect(analyser);
-      analyser.connect(audioCtx.destination);
       analyser.fftSize = 256;
       const bufferLength = analyser.frequencyBinCount;
-      dataArray = new Uint8Array(bufferLength);
+      const dataArray = new Uint8Array(bufferLength);
 
       function draw() {
-        requestAnimationFrame(draw);
+        animationId = requestAnimationFrame(draw);
         analyser.getByteFrequencyData(dataArray);
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
         const barWidth = (canvas.width / bufferLength) * 2.5;
         let x = 0;
 
         for (let i = 0; i < bufferLength; i++) {
-          const barHeight = dataArray[i] / 2;
-          ctx.fillStyle = 'rgb(' + (barHeight + 100) + ',200,50)';
-          ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+          const barHeight = dataArray[i];
+          const r = barHeight + 25;
+          const g = 250 - barHeight;
+          const b = 50;
+          ctx.fillStyle = `rgb(${r},${g},${b})`;
+          ctx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
           x += barWidth + 1;
         }
       }
@@ -197,13 +222,18 @@
       draw();
     }
 
+    function stopVisualizer() {
+      if (animationId) cancelAnimationFrame(animationId);
+    }
+
+    // Quiz original abaixo (sem alterações)
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score');
     const medalText = document.getElementById('medal');
     const restartBtn = document.getElementById('restart-btn');
 
     const questions = [
-    { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
+      { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
     { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
     { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
     { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
@@ -223,31 +253,17 @@
     { pergunta: "Qual álbum da banda foi lançado em 2010?", respostas: ["Camisa 10 Joga Bola Até na Chuva", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Camisa 10 Joga Bola Até na Chuva" },
     { pergunta: "Qual música da banda tem a frase 'Eu descobri que é azul a cor da parede da casa de DEUS'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Proibida Pra Mim", "Lugar ao Sol"], correta: "Lugar ao Sol" },
     { pergunta: "Qual música da banda tem a frase 'O livro que ela ama eu não li'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Vícios e Virtudes", "Lugar ao Sol"], correta: "Vícios e Virtudes" }
-    ];
-
+    ]; 
     let score = 0;
     let currentQuestion = 0;
-
-    function startAudio() {
-      if (!audioStarted) {
-        audio.play();
-        setupVisualizer();
-        isPlaying = true;
-        audioStarted = true;
-      }
-    }
 
     function showQuestion() {
       if (currentQuestion >= questions.length) {
         quiz.innerHTML = '';
         scoreText.textContent = `Pontuação final: ${score}/${questions.length}`;
-        if (score === questions.length) {
-          medalText.textContent = "🏅 Medalha de Ouro! Você é fã raiz!";
-        } else if (score >= questions.length / 2) {
-          medalText.textContent = "🥈 Medalha de Prata! Mandou bem!";
-        } else {
-          medalText.textContent = "🥉 Medalha de Bronze! Pode ouvir mais Charlie Brown Jr!";
-        }
+        medalText.textContent = score === questions.length ? "🏅 Medalha de Ouro! Você é fã raiz!" :
+                                score >= questions.length / 2 ? "🥈 Medalha de Prata! Mandou bem!" :
+                                "🥉 Medalha de Bronze! Pode ouvir mais Charlie Brown Jr!";
         restartBtn.style.display = 'block';
         return;
       }
@@ -262,7 +278,7 @@
     }
 
     function answer(btn, resposta) {
-      startAudio();
+      if (!isPlaying) togglePlay();
 
       const q = questions[currentQuestion];
       const buttons = document.querySelectorAll('.question button');
@@ -295,6 +311,13 @@
 
     shuffleQuestions();
     showQuestion();
+
+    // Responsividade do canvas
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
   </script>
 </body>
 </html>
