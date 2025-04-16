@@ -87,13 +87,6 @@
       justify-content: center;
       gap: 10px;
     }
-
-    #visualizer {
-      width: 100%;
-      height: 100px;
-      margin-top: auto;
-      background: black;
-    }
   </style>
 </head>
 <body>
@@ -115,7 +108,6 @@
     <button id="restart-btn" onclick="restartQuiz()" style="display:none; padding: 10px 20px; margin-top: 20px; background-color: #f1c40f; color: black; cursor: pointer;">Reiniciar Quiz</button>
   </div>
 
-  <canvas id="visualizer"></canvas>
   <audio id="audio" controls style="display:none"></audio>
 
   <script>
@@ -130,7 +122,7 @@
       .then(res => res.json())
       .then(data => {
         playlist = data;
-        currentIndex = Math.floor(Math.random() * playlist.length);
+        currentIndex = Math.floor(Math.random() * playlist.length); // Escolhe música aleatória
         loadSong();
       });
 
@@ -167,9 +159,7 @@
     const medalText = document.getElementById('medal');
     const restartBtn = document.getElementById('restart-btn');
 
-    const questions = [/* AS 20 PERGUNTAS VÃO AQUI ABAIXO */];
-
-    const perguntasCBJR = [
+    const questions = [
       { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
       { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
       { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
@@ -185,7 +175,7 @@
       { pergunta: "Qual música da banda tem a frase 'História nossas histórias'?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória" },
       { pergunta: "Qual é o nome do álbum lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
       { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" },
-      { pergunta: "Qual álbum da banda foi lançado em 2003?", respostas: ["Tâmo Aí na Atividade", "Nadando com os Tubarões", "Acústico MTV", "Imunidade Musical"], correta: "Acústico MTV" },
+      { pergunta: "Qual álbum da banda foi lançado em 2003?", respostas: ["Tâmo Aí na Atividade", "Nadando com os Tubarões", "Acustico MTV", "Imunidade Musical"], correta: "Acustico MTV" },
       { pergunta: "Qual é o nome do baterista que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado" },
       { pergunta: "Qual álbum da banda foi lançado em 2010?", respostas: ["Camisa 10 Joga Bola Até na Chuva", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Camisa 10 Joga Bola Até na Chuva" },
       { pergunta: "Qual música da banda tem a frase 'Eu descobri que é azul a cor da parede da casa de DEUS'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Proibida Pra Mim", "Lugar ao Sol"], correta: "Lugar ao Sol" },
@@ -194,7 +184,6 @@
 
     let score = 0;
     let currentQuestion = 0;
-    const questions = perguntasCBJR;
 
     function startAudio() {
       if (!audioStarted) {
@@ -230,6 +219,7 @@
 
     function answer(btn, resposta) {
       startAudio();
+
       const q = questions[currentQuestion];
       const buttons = document.querySelectorAll('.question button');
       buttons.forEach(b => b.disabled = true);
@@ -261,45 +251,6 @@
 
     shuffleQuestions();
     showQuestion();
-
-    // Visualizador de batida
-    const canvas = document.getElementById("visualizer");
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = 100;
-
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const analyser = audioCtx.createAnalyser();
-    const source = audioCtx.createMediaElementSource(audio);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    analyser.fftSize = 256;
-
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    function draw() {
-      requestAnimationFrame(draw);
-      analyser.getByteFrequencyData(dataArray);
-
-      ctx.fillStyle = "black";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      const barWidth = (canvas.width / bufferLength) * 2.5;
-      let x = 0;
-
-      for (let i = 0; i < bufferLength; i++) {
-        const barHeight = dataArray[i];
-        const r = barHeight + 25;
-        const g = 250 - barHeight;
-        const b = 50;
-        ctx.fillStyle = `rgb(${r},${g},${b})`;
-        ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-        x += barWidth + 1;
-      }
-    }
-
-    draw();
   </script>
 </body>
 </html>
