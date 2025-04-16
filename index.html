@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Charlie Brown Jr</title>
-
   <style>
     @font-face {
       font-family: 'Elektrix';
@@ -94,7 +93,6 @@
     <h1>Quiz: <br> Charlie Brown Jr</h1>
   </header>
 
-  <!-- PLAYER FORA DA CAIXA DO QUIZ -->
   <div id="player-controls">
     <button onclick="prevSong()">⏮️ Anterior</button>
     <button onclick="togglePlay()">▶️/⏸️</button>
@@ -122,11 +120,23 @@
       .then(res => res.json())
       .then(data => {
         playlist = data;
+        isPlaying = true;
         loadSong();
       });
 
-    function loadSong() {
+    function loadSong(index = null) {
       if (!playlist.length) return;
+
+      if (index === null) {
+        let newIndex;
+        do {
+          newIndex = Math.floor(Math.random() * playlist.length);
+        } while (newIndex === currentIndex && playlist.length > 1);
+        currentIndex = newIndex;
+      } else {
+        currentIndex = index;
+      }
+
       const song = playlist[currentIndex];
       audio.src = song.url;
       currentSongText.textContent = `Tocando agora: ${song.title}`;
@@ -144,14 +154,16 @@
     }
 
     function nextSong() {
-      currentIndex = (currentIndex + 1) % playlist.length;
-      loadSong();
+      loadSong(); // próxima aleatória
     }
 
     function prevSong() {
-      currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-      loadSong();
+      loadSong(); // também aleatória
     }
+
+    audio.addEventListener('ended', () => {
+      loadSong(); // toca outra ao fim
+    });
 
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score');
@@ -203,7 +215,7 @@
       quiz.innerHTML = `<div class="question">
         <h3>${q.pergunta}</h3>
         <div class="answers-container">
-          ${q.respostas.map((alt, i) => `<button onclick="answer(this, '${alt}')">${alt}</button>`).join('')}
+          ${q.respostas.map(alt => `<button onclick="answer(this, '${alt}')">${alt}</button>`).join('')}
         </div>
       </div>`;
     }
@@ -211,7 +223,6 @@
     function answer(btn, resposta) {
       const q = questions[currentQuestion];
       const buttons = document.querySelectorAll('.question button');
-
       buttons.forEach(b => b.disabled = true);
 
       if (resposta === q.correta) {
