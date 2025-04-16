@@ -106,6 +106,7 @@
     <div id="quiz"></div>
     <p id="score"></p>
     <p id="medal"></p>
+    <button id="restart-btn" onclick="restartQuiz()" style="display:none; padding: 10px 20px; margin-top: 20px; background-color: #f1c40f; color: black; cursor: pointer;">Reiniciar Quiz</button>
   </div>
 
   <audio id="audio" controls style="display:none"></audio>
@@ -155,13 +156,29 @@
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score');
     const medalText = document.getElementById('medal');
+    const restartBtn = document.getElementById('restart-btn');
 
     const questions = [
-      { q: "Qual é o vocalista da banda?", a: ["Chorão", "Champignon", "Renato Russo", "Digão"], c: 0 },
-      { q: "Em que ano a banda foi formada?", a: ["1991", "1992", "1993", "1994"], c: 1 },
-      { q: "Qual o nome do primeiro álbum?", a: ["Tamo Aí na Atividade", "Transpiração Contínua Prolongada", "Nadando com os Tubarões", "Imunidade Musical"], c: 1 },
-      { q: "Quantos integrantes tinham originalmente?", a: ["3", "4", "5", "6"], c: 1 },
-      { q: "Qual música tem o verso 'dias de luta, dias de glória'?", a: ["Proibida pra Mim", "Zóio de Lula", "Só os Loucos Sabem", "Dias de Luta, Dias de Glória"], c: 3 },
+      { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
+      { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
+      { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
+      { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
+      { pergunta: "Qual cidade é berço do Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
+      { pergunta: "Quem era o baixista original da banda?", respostas: ["Chorão", "Marcão", "Champignon", "Heitor"], correta: "Champignon" },
+      { pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
+      { pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" },
+      { pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?", respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"], correta: "Champignon" },
+      { pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997" },
+      { pergunta: "Em que ano a banda Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992" },
+      { pergunta: "Qual é o nome do primeiro álbum da banda?", respostas: ["Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Transpiração Contínua Prolongada" },
+      { pergunta: "Qual música da banda tem a frase 'História nossas histórias'?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória" },
+      { pergunta: "Qual é o nome do álbum lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
+      { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" },
+      { pergunta: "Qual álbum da banda foi lançado em 2003?", respostas: ["Tâmo Aí na Atividade", "Nadando com os Tubarões", "Acustico MTV", "Imunidade Musical"], correta: "Acustico MTV" },
+      { pergunta: "Qual é o nome do baterista que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado" },
+      { pergunta: "Qual álbum da banda foi lançado em 2010?", respostas: ["Camisa 10 Joga Bola Até na Chuva", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Camisa 10 Joga Bola Até na Chuva" },
+      { pergunta: "Qual música da banda tem a frase 'Eu descobri que é azul a cor da parede da casa de DEUS'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Proibida Pra Mim", "Lugar ao Sol"], correta: "Lugar ao Sol" },
+      { pergunta: "Qual música da banda tem a frase 'O livro que ela ama eu não li'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Vícios e Virtudes", "Lugar ao Sol"], correta: "Vícios e Virtudes" }
     ];
 
     let score = 0;
@@ -178,25 +195,26 @@
         } else {
           medalText.textContent = "🥉 Medalha de Bronze! Pode ouvir mais Charlie Brown Jr!";
         }
+        restartBtn.style.display = 'block';
         return;
       }
 
       const q = questions[currentQuestion];
       quiz.innerHTML = `<div class="question">
-        <h3>${q.q}</h3>
+        <h3>${q.pergunta}</h3>
         <div class="answers-container">
-          ${q.a.map((alt, i) => `<button onclick="answer(this, ${i})">${alt}</button>`).join('')}
+          ${q.respostas.map((alt, i) => `<button onclick="answer(this, '${alt}')">${alt}</button>`).join('')}
         </div>
       </div>`;
     }
 
-    function answer(btn, i) {
+    function answer(btn, resposta) {
       const q = questions[currentQuestion];
       const buttons = document.querySelectorAll('.question button');
 
       buttons.forEach(b => b.disabled = true);
 
-      if (i === q.c) {
+      if (resposta === q.correta) {
         btn.style.backgroundColor = 'green';
         btn.style.color = 'white';
         score++;
@@ -209,6 +227,19 @@
       setTimeout(showQuestion, 1000);
     }
 
+    function restartQuiz() {
+      score = 0;
+      currentQuestion = 0;
+      shuffleQuestions();
+      showQuestion();
+      restartBtn.style.display = 'none';
+    }
+
+    function shuffleQuestions() {
+      questions.sort(() => Math.random() - 0.5);
+    }
+
+    shuffleQuestions();
     showQuestion();
   </script>
 </body>
