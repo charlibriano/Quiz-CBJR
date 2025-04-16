@@ -1,128 +1,141 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Charlie Brown Jr</title>
+
   <style>
     @font-face {
       font-family: 'Elektrix';
       src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix%20Bold.ttf') format('truetype');
       font-weight: bold;
-    }body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: black;
-  background-image: url('fundo-cbjr.jpg');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: contain;
-  background-attachment: fixed;
-  color: white;
-  text-align: center;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    }
 
-header {
-  margin: 30px 0 10px;
-}
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: black;
+      background-image: url('fundo-cbjr.jpg');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: contain;
+      background-attachment: fixed;
+      color: white;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-header h1 {
-  font-family: 'Elektrix', sans-serif;
-  font-size: 3em;
-  color: #f1c40f;
-  text-shadow: 2px 2px 5px black;
-}
+    header {
+      margin: 30px 0 10px;
+    }
 
-.container {
-  max-width: 900px;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-  margin-bottom: 40px;
-}
+    header h1 {
+      font-family: 'Elektrix', sans-serif;
+      font-size: 3em;
+      color: #f1c40f;
+      text-shadow: 2px 2px 5px black;
+    }
 
-#player-controls {
-  align-self: flex-start;
-  margin: 20px;
-}
+    .container {
+      max-width: 900px;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+      margin-bottom: 40px;
+    }
 
-.question {
-  margin: 20px 0;
-}
+    #player-controls {
+      align-self: flex-start;
+      margin: 20px;
+    }
 
-.question h3 {
-  margin-bottom: 20px;
-}
+    .question {
+      margin: 20px 0;
+    }
 
-.question button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 1em;
-  cursor: pointer;
-  border-radius: 10px;
-  border: none;
-  background-color: #f1c40f;
-  color: black;
-  transition: background-color 0.3s, color 0.3s;
-  width: 40%;
-}
+    .question h3 {
+      margin-bottom: 20px;
+    }
 
-#score, #medal {
-  margin-top: 20px;
-  font-size: 1.3em;
-}
+    .question button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 10px;
+      border: none;
+      background-color: #f1c40f;
+      color: black;
+      transition: background-color 0.3s, color 0.3s;
+      width: 40%;
+    }
 
-.answers-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
+    #score, #medal {
+      margin-top: 20px;
+      font-size: 1.3em;
+    }
 
-canvas {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100px;
-  z-index: -1;
-}
+    .answers-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
 
+    #visualizer {
+      width: 100%;
+      height: 100px;
+      margin-top: auto;
+      background: black;
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Quiz: <br> Charlie Brown Jr</h1>
-  </header>  <div id="player-controls">
+  </header>
+
+  <div id="player-controls">
     <button onclick="prevSong()">⏮️ Anterior</button>
     <button onclick="togglePlay()">▶️/⏸️</button>
     <button onclick="nextSong()">⏭️ Próxima</button>
     <p id="current-song"></p>
-  </div>  <div class="container">
+  </div>
+
+  <div class="container">
     <div id="quiz"></div>
     <p id="score"></p>
     <p id="medal"></p>
     <button id="restart-btn" onclick="restartQuiz()" style="display:none; padding: 10px 20px; margin-top: 20px; background-color: #f1c40f; color: black; cursor: pointer;">Reiniciar Quiz</button>
-  </div><audio id="audio" controls style="display:none"></audio> <canvas id="visualizer"></canvas>
+  </div>
+
+  <canvas id="visualizer"></canvas>
+  <audio id="audio" controls style="display:none"></audio>
 
   <script>
     const audio = document.getElementById('audio');
     const currentSongText = document.getElementById('current-song');
-    let playlist = [
-      { title: "Zóio de Lula", url: "https://example.com/musicas/zoio.mp3" },
-      { title: "Só os Loucos Sabem", url: "https://example.com/musicas/loucos.mp3" },
-      { title: "Proibida pra Mim", url: "https://example.com/musicas/proibida.mp3" }
-    ];
+    let playlist = [];
     let currentIndex = 0;
     let isPlaying = false;
     let audioStarted = false;
 
+    fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
+      .then(res => res.json())
+      .then(data => {
+        playlist = data;
+        currentIndex = Math.floor(Math.random() * playlist.length);
+        loadSong();
+      });
+
     function loadSong() {
+      if (!playlist.length) return;
       const song = playlist[currentIndex];
       audio.src = song.url;
       currentSongText.textContent = `Tocando agora: ${song.title}`;
@@ -149,45 +162,14 @@ canvas {
       loadSong();
     }
 
-    const canvas = document.getElementById('visualizer');
-    const ctx = canvas.getContext('2d');
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const analyser = audioCtx.createAnalyser();
-    const source = audioCtx.createMediaElementSource(audio);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    analyser.fftSize = 256;
-
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    function drawVisualizer() {
-      requestAnimationFrame(drawVisualizer);
-      analyser.getByteFrequencyData(dataArray);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const barWidth = (canvas.width / bufferLength) * 2.5;
-      let x = 0;
-      for (let i = 0; i < bufferLength; i++) {
-        const barHeight = dataArray[i];
-        ctx.fillStyle = `hsl(${i * 3}, 100%, 50%)`;
-        ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-        x += barWidth + 1;
-      }
-    }
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-    });
-    canvas.width = window.innerWidth;
-
-    drawVisualizer();
-
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score');
     const medalText = document.getElementById('medal');
     const restartBtn = document.getElementById('restart-btn');
 
-    const questions = [
+    const questions = [/* AS 20 PERGUNTAS VÃO AQUI ABAIXO */];
+
+    const perguntasCBJR = [
       { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
       { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
       { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
@@ -203,7 +185,7 @@ canvas {
       { pergunta: "Qual música da banda tem a frase 'História nossas histórias'?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória" },
       { pergunta: "Qual é o nome do álbum lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
       { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" },
-      { pergunta: "Qual álbum da banda foi lançado em 2003?", respostas: ["Tâmo Aí na Atividade", "Nadando com os Tubarões", "Acustico MTV", "Imunidade Musical"], correta: "Acustico MTV" },
+      { pergunta: "Qual álbum da banda foi lançado em 2003?", respostas: ["Tâmo Aí na Atividade", "Nadando com os Tubarões", "Acústico MTV", "Imunidade Musical"], correta: "Acústico MTV" },
       { pergunta: "Qual é o nome do baterista que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado" },
       { pergunta: "Qual álbum da banda foi lançado em 2010?", respostas: ["Camisa 10 Joga Bola Até na Chuva", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Camisa 10 Joga Bola Até na Chuva" },
       { pergunta: "Qual música da banda tem a frase 'Eu descobri que é azul a cor da parede da casa de DEUS'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Proibida Pra Mim", "Lugar ao Sol"], correta: "Lugar ao Sol" },
@@ -212,10 +194,10 @@ canvas {
 
     let score = 0;
     let currentQuestion = 0;
+    const questions = perguntasCBJR;
 
     function startAudio() {
       if (!audioStarted) {
-        audioCtx.resume();
         audio.play();
         isPlaying = true;
         audioStarted = true;
@@ -227,11 +209,11 @@ canvas {
         quiz.innerHTML = '';
         scoreText.textContent = `Pontuação final: ${score}/${questions.length}`;
         if (score === questions.length) {
-          medalText.textContent = "\u{1F3C5} Medalha de Ouro! Você é fã raiz!";
+          medalText.textContent = "🏅 Medalha de Ouro! Você é fã raiz!";
         } else if (score >= questions.length / 2) {
-          medalText.textContent = "\u{1F948} Medalha de Prata! Mandou bem!";
+          medalText.textContent = "🥈 Medalha de Prata! Mandou bem!";
         } else {
-          medalText.textContent = "\u{1F949} Medalha de Bronze! Pode ouvir mais Charlie Brown Jr!";
+          medalText.textContent = "🥉 Medalha de Bronze! Pode ouvir mais Charlie Brown Jr!";
         }
         restartBtn.style.display = 'block';
         return;
@@ -251,6 +233,7 @@ canvas {
       const q = questions[currentQuestion];
       const buttons = document.querySelectorAll('.question button');
       buttons.forEach(b => b.disabled = true);
+
       if (resposta === q.correta) {
         btn.style.backgroundColor = 'green';
         btn.style.color = 'white';
@@ -259,6 +242,7 @@ canvas {
         btn.style.backgroundColor = 'red';
         btn.style.color = 'white';
       }
+
       currentQuestion++;
       setTimeout(showQuestion, 1000);
     }
@@ -277,6 +261,45 @@ canvas {
 
     shuffleQuestions();
     showQuestion();
-    loadSong();
-  </script></body>
+
+    // Visualizador de batida
+    const canvas = document.getElementById("visualizer");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = 100;
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const analyser = audioCtx.createAnalyser();
+    const source = audioCtx.createMediaElementSource(audio);
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+    analyser.fftSize = 256;
+
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    function draw() {
+      requestAnimationFrame(draw);
+      analyser.getByteFrequencyData(dataArray);
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const barWidth = (canvas.width / bufferLength) * 2.5;
+      let x = 0;
+
+      for (let i = 0; i < bufferLength; i++) {
+        const barHeight = dataArray[i];
+        const r = barHeight + 25;
+        const g = 250 - barHeight;
+        const b = 50;
+        ctx.fillStyle = `rgb(${r},${g},${b})`;
+        ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+        x += barWidth + 1;
+      }
+    }
+
+    draw();
+  </script>
+</body>
 </html>
