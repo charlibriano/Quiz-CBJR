@@ -87,6 +87,13 @@
       justify-content: center;
       gap: 10px;
     }
+
+    #visualizer {
+      width: 100%;
+      height: 100px;
+      background-color: black;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -109,9 +116,12 @@
   </div>
 
   <audio id="audio" controls style="display:none"></audio>
+  <canvas id="visualizer"></canvas>
 
   <script>
     const audio = document.getElementById('audio');
+    const canvas = document.getElementById('visualizer');
+    const ctx = canvas.getContext('2d');
     const currentSongText = document.getElementById('current-song');
     let playlist = [];
     let currentIndex = 0;
@@ -122,7 +132,7 @@
       .then(res => res.json())
       .then(data => {
         playlist = data;
-        currentIndex = Math.floor(Math.random() * playlist.length); // Escolhe música aleatória
+        currentIndex = Math.floor(Math.random() * playlist.length);
         loadSong();
       });
 
@@ -160,26 +170,26 @@
     const restartBtn = document.getElementById('restart-btn');
 
     const questions = [
-      { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
-      { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
-      { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
-      { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
-      { pergunta: "Qual cidade é berço do Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
-      { pergunta: "Quem era o baixista original da banda?", respostas: ["Chorão", "Marcão", "Champignon", "Heitor"], correta: "Champignon" },
-      { pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
-      { pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" },
-      { pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?", respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"], correta: "Champignon" },
-      { pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997" },
-      { pergunta: "Em que ano a banda Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992" },
-      { pergunta: "Qual é o nome do primeiro álbum da banda?", respostas: ["Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Transpiração Contínua Prolongada" },
-      { pergunta: "Qual música da banda tem a frase 'História nossas histórias'?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória" },
-      { pergunta: "Qual é o nome do álbum lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
-      { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" },
-      { pergunta: "Qual álbum da banda foi lançado em 2003?", respostas: ["Tâmo Aí na Atividade", "Nadando com os Tubarões", "Acustico MTV", "Imunidade Musical"], correta: "Acustico MTV" },
-      { pergunta: "Qual é o nome do baterista que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado" },
-      { pergunta: "Qual álbum da banda foi lançado em 2010?", respostas: ["Camisa 10 Joga Bola Até na Chuva", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Camisa 10 Joga Bola Até na Chuva" },
-      { pergunta: "Qual música da banda tem a frase 'Eu descobri que é azul a cor da parede da casa de DEUS'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Proibida Pra Mim", "Lugar ao Sol"], correta: "Lugar ao Sol" },
-      { pergunta: "Qual música da banda tem a frase 'O livro que ela ama eu não li'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Vícios e Virtudes", "Lugar ao Sol"], correta: "Vícios e Virtudes" }
+    { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
+    { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
+    { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
+    { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
+    { pergunta: "Qual cidade é berço do Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
+    { pergunta: "Quem era o baixista original da banda?", respostas: ["Chorão", "Marcão", "Champignon", "Heitor"], correta: "Champignon" },
+    { pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
+    { pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" },
+    { pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?", respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"], correta: "Champignon" },
+    { pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997" },
+    { pergunta: "Em que ano a banda Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992" },
+    { pergunta: "Qual é o nome do primeiro álbum da banda?", respostas: ["Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Transpiração Contínua Prolongada" },
+    { pergunta: "Qual música da banda tem a frase 'História nossas histórias'?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória" },
+    { pergunta: "Qual é o nome do álbum lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
+    { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" },
+    { pergunta: "Qual álbum da banda foi lançado em 2003?", respostas: ["Tâmo Aí na Atividade", "Nadando com os Tubarões", "Acustico MTV", "Imunidade Musical"], correta: "Acustico MTV" },
+    { pergunta: "Qual é o nome do baterista que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado" },
+    { pergunta: "Qual álbum da banda foi lançado em 2010?", respostas: ["Camisa 10 Joga Bola Até na Chuva", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Camisa 10 Joga Bola Até na Chuva" },
+    { pergunta: "Qual música da banda tem a frase 'Eu descobri que é azul a cor da parede da casa de DEUS'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Proibida Pra Mim", "Lugar ao Sol"], correta: "Lugar ao Sol" },
+    { pergunta: "Qual música da banda tem a frase 'O livro que ela ama eu não li'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Vícios e Virtudes", "Lugar ao Sol"], correta: "Vícios e Virtudes" }
     ];
 
     let score = 0;
@@ -190,6 +200,7 @@
         audio.play();
         isPlaying = true;
         audioStarted = true;
+        initVisualizer(); // Iniciar visualização ao tocar
       }
     }
 
@@ -247,6 +258,44 @@
 
     function shuffleQuestions() {
       questions.sort(() => Math.random() - 0.5);
+    }
+
+    // 🎵 VISUALIZADOR MUSICAL
+    function initVisualizer() {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const source = audioContext.createMediaElementSource(audio);
+      const analyser = audioContext.createAnalyser();
+      analyser.fftSize = 256;
+
+      source.connect(analyser);
+      analyser.connect(audioContext.destination);
+
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      canvas.width = window.innerWidth;
+      canvas.height = 100;
+
+      function draw() {
+        requestAnimationFrame(draw);
+        analyser.getByteFrequencyData(dataArray);
+
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const barWidth = (canvas.width / bufferLength) * 2.5;
+        let barHeight;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+          barHeight = dataArray[i];
+          ctx.fillStyle = `rgb(${barHeight+100}, 200, 50)`;
+          ctx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
+          x += barWidth + 1;
+        }
+      }
+
+      draw();
     }
 
     shuffleQuestions();
