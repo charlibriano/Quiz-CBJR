@@ -88,7 +88,7 @@
       gap: 10px;
     }
 
-    #visualizer {
+    canvas {
       width: 100%;
       height: 100px;
       background-color: black;
@@ -120,8 +120,6 @@
 
   <script>
     const audio = document.getElementById('audio');
-    const canvas = document.getElementById('visualizer');
-    const ctx = canvas.getContext('2d');
     const currentSongText = document.getElementById('current-song');
     let playlist = [];
     let currentIndex = 0;
@@ -164,6 +162,41 @@
       loadSong();
     }
 
+    // Visualizer
+    const canvas = document.getElementById('visualizer');
+    const ctx = canvas.getContext('2d');
+    let audioCtx, analyser, source, dataArray;
+
+    function setupVisualizer() {
+      if (audioCtx) return;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioCtx.createAnalyser();
+      source = audioCtx.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      analyser.fftSize = 256;
+      const bufferLength = analyser.frequencyBinCount;
+      dataArray = new Uint8Array(bufferLength);
+
+      function draw() {
+        requestAnimationFrame(draw);
+        analyser.getByteFrequencyData(dataArray);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const barWidth = (canvas.width / bufferLength) * 2.5;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+          const barHeight = dataArray[i] / 2;
+          ctx.fillStyle = 'rgb(' + (barHeight + 100) + ',200,50)';
+          ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+          x += barWidth + 1;
+        }
+      }
+
+      draw();
+    }
+
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score');
     const medalText = document.getElementById('medal');
@@ -198,9 +231,9 @@
     function startAudio() {
       if (!audioStarted) {
         audio.play();
+        setupVisualizer();
         isPlaying = true;
         audioStarted = true;
-        initVisualizer(); // Iniciar visualização ao tocar
       }
     }
 
@@ -258,44 +291,6 @@
 
     function shuffleQuestions() {
       questions.sort(() => Math.random() - 0.5);
-    }
-
-    // 🎵 VISUALIZADOR MUSICAL
-    function initVisualizer() {
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const source = audioContext.createMediaElementSource(audio);
-      const analyser = audioContext.createAnalyser();
-      analyser.fftSize = 256;
-
-      source.connect(analyser);
-      analyser.connect(audioContext.destination);
-
-      const bufferLength = analyser.frequencyBinCount;
-      const dataArray = new Uint8Array(bufferLength);
-
-      canvas.width = window.innerWidth;
-      canvas.height = 100;
-
-      function draw() {
-        requestAnimationFrame(draw);
-        analyser.getByteFrequencyData(dataArray);
-
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        const barWidth = (canvas.width / bufferLength) * 2.5;
-        let barHeight;
-        let x = 0;
-
-        for (let i = 0; i < bufferLength; i++) {
-          barHeight = dataArray[i];
-          ctx.fillStyle = `rgb(${barHeight+100}, 200, 50)`;
-          ctx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
-          x += barWidth + 1;
-        }
-      }
-
-      draw();
     }
 
     shuffleQuestions();
