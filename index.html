@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Charlie Brown Jr</title>
+
   <style>
     @font-face {
       font-family: 'Elektrix';
@@ -115,28 +116,18 @@
     let playlist = [];
     let currentIndex = 0;
     let isPlaying = false;
+    let audioStarted = false;
 
     fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
       .then(res => res.json())
       .then(data => {
         playlist = data;
-        isPlaying = true;
+        currentIndex = Math.floor(Math.random() * playlist.length); // Escolhe música aleatória
         loadSong();
       });
 
-    function loadSong(index = null) {
+    function loadSong() {
       if (!playlist.length) return;
-
-      if (index === null) {
-        let newIndex;
-        do {
-          newIndex = Math.floor(Math.random() * playlist.length);
-        } while (newIndex === currentIndex && playlist.length > 1);
-        currentIndex = newIndex;
-      } else {
-        currentIndex = index;
-      }
-
       const song = playlist[currentIndex];
       audio.src = song.url;
       currentSongText.textContent = `Tocando agora: ${song.title}`;
@@ -154,16 +145,14 @@
     }
 
     function nextSong() {
-      loadSong(); // próxima aleatória
+      currentIndex = (currentIndex + 1) % playlist.length;
+      loadSong();
     }
 
     function prevSong() {
-      loadSong(); // também aleatória
+      currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+      loadSong();
     }
-
-    audio.addEventListener('ended', () => {
-      loadSong(); // toca outra ao fim
-    });
 
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score');
@@ -196,6 +185,14 @@
     let score = 0;
     let currentQuestion = 0;
 
+    function startAudio() {
+      if (!audioStarted) {
+        audio.play();
+        isPlaying = true;
+        audioStarted = true;
+      }
+    }
+
     function showQuestion() {
       if (currentQuestion >= questions.length) {
         quiz.innerHTML = '';
@@ -221,6 +218,8 @@
     }
 
     function answer(btn, resposta) {
+      startAudio();
+
       const q = questions[currentQuestion];
       const buttons = document.querySelectorAll('.question button');
       buttons.forEach(b => b.disabled = true);
