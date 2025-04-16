@@ -34,7 +34,7 @@
     }
 
     header h1 {
-      font-family: 'Elektrix',  sans-serif;
+      font-family: 'Elektrix', sans-serif;
       font-size: 3em;
       color: #f1c40f;
       text-shadow: 2px 2px 5px black;
@@ -51,15 +51,20 @@
     }
 
     #player-controls {
-      margin: 20px 0;
+      align-self: flex-start;
+      margin: 20px;
     }
 
     .question {
       margin: 20px 0;
     }
 
+    .question h3 {
+      margin-bottom: 20px;
+    }
+
     .question button {
-      margin: 5px;
+      margin: 10px;
       padding: 10px 20px;
       font-size: 1em;
       cursor: pointer;
@@ -67,11 +72,20 @@
       border: none;
       background-color: #f1c40f;
       color: black;
+      transition: background-color 0.3s, color 0.3s;
+      width: 40%;
     }
 
     #score, #medal {
       margin-top: 20px;
       font-size: 1.3em;
+    }
+
+    .answers-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
     }
   </style>
 </head>
@@ -80,14 +94,15 @@
     <h1>Quiz: <br> Charlie Brown Jr</h1>
   </header>
 
-  <div class="container">
-    <div id="player-controls">
-      <button onclick="prevSong()">⏮️ Anterior</button>
-      <button onclick="togglePlay()">▶️/⏸️</button>
-      <button onclick="nextSong()">⏭️ Próxima</button>
-      <p id="current-song"></p>
-    </div>
+  <!-- PLAYER FORA DA CAIXA DO QUIZ -->
+  <div id="player-controls">
+    <button onclick="prevSong()">⏮️ Anterior</button>
+    <button onclick="togglePlay()">▶️/⏸️</button>
+    <button onclick="nextSong()">⏭️ Próxima</button>
+    <p id="current-song"></p>
+  </div>
 
+  <div class="container">
     <div id="quiz"></div>
     <p id="score"></p>
     <p id="medal"></p>
@@ -154,6 +169,7 @@
 
     function showQuestion() {
       if (currentQuestion >= questions.length) {
+        quiz.innerHTML = '';
         scoreText.textContent = `Pontuação final: ${score}/${questions.length}`;
         if (score === questions.length) {
           medalText.textContent = "🏅 Medalha de Ouro! Você é fã raiz!";
@@ -168,14 +184,29 @@
       const q = questions[currentQuestion];
       quiz.innerHTML = `<div class="question">
         <h3>${q.q}</h3>
-        ${q.a.map((alt, i) => `<button onclick="answer(${i})">${alt}</button>`).join('')}
+        <div class="answers-container">
+          ${q.a.map((alt, i) => `<button onclick="answer(this, ${i})">${alt}</button>`).join('')}
+        </div>
       </div>`;
     }
 
-    function answer(i) {
-      if (i === questions[currentQuestion].c) score++;
+    function answer(btn, i) {
+      const q = questions[currentQuestion];
+      const buttons = document.querySelectorAll('.question button');
+
+      buttons.forEach(b => b.disabled = true);
+
+      if (i === q.c) {
+        btn.style.backgroundColor = 'green';
+        btn.style.color = 'white';
+        score++;
+      } else {
+        btn.style.backgroundColor = 'red';
+        btn.style.color = 'white';
+      }
+
       currentQuestion++;
-      showQuestion();
+      setTimeout(showQuestion, 1000);
     }
 
     showQuestion();
