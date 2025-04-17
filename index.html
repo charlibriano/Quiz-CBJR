@@ -211,10 +211,11 @@
     });
 
     audio.addEventListener('ended', () => {
-      currentIndex = (currentIndex + 1) % playlist.length;
-      loadSong();
-      audio.play();
-    });
+  // Escolher aleatoriamente a próxima música
+  currentIndex = Math.floor(Math.random() * playlist.length);
+  loadSong();
+  audio.play();
+});
 
     audio.addEventListener('timeupdate', function() {
       const currentTime = audio.currentTime;
