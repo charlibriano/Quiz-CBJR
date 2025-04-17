@@ -6,17 +6,17 @@
   <title>Quiz Charlie Brown Jr</title>
 
   <style>
-   @font-face {
+     @font-face {
             font-family: 'Elektrix';
-            src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix%20Bold.ttf') format('truetype'),
-                 url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix%20Bold.woff2') format('woff2'),
-                 url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix%20Bold.woff') format('woff');
+            src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix%20Bold.woff2') format('woff2'),
+                 url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix%20Bold.woff') format('woff'),
+                 url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix%20Bold.ttf') format('truetype');
             font-weight: bold;
-            font-display: swap; /* Força o carregamento da fonte */
+            font-display: swap;
         }
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Elektrix', Arial, sans-serif;
       background-color: black;
       background-image: url('fundo-cbjr.jpg');
       background-repeat: no-repeat;
@@ -148,10 +148,12 @@
       }
 
       header h1 {
+        font-family: 'Elektrix', Arial, sans-serif;
         font-size: 2.5em; /* Reduz o tamanho do título em telas pequenas */
       }
 
       .question h3 {
+        
         font-size: 1.5em; /* Ajusta o tamanho da pergunta no celular */
       }
 
