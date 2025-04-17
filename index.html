@@ -26,7 +26,9 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
+      padding-bottom: 140px;
     }
 
     header {
@@ -48,12 +50,6 @@
       border-radius: 16px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
       margin-bottom: 40px;
-    }
-
-    #time-display {
-      font-size: 1.2em;
-      color: white;
-      margin-top: 10px;
     }
 
     .question {
@@ -97,10 +93,31 @@
       gap: 10px;
     }
 
-    #audio {
+    #audio-player-wrapper {
+      position: fixed;
+      bottom: 0;
       width: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      padding: 20px;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.6);
+      z-index: 999;
+    }
+
+    #current-song {
+      font-size: 1.1em;
+      color: #f1c40f;
+      margin-bottom: 5px;
+    }
+
+    #time-display {
+      font-size: 1em;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    #audio {
+      width: 90%;
       max-width: 700px;
-      margin-top: 20px;
     }
 
     #restart-btn {
@@ -124,9 +141,6 @@
     <h1>Quiz: <br> Charlie Brown Jr</h1>
   </header>
 
-  <p id="current-song"></p>
-  <p id="time-display">00:00 / 00:00</p>
-
   <div class="container">
     <div id="quiz"></div>
     <p id="score"></p>
@@ -134,7 +148,10 @@
     <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
   </div>
 
-  <audio id="audio" controls></audio>
+  <div id="audio-player-wrapper">
+    <p id="current-song"></p>
+        <audio id="audio" controls></audio>
+  </div>
 
   <script>
     const audio = document.getElementById('audio');
@@ -208,11 +225,6 @@
     let currentQuestion = 0;
     let score = 0;
 
-    function shuffleQuestions() {
-      // Embaralha as perguntas
-      questions.sort(() => Math.random() - 0.5);
-    }
-
     function showQuestion() {
       if (currentQuestion >= questions.length) {
         quiz.innerHTML = '';
@@ -267,7 +279,6 @@
     function restartQuiz() {
       score = 0;
       currentQuestion = 0;
-      shuffleQuestions(); // Embaralha as perguntas ao reiniciar o quiz
       showQuestion();
       scoreText.textContent = '';
       medalText.textContent = '';
