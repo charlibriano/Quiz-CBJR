@@ -119,8 +119,9 @@
     }
 
     #audio {
-      width: 90%;
-      max-width: 700px;
+      width: 90%; /* Aumenta o tamanho do player para 90% da largura da tela */
+      max-width: 700px; /* Limita o tamanho máximo do player a 700px */
+      margin: 0 auto; /* Centraliza o player */
     }
 
     #restart-btn {
@@ -136,6 +137,27 @@
     #restart-btn:hover {
       background-color: #e67e22;
       color: white;
+    }
+
+    /* Estilos responsivos */
+    @media screen and (max-width: 768px) {
+      #audio {
+        width: 100%; /* No celular, o player ocupa 100% da largura da tela */
+      }
+
+      header h1 {
+        font-size: 2.5em; /* Reduz o tamanho do título em telas pequenas */
+      }
+
+      .question h3 {
+        font-size: 1.5em; /* Ajusta o tamanho da pergunta no celular */
+      }
+
+      .question button {
+        padding: 12px 25px;
+        font-size: 1.1em;
+        width: 45%; /* Ajusta o tamanho dos botões */
+      }
     }
   </style>
 </head>
@@ -153,7 +175,7 @@
 
   <div id="audio-player-wrapper">
     <p id="current-song"></p>
-      <audio id="audio" controls></audio>
+    <audio id="audio" controls></audio>
   </div>
 
   <script>
@@ -284,6 +306,7 @@
       medalText.textContent = '';
       restartBtn.style.display = 'none';
       showQuestion();
+      loadSong();
     }
 
     showQuestion();
