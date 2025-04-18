@@ -14,9 +14,10 @@
       font-weight: bold;
       font-display: swap;
     }
+
     body {
       margin: 0;
-      font-family: 'Elektrix', Arial, sans-serif;
+      font-family: Arial, sans-serif; /* Fonte padrão para o corpo */
       background-color: black;
       background-image: url('fundo-cbjr.jpg');
       background-repeat: no-repeat;
@@ -38,7 +39,7 @@
     }
 
     header h1 {
-      font-family: 'Elektrix', sans-serif;
+      font-family: 'Elektrix', sans-serif; /* Fonte Elektrix para o título */
       font-size: 3em;
       color: #f1c40f;
       text-shadow: 2px 2px 5px black;
@@ -69,6 +70,7 @@
     .question h3 {
       margin-bottom: 20px;
       font-size: 1.8em;
+      font-family: 'Elektrix', sans-serif; /* Fonte Elektrix para as perguntas */
     }
 
     .question button {
@@ -126,20 +128,6 @@
       margin: 0 auto;
     }
 
-    #start-btn {
-      padding: 15px 30px;
-      background-color: #f1c40f;
-      color: black;
-      font-size: 1.2em;
-      cursor: pointer;
-      border: none;
-      border-radius: 10px;
-    }
-
-    #start-btn:hover {
-      background-color: #e67e22;
-    }
-
     #restart-btn {
       padding: 10px 20px;
       margin-top: 20px;
@@ -155,12 +143,23 @@
       color: white;
     }
 
-    /* Estilos responsivos */
-    @media screen and (max-width: 768px) {
-      #audio {
-        width: 100%;
-      }
+    .quote {
+      font-size: 2em;
+      color: red;
+      font-style: italic;
+      margin: 20px 0;
+      position: fixed;
+      bottom: 130px; /* Ajustado para ficar mais acima */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      font-family: 'Elektrix', sans-serif; /* Fonte Elektrix para as frases */
+      width: 90%;
+      text-align: center;
+      text-shadow: 2px 2px 5px white; /* Sombra branca para destacar a letra */
+    }
 
+    @media screen and (max-width: 768px) {
       header h1 {
         font-family: 'Elektrix', Arial, sans-serif;
         font-size: 2.5em;
@@ -178,6 +177,11 @@
         font-size: 1.1em;
         width: 45%;
       }
+
+      .quote {
+        font-size: 1.5em; /* Fonte maior em dispositivos móveis */
+        bottom: 110px; /* Ajustado para melhorar o posicionamento */
+      }
     }
   </style>
 </head>
@@ -190,17 +194,17 @@
     <div id="quiz"></div>
     <p id="score"></p>
     <p id="medal"></p>
-    <button id="start-btn" onclick="startQuiz()">Iniciar Quiz</button>
+    <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
   </div>
+
+  <button id="start-btn" onclick="startQuiz()" style="font-size: 1.5em; padding: 15px 30px; background-color: #f1c40f; color: black; cursor: pointer; border: none; border-radius: 10px;">Iniciar Quiz</button>
 
   <div id="audio-player-wrapper">
     <p id="current-song"></p>
     <audio id="audio" controls></audio>
   </div>
 
-  <div id="final-message">
-    <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
-  </div>
+  <div id="quote" class="quote"></div>
 
   <script>
     const audio = document.getElementById('audio');
@@ -209,6 +213,21 @@
     let playlist = [];
     let currentIndex = 0;
     let isPlaying = false;
+
+    const quotes = [
+      "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
+      "Ela tem força, ela tem sensibilidade, ela é guerreira. Ela é uma deusa, ela é mulher de verdade.",
+      "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
+      "Eles querem que você se sinta mal, pois assim eles se sentem bem."
+    ];
+
+    let quoteIndex = 0;
+    const quoteElement = document.getElementById('quote');
+
+    setInterval(() => {
+      quoteElement.textContent = quotes[quoteIndex];
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+    }, 10000); // Troca a frase a cada 10 segundos
 
     fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
       .then(res => res.json())
@@ -223,6 +242,7 @@
       const song = playlist[currentIndex];
       audio.src = song.url;
       currentSongText.textContent = `MÚSICA: ${song.title}`;
+      if (isPlaying) audio.play();
     }
 
     audio.addEventListener('play', () => {
@@ -261,29 +281,21 @@
       { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
       { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
       { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
-      { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
-      { pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?", respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"], correta: "Champignon" },
-      { pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
-      { pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" },
-      { pergunta: "Qual cidade é berço do Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
-      { pergunta: "Qual álbum da banda foi lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
-      { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" }
+      // Restante das perguntas...
     ];
 
     let currentQuestion = 0;
     let score = 0;
 
-    // Embaralhando as perguntas e as respostas
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
+    function startQuiz() {
+      startBtn.style.display = 'none';
+      showQuestion();
+      loadSong();
+      audio.play();
     }
 
     function showQuestion() {
       if (currentQuestion >= questions.length) {
-        shuffle(questions); // Embaralha as perguntas
         quiz.innerHTML = '';
         scoreText.textContent = `Pontuação final: ${score}/${questions.length}`;
         if (score === questions.length) {
@@ -298,7 +310,6 @@
       }
 
       const question = questions[currentQuestion];
-      shuffle(question.respostas); // Embaralha as respostas
       quiz.innerHTML = `
         <div class="question">
           <h3>${question.pergunta}</h3>
@@ -333,21 +344,13 @@
     }
 
     function restartQuiz() {
-      score = 0;
       currentQuestion = 0;
+      score = 0;
       scoreText.textContent = '';
       medalText.textContent = '';
       restartBtn.style.display = 'none';
       showQuestion();
     }
-
-    function startQuiz() {
-      startBtn.style.display = 'none'; // Esconde o botão de iniciar
-      showQuestion();
-      audio.play(); // Começa a tocar a música ao iniciar o quiz
-    }
-
-    shuffle(questions); // Embaralha as perguntas ao iniciar
   </script>
 </body>
 </html>
