@@ -68,7 +68,7 @@
 
     .question h3 {
       margin-bottom: 20px;
-      font-size: 1.8em; /* Tamanho da fonte maior para o título */
+      font-size: 1.8em;
     }
 
     .question button {
@@ -121,9 +121,23 @@
     }
 
     #audio {
-      width: 90%; /* Aumenta o tamanho do player para 90% da largura da tela */
-      max-width: 700px; /* Limita o tamanho máximo do player a 700px */
-      margin: 0 auto; /* Centraliza o player */
+      width: 90%;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    #start-btn {
+      padding: 15px 30px;
+      background-color: #f1c40f;
+      color: black;
+      font-size: 1.2em;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+    }
+
+    #start-btn:hover {
+      background-color: #e67e22;
     }
 
     #restart-btn {
@@ -144,26 +158,25 @@
     /* Estilos responsivos */
     @media screen and (max-width: 768px) {
       #audio {
-        width: 100%; /* No celular, o player ocupa 100% da largura da tela */
+        width: 100%;
       }
 
       header h1 {
-    font-family: 'Elektrix', Arial, sans-serif;
-    font-size: 2.5em; /* Tamanho da fonte responsivo */
-    text-align: center;
-    color: #fff;
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5); /* Sombra do texto */
-}
+        font-family: 'Elektrix', Arial, sans-serif;
+        font-size: 2.5em;
+        text-align: center;
+        color: #fff;
+        text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+      }
 
       .question h3 {
-        
-        font-size: 1.5em; /* Ajusta o tamanho da pergunta no celular */
+        font-size: 1.5em;
       }
 
       .question button {
         padding: 12px 25px;
         font-size: 1.1em;
-        width: 45%; /* Ajusta o tamanho dos botões */
+        width: 45%;
       }
     }
   </style>
@@ -177,12 +190,16 @@
     <div id="quiz"></div>
     <p id="score"></p>
     <p id="medal"></p>
-    <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
+    <button id="start-btn" onclick="startQuiz()">Iniciar Quiz</button>
   </div>
 
   <div id="audio-player-wrapper">
     <p id="current-song"></p>
     <audio id="audio" controls></audio>
+  </div>
+
+  <div id="final-message">
+    <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
   </div>
 
   <script>
@@ -206,7 +223,6 @@
       const song = playlist[currentIndex];
       audio.src = song.url;
       currentSongText.textContent = `MÚSICA: ${song.title}`;
-      if (isPlaying) audio.play();
     }
 
     audio.addEventListener('play', () => {
@@ -218,11 +234,10 @@
     });
 
     audio.addEventListener('ended', () => {
-  // Escolher aleatoriamente a próxima música
-  currentIndex = Math.floor(Math.random() * playlist.length);
-  loadSong();
-  audio.play();
-});
+      currentIndex = Math.floor(Math.random() * playlist.length);
+      loadSong();
+      audio.play();
+    });
 
     audio.addEventListener('timeupdate', function() {
       const currentTime = audio.currentTime;
@@ -240,35 +255,35 @@
     const scoreText = document.getElementById('score');
     const medalText = document.getElementById('medal');
     const restartBtn = document.getElementById('restart-btn');
+    const startBtn = document.getElementById('start-btn');
 
     const questions = [
       { pergunta: "Qual o nome do vocalista do Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Renato Russo"], correta: "Chorão" },
       { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Nadando com os Tubarões" },
       { pergunta: "Em que cidade surgiu a banda Charlie Brown Jr.?", respostas: ["São Paulo", "Rio de Janeiro", "Santos", "Curitiba"], correta: "Santos" },
       { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
-      { pergunta: "Qual cidade é berço do Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
-      { pergunta: "Quem era o baixista original da banda?", respostas: ["Chorão", "Marcão", "Champignon", "Heitor"], correta: "Champignon" },
+      { pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?", respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"], correta: "Champignon" },
       { pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
       { pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" },
-      { pergunta: "Qual integrante da banda também era conhecido por tocar beatbox?", respostas: ["Thiago Castanho", "Marcão", "Champignon", "Chorão"], correta: "Champignon" },
-      { pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997" },
-      { pergunta: "Em que ano a banda Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992" },
-      { pergunta: "Qual é o nome do primeiro álbum da banda?", respostas: ["Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Transpiração Contínua Prolongada" },
-      { pergunta: "Qual música da banda tem a frase 'História nossas histórias'?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória" },
-      { pergunta: "Qual é o nome do álbum lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
-      { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" },
-      { pergunta: "Qual álbum da banda foi lançado em 2003?", respostas: ["Tâmo Aí na Atividade", "Nadando com os Tubarões", "Acustico MTV", "Imunidade Musical"], correta: "Acustico MTV" },
-      { pergunta: "Qual é o nome do baterista que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado" },
-      { pergunta: "Qual álbum da banda foi lançado em 2010?", respostas: ["Camisa 10 Joga Bola Até na Chuva", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Camisa 10 Joga Bola Até na Chuva" },
-      { pergunta: "Qual música da banda tem a frase 'Eu descobri que é azul a cor da parede da casa de DEUS'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Proibida Pra Mim", "Lugar ao Sol"], correta: "Lugar ao Sol" },
-      { pergunta: "Qual música da banda tem a frase 'O livro que ela ama eu não li'?", respostas: ["Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Vícios e Virtudes", "Lugar ao Sol"], correta: "Vícios e Virtudes" }
+      { pergunta: "Qual cidade é berço do Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
+      { pergunta: "Qual álbum da banda foi lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
+      { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" }
     ];
 
     let currentQuestion = 0;
     let score = 0;
 
+    // Embaralhando as perguntas e as respostas
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
     function showQuestion() {
       if (currentQuestion >= questions.length) {
+        shuffle(questions); // Embaralha as perguntas
         quiz.innerHTML = '';
         scoreText.textContent = `Pontuação final: ${score}/${questions.length}`;
         if (score === questions.length) {
@@ -283,6 +298,7 @@
       }
 
       const question = questions[currentQuestion];
+      shuffle(question.respostas); // Embaralha as respostas
       quiz.innerHTML = `
         <div class="question">
           <h3>${question.pergunta}</h3>
@@ -317,16 +333,21 @@
     }
 
     function restartQuiz() {
-      currentQuestion = 0;
       score = 0;
+      currentQuestion = 0;
       scoreText.textContent = '';
       medalText.textContent = '';
       restartBtn.style.display = 'none';
       showQuestion();
-      loadSong();
     }
 
-    showQuestion();
+    function startQuiz() {
+      startBtn.style.display = 'none'; // Esconde o botão de iniciar
+      showQuestion();
+      audio.play(); // Começa a tocar a música ao iniciar o quiz
+    }
+
+    shuffle(questions); // Embaralha as perguntas ao iniciar
   </script>
 </body>
 </html>
