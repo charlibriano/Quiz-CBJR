@@ -131,11 +131,82 @@
 
   <script>
     const questions = [
+      { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", 
+        respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"],
+        correta: "Preço Curto... Prazo Longo" 
+      },
+      { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", 
+        respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], 
+        correta: "I Feel So Good Today" 
+      },
+      { pergunta: "Quem era o baixista original da banda?", 
+        respostas: ["Chorão", "Marcão", "Champignon", "Heitor"], 
+        correta: "Champignon"
+      },
       {
         pergunta: "Qual é o nome do vocalista da banda Charlie Brown Jr.?",
         respostas: ["Chorão", "Champignon", "Marcão", "Pelado"],
         correta: "Chorão"
       },
+      { pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?", 
+        respostas: ["2000", "2002", "1999", "2001"], 
+        correta: "2000" 
+      },
+      { pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?", 
+        respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], 
+        correta: "Champanhe e Água Benta" 
+      },
+      { pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?",
+        respostas: ["1997", "1995", "2000", "1998"], 
+        correta: "1997" 
+      },
+      { pergunta: "Em que ano a banda Charlie Brown Jr. foi formada?", 
+        respostas: ["1990", "1992", "1994", "1996"], 
+        correta: "1992" 
+      },
+      { pergunta: "Qual música da banda tem a frase 'A vida me ensinou a nunca desistir...'?",
+        respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], 
+        correta: "Dias de Luta, Dias de Glória" 
+      },
+      { pergunta: "Qual é o nome do álbum lançado em 2007?", 
+        respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], 
+        correta: "Ritmo, Ritual e Responsa" 
+      },
+      { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", 
+        respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], 
+        correta: "Proibida Pra Mim (Grazon)" 
+      },
+      { pergunta: "Qual é o nome do baterista que tocou na banda até 2005?", 
+        respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], 
+        correta: "Pelado" 
+      },
+      {
+        pergunta: "Qual o nome completo do Chorão?",
+        respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"],
+        correta: "Alexandre Magno Abrão"
+      },
+      {
+        pergunta: "Onde nasceu o Chorão?",
+        respostas: ["Santos", "São Vicente", "São Paulo", "Campinas"],
+        correta: "São Paulo"
+      },
+      {
+        pergunta: "Qual dessas músicas faz parte do álbum 'Preço Curto... Prazo Longo'?",
+        respostas: ["Dias de luta, dias de glória", "Rubão", "Proibida pra mim", "Só os Loucos Sabem"],
+        correta: "Proibida pra mim"
+      },
+      
+      {
+        pergunta: "Qual o nome do documentário sobre o Chorão lançado em 2021?",
+        respostas: ["O Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"],
+        correta: "O Marginal Alado"
+      },
+      {
+        pergunta: "Chorão também era conhecido por praticar:",
+        respostas: ["Surfe", "Futebol", "Skate", "Capoeira"],
+        correta: "Skate"
+      },
+      
       {
         pergunta: "Em que cidade nasceu a banda Charlie Brown Jr.?",
         respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"],
@@ -146,16 +217,7 @@
         respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"],
         correta: "Transpiração Contínua Prolongada"
       },
-      {
-        pergunta: "Qual era o estilo musical predominante da banda?",
-        respostas: ["Samba", "Funk", "Rock", "Forró"],
-        correta: "Rock"
-      },
-      {
-        pergunta: "Qual dessas músicas é um sucesso da banda?",
-        respostas: ["Só os Loucos Sabem", "Tempo Perdido", "Pais e Filhos", "Anna Julia"],
-        correta: "Só os Loucos Sabem"
-      },
+      
       {
         pergunta: "Que instrumento Champignon tocava?",
         respostas: ["Guitarra", "Bateria", "Baixo", "Teclado"],
@@ -166,50 +228,33 @@
         respostas: ["Luiz Carlos", "Alexandre Magno Abrão", "Pedro Henrique", "João Paulo Martins"],
         correta: "Alexandre Magno Abrão"
       },
+      
       {
-        pergunta: "Qual dessas bandas não teve ligação com integrantes do Charlie Brown Jr.?",
-        respostas: ["Revolucionários", "Bula", "Detonautas", "A Banca"],
-        correta: "Detonautas"
-      },
-      {
-        pergunta: "Qual dessas músicas é um dueto com Negra Li?",
+        pergunta: "Qual dessas músicas tem a participaão da Negra Li?",
         respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"],
         correta: "Não é Sério"
       },
-      {
-        pergunta: "Em que ano Chorão faleceu?",
-        respostas: ["2010", "2012", "2013", "2015"],
-        correta: "2013"
-      },
+      
       {
         pergunta: "Qual o nome do DVD ao vivo lançado em 2003?",
         respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"],
         correta: "Acústico MTV"
       },
       {
-        pergunta: "Qual dessas músicas é do álbum 'Bocas Ordinárias'?",
-        respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", "Papo Reto"],
-        correta: "Senhor do Tempo"
+        pergunta: "Qual dessas músicas é do álbum 'Bocas Ordinárias'Tarja Preta?",
+        respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", ""],
+        correta: "Tarja Preta"
       },
       {
         pergunta: "Em que ano a banda foi formada?",
         respostas: ["1992", "1995", "1997", "1999"],
         correta: "1992"
       },
-      {
-        pergunta: "Qual integrante faleceu pouco tempo após o Chorão?",
-        respostas: ["Marcão", "Thiago Castanho", "Champignon", "Graveto"],
-        correta: "Champignon"
-      },
-      {
-        pergunta: "Qual dessas frases é do Chorão?",
-        respostas: ["Eu só quero é ser feliz", "Dias de luta, dias de glória", "Faroeste caboclo nunca foi...", "O mundo é um moinho"],
-        correta: "Dias de luta, dias de glória"
-      },
+      
       {
         pergunta: "Em qual desses álbuns está a música 'Céu Azul'?",
-        respostas: ["Transpiração...", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"],
-        correta: "La Família 013"
+        respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"],
+        correta: "Musica Popular Caiçara"
       },
       {
         pergunta: "Qual gravadora lançou os primeiros álbuns do Charlie Brown Jr.?",
@@ -221,17 +266,8 @@
         respostas: ["Charlie Brown Jr.", "Clube Brasileiro de Jovens Rebeldes", "Coletivo Brasileiro de Juventude Revolucionária", "Cultura Brasileira Jovem de Rua"],
         correta: "Charlie Brown Jr."
       },
-      {
-        pergunta: "Qual era o tema principal das letras da banda?",
-        respostas: ["Política", "Amor e cotidiano", "Religião", "História do Brasil"],
-        correta: "Amor e cotidiano"
-      },
-      {
-        pergunta: "Qual dessas músicas fala sobre superação?",
-        respostas: ["Confisco", "Só os Loucos Sabem", "Quinta-Feira", "O Coro Vai Comê!"],
-        correta: "Só os Loucos Sabem"
-      }
-    ];
+      
+      ];
 
     const quoteElement = document.getElementById('quote');
     const quotes = [
