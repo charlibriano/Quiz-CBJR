@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Charlie Brown Jr</title>
   <style>
+    /* CSS igual ao anterior, mantendo estrutura e estilos */
     @font-face {
       font-family: 'Elektrix';
       src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff2') format('woff2'),
@@ -13,7 +14,6 @@
       font-weight: bold;
       font-display: swap;
     }
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -32,14 +32,12 @@
       align-items: center;
       padding-bottom: 140px;
     }
-
     header h1 {
       font-family: 'Elektrix', sans-serif;
       font-size: 3em;
       color: #f1c40f;
       text-shadow: 2px 2px 5px black;
     }
-
     .container {
       max-width: 900px;
       width: 100%;
@@ -51,12 +49,10 @@
       display: flex;
       justify-content: center;
     }
-
     .question h3 {
       font-size: 1.8em;
       font-family: 'Elektrix', sans-serif;
     }
-
     .question button {
       margin: 10px;
       padding: 15px 30px;
@@ -67,22 +63,18 @@
       color: black;
       cursor: pointer;
     }
-
     .question button.correct {
       background-color: #2ecc71;
     }
-
     .question button.incorrect {
       background-color: #e74c3c;
     }
-
     .answers-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
     }
-
     #restart-btn {
       padding: 10px 20px;
       margin-top: 20px;
@@ -92,7 +84,6 @@
       border: none;
       border-radius: 10px;
     }
-
     #audio-player-wrapper {
       position: fixed;
       bottom: 0;
@@ -102,7 +93,6 @@
       box-shadow: 0 -2px 10px rgba(0,0,0,0.6);
       z-index: 999;
     }
-
     #quote {
       font-size: 2em;
       color: white;
@@ -140,26 +130,135 @@
   <div id="quote" class="quote"></div>
 
   <script>
-    const audio = document.getElementById('audio');
-    const currentSongText = document.getElementById('current-song');
-    let playlist = [];
-    let currentIndex = 0;
-    let isPlaying = false;
+    const questions = [
+      {
+        pergunta: "Qual é o nome do vocalista da banda Charlie Brown Jr.?",
+        respostas: ["Chorão", "Champignon", "Marcão", "Pelado"],
+        correta: "Chorão"
+      },
+      {
+        pergunta: "Em que cidade nasceu a banda Charlie Brown Jr.?",
+        respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"],
+        correta: "Santos"
+      },
+      {
+        pergunta: "Qual o nome do primeiro álbum da banda?",
+        respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"],
+        correta: "Transpiração Contínua Prolongada"
+      },
+      {
+        pergunta: "Qual era o estilo musical predominante da banda?",
+        respostas: ["Samba", "Funk", "Rock", "Forró"],
+        correta: "Rock"
+      },
+      {
+        pergunta: "Qual dessas músicas é um sucesso da banda?",
+        respostas: ["Só os Loucos Sabem", "Tempo Perdido", "Pais e Filhos", "Anna Julia"],
+        correta: "Só os Loucos Sabem"
+      },
+      {
+        pergunta: "Que instrumento Champignon tocava?",
+        respostas: ["Guitarra", "Bateria", "Baixo", "Teclado"],
+        correta: "Baixo"
+      },
+      {
+        pergunta: "Qual é o nome verdadeiro do Chorão?",
+        respostas: ["Luiz Carlos", "Alexandre Magno Abrão", "Pedro Henrique", "João Paulo Martins"],
+        correta: "Alexandre Magno Abrão"
+      },
+      {
+        pergunta: "Qual dessas bandas não teve ligação com integrantes do Charlie Brown Jr.?",
+        respostas: ["Revolucionários", "Bula", "Detonautas", "A Banca"],
+        correta: "Detonautas"
+      },
+      {
+        pergunta: "Qual dessas músicas é um dueto com Negra Li?",
+        respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"],
+        correta: "Não é Sério"
+      },
+      {
+        pergunta: "Em que ano Chorão faleceu?",
+        respostas: ["2010", "2012", "2013", "2015"],
+        correta: "2013"
+      },
+      {
+        pergunta: "Qual o nome do DVD ao vivo lançado em 2003?",
+        respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"],
+        correta: "Acústico MTV"
+      },
+      {
+        pergunta: "Qual dessas músicas é do álbum 'Bocas Ordinárias'?",
+        respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", "Papo Reto"],
+        correta: "Senhor do Tempo"
+      },
+      {
+        pergunta: "Em que ano a banda foi formada?",
+        respostas: ["1992", "1995", "1997", "1999"],
+        correta: "1992"
+      },
+      {
+        pergunta: "Qual integrante faleceu pouco tempo após o Chorão?",
+        respostas: ["Marcão", "Thiago Castanho", "Champignon", "Graveto"],
+        correta: "Champignon"
+      },
+      {
+        pergunta: "Qual dessas frases é do Chorão?",
+        respostas: ["Eu só quero é ser feliz", "Dias de luta, dias de glória", "Faroeste caboclo nunca foi...", "O mundo é um moinho"],
+        correta: "Dias de luta, dias de glória"
+      },
+      {
+        pergunta: "Em qual desses álbuns está a música 'Céu Azul'?",
+        respostas: ["Transpiração...", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"],
+        correta: "La Família 013"
+      },
+      {
+        pergunta: "Qual gravadora lançou os primeiros álbuns do Charlie Brown Jr.?",
+        respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"],
+        correta: "Virgin Records"
+      },
+      {
+        pergunta: "O que significa 'CBJR'?",
+        respostas: ["Charlie Brown Jr.", "Clube Brasileiro de Jovens Rebeldes", "Coletivo Brasileiro de Juventude Revolucionária", "Cultura Brasileira Jovem de Rua"],
+        correta: "Charlie Brown Jr."
+      },
+      {
+        pergunta: "Qual era o tema principal das letras da banda?",
+        respostas: ["Política", "Amor e cotidiano", "Religião", "História do Brasil"],
+        correta: "Amor e cotidiano"
+      },
+      {
+        pergunta: "Qual dessas músicas fala sobre superação?",
+        respostas: ["Confisco", "Só os Loucos Sabem", "Quinta-Feira", "O Coro Vai Comê!"],
+        correta: "Só os Loucos Sabem"
+      }
+    ];
 
+    const quoteElement = document.getElementById('quote');
     const quotes = [
       "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
       "Ela tem força, ela tem sensibilidade, ela é guerreira. Ela é uma deusa, ela é mulher de verdade.",
       "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
       "Eles querem que você se sinta mal, pois assim eles se sentem bem."
     ];
-
     let quoteIndex = 0;
-    const quoteElement = document.getElementById('quote');
-
     setInterval(() => {
       quoteElement.textContent = quotes[quoteIndex];
       quoteIndex = (quoteIndex + 1) % quotes.length;
     }, 10000);
+
+    const quiz = document.getElementById('quiz');
+    const scoreText = document.getElementById('score');
+    const medalText = document.getElementById('medal');
+    const restartBtn = document.getElementById('restart-btn');
+    const startBtn = document.getElementById('start-btn');
+    const audio = document.getElementById('audio');
+    const currentSongText = document.getElementById('current-song');
+
+    let playlist = [];
+    let currentIndex = 0;
+    let isPlaying = false;
+    let currentQuestion = 0;
+    let score = 0;
 
     fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
       .then(res => res.json())
@@ -185,118 +284,6 @@
       audio.play();
     });
 
-    const quiz = document.getElementById('quiz');
-    const scoreText = document.getElementById('score');
-    const medalText = document.getElementById('medal');
-    const restartBtn = document.getElementById('restart-btn');
-    const startBtn = document.getElementById('start-btn');
-
-    const questions = [
-      {
-        pergunta: "Qual o nome completo do Chorão?",
-        respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"],
-        correta: "Alexandre Magno Abrão"
-      },
-      {
-        pergunta: "Em que ano foi lançado o álbum 'Acústico MTV'?",
-        respostas: ["2001", "2002", "2003", "2004"],
-        correta: "2003"
-      },
-      {
-        pergunta: "Qual música tem o verso 'só os loucos sabem'?",
-        respostas: ["Céu Azul", "Lutar pelo que é meu", "Zóio de Lula", "Só os loucos sabem"],
-        correta: "Só os loucos sabem"
-      },
-      {
-        pergunta: "Onde nasceu o Chorão?",
-        respostas: ["Santos", "São Vicente", "São Paulo", "Campinas"],
-        correta: "São Paulo"
-      },
-      {
-        pergunta: "Qual dessas músicas faz parte do álbum 'Preço Curto... Prazo Longo'?",
-        respostas: ["Dias de luta, dias de glória", "Rubão", "Proibida pra mim", "Zóio de Lula"],
-        correta: "Proibida pra mim"
-      },
-      {
-        pergunta: "O que significa 'CBJR'?",
-        respostas: ["Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Chorão Banda Jovem Revoltada", "Conexão Brasil Jovem Rock"],
-        correta: "Charlie Brown Jr"
-      },
-      {
-        pergunta: "Qual o nome do primeiro álbum da banda?",
-        respostas: ["Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Preço Curto... Prazo Longo", "Imunidade Musical"],
-        correta: "Transpiração Contínua Prolongada"
-      },
-      {
-        pergunta: "Quem era o guitarrista da formação clássica da banda?",
-        respostas: ["Marcão", "Champignon", "Renato Pelado", "Thiago Castanho"],
-        correta: "Marcão"
-      },
-      {
-        pergunta: "Qual música tem o refrão 'meu escritório é na praia, eu tô sempre na área'?",
-        respostas: ["Pontes Indestrutíveis", "Lugar ao Sol", "Lutar pelo que é meu", "Só os loucos sabem"],
-        correta: "Lugar ao Sol"
-      },
-      {
-        pergunta: "Qual o nome do documentário sobre o Chorão lançado em 2021?",
-        respostas: ["O Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"],
-        correta: "O Marginal Alado"
-      },
-      {
-        pergunta: "Qual estilo musical caracteriza Charlie Brown Jr?",
-        respostas: ["Samba", "MPB", "Hardcore e Rap Rock", "Pop Rock"],
-        correta: "Hardcore e Rap Rock"
-      },
-      {
-        pergunta: "Em que ano o Chorão faleceu?",
-        respostas: ["2011", "2012", "2013", "2014"],
-        correta: "2013"
-      },
-      {
-        pergunta: "Qual o nome do baixista que também faleceu?",
-        respostas: ["Champignon", "Marcão", "Pelado", "Heitor"],
-        correta: "Champignon"
-      },
-      {
-        pergunta: "A música 'Céu Azul' foi feita após:",
-        respostas: ["O nascimento do filho de Chorão", "A separação de Chorão", "O fim da banda", "Uma briga com o baixista"],
-        correta: "A separação de Chorão"
-      },
-      {
-        pergunta: "Qual dessas músicas NÃO é da banda?",
-        respostas: ["Dias de luta, dias de glória", "Ela vai voltar", "Me adora", "Te levar"],
-        correta: "Me adora"
-      },
-      {
-        pergunta: "Chorão também era conhecido por praticar:",
-        respostas: ["Surfe", "Futebol", "Skate", "Capoeira"],
-        correta: "Skate"
-      },
-      {
-        pergunta: "Qual dessas frases é do Chorão?",
-        respostas: ["Eu sou o que sou, seu julgamento não me define", "Só os loucos sabem", "Prefiro ser essa metamorfose ambulante", "O tempo não para"],
-        correta: "Só os loucos sabem"
-      },
-      {
-        pergunta: "Charlie Brown Jr teve origem em qual cidade?",
-        respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Curitiba"],
-        correta: "Santos"
-      },
-      {
-        pergunta: "Qual foi o último álbum lançado em vida?",
-        respostas: ["Camisa 10 Joga Bola Até na Chuva", "La Familia 013", "Imunidade Musical", "Ritmo, Ritual e Responsa"],
-        correta: "Camisa 10 Joga Bola Até na Chuva"
-      },
-      {
-        pergunta: "A música 'Zóio de Lula' foi lançada em qual álbum?",
-        respostas: ["Transpiração Contínua Prolongada", "Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Imunidade Musical"],
-        correta: "Preço Curto... Prazo Longo"
-      }
-    ];
-
-    let currentQuestion = 0;
-    let score = 0;
-
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -316,13 +303,12 @@
       if (currentQuestion >= questions.length) {
         quiz.innerHTML = '';
         scoreText.textContent = `Pontuação final: ${score}/${questions.length}`;
-        if (score === questions.length) {
-          medalText.textContent = "🏅 Medalha de Ouro! Você é foda, Charlie Brown Jr na veia!";
-        } else if (score >= questions.length / 2) {
-          medalText.textContent = "🥈 Medalha de Prata! Mandou bem! Mas um fã faz melhor que isso";
-        } else {
-          medalText.textContent = "🥉 Medalha de Bronze! Muito fraco, precisa ouvir mais Charlie Brown Jr!";
-        }
+        medalText.textContent =
+          score === questions.length
+            ? "🏅 Medalha de Ouro! Você é foda, Charlie Brown Jr na veia!"
+            : score >= questions.length / 2
+            ? "🥈 Medalha de Prata! Mandou bem! Mas um fã faz melhor que isso"
+            : "🥉 Medalha de Bronze! Muito fraco, precisa ouvir mais Charlie Brown Jr!";
         restartBtn.style.display = 'block';
         return;
       }
@@ -333,27 +319,27 @@
           <h3>${question.pergunta}</h3>
           <div class="answers-container">
             ${question.respostas.map(resposta => `
-              <button onclick="checkAnswer('${resposta}')">${resposta}</button>
+              <button onclick="checkAnswer('${resposta}', '${question.correta}')">${resposta}</button>
             `).join('')}
           </div>
         </div>
       `;
     }
 
-    function checkAnswer(answer) {
-      const question = questions[currentQuestion];
+    function checkAnswer(answer, correta) {
       const buttons = document.querySelectorAll('.question button');
-
       buttons.forEach(button => {
         button.disabled = true;
-        if (button.textContent === question.correta) {
-          button.classList.add('correct');
-        } else if (button.textContent === answer) {
-          button.classList.add('incorrect');
+        if (button.textContent === answer) {
+          if (answer === correta) {
+            button.classList.add('correct');
+          } else {
+            button.classList.add('incorrect');
+          }
         }
       });
 
-      if (answer === question.correta) score++;
+      if (answer === correta) score++;
       currentQuestion++;
       setTimeout(showQuestion, 1000);
     }
