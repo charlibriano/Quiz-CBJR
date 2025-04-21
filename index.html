@@ -14,7 +14,8 @@
       font-weight: bold;
       font-display: swap;
     }
-   @keyframes pulse {
+
+	@keyframes pulse {
   0% {
     transform: scale(1);
     text-shadow: 3px 3px 15px #000;
@@ -31,7 +32,7 @@
 
 header h1 {
   font-family: 'Elektrix', sans-serif;
-  font-size: 2.5em;
+  font-size: 4.5em;
   color: #f1c40f;
   text-shadow: 3px 3px 15px #000;
   padding: 25px 40px;
@@ -39,7 +40,7 @@ header h1 {
   display: inline-block;
   animation: pulse 2.5s infinite;
 }
-    
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -57,8 +58,9 @@ header h1 {
       justify-content: flex-start;
       align-items: center;
       padding-bottom: 140px;
-    }
-  
+
+	
+
     .container {
       max-width: 900px;
       width: 100%;
@@ -114,7 +116,7 @@ header h1 {
       box-shadow: 0 -2px 10px rgba(0,0,0,0.6);
       z-index: 999;
     }
-   #quote {
+  #quote {
   background: #fcf4a3;
   color: #222;
   font-family: 'Courier New', monospace;
@@ -132,11 +134,12 @@ header h1 {
   background-image: linear-gradient(transparent 95%, rgba(0,0,0,0.05) 5%);
   background-size: 100% 30px;
 }
+
   </style>
 </head>
 <body>
   <header>
-    <h1>Quiz: <br><br> Charlie <br><br> Brown Jr</h1>
+    <h1>Quiz:<br> Charlie <br> Brown Jr</h1>
   </header>
 
   <div class="container">
@@ -157,52 +160,52 @@ header h1 {
 
   <script>
     const questions = [
-      { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", 
+      { pergunta: "Qual álbum tem a música 'Zóio de Lula'?", 
         respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"],
         correta: "Preço Curto... Prazo Longo" 
       },
-      { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", 
+      { pergunta: "Qual dessas músicas é um lado B do Charlie Brown Jr.?", 
         respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], 
         correta: "I Feel So Good Today" 
       },
-      { pergunta: "Quem era o baixista original <br><br> da banda?", 
+      { pergunta: "Quem era o baixista original da banda?", 
         respostas: ["Chorão", "Marcão", "Champignon", "Heitor"], 
         correta: "Champignon"
       },
       {
-        pergunta: "Qual é o nome do vocalista da banda <br><br> Charlie Brown Jr.?",
+        pergunta: "Qual é o nome do vocalista da banda Charlie Brown Jr.?",
         respostas: ["Chorão", "Champignon", "Marcão", "Pelado"],
         correta: "Chorão"
       },
-      { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", 
+      { pergunta: "Em que ano o álbum 'Nadando com os Tubarões' foi lançado?", 
         respostas: ["2000", "2002", "1999", "2001"], 
         correta: "2000" 
       },
-      { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", 
+      { pergunta: "Qual dessas músicas é do álbum 'Tamo Aí na Atividade'?", 
         respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], 
         correta: "Champanhe e Água Benta" 
       },
-      { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?",
+      { pergunta: "Em que ano o álbum 'Transpiração Contínua Prolongada' foi lançado?",
         respostas: ["1997", "1995", "2000", "1998"], 
         correta: "1997" 
       },
-      { pergunta: "Em que ano a banda <br><br> Charlie Brown Jr. foi formada?", 
+      { pergunta: "Em que ano a banda Charlie Brown Jr. foi formada?", 
         respostas: ["1990", "1992", "1994", "1996"], 
         correta: "1992" 
       },
-      { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?",
+      { pergunta: "Qual música da banda tem a frase 'A vida me ensinou a nunca desistir...'?",
         respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], 
         correta: "Dias de Luta, Dias de Glória" 
       },
-      { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", 
+      { pergunta: "Qual é o nome do álbum lançado em 2007?", 
         respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], 
         correta: "Ritmo, Ritual e Responsa" 
       },
-      { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", 
+      { pergunta: "Qual música da banda tem a frase 'Eu vou roubar essa mulher pra mim'?", 
         respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], 
         correta: "Proibida Pra Mim (Grazon)" 
       },
-      { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", 
+      { pergunta: "Qual é o nome do baterista que tocou na banda até 2005?", 
         respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], 
         correta: "Pelado" 
       },
@@ -217,29 +220,29 @@ header h1 {
         correta: "São Paulo"
       },
       {
-        pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?",
+        pergunta: "Qual dessas músicas faz parte do álbum 'Preço Curto... Prazo Longo'?",
         respostas: ["Dias de luta, dias de glória", "Rubão", "Proibida pra mim", "Só os Loucos Sabem"],
         correta: "Proibida pra mim"
       },
       
       {
-        pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?",
+        pergunta: "Qual o nome do documentário sobre o Chorão lançado em 2021?",
         respostas: ["O Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"],
         correta: "O Marginal Alado"
       },
       {
-        pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:",
+        pergunta: "Chorão também era conhecido por praticar:",
         respostas: ["Surfe", "Futebol", "Skate", "Capoeira"],
         correta: "Skate"
       },
 
       {
-        pergunta: "Em que cidade nasceu a banda <br><br> Charlie Brown Jr.?",
+        pergunta: "Em que cidade nasceu a banda Charlie Brown Jr.?",
         respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"],
         correta: "Santos"
       },
       {
-        pergunta: "Qual o nome do primeiro <br><br> álbum da banda?",
+        pergunta: "Qual o nome do primeiro álbum da banda?",
         respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"],
         correta: "Transpiração Contínua Prolongada"
       },
@@ -251,61 +254,74 @@ header h1 {
       },
             
       {
-        pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?",
+        pergunta: "Qual dessas músicas tem a participaão da Negra Li?",
         respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"],
         correta: "Não é Sério"
       },
       
       {
-        pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?",
+        pergunta: "Qual o nome do DVD ao vivo lançado em 2003?",
         respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"],
         correta: "Acústico MTV"
       },
       {
-        pergunta: "Qual dessas músicas é do álbum <br><br> Bocas Ordinárias?",
+        pergunta: "Qual dessas músicas é do álbum 'Bocas Ordinárias'?",
         respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", "Tarja Preta"],
         correta: "Tarja Preta"
       },
             
       {
-        pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?",
+        pergunta: "Em qual desses álbuns está a música 'Céu Azul'?",
         respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"],
         correta: "Musica Popular Caiçara"
       },
       {
-        pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?",
+        pergunta: "Qual gravadora lançou os primeiros álbuns do Charlie Brown Jr.?",
         respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"],
         correta: "Virgin Records"
       },
       {
-        pergunta: "O que significa CBJR?",
-        respostas: ["Coletivo Brasileiro de Juventude Revolucionária", "Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Cultura Brasileira Jovem de Rua"],
-        correta: "Charlie Brown Jr"
+        pergunta: "O que significa 'CBJR'?",
+        respostas: ["Charlie Brown Jr.", "Clube Brasileiro de Jovens Rebeldes", "Coletivo Brasileiro de Juventude Revolucionária", "Cultura Brasileira Jovem de Rua"],
+        correta: "Charlie Brown Jr."
       },
       
       ];
 
-    const quoteElement = document.getElementById('quote');
-    const quotes = [
-      "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
-      "Não tão complicado demais, mas nem tão simples assim.",
-      "Mas um homem de verdade não se faz só com palavras.",
-      "Quem é de verdade sabe quem é de mentira."
-      "Deixem-me exercer minha loucura em paz!",
-      "Dias e noites, pensando no que fiz, eu sou um vencedor, eu lutei pelo que eu quis."
-      "Aquele tempo eu não podia fazer mais por nós, eu estava errado e você não tem que me perdoar...",
-      "Eu me flagrei pensando em você em tudo o que eu queria te dizer...",
-      "Sem neurose. Cada um sabe o dom, o tom e o tamanho da dose."
-      "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível."
-      "Ela tem força, ela tem sensibilidade, ela é guerreira. Ela é uma deusa, ela é mulher de verdade.",
-      "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
-      "Eles querem que você se sinta mal, pois assim eles se sentem bem."
-    ];
-    let quoteIndex = 0;
-    setInterval(() => {
-      quoteElement.textContent = quotes[quoteIndex];
-      quoteIndex = (quoteIndex + 1) % quotes.length;
-    }, 10000);
+   const quoteElement = document.getElementById('quote');
+const quotes = [
+  "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
+  "Ela tem força, ela tem sensibilidade, ela é guerreira. Ela é uma deusa, ela é mulher de verdade.",
+  "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
+  "Eles querem que você se sinta mal, pois assim eles se sentem bem."
+];
+
+let shuffledQuotes = [];
+let quoteIndex = 0;
+
+// Função para embaralhar as frases
+function shuffleQuotes() {
+  shuffledQuotes = [...quotes]; // copia o array original
+  for (let i = shuffledQuotes.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledQuotes[i], shuffledQuotes[j]] = [shuffledQuotes[j], shuffledQuotes[i]];
+  }
+  quoteIndex = 0; // reinicia o índice
+}
+
+// Embaralha ao iniciar
+shuffleQuotes();
+
+// Exibe uma frase a cada 10 segundos
+setInterval(() => {
+  if (quoteIndex >= shuffledQuotes.length) {
+    shuffleQuotes(); // reembaralha se terminou a lista
+  }
+
+  quoteElement.textContent = shuffledQuotes[quoteIndex];
+  quoteIndex++;
+}, 10000); // tempo em milissegundos (10000 = 10s)
+
 
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score');
