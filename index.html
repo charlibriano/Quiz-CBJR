@@ -310,18 +310,19 @@ function shuffleQuotes(arr) {
   }
 }
 
-shuffleQuotes(quotes); // Embaralha as frases no início
-
+// Função para exibir uma nova citação
 let quoteIndex = 0;
-
-setInterval(() => {
+function changeQuote() {
   quoteElement.textContent = quotes[quoteIndex];
   quoteIndex = (quoteIndex + 1) % quotes.length;
   if (quoteIndex === 0) {
-    shuffleQuotes(quotes); // Reembaralha as frases quando todas forem mostradas
+    shuffleQuotes(quotes); // Embaralha novamente as frases
   }
-}, 10000);
+}
 
+// Exibe a primeira citação e muda a cada 10 segundos
+setInterval(changeQuote, 10000);
+changeQuote(); // Exibe a primeira citação imediatamente
 
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score');
