@@ -302,12 +302,26 @@ const quotes = [
   "Eles querem que você se sinta mal, pois assim eles se sentem bem."
 ];
 
+// Função para embaralhar as frases
+function shuffleQuotes(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]]; // Troca os elementos
+  }
+}
+
+shuffleQuotes(quotes); // Embaralha as frases no início
+
 let quoteIndex = 0;
 
 setInterval(() => {
   quoteElement.textContent = quotes[quoteIndex];
   quoteIndex = (quoteIndex + 1) % quotes.length;
+  if (quoteIndex === 0) {
+    shuffleQuotes(quotes); // Reembaralha as frases quando todas forem mostradas
+  }
 }, 10000);
+
 
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score');
