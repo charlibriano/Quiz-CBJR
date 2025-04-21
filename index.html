@@ -301,11 +301,31 @@ header h1 {
       "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
       "Eles querem que você se sinta mal, pois assim eles se sentem bem."
     ];
-    let quoteIndex = 0;
-    setInterval(() => {
-      quoteElement.textContent = quotes[quoteIndex];
-      quoteIndex = (quoteIndex + 1) % quotes.length;
-    }, 10000);
+    let shuffledQuotes = [];
+let quoteIndex = 0;
+
+// Função para embaralhar as frases
+function shuffleQuotes() {
+  shuffledQuotes = [...quotes]; // copia o array original
+  for (let i = shuffledQuotes.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledQuotes[i], shuffledQuotes[j]] = [shuffledQuotes[j], shuffledQuotes[i]];
+  }
+  quoteIndex = 0; // reinicia o índice
+}
+
+// Embaralha ao iniciar
+shuffleQuotes();
+
+// Exibe uma frase a cada 10 segundos
+setInterval(() => {
+  if (quoteIndex >= shuffledQuotes.length) {
+    shuffleQuotes(); // reembaralha se terminou a lista
+  }
+
+  quoteElement.textContent = shuffledQuotes[quoteIndex];
+  quoteIndex++;
+}, 10000); // tempo em milissegundos (10000 = 10s)
 
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score');
