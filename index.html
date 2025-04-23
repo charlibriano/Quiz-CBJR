@@ -443,6 +443,25 @@ changeQuote(); // Exibe a primeira citação imediatamente
       shuffleArray(questions);
       showQuestion();
     }
+
+    function changeBackgroundImage() {
+      const images = ['url("fundo-cbjr.jpg")', 'url("fundo-cbjr2.jpg")'];
+      let currentIndex = 0;
+      
+      setInterval(() => {
+        // Alterar a imagem de fundo
+        document.body.style.backgroundImage = images[currentIndex];
+        
+        // Alterna o índice para a próxima imagem
+        currentIndex = (currentIndex + 1) % images.length;
+      }, 10000); // Troca a imagem a cada 10 segundos (10000ms)
+    }
+
+    // Chama a função assim que a página carregar
+    window.onload = changeBackgroundImage;
+  </script>
+
+
   </script>
 </body>
 </html>
