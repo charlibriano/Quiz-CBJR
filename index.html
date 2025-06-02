@@ -26,6 +26,10 @@
       --cor-borda-quote: #d8c938;
       --cor-fundo-quote: #fcf4a3;
       --cor-texto-quote: #222;
+      /* Novas variáveis para o equalizador */
+      --equalizer-bar-color: #f1c40f; /* Cor das barras do equalizador */
+      --equalizer-background: #1a1a1a; /* Fundo do equalizador/mesa de som */
+      --equalizer-grid-color: rgba(255, 255, 255, 0.1); /* Linhas da grade */
     }
 
     @font-face {
@@ -67,8 +71,8 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
-      /* Ajuste o padding-bottom para ser maior que a altura do audio player */
-      padding-bottom: 200px; /* Aumentado para garantir espaço para o player fixo */
+      /* Ajuste o padding-bottom para ser maior que a altura do audio player + equalizador */
+      padding-bottom: 250px; /* Aumentado para garantir espaço para o player fixo e equalizador */
       transition: background-image 1s ease-in-out;
     }
 
@@ -182,8 +186,12 @@
       padding: 20px;
       box-shadow: 0 -2px 10px rgba(0,0,0,0.6);
       z-index: 999;
-      /* Ajuste a margem superior se necessário, mas o padding-bottom do body é mais importante */
-      /* margin-top: 40px; -- REMOVIDO pois fixed position não interage bem com margin-top */
+      display: flex; /* Para alinhar o player e o equalizador */
+      flex-direction: column; /* Coloca o equalizador abaixo do player */
+      align-items: center; /* Centraliza o conteúdo */
+      gap: 15px; /* Espaço entre o player e o equalizador */
+      /* Altura ajustada para acomodar o equalizador */
+      height: auto; /* Deixa a altura se ajustar ao conteúdo */
     }
 
     /* Adicionado/melhorado estilo para o nome da música */
@@ -192,10 +200,24 @@
       font-size: 1.1em !important;
       font-weight: bold;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-      margin-bottom: 10px;
+      margin-bottom: 0; /* Remover margem extra se houver */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      width: 80%; /* Para que não estoure em telas pequenas */
+    }
+
+    #audio {
+      width: 80%; /* Ajusta a largura do player de áudio */
+      max-width: 600px;
+    }
+
+    #equalizer-canvas {
+      width: 100%; /* Ocupa a largura total do wrapper */
+      height: 80px; /* Altura fixa para o equalizador */
+      background: var(--equalizer-background);
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     #quote {
@@ -208,8 +230,8 @@
       border-radius: 8px;
       box-shadow: -3px 3px 10px rgba(0,0,0,0.3);
       position: fixed;
-      /* Ajuste o bottom para que a citação não seja coberta pelo player de áudio */
-      bottom: 180px; /* Aumentado para garantir espaço */
+      /* Ajuste o bottom para que a citação não seja coberta pelo player de áudio + equalizador */
+      bottom: 230px; /* Aumentado para garantir espaço */
       left: 50%;
       transform: translateX(-50%) rotate(-1.5deg);
       z-index: 1000;
@@ -241,14 +263,22 @@
       }
 
       #quote {
-        /* Reajuste o bottom para telas menores, considerando o player de áudio */
-        bottom: 120px; /* Ajuste para telas menores */
+        /* Reajuste o bottom para telas menores, considerando o player de áudio + equalizador */
+        bottom: 180px; /* Ajuste para telas menores */
         font-size: 1em;
         padding: 15px;
       }
 
       #audio-player-wrapper {
         padding: 10px;
+      }
+
+      #equalizer-canvas {
+        height: 60px; /* Reduz a altura em telas menores */
+      }
+
+      body {
+        padding-bottom: 200px; /* Ajuste para telas menores */
       }
     }
 
@@ -270,8 +300,16 @@
 
       #quote {
         width: 90%;
-        /* Reajuste o bottom para telas menores, considerando o player de áudio */
-        bottom: 100px; /* Ajuste para telas muito pequenas */
+        /* Reajuste o bottom para telas menores, considerando o player de áudio + equalizador */
+        bottom: 150px; /* Ajuste para telas muito pequenas */
+      }
+
+      #equalizer-canvas {
+        height: 50px; /* Reduz ainda mais a altura em telas muito pequenas */
+      }
+
+      body {
+        padding-bottom: 180px; /* Ajuste para telas muito pequenas */
       }
     }
   </style>
@@ -298,9 +336,10 @@
   <div id="audio-player-wrapper">
     <p id="current-song"></p>
     <audio id="audio" controls></audio>
-  </div>
+    <canvas id="equalizer-canvas"></canvas> </div>
 
   <script>
+    // --- Dados do Quiz (mantidos como estavam) ---
     const questions = [
       { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", 
         respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], 
@@ -449,14 +488,22 @@
     const audio = document.getElementById('audio');
     const currentSongText = document.getElementById('current-song');
 
+    // --- Elementos do Equalizador ---
+    const canvas = document.getElementById('equalizer-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    let audioContext;
+    let analyser;
+    let source;
+    let frequencyData;
+
     let playlist = [];
     let currentIndex = 0;
     let isPlaying = false;
     let currentQuestion = 0;
     let score = 0;
-    let shuffledQuestions = []; // Para armazenar as perguntas embaralhadas
+    let shuffledQuestions = [];
 
-    // Pré-carrega as imagens de fundo
     const backgroundImages = [
       'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg',
       'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr2.jpg'
@@ -485,7 +532,6 @@
       });
     }
 
-    // Carrega a primeira imagem de fundo assim que a página é carregada
     window.onload = () => {
       preloadImages(backgroundImages, () => {
         document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
@@ -494,6 +540,11 @@
       shuffleQuotes(quotes);
       changeQuote();
       setInterval(changeQuote, 10000);
+      
+      // Ajusta o tamanho do canvas para corresponder ao seu CSS real
+      // É importante fazer isso para evitar distorção
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
     };
 
     function changeBackgroundImageInterval() {
@@ -515,7 +566,9 @@
         playlist = data;
         if (playlist.length > 0) {
           currentIndex = Math.floor(Math.random() * playlist.length);
-          loadSong();
+          // O player de áudio não inicia a música até que o usuário clique em "Iniciar Quiz"
+          // ou em play diretamente no player
+          loadSong(); 
         } else {
           console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
           currentSongText.textContent = 'ERRO: Playlist vazia. Verifique o arquivo playlist.json.';
@@ -535,14 +588,55 @@
       const song = playlist[currentIndex];
       currentSongText.textContent = `MÚSICA: ${song.title}`;
       audio.src = song.url;
-      if (isPlaying) audio.play();
+      // Iniciar a análise de áudio apenas quando a primeira música for carregada
+      // e o contexto de áudio for iniciado (geralmente após a primeira interação do usuário).
     }
 
-    audio.addEventListener('play', () => isPlaying = true);
-    audio.addEventListener('pause', () => isPlaying = false);
+    // --- Web Audio API Setup ---
+    function setupAudioContext() {
+      // Cria um AudioContext se ainda não existir.
+      // O AudioContext deve ser criado ou resumido a partir de um gesto do usuário.
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        source = audioContext.createMediaElementSource(audio); // Conecta o elemento <audio> ao AudioContext
+
+        // Conecta os nós: AudioSource -> Analyser -> Destino (alto-falantes)
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+
+        analyser.fftSize = 256; // Tamanho do FFT (Fast Fourier Transform). Quanto maior, mais detalhe de frequência.
+                                // Deve ser uma potência de 2. Valores comuns: 32, 64, 128, 256, 512, 1024, 2048.
+        
+        const bufferLength = analyser.frequencyBinCount; // Metade do fftSize (128 para fftSize=256)
+        frequencyData = new Uint8Array(bufferLength); // Array para armazenar os dados de frequência
+      }
+
+      // Garante que o contexto de áudio está ativo (importante para autoplay ou quando o usuário interage)
+      if (audioContext.state === 'suspended') {
+        audioContext.resume().then(() => {
+          console.log('AudioContext resumed successfully');
+        }).catch(err => {
+          console.error('Failed to resume AudioContext:', err);
+        });
+      }
+    }
+
+    // Chamado quando a música começa a tocar
+    audio.addEventListener('play', () => {
+      isPlaying = true;
+      setupAudioContext(); // Configura o AudioContext na primeira vez que o usuário dá play
+      drawEqualizer(); // Começa a desenhar o equalizador
+    });
+
+    audio.addEventListener('pause', () => {
+      isPlaying = false;
+    });
+
     audio.addEventListener('ended', () => {
+      isPlaying = false; // Garante que a flag seja desligada
       if (playlist.length > 0) {
-        currentIndex = Math.floor(Math.random() * playlist.length);
+        currentIndex = (currentIndex + 1) % playlist.length; // Próxima música na ordem
         loadSong();
         audio.play();
       } else {
@@ -550,6 +644,57 @@
       }
     });
 
+    // --- Função de Desenho do Equalizador ---
+    function drawEqualizer() {
+      // Se o analisador não estiver pronto ou a música não estiver tocando, limpa e para.
+      if (!analyser || !isPlaying) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
+        return;
+      }
+
+      requestAnimationFrame(drawEqualizer); // Loop de animação
+
+      analyser.getByteFrequencyData(frequencyData); // Preenche frequencyData com os dados de frequência
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas a cada frame
+
+      const barWidth = (canvas.width / frequencyData.length) * 2.5; // Largura das barras (ajustado para melhor visualização)
+      let x = 0; // Posição X inicial
+
+      // Desenha a grade de fundo (opcional, para efeito de mesa de som)
+      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--equalizer-grid-color');
+      ctx.lineWidth = 1;
+      const numHorizontalLines = 4;
+      for (let i = 0; i <= numHorizontalLines; i++) {
+          ctx.beginPath();
+          ctx.moveTo(0, (canvas.height / numHorizontalLines) * i);
+          ctx.lineTo(canvas.width, (canvas.height / numHorizontalLines) * i);
+          ctx.stroke();
+      }
+
+      // Desenha as barras do equalizador
+      for (let i = 0; i < frequencyData.length; i++) {
+        // Mapeia o valor da frequência (0-255) para a altura da barra no canvas
+        // O valor 255 é o máximo (volume máximo para aquela frequência)
+        // Usamos Math.pow para dar uma curva mais agradável, realçando as variações em volumes mais baixos
+        let barHeight = (frequencyData[i] / 255) * canvas.height * 0.9; // 90% da altura do canvas
+        barHeight = Math.pow(barHeight, 1.2); // Elevado a uma potência para uma resposta visual mais dinâmica
+
+        // Cor das barras
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--equalizer-bar-color');
+        
+        // Desenha o retângulo da barra
+        // x: Posição X
+        // canvas.height - barHeight: Posição Y (desenhando de baixo para cima)
+        // barWidth: Largura
+        // barHeight: Altura
+        ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight); // Subtrai 2 para um pequeno espaçamento entre as barras
+
+        x += barWidth; // Move para a próxima posição X
+      }
+    }
+
+    // --- Funções do Quiz (mantidas como estavam) ---
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -563,8 +708,11 @@
       shuffleArray(shuffledQuestions);
       showQuestion();
       if (playlist.length > 0) {
+        // Inicia a reprodução e a análise de áudio aqui
         loadSong();
         audio.play();
+        setupAudioContext(); // Garante que o AudioContext seja configurado ao iniciar o quiz
+        drawEqualizer(); // Inicia o desenho do equalizador
       } else {
         console.warn('Não foi possível iniciar a música: playlist vazia.');
         currentSongText.textContent = 'MÚSICA: Não disponível (Erro na playlist)';
@@ -654,6 +802,13 @@
       shuffleArray(shuffledQuestions);
       showQuestion();
       updateQuizInfo();
+      // O áudio deve continuar tocando após o restart, ou ser reiniciado se necessário
+      if (playlist.length > 0 && !isPlaying) {
+        loadSong();
+        audio.play();
+        setupAudioContext(); // Reconfigura o AudioContext se for reiniciado
+        drawEqualizer(); // Reinicia o desenho
+      }
     }
 
     // Funções de citação
