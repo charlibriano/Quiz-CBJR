@@ -136,6 +136,18 @@
       color: var(--cor-texto-escuro);
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
+      
+      /* --- PROPRIEDADES PARA MANTER O TAMANHO CONSISTENTE --- */
+      min-width: 250px; /* Largura mínima para os botões */
+      height: 80px; /* Altura fixa para os botões */
+      display: flex; /* Habilita o flexbox para centralização */
+      align-items: center; /* Centraliza o texto verticalmente */
+      justify-content: center; /* Centraliza o texto horizontalmente */
+      text-align: center; /* Garante que o texto multi-linha seja centralizado */
+      box-sizing: border-box; /* Inclui padding e borda no tamanho total */
+      white-space: normal; /* Permite a quebra de linha normal */
+      word-wrap: break-word; /* Força a quebra de palavras longas */
+      /* --- FIM DAS PROPRIEDADES --- */
     }
 
     .question button:hover:not(:disabled) {
@@ -294,8 +306,11 @@
       }
 
       .question button {
-        padding: 10px 20px;
-        font-size: 1em;
+        /* Remove a largura mínima e altura fixa para melhor responsividade em mobile */
+        min-width: unset; 
+        width: 100%; /* Faz os botões ocuparem a largura total disponível */
+        height: auto; /* A altura se ajusta ao conteúdo, mas ainda com padding */
+        padding: 12px 20px; /* Ajusta um pouco o padding para telas menores */
       }
 
       #quote {
@@ -325,8 +340,8 @@
       }
 
       .question button {
-        font-size: 0.9em;
-        padding: 8px 15px;
+        font-size: 0.95em; /* Reduz um pouco mais o tamanho da fonte */
+        padding: 10px 15px;
       }
 
       #start-btn, #restart-btn {
