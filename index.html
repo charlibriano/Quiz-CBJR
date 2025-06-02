@@ -492,14 +492,14 @@
     const canvas = document.getElementById('equalizer-canvas');
     const ctx = canvas.getContext('2d');
     
-    let audioContext = null; // Inicializa como null, será criado na primeira interação
+    let audioContext = null;
     let analyser;
-    let source;
+    let sourceNode; // Renomeado para evitar conflito com 'source' em outros contextos
     let frequencyData;
+    let animationFrameId; // Para controlar o loop de animação
 
     let playlist = [];
     let currentIndex = 0;
-    let isPlaying = false; // Flag para controlar se a música está tocando
     let currentQuestion = 0;
     let score = 0;
     let shuffledQuestions = [];
@@ -542,6 +542,7 @@
       setInterval(changeQuote, 10000);
       
       // Ajusta o tamanho do canvas para corresponder ao seu CSS real
+      // É importante fazer isso para evitar distorção
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
     };
@@ -565,7 +566,7 @@
         playlist = data;
         if (playlist.length > 0) {
           currentIndex = Math.floor(Math.random() * playlist.length);
-          loadSong(false); // Não tenta tocar a música ainda
+          loadSong(); // Apenas carrega, não toca ainda
         } else {
           console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
           currentSongText.textContent = 'ERRO: Playlist vazia. Verifique o arquivo playlist.json.';
@@ -576,9 +577,7 @@
         currentSongText.textContent = 'ERRO: Não foi possível carregar a playlist. Tente novamente mais tarde.';
       });
 
-    // Função para carregar a música
-    // O parâmetro `shouldPlay` indica se a música deve tentar tocar imediatamente
-    function loadSong(shouldPlay) {
+    function loadSong() {
       if (!playlist.length) {
         console.warn('loadSong chamado com playlist vazia, impossível carregar música.');
         currentSongText.textContent = 'MÚSICA: N/A (Erro de playlist)';
@@ -587,86 +586,102 @@
       const song = playlist[currentIndex];
       currentSongText.textContent = `MÚSICA: ${song.title}`;
       audio.src = song.url;
-      audio.load(); // Carrega a música para estar pronta para tocar
-
-      if (shouldPlay) {
-        audio.play().then(() => {
-          isPlaying = true;
-          console.log('Música iniciada via loadSong e play.');
-          // Garante que o AudioContext esteja ativo e o equalizador desenhando
-          setupAudioContext();
-          drawEqualizer();
-        }).catch(e => {
-          console.warn('Erro ao tentar tocar música via loadSong:', e.message);
-          // O player de áudio do navegador pode ter restrições, o usuário terá que dar play manualmente
-          isPlaying = false;
-        });
-      } else {
-        isPlaying = false; // Garante que a flag esteja false se não for para tocar
-      }
+      // Não chame audio.load() aqui, deixe audio.play() lidar com isso.
     }
 
     // --- Web Audio API Setup ---
-    function setupAudioContext() {
-      // Cria um AudioContext se ainda não existir.
-      // E tenta resumir se estiver suspenso.
-      if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        
-        // Conecta o elemento <audio> ao AudioContext pela primeira vez
-        // Certifique-se de que 'source' só é criado uma vez
-        try {
-            source = audioContext.createMediaElementSource(audio); 
-            source.connect(analyser);
-            analyser.connect(audioContext.destination);
-            analyser.fftSize = 256; 
-            frequencyData = new Uint8Array(analyser.frequencyBinCount);
-            console.log("AudioContext e Web Audio API configurados.");
-            canvas.style.display = 'block'; // Mostra o equalizador
-        } catch (e) {
-            console.error("Erro ao configurar AudioContext ou conectar nós:", e);
-            canvas.style.display = 'none'; // Esconde se der erro
-            alert("Não foi possível inicializar o equalizador. Certifique-se de que o áudio está tocando e o navegador permite.");
-        }
-      }
+    function initAudioContext() {
+        if (!audioContext) {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                sourceNode = audioContext.createMediaElementSource(audio);
+                
+                // Conecta os nós: AudioSource -> Analyser -> Destino (alto-falantes)
+                sourceNode.connect(analyser);
+                analyser.connect(audioContext.destination);
 
-      // Tenta resumir o AudioContext se estiver suspenso (necessário para a maioria dos navegadores)
-      if (audioContext.state === 'suspended') {
-        audioContext.resume().then(() => {
-          console.log('AudioContext resumed successfully.');
-          canvas.style.display = 'block'; // Garante que o equalizador esteja visível
-        }).catch(err => {
-          console.error('Failed to resume AudioContext:', err);
-          canvas.style.display = 'none'; // Esconde se não conseguir resumir
-        });
-      }
+                analyser.fftSize = 256; 
+                frequencyData = new Uint8Array(analyser.frequencyBinCount);
+                console.log("AudioContext e Web Audio API configurados.");
+                canvas.style.display = 'block'; // Mostra o equalizador
+            } catch (e) {
+                console.error("Erro ao configurar AudioContext ou conectar nós:", e);
+                canvas.style.display = 'none'; // Esconde se der erro
+                //alert("Não foi possível inicializar o equalizador. Verifique o console para mais detalhes.");
+                return false; // Indica que a inicialização falhou
+            }
+        }
+        return true; // Indica que a inicialização foi bem-sucedida ou já estava feita
+    }
+
+    // Função para tentar iniciar a reprodução e resumir o AudioContext
+    function startAudioAndEqualizer() {
+        if (audioContext && audioContext.state === 'suspended') {
+            audioContext.resume().then(() => {
+                console.log('AudioContext resumed successfully.');
+                audio.play().then(() => {
+                    console.log('Música iniciada após resume do AudioContext.');
+                    drawEqualizer();
+                }).catch(e => {
+                    console.error('Erro ao tocar música após resume do AudioContext:', e.message);
+                    alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
+                });
+            }).catch(err => {
+                console.error('Falha ao resumir AudioContext:', err);
+                alert("Não foi possível ativar o áudio. Por favor, tente dar play diretamente no player de áudio.");
+            });
+        } else if (audioContext && audioContext.state === 'running') {
+            audio.play().then(() => {
+                console.log('Música iniciada diretamente (AudioContext já estava running).');
+                drawEqualizer();
+            }).catch(e => {
+                console.error('Erro ao tocar música (AudioContext já running):', e.message);
+                alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
+            });
+        } else {
+            console.log('AudioContext ainda não inicializado ou em estado inesperado. Tentando init e play.');
+            // Tenta inicializar e tocar. O 'play' listener fará o resto.
+            audio.play().then(() => {
+                console.log('Música iniciada. AudioContext será configurado pelo listener.');
+            }).catch(e => {
+                console.error('Erro ao tentar tocar música pela primeira vez:', e.message);
+                alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
+            });
+        }
     }
 
     // Listener para o evento 'play' do elemento de áudio
-    // Esta é a maneira mais confiável de garantir que o AudioContext seja ativado
+    // Este é o ponto mais confiável para iniciar o AudioContext e o equalizador
     audio.addEventListener('play', () => {
-      isPlaying = true;
-      setupAudioContext(); // Garante que o AudioContext esteja ativo
-      drawEqualizer(); // Começa a desenhar o equalizador
-      canvas.style.display = 'block'; // Mostra o equalizador ao dar play
-      console.log("Evento 'play' disparado. Música tocando e equalizador ativo.");
+        console.log("Evento 'play' do áudio disparado.");
+        if (initAudioContext()) { // Garante que o contexto esteja criado e conectado
+            if (audioContext.state === 'suspended') {
+                audioContext.resume().then(() => {
+                    console.log('AudioContext resumed no listener play.');
+                    drawEqualizer();
+                }).catch(err => {
+                    console.error('Falha ao resumir AudioContext no listener play:', err);
+                });
+            } else {
+                console.log('AudioContext já estava running no listener play.');
+                drawEqualizer();
+            }
+        }
     });
 
-    // Listener para o evento 'pause' do elemento de áudio
     audio.addEventListener('pause', () => {
-      isPlaying = false;
-      console.log("Música pausada.");
-      // O equalizador pode parar de desenhar ou mostrar um estado parado
+      cancelAnimationFrame(animationFrameId); // Para o loop de animação quando pausar
+      console.log("Música pausada. Equalizador parado.");
     });
 
-    // Listener para o evento 'ended' (música terminou)
     audio.addEventListener('ended', () => {
-      isPlaying = false;
+      cancelAnimationFrame(animationFrameId); // Para o loop de animação quando terminar
       console.log("Música terminou.");
       if (playlist.length > 0) {
         currentIndex = (currentIndex + 1) % playlist.length; // Próxima música na ordem
-        loadSong(true); // Carrega a próxima e tenta tocar
+        loadSong(); // Carrega a próxima
+        startAudioAndEqualizer(); // Tenta tocar a próxima
       } else {
         console.warn('Playlist vazia, não é possível tocar a próxima música.');
       }
@@ -674,14 +689,14 @@
 
     // --- Função de Desenho do Equalizador ---
     function drawEqualizer() {
-      // Para de desenhar se o áudio não estiver tocando ou se o analisador não estiver pronto
-      if (!analyser || !isPlaying) {
+      // Se o analisador não estiver pronto ou o contexto não estiver rodando, limpa e para.
+      if (!analyser || audioContext.state !== 'running') {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
-        // console.log("Equalizador parado (música pausada/não tocando).");
+        cancelAnimationFrame(animationFrameId);
         return;
       }
 
-      requestAnimationFrame(drawEqualizer); // Loop de animação
+      animationFrameId = requestAnimationFrame(drawEqualizer); // Loop de animação
 
       analyser.getByteFrequencyData(frequencyData); // Preenche frequencyData com os dados de frequência
 
@@ -729,8 +744,8 @@
       showQuestion();
       
       if (playlist.length > 0) {
-        loadSong(true); // Tenta carregar e tocar a primeira música
-        // O setupAudioContext e drawEqualizer serão chamados pelo evento 'play' do áudio
+        loadSong(); // Carrega a música
+        startAudioAndEqualizer(); // Tenta iniciar o áudio e o equalizador
       } else {
         console.warn('Não foi possível iniciar a música: playlist vazia.');
         currentSongText.textContent = 'MÚSICA: Não disponível (Erro na playlist)';
@@ -822,10 +837,10 @@
       updateQuizInfo();
       
       // Ao reiniciar, se a música não estava tocando, tenta iniciar
-      if (playlist.length > 0 && !isPlaying) {
-        loadSong(true); // Carrega e tenta tocar a música
+      if (playlist.length > 0) {
+        loadSong();
+        startAudioAndEqualizer(); 
       }
-      // Se já estava tocando, ela continua e o equalizador já está ativo
     }
 
     // Funções de citação
