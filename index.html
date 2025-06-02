@@ -58,8 +58,8 @@
       background-color: var(--cor-preto-principal);
       background-repeat: no-repeat;
       background-position: center center;
-      background-size: cover; /* ALTERADO: de 'contain' para 'cover' */
-      background-attachment: scroll; /* ALTERADO: de 'fixed' para 'scroll' (padrão) */
+      background-size: cover;
+      background-attachment: scroll;
       color: var(--cor-texto-claro);
       text-align: center;
       min-height: 100vh;
@@ -67,8 +67,8 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
-      padding-bottom: 140px;
-      transition: background-image 1s ease-in-out; /* Transição suave para a imagem de fundo */
+      padding-bottom: 120px; /* Ajuste o padding para o player de áudio fixo */
+      transition: background-image 1s ease-in-out;
     }
 
     header h1 {
@@ -80,7 +80,7 @@
       border-radius: 20px;
       display: inline-block;
       animation: pulse 2.5s infinite;
-      line-height: 1.2; /* Ajuste para o espaçamento entre as linhas */
+      line-height: 1.2;
     }
 
     .container {
@@ -92,9 +92,9 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
       margin-bottom: 40px;
       display: flex;
-      flex-direction: column; /* Para organizar o progresso e a pontuação */
+      flex-direction: column;
       align-items: center;
-      position: relative; /* Para posicionar a pontuação e progresso */
+      position: relative;
     }
 
     .quiz-info {
@@ -111,8 +111,8 @@
     
     .question {
       opacity: 1;
-      transition: opacity 0.5s ease-in-out; /* Animação de fade */
-      width: 100%; /* Garante que o contêiner de perguntas ocupe a largura */
+      transition: opacity 0.5s ease-in-out;
+      width: 100%;
     }
 
     .question.fade-out {
@@ -123,7 +123,7 @@
       font-size: 1.8em;
       font-family: 'Elektrix', sans-serif;
       margin-bottom: 25px;
-      line-height: 1.4; /* Ajuste para o espaçamento entre as linhas */
+      line-height: 1.4;
     }
 
     .question button {
@@ -178,21 +178,31 @@
       bottom: 0;
       width: 100%;
       background: var(--cor-fundo-audio-player);
-      padding: 20px;
+      padding: 15px 20px;
       box-shadow: 0 -2px 10px rgba(0,0,0,0.6);
       z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px; /* Menos espaço entre o nome da música e o player */
     }
 
-    /* Adicionado/melhorado estilo para o nome da música */
     #current-song {
-      color: var(--cor-texto-claro) !important; /* Força cor branca */
-      font-size: 1.1em !important; /* Garante tamanho legível */
+      color: var(--cor-texto-claro);
+      font-size: 1.1em;
       font-weight: bold;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* Ajuda na leitura */
-      margin-bottom: 10px; /* Espaçamento com o player */
-      white-space: nowrap; /* Evita quebra de linha se o nome for grande */
-      overflow: hidden; /* Esconde se o nome for muito grande */
-      text-overflow: ellipsis; /* Adiciona "..." se for cortado */
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+      margin-bottom: 5px; /* Ajustado para ter uma margem */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 80%;
+      text-align: center;
+    }
+
+    #audio {
+      width: 80%;
+      max-width: 600px;
     }
 
     #quote {
@@ -201,11 +211,11 @@
       font-family: 'Courier New', monospace;
       font-size: 1.1em;
       padding: 25px;
-      width: clamp(250px, 80%, 400px); /* Ajuste de largura responsivo */
+      width: clamp(250px, 80%, 400px);
       border-radius: 8px;
       box-shadow: -3px 3px 10px rgba(0,0,0,0.3);
       position: fixed;
-      bottom: 150px;
+      bottom: 150px; /* Ajuste para não cobrir o player de áudio */
       left: 50%;
       transform: translateX(-50%) rotate(-1.5deg);
       z-index: 1000;
@@ -237,13 +247,13 @@
       }
 
       #quote {
-        bottom: 100px; /* Ajusta a posição da citação em telas menores */
+        bottom: 100px; /* Ajuste para telas menores */
         font-size: 1em;
         padding: 15px;
       }
 
-      #audio-player-wrapper {
-        padding: 10px;
+      body {
+        padding-bottom: 100px; /* Ajuste para telas menores */
       }
     }
 
@@ -265,7 +275,11 @@
 
       #quote {
         width: 90%;
-        bottom: 80px;
+        bottom: 80px; /* Ajuste para telas muito pequenas */
+      }
+
+      body {
+        padding-bottom: 80px; /* Ajuste para telas muito pequenas */
       }
     }
   </style>
@@ -287,12 +301,12 @@
 
   <button id="start-btn" onclick="startQuiz()">Iniciar Quiz</button>
 
+  <div id="quote" class.quote></div>
+
   <div id="audio-player-wrapper">
     <p id="current-song"></p>
     <audio id="audio" controls></audio>
   </div>
-
-  <div id="quote" class="quote"></div>
 
   <script>
     const questions = [
@@ -445,15 +459,13 @@
 
     let playlist = [];
     let currentIndex = 0;
-    let isPlaying = false;
     let currentQuestion = 0;
     let score = 0;
-    let shuffledQuestions = []; // Para armazenar as perguntas embaralhadas
+    let shuffledQuestions = [];
 
-    // Pré-carrega as imagens de fundo
     const backgroundImages = [
-      'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg', // URL completa
-      'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr2.jpg' // URL completa
+      'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg',
+      'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr2.jpg'
     ];
     let currentBackgroundIndex = 0;
 
@@ -471,7 +483,7 @@
         };
         images[index].onerror = () => {
           console.warn(`Erro ao carregar imagem: ${url}. Verifique o caminho ou permissões.`);
-          loaded++; // Ainda incrementa para não travar o callback
+          loaded++;
           if (loaded === urls.length) {
             callback();
           }
@@ -479,25 +491,21 @@
       });
     }
 
-    // Carrega a primeira imagem de fundo assim que a página é carregada
     window.onload = () => {
-      // Usando URLs completas para as imagens também, caso você as tenha localmente ou no GitHub
-      // Se as imagens estão no mesmo diretório do HTML, você pode usar 'fundo-cbjr.jpg'
-      // Mas se estão no GitHub, as URLs completas são essenciais
       preloadImages(backgroundImages, () => {
         document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
-        changeBackgroundImageInterval(); // Inicia a troca de imagem após pré-carregar
+        changeBackgroundImageInterval();
       });
-      shuffleQuotes(quotes); // Embaralha as citações ao carregar
-      changeQuote(); // Exibe a primeira citação
-      setInterval(changeQuote, 10000); // Muda a citação a cada 10 segundos
+      shuffleQuotes(quotes);
+      changeQuote();
+      setInterval(changeQuote, 10000);
     };
 
     function changeBackgroundImageInterval() {
       setInterval(() => {
         currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundImages.length;
         document.body.style.backgroundImage = `url("${backgroundImages[currentBackgroundIndex]}")`;
-      }, 10000); // Troca a imagem a cada 10 segundos
+      }, 10000);
     }
 
     // Carrega a playlist de músicas
@@ -510,10 +518,9 @@
       })
       .then(data => {
         playlist = data;
-        // console.log('Playlist carregada:', playlist); // Descomente para depurar
         if (playlist.length > 0) {
           currentIndex = Math.floor(Math.random() * playlist.length);
-          loadSong();
+          loadSong(); // Apenas carrega, não toca ainda
         } else {
           console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
           currentSongText.textContent = 'ERRO: Playlist vazia. Verifique o arquivo playlist.json.';
@@ -524,32 +531,34 @@
         currentSongText.textContent = 'ERRO: Não foi possível carregar a playlist. Tente novamente mais tarde.';
       });
 
+    // Função para carregar a música
     function loadSong() {
       if (!playlist.length) {
-        console.warn('loadSong chamado com playlist vazia, impossível carregar música.'); // Descomente para depurar
-        currentSongText.textContent = 'MÚSICA: N/A (Erro de playlist)'; // Mensagem para caso de erro
+        console.warn('loadSong chamado com playlist vazia, impossível carregar música.');
+        currentSongText.textContent = 'MÚSICA: N/A (Erro de playlist)';
         return;
       }
       const song = playlist[currentIndex];
-      // console.log('Música carregada para exibição:', song.title); // Descomente para depurar
-      currentSongText.textContent = `MÚSICA: ${song.title}`;
+      // ATENÇÃO: Verifique se esta linha está correta no seu arquivo!
+      currentSongText.textContent = `MÚSICA: ${song.title}`; 
       audio.src = song.url;
-      if (isPlaying) audio.play();
     }
 
-    audio.addEventListener('play', () => isPlaying = true);
-    audio.addEventListener('pause', () => isPlaying = false);
+    // Listener para o evento 'ended' (música terminou)
     audio.addEventListener('ended', () => {
-      // Garante que a playlist não está vazia antes de tentar a próxima música
+      console.log("Música terminou.");
       if (playlist.length > 0) {
-        currentIndex = Math.floor(Math.random() * playlist.length);
-        loadSong();
-        audio.play();
+        currentIndex = (currentIndex + 1) % playlist.length; // Próxima música na ordem
+        loadSong(); // Carrega a próxima
+        audio.play().catch(e => {
+            console.warn('Erro ao tentar tocar próxima música automaticamente:', e.message);
+        });
       } else {
         console.warn('Playlist vazia, não é possível tocar a próxima música.');
       }
     });
 
+    // --- Funções do Quiz ---
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -559,18 +568,21 @@
 
     function startQuiz() {
       startBtn.style.display = 'none';
-      shuffledQuestions = [...questions]; // Cria uma cópia para embaralhar
+      shuffledQuestions = [...questions];
       shuffleArray(shuffledQuestions);
       showQuestion();
-      // Tenta tocar a música apenas se a playlist foi carregada
+      
       if (playlist.length > 0) {
-        loadSong();
-        audio.play();
+        loadSong(); // Carrega a música
+        audio.play().catch(e => {
+            console.error('Erro ao tentar tocar música automaticamente ao iniciar quiz:', e);
+            alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
+        });
       } else {
         console.warn('Não foi possível iniciar a música: playlist vazia.');
         currentSongText.textContent = 'MÚSICA: Não disponível (Erro na playlist)';
       }
-      updateQuizInfo(); // Atualiza a pontuação e progresso iniciais
+      updateQuizInfo();
     }
 
     function updateQuizInfo() {
@@ -581,7 +593,7 @@
     function showQuestion() {
       if (currentQuestion >= shuffledQuestions.length) {
         quiz.innerHTML = '';
-        progressText.textContent = ''; // Limpa o progresso
+        progressText.textContent = '';
         scoreText.textContent = `Pontuação final: ${score}/${shuffledQuestions.length}`;
         medalText.textContent =
           score === shuffledQuestions.length
@@ -597,8 +609,8 @@
       questionElement.classList.add('question');
       
       const questionData = shuffledQuestions[currentQuestion];
-      const shuffledAnswers = [...questionData.respostas]; // Cria uma cópia das respostas para embaralhar
-      shuffleArray(shuffledAnswers); // Embaralha as opções de resposta
+      const shuffledAnswers = [...questionData.respostas];
+      shuffleArray(shuffledAnswers);
 
       questionElement.innerHTML = `
         <h3>${questionData.pergunta}</h3>
@@ -609,31 +621,29 @@
         </div>
       `;
 
-      // Animação de fade-out da pergunta anterior (se houver)
       const currentQuizContent = quiz.querySelector('.question');
       if (currentQuizContent) {
         currentQuizContent.classList.add('fade-out');
         setTimeout(() => {
-          quiz.innerHTML = ''; // Limpa o conteúdo após a animação
+          quiz.innerHTML = '';
           quiz.appendChild(questionElement);
-          updateQuizInfo(); // Atualiza a pontuação e progresso
-        }, 500); // Tempo da transição
+          updateQuizInfo();
+        }, 500);
       } else {
         quiz.appendChild(questionElement);
-        updateQuizInfo(); // Atualiza a pontuação e progresso
+        updateQuizInfo();
       }
     }
 
     function checkAnswer(clickedButton, answer, correta) {
       const buttons = document.querySelectorAll('.question button');
       buttons.forEach(button => {
-        button.disabled = true; // Desabilita todos os botões após a escolha
+        button.disabled = true;
         if (button.textContent === answer) {
           if (answer === correta) {
             clickedButton.classList.add('correct');
           } else {
             clickedButton.classList.add('incorrect');
-            // Não revela a resposta correta se o usuário errou, conforme sua intenção
           }
         }
       });
@@ -642,8 +652,8 @@
       
       setTimeout(() => {
         currentQuestion++;
-        showQuestion(); // Chama a próxima pergunta
-      }, 1000); // Atraso de 1 segundo para o usuário ver o feedback
+        showQuestion();
+      }, 1000);
     }
 
     function restartQuiz() {
@@ -653,10 +663,17 @@
       progressText.textContent = '';
       medalText.textContent = '';
       restartBtn.style.display = 'none';
-      shuffledQuestions = [...questions]; // Cria uma nova cópia embaralhada
+      shuffledQuestions = [...questions];
       shuffleArray(shuffledQuestions);
       showQuestion();
-      updateQuizInfo(); // Atualiza a pontuação e progresso iniciais
+      updateQuizInfo();
+      
+      if (playlist.length > 0) {
+        loadSong(); // Carrega a música
+        audio.play().catch(e => {
+            console.warn('Erro ao tentar tocar música automaticamente ao reiniciar quiz:', e.message);
+        });
+      }
     }
 
     // Funções de citação
