@@ -58,7 +58,8 @@
             background-color: var(--cor-preto-principal);
             background-repeat: no-repeat;
             background-position: center center;
-            background-size: cover;
+            /* CORREÇÃO APLICADA AQUI: mudado de 'cover' para 'contain' */
+            background-size: contain;
             background-attachment: scroll;
             color: var(--cor-texto-claro);
             text-align: center;
@@ -291,22 +292,6 @@
             display: none; /* Inicia oculto */
             pointer-events: all; /* Garante que ele intercepte os cliques */
         }
-
-        /* Novo estilo para o overlay de desabilitação de cliques durante transições */
-        /* Removido este estilo, pois usaremos .quiz-disabled-overlay via JS/toggle */
-        /*
-        .quiz-disabled-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 50;
-            background-color: transparent;
-            cursor: not-allowed;
-        }
-        */
-
 
         /* Responsividade para telas menores */
         @media (max-width: 768px) {
