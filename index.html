@@ -243,9 +243,37 @@
         transition: opacity 0.5s ease-in-out;
         box-shadow: 0 0 20px rgba(0,0,0,0.5);
         text-align: center;
+        display: flex; /* Para centralizar o botão */
+        flex-direction: column; /* Para empilhar texto e botão */
+        gap: 20px; /* Espaço entre texto e botão */
     }
     #level-up-message.show {
         opacity: 1;
+    }
+    #level-up-message button { /* Estilo para o novo botão de continuar */
+        padding: 12px 25px;
+        font-size: 1.2em;
+        background-color: var(--cor-amarelo-cbjr);
+        color: var(--cor-texto-escuro);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+    #level-up-message button:hover {
+        transform: scale(1.05);
+    }
+
+    /* Estilo para cobrir o quiz e desabilitar cliques */
+    #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* Semi-transparente para focar na mensagem */
+        z-index: 1500; /* Entre o quiz e a mensagem de nível */
+        display: none; /* Inicia oculto */
     }
 
 
@@ -284,6 +312,10 @@
         font-size: 1.5em;
         padding: 15px 25px;
       }
+      #level-up-message button {
+        font-size: 1em;
+        padding: 10px 20px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -311,6 +343,10 @@
         font-size: 1.2em;
         padding: 10px 20px;
       }
+      #level-up-message button {
+        font-size: 0.9em;
+        padding: 8px 15px;
+      }
     }
   </style>
 </head>
@@ -335,6 +371,8 @@
   <div id="quote" class="quote"></div>
 
   <div id="level-up-message" style="display:none;"></div>
+
+  <div id="overlay" style="display:none;"></div>
 
   <div id="audio-player-wrapper">
     <p id="current-song"></p>
@@ -418,7 +456,8 @@
     const startBtn = document.getElementById('start-btn');
     const audio = document.getElementById('audio');
     const currentSongText = document.getElementById('current-song');
-    const levelUpMessage = document.getElementById('level-up-message'); // Nova referência
+    const levelUpMessage = document.getElementById('level-up-message');
+    const overlay = document.getElementById('overlay'); // Nova referência para o overlay
 
     let playlist = [];
     let currentIndex = 0;
@@ -426,6 +465,7 @@
     let currentQuestionIndexInLevel = 0;
     let score = 0;
     let currentLevelQuestions = [];
+    let quizPaused = false; // Nova variável de controle
 
     const backgroundImages = [
       'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg',
@@ -547,36 +587,51 @@
     }
 
     function loadLevel() {
-      // Se acabou de carregar um nível e não é o primeiro nível (ou seja, passou de nível)
-      if (currentLevel > 0 && currentLevel < questionsByLevel.length) {
-        showLevelUpMessage(); // Exibe a mensagem de "Próximo Nível"
-      }
-
       if (currentLevel >= questionsByLevel.length) {
         endGame(true);
         return;
       }
 
-      currentLevelQuestions = [...questionsByLevel[currentLevel]];
-      shuffleArray(currentLevelQuestions);
-      currentQuestionIndexInLevel = 0;
-      showQuestion();
-      updateQuizInfo();
+      // Se passou de nível (não é o primeiro nível) e ainda há níveis para jogar
+      if (currentLevel > 0) {
+          showLevelUpMessage();
+      } else {
+          // Se for o primeiro nível ou se for reiniciado, apenas mostra a pergunta
+          currentLevelQuestions = [...questionsByLevel[currentLevel]];
+          shuffleArray(currentLevelQuestions);
+          currentQuestionIndexInLevel = 0;
+          showQuestion();
+          updateQuizInfo();
+      }
     }
 
-    // Nova função para exibir a mensagem de "Próximo Nível"
     function showLevelUpMessage() {
-        levelUpMessage.textContent = `Nível ${currentLevel + 1}! Mandou bem!`;
-        levelUpMessage.style.display = 'block';
+        quizPaused = true; // Pausa o quiz
+        overlay.style.display = 'block'; // Mostra o overlay
+        
+        levelUpMessage.innerHTML = `
+            <div>Nível ${currentLevel + 1}! Mandou bem!</div>
+            <button onclick="continueQuiz()">Continuar</button>
+        `;
+        levelUpMessage.style.display = 'flex'; // Usar flex para centralizar o conteúdo e o botão
         levelUpMessage.classList.add('show');
+    }
 
-        // Esconde a mensagem após um tempo
+    function continueQuiz() {
+        levelUpMessage.classList.remove('show');
+        overlay.style.display = 'none'; // Esconde o overlay
+        quizPaused = false; // Despausa o quiz
+
+        // Espera a transição da mensagem de nível terminar antes de carregar a pergunta
         setTimeout(() => {
-            levelUpMessage.classList.remove('show');
-            setTimeout(() => {
-                levelUpMessage.style.display = 'none';
-            }, 500); // Tempo da transição CSS para fade out
-        }, 1500); // Tempo que a mensagem fica visível
+            levelUpMessage.style.display = 'none';
+            // Agora, sim, carrega as perguntas do novo nível
+            currentLevelQuestions = [...questionsByLevel[currentLevel]];
+            shuffleArray(currentLevelQuestions);
+            currentQuestionIndexInLevel = 0;
+            showQuestion();
+            updateQuizInfo();
+        }, 500); // Deve ser igual ou maior que o tempo de transição da classe 'show' no CSS
     }
 
     function updateQuizInfo() {
@@ -590,10 +645,12 @@
     }
 
     function showQuestion() {
+      if (quizPaused) return; // Não mostra a pergunta se o quiz estiver pausado
+
       if (currentQuestionIndexInLevel >= currentLevelQuestions.length) {
         currentLevel++;
-        loadLevel();
-        return;
+        loadLevel(); // Tenta carregar o próximo nível
+        return; // Retorna para esperar o continueQuiz
       }
 
       const questionElement = document.createElement('div');
@@ -627,6 +684,8 @@
     }
 
     function checkAnswer(clickedButton, answer, correta) {
+      if (quizPaused) return; // Não processa cliques se o quiz estiver pausado
+
       const buttons = document.querySelectorAll('.question button');
       buttons.forEach(button => {
         button.disabled = true;
@@ -637,7 +696,7 @@
         score++;
         setTimeout(() => {
           currentQuestionIndexInLevel++;
-          showQuestion();
+          showQuestion(); // Isso vai chamar loadLevel() se o nível terminou
         }, 1000);
       } else {
         clickedButton.classList.add('incorrect');
@@ -664,6 +723,8 @@
             medalText.textContent = "Game Over! Você errou uma pergunta. Tente novamente!";
         }
         restartBtn.style.display = 'block';
+        overlay.style.display = 'none'; // Garante que o overlay seja removido no fim do jogo
+        quizPaused = false; // Garante que o quiz não esteja pausado
     }
 
     function restartQuiz() {
