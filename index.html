@@ -260,6 +260,7 @@
             display: flex; /* Para centralizar o botão */
             flex-direction: column; /* Para empilhar texto e botão */
             gap: 20px; /* Espaço entre texto e botão */
+            pointer-events: all; /* Permite cliques nos botões da mensagem */
         }
         #level-up-message.show {
             opacity: 1;
@@ -288,6 +289,19 @@
             background-color: rgba(0, 0, 0, 0.6); /* Semi-transparente para focar na mensagem */
             z-index: 1500; /* Entre o quiz e a mensagem de nível */
             display: none; /* Inicia oculto */
+            pointer-events: all; /* Garante que ele intercepte os cliques */
+        }
+
+        /* Novo estilo para o overlay de desabilitação de cliques durante transições */
+        .quiz-disabled-overlay {
+            position: absolute; /* Deve ser absolute em relação ao .container */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 50; /* Acima dos botões de resposta, mas abaixo do overlay principal */
+            background-color: transparent; /* Invisível */
+            cursor: not-allowed; /* Indica que não é clicável */
         }
 
 
@@ -473,7 +487,7 @@
         const audio = document.getElementById('audio');
         const currentSongText = document.getElementById('current-song');
         const levelUpMessage = document.getElementById('level-up-message');
-        const overlay = document.getElementById('overlay'); // Nova referência para o overlay
+        const mainOverlay = document.getElementById('overlay'); // Renomeado para evitar confusão
 
         let playlist = [];
         let currentIndex = 0;
@@ -481,8 +495,11 @@
         let currentQuestionIndexInLevel = 0;
         let score = 0;
         let currentLevelQuestions = [];
-        let quizPaused = false; // Nova variável de controle
-        let lastIncorrectLevel = -1; // Armazena o nível em que o usuário errou pela última vez
+        let quizPaused = false;
+        let lastIncorrectLevel = -1;
+
+        // Variável para controlar se o quiz está em estado de transição/desabilitado
+        let isProcessingAnswer = false; 
 
         const backgroundImages = [
             'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg',
@@ -520,6 +537,8 @@
             shuffleQuotes(quotes);
             changeQuote();
             setInterval(changeQuote, 10000);
+            // Adicionar o event listener aqui para evitar o bug de clique
+            quiz.addEventListener('click', handleQuizClick); 
         };
 
         function changeBackgroundImageInterval() {
@@ -610,11 +629,9 @@
                 return;
             }
 
-            // Se passou de nível (não é o primeiro nível) e ainda há níveis para jogar
-            if (currentLevel > 0 && lastIncorrectLevel === -1) { // Só mostra mensagem se não for recomeço de nível
+            if (currentLevel > 0 && lastIncorrectLevel === -1) {
                 showLevelUpMessage();
             } else {
-                // Se for o primeiro nível, se for reiniciado, ou se o usuário tentou novamente o nível
                 currentLevelQuestions = [...questionsByLevel[currentLevel]];
                 shuffleArray(currentLevelQuestions);
                 currentQuestionIndexInLevel = 0;
@@ -624,32 +641,30 @@
         }
 
         function showLevelUpMessage() {
-            quizPaused = true; // Pausa o quiz
-            overlay.style.display = 'block'; // Mostra o overlay
+            quizPaused = true;
+            mainOverlay.style.display = 'block'; // Usar mainOverlay
             
             levelUpMessage.innerHTML = `
                 <div>Nível ${currentLevel + 1}! Mandou bem!</div>
                 <button onclick="continueQuiz()">Continuar</button>
             `;
-            levelUpMessage.style.display = 'flex'; // Usar flex para centralizar o conteúdo e o botão
+            levelUpMessage.style.display = 'flex';
             levelUpMessage.classList.add('show');
         }
 
         function continueQuiz() {
             levelUpMessage.classList.remove('show');
-            overlay.style.display = 'none'; // Esconde o overlay
-            quizPaused = false; // Despausa o quiz
+            mainOverlay.style.display = 'none'; // Usar mainOverlay
+            quizPaused = false;
 
-            // Espera a transição da mensagem de nível terminar antes de carregar a pergunta
             setTimeout(() => {
                 levelUpMessage.style.display = 'none';
-                // Agora, sim, carrega as perguntas do novo nível
                 currentLevelQuestions = [...questionsByLevel[currentLevel]];
                 shuffleArray(currentLevelQuestions);
                 currentQuestionIndexInLevel = 0;
                 showQuestion();
                 updateQuizInfo();
-            }, 500); // Deve ser igual ou maior que o tempo de transição da classe 'show' no CSS
+            }, 500);
         }
 
         function updateQuizInfo() {
@@ -663,12 +678,12 @@
         }
 
         function showQuestion() {
-            if (quizPaused) return; // Não mostra a pergunta se o quiz estiver pausado
+            if (quizPaused) return;
 
             if (currentQuestionIndexInLevel >= currentLevelQuestions.length) {
                 currentLevel++;
-                loadLevel(); // Tenta carregar o próximo nível
-                return; // Retorna para esperar o continueQuiz
+                loadLevel();
+                return;
             }
 
             const questionElement = document.createElement('div');
@@ -682,7 +697,7 @@
                 <h3>${questionData.pergunta}</h3>
                 <div class="answers-container">
                     ${shuffledAnswers.map(resposta => `
-                        <button onclick="checkAnswer(this, '${resposta}', '${questionData.correta}')">${resposta}</button>
+                        <button class="answer-button" data-answer="${resposta}" data-correct="${questionData.correta}">${resposta}</button>
                     `).join('')}
                 </div>
             `;
@@ -690,21 +705,50 @@
             const currentQuizContent = quiz.querySelector('.question');
             if (currentQuizContent) {
                 currentQuizContent.classList.add('fade-out');
+                // Desabilita cliques durante a transição de fade-out
+                isProcessingAnswer = true; // Define que está processando
+                quiz.style.pointerEvents = 'none'; // Desabilita cliques no container principal do quiz
+
                 setTimeout(() => {
                     quiz.innerHTML = '';
                     quiz.appendChild(questionElement);
                     updateQuizInfo();
+                    // Habilita cliques após a nova pergunta ser carregada e animação terminar
+                    isProcessingAnswer = false; // Libera o processamento
+                    quiz.style.pointerEvents = 'all'; // Habilita cliques novamente
                 }, 500);
             } else {
                 quiz.appendChild(questionElement);
                 updateQuizInfo();
+                isProcessingAnswer = false; // Garante que não esteja processando no início
+                quiz.style.pointerEvents = 'all'; // Garante que esteja habilitado no início
             }
         }
 
-        function checkAnswer(clickedButton, answer, correta) {
-            if (quizPaused) return; // Não processa cliques se o quiz estiver pausado
+        // NOVO: Função para lidar com cliques no container do quiz
+        function handleQuizClick(event) {
+            if (isProcessingAnswer) {
+                event.stopPropagation(); // Impede que o clique se propague se estiver processando
+                return;
+            }
 
-            const buttons = document.querySelectorAll('.question button');
+            const clickedButton = event.target.closest('.answer-button'); // Pega o botão clicado
+            if (clickedButton) {
+                // Se o clique foi em um botão de resposta
+                const answer = clickedButton.dataset.answer;
+                const correta = clickedButton.dataset.correct;
+                checkAnswer(clickedButton, answer, correta);
+            }
+            // Se o clique não foi em um botão de resposta, mas dentro do quiz, não faz nada
+        }
+
+        function checkAnswer(clickedButton, answer, correta) {
+            if (quizPaused || isProcessingAnswer) return; // Garante que não haja cliques duplicados
+
+            isProcessingAnswer = true; // Trava o quiz imediatamente
+            quiz.style.pointerEvents = 'none'; // Desabilita cliques no quiz container
+
+            const buttons = quiz.querySelectorAll('.answer-button'); // Usar a nova classe
             buttons.forEach(button => {
                 button.disabled = true;
             });
@@ -714,30 +758,33 @@
                 score++;
                 setTimeout(() => {
                     currentQuestionIndexInLevel++;
-                    showQuestion(); // Isso vai chamar loadLevel() se o nível terminou
+                    showQuestion(); 
                 }, 1000);
             } else {
                 clickedButton.classList.add('incorrect');
-                // Adicionei uma pequena pausa para o usuário ver o erro antes da mensagem de game over
                 setTimeout(() => {
-                    endGame(false); // Chama endGame com 'false' para indicar que o jogo não foi ganho
+                    endGame(false);
                 }, 1500);
             }
         }
 
         function endGame(isWinner) {
-            quizPaused = true; // Pausa o quiz
-            overlay.style.display = 'block'; // Mostra o overlay
-            quiz.innerHTML = ''; // Limpa a pergunta atual
+            quizPaused = true;
+            mainOverlay.style.display = 'block';
+            quiz.innerHTML = ''; 
             progressText.textContent = '';
             levelText.textContent = '';
             medalText.textContent = '';
             scoreText.textContent = `Pontuação: ${score}`;
             
+            // Libera o quiz após exibir a mensagem de endGame
+            isProcessingAnswer = false; 
+            quiz.style.pointerEvents = 'all'; 
+
             if (isWinner) {
                 medalText.textContent = "🏆 Parabéns! Você completou todos os níveis e é um verdadeiro fã de Charlie Brown Jr!";
                 restartBtn.textContent = 'Jogar Novamente';
-                restartBtn.onclick = restartQuiz; // Define a ação para reiniciar o quiz
+                restartBtn.onclick = restartQuiz;
                 restartBtn.style.display = 'block';
                 levelUpMessage.innerHTML = `
                     <div>Vitória! Você é fera!</div>
@@ -747,13 +794,13 @@
                 levelUpMessage.style.display = 'flex';
                 levelUpMessage.classList.add('show');
             } else {
-                lastIncorrectLevel = currentLevel; // Armazena o nível que o usuário errou
+                lastIncorrectLevel = currentLevel;
                 levelUpMessage.innerHTML = `
                     <div>Oops! Você errou!</div>
                     <button onclick="retryLevel()">Tentar Novamente (Este Nível)</button>
                     <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
                 `;
-                levelUpMessage.style.backgroundColor = 'var(--cor-vermelho-incorreto)'; // Cor para erro
+                levelUpMessage.style.backgroundColor = 'var(--cor-vermelho-incorreto)';
                 levelUpMessage.style.display = 'flex';
                 levelUpMessage.classList.add('show');
             }
@@ -761,32 +808,33 @@
 
         function retryLevel() {
             levelUpMessage.classList.remove('show');
-            overlay.style.display = 'none';
+            mainOverlay.style.display = 'none';
             quizPaused = false;
             
-            // Re-inicia o nível atual
-            currentQuestionIndexInLevel = 0; // Volta para a primeira pergunta do nível atual
-            currentLevelQuestions = [...questionsByLevel[currentLevel]]; // Recarrega e embaralha as perguntas do nível
+            currentQuestionIndexInLevel = 0;
+            currentLevelQuestions = [...questionsByLevel[currentLevel]];
             shuffleArray(currentLevelQuestions);
             
             showQuestion();
             updateQuizInfo();
-            lastIncorrectLevel = -1; // Reseta a flag de nível incorreto
+            lastIncorrectLevel = -1;
         }
 
         function restartQuiz() {
             currentLevel = 0;
             currentQuestionIndexInLevel = 0;
             score = 0;
-            lastIncorrectLevel = -1; // Reseta a flag
+            lastIncorrectLevel = -1;
             scoreText.textContent = '';
             progressText.textContent = '';
             levelText.textContent = '';
             medalText.textContent = '';
             restartBtn.style.display = 'none';
-            levelUpMessage.style.display = 'none'; // Esconde a mensagem de nível/game over
-            overlay.style.display = 'none'; // Esconde o overlay
-            quizPaused = false; // Garante que o quiz não esteja pausado
+            levelUpMessage.style.display = 'none';
+            mainOverlay.style.display = 'none';
+            quizPaused = false;
+            isProcessingAnswer = false; // Reseta também essa flag
+            quiz.style.pointerEvents = 'all'; // Garante que o quiz esteja habilitado
             startQuiz();
             
             if (playlist.length > 0) {
