@@ -1,786 +1,811 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz Charlie Brown Jr</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Charlie Brown Jr</title>
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JCN94Y3P0"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-1JCN94Y3P0');
-  </script>
-  <style>
-    /* Variáveis CSS para facilitar a manutenção */
-    :root {
-      --cor-amarelo-cbjr: #f1c40f;
-      --cor-preto-principal: black;
-      --cor-verde-correto: #2ecc71;
-      --cor-vermelho-incorreto: #e74c3c;
-      --cor-fundo-transparente: rgba(0, 0, 0, 0.5);
-      --cor-fundo-audio-player: rgba(0, 0, 0, 0.95);
-      --cor-texto-claro: white;
-      --cor-texto-escuro: black;
-      --cor-borda-quote: #d8c938;
-      --cor-fundo-quote: #fcf4a3;
-      --cor-texto-quote: #222;
-    }
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JCN94Y3P0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1JCN94Y3P0');
+  </script>
+  <style>
+    /* Variáveis CSS para facilitar a manutenção */
+    :root {
+      --cor-amarelo-cbjr: #f1c40f;
+      --cor-preto-principal: black;
+      --cor-verde-correto: #2ecc71;
+      --cor-vermelho-incorreto: #e74c3c;
+      --cor-fundo-transparente: rgba(0, 0, 0, 0.5);
+      --cor-fundo-audio-player: rgba(0, 0, 0, 0.95);
+      --cor-texto-claro: white;
+      --cor-texto-escuro: black;
+      --cor-borda-quote: #d8c938;
+      --cor-fundo-quote: #fcf4a3;
+      --cor-texto-quote: #222;
+    }
 
-    @font-face {
-      font-family: 'Elektrix';
-      src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff2') format('woff2'),
-           url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff') format('woff'),
-           url('https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR/Elektrix%20Bold.ttf') format('truetype');
-      font-weight: bold;
-      font-display: swap;
-    }
+    @font-face {
+      font-family: 'Elektrix';
+      src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff2') format('woff2'),
+           url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff') format('woff'),
+           url('https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR/Elektrix%20Bold.ttf') format('truetype');
+      font-weight: bold;
+      font-display: swap;
+    }
 
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        text-shadow: 3px 3px 15px var(--cor-preto-principal);
-      }
-      50% {
-        transform: scale(1.08);
-        text-shadow: 3px 3px 25px var(--cor-amarelo-cbjr);
-      }
-      100% {
-        transform: scale(1);
-        text-shadow: 3px 3px 15px var(--cor-preto-principal);
-      }
-    }
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        text-shadow: 3px 3px 15px var(--cor-preto-principal);
+      }
+      50% {
+        transform: scale(1.08);
+        text-shadow: 3px 3px 25px var(--cor-amarelo-cbjr);
+      }
+      100% {
+        transform: scale(1);
+        text-shadow: 3px 3px 15px var(--cor-preto-principal);
+      }
+    }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: var(--cor-preto-principal);
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
-      background-attachment: scroll;
-      color: var(--cor-texto-claro);
-      text-align: center;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      padding-bottom: 200px;
-      transition: background-image 1s ease-in-out;
-    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--cor-preto-principal);
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      background-attachment: scroll;
+      color: var(--cor-texto-claro);
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding-bottom: 200px;
+      transition: background-image 1s ease-in-out;
+    }
 
-    header h1 {
-      font-family: 'Elektrix', sans-serif;
-      font-size: 2.5em;
-      color: var(--cor-amarelo-cbjr);
-      text-shadow: 3px 3px 15px var(--cor-preto-principal);
-      padding: 25px 40px;
-      border-radius: 20px;
-      display: inline-block;
-      animation: pulse 2.5s infinite;
-      line-height: 1.2;
-    }
+    header h1 {
+      font-family: 'Elektrix', sans-serif;
+      font-size: 2.5em;
+      color: var(--cor-amarelo-cbjr);
+      text-shadow: 3px 3px 15px var(--cor-preto-principal);
+      padding: 25px 40px;
+      border-radius: 20px;
+      display: inline-block;
+      animation: pulse 2.5s infinite;
+      line-height: 1.2;
+    }
 
-    .container {
-      max-width: 900px;
-      width: 100%;
-      background-color: var(--cor-fundo-transparente);
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-      margin-bottom: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
+    .container {
+      max-width: 900px;
+      width: 100%;
+      background-color: var(--cor-fundo-transparente);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
 
-    .quiz-info {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      font-size: 0.9em;
-      color: rgba(255, 255, 255, 0.8);
-      text-align: right;
-    }
-    
-    .question {
-      opacity: 1;
-      transition: opacity 0.5s ease-in-out;
-      width: 100%;
-    }
+    .quiz-info {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 0.9em;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: right;
+    }
+    
+    .question {
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+      width: 100%;
+    }
 
-    .question.fade-out {
-      opacity: 0;
-    }
+    .question.fade-out {
+      opacity: 0;
+    }
 
-    .question h3 {
-      font-size: 1.8em;
-      font-family: 'Elektrix', sans-serif;
-      margin-bottom: 25px;
-      line-height: 1.4;
-    }
+    .question h3 {
+      font-size: 1.8em;
+      font-family: 'Elektrix', sans-serif;
+      margin-bottom: 25px;
+      line-height: 1.4;
+    }
 
-    /* --- NOVAS PROPRIEDADES PARA O answers-container --- */
-    .answers-container {
-      display: grid; /* Usa CSS Grid */
-      grid-template-columns: 1fr 1fr; /* Duas colunas de largura igual */
-      gap: 15px; /* Espaçamento entre os itens do grid */
-      width: 100%; /* Ocupa a largura total do container pai */
-      justify-items: center; /* Centraliza os itens dentro de suas células de grid */
-    }
+    /* --- NOVAS PROPRIEDADES PARA O answers-container --- */
+    .answers-container {
+      display: grid; /* Usa CSS Grid */
+      grid-template-columns: 1fr 1fr; /* Duas colunas de largura igual */
+      gap: 15px; /* Espaçamento entre os itens do grid */
+      width: 100%; /* Ocupa a largura total do container pai */
+      justify-items: center; /* Centraliza os itens dentro de suas células de grid */
+    }
 
-    .question button {
-      /* Propriedades para os botões dentro do grid */
-      padding: 15px 10px; /* Ajuste o padding para caber no grid */
-      font-size: 1.2em;
-      border-radius: 10px;
-      border: none;
-      background-color: var(--cor-amarelo-cbjr);
-      color: var(--cor-texto-escuro);
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      
-      /* --- PROPRIEDADES PARA MANTER O TAMANHO CONSISTENTE --- */
-      width: 100%; /* O botão ocupa 100% da largura da célula do grid */
-      height: 80px; /* Altura fixa para os botões */
-      display: flex; /* Habilita o flexbox para centralização */
-      align-items: center; /* Centraliza o texto verticalmente */
-      justify-content: center; /* Centraliza o texto horizontalmente */
-      text-align: center; /* Garante que o texto multi-linha seja centralizado */
-      box-sizing: border-box; /* Inclui padding e borda no tamanho total */
-      white-space: normal; /* Permite a quebra de linha normal */
-      word-wrap: break-word; /* Força a quebra de palavras longas */
-      /* --- FIM DAS PROPRIEDADES --- */
-    }
+    .question button {
+      /* Propriedades para os botões dentro do grid */
+      padding: 15px 10px; /* Ajuste o padding para caber no grid */
+      font-size: 1.2em;
+      border-radius: 10px;
+      border: none;
+      background-color: var(--cor-amarelo-cbjr);
+      color: var(--cor-texto-escuro);
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      
+      /* --- PROPRIEDADES PARA MANTER O TAMANHO CONSISTENTE --- */
+      width: 100%; /* O botão ocupa 100% da largura da célula do grid */
+      height: 80px; /* Altura fixa para os botões */
+      display: flex; /* Habilita o flexbox para centralização */
+      align-items: center; /* Centraliza o texto verticalmente */
+      justify-content: center; /* Centraliza o texto horizontalmente */
+      text-align: center; /* Garante que o texto multi-linha seja centralizado */
+      box-sizing: border-box; /* Inclui padding e borda no tamanho total */
+      white-space: normal; /* Permite a quebra de linha normal */
+      word-wrap: break-word; /* Força a quebra de palavras longas */
+      /* --- FIM DAS PROPRIEDADES --- */
+    }
 
-    .question button:hover:not(:disabled) {
-      transform: scale(1.05);
-    }
+    .question button:hover:not(:disabled) {
+      transform: scale(1.05);
+    }
 
-    .question button.correct {
-      background-color: var(--cor-verde-correto);
-    }
+    .question button.correct {
+      background-color: var(--cor-verde-correto);
+    }
 
-    .question button.incorrect {
-      background-color: var(--cor-vermelho-incorreto);
-    }
+    .question button.incorrect {
+      background-color: var(--cor-vermelho-incorreto);
+    }
 
-    #restart-btn, #start-btn {
-      padding: 15px 30px;
-      margin-top: 20px;
-      background-color: var(--cor-amarelo-cbjr);
-      color: var(--cor-texto-escuro);
-      cursor: pointer;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.5em;
-      transition: transform 0.2s ease;
-    }
+    #restart-btn, #start-btn {
+      padding: 15px 30px;
+      margin-top: 20px;
+      background-color: var(--cor-amarelo-cbjr);
+      color: var(--cor-texto-escuro);
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.5em;
+      transition: transform 0.2s ease;
+    }
 
-    #restart-btn:hover, #start-btn:hover {
-      transform: scale(1.05);
-    }
+    #restart-btn:hover, #start-btn:hover {
+      transform: scale(1.05);
+    }
 
-    #audio-player-wrapper {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background: var(--cor-fundo-audio-player);
-      padding: 20px;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.6);
-      z-index: 999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
+    #audio-player-wrapper {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: var(--cor-fundo-audio-player);
+      padding: 20px;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.6);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
 
-    #current-song {
-      color: var(--cor-texto-claro);
-      font-size: 1.1em;
-      font-weight: bold;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-      margin-bottom: 5px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 90%;
-      text-align: center;
-    }
+    #current-song {
+      color: var(--cor-texto-claro);
+      font-size: 1.1em;
+      font-weight: bold;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+      margin-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 90%;
+      text-align: center;
+    }
 
-    #audio {
-      width: 80%;
-      max-width: 600px;
-    }
+    #audio {
+      width: 80%;
+      max-width: 600px;
+    }
 
-    #quote {
-      background: var(--cor-fundo-quote);
-      color: var(--cor-texto-quote);
-      font-family: 'Courier New', monospace;
-      font-size: 1.1em;
-      padding: 25px;
-      width: clamp(250px, 80%, 400px);
-      border-radius: 8px;
-      box-shadow: -3px 3px 10px rgba(0,0,0,0.3);
-      position: fixed;
-      bottom: 180px;
-      left: 50%;
-      transform: translateX(-50%) rotate(-1.5deg);
-      z-index: 1000;
-      border: 1px dashed var(--cor-borda-quote);
-      background-image: linear-gradient(transparent 95%, rgba(0,0,0,0.05) 5%);
-      background-size: 100% 30px;
-      text-align: center;
-    }
+    #quote {
+      background: var(--cor-fundo-quote);
+      color: var(--cor-texto-quote);
+      font-family: 'Courier New', monospace;
+      font-size: 1.1em;
+      padding: 25px;
+      width: clamp(250px, 80%, 400px);
+      border-radius: 8px;
+      box-shadow: -3px 3px 10px rgba(0,0,0,0.3);
+      position: fixed;
+      bottom: 180px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1.5deg);
+      z-index: 1000;
+      border: 1px dashed var(--cor-borda-quote);
+      background-image: linear-gradient(transparent 95%, rgba(0,0,0,0.05) 5%);
+      background-size: 100% 30px;
+      text-align: center;
+    }
 
-    /* Estilo para a mensagem de nível */
-    #level-up-message {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: var(--cor-verde-correto);
-        color: var(--cor-texto-claro);
-        padding: 25px 40px;
-        border-radius: 15px;
-        font-family: 'Elektrix', sans-serif;
-        font-size: 2em;
-        text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
-        z-index: 2000; /* Acima de tudo */
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-        box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        text-align: center;
-        display: flex; /* Para centralizar o botão */
-        flex-direction: column; /* Para empilhar texto e botão */
-        gap: 20px; /* Espaço entre texto e botão */
-    }
-    #level-up-message.show {
-        opacity: 1;
-    }
-    #level-up-message button { /* Estilo para o novo botão de continuar */
-        padding: 12px 25px;
-        font-size: 1.2em;
-        background-color: var(--cor-amarelo-cbjr);
-        color: var(--cor-texto-escuro);
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-    }
-    #level-up-message button:hover {
-        transform: scale(1.05);
-    }
+    /* Estilo para a mensagem de nível */
+    #level-up-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: var(--cor-verde-correto);
+        color: var(--cor-texto-claro);
+        padding: 25px 40px;
+        border-radius: 15px;
+        font-family: 'Elektrix', sans-serif;
+        font-size: 2em;
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+        z-index: 2000; /* Acima de tudo */
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        text-align: center;
+        display: flex; /* Para centralizar o botão */
+        flex-direction: column; /* Para empilhar texto e botão */
+        gap: 20px; /* Espaço entre texto e botão */
+    }
+    #level-up-message.show {
+        opacity: 1;
+    }
+    #level-up-message button { /* Estilo para o novo botão de continuar */
+        padding: 12px 25px;
+        font-size: 1.2em;
+        background-color: var(--cor-amarelo-cbjr);
+        color: var(--cor-texto-escuro);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+    #level-up-message button:hover {
+        transform: scale(1.05);
+    }
 
-    /* Estilo para cobrir o quiz e desabilitar cliques */
-    #overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6); /* Semi-transparente para focar na mensagem */
-        z-index: 1500; /* Entre o quiz e a mensagem de nível */
-        display: none; /* Inicia oculto */
-    }
+    /* Estilo para cobrir o quiz e desabilitar cliques */
+    #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* Semi-transparente para focar na mensagem */
+        z-index: 1500; /* Entre o quiz e a mensagem de nível */
+        display: none; /* Inicia oculto */
+    }
 
 
-    /* Responsividade para telas menores */
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 1.8em;
-        padding: 15px 20px;
-      }
+    /* Responsividade para telas menores */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8em;
+        padding: 15px 20px;
+      }
 
-      .container {
-        padding: 20px;
-        margin: 0 10px 40px 10px;
-      }
+      .container {
+        padding: 20px;
+        margin: 0 10px 40px 10px;
+      }
 
-      .question h3 {
-        font-size: 1.4em;
-      }
-      
-      /* Mantém o grid 2x2 para telas menores, ajustando o tamanho da fonte dos botões */
-      .question button {
-        height: auto; /* A altura se ajusta ao conteúdo */
-        padding: 12px 10px; /* Ajusta o padding para caber em 2 colunas pequenas */
-        font-size: 0.9em; /* Reduz a fonte para caber em 2 colunas em telas menores */
-      }
+      .question h3 {
+        font-size: 1.4em;
+      }
+      
+      /* Mantém o grid 2x2 para telas menores, ajustando o tamanho da fonte dos botões */
+      .question button {
+        height: auto; /* A altura se ajusta ao conteúdo */
+        padding: 12px 10px; /* Ajusta o padding para caber em 2 colunas pequenas */
+        font-size: 0.9em; /* Reduz a fonte para caber em 2 colunas em telas menores */
+      }
 
-      #quote {
-        bottom: 120px;
-        font-size: 1em;
-        padding: 15px;
-      }
+      #quote {
+        bottom: 120px;
+        font-size: 1em;
+        padding: 15px;
+      }
 
-      #audio-player-wrapper {
-        padding: 10px;
-      }
+      #audio-player-wrapper {
+        padding: 10px;
+      }
 
-      #level-up-message {
-        font-size: 1.5em;
-        padding: 15px 25px;
-      }
-      #level-up-message button {
-        font-size: 1em;
-        padding: 10px 20px;
-      }
-    }
+      #level-up-message {
+        font-size: 1.5em;
+        padding: 15px 25px;
+      }
+      #level-up-message button {
+        font-size: 1em;
+        padding: 10px 20px;
+      }
+    }
 
-    @media (max-width: 480px) {
-      header h1 {
-        font-size: 1.5em;
-        padding: 10px 15px;
-      }
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.5em;
+        padding: 10px 15px;
+      }
 
-      .question button {
-        font-size: 0.85em; /* Reduz um pouco mais o tamanho da fonte */
-        padding: 10px 8px; /* Ajusta o padding ainda mais */
-      }
+      .question button {
+        font-size: 0.85em; /* Reduz um pouco mais o tamanho da fonte */
+        padding: 10px 8px; /* Ajusta o padding ainda mais */
+      }
 
-      #start-btn, #restart-btn {
-        font-size: 1.2em;
-        padding: 10px 20px;
-      }
+      #start-btn, #restart-btn {
+        font-size: 1.2em;
+        padding: 10px 20px;
+      }
 
-      #quote {
-        width: 90%;
-        bottom: 100px;
-      }
+      #quote {
+        width: 90%;
+        bottom: 100px;
+      }
 
-      #level-up-message {
-        font-size: 1.2em;
-        padding: 10px 20px;
-      }
-      #level-up-message button {
-        font-size: 0.9em;
-        padding: 8px 15px;
-      }
-    }
-  </style>
+      #level-up-message {
+        font-size: 1.2em;
+        padding: 10px 20px;
+      }
+      #level-up-message button {
+        font-size: 0.9em;
+        padding: 8px 15px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Quiz: <br><br> Charlie <br><br> Brown Jr</h1>
-  </header>
+  <header>
+    <h1>Quiz: <br><br> Charlie <br><br> Brown Jr</h1>
+  </header>
 
-  <div class="container">
-    <div class="quiz-info">
-      <p id="progress-text"></p>
-      <p id="score-text"></p>
-      <p id="level-text"></p>
-    </div>
-    <div id="quiz"></div>
-    <p id="medal"></p>
-    <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
-  </div>
+  <div class="container">
+    <div class="quiz-info">
+      <p id="progress-text"></p>
+      <p id="score-text"></p>
+      <p id="level-text"></p>
+    </div>
+    <div id="quiz"></div>
+    <p id="medal"></p>
+    <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
+  </div>
 
-  <button id="start-btn" onclick="startQuiz()">Iniciar Quiz</button>
+  <button id="start-btn" onclick="startQuiz()">Iniciar Quiz</button>
 
-  <div id="quote" class="quote"></div>
+  <div id="quote" class="quote"></div>
 
-  <div id="level-up-message" style="display:none;"></div>
+  <div id="level-up-message" style="display:none;"></div>
 
-  <div id="overlay" style="display:none;"></div>
+  <div id="overlay" style="display:none;"></div>
 
-  <div id="audio-player-wrapper">
-    <p id="current-song"></p>
-    <audio id="audio" controls></audio>
-  </div>
+  <div id="audio-player-wrapper">
+    <p id="current-song"></p>
+    <audio id="audio" controls></audio>
+  </div>
 
-  <script>
-    const questionsByLevel = [
-      // Nível 1 - Perguntas mais fáceis
-      [
-        { pergunta: "Qual é o nome do vocalista da banda <br><br> Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Pelado"], correta: "Chorão" },
-        { pergunta: "Em que ano a banda <br><br> Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992" },
-        { pergunta: "Que instrumento Champignon tocava?", respostas: ["Guitarra", "Bateria", "Baixo", "Teclado"], correta: "Baixo" },
-        { pergunta: "O que significa CBJR?", respostas: ["Coletivo Brasileiro de Juventude Revolucionária", "Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Cultura Brasileira Jovem de Rua"], correta: "Charlie Brown Jr" }
-      ],
-      // Nível 2 - Perguntas de dificuldade média
-      [
-        { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Preço Curto... Prazo Longo" },
-        { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
-        { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
-        { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997" }
-      ],
-      // Nível 3 - Perguntas mais difíceis
-      [
-        { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória" },
-        { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
-        { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" },
-        { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado" }
-      ],
-      // Nível 4 - Mais algumas perguntas
-      [
-        { pergunta: "Qual o nome completo do Chorão?", respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"], correta: "Alexandre Magno Abrão" },
-        { pergunta: "Onde nasceu o Chorão?", respostas: ["Santos", "São Vicente", "São Paulo", "Campinas"], correta: "São Paulo" },
-        { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de glória", "Rubão", "Proibida pra mim", "Só os Loucos Sabem"], correta: "Proibida pra mim" },
-        { pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?", respostas: ["O Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"], correta: "O Marginal Alado" }
-      ],
-      // Nível 5
-      [
-        { pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:", respostas: ["Surfe", "Futebol", "Skate", "Capoeira"], correta: "Skate" },
-        { pergunta: "Em que cidade nasceu a banda <br><br> Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
-        { pergunta: "Qual o nome do primeiro <br><br> álbum da banda?", respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"], correta: "Transpiração Contínua Prolongada" },
-        { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" }
-      ],
-      // Nível 6
-      [
-        { pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?", respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"], correta: "Não é Sério" },
-        { pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?", respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"], correta: "Acústico MTV" },
-        { pergunta: "Qual dessas músicas é do álbum <br><br> Bocas Ordinárias?", respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", "Tarja Preta"], correta: "Tarja Preta" },
-        { pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?", respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"], correta: "Musica Popular Caiçara" }
-      ],
-      // Nível 7 (e final, se não houver mais perguntas)
-      [
-        { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records" }
-      ]
-    ];
+  <script>
+    const questionsByLevel = [
+      // Nível 1 - Perguntas mais fáceis
+      [
+        { pergunta: "Qual é o nome do vocalista da banda <br><br> Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Pelado"], correta: "Chorão" },
+        { pergunta: "Em que ano a banda <br><br> Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992" },
+        { pergunta: "Que instrumento Champignon tocava?", respostas: ["Guitarra", "Bateria", "Baixo", "Teclado"], correta: "Baixo" },
+        { pergunta: "O que significa CBJR?", respostas: ["Coletivo Brasileiro de Juventude Revolucionária", "Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Cultura Brasileira Jovem de Rua"], correta: "Charlie Brown Jr" }
+      ],
+      // Nível 2 - Perguntas de dificuldade média
+      [
+        { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Preço Curto... Prazo Longo" },
+        { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
+        { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
+        { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997" }
+      ],
+      // Nível 3 - Perguntas mais difíceis
+      [
+        { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória" },
+        { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
+        { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" },
+        { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado" }
+      ],
+      // Nível 4 - Mais algumas perguntas
+      [
+        { pergunta: "Qual o nome completo do Chorão?", respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"], correta: "Alexandre Magno Abrão" },
+        { pergunta: "Onde nasceu o Chorão?", respostas: ["Santos", "São Vicente", "São Paulo", "Campinas"], correta: "São Paulo" },
+        { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de glória", "Rubão", "Proibida pra mim", "Só os Loucos Sabem"], correta: "Proibida pra mim" },
+        { pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?", respostas: ["O Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"], correta: "O Marginal Alado" }
+      ],
+      // Nível 5
+      [
+        { pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:", respostas: ["Surfe", "Futebol", "Skate", "Capoeira"], correta: "Skate" },
+        { pergunta: "Em que cidade nasceu a banda <br><br> Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
+        { pergunta: "Qual o nome do primeiro <br><br> álbum da banda?", respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"], correta: "Transpiração Contínua Prolongada" },
+        { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" }
+      ],
+      // Nível 6
+      [
+        { pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?", respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"], correta: "Não é Sério" },
+        { pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?", respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"], correta: "Acústico MTV" },
+        { pergunta: "Qual dessas músicas é do álbum <br><br> Bocas Ordinárias?", respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", "Tarja Preta"], correta: "Tarja Preta" },
+        { pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?", respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"], correta: "Musica Popular Caiçara" }
+      ],
+      // Nível 7 (e final, se não houver mais perguntas)
+      [
+        { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records" }
+      ]
+    ];
 
 
-    const quoteElement = document.getElementById('quote');
-    const quotes = [
-      "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
-      "Não tão complicado demais, mas nem tão simples assim.",
-      "Mas um homem de verdade não se faz só com palavras.",
-      "Quem é de verdade sabe quem é de mentira.",
-      "Deixem-me exercer minha loucura em paz!",
-      "Dias e noites, pensando no que fiz, eu sou um vencedor, eu lutei pelo que eu quis.",
-      "Aquele tempo eu não podia fazer mais por nós, eu estava errado e você não tem que me perdoar...",
-      "Eu me flagrei pensando em você em tudo o que eu queria te dizer...",
-      "Sem neurose. Cada um sabe o dom, o tom e o tamanho da dose.",
-      "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
-      "Ela tem força, ela tem sensibilidade, ela é guerreira. Ela é uma deusa, ela é mulher de verdade.",
-      "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
-      "Eles querem que você se sinta mal, pois assim eles se sentem bem."
-    ];
+    const quoteElement = document.getElementById('quote');
+    const quotes = [
+      "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
+      "Não tão complicado demais, mas nem tão simples assim.",
+      "Mas um homem de verdade não se faz só com palavras.",
+      "Quem é de verdade sabe quem é de mentira.",
+      "Deixem-me exercer minha loucura em paz!",
+      "Dias e noites, pensando no que fiz, eu sou um vencedor, eu lutei pelo que eu quis.",
+      "Aquele tempo eu não podia fazer mais por nós, eu estava errado e você não tem que me perdoar...",
+      "Eu me flagrei pensando em você em tudo o que eu queria te dizer...",
+      "Sem neurose. Cada um sabe o dom, o tom e o tamanho da dose.",
+      "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
+      "Ela tem força, ela tem sensibilidade, ela é guerreira. Ela é uma deusa, ela é mulher de verdade.",
+      "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
+      "Eles querem que você se sinta mal, pois assim eles se sentem bem."
+    ];
 
-    const quiz = document.getElementById('quiz');
-    const scoreText = document.getElementById('score-text');
-    const progressText = document.getElementById('progress-text');
-    const levelText = document.getElementById('level-text');
-    const medalText = document.getElementById('medal');
-    const restartBtn = document.getElementById('restart-btn');
-    const startBtn = document.getElementById('start-btn');
-    const audio = document.getElementById('audio');
-    const currentSongText = document.getElementById('current-song');
-    const levelUpMessage = document.getElementById('level-up-message');
-    const overlay = document.getElementById('overlay'); // Nova referência para o overlay
+    const quiz = document.getElementById('quiz');
+    const scoreText = document.getElementById('score-text');
+    const progressText = document.getElementById('progress-text');
+    const levelText = document.getElementById('level-text');
+    const medalText = document.getElementById('medal');
+    const restartBtn = document.getElementById('restart-btn');
+    const startBtn = document.getElementById('start-btn');
+    const audio = document.getElementById('audio');
+    const currentSongText = document.getElementById('current-song');
+    const levelUpMessage = document.getElementById('level-up-message');
+    const overlay = document.getElementById('overlay'); // Nova referência para o overlay
 
-    let playlist = [];
-    let currentIndex = 0;
-    let currentLevel = 0;
-    let currentQuestionIndexInLevel = 0;
-    let score = 0;
-    let currentLevelQuestions = [];
-    let quizPaused = false; // Nova variável de controle
+    let playlist = [];
+    let currentIndex = 0;
+    let currentLevel = 0;
+    let currentQuestionIndexInLevel = 0;
+    let score = 0;
+    let currentLevelQuestions = [];
+    let quizPaused = false; // Nova variável de controle
 
-    const backgroundImages = [
-      'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg',
-      'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr2.jpg'
-    ];
-    let currentBackgroundIndex = 0;
+    const backgroundImages = [
+      'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg',
+      'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr2.jpg'
+    ];
+    let currentBackgroundIndex = 0;
 
-    function preloadImages(urls, callback) {
-      let loaded = 0;
-      const images = [];
-      urls.forEach((url, index) => {
-        images[index] = new Image();
-        images[index].src = url;
-        images[index].onload = () => {
-          loaded++;
-          if (loaded === urls.length) {
-            callback();
-          }
-        };
-        images[index].onerror = () => {
-          console.warn(`Erro ao carregar imagem: ${url}. Verifique o caminho ou permissões.`);
-          loaded++;
-          if (loaded === urls.length) {
-            callback();
-          }
-        };
-      });
-    }
+    function preloadImages(urls, callback) {
+      let loaded = 0;
+      const images = [];
+      urls.forEach((url, index) => {
+        images[index] = new Image();
+        images[index].src = url;
+        images[index].onload = () => {
+          loaded++;
+          if (loaded === urls.length) {
+            callback();
+          }
+        };
+        images[index].onerror = () => {
+          console.warn(`Erro ao carregar imagem: ${url}. Verifique o caminho ou permissões.`);
+          loaded++;
+          if (loaded === urls.length) {
+            callback();
+          }
+        };
+      });
+    }
 
-    window.onload = () => {
-      preloadImages(backgroundImages, () => {
-        document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
-        changeBackgroundImageInterval();
-      });
-      shuffleQuotes(quotes);
-      changeQuote();
-      setInterval(changeQuote, 10000);
-    };
+    window.onload = () => {
+      preloadImages(backgroundImages, () => {
+        document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
+        changeBackgroundImageInterval();
+      });
+      shuffleQuotes(quotes);
+      changeQuote();
+      setInterval(changeQuote, 10000);
+    };
 
-    function changeBackgroundImageInterval() {
-      setInterval(() => {
-        currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundImages.length;
-        document.body.style.backgroundImage = `url("${backgroundImages[currentBackgroundIndex]}")`;
-      }, 10000);
-    }
+    function changeBackgroundImageInterval() {
+      setInterval(() => {
+        currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundImages.length;
+        document.body.style.backgroundImage = `url("${backgroundImages[currentBackgroundIndex]}")`;
+      }, 10000);
+    }
 
-    fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then(data => {
-        playlist = data;
-        if (playlist.length > 0) {
-          currentIndex = Math.floor(Math.random() * playlist.length);
-          loadSong();
-        } else {
-          console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
-          currentSongText.textContent = 'ERRO: Playlist vazia. Verifique o arquivo playlist.json.';
-        }
-      })
-      .catch(error => {
-        console.error('Erro ao carregar playlist:', error);
-        currentSongText.textContent = 'ERRO: Não foi possível carregar a playlist. Tente novamente mais tarde.';
-      });
+    fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then(data => {
+        playlist = data;
+        if (playlist.length > 0) {
+          currentIndex = Math.floor(Math.random() * playlist.length);
+          loadSong();
+        } else {
+          console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
+          currentSongText.textContent = 'ERRO: Playlist vazia. Verifique o arquivo playlist.json.';
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao carregar playlist:', error);
+        currentSongText.textContent = 'ERRO: Não foi possível carregar a playlist. Tente novamente mais tarde.';
+      });
 
-    function loadSong() {
-      if (!playlist.length) {
-        console.warn('loadSong chamado com playlist vazia, impossível carregar música.');
-        currentSongText.textContent = 'MÚSICA: N/A (Erro de playlist)';
-        return;
-      }
-      const song = playlist[currentIndex];
-      currentSongText.textContent = `MÚSICA: ${song.title}`;
-      audio.src = song.url;
-    }
+    function loadSong() {
+      if (!playlist.length) {
+        console.warn('loadSong chamado com playlist vazia, impossível carregar música.');
+        currentSongText.textContent = 'MÚSICA: N/A (Erro de playlist)';
+        return;
+      }
+      const song = playlist[currentIndex];
+      currentSongText.textContent = `MÚSICA: ${song.title}`;
+      audio.src = song.url;
+    }
 
-    audio.addEventListener('ended', () => {
-      console.log("Música terminou.");
-      if (playlist.length > 0) {
-        currentIndex = Math.floor(Math.random() * playlist.length);
-        loadSong();
-        audio.play().catch(e => {
-            console.warn('Erro ao tentar tocar próxima música automaticamente:', e.message);
-        });
-      } else {
-        console.warn('Playlist vazia, não é possível tocar a próxima música.');
-      }
-    });
+    audio.addEventListener('ended', () => {
+      console.log("Música terminou.");
+      if (playlist.length > 0) {
+        currentIndex = Math.floor(Math.random() * playlist.length);
+        loadSong();
+        audio.play().catch(e => {
+            console.warn('Erro ao tentar tocar próxima música automaticamente:', e.message);
+        });
+      } else {
+        console.warn('Playlist vazia, não é possível tocar a próxima música.');
+      }
+    });
 
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
 
-    function startQuiz() {
-      startBtn.style.display = 'none';
-      currentLevel = 0;
-      score = 0;
-      loadLevel();
-      
-      if (playlist.length > 0) {
-        if (!audio.src || audio.src === window.location.href) {
-          currentIndex = Math.floor(Math.random() * playlist.length);
-          loadSong();
-        }
-        audio.play().catch(e => {
-            console.error('Erro ao tentar tocar música automaticamente ao iniciar quiz:', e);
-            alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
-        });
-      } else {
-        console.warn('Não foi possível iniciar a música: playlist vazia.');
-        currentSongText.textContent = 'MÚSICA: Não disponível (Erro na playlist)';
-      }
-    }
+    function startQuiz() {
+      startBtn.style.display = 'none';
+      currentLevel = 0;
+      score = 0;
+      loadLevel();
+      
+      if (playlist.length > 0) {
+        if (!audio.src || audio.src === window.location.href) {
+          currentIndex = Math.floor(Math.random() * playlist.length);
+          loadSong();
+        }
+        audio.play().catch(e => {
+            console.error('Erro ao tentar tocar música automaticamente ao iniciar quiz:', e);
+            alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
+        });
+      } else {
+        console.warn('Não foi possível iniciar a música: playlist vazia.');
+        currentSongText.textContent = 'MÚSICA: Não disponível (Erro na playlist)';
+      }
+    }
 
-    function loadLevel() {
-      if (currentLevel >= questionsByLevel.length) {
-        endGame(true);
-        return;
-      }
+    function loadLevel() {
+      if (currentLevel >= questionsByLevel.length) {
+        endGame(true);
+        return;
+      }
 
-      // Se passou de nível (não é o primeiro nível) e ainda há níveis para jogar
-      if (currentLevel > 0) {
-          showLevelUpMessage();
-      } else {
-          // Se for o primeiro nível ou se for reiniciado, apenas mostra a pergunta
-          currentLevelQuestions = [...questionsByLevel[currentLevel]];
-          shuffleArray(currentLevelQuestions);
-          currentQuestionIndexInLevel = 0;
-          showQuestion();
-          updateQuizInfo();
-      }
-    }
+      // Se passou de nível (não é o primeiro nível) e ainda há níveis para jogar
+      if (currentLevel > 0 && currentQuestionIndexInLevel === 0) { // <-- MUDANÇA AQUI: Adicionado 'currentQuestionIndexInLevel === 0'
+          showLevelUpMessage();
+      } else {
+          // Se for o primeiro nível, se for reiniciado, ou se estiver apenas mostrando a próxima pergunta do mesmo nível
+          currentLevelQuestions = [...questionsByLevel[currentLevel]];
+          shuffleArray(currentLevelQuestions);
+          // currentQuestionIndexInLevel já é resetado por retryLevel ou startQuiz quando necessário
+          showQuestion();
+          updateQuizInfo();
+      }
+    }
 
-    function showLevelUpMessage() {
-        quizPaused = true; // Pausa o quiz
-        overlay.style.display = 'block'; // Mostra o overlay
-        
-        levelUpMessage.innerHTML = `
-            <div>Nível ${currentLevel + 1}! Mandou bem!</div>
-            <button onclick="continueQuiz()">Continuar</button>
-        `;
-        levelUpMessage.style.display = 'flex'; // Usar flex para centralizar o conteúdo e o botão
-        levelUpMessage.classList.add('show');
-    }
+    function showLevelUpMessage() {
+        quizPaused = true; // Pausa o quiz
+        overlay.style.display = 'block'; // Mostra o overlay
+        
+        levelUpMessage.innerHTML = `
+            <div>Nível ${currentLevel + 1}! Mandou bem!</div>
+            <button onclick="continueQuiz()">Continuar</button>
+        `;
+        levelUpMessage.style.display = 'flex'; // Usar flex para centralizar o conteúdo e o botão
+        levelUpMessage.classList.add('show');
+    }
 
-    function continueQuiz() {
-        levelUpMessage.classList.remove('show');
-        overlay.style.display = 'none'; // Esconde o overlay
-        quizPaused = false; // Despausa o quiz
+    function continueQuiz() {
+        levelUpMessage.classList.remove('show');
+        overlay.style.display = 'none'; // Esconde o overlay
+        quizPaused = false; // Despausa o quiz
 
-        // Espera a transição da mensagem de nível terminar antes de carregar a pergunta
-        setTimeout(() => {
-            levelUpMessage.style.display = 'none';
-            // Agora, sim, carrega as perguntas do novo nível
-            currentLevelQuestions = [...questionsByLevel[currentLevel]];
-            shuffleArray(currentLevelQuestions);
-            currentQuestionIndexInLevel = 0;
-            showQuestion();
-            updateQuizInfo();
-        }, 500); // Deve ser igual ou maior que o tempo de transição da classe 'show' no CSS
-    }
+        // Espera a transição da mensagem de nível terminar antes de carregar a pergunta
+        setTimeout(() => {
+            levelUpMessage.style.display = 'none';
+            // Agora, sim, carrega as perguntas do novo nível
+            currentLevelQuestions = [...questionsByLevel[currentLevel]];
+            shuffleArray(currentLevelQuestions);
+            currentQuestionIndexInLevel = 0;
+            showQuestion();
+            updateQuizInfo();
+        }, 500); // Deve ser igual ou maior que o tempo de transição da classe 'show' no CSS
+    }
 
-    function updateQuizInfo() {
-      scoreText.textContent = `Acertos: ${score}`;
-      levelText.textContent = `Nível: ${currentLevel + 1}`;
-      if (currentLevelQuestions.length > 0) {
-        progressText.textContent = `Pergunta: ${currentQuestionIndexInLevel + 1}/${currentLevelQuestions.length}`;
-      } else {
-        progressText.textContent = `Pergunta: N/A`;
-      }
-    }
+    function updateQuizInfo() {
+      scoreText.textContent = `Acertos: ${score}`;
+      levelText.textContent = `Nível: ${currentLevel + 1}`;
+      if (currentLevelQuestions.length > 0) {
+        progressText.textContent = `Pergunta: ${currentQuestionIndexInLevel + 1}/${currentLevelQuestions.length}`;
+      } else {
+        progressText.textContent = `Pergunta: N/A`;
+      }
+    }
 
-    function showQuestion() {
-      if (quizPaused) return; // Não mostra a pergunta se o quiz estiver pausado
+    function showQuestion() {
+      if (quizPaused) return; // Não mostra a pergunta se o quiz estiver pausado
 
-      if (currentQuestionIndexInLevel >= currentLevelQuestions.length) {
-        currentLevel++;
-        loadLevel(); // Tenta carregar o próximo nível
-        return; // Retorna para esperar o continueQuiz
-      }
+      if (currentQuestionIndexInLevel >= currentLevelQuestions.length) {
+        currentLevel++;
+        loadLevel(); // Tenta carregar o próximo nível
+        return; // Retorna para esperar o continueQuiz
+      }
 
-      const questionElement = document.createElement('div');
-      questionElement.classList.add('question');
-      
-      const questionData = currentLevelQuestions[currentQuestionIndexInLevel];
-      const shuffledAnswers = [...questionData.respostas];
-      shuffleArray(shuffledAnswers);
+      const questionElement = document.createElement('div');
+      questionElement.classList.add('question');
+      
+      const questionData = currentLevelQuestions[currentQuestionIndexInLevel];
+      const shuffledAnswers = [...questionData.respostas];
+      shuffleArray(shuffledAnswers);
 
-      questionElement.innerHTML = `
-        <h3>${questionData.pergunta}</h3>
-        <div class="answers-container">
-          ${shuffledAnswers.map(resposta => `
-            <button onclick="checkAnswer(this, '${resposta}', '${questionData.correta}')">${resposta}</button>
-          `).join('')}
-        </div>
-      `;
+      questionElement.innerHTML = `
+        <h3>${questionData.pergunta}</h3>
+        <div class="answers-container">
+          ${shuffledAnswers.map(resposta => `
+            <button onclick="checkAnswer(this, '${resposta}', '${questionData.correta}')">${resposta}</button>
+          `).join('')}
+        </div>
+      `;
 
-      const currentQuizContent = quiz.querySelector('.question');
-      if (currentQuizContent) {
-        currentQuizContent.classList.add('fade-out');
-        setTimeout(() => {
-          quiz.innerHTML = '';
-          quiz.appendChild(questionElement);
-          updateQuizInfo();
-        }, 500);
-      } else {
-        quiz.appendChild(questionElement);
-        updateQuizInfo();
-      }
-    }
+      const currentQuizContent = quiz.querySelector('.question');
+      if (currentQuizContent) {
+        currentQuizContent.classList.add('fade-out');
+        setTimeout(() => {
+          quiz.innerHTML = '';
+          quiz.appendChild(questionElement);
+          updateQuizInfo();
+        }, 500);
+      } else {
+        quiz.appendChild(questionElement);
+        updateQuizInfo();
+      }
+    }
 
-    function checkAnswer(clickedButton, answer, correta) {
-      if (quizPaused) return; // Não processa cliques se o quiz estiver pausado
+    function checkAnswer(clickedButton, answer, correta) {
+      if (quizPaused) return; // Não processa cliques se o quiz estiver pausado
 
-      const buttons = document.querySelectorAll('.question button');
-      buttons.forEach(button => {
-        button.disabled = true;
-      });
+      const buttons = document.querySelectorAll('.question button');
+      buttons.forEach(button => {
+        button.disabled = true;
+      });
 
-      if (answer === correta) {
-        clickedButton.classList.add('correct');
-        score++;
-        setTimeout(() => {
-          currentQuestionIndexInLevel++;
-          showQuestion(); // Isso vai chamar loadLevel() se o nível terminou
-        }, 1000);
-      } else {
-        clickedButton.classList.add('incorrect');
-        // Linhas removidas para não mostrar a resposta correta ao errar
-        // buttons.forEach(button => {
-        //     if (button.textContent === correta) {
-        //         button.classList.add('correct');
-        //     }
-        // });
-        setTimeout(() => {
-            endGame(false);
-        }, 1500);
-      }
-    }
+      if (answer === correta) {
+        clickedButton.classList.add('correct');
+        score++;
+        setTimeout(() => {
+          currentQuestionIndexInLevel++;
+          showQuestion(); // Isso vai chamar loadLevel() se o nível terminou
+        }, 1000);
+      } else {
+        clickedButton.classList.add('incorrect');
+        // Linhas removidas para não mostrar a resposta correta ao errar
+        // buttons.forEach(button => {
+        //     if (button.textContent === correta) {
+        //         button.classList.add('correct');
+        //     }
+        // });
+        setTimeout(() => {
+            endGame(false); // Chama endGame com false (perdeu)
+        }, 1500);
+      }
+    }
 
-    function endGame(isWinner) {
-        quiz.innerHTML = '';
-        progressText.textContent = '';
-        levelText.textContent = '';
-        medalText.textContent = '';
-        scoreText.textContent = `Pontuação final: ${score}`;
-        
-        if (isWinner) {
-            medalText.textContent = "🏆 Parabéns! Você completou todos os níveis e é um verdadeiro fã de Charlie Brown Jr!";
-        } else {
-            medalText.textContent = "Game Over! Você errou uma pergunta. Tente novamente!";
-        }
-        restartBtn.style.display = 'block';
-        overlay.style.display = 'none'; // Garante que o overlay seja removido no fim do jogo
-        quizPaused = false; // Garante que o quiz não esteja pausado
-    }
+    function endGame(isWinner) {
+        quiz.innerHTML = '';
+        progressText.textContent = '';
+        levelText.textContent = '';
+        medalText.textContent = '';
+        scoreText.textContent = `Pontuação final: ${score}`;
+        
+        if (isWinner) {
+            medalText.textContent = "🏆 Parabéns! Você completou todos os níveis e é um verdadeiro fã de Charlie Brown Jr!";
+            restartBtn.textContent = "Reiniciar Quiz"; // Altera o texto do botão para reiniciar tudo
+            restartBtn.onclick = restartQuiz; // Define a ação para reiniciar tudo
+        } else {
+            medalText.textContent = "Você errou! Retornando ao início do Nível " + (currentLevel + 1) + ".";
+            restartBtn.textContent = "Tentar Novamente"; // Altera o texto do botão para tentar o nível
+            restartBtn.onclick = retryLevel; // Define a ação para tentar o nível novamente
+        }
+        restartBtn.style.display = 'block';
+        overlay.style.display = 'none'; // Garante que o overlay seja removido no fim do jogo
+        quizPaused = false; // Garante que o quiz não esteja pausado
+    }
 
-    function restartQuiz() {
-      currentLevel = 0;
-      currentQuestionIndexInLevel = 0;
-      score = 0;
-      scoreText.textContent = '';
-      progressText.textContent = '';
-      levelText.textContent = '';
-      medalText.textContent = '';
-      restartBtn.style.display = 'none';
-      startQuiz();
-      
-      if (playlist.length > 0) {
-        currentIndex = Math.floor(Math.random() * playlist.length);
-        loadSong();
-        audio.play().catch(e => {
-            console.warn('Erro ao tentar tocar música automaticamente ao reiniciar quiz:', e.message);
-        });
-      }
-    }
+    function retryLevel() {
+        currentQuestionIndexInLevel = 0; // Reinicia o índice de perguntas no nível
+        // OPCIONAL: Reduz a pontuação para o último múltiplo de 4, se quiser zerar os acertos do nível atual.
+        // Se você quiser manter a pontuação total e apenas reiniciar o nível, comente a linha abaixo.
+        score = score - (score % 4); 
+        quiz.innerHTML = ''; // Limpa o conteúdo do quiz
+        medalText.textContent = ''; // Limpa a mensagem de medalha
+        restartBtn.style.display = 'none'; // Esconde o botão de reiniciar
+        loadLevel(); // Recarrega o nível atual
+        
+        // Opcional: Toca uma nova música aleatória ao reiniciar o nível
+        if (playlist.length > 0) {
+            currentIndex = Math.floor(Math.random() * playlist.length);
+            loadSong();
+            audio.play().catch(e => {
+                console.warn('Erro ao tentar tocar música automaticamente ao tentar novamente o nível:', e.message);
+            });
+        }
+    }
 
-    let quoteIndex = 0;
-    function shuffleQuotes(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-    }
 
-    function changeQuote() {
-      if (quotes.length === 0) return;
-      quoteElement.textContent = quotes[quoteIndex];
-      quoteIndex = (quoteIndex + 1) % quotes.length;
-      if (quoteIndex === 0) {
-        shuffleQuotes(quotes);
-      }
-    }
-  </script>
+    function restartQuiz() {
+      currentLevel = 0;
+      currentQuestionIndexInLevel = 0;
+      score = 0;
+      scoreText.textContent = '';
+      progressText.textContent = '';
+      levelText.textContent = '';
+      medalText.textContent = '';
+      restartBtn.style.display = 'none';
+      startQuiz();
+      
+      if (playlist.length > 0) {
+        currentIndex = Math.floor(Math.random() * playlist.length);
+        loadSong();
+        audio.play().catch(e => {
+            console.warn('Erro ao tentar tocar música automaticamente ao reiniciar quiz:', e.message);
+        });
+      }
+    }
+
+    let quoteIndex = 0;
+    function shuffleQuotes(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    function changeQuote() {
+      if (quotes.length === 0) return;
+      quoteElement.textContent = quotes[quoteIndex];
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      if (quoteIndex === 0) {
+        shuffleQuotes(quotes);
+      }
+    }
+  </script>
 </body>
 </html>
