@@ -196,7 +196,7 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            height: 180px; /* Aumentado para acomodar o equalizador */
+            height: 120px; /* Reajustado para o tamanho original sem o equalizador */
             justify-content: center; /* Centraliza o conteúdo verticalmente */
         }
 
@@ -214,18 +214,8 @@
         }
 
         #audio {
-            width: 90%; /* Ajustado para ficar melhor com o equalizador */
-            max-width: 700px;
-        }
-
-        /* Estilos para o canvas do equalizador */
-        #equalizer-canvas {
-            width: 100%; /* Ocupa a largura total do wrapper */
-            height: 30px; /* Altura discreta para o equalizador */
-            display: block; /* Garante que não haja espaçamento extra */
-            margin-top: 10px; /* Espaço entre o player e o equalizador */
-            background-color: rgba(0, 0, 0, 0.2); /* Fundo sutil */
-            border-radius: 5px;
+            width: 80%; /* Reajustado para o tamanho original */
+            max-width: 600px;
         }
 
         #quote {
@@ -238,7 +228,7 @@
             border-radius: 8px;
             box-shadow: -3px 3px 10px rgba(0,0,0,0.3);
             position: fixed;
-            bottom: 200px; /* Ajustado de 180px para 200px devido ao equalizador */
+            bottom: 180px; /* Reajustado para a posição original */
             left: 50%;
             transform: translateX(-50%) rotate(-1.5deg);
             z-index: 1000;
@@ -317,6 +307,7 @@
                 font-size: 1.4em;
             }
             
+            /* Mantém o grid 2x2 para telas menores, ajustando o tamanho da fonte dos botões */
             .question button {
                 height: auto; /* A altura se ajusta ao conteúdo */
                 padding: 12px 10px; /* Ajusta o padding para caber em 2 colunas pequenas */
@@ -324,15 +315,12 @@
             }
 
             #audio-player-wrapper {
-                height: 150px; /* Menor em telas menores */
+                height: 100px; /* Menor em telas menores */
                 padding: 10px;
-            }
-            #equalizer-canvas {
-                height: 25px; /* Menor em telas menores */
             }
 
             #quote {
-                bottom: 150px; /* Ajuste para telas menores */
+                bottom: 120px;
                 font-size: 1em;
                 padding: 15px;
             }
@@ -364,16 +352,13 @@
             }
 
             #audio-player-wrapper {
-                height: 120px; /* Menor ainda */
+                height: 80px; /* Menor ainda */
                 padding: 10px;
-            }
-            #equalizer-canvas {
-                height: 20px; /* Menor ainda */
             }
 
             #quote {
                 width: 90%;
-                bottom: 120px; /* Ajuste para telas muito pequenas */
+                bottom: 100px;
             }
 
             #level-up-message {
@@ -414,7 +399,7 @@
     <div id="audio-player-wrapper">
         <p id="current-song"></p>
         <audio id="audio" controls></audio>
-        <canvas id="equalizer-canvas"></canvas> </div>
+        </div>
 
     <script>
         const questionsByLevel = [
@@ -513,28 +498,8 @@
         ];
         let currentBackgroundIndex = 0;
 
-        // NOVAS VARIÁVEIS PARA O EQUALIZADOR
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let analyser;
-        let source;
-        const equalizerCanvas = document.getElementById('equalizer-canvas');
-        const canvasCtx = equalizerCanvas.getContext('2d');
-
-        // Listener para tentar retomar o AudioContext no primeiro clique em qualquer lugar do documento
-        document.addEventListener('click', function() {
-            if (audioContext.state === 'suspended') {
-                audioContext.resume().then(() => {
-                    console.log('AudioContext resumed!');
-                    // Se o AudioContext estava suspenso e agora está ativo,
-                    // podemos tentar configurar o analisador se ainda não estiver
-                    if (!analyser && audio.src && audio.src !== window.location.href) {
-                        setupAudioAnalyser();
-                    }
-                }).catch(e => {
-                    console.error('Erro ao tentar retomar AudioContext no clique:', e);
-                });
-            }
-        }, { once: true }); // O { once: true } faz com que este listener seja removido após o primeiro clique.
+        // Todas as variáveis e lógicas relacionadas ao equalizador (AudioContext, analyser, canvas, drawEqualizer, setupAudioAnalyser, resizeCanvas)
+        // foram removidas daqui.
 
 
         function preloadImages(urls, callback) {
@@ -568,9 +533,6 @@
             changeQuote();
             setInterval(changeQuote, 10000);
             quiz.addEventListener('click', handleQuizClick);
-
-            // Chamar resizeCanvas para garantir o tamanho correto do canvas
-            resizeCanvas();
         };
 
         function changeBackgroundImageInterval() {
@@ -626,67 +588,8 @@
             }
         });
 
-        // Função para inicializar o analisador de áudio
-        function setupAudioAnalyser() {
-            if (!analyser) { // Garante que o analisador e a fonte só sejam criados UMA VEZ
-                analyser = audioContext.createAnalyser();
-                analyser.fftSize = 2048; // Aumentado para mais dados de frequência
+        // As funções setupAudioAnalyser, resizeCanvas e drawEqualizer foram removidas daqui.
 
-                // Cria a fonte de áudio a partir do elemento <audio>
-                source = audioContext.createMediaElementSource(audio);
-                
-                // Conecta o caminho do áudio: Elemento -> Analyser -> Destino de saída
-                source.connect(analyser);
-                analyser.connect(audioContext.destination);
-
-                // Inicia o loop de visualização apenas uma vez
-                drawEqualizer();
-                console.log('Audio Analyser setup complete.');
-            } else {
-                console.log('Audio Analyser already set up.');
-            }
-        }
-
-        // Função para redimensionar o canvas e ajustar a escala de alta DPI
-        function resizeCanvas() {
-            const dpr = window.devicePixelRatio || 1;
-            equalizerCanvas.width = equalizerCanvas.offsetWidth * dpr;
-            equalizerCanvas.height = equalizerCanvas.offsetHeight * dpr;
-            canvasCtx.scale(dpr, dpr);
-        }
-
-        // Função de desenho do equalizador (reage às frequências)
-        function drawEqualizer() {
-            requestAnimationFrame(drawEqualizer);
-
-            if (!analyser || quizPaused) {
-                canvasCtx.clearRect(0, 0, equalizerCanvas.width, equalizerCanvas.height);
-                return;
-            }
-
-            const bufferLength = analyser.frequencyBinCount; // Metade do fftSize
-            const dataArray = new Uint8Array(bufferLength);
-            analyser.getByteFrequencyData(dataArray); // Obtém dados de frequência
-
-            canvasCtx.clearRect(0, 0, equalizerCanvas.width, equalizerCanvas.height);
-
-            const numberOfBars = 64; // Número de barras que queremos desenhar
-            const step = Math.floor(bufferLength / numberOfBars);
-
-            const barWidth = (equalizerCanvas.offsetWidth / numberOfBars) * 0.9;
-            let x = 0;
-
-            for (let i = 0; i < numberOfBars; i++) {
-                const dataIndex = i * step;
-                const barHeight = (dataArray[dataIndex] / 255) * equalizerCanvas.offsetHeight;
-
-                canvasCtx.fillStyle = 'var(--cor-amarelo-cbjr)';
-                canvasCtx.fillRect(x, equalizerCanvas.offsetHeight - barHeight, barWidth, barHeight);
-
-                x += barWidth + (equalizerCanvas.offsetWidth / numberOfBars) * 0.1;
-            }
-        }
-        // FIM DAS FUNÇÕES DO EQUALIZADOR
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -706,9 +609,6 @@
 
             loadLevel();
             
-            // Inicia o analisador de áudio ao iniciar o quiz
-            setupAudioAnalyser();
-
             if (playlist.length > 0) {
                 if (!audio.src || audio.src === window.location.href) {
                     currentIndex = Math.floor(Math.random() * playlist.length);
