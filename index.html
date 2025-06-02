@@ -190,7 +190,6 @@
       flex-direction: column; /* Coloca o equalizador abaixo do player */
       align-items: center; /* Centraliza o conteúdo */
       gap: 15px; /* Espaço entre o player e o equalizador */
-      /* Altura ajustada para acomodar o equalizador */
       height: auto; /* Deixa a altura se ajustar ao conteúdo */
     }
 
@@ -218,6 +217,7 @@
       background: var(--equalizer-background);
       border-radius: 5px;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      display: none; /* Inicia oculto e mostra quando o áudio começar */
     }
 
     #quote {
@@ -492,14 +492,14 @@
     const canvas = document.getElementById('equalizer-canvas');
     const ctx = canvas.getContext('2d');
     
-    let audioContext;
+    let audioContext = null; // Inicializa como null, será criado na primeira interação
     let analyser;
     let source;
     let frequencyData;
 
     let playlist = [];
     let currentIndex = 0;
-    let isPlaying = false;
+    let isPlaying = false; // Flag para controlar se a música está tocando
     let currentQuestion = 0;
     let score = 0;
     let shuffledQuestions = [];
@@ -542,7 +542,6 @@
       setInterval(changeQuote, 10000);
       
       // Ajusta o tamanho do canvas para corresponder ao seu CSS real
-      // É importante fazer isso para evitar distorção
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
     };
@@ -566,9 +565,7 @@
         playlist = data;
         if (playlist.length > 0) {
           currentIndex = Math.floor(Math.random() * playlist.length);
-          // O player de áudio não inicia a música até que o usuário clique em "Iniciar Quiz"
-          // ou em play diretamente no player
-          loadSong(); 
+          loadSong(false); // Não tenta tocar a música ainda
         } else {
           console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
           currentSongText.textContent = 'ERRO: Playlist vazia. Verifique o arquivo playlist.json.';
@@ -579,7 +576,9 @@
         currentSongText.textContent = 'ERRO: Não foi possível carregar a playlist. Tente novamente mais tarde.';
       });
 
-    function loadSong() {
+    // Função para carregar a música
+    // O parâmetro `shouldPlay` indica se a música deve tentar tocar imediatamente
+    function loadSong(shouldPlay) {
       if (!playlist.length) {
         console.warn('loadSong chamado com playlist vazia, impossível carregar música.');
         currentSongText.textContent = 'MÚSICA: N/A (Erro de playlist)';
@@ -588,57 +587,86 @@
       const song = playlist[currentIndex];
       currentSongText.textContent = `MÚSICA: ${song.title}`;
       audio.src = song.url;
-      // Iniciar a análise de áudio apenas quando a primeira música for carregada
-      // e o contexto de áudio for iniciado (geralmente após a primeira interação do usuário).
+      audio.load(); // Carrega a música para estar pronta para tocar
+
+      if (shouldPlay) {
+        audio.play().then(() => {
+          isPlaying = true;
+          console.log('Música iniciada via loadSong e play.');
+          // Garante que o AudioContext esteja ativo e o equalizador desenhando
+          setupAudioContext();
+          drawEqualizer();
+        }).catch(e => {
+          console.warn('Erro ao tentar tocar música via loadSong:', e.message);
+          // O player de áudio do navegador pode ter restrições, o usuário terá que dar play manualmente
+          isPlaying = false;
+        });
+      } else {
+        isPlaying = false; // Garante que a flag esteja false se não for para tocar
+      }
     }
 
     // --- Web Audio API Setup ---
     function setupAudioContext() {
       // Cria um AudioContext se ainda não existir.
-      // O AudioContext deve ser criado ou resumido a partir de um gesto do usuário.
+      // E tenta resumir se estiver suspenso.
       if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioContext.createAnalyser();
-        source = audioContext.createMediaElementSource(audio); // Conecta o elemento <audio> ao AudioContext
-
-        // Conecta os nós: AudioSource -> Analyser -> Destino (alto-falantes)
-        source.connect(analyser);
-        analyser.connect(audioContext.destination);
-
-        analyser.fftSize = 256; // Tamanho do FFT (Fast Fourier Transform). Quanto maior, mais detalhe de frequência.
-                                // Deve ser uma potência de 2. Valores comuns: 32, 64, 128, 256, 512, 1024, 2048.
         
-        const bufferLength = analyser.frequencyBinCount; // Metade do fftSize (128 para fftSize=256)
-        frequencyData = new Uint8Array(bufferLength); // Array para armazenar os dados de frequência
+        // Conecta o elemento <audio> ao AudioContext pela primeira vez
+        // Certifique-se de que 'source' só é criado uma vez
+        try {
+            source = audioContext.createMediaElementSource(audio); 
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+            analyser.fftSize = 256; 
+            frequencyData = new Uint8Array(analyser.frequencyBinCount);
+            console.log("AudioContext e Web Audio API configurados.");
+            canvas.style.display = 'block'; // Mostra o equalizador
+        } catch (e) {
+            console.error("Erro ao configurar AudioContext ou conectar nós:", e);
+            canvas.style.display = 'none'; // Esconde se der erro
+            alert("Não foi possível inicializar o equalizador. Certifique-se de que o áudio está tocando e o navegador permite.");
+        }
       }
 
-      // Garante que o contexto de áudio está ativo (importante para autoplay ou quando o usuário interage)
+      // Tenta resumir o AudioContext se estiver suspenso (necessário para a maioria dos navegadores)
       if (audioContext.state === 'suspended') {
         audioContext.resume().then(() => {
-          console.log('AudioContext resumed successfully');
+          console.log('AudioContext resumed successfully.');
+          canvas.style.display = 'block'; // Garante que o equalizador esteja visível
         }).catch(err => {
           console.error('Failed to resume AudioContext:', err);
+          canvas.style.display = 'none'; // Esconde se não conseguir resumir
         });
       }
     }
 
-    // Chamado quando a música começa a tocar
+    // Listener para o evento 'play' do elemento de áudio
+    // Esta é a maneira mais confiável de garantir que o AudioContext seja ativado
     audio.addEventListener('play', () => {
       isPlaying = true;
-      setupAudioContext(); // Configura o AudioContext na primeira vez que o usuário dá play
+      setupAudioContext(); // Garante que o AudioContext esteja ativo
       drawEqualizer(); // Começa a desenhar o equalizador
+      canvas.style.display = 'block'; // Mostra o equalizador ao dar play
+      console.log("Evento 'play' disparado. Música tocando e equalizador ativo.");
     });
 
+    // Listener para o evento 'pause' do elemento de áudio
     audio.addEventListener('pause', () => {
       isPlaying = false;
+      console.log("Música pausada.");
+      // O equalizador pode parar de desenhar ou mostrar um estado parado
     });
 
+    // Listener para o evento 'ended' (música terminou)
     audio.addEventListener('ended', () => {
-      isPlaying = false; // Garante que a flag seja desligada
+      isPlaying = false;
+      console.log("Música terminou.");
       if (playlist.length > 0) {
         currentIndex = (currentIndex + 1) % playlist.length; // Próxima música na ordem
-        loadSong();
-        audio.play();
+        loadSong(true); // Carrega a próxima e tenta tocar
       } else {
         console.warn('Playlist vazia, não é possível tocar a próxima música.');
       }
@@ -646,9 +674,10 @@
 
     // --- Função de Desenho do Equalizador ---
     function drawEqualizer() {
-      // Se o analisador não estiver pronto ou a música não estiver tocando, limpa e para.
+      // Para de desenhar se o áudio não estiver tocando ou se o analisador não estiver pronto
       if (!analyser || !isPlaying) {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
+        // console.log("Equalizador parado (música pausada/não tocando).");
         return;
       }
 
@@ -658,10 +687,10 @@
 
       ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas a cada frame
 
-      const barWidth = (canvas.width / frequencyData.length) * 2.5; // Largura das barras (ajustado para melhor visualização)
-      let x = 0; // Posição X inicial
+      const barWidth = (canvas.width / frequencyData.length) * 2.5; 
+      let x = 0; 
 
-      // Desenha a grade de fundo (opcional, para efeito de mesa de som)
+      // Desenha a grade de fundo
       ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--equalizer-grid-color');
       ctx.lineWidth = 1;
       const numHorizontalLines = 4;
@@ -674,27 +703,18 @@
 
       // Desenha as barras do equalizador
       for (let i = 0; i < frequencyData.length; i++) {
-        // Mapeia o valor da frequência (0-255) para a altura da barra no canvas
-        // O valor 255 é o máximo (volume máximo para aquela frequência)
-        // Usamos Math.pow para dar uma curva mais agradável, realçando as variações em volumes mais baixos
-        let barHeight = (frequencyData[i] / 255) * canvas.height * 0.9; // 90% da altura do canvas
-        barHeight = Math.pow(barHeight, 1.2); // Elevado a uma potência para uma resposta visual mais dinâmica
+        let barHeight = (frequencyData[i] / 255) * canvas.height * 0.9; 
+        barHeight = Math.pow(barHeight, 1.2); 
 
-        // Cor das barras
         ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--equalizer-bar-color');
         
-        // Desenha o retângulo da barra
-        // x: Posição X
-        // canvas.height - barHeight: Posição Y (desenhando de baixo para cima)
-        // barWidth: Largura
-        // barHeight: Altura
-        ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight); // Subtrai 2 para um pequeno espaçamento entre as barras
+        ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight); 
 
-        x += barWidth; // Move para a próxima posição X
+        x += barWidth; 
       }
     }
 
-    // --- Funções do Quiz (mantidas como estavam) ---
+    // --- Funções do Quiz (pequenas adaptações) ---
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -707,12 +727,10 @@
       shuffledQuestions = [...questions];
       shuffleArray(shuffledQuestions);
       showQuestion();
+      
       if (playlist.length > 0) {
-        // Inicia a reprodução e a análise de áudio aqui
-        loadSong();
-        audio.play();
-        setupAudioContext(); // Garante que o AudioContext seja configurado ao iniciar o quiz
-        drawEqualizer(); // Inicia o desenho do equalizador
+        loadSong(true); // Tenta carregar e tocar a primeira música
+        // O setupAudioContext e drawEqualizer serão chamados pelo evento 'play' do áudio
       } else {
         console.warn('Não foi possível iniciar a música: playlist vazia.');
         currentSongText.textContent = 'MÚSICA: Não disponível (Erro na playlist)';
@@ -802,13 +820,12 @@
       shuffleArray(shuffledQuestions);
       showQuestion();
       updateQuizInfo();
-      // O áudio deve continuar tocando após o restart, ou ser reiniciado se necessário
+      
+      // Ao reiniciar, se a música não estava tocando, tenta iniciar
       if (playlist.length > 0 && !isPlaying) {
-        loadSong();
-        audio.play();
-        setupAudioContext(); // Reconfigura o AudioContext se for reiniciado
-        drawEqualizer(); // Reinicia o desenho
+        loadSong(true); // Carrega e tenta tocar a música
       }
+      // Se já estava tocando, ela continua e o equalizador já está ativo
     }
 
     // Funções de citação
