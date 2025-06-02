@@ -26,10 +26,6 @@
       --cor-borda-quote: #d8c938;
       --cor-fundo-quote: #fcf4a3;
       --cor-texto-quote: #222;
-      /* Novas variáveis para o equalizador */
-      --equalizer-bar-color: #f1c40f; /* Cor das barras do equalizador */
-      --equalizer-background: #1a1a1a; /* Fundo do equalizador/mesa de som */
-      --equalizer-grid-color: rgba(255, 255, 255, 0.1); /* Linhas da grade */
     }
 
     @font-face {
@@ -71,8 +67,7 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
-      /* Ajuste o padding-bottom para ser maior que a altura do audio player + equalizador */
-      padding-bottom: 250px; /* Aumentado para garantir espaço para o player fixo e equalizador */
+      padding-bottom: 120px; /* Ajuste o padding para o player de áudio fixo */
       transition: background-image 1s ease-in-out;
     }
 
@@ -179,45 +174,35 @@
     }
 
     #audio-player-wrapper {
-      position: fixed; /* Mantenha como fixed para ele não rolar com a página */
-      bottom: 0; /* Começa na parte inferior da viewport */
+      position: fixed;
+      bottom: 0;
       width: 100%;
       background: var(--cor-fundo-audio-player);
-      padding: 20px;
+      padding: 15px 20px; /* Ajuste o padding para o player */
       box-shadow: 0 -2px 10px rgba(0,0,0,0.6);
       z-index: 999;
-      display: flex; /* Para alinhar o player e o equalizador */
-      flex-direction: column; /* Coloca o equalizador abaixo do player */
-      align-items: center; /* Centraliza o conteúdo */
-      gap: 15px; /* Espaço entre o player e o equalizador */
-      height: auto; /* Deixa a altura se ajustar ao conteúdo */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px; /* Menos espaço entre o nome da música e o player */
     }
 
-    /* Adicionado/melhorado estilo para o nome da música */
     #current-song {
-      color: var(--cor-texto-claro) !important;
-      font-size: 1.1em !important;
+      color: var(--cor-texto-claro);
+      font-size: 1.1em;
       font-weight: bold;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-      margin-bottom: 0; /* Remover margem extra se houver */
+      margin-bottom: 5px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      width: 80%; /* Para que não estoure em telas pequenas */
+      width: 80%;
+      text-align: center;
     }
 
     #audio {
-      width: 80%; /* Ajusta a largura do player de áudio */
+      width: 80%;
       max-width: 600px;
-    }
-
-    #equalizer-canvas {
-      width: 100%; /* Ocupa a largura total do wrapper */
-      height: 80px; /* Altura fixa para o equalizador */
-      background: var(--equalizer-background);
-      border-radius: 5px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: none; /* Inicia oculto e mostra quando o áudio começar */
     }
 
     #quote {
@@ -230,8 +215,7 @@
       border-radius: 8px;
       box-shadow: -3px 3px 10px rgba(0,0,0,0.3);
       position: fixed;
-      /* Ajuste o bottom para que a citação não seja coberta pelo player de áudio + equalizador */
-      bottom: 230px; /* Aumentado para garantir espaço */
+      bottom: 150px; /* Ajuste para não cobrir o player de áudio */
       left: 50%;
       transform: translateX(-50%) rotate(-1.5deg);
       z-index: 1000;
@@ -263,22 +247,13 @@
       }
 
       #quote {
-        /* Reajuste o bottom para telas menores, considerando o player de áudio + equalizador */
-        bottom: 180px; /* Ajuste para telas menores */
+        bottom: 100px; /* Ajuste para telas menores */
         font-size: 1em;
         padding: 15px;
       }
 
-      #audio-player-wrapper {
-        padding: 10px;
-      }
-
-      #equalizer-canvas {
-        height: 60px; /* Reduz a altura em telas menores */
-      }
-
       body {
-        padding-bottom: 200px; /* Ajuste para telas menores */
+        padding-bottom: 100px; /* Ajuste para telas menores */
       }
     }
 
@@ -300,16 +275,11 @@
 
       #quote {
         width: 90%;
-        /* Reajuste o bottom para telas menores, considerando o player de áudio + equalizador */
-        bottom: 150px; /* Ajuste para telas muito pequenas */
-      }
-
-      #equalizer-canvas {
-        height: 50px; /* Reduz ainda mais a altura em telas muito pequenas */
+        bottom: 80px; /* Ajuste para telas muito pequenas */
       }
 
       body {
-        padding-bottom: 180px; /* Ajuste para telas muito pequenas */
+        padding-bottom: 80px; /* Ajuste para telas muito pequenas */
       }
     }
   </style>
@@ -336,10 +306,9 @@
   <div id="audio-player-wrapper">
     <p id="current-song"></p>
     <audio id="audio" controls></audio>
-    <canvas id="equalizer-canvas"></canvas> </div>
+  </div>
 
   <script>
-    // --- Dados do Quiz (mantidos como estavam) ---
     const questions = [
       { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", 
         respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], 
@@ -488,16 +457,6 @@
     const audio = document.getElementById('audio');
     const currentSongText = document.getElementById('current-song');
 
-    // --- Elementos do Equalizador ---
-    const canvas = document.getElementById('equalizer-canvas');
-    const ctx = canvas.getContext('2d');
-    
-    let audioContext = null;
-    let analyser;
-    let sourceNode; // Renomeado para evitar conflito com 'source' em outros contextos
-    let frequencyData;
-    let animationFrameId; // Para controlar o loop de animação
-
     let playlist = [];
     let currentIndex = 0;
     let currentQuestion = 0;
@@ -540,11 +499,6 @@
       shuffleQuotes(quotes);
       changeQuote();
       setInterval(changeQuote, 10000);
-      
-      // Ajusta o tamanho do canvas para corresponder ao seu CSS real
-      // É importante fazer isso para evitar distorção
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
     };
 
     function changeBackgroundImageInterval() {
@@ -577,6 +531,7 @@
         currentSongText.textContent = 'ERRO: Não foi possível carregar a playlist. Tente novamente mais tarde.';
       });
 
+    // Função para carregar a música
     function loadSong() {
       if (!playlist.length) {
         console.warn('loadSong chamado com playlist vazia, impossível carregar música.');
@@ -586,150 +541,23 @@
       const song = playlist[currentIndex];
       currentSongText.textContent = `MÚSICA: ${song.title}`;
       audio.src = song.url;
-      // Não chame audio.load() aqui, deixe audio.play() lidar com isso.
     }
 
-    // --- Web Audio API Setup ---
-    function initAudioContext() {
-        if (!audioContext) {
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioContext.createAnalyser();
-                sourceNode = audioContext.createMediaElementSource(audio);
-                
-                // Conecta os nós: AudioSource -> Analyser -> Destino (alto-falantes)
-                sourceNode.connect(analyser);
-                analyser.connect(audioContext.destination);
-
-                analyser.fftSize = 256; 
-                frequencyData = new Uint8Array(analyser.frequencyBinCount);
-                console.log("AudioContext e Web Audio API configurados.");
-                canvas.style.display = 'block'; // Mostra o equalizador
-            } catch (e) {
-                console.error("Erro ao configurar AudioContext ou conectar nós:", e);
-                canvas.style.display = 'none'; // Esconde se der erro
-                //alert("Não foi possível inicializar o equalizador. Verifique o console para mais detalhes.");
-                return false; // Indica que a inicialização falhou
-            }
-        }
-        return true; // Indica que a inicialização foi bem-sucedida ou já estava feita
-    }
-
-    // Função para tentar iniciar a reprodução e resumir o AudioContext
-    function startAudioAndEqualizer() {
-        if (audioContext && audioContext.state === 'suspended') {
-            audioContext.resume().then(() => {
-                console.log('AudioContext resumed successfully.');
-                audio.play().then(() => {
-                    console.log('Música iniciada após resume do AudioContext.');
-                    drawEqualizer();
-                }).catch(e => {
-                    console.error('Erro ao tocar música após resume do AudioContext:', e.message);
-                    alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
-                });
-            }).catch(err => {
-                console.error('Falha ao resumir AudioContext:', err);
-                alert("Não foi possível ativar o áudio. Por favor, tente dar play diretamente no player de áudio.");
-            });
-        } else if (audioContext && audioContext.state === 'running') {
-            audio.play().then(() => {
-                console.log('Música iniciada diretamente (AudioContext já estava running).');
-                drawEqualizer();
-            }).catch(e => {
-                console.error('Erro ao tocar música (AudioContext já running):', e.message);
-                alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
-            });
-        } else {
-            console.log('AudioContext ainda não inicializado ou em estado inesperado. Tentando init e play.');
-            // Tenta inicializar e tocar. O 'play' listener fará o resto.
-            audio.play().then(() => {
-                console.log('Música iniciada. AudioContext será configurado pelo listener.');
-            }).catch(e => {
-                console.error('Erro ao tentar tocar música pela primeira vez:', e.message);
-                alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
-            });
-        }
-    }
-
-    // Listener para o evento 'play' do elemento de áudio
-    // Este é o ponto mais confiável para iniciar o AudioContext e o equalizador
-    audio.addEventListener('play', () => {
-        console.log("Evento 'play' do áudio disparado.");
-        if (initAudioContext()) { // Garante que o contexto esteja criado e conectado
-            if (audioContext.state === 'suspended') {
-                audioContext.resume().then(() => {
-                    console.log('AudioContext resumed no listener play.');
-                    drawEqualizer();
-                }).catch(err => {
-                    console.error('Falha ao resumir AudioContext no listener play:', err);
-                });
-            } else {
-                console.log('AudioContext já estava running no listener play.');
-                drawEqualizer();
-            }
-        }
-    });
-
-    audio.addEventListener('pause', () => {
-      cancelAnimationFrame(animationFrameId); // Para o loop de animação quando pausar
-      console.log("Música pausada. Equalizador parado.");
-    });
-
+    // Listener para o evento 'ended' (música terminou)
     audio.addEventListener('ended', () => {
-      cancelAnimationFrame(animationFrameId); // Para o loop de animação quando terminar
       console.log("Música terminou.");
       if (playlist.length > 0) {
         currentIndex = (currentIndex + 1) % playlist.length; // Próxima música na ordem
         loadSong(); // Carrega a próxima
-        startAudioAndEqualizer(); // Tenta tocar a próxima
+        audio.play().catch(e => {
+            console.warn('Erro ao tentar tocar próxima música automaticamente:', e.message);
+        });
       } else {
         console.warn('Playlist vazia, não é possível tocar a próxima música.');
       }
     });
 
-    // --- Função de Desenho do Equalizador ---
-    function drawEqualizer() {
-      // Se o analisador não estiver pronto ou o contexto não estiver rodando, limpa e para.
-      if (!analyser || audioContext.state !== 'running') {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
-        cancelAnimationFrame(animationFrameId);
-        return;
-      }
-
-      animationFrameId = requestAnimationFrame(drawEqualizer); // Loop de animação
-
-      analyser.getByteFrequencyData(frequencyData); // Preenche frequencyData com os dados de frequência
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas a cada frame
-
-      const barWidth = (canvas.width / frequencyData.length) * 2.5; 
-      let x = 0; 
-
-      // Desenha a grade de fundo
-      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--equalizer-grid-color');
-      ctx.lineWidth = 1;
-      const numHorizontalLines = 4;
-      for (let i = 0; i <= numHorizontalLines; i++) {
-          ctx.beginPath();
-          ctx.moveTo(0, (canvas.height / numHorizontalLines) * i);
-          ctx.lineTo(canvas.width, (canvas.height / numHorizontalLines) * i);
-          ctx.stroke();
-      }
-
-      // Desenha as barras do equalizador
-      for (let i = 0; i < frequencyData.length; i++) {
-        let barHeight = (frequencyData[i] / 255) * canvas.height * 0.9; 
-        barHeight = Math.pow(barHeight, 1.2); 
-
-        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--equalizer-bar-color');
-        
-        ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight); 
-
-        x += barWidth; 
-      }
-    }
-
-    // --- Funções do Quiz (pequenas adaptações) ---
+    // --- Funções do Quiz ---
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -745,7 +573,10 @@
       
       if (playlist.length > 0) {
         loadSong(); // Carrega a música
-        startAudioAndEqualizer(); // Tenta iniciar o áudio e o equalizador
+        audio.play().catch(e => {
+            console.error('Erro ao tentar tocar música automaticamente ao iniciar quiz:', e);
+            alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
+        });
       } else {
         console.warn('Não foi possível iniciar a música: playlist vazia.');
         currentSongText.textContent = 'MÚSICA: Não disponível (Erro na playlist)';
@@ -836,10 +667,11 @@
       showQuestion();
       updateQuizInfo();
       
-      // Ao reiniciar, se a música não estava tocando, tenta iniciar
       if (playlist.length > 0) {
-        loadSong();
-        startAudioAndEqualizer(); 
+        loadSong(); // Carrega a música
+        audio.play().catch(e => {
+            console.warn('Erro ao tentar tocar música automaticamente ao reiniciar quiz:', e.message);
+        });
       }
     }
 
