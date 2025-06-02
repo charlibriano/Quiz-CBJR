@@ -218,7 +218,7 @@
             max-width: 700px;
         }
 
-        /* Adicione estilos para o canvas do equalizador */
+        /* Estilos para o canvas do equalizador */
         #equalizer-canvas {
             width: 100%; /* Ocupa a largura total do wrapper */
             height: 30px; /* Altura discreta para o equalizador */
@@ -520,6 +520,23 @@
         const equalizerCanvas = document.getElementById('equalizer-canvas');
         const canvasCtx = equalizerCanvas.getContext('2d');
 
+        // Listener para tentar retomar o AudioContext no primeiro clique em qualquer lugar do documento
+        document.addEventListener('click', function() {
+            if (audioContext.state === 'suspended') {
+                audioContext.resume().then(() => {
+                    console.log('AudioContext resumed!');
+                    // Se o AudioContext estava suspenso e agora está ativo,
+                    // podemos tentar configurar o analisador se ainda não estiver
+                    if (!analyser && audio.src && audio.src !== window.location.href) {
+                        setupAudioAnalyser();
+                    }
+                }).catch(e => {
+                    console.error('Erro ao tentar retomar AudioContext no clique:', e);
+                });
+            }
+        }, { once: true }); // O { once: true } faz com que este listener seja removido após o primeiro clique.
+
+
         function preloadImages(urls, callback) {
             let loaded = 0;
             const images = [];
@@ -609,26 +626,28 @@
             }
         });
 
-        // NOVO: Função para inicializar o analisador de áudio
+        // Função para inicializar o analisador de áudio
         function setupAudioAnalyser() {
-            if (!analyser) {
+            if (!analyser) { // Garante que o analisador e a fonte só sejam criados UMA VEZ
                 analyser = audioContext.createAnalyser();
                 analyser.fftSize = 2048; // Aumentado para mais dados de frequência
 
-                if (!source) {
-                    source = audioContext.createMediaElementSource(audio);
-                    source.connect(analyser);
-                    analyser.connect(audioContext.destination);
-                } else {
-                    source.disconnect();
-                    source.connect(analyser);
-                    analyser.connect(audioContext.destination);
-                }
+                // Cria a fonte de áudio a partir do elemento <audio>
+                source = audioContext.createMediaElementSource(audio);
+                
+                // Conecta o caminho do áudio: Elemento -> Analyser -> Destino de saída
+                source.connect(analyser);
+                analyser.connect(audioContext.destination);
+
+                // Inicia o loop de visualização apenas uma vez
                 drawEqualizer();
+                console.log('Audio Analyser setup complete.');
+            } else {
+                console.log('Audio Analyser already set up.');
             }
         }
 
-        // NOVO: Função para redimensionar o canvas e ajustar a escala de alta DPI
+        // Função para redimensionar o canvas e ajustar a escala de alta DPI
         function resizeCanvas() {
             const dpr = window.devicePixelRatio || 1;
             equalizerCanvas.width = equalizerCanvas.offsetWidth * dpr;
@@ -636,7 +655,7 @@
             canvasCtx.scale(dpr, dpr);
         }
 
-        // NOVO: Função de desenho do equalizador (reage às frequências)
+        // Função de desenho do equalizador (reage às frequências)
         function drawEqualizer() {
             requestAnimationFrame(drawEqualizer);
 
