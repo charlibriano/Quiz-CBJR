@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Charlie Brown Jr</title>
 
-<!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JCN94Y3P0"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -13,10 +12,22 @@
     gtag('js', new Date());
     gtag('config', 'G-1JCN94Y3P0');
   </script>
-  <!-- Fim Google Analytics -->
-
   <style>
-    /* CSS igual ao anterior, mantendo estrutura e estilos */
+    /* Variáveis CSS para facilitar a manutenção */
+    :root {
+      --cor-amarelo-cbjr: #f1c40f;
+      --cor-preto-principal: black;
+      --cor-verde-correto: #2ecc71;
+      --cor-vermelho-incorreto: #e74c3c;
+      --cor-fundo-transparente: rgba(0, 0, 0, 0.5);
+      --cor-fundo-audio-player: rgba(0, 0, 0, 0.95);
+      --cor-texto-claro: white;
+      --cor-texto-escuro: black;
+      --cor-borda-quote: #d8c938;
+      --cor-fundo-quote: #fcf4a3;
+      --cor-texto-quote: #222;
+    }
+
     @font-face {
       font-family: 'Elektrix';
       src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff2') format('woff2'),
@@ -25,42 +36,31 @@
       font-weight: bold;
       font-display: swap;
     }
-   @keyframes pulse {
-  0% {
-    transform: scale(1);
-    text-shadow: 3px 3px 15px #000;
-  }
-  50% {
-    transform: scale(1.08);
-    text-shadow: 3px 3px 25px #f1c40f;
-  }
-  100% {
-    transform: scale(1);
-    text-shadow: 3px 3px 15px #000;
-  }
-}
 
-header h1 {
-  font-family: 'Elektrix', sans-serif;
-  font-size: 2.5em;
-  color: #f1c40f;
-  text-shadow: 3px 3px 15px #000;
-  padding: 25px 40px;
-  border-radius: 20px;
-  display: inline-block;
-  animation: pulse 2.5s infinite;
-}
-    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        text-shadow: 3px 3px 15px var(--cor-preto-principal);
+      }
+      50% {
+        transform: scale(1.08);
+        text-shadow: 3px 3px 25px var(--cor-amarelo-cbjr);
+      }
+      100% {
+        transform: scale(1);
+        text-shadow: 3px 3px 15px var(--cor-preto-principal);
+      }
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: black;
-      background-image: url('fundo-cbjr.jpg');
+      background-color: var(--cor-preto-principal);
       background-repeat: no-repeat;
       background-position: center center;
-      background-size: contain;
-      background-attachment: fixed;
-      color: white;
+      background-size: cover; /* ALTERADO: de 'contain' para 'cover' */
+      background-attachment: scroll; /* ALTERADO: de 'fixed' para 'scroll' (padrão) */
+      color: var(--cor-texto-claro);
       text-align: center;
       min-height: 100vh;
       display: flex;
@@ -68,81 +68,206 @@ header h1 {
       justify-content: flex-start;
       align-items: center;
       padding-bottom: 140px;
+      transition: background-image 1s ease-in-out; /* Transição suave para a imagem de fundo */
     }
-  
+
+    header h1 {
+      font-family: 'Elektrix', sans-serif;
+      font-size: 2.5em;
+      color: var(--cor-amarelo-cbjr);
+      text-shadow: 3px 3px 15px var(--cor-preto-principal);
+      padding: 25px 40px;
+      border-radius: 20px;
+      display: inline-block;
+      animation: pulse 2.5s infinite;
+      line-height: 1.2; /* Ajuste para o espaçamento entre as linhas */
+    }
+
     .container {
       max-width: 900px;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: var(--cor-fundo-transparente);
       padding: 40px;
       border-radius: 16px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
       margin-bottom: 40px;
       display: flex;
-      justify-content: center;
+      flex-direction: column; /* Para organizar o progresso e a pontuação */
+      align-items: center;
+      position: relative; /* Para posicionar a pontuação e progresso */
     }
+
+    .quiz-info {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 0.9em;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: right;
+    }
+    
+    .question {
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out; /* Animação de fade */
+      width: 100%; /* Garante que o contêiner de perguntas ocupe a largura */
+    }
+
+    .question.fade-out {
+      opacity: 0;
+    }
+
     .question h3 {
       font-size: 1.8em;
       font-family: 'Elektrix', sans-serif;
+      margin-bottom: 25px;
+      line-height: 1.4; /* Ajuste para o espaçamento entre as linhas */
     }
+
     .question button {
       margin: 10px;
       padding: 15px 30px;
       font-size: 1.2em;
       border-radius: 10px;
       border: none;
-      background-color: #f1c40f;
-      color: black;
+      background-color: var(--cor-amarelo-cbjr);
+      color: var(--cor-texto-escuro);
       cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
+
+    .question button:hover:not(:disabled) {
+      transform: scale(1.05);
+    }
+
     .question button.correct {
-      background-color: #2ecc71;
+      background-color: var(--cor-verde-correto);
     }
+
     .question button.incorrect {
-      background-color: #e74c3c;
+      background-color: var(--cor-vermelho-incorreto);
     }
+
     .answers-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
     }
-    #restart-btn {
-      padding: 10px 20px;
+
+    #restart-btn, #start-btn {
+      padding: 15px 30px;
       margin-top: 20px;
-      background-color: #f1c40f;
-      color: black;
+      background-color: var(--cor-amarelo-cbjr);
+      color: var(--cor-texto-escuro);
       cursor: pointer;
       border: none;
       border-radius: 10px;
+      font-size: 1.5em;
+      transition: transform 0.2s ease;
     }
+
+    #restart-btn:hover, #start-btn:hover {
+      transform: scale(1.05);
+    }
+
     #audio-player-wrapper {
       position: fixed;
       bottom: 0;
       width: 100%;
-      background: rgba(0, 0, 0, 0.95);
+      background: var(--cor-fundo-audio-player);
       padding: 20px;
       box-shadow: 0 -2px 10px rgba(0,0,0,0.6);
       z-index: 999;
     }
-   #quote {
-  background: #fcf4a3;
-  color: #222;
-  font-family: 'Courier New', monospace;
-  font-size: 1.1em;
-  padding: 25px;
-  width: 300px;
-  border-radius: 8px;
-  box-shadow: -3px 3px 10px rgba(0,0,0,0.3);
-  position: fixed;
-  bottom: 150px;
-  left: 50%;
-  transform: translateX(-50%) rotate(-1.5deg);
-  z-index: 1000;
-  border: 1px dashed #d8c938;
-  background-image: linear-gradient(transparent 95%, rgba(0,0,0,0.05) 5%);
-  background-size: 100% 30px;
-}
+
+    /* Adicionado/melhorado estilo para o nome da música */
+    #current-song {
+      color: var(--cor-texto-claro) !important; /* Força cor branca */
+      font-size: 1.1em !important; /* Garante tamanho legível */
+      font-weight: bold;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* Ajuda na leitura */
+      margin-bottom: 10px; /* Espaçamento com o player */
+      white-space: nowrap; /* Evita quebra de linha se o nome for grande */
+      overflow: hidden; /* Esconde se o nome for muito grande */
+      text-overflow: ellipsis; /* Adiciona "..." se for cortado */
+    }
+
+    #quote {
+      background: var(--cor-fundo-quote);
+      color: var(--cor-texto-quote);
+      font-family: 'Courier New', monospace;
+      font-size: 1.1em;
+      padding: 25px;
+      width: clamp(250px, 80%, 400px); /* Ajuste de largura responsivo */
+      border-radius: 8px;
+      box-shadow: -3px 3px 10px rgba(0,0,0,0.3);
+      position: fixed;
+      bottom: 150px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1.5deg);
+      z-index: 1000;
+      border: 1px dashed var(--cor-borda-quote);
+      background-image: linear-gradient(transparent 95%, rgba(0,0,0,0.05) 5%);
+      background-size: 100% 30px;
+      text-align: center;
+    }
+
+    /* Responsividade para telas menores */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8em;
+        padding: 15px 20px;
+      }
+
+      .container {
+        padding: 20px;
+        margin: 0 10px 40px 10px;
+      }
+
+      .question h3 {
+        font-size: 1.4em;
+      }
+
+      .question button {
+        padding: 10px 20px;
+        font-size: 1em;
+      }
+
+      #quote {
+        bottom: 100px; /* Ajusta a posição da citação em telas menores */
+        font-size: 1em;
+        padding: 15px;
+      }
+
+      #audio-player-wrapper {
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.5em;
+        padding: 10px 15px;
+      }
+
+      .question button {
+        font-size: 0.9em;
+        padding: 8px 15px;
+      }
+
+      #start-btn, #restart-btn {
+        font-size: 1.2em;
+        padding: 10px 20px;
+      }
+
+      #quote {
+        width: 90%;
+        bottom: 80px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -151,13 +276,16 @@ header h1 {
   </header>
 
   <div class="container">
+    <div class="quiz-info">
+      <p id="progress-text"></p>
+      <p id="score-text"></p>
+    </div>
     <div id="quiz"></div>
-    <p id="score"></p>
     <p id="medal"></p>
     <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
   </div>
 
-  <button id="start-btn" onclick="startQuiz()" style="font-size: 1.5em; padding: 15px 30px; background-color: #f1c40f; color: black; cursor: pointer; border: none; border-radius: 10px;">Iniciar Quiz</button>
+  <button id="start-btn" onclick="startQuiz()">Iniciar Quiz</button>
 
   <div id="audio-player-wrapper">
     <p id="current-song"></p>
@@ -169,7 +297,7 @@ header h1 {
   <script>
     const questions = [
       { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", 
-        respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"],
+        respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], 
         correta: "Preço Curto... Prazo Longo" 
       },
       { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", 
@@ -232,7 +360,6 @@ header h1 {
         respostas: ["Dias de luta, dias de glória", "Rubão", "Proibida pra mim", "Só os Loucos Sabem"],
         correta: "Proibida pra mim"
       },
-      
       {
         pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?",
         respostas: ["O Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"],
@@ -243,7 +370,6 @@ header h1 {
         respostas: ["Surfe", "Futebol", "Skate", "Capoeira"],
         correta: "Skate"
       },
-
       {
         pergunta: "Em que cidade nasceu a banda <br><br> Charlie Brown Jr.?",
         respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"],
@@ -254,19 +380,16 @@ header h1 {
         respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"],
         correta: "Transpiração Contínua Prolongada"
       },
-      
       {
         pergunta: "Que instrumento Champignon tocava?",
         respostas: ["Guitarra", "Bateria", "Baixo", "Teclado"],
         correta: "Baixo"
       },
-            
       {
         pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?",
         respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"],
         correta: "Não é Sério"
       },
-      
       {
         pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?",
         respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"],
@@ -277,7 +400,6 @@ header h1 {
         respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", "Tarja Preta"],
         correta: "Tarja Preta"
       },
-            
       {
         pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?",
         respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"],
@@ -293,51 +415,28 @@ header h1 {
         respostas: ["Coletivo Brasileiro de Juventude Revolucionária", "Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Cultura Brasileira Jovem de Rua"],
         correta: "Charlie Brown Jr"
       },
-      
-      ];
+    ];
 
-   const quoteElement = document.getElementById('quote');
-const quotes = [
-  "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
-  "Não tão complicado demais, mas nem tão simples assim.",
-  "Mas um homem de verdade não se faz só com palavras.",
-  "Quem é de verdade sabe quem é de mentira.",
-  "Deixem-me exercer minha loucura em paz!",
-  "Dias e noites, pensando no que fiz, eu sou um vencedor, eu lutei pelo que eu quis.",
-  "Aquele tempo eu não podia fazer mais por nós, eu estava errado e você não tem que me perdoar...",
-  "Eu me flagrei pensando em você em tudo o que eu queria te dizer...",
-  "Sem neurose. Cada um sabe o dom, o tom e o tamanho da dose.",
-  "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
-  "Ela tem força, ela tem sensibilidade, ela é guerreira. Ela é uma deusa, ela é mulher de verdade.",
-  "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
-  "Eles querem que você se sinta mal, pois assim eles se sentem bem."
-];
-
-// Função para embaralhar as frases
-function shuffleQuotes(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]]; // Troca os elementos
-  }
-}
-
-// Função para exibir uma nova citação
-let quoteIndex = 0;
-function changeQuote() {
-  quoteElement.textContent = quotes[quoteIndex];
-  quoteIndex = (quoteIndex + 1) % quotes.length;
-  if (quoteIndex === 0) {
-    shuffleQuotes(quotes); // Embaralha novamente as frases
-  }
-}
-
-// Exibe a primeira citação e muda a cada 10 segundos
-setInterval(changeQuote, 10000);
-changeQuote(); // Exibe a primeira citação imediatamente
-
+    const quoteElement = document.getElementById('quote');
+    const quotes = [
+      "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
+      "Não tão complicado demais, mas nem tão simples assim.",
+      "Mas um homem de verdade não se faz só com palavras.",
+      "Quem é de verdade sabe quem é de mentira.",
+      "Deixem-me exercer minha loucura em paz!",
+      "Dias e noites, pensando no que fiz, eu sou um vencedor, eu lutei pelo que eu quis.",
+      "Aquele tempo eu não podia fazer mais por nós, eu estava errado e você não tem que me perdoar...",
+      "Eu me flagrei pensando em você em tudo o que eu queria te dizer...",
+      "Sem neurose. Cada um sabe o dom, o tom e o tamanho da dose.",
+      "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
+      "Ela tem força, ela tem sensibilidade, ela é guerreira. Ela é uma deusa, ela é mulher de verdade.",
+      "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
+      "Eles querem que você se sinta mal, pois assim eles se sentem bem."
+    ];
 
     const quiz = document.getElementById('quiz');
-    const scoreText = document.getElementById('score');
+    const scoreText = document.getElementById('score-text');
+    const progressText = document.getElementById('progress-text');
     const medalText = document.getElementById('medal');
     const restartBtn = document.getElementById('restart-btn');
     const startBtn = document.getElementById('start-btn');
@@ -349,29 +448,106 @@ changeQuote(); // Exibe a primeira citação imediatamente
     let isPlaying = false;
     let currentQuestion = 0;
     let score = 0;
+    let shuffledQuestions = []; // Para armazenar as perguntas embaralhadas
 
+    // Pré-carrega as imagens de fundo
+    const backgroundImages = [
+      'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg', // URL completa
+      'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr2.jpg' // URL completa
+    ];
+    let currentBackgroundIndex = 0;
+
+    function preloadImages(urls, callback) {
+      let loaded = 0;
+      const images = [];
+      urls.forEach((url, index) => {
+        images[index] = new Image();
+        images[index].src = url;
+        images[index].onload = () => {
+          loaded++;
+          if (loaded === urls.length) {
+            callback();
+          }
+        };
+        images[index].onerror = () => {
+          console.warn(`Erro ao carregar imagem: ${url}. Verifique o caminho ou permissões.`);
+          loaded++; // Ainda incrementa para não travar o callback
+          if (loaded === urls.length) {
+            callback();
+          }
+        };
+      });
+    }
+
+    // Carrega a primeira imagem de fundo assim que a página é carregada
+    window.onload = () => {
+      // Usando URLs completas para as imagens também, caso você as tenha localmente ou no GitHub
+      // Se as imagens estão no mesmo diretório do HTML, você pode usar 'fundo-cbjr.jpg'
+      // Mas se estão no GitHub, as URLs completas são essenciais
+      preloadImages(backgroundImages, () => {
+        document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
+        changeBackgroundImageInterval(); // Inicia a troca de imagem após pré-carregar
+      });
+      shuffleQuotes(quotes); // Embaralha as citações ao carregar
+      changeQuote(); // Exibe a primeira citação
+      setInterval(changeQuote, 10000); // Muda a citação a cada 10 segundos
+    };
+
+    function changeBackgroundImageInterval() {
+      setInterval(() => {
+        currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundImages.length;
+        document.body.style.backgroundImage = `url("${backgroundImages[currentBackgroundIndex]}")`;
+      }, 10000); // Troca a imagem a cada 10 segundos
+    }
+
+    // Carrega a playlist de músicas
     fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then(data => {
         playlist = data;
-        currentIndex = Math.floor(Math.random() * playlist.length);
-        loadSong();
+        // console.log('Playlist carregada:', playlist); // Descomente para depurar
+        if (playlist.length > 0) {
+          currentIndex = Math.floor(Math.random() * playlist.length);
+          loadSong();
+        } else {
+          console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
+          currentSongText.textContent = 'ERRO: Playlist vazia. Verifique o arquivo playlist.json.';
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao carregar playlist:', error);
+        currentSongText.textContent = 'ERRO: Não foi possível carregar a playlist. Tente novamente mais tarde.';
       });
 
     function loadSong() {
-      if (!playlist.length) return;
+      if (!playlist.length) {
+        console.warn('loadSong chamado com playlist vazia, impossível carregar música.'); // Descomente para depurar
+        currentSongText.textContent = 'MÚSICA: N/A (Erro de playlist)'; // Mensagem para caso de erro
+        return;
+      }
       const song = playlist[currentIndex];
-      audio.src = song.url;
+      // console.log('Música carregada para exibição:', song.title); // Descomente para depurar
       currentSongText.textContent = `MÚSICA: ${song.title}`;
+      audio.src = song.url;
       if (isPlaying) audio.play();
     }
 
     audio.addEventListener('play', () => isPlaying = true);
     audio.addEventListener('pause', () => isPlaying = false);
     audio.addEventListener('ended', () => {
-      currentIndex = Math.floor(Math.random() * playlist.length);
-      loadSong();
-      audio.play();
+      // Garante que a playlist não está vazia antes de tentar a próxima música
+      if (playlist.length > 0) {
+        currentIndex = Math.floor(Math.random() * playlist.length);
+        loadSong();
+        audio.play();
+      } else {
+        console.warn('Playlist vazia, não é possível tocar a próxima música.');
+      }
     });
 
     function shuffleArray(array) {
@@ -383,85 +559,123 @@ changeQuote(); // Exibe a primeira citação imediatamente
 
     function startQuiz() {
       startBtn.style.display = 'none';
-      shuffleArray(questions);
+      shuffledQuestions = [...questions]; // Cria uma cópia para embaralhar
+      shuffleArray(shuffledQuestions);
       showQuestion();
-      loadSong();
-      audio.play();
+      // Tenta tocar a música apenas se a playlist foi carregada
+      if (playlist.length > 0) {
+        loadSong();
+        audio.play();
+      } else {
+        console.warn('Não foi possível iniciar a música: playlist vazia.');
+        currentSongText.textContent = 'MÚSICA: Não disponível (Erro na playlist)';
+      }
+      updateQuizInfo(); // Atualiza a pontuação e progresso iniciais
+    }
+
+    function updateQuizInfo() {
+      scoreText.textContent = `Score: ${score}/${shuffledQuestions.length}`;
+      progressText.textContent = `Pergunta ${currentQuestion + 1}/${shuffledQuestions.length}`;
     }
 
     function showQuestion() {
-      if (currentQuestion >= questions.length) {
+      if (currentQuestion >= shuffledQuestions.length) {
         quiz.innerHTML = '';
-        scoreText.textContent = `Pontuação final: ${score}/${questions.length}`;
+        progressText.textContent = ''; // Limpa o progresso
+        scoreText.textContent = `Pontuação final: ${score}/${shuffledQuestions.length}`;
         medalText.textContent =
-          score === questions.length
+          score === shuffledQuestions.length
             ? "🏅 Medalha de Ouro! Você é foda, Charlie Brown Jr na veia!"
-            : score >= questions.length / 2
+            : score >= shuffledQuestions.length / 2
             ? "🥈 Medalha de Prata! Mandou bem! Mas um fã faz melhor que isso"
             : "🥉 Medalha de Bronze! Muito fraco, precisa ouvir mais Charlie Brown Jr!";
         restartBtn.style.display = 'block';
         return;
       }
 
-      const question = questions[currentQuestion];
-      quiz.innerHTML = `
-        <div class="question">
-          <h3>${question.pergunta}</h3>
-          <div class="answers-container">
-            ${question.respostas.map(resposta => `
-              <button onclick="checkAnswer('${resposta}', '${question.correta}')">${resposta}</button>
-            `).join('')}
-          </div>
+      const questionElement = document.createElement('div');
+      questionElement.classList.add('question');
+      
+      const questionData = shuffledQuestions[currentQuestion];
+      const shuffledAnswers = [...questionData.respostas]; // Cria uma cópia das respostas para embaralhar
+      shuffleArray(shuffledAnswers); // Embaralha as opções de resposta
+
+      questionElement.innerHTML = `
+        <h3>${questionData.pergunta}</h3>
+        <div class="answers-container">
+          ${shuffledAnswers.map(resposta => `
+            <button onclick="checkAnswer(this, '${resposta}', '${questionData.correta}')">${resposta}</button>
+          `).join('')}
         </div>
       `;
+
+      // Animação de fade-out da pergunta anterior (se houver)
+      const currentQuizContent = quiz.querySelector('.question');
+      if (currentQuizContent) {
+        currentQuizContent.classList.add('fade-out');
+        setTimeout(() => {
+          quiz.innerHTML = ''; // Limpa o conteúdo após a animação
+          quiz.appendChild(questionElement);
+          updateQuizInfo(); // Atualiza a pontuação e progresso
+        }, 500); // Tempo da transição
+      } else {
+        quiz.appendChild(questionElement);
+        updateQuizInfo(); // Atualiza a pontuação e progresso
+      }
     }
 
-    function checkAnswer(answer, correta) {
+    function checkAnswer(clickedButton, answer, correta) {
       const buttons = document.querySelectorAll('.question button');
       buttons.forEach(button => {
-        button.disabled = true;
+        button.disabled = true; // Desabilita todos os botões após a escolha
         if (button.textContent === answer) {
           if (answer === correta) {
-            button.classList.add('correct');
+            clickedButton.classList.add('correct');
           } else {
-            button.classList.add('incorrect');
+            clickedButton.classList.add('incorrect');
+            // Não revela a resposta correta se o usuário errou, conforme sua intenção
           }
         }
       });
 
       if (answer === correta) score++;
-      currentQuestion++;
-      setTimeout(showQuestion, 1000);
+      
+      setTimeout(() => {
+        currentQuestion++;
+        showQuestion(); // Chama a próxima pergunta
+      }, 1000); // Atraso de 1 segundo para o usuário ver o feedback
     }
 
     function restartQuiz() {
       currentQuestion = 0;
       score = 0;
       scoreText.textContent = '';
+      progressText.textContent = '';
       medalText.textContent = '';
       restartBtn.style.display = 'none';
-      shuffleArray(questions);
+      shuffledQuestions = [...questions]; // Cria uma nova cópia embaralhada
+      shuffleArray(shuffledQuestions);
       showQuestion();
+      updateQuizInfo(); // Atualiza a pontuação e progresso iniciais
     }
 
-    function changeBackgroundImage() {
-      const images = ['url("fundo-cbjr.jpg")', 'url("fundo-cbjr2.jpg")'];
-      let currentIndex = 0;
-      
-      setInterval(() => {
-        // Alterar a imagem de fundo
-        document.body.style.backgroundImage = images[currentIndex];
-        
-        // Alterna o índice para a próxima imagem
-        currentIndex = (currentIndex + 1) % images.length;
-      }, 10000); // Troca a imagem a cada 10 segundos (10000ms)
+    // Funções de citação
+    let quoteIndex = 0;
+    function shuffleQuotes(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
     }
 
-    // Chama a função assim que a página carregar
-    window.onload = changeBackgroundImage;
-  </script>
-
-
+    function changeQuote() {
+      if (quotes.length === 0) return;
+      quoteElement.textContent = quotes[quoteIndex];
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      if (quoteIndex === 0) {
+        shuffleQuotes(quotes);
+      }
+    }
   </script>
 </body>
 </html>
