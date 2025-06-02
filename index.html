@@ -67,8 +67,7 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
-      /* Ajuste o padding-bottom para ser maior que a altura do audio player */
-      padding-bottom: 200px; /* Aumentado para garantir espaço para o player fixo */
+      padding-bottom: 200px;
       transition: background-image 1s ease-in-out;
     }
 
@@ -175,27 +174,35 @@
     }
 
     #audio-player-wrapper {
-      position: fixed; /* Mantenha como fixed para ele não rolar com a página */
-      bottom: 0; /* Começa na parte inferior da viewport */
+      position: fixed;
+      bottom: 0;
       width: 100%;
       background: var(--cor-fundo-audio-player);
       padding: 20px;
       box-shadow: 0 -2px 10px rgba(0,0,0,0.6);
       z-index: 999;
-      /* Ajuste a margem superior se necessário, mas o padding-bottom do body é mais importante */
-      /* margin-top: 40px; -- REMOVIDO pois fixed position não interage bem com margin-top */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* Adicionado/melhorado estilo para o nome da música */
     #current-song {
-      color: var(--cor-texto-claro) !important;
-      font-size: 1.1em !important;
+      color: var(--cor-texto-claro);
+      font-size: 1.1em;
       font-weight: bold;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      width: 90%;
+      text-align: center;
+    }
+
+    #audio {
+      width: 80%;
+      max-width: 600px;
     }
 
     #quote {
@@ -208,8 +215,7 @@
       border-radius: 8px;
       box-shadow: -3px 3px 10px rgba(0,0,0,0.3);
       position: fixed;
-      /* Ajuste o bottom para que a citação não seja coberta pelo player de áudio */
-      bottom: 180px; /* Aumentado para garantir espaço */
+      bottom: 180px;
       left: 50%;
       transform: translateX(-50%) rotate(-1.5deg);
       z-index: 1000;
@@ -241,8 +247,7 @@
       }
 
       #quote {
-        /* Reajuste o bottom para telas menores, considerando o player de áudio */
-        bottom: 120px; /* Ajuste para telas menores */
+        bottom: 120px;
         font-size: 1em;
         padding: 15px;
       }
@@ -270,8 +275,7 @@
 
       #quote {
         width: 90%;
-        /* Reajuste o bottom para telas menores, considerando o player de áudio */
-        bottom: 100px; /* Ajuste para telas muito pequenas */
+        bottom: 100px;
       }
     }
   </style>
@@ -285,7 +289,7 @@
     <div class="quiz-info">
       <p id="progress-text"></p>
       <p id="score-text"></p>
-    </div>
+      <p id="level-text"></p> </div>
     <div id="quiz"></div>
     <p id="medal"></p>
     <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
@@ -301,127 +305,56 @@
   </div>
 
   <script>
-    const questions = [
-      { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", 
-        respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], 
-        correta: "Preço Curto... Prazo Longo" 
-      },
-      { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", 
-        respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], 
-        correta: "I Feel So Good Today" 
-      },
-      { pergunta: "Quem era o baixista original <br><br> da banda?", 
-        respostas: ["Chorão", "Marcão", "Champignon", "Heitor"], 
-        correta: "Champignon"
-      },
-      {
-        pergunta: "Qual é o nome do vocalista da banda <br><br> Charlie Brown Jr.?",
-        respostas: ["Chorão", "Champignon", "Marcão", "Pelado"],
-        correta: "Chorão"
-      },
-      { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", 
-        respostas: ["2000", "2002", "1999", "2001"], 
-        correta: "2000" 
-      },
-      { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", 
-        respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], 
-        correta: "Champanhe e Água Benta" 
-      },
-      { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?",
-        respostas: ["1997", "1995", "2000", "1998"], 
-        correta: "1997" 
-      },
-      { pergunta: "Em que ano a banda <br><br> Charlie Brown Jr. foi formada?", 
-        respostas: ["1990", "1992", "1994", "1996"], 
-        correta: "1992" 
-      },
-      { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?",
-        respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], 
-        correta: "Dias de Luta, Dias de Glória" 
-      },
-      { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", 
-        respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], 
-        correta: "Ritmo, Ritual e Responsa" 
-      },
-      { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", 
-        respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], 
-        correta: "Proibida Pra Mim (Grazon)" 
-      },
-      { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", 
-        respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], 
-        correta: "Pelado" 
-      },
-      {
-        pergunta: "Qual o nome completo do Chorão?",
-        respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"],
-        correta: "Alexandre Magno Abrão"
-      },
-      {
-        pergunta: "Onde nasceu o Chorão?",
-        respostas: ["Santos", "São Vicente", "São Paulo", "Campinas"],
-        correta: "São Paulo"
-      },
-      {
-        pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?",
-        respostas: ["Dias de luta, dias de glória", "Rubão", "Proibida pra mim", "Só os Loucos Sabem"],
-        correta: "Proibida pra mim"
-      },
-      {
-        pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?",
-        respostas: ["O Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"],
-        correta: "O Marginal Alado"
-      },
-      {
-        pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:",
-        respostas: ["Surfe", "Futebol", "Skate", "Capoeira"],
-        correta: "Skate"
-      },
-      {
-        pergunta: "Em que cidade nasceu a banda <br><br> Charlie Brown Jr.?",
-        respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"],
-        correta: "Santos"
-      },
-      {
-        pergunta: "Qual o nome do primeiro <br><br> álbum da banda?",
-        respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"],
-        correta: "Transpiração Contínua Prolongada"
-      },
-      {
-        pergunta: "Que instrumento Champignon tocava?",
-        respostas: ["Guitarra", "Bateria", "Baixo", "Teclado"],
-        correta: "Baixo"
-      },
-      {
-        pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?",
-        respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"],
-        correta: "Não é Sério"
-      },
-      {
-        pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?",
-        respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"],
-        correta: "Acústico MTV"
-      },
-      {
-        pergunta: "Qual dessas músicas é do álbum <br><br> Bocas Ordinárias?",
-        respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", "Tarja Preta"],
-        correta: "Tarja Preta"
-      },
-      {
-        pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?",
-        respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"],
-        correta: "Musica Popular Caiçara"
-      },
-      {
-        pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?",
-        respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"],
-        correta: "Virgin Records"
-      },
-      {
-        pergunta: "O que significa CBJR?",
-        respostas: ["Coletivo Brasileiro de Juventude Revolucionária", "Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Cultura Brasileira Jovem de Rua"],
-        correta: "Charlie Brown Jr"
-      },
+    // As perguntas agora são agrupadas por nível
+    const questionsByLevel = [
+      // Nível 1 - Perguntas mais fáceis
+      [
+        { pergunta: "Qual é o nome do vocalista da banda <br><br> Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Pelado"], correta: "Chorão" },
+        { pergunta: "Em que ano a banda <br><br> Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992" },
+        { pergunta: "Que instrumento Champignon tocava?", respostas: ["Guitarra", "Bateria", "Baixo", "Teclado"], correta: "Baixo" },
+        { pergunta: "O que significa CBJR?", respostas: ["Coletivo Brasileiro de Juventude Revolucionária", "Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Cultura Brasileira Jovem de Rua"], correta: "Charlie Brown Jr" }
+      ],
+      // Nível 2 - Perguntas de dificuldade média
+      [
+        { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Preço Curto... Prazo Longo" },
+        { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today" },
+        { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000" },
+        { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997" }
+      ],
+      // Nível 3 - Perguntas mais difíceis
+      [
+        { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória" },
+        { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa" },
+        { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)" },
+        { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado" }
+      ],
+      // Nível 4 - Mais algumas perguntas
+      [
+        { pergunta: "Qual o nome completo do Chorão?", respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"], correta: "Alexandre Magno Abrão" },
+        { pergunta: "Onde nasceu o Chorão?", respostas: ["Santos", "São Vicente", "São Paulo", "Campinas"], correta: "São Paulo" },
+        { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de glória", "Rubão", "Proibida pra mim", "Só os Loucos Sabem"], correta: "Proibida pra mim" },
+        { pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?", respostas: ["O Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"], correta: "O Marginal Alado" }
+      ],
+      // Nível 5
+      [
+        { pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:", respostas: ["Surfe", "Futebol", "Skate", "Capoeira"], correta: "Skate" },
+        { pergunta: "Em que cidade nasceu a banda <br><br> Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos" },
+        { pergunta: "Qual o nome do primeiro <br><br> álbum da banda?", respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"], correta: "Transpiração Contínua Prolongada" },
+        { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta" }
+      ],
+      // Nível 6
+      [
+        { pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?", respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"], correta: "Não é Sério" },
+        { pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?", respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"], correta: "Acústico MTV" },
+        { pergunta: "Qual dessas músicas é do álbum <br><br> Bocas Ordinárias?", respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", "Tarja Preta"], correta: "Tarja Preta" },
+        { pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?", respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"], correta: "Musica Popular Caiçara" }
+      ],
+      // Nível 7 (e final, se não houver mais perguntas)
+      [
+        { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records" }
+      ]
     ];
+
 
     const quoteElement = document.getElementById('quote');
     const quotes = [
@@ -443,6 +376,7 @@
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score-text');
     const progressText = document.getElementById('progress-text');
+    const levelText = document.getElementById('level-text'); // Referência para o novo elemento de nível
     const medalText = document.getElementById('medal');
     const restartBtn = document.getElementById('restart-btn');
     const startBtn = document.getElementById('start-btn');
@@ -451,12 +385,11 @@
 
     let playlist = [];
     let currentIndex = 0;
-    let isPlaying = false;
-    let currentQuestion = 0;
+    let currentLevel = 0; // Começa no Nível 0 (ou Nível 1 para exibição)
+    let currentQuestionIndexInLevel = 0; // Índice da pergunta dentro do nível atual
     let score = 0;
-    let shuffledQuestions = []; // Para armazenar as perguntas embaralhadas
+    let currentLevelQuestions = []; // Para armazenar as perguntas embaralhadas do nível atual
 
-    // Pré-carrega as imagens de fundo
     const backgroundImages = [
       'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg',
       'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr2.jpg'
@@ -485,7 +418,6 @@
       });
     }
 
-    // Carrega a primeira imagem de fundo assim que a página é carregada
     window.onload = () => {
       preloadImages(backgroundImages, () => {
         document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
@@ -503,7 +435,6 @@
       }, 10000);
     }
 
-    // Carrega a playlist de músicas
     fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
       .then(res => {
         if (!res.ok) {
@@ -535,16 +466,16 @@
       const song = playlist[currentIndex];
       currentSongText.textContent = `MÚSICA: ${song.title}`;
       audio.src = song.url;
-      if (isPlaying) audio.play();
     }
 
-    audio.addEventListener('play', () => isPlaying = true);
-    audio.addEventListener('pause', () => isPlaying = false);
     audio.addEventListener('ended', () => {
+      console.log("Música terminou.");
       if (playlist.length > 0) {
         currentIndex = Math.floor(Math.random() * playlist.length);
         loadSong();
-        audio.play();
+        audio.play().catch(e => {
+            console.warn('Erro ao tentar tocar próxima música automaticamente:', e.message);
+        });
       } else {
         console.warn('Playlist vazia, não é possível tocar a próxima música.');
       }
@@ -559,43 +490,61 @@
 
     function startQuiz() {
       startBtn.style.display = 'none';
-      shuffledQuestions = [...questions];
-      shuffleArray(shuffledQuestions);
-      showQuestion();
+      currentLevel = 0;
+      score = 0;
+      loadLevel(); // Inicia o primeiro nível
+      
       if (playlist.length > 0) {
-        loadSong();
-        audio.play();
+        if (!audio.src || audio.src === window.location.href) {
+          currentIndex = Math.floor(Math.random() * playlist.length);
+          loadSong();
+        }
+        audio.play().catch(e => {
+            console.error('Erro ao tentar tocar música automaticamente ao iniciar quiz:', e);
+            alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
+        });
       } else {
         console.warn('Não foi possível iniciar a música: playlist vazia.');
         currentSongText.textContent = 'MÚSICA: Não disponível (Erro na playlist)';
       }
+    }
+
+    function loadLevel() {
+      if (currentLevel >= questionsByLevel.length) {
+        // Todas as fases foram completadas
+        endGame(true); // Indica vitória
+        return;
+      }
+
+      currentLevelQuestions = [...questionsByLevel[currentLevel]];
+      shuffleArray(currentLevelQuestions); // Embaralha as perguntas do nível atual
+      currentQuestionIndexInLevel = 0; // Reseta o índice da pergunta para o novo nível
+      showQuestion();
       updateQuizInfo();
     }
 
     function updateQuizInfo() {
-      scoreText.textContent = `Score: ${score}/${shuffledQuestions.length}`;
-      progressText.textContent = `Pergunta ${currentQuestion + 1}/${shuffledQuestions.length}`;
+      scoreText.textContent = `Acertos: ${score}`;
+      levelText.textContent = `Nível: ${currentLevel + 1}`; // Exibe o nível começando de 1
+      if (currentLevelQuestions.length > 0) {
+        progressText.textContent = `Pergunta: ${currentQuestionIndexInLevel + 1}/${currentLevelQuestions.length}`;
+      } else {
+        progressText.textContent = `Pergunta: N/A`; // Caso o nível esteja vazio
+      }
     }
 
     function showQuestion() {
-      if (currentQuestion >= shuffledQuestions.length) {
-        quiz.innerHTML = '';
-        progressText.textContent = '';
-        scoreText.textContent = `Pontuação final: ${score}/${shuffledQuestions.length}`;
-        medalText.textContent =
-          score === shuffledQuestions.length
-            ? "🏅 Medalha de Ouro! Você é foda, Charlie Brown Jr na veia!"
-            : score >= shuffledQuestions.length / 2
-            ? "🥈 Medalha de Prata! Mandou bem! Mas um fã faz melhor que isso"
-            : "🥉 Medalha de Bronze! Muito fraco, precisa ouvir mais Charlie Brown Jr!";
-        restartBtn.style.display = 'block';
+      // Se não há mais perguntas no nível atual, tente carregar o próximo nível
+      if (currentQuestionIndexInLevel >= currentLevelQuestions.length) {
+        currentLevel++;
+        loadLevel();
         return;
       }
 
       const questionElement = document.createElement('div');
       questionElement.classList.add('question');
       
-      const questionData = shuffledQuestions[currentQuestion];
+      const questionData = currentLevelQuestions[currentQuestionIndexInLevel];
       const shuffledAnswers = [...questionData.respostas];
       shuffleArray(shuffledAnswers);
 
@@ -625,35 +574,63 @@
     function checkAnswer(clickedButton, answer, correta) {
       const buttons = document.querySelectorAll('.question button');
       buttons.forEach(button => {
-        button.disabled = true;
-        if (button.textContent === answer) {
-          if (answer === correta) {
-            clickedButton.classList.add('correct');
-          } else {
-            clickedButton.classList.add('incorrect');
-          }
-        }
+        button.disabled = true; // Desabilita todos os botões após a resposta
       });
 
-      if (answer === correta) score++;
-      
-      setTimeout(() => {
-        currentQuestion++;
-        showQuestion();
-      }, 1000);
+      if (answer === correta) {
+        clickedButton.classList.add('correct');
+        score++; // Aumenta o score apenas se acertar
+        setTimeout(() => {
+          currentQuestionIndexInLevel++; // Avança para a próxima pergunta dentro do nível
+          showQuestion(); // Tenta mostrar a próxima pergunta (ou próximo nível)
+        }, 1000);
+      } else {
+        clickedButton.classList.add('incorrect');
+        // Opcional: mostrar a resposta correta para o usuário
+        buttons.forEach(button => {
+            if (button.textContent === correta) {
+                button.classList.add('correct');
+            }
+        });
+        setTimeout(() => {
+            endGame(false); // Fim de jogo, o usuário errou
+        }, 1500); // Dá um pouco mais de tempo para ver o erro
+      }
     }
 
+    function endGame(isWinner) {
+        quiz.innerHTML = '';
+        progressText.textContent = '';
+        levelText.textContent = ''; // Limpa o texto do nível
+        scoreText.textContent = `Pontuação final: ${score}`;
+        
+        if (isWinner) {
+            medalText.textContent = "🏆 Parabéns! Você completou todos os níveis e é um verdadeiro fã de Charlie Brown Jr!";
+        } else {
+            medalText.textContent = "Game Over! Você errou uma pergunta. Tente novamente!";
+        }
+        restartBtn.style.display = 'block';
+    }
+
+
     function restartQuiz() {
-      currentQuestion = 0;
+      currentLevel = 0;
+      currentQuestionIndexInLevel = 0;
       score = 0;
       scoreText.textContent = '';
       progressText.textContent = '';
+      levelText.textContent = ''; // Limpa o texto do nível ao reiniciar
       medalText.textContent = '';
       restartBtn.style.display = 'none';
-      shuffledQuestions = [...questions];
-      shuffleArray(shuffledQuestions);
-      showQuestion();
-      updateQuizInfo();
+      startQuiz(); // Inicia o quiz novamente (que chamará loadLevel)
+      
+      if (playlist.length > 0) {
+        currentIndex = Math.floor(Math.random() * playlist.length);
+        loadSong();
+        audio.play().catch(e => {
+            console.warn('Erro ao tentar tocar música automaticamente ao reiniciar quiz:', e.message);
+        });
+      }
     }
 
     // Funções de citação
