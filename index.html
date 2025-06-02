@@ -307,9 +307,7 @@
         font-size: 1.4em;
       }
       
-      /* Removido o sobrescrita para 1 coluna.
-         Agora, o .answers-container mantém o grid 2x2. */
-      
+      /* Mantém o grid 2x2 para telas menores, ajustando o tamanho da fonte dos botões */
       .question button {
         height: auto; /* A altura se ajusta ao conteúdo */
         padding: 12px 10px; /* Ajusta o padding para caber em 2 colunas pequenas */
@@ -718,11 +716,12 @@
         }, 1000);
       } else {
         clickedButton.classList.add('incorrect');
-        buttons.forEach(button => {
-            if (button.textContent === correta) {
-                button.classList.add('correct');
-            }
-        });
+        // Linhas removidas para não mostrar a resposta correta ao errar
+        // buttons.forEach(button => {
+        //     if (button.textContent === correta) {
+        //         button.classList.add('correct');
+        //     }
+        // });
         setTimeout(() => {
             endGame(false);
         }, 1500);
