@@ -225,6 +225,30 @@
       text-align: center;
     }
 
+    /* Estilo para a mensagem de nível */
+    #level-up-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: var(--cor-verde-correto);
+        color: var(--cor-texto-claro);
+        padding: 25px 40px;
+        border-radius: 15px;
+        font-family: 'Elektrix', sans-serif;
+        font-size: 2em;
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+        z-index: 2000; /* Acima de tudo */
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        text-align: center;
+    }
+    #level-up-message.show {
+        opacity: 1;
+    }
+
+
     /* Responsividade para telas menores */
     @media (max-width: 768px) {
       header h1 {
@@ -255,6 +279,11 @@
       #audio-player-wrapper {
         padding: 10px;
       }
+
+      #level-up-message {
+        font-size: 1.5em;
+        padding: 15px 25px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -277,6 +306,11 @@
         width: 90%;
         bottom: 100px;
       }
+
+      #level-up-message {
+        font-size: 1.2em;
+        padding: 10px 20px;
+      }
     }
   </style>
 </head>
@@ -289,7 +323,8 @@
     <div class="quiz-info">
       <p id="progress-text"></p>
       <p id="score-text"></p>
-      <p id="level-text"></p> </div>
+      <p id="level-text"></p>
+    </div>
     <div id="quiz"></div>
     <p id="medal"></p>
     <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
@@ -299,13 +334,14 @@
 
   <div id="quote" class="quote"></div>
 
+  <div id="level-up-message" style="display:none;"></div>
+
   <div id="audio-player-wrapper">
     <p id="current-song"></p>
     <audio id="audio" controls></audio>
   </div>
 
   <script>
-    // As perguntas agora são agrupadas por nível
     const questionsByLevel = [
       // Nível 1 - Perguntas mais fáceis
       [
@@ -376,19 +412,20 @@
     const quiz = document.getElementById('quiz');
     const scoreText = document.getElementById('score-text');
     const progressText = document.getElementById('progress-text');
-    const levelText = document.getElementById('level-text'); // Referência para o novo elemento de nível
+    const levelText = document.getElementById('level-text');
     const medalText = document.getElementById('medal');
     const restartBtn = document.getElementById('restart-btn');
     const startBtn = document.getElementById('start-btn');
     const audio = document.getElementById('audio');
     const currentSongText = document.getElementById('current-song');
+    const levelUpMessage = document.getElementById('level-up-message'); // Nova referência
 
     let playlist = [];
     let currentIndex = 0;
-    let currentLevel = 0; // Começa no Nível 0 (ou Nível 1 para exibição)
-    let currentQuestionIndexInLevel = 0; // Índice da pergunta dentro do nível atual
+    let currentLevel = 0;
+    let currentQuestionIndexInLevel = 0;
     let score = 0;
-    let currentLevelQuestions = []; // Para armazenar as perguntas embaralhadas do nível atual
+    let currentLevelQuestions = [];
 
     const backgroundImages = [
       'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg',
@@ -492,7 +529,7 @@
       startBtn.style.display = 'none';
       currentLevel = 0;
       score = 0;
-      loadLevel(); // Inicia o primeiro nível
+      loadLevel();
       
       if (playlist.length > 0) {
         if (!audio.src || audio.src === window.location.href) {
@@ -510,31 +547,49 @@
     }
 
     function loadLevel() {
+      // Se acabou de carregar um nível e não é o primeiro nível (ou seja, passou de nível)
+      if (currentLevel > 0 && currentLevel < questionsByLevel.length) {
+        showLevelUpMessage(); // Exibe a mensagem de "Próximo Nível"
+      }
+
       if (currentLevel >= questionsByLevel.length) {
-        // Todas as fases foram completadas
-        endGame(true); // Indica vitória
+        endGame(true);
         return;
       }
 
       currentLevelQuestions = [...questionsByLevel[currentLevel]];
-      shuffleArray(currentLevelQuestions); // Embaralha as perguntas do nível atual
-      currentQuestionIndexInLevel = 0; // Reseta o índice da pergunta para o novo nível
+      shuffleArray(currentLevelQuestions);
+      currentQuestionIndexInLevel = 0;
       showQuestion();
       updateQuizInfo();
     }
 
+    // Nova função para exibir a mensagem de "Próximo Nível"
+    function showLevelUpMessage() {
+        levelUpMessage.textContent = `Nível ${currentLevel + 1}! Mandou bem!`;
+        levelUpMessage.style.display = 'block';
+        levelUpMessage.classList.add('show');
+
+        // Esconde a mensagem após um tempo
+        setTimeout(() => {
+            levelUpMessage.classList.remove('show');
+            setTimeout(() => {
+                levelUpMessage.style.display = 'none';
+            }, 500); // Tempo da transição CSS para fade out
+        }, 1500); // Tempo que a mensagem fica visível
+    }
+
     function updateQuizInfo() {
       scoreText.textContent = `Acertos: ${score}`;
-      levelText.textContent = `Nível: ${currentLevel + 1}`; // Exibe o nível começando de 1
+      levelText.textContent = `Nível: ${currentLevel + 1}`;
       if (currentLevelQuestions.length > 0) {
         progressText.textContent = `Pergunta: ${currentQuestionIndexInLevel + 1}/${currentLevelQuestions.length}`;
       } else {
-        progressText.textContent = `Pergunta: N/A`; // Caso o nível esteja vazio
+        progressText.textContent = `Pergunta: N/A`;
       }
     }
 
     function showQuestion() {
-      // Se não há mais perguntas no nível atual, tente carregar o próximo nível
       if (currentQuestionIndexInLevel >= currentLevelQuestions.length) {
         currentLevel++;
         loadLevel();
@@ -574,34 +629,33 @@
     function checkAnswer(clickedButton, answer, correta) {
       const buttons = document.querySelectorAll('.question button');
       buttons.forEach(button => {
-        button.disabled = true; // Desabilita todos os botões após a resposta
+        button.disabled = true;
       });
 
       if (answer === correta) {
         clickedButton.classList.add('correct');
-        score++; // Aumenta o score apenas se acertar
+        score++;
         setTimeout(() => {
-          currentQuestionIndexInLevel++; // Avança para a próxima pergunta dentro do nível
-          showQuestion(); // Tenta mostrar a próxima pergunta (ou próximo nível)
+          currentQuestionIndexInLevel++;
+          showQuestion();
         }, 1000);
       } else {
         clickedButton.classList.add('incorrect');
-        // Opcional: mostrar a resposta correta para o usuário
         buttons.forEach(button => {
             if (button.textContent === correta) {
                 button.classList.add('correct');
             }
         });
         setTimeout(() => {
-            endGame(false); // Fim de jogo, o usuário errou
-        }, 1500); // Dá um pouco mais de tempo para ver o erro
+            endGame(false);
+        }, 1500);
       }
     }
 
     function endGame(isWinner) {
         quiz.innerHTML = '';
         progressText.textContent = '';
-        levelText.textContent = ''; // Limpa o texto do nível
+        levelText.textContent = '';
         scoreText.textContent = `Pontuação final: ${score}`;
         
         if (isWinner) {
@@ -612,17 +666,16 @@
         restartBtn.style.display = 'block';
     }
 
-
     function restartQuiz() {
       currentLevel = 0;
       currentQuestionIndexInLevel = 0;
       score = 0;
       scoreText.textContent = '';
       progressText.textContent = '';
-      levelText.textContent = ''; // Limpa o texto do nível ao reiniciar
+      levelText.textContent = '';
       medalText.textContent = '';
       restartBtn.style.display = 'none';
-      startQuiz(); // Inicia o quiz novamente (que chamará loadLevel)
+      startQuiz();
       
       if (playlist.length > 0) {
         currentIndex = Math.floor(Math.random() * playlist.length);
@@ -633,7 +686,6 @@
       }
     }
 
-    // Funções de citação
     let quoteIndex = 0;
     function shuffleQuotes(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
