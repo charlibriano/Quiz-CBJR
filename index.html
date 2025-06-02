@@ -126,9 +126,18 @@
       line-height: 1.4;
     }
 
+    /* --- NOVAS PROPRIEDADES PARA O answers-container --- */
+    .answers-container {
+      display: grid; /* Usa CSS Grid */
+      grid-template-columns: 1fr 1fr; /* Duas colunas de largura igual */
+      gap: 15px; /* Espaçamento entre os itens do grid */
+      width: 100%; /* Ocupa a largura total do container pai */
+      justify-items: center; /* Centraliza os itens dentro de suas células de grid */
+    }
+
     .question button {
-      margin: 10px;
-      padding: 15px 30px;
+      /* Propriedades para os botões dentro do grid */
+      padding: 15px 10px; /* Ajuste o padding para caber no grid */
       font-size: 1.2em;
       border-radius: 10px;
       border: none;
@@ -138,7 +147,7 @@
       transition: background-color 0.3s ease, transform 0.2s ease;
       
       /* --- PROPRIEDADES PARA MANTER O TAMANHO CONSISTENTE --- */
-      min-width: 250px; /* Largura mínima para os botões */
+      width: 100%; /* O botão ocupa 100% da largura da célula do grid */
       height: 80px; /* Altura fixa para os botões */
       display: flex; /* Habilita o flexbox para centralização */
       align-items: center; /* Centraliza o texto verticalmente */
@@ -160,13 +169,6 @@
 
     .question button.incorrect {
       background-color: var(--cor-vermelho-incorreto);
-    }
-
-    .answers-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
     }
 
     #restart-btn, #start-btn {
@@ -304,13 +306,15 @@
       .question h3 {
         font-size: 1.4em;
       }
+      
+      /* Em telas menores, volta para uma coluna */
+      .answers-container {
+        grid-template-columns: 1fr; /* Uma coluna */
+      }
 
       .question button {
-        /* Remove a largura mínima e altura fixa para melhor responsividade em mobile */
-        min-width: unset; 
-        width: 100%; /* Faz os botões ocuparem a largura total disponível */
-        height: auto; /* A altura se ajusta ao conteúdo, mas ainda com padding */
-        padding: 12px 20px; /* Ajusta um pouco o padding para telas menores */
+        height: auto; /* A altura se ajusta ao conteúdo */
+        padding: 12px 20px; /* Ajusta um pouco o padding */
       }
 
       #quote {
