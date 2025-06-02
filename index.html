@@ -293,16 +293,19 @@
         }
 
         /* Novo estilo para o overlay de desabilitação de cliques durante transições */
+        /* Removido este estilo, pois usaremos .quiz-disabled-overlay via JS/toggle */
+        /*
         .quiz-disabled-overlay {
-            position: absolute; /* Deve ser absolute em relação ao .container */
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 50; /* Acima dos botões de resposta, mas abaixo do overlay principal */
-            background-color: transparent; /* Invisível */
-            cursor: not-allowed; /* Indica que não é clicável */
+            z-index: 50;
+            background-color: transparent;
+            cursor: not-allowed;
         }
+        */
 
 
         /* Responsividade para telas menores */
@@ -402,9 +405,7 @@
 
     <div id="level-up-message" style="display:none;"></div>
 
-    <div id="overlay" style="display:none;"></div>
-
-    <div id="audio-player-wrapper">
+    <div id="overlay" style="display:none;"></div> <div id="audio-player-wrapper">
         <p id="current-song"></p>
         <audio id="audio" controls></audio>
     </div>
@@ -538,6 +539,7 @@
             changeQuote();
             setInterval(changeQuote, 10000);
             // Adicionar o event listener aqui para evitar o bug de clique
+            // Este listener deve ser o único responsável por capturar cliques no quiz
             quiz.addEventListener('click', handleQuizClick); 
         };
 
@@ -606,6 +608,10 @@
             currentLevel = 0;
             score = 0;
             lastIncorrectLevel = -1; // Resetar ao iniciar o quiz
+            quizPaused = false; // Garante que não esteja pausado
+            isProcessingAnswer = false; // Garante que a trava esteja liberada
+            quiz.style.pointerEvents = 'all'; // Garante que o quiz esteja clicável
+
             loadLevel();
             
             if (playlist.length > 0) {
@@ -615,7 +621,7 @@
                 }
                 audio.play().catch(e => {
                     console.error('Erro ao tentar tocar música automaticamente ao iniciar quiz:', e);
-                    alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
+                    // alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
                 });
             } else {
                 console.warn('Não foi possível iniciar a música: playlist vazia.');
@@ -629,19 +635,27 @@
                 return;
             }
 
+            // Se for o primeiro nível (currentLevel === 0) ou se saiu de um erro
+            // Não mostra a mensagem de "Nível X!" no início do quiz
             if (currentLevel > 0 && lastIncorrectLevel === -1) {
                 showLevelUpMessage();
             } else {
+                // Caso contrário (primeiro nível ou após retryLevel), carrega a pergunta diretamente
                 currentLevelQuestions = [...questionsByLevel[currentLevel]];
                 shuffleArray(currentLevelQuestions);
                 currentQuestionIndexInLevel = 0;
                 showQuestion();
                 updateQuizInfo();
+                // Importante: garantir que o quiz esteja habilitado após o carregamento inicial/retry
+                isProcessingAnswer = false; 
+                quiz.style.pointerEvents = 'all'; 
             }
         }
 
         function showLevelUpMessage() {
             quizPaused = true;
+            isProcessingAnswer = true; // Trava o quiz enquanto a mensagem está ativa
+            quiz.style.pointerEvents = 'none'; // Desabilita cliques no quiz
             mainOverlay.style.display = 'block'; // Usar mainOverlay
             
             levelUpMessage.innerHTML = `
@@ -654,17 +668,21 @@
 
         function continueQuiz() {
             levelUpMessage.classList.remove('show');
-            mainOverlay.style.display = 'none'; // Usar mainOverlay
-            quizPaused = false;
-
+            // Dar um pequeno tempo para a animação de fade-out da mensagem antes de esconder o overlay
             setTimeout(() => {
                 levelUpMessage.style.display = 'none';
+                mainOverlay.style.display = 'none'; // Usar mainOverlay
+                quizPaused = false;
+                
                 currentLevelQuestions = [...questionsByLevel[currentLevel]];
                 shuffleArray(currentLevelQuestions);
                 currentQuestionIndexInLevel = 0;
                 showQuestion();
                 updateQuizInfo();
-            }, 500);
+                // Liberar o quiz após tudo carregar e o overlay sumir
+                isProcessingAnswer = false; 
+                quiz.style.pointerEvents = 'all'; 
+            }, 500); // Meio segundo para o fade-out
         }
 
         function updateQuizInfo() {
@@ -673,7 +691,8 @@
             if (currentLevelQuestions.length > 0) {
                 progressText.textContent = `Pergunta: ${currentQuestionIndexInLevel + 1}/${currentLevelQuestions.length}`;
             } else {
-                progressText.textContent = `Pergunta: N/A`;
+                // Caso o currentLevelQuestions esteja vazio (ex: fim do quiz ou erro)
+                progressText.textContent = `Pergunta: 0/0`; 
             }
         }
 
@@ -685,6 +704,10 @@
                 loadLevel();
                 return;
             }
+            
+            // Trava o quiz no início da transição de pergunta
+            isProcessingAnswer = true; 
+            quiz.style.pointerEvents = 'none'; 
 
             const questionElement = document.createElement('div');
             questionElement.classList.add('question');
@@ -705,52 +728,54 @@
             const currentQuizContent = quiz.querySelector('.question');
             if (currentQuizContent) {
                 currentQuizContent.classList.add('fade-out');
-                // Desabilita cliques durante a transição de fade-out
-                isProcessingAnswer = true; // Define que está processando
-                quiz.style.pointerEvents = 'none'; // Desabilita cliques no container principal do quiz
-
                 setTimeout(() => {
-                    quiz.innerHTML = '';
+                    quiz.innerHTML = ''; // Limpa o conteúdo antigo
                     quiz.appendChild(questionElement);
                     updateQuizInfo();
-                    // Habilita cliques após a nova pergunta ser carregada e animação terminar
-                    isProcessingAnswer = false; // Libera o processamento
-                    quiz.style.pointerEvents = 'all'; // Habilita cliques novamente
-                }, 500);
+                    // Libera o quiz após a nova pergunta ser completamente adicionada e renderizada
+                    isProcessingAnswer = false; 
+                    quiz.style.pointerEvents = 'all'; 
+                }, 500); // Tempo igual ao da transição fade-out
             } else {
+                // Primeira pergunta ou após um restart/retry que limpa o quiz
+                quiz.innerHTML = ''; // Garante que esteja limpo
                 quiz.appendChild(questionElement);
                 updateQuizInfo();
-                isProcessingAnswer = false; // Garante que não esteja processando no início
-                quiz.style.pointerEvents = 'all'; // Garante que esteja habilitado no início
+                isProcessingAnswer = false; 
+                quiz.style.pointerEvents = 'all'; 
             }
         }
 
         // NOVO: Função para lidar com cliques no container do quiz
         function handleQuizClick(event) {
-            if (isProcessingAnswer) {
-                event.stopPropagation(); // Impede que o clique se propague se estiver processando
-                return;
+            // Se o quiz está pausado (por mensagem de nível/game over) ou processando resposta/transição
+            if (quizPaused || isProcessingAnswer) {
+                event.stopPropagation(); // Impede que o clique se propague
+                return; // Ignora o clique
             }
 
-            const clickedButton = event.target.closest('.answer-button'); // Pega o botão clicado
+            const clickedButton = event.target.closest('.answer-button'); 
             if (clickedButton) {
-                // Se o clique foi em um botão de resposta
+                // Se o clique foi em um botão de resposta, então processa
                 const answer = clickedButton.dataset.answer;
                 const correta = clickedButton.dataset.correct;
                 checkAnswer(clickedButton, answer, correta);
             }
-            // Se o clique não foi em um botão de resposta, mas dentro do quiz, não faz nada
+            // Se o clique não foi em um botão de resposta, mas dentro do quiz (e não estiver travado),
+            // a função simplesmente não faz nada, resolvendo o bug.
         }
 
         function checkAnswer(clickedButton, answer, correta) {
-            if (quizPaused || isProcessingAnswer) return; // Garante que não haja cliques duplicados
+            // Já estamos verificando `quizPaused` e `isProcessingAnswer` no `handleQuizClick`
+            // mas é bom ter uma redundância aqui também, caso a função seja chamada diretamente.
+            if (quizPaused || isProcessingAnswer) return; 
 
             isProcessingAnswer = true; // Trava o quiz imediatamente
             quiz.style.pointerEvents = 'none'; // Desabilita cliques no quiz container
 
-            const buttons = quiz.querySelectorAll('.answer-button'); // Usar a nova classe
+            const buttons = quiz.querySelectorAll('.answer-button'); 
             buttons.forEach(button => {
-                button.disabled = true;
+                button.disabled = true; // Desabilita todos os botões para evitar novos cliques
             });
 
             if (answer === correta) {
@@ -759,42 +784,38 @@
                 setTimeout(() => {
                     currentQuestionIndexInLevel++;
                     showQuestion(); 
-                }, 1000);
+                }, 1000); // 1 segundo para o usuário ver a resposta correta
             } else {
                 clickedButton.classList.add('incorrect');
                 setTimeout(() => {
                     endGame(false);
-                }, 1500);
+                }, 1500); // 1.5 segundo para o usuário ver a resposta incorreta antes de ir para o game over
             }
         }
 
         function endGame(isWinner) {
             quizPaused = true;
+            isProcessingAnswer = true; // Trava o quiz durante o game over
+            quiz.style.pointerEvents = 'none'; // Desabilita cliques no quiz
             mainOverlay.style.display = 'block';
+
+            // Limpa o conteúdo do quiz imediatamente para evitar interações
             quiz.innerHTML = ''; 
             progressText.textContent = '';
             levelText.textContent = '';
-            medalText.textContent = '';
+            // medalText.textContent = ''; // A medalha ou mensagem final será no levelUpMessage agora
             scoreText.textContent = `Pontuação: ${score}`;
             
-            // Libera o quiz após exibir a mensagem de endGame
-            isProcessingAnswer = false; 
-            quiz.style.pointerEvents = 'all'; 
-
             if (isWinner) {
-                medalText.textContent = "🏆 Parabéns! Você completou todos os níveis e é um verdadeiro fã de Charlie Brown Jr!";
-                restartBtn.textContent = 'Jogar Novamente';
-                restartBtn.onclick = restartQuiz;
-                restartBtn.style.display = 'block';
                 levelUpMessage.innerHTML = `
-                    <div>Vitória! Você é fera!</div>
+                    <div>🏆 Parabéns! Você é um verdadeiro fã de Charlie Brown Jr!</div>
                     <button onclick="restartQuiz()">Jogar Novamente</button>
                 `;
                 levelUpMessage.style.backgroundColor = 'var(--cor-verde-correto)';
                 levelUpMessage.style.display = 'flex';
                 levelUpMessage.classList.add('show');
             } else {
-                lastIncorrectLevel = currentLevel;
+                lastIncorrectLevel = currentLevel; // Marca o nível onde errou
                 levelUpMessage.innerHTML = `
                     <div>Oops! Você errou!</div>
                     <button onclick="retryLevel()">Tentar Novamente (Este Nível)</button>
@@ -804,46 +825,61 @@
                 levelUpMessage.style.display = 'flex';
                 levelUpMessage.classList.add('show');
             }
+            // As flags `isProcessingAnswer` e `quiz.style.pointerEvents` serão liberadas pelas funções `retryLevel` ou `restartQuiz`
         }
 
         function retryLevel() {
             levelUpMessage.classList.remove('show');
-            mainOverlay.style.display = 'none';
-            quizPaused = false;
-            
-            currentQuestionIndexInLevel = 0;
-            currentLevelQuestions = [...questionsByLevel[currentLevel]];
-            shuffleArray(currentLevelQuestions);
-            
-            showQuestion();
-            updateQuizInfo();
-            lastIncorrectLevel = -1;
+            // Tempo para o fade-out da mensagem
+            setTimeout(() => {
+                levelUpMessage.style.display = 'none';
+                mainOverlay.style.display = 'none'; // Oculta o overlay principal
+                quizPaused = false;
+                
+                currentQuestionIndexInLevel = 0; // Reinicia as perguntas deste nível
+                currentLevelQuestions = [...questionsByLevel[currentLevel]]; // Recarrega as perguntas do nível atual
+                shuffleArray(currentLevelQuestions); // Embaralha novamente as perguntas
+                
+                showQuestion(); // Mostra a primeira pergunta do nível novamente
+                updateQuizInfo(); // Atualiza o placar
+                lastIncorrectLevel = -1; // Reseta a flag de último nível incorreto
+
+                isProcessingAnswer = false; // Libera o quiz
+                quiz.style.pointerEvents = 'all'; 
+            }, 500);
         }
 
         function restartQuiz() {
-            currentLevel = 0;
-            currentQuestionIndexInLevel = 0;
-            score = 0;
-            lastIncorrectLevel = -1;
-            scoreText.textContent = '';
-            progressText.textContent = '';
-            levelText.textContent = '';
-            medalText.textContent = '';
-            restartBtn.style.display = 'none';
-            levelUpMessage.style.display = 'none';
-            mainOverlay.style.display = 'none';
-            quizPaused = false;
-            isProcessingAnswer = false; // Reseta também essa flag
-            quiz.style.pointerEvents = 'all'; // Garante que o quiz esteja habilitado
-            startQuiz();
-            
-            if (playlist.length > 0) {
-                currentIndex = Math.floor(Math.random() * playlist.length);
-                loadSong();
-                audio.play().catch(e => {
-                    console.warn('Erro ao tentar tocar música automaticamente ao reiniciar quiz:', e.message);
-                });
-            }
+            levelUpMessage.classList.remove('show');
+            setTimeout(() => {
+                currentLevel = 0;
+                currentQuestionIndexInLevel = 0;
+                score = 0;
+                lastIncorrectLevel = -1;
+                scoreText.textContent = '';
+                progressText.textContent = '';
+                levelText.textContent = '';
+                medalText.textContent = ''; // Garante que a medalha esteja limpa
+                restartBtn.style.display = 'none'; // Oculta o botão de reiniciar, se visível
+                levelUpMessage.style.display = 'none'; // Oculta a mensagem de nível/game over
+                mainOverlay.style.display = 'none'; // Oculta o overlay principal
+                quizPaused = false;
+                isProcessingAnswer = false; // Reseta a trava
+                quiz.style.pointerEvents = 'all'; // Garante que o quiz esteja habilitado
+
+                // Limpa o conteúdo do quiz completamente antes de iniciar
+                quiz.innerHTML = ''; 
+                
+                startQuiz(); // Chama startQuiz para reiniciar o fluxo
+                
+                if (playlist.length > 0) {
+                    currentIndex = Math.floor(Math.random() * playlist.length);
+                    loadSong();
+                    audio.play().catch(e => {
+                        console.warn('Erro ao tentar tocar música automaticamente ao reiniciar quiz:', e.message);
+                    });
+                }
+            }, 500); // Tempo para o fade-out da mensagem
         }
 
         let quoteIndex = 0;
