@@ -58,7 +58,6 @@
             background-color: var(--cor-preto-principal);
             background-repeat: no-repeat;
             background-position: center center;
-            /* CORREÇÃO APLICADA AQUI: mudado de 'cover' para 'contain' */
             background-size: contain;
             background-attachment: scroll;
             color: var(--cor-texto-claro);
@@ -127,7 +126,6 @@
             line-height: 1.4;
         }
 
-        /* --- NOVAS PROPRIEDADES PARA O answers-container --- */
         .answers-container {
             display: grid; /* Usa CSS Grid */
             grid-template-columns: 1fr 1fr; /* Duas colunas de largura igual */
@@ -137,7 +135,6 @@
         }
 
         .question button {
-            /* Propriedades para os botões dentro do grid */
             padding: 15px 10px; /* Ajuste o padding para caber no grid */
             font-size: 1.2em;
             border-radius: 10px;
@@ -147,7 +144,7 @@
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
             
-            /* --- PROPRIEDADES PARA MANTER O TAMANHO CONSISTENTE --- */
+            /* PROPRIEDADES PARA MANTER O TAMANHO CONSISTENTE */
             width: 100%; /* O botão ocupa 100% da largura da célula do grid */
             height: 80px; /* Altura fixa para os botões */
             display: flex; /* Habilita o flexbox para centralização */
@@ -157,7 +154,6 @@
             box-sizing: border-box; /* Inclui padding e borda no tamanho total */
             white-space: normal; /* Permite a quebra de linha normal */
             word-wrap: break-word; /* Força a quebra de palavras longas */
-            /* --- FIM DAS PROPRIEDADES --- */
         }
 
         .question button:hover:not(:disabled) {
@@ -200,6 +196,8 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
+            height: 180px; /* Aumentado para acomodar o equalizador */
+            justify-content: center; /* Centraliza o conteúdo verticalmente */
         }
 
         #current-song {
@@ -216,8 +214,18 @@
         }
 
         #audio {
-            width: 80%;
-            max-width: 600px;
+            width: 90%; /* Ajustado para ficar melhor com o equalizador */
+            max-width: 700px;
+        }
+
+        /* Adicione estilos para o canvas do equalizador */
+        #equalizer-canvas {
+            width: 100%; /* Ocupa a largura total do wrapper */
+            height: 30px; /* Altura discreta para o equalizador */
+            display: block; /* Garante que não haja espaçamento extra */
+            margin-top: 10px; /* Espaço entre o player e o equalizador */
+            background-color: rgba(0, 0, 0, 0.2); /* Fundo sutil */
+            border-radius: 5px;
         }
 
         #quote {
@@ -230,7 +238,7 @@
             border-radius: 8px;
             box-shadow: -3px 3px 10px rgba(0,0,0,0.3);
             position: fixed;
-            bottom: 180px;
+            bottom: 200px; /* Ajustado de 180px para 200px devido ao equalizador */
             left: 50%;
             transform: translateX(-50%) rotate(-1.5deg);
             z-index: 1000;
@@ -309,21 +317,24 @@
                 font-size: 1.4em;
             }
             
-            /* Mantém o grid 2x2 para telas menores, ajustando o tamanho da fonte dos botões */
             .question button {
                 height: auto; /* A altura se ajusta ao conteúdo */
                 padding: 12px 10px; /* Ajusta o padding para caber em 2 colunas pequenas */
                 font-size: 0.9em; /* Reduz a fonte para caber em 2 colunas em telas menores */
             }
 
-            #quote {
-                bottom: 120px;
-                font-size: 1em;
-                padding: 15px;
+            #audio-player-wrapper {
+                height: 150px; /* Menor em telas menores */
+                padding: 10px;
+            }
+            #equalizer-canvas {
+                height: 25px; /* Menor em telas menores */
             }
 
-            #audio-player-wrapper {
-                padding: 10px;
+            #quote {
+                bottom: 150px; /* Ajuste para telas menores */
+                font-size: 1em;
+                padding: 15px;
             }
 
             #level-up-message {
@@ -352,9 +363,17 @@
                 padding: 10px 20px;
             }
 
+            #audio-player-wrapper {
+                height: 120px; /* Menor ainda */
+                padding: 10px;
+            }
+            #equalizer-canvas {
+                height: 20px; /* Menor ainda */
+            }
+
             #quote {
                 width: 90%;
-                bottom: 100px;
+                bottom: 120px; /* Ajuste para telas muito pequenas */
             }
 
             #level-up-message {
@@ -390,10 +409,12 @@
 
     <div id="level-up-message" style="display:none;"></div>
 
-    <div id="overlay" style="display:none;"></div> <div id="audio-player-wrapper">
+    <div id="overlay" style="display:none;"></div> 
+    
+    <div id="audio-player-wrapper">
         <p id="current-song"></p>
         <audio id="audio" controls></audio>
-    </div>
+        <canvas id="equalizer-canvas"></canvas> </div>
 
     <script>
         const questionsByLevel = [
@@ -473,7 +494,7 @@
         const audio = document.getElementById('audio');
         const currentSongText = document.getElementById('current-song');
         const levelUpMessage = document.getElementById('level-up-message');
-        const mainOverlay = document.getElementById('overlay'); // Renomeado para evitar confusão
+        const mainOverlay = document.getElementById('overlay');
 
         let playlist = [];
         let currentIndex = 0;
@@ -484,14 +505,20 @@
         let quizPaused = false;
         let lastIncorrectLevel = -1;
 
-        // Variável para controlar se o quiz está em estado de transição/desabilitado
-        let isProcessingAnswer = false; 
+        let isProcessingAnswer = false;
 
         const backgroundImages = [
             'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg',
             'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr2.jpg'
         ];
         let currentBackgroundIndex = 0;
+
+        // NOVAS VARIÁVEIS PARA O EQUALIZADOR
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let analyser;
+        let source;
+        const equalizerCanvas = document.getElementById('equalizer-canvas');
+        const canvasCtx = equalizerCanvas.getContext('2d');
 
         function preloadImages(urls, callback) {
             let loaded = 0;
@@ -523,9 +550,10 @@
             shuffleQuotes(quotes);
             changeQuote();
             setInterval(changeQuote, 10000);
-            // Adicionar o event listener aqui para evitar o bug de clique
-            // Este listener deve ser o único responsável por capturar cliques no quiz
-            quiz.addEventListener('click', handleQuizClick); 
+            quiz.addEventListener('click', handleQuizClick);
+
+            // Chamar resizeCanvas para garantir o tamanho correto do canvas
+            resizeCanvas();
         };
 
         function changeBackgroundImageInterval() {
@@ -581,6 +609,66 @@
             }
         });
 
+        // NOVO: Função para inicializar o analisador de áudio
+        function setupAudioAnalyser() {
+            if (!analyser) {
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 2048; // Aumentado para mais dados de frequência
+
+                if (!source) {
+                    source = audioContext.createMediaElementSource(audio);
+                    source.connect(analyser);
+                    analyser.connect(audioContext.destination);
+                } else {
+                    source.disconnect();
+                    source.connect(analyser);
+                    analyser.connect(audioContext.destination);
+                }
+                drawEqualizer();
+            }
+        }
+
+        // NOVO: Função para redimensionar o canvas e ajustar a escala de alta DPI
+        function resizeCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            equalizerCanvas.width = equalizerCanvas.offsetWidth * dpr;
+            equalizerCanvas.height = equalizerCanvas.offsetHeight * dpr;
+            canvasCtx.scale(dpr, dpr);
+        }
+
+        // NOVO: Função de desenho do equalizador (reage às frequências)
+        function drawEqualizer() {
+            requestAnimationFrame(drawEqualizer);
+
+            if (!analyser || quizPaused) {
+                canvasCtx.clearRect(0, 0, equalizerCanvas.width, equalizerCanvas.height);
+                return;
+            }
+
+            const bufferLength = analyser.frequencyBinCount; // Metade do fftSize
+            const dataArray = new Uint8Array(bufferLength);
+            analyser.getByteFrequencyData(dataArray); // Obtém dados de frequência
+
+            canvasCtx.clearRect(0, 0, equalizerCanvas.width, equalizerCanvas.height);
+
+            const numberOfBars = 64; // Número de barras que queremos desenhar
+            const step = Math.floor(bufferLength / numberOfBars);
+
+            const barWidth = (equalizerCanvas.offsetWidth / numberOfBars) * 0.9;
+            let x = 0;
+
+            for (let i = 0; i < numberOfBars; i++) {
+                const dataIndex = i * step;
+                const barHeight = (dataArray[dataIndex] / 255) * equalizerCanvas.offsetHeight;
+
+                canvasCtx.fillStyle = 'var(--cor-amarelo-cbjr)';
+                canvasCtx.fillRect(x, equalizerCanvas.offsetHeight - barHeight, barWidth, barHeight);
+
+                x += barWidth + (equalizerCanvas.offsetWidth / numberOfBars) * 0.1;
+            }
+        }
+        // FIM DAS FUNÇÕES DO EQUALIZADOR
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -592,13 +680,16 @@
             startBtn.style.display = 'none';
             currentLevel = 0;
             score = 0;
-            lastIncorrectLevel = -1; // Resetar ao iniciar o quiz
-            quizPaused = false; // Garante que não esteja pausado
-            isProcessingAnswer = false; // Garante que a trava esteja liberada
-            quiz.style.pointerEvents = 'all'; // Garante que o quiz esteja clicável
+            lastIncorrectLevel = -1;
+            quizPaused = false;
+            isProcessingAnswer = false;
+            quiz.style.pointerEvents = 'all';
 
             loadLevel();
             
+            // Inicia o analisador de áudio ao iniciar o quiz
+            setupAudioAnalyser();
+
             if (playlist.length > 0) {
                 if (!audio.src || audio.src === window.location.href) {
                     currentIndex = Math.floor(Math.random() * playlist.length);
@@ -606,7 +697,6 @@
                 }
                 audio.play().catch(e => {
                     console.error('Erro ao tentar tocar música automaticamente ao iniciar quiz:', e);
-                    // alert("A música não pôde ser iniciada automaticamente. Por favor, use o controle de play do player de áudio.");
                 });
             } else {
                 console.warn('Não foi possível iniciar a música: playlist vazia.');
@@ -620,28 +710,24 @@
                 return;
             }
 
-            // Se for o primeiro nível (currentLevel === 0) ou se saiu de um erro
-            // Não mostra a mensagem de "Nível X!" no início do quiz
             if (currentLevel > 0 && lastIncorrectLevel === -1) {
                 showLevelUpMessage();
             } else {
-                // Caso contrário (primeiro nível ou após retryLevel), carrega a pergunta diretamente
                 currentLevelQuestions = [...questionsByLevel[currentLevel]];
                 shuffleArray(currentLevelQuestions);
                 currentQuestionIndexInLevel = 0;
                 showQuestion();
                 updateQuizInfo();
-                // Importante: garantir que o quiz esteja habilitado após o carregamento inicial/retry
-                isProcessingAnswer = false; 
-                quiz.style.pointerEvents = 'all'; 
+                isProcessingAnswer = false;
+                quiz.style.pointerEvents = 'all';
             }
         }
 
         function showLevelUpMessage() {
             quizPaused = true;
-            isProcessingAnswer = true; // Trava o quiz enquanto a mensagem está ativa
-            quiz.style.pointerEvents = 'none'; // Desabilita cliques no quiz
-            mainOverlay.style.display = 'block'; // Usar mainOverlay
+            isProcessingAnswer = true;
+            quiz.style.pointerEvents = 'none';
+            mainOverlay.style.display = 'block';
             
             levelUpMessage.innerHTML = `
                 <div>Nível ${currentLevel + 1}! Mandou bem!</div>
@@ -653,10 +739,9 @@
 
         function continueQuiz() {
             levelUpMessage.classList.remove('show');
-            // Dar um pequeno tempo para a animação de fade-out da mensagem antes de esconder o overlay
             setTimeout(() => {
                 levelUpMessage.style.display = 'none';
-                mainOverlay.style.display = 'none'; // Usar mainOverlay
+                mainOverlay.style.display = 'none';
                 quizPaused = false;
                 
                 currentLevelQuestions = [...questionsByLevel[currentLevel]];
@@ -664,10 +749,9 @@
                 currentQuestionIndexInLevel = 0;
                 showQuestion();
                 updateQuizInfo();
-                // Liberar o quiz após tudo carregar e o overlay sumir
-                isProcessingAnswer = false; 
-                quiz.style.pointerEvents = 'all'; 
-            }, 500); // Meio segundo para o fade-out
+                isProcessingAnswer = false;
+                quiz.style.pointerEvents = 'all';
+            }, 500);
         }
 
         function updateQuizInfo() {
@@ -676,8 +760,7 @@
             if (currentLevelQuestions.length > 0) {
                 progressText.textContent = `Pergunta: ${currentQuestionIndexInLevel + 1}/${currentLevelQuestions.length}`;
             } else {
-                // Caso o currentLevelQuestions esteja vazio (ex: fim do quiz ou erro)
-                progressText.textContent = `Pergunta: 0/0`; 
+                progressText.textContent = `Pergunta: 0/0`;
             }
         }
 
@@ -690,9 +773,8 @@
                 return;
             }
             
-            // Trava o quiz no início da transição de pergunta
-            isProcessingAnswer = true; 
-            quiz.style.pointerEvents = 'none'; 
+            isProcessingAnswer = true;
+            quiz.style.pointerEvents = 'none';
 
             const questionElement = document.createElement('div');
             questionElement.classList.add('question');
@@ -714,53 +796,44 @@
             if (currentQuizContent) {
                 currentQuizContent.classList.add('fade-out');
                 setTimeout(() => {
-                    quiz.innerHTML = ''; // Limpa o conteúdo antigo
+                    quiz.innerHTML = '';
                     quiz.appendChild(questionElement);
                     updateQuizInfo();
-                    // Libera o quiz após a nova pergunta ser completamente adicionada e renderizada
-                    isProcessingAnswer = false; 
-                    quiz.style.pointerEvents = 'all'; 
-                }, 500); // Tempo igual ao da transição fade-out
+                    isProcessingAnswer = false;
+                    quiz.style.pointerEvents = 'all';
+                }, 500);
             } else {
-                // Primeira pergunta ou após um restart/retry que limpa o quiz
-                quiz.innerHTML = ''; // Garante que esteja limpo
+                quiz.innerHTML = '';
                 quiz.appendChild(questionElement);
                 updateQuizInfo();
-                isProcessingAnswer = false; 
-                quiz.style.pointerEvents = 'all'; 
+                isProcessingAnswer = false;
+                quiz.style.pointerEvents = 'all';
             }
         }
 
-        // NOVO: Função para lidar com cliques no container do quiz
         function handleQuizClick(event) {
-            // Se o quiz está pausado (por mensagem de nível/game over) ou processando resposta/transição
             if (quizPaused || isProcessingAnswer) {
-                event.stopPropagation(); // Impede que o clique se propague
-                return; // Ignora o clique
+                event.stopPropagation();
+                return;
             }
 
-            const clickedButton = event.target.closest('.answer-button'); 
+            const clickedButton = event.target.closest('.answer-button');
             if (clickedButton) {
-                // Se o clique foi em um botão de resposta, então processa
                 const answer = clickedButton.dataset.answer;
                 const correta = clickedButton.dataset.correct;
                 checkAnswer(clickedButton, answer, correta);
             }
-            // Se o clique não foi em um botão de resposta, mas dentro do quiz (e não estiver travado),
-            // a função simplesmente não faz nada, resolvendo o bug.
         }
 
         function checkAnswer(clickedButton, answer, correta) {
-            // Já estamos verificando `quizPaused` e `isProcessingAnswer` no `handleQuizClick`
-            // mas é bom ter uma redundância aqui também, caso a função seja chamada diretamente.
-            if (quizPaused || isProcessingAnswer) return; 
+            if (quizPaused || isProcessingAnswer) return;
 
-            isProcessingAnswer = true; // Trava o quiz imediatamente
-            quiz.style.pointerEvents = 'none'; // Desabilita cliques no quiz container
+            isProcessingAnswer = true;
+            quiz.style.pointerEvents = 'none';
 
-            const buttons = quiz.querySelectorAll('.answer-button'); 
+            const buttons = quiz.querySelectorAll('.answer-button');
             buttons.forEach(button => {
-                button.disabled = true; // Desabilita todos os botões para evitar novos cliques
+                button.disabled = true;
             });
 
             if (answer === correta) {
@@ -768,27 +841,25 @@
                 score++;
                 setTimeout(() => {
                     currentQuestionIndexInLevel++;
-                    showQuestion(); 
-                }, 1000); // 1 segundo para o usuário ver a resposta correta
+                    showQuestion();
+                }, 1000);
             } else {
                 clickedButton.classList.add('incorrect');
                 setTimeout(() => {
                     endGame(false);
-                }, 1500); // 1.5 segundo para o usuário ver a resposta incorreta antes de ir para o game over
+                }, 1500);
             }
         }
 
         function endGame(isWinner) {
             quizPaused = true;
-            isProcessingAnswer = true; // Trava o quiz durante o game over
-            quiz.style.pointerEvents = 'none'; // Desabilita cliques no quiz
+            isProcessingAnswer = true;
+            quiz.style.pointerEvents = 'none';
             mainOverlay.style.display = 'block';
 
-            // Limpa o conteúdo do quiz imediatamente para evitar interações
-            quiz.innerHTML = ''; 
+            quiz.innerHTML = '';
             progressText.textContent = '';
             levelText.textContent = '';
-            // medalText.textContent = ''; // A medalha ou mensagem final será no levelUpMessage agora
             scoreText.textContent = `Pontuação: ${score}`;
             
             if (isWinner) {
@@ -800,7 +871,7 @@
                 levelUpMessage.style.display = 'flex';
                 levelUpMessage.classList.add('show');
             } else {
-                lastIncorrectLevel = currentLevel; // Marca o nível onde errou
+                lastIncorrectLevel = currentLevel;
                 levelUpMessage.innerHTML = `
                     <div>Oops! Você errou!</div>
                     <button onclick="retryLevel()">Tentar Novamente (Este Nível)</button>
@@ -810,27 +881,25 @@
                 levelUpMessage.style.display = 'flex';
                 levelUpMessage.classList.add('show');
             }
-            // As flags `isProcessingAnswer` e `quiz.style.pointerEvents` serão liberadas pelas funções `retryLevel` ou `restartQuiz`
         }
 
         function retryLevel() {
             levelUpMessage.classList.remove('show');
-            // Tempo para o fade-out da mensagem
             setTimeout(() => {
                 levelUpMessage.style.display = 'none';
-                mainOverlay.style.display = 'none'; // Oculta o overlay principal
+                mainOverlay.style.display = 'none';
                 quizPaused = false;
                 
-                currentQuestionIndexInLevel = 0; // Reinicia as perguntas deste nível
-                currentLevelQuestions = [...questionsByLevel[currentLevel]]; // Recarrega as perguntas do nível atual
-                shuffleArray(currentLevelQuestions); // Embaralha novamente as perguntas
+                currentQuestionIndexInLevel = 0;
+                currentLevelQuestions = [...questionsByLevel[currentLevel]];
+                shuffleArray(currentLevelQuestions);
                 
-                showQuestion(); // Mostra a primeira pergunta do nível novamente
-                updateQuizInfo(); // Atualiza o placar
-                lastIncorrectLevel = -1; // Reseta a flag de último nível incorreto
+                showQuestion();
+                updateQuizInfo();
+                lastIncorrectLevel = -1;
 
-                isProcessingAnswer = false; // Libera o quiz
-                quiz.style.pointerEvents = 'all'; 
+                isProcessingAnswer = false;
+                quiz.style.pointerEvents = 'all';
             }, 500);
         }
 
@@ -844,18 +913,17 @@
                 scoreText.textContent = '';
                 progressText.textContent = '';
                 levelText.textContent = '';
-                medalText.textContent = ''; // Garante que a medalha esteja limpa
-                restartBtn.style.display = 'none'; // Oculta o botão de reiniciar, se visível
-                levelUpMessage.style.display = 'none'; // Oculta a mensagem de nível/game over
-                mainOverlay.style.display = 'none'; // Oculta o overlay principal
+                medalText.textContent = '';
+                restartBtn.style.display = 'none';
+                levelUpMessage.style.display = 'none';
+                mainOverlay.style.display = 'none';
                 quizPaused = false;
-                isProcessingAnswer = false; // Reseta a trava
-                quiz.style.pointerEvents = 'all'; // Garante que o quiz esteja habilitado
+                isProcessingAnswer = false;
+                quiz.style.pointerEvents = 'all';
 
-                // Limpa o conteúdo do quiz completamente antes de iniciar
-                quiz.innerHTML = ''; 
+                quiz.innerHTML = '';
                 
-                startQuiz(); // Chama startQuiz para reiniciar o fluxo
+                startQuiz();
                 
                 if (playlist.length > 0) {
                     currentIndex = Math.floor(Math.random() * playlist.length);
@@ -864,7 +932,7 @@
                         console.warn('Erro ao tentar tocar música automaticamente ao reiniciar quiz:', e.message);
                     });
                 }
-            }, 500); // Tempo para o fade-out da mensagem
+            }, 500);
         }
 
         let quoteIndex = 0;
