@@ -307,14 +307,13 @@
         font-size: 1.4em;
       }
       
-      /* Em telas menores, volta para uma coluna */
-      .answers-container {
-        grid-template-columns: 1fr; /* Uma coluna */
-      }
-
+      /* Removido o sobrescrita para 1 coluna.
+         Agora, o .answers-container mantém o grid 2x2. */
+      
       .question button {
         height: auto; /* A altura se ajusta ao conteúdo */
-        padding: 12px 20px; /* Ajusta um pouco o padding */
+        padding: 12px 10px; /* Ajusta o padding para caber em 2 colunas pequenas */
+        font-size: 0.9em; /* Reduz a fonte para caber em 2 colunas em telas menores */
       }
 
       #quote {
@@ -344,8 +343,8 @@
       }
 
       .question button {
-        font-size: 0.95em; /* Reduz um pouco mais o tamanho da fonte */
-        padding: 10px 15px;
+        font-size: 0.85em; /* Reduz um pouco mais o tamanho da fonte */
+        padding: 10px 8px; /* Ajusta o padding ainda mais */
       }
 
       #start-btn, #restart-btn {
@@ -734,6 +733,7 @@
         quiz.innerHTML = '';
         progressText.textContent = '';
         levelText.textContent = '';
+        medalText.textContent = '';
         scoreText.textContent = `Pontuação final: ${score}`;
         
         if (isWinner) {
