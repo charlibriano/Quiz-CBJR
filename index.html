@@ -721,7 +721,7 @@
 </head>
 <body>
     <header>
-        <h1>Quiz: <br><br> Charlie <br><br> Brown Jr</h1>
+        <h1>Quiz: <br><br> Charlie   Brown Jr</h1>
     </header>
 
     <div class="container">
@@ -862,10 +862,6 @@
             ]
         ];
 
-
-        // REMOVIDO: const quoteElement = document.getElementById('quote');
-        // REMOVIDO: const quotes = [...]; // O array de frases
-
         const quiz = document.getElementById('quiz');
         const scoreText = document.getElementById('score-text');
         const progressText = document.getElementById('progress-text');
@@ -948,9 +944,6 @@
                 document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
                 changeBackgroundImageInterval();
             });
-            // REMOVIDO: shuffleQuotes(quotes);
-            // REMOVIDO: changeQuote();
-            // REMOVIDO: setInterval(changeQuote, 10000);
             quiz.addEventListener('click', handleQuizClick);
             
             // Adiciona a curiosidade box ao quiz (abaixo do quiz, antes dos botões de restart/start)
@@ -994,7 +987,7 @@
                     loadSong();
                 } else {
                     console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
-                    currentSongText.textContent = 'ERRO: Playlist vazia. Verifique o arquivo playlist.json.';
+                    currentSongText.textContent = `N/A (Playlist vazia ou erro)`; // Atualizado aqui
                     // Desabilita os botões se a playlist estiver vazia
                     playPauseBtn.disabled = true;
                     prevBtn.disabled = true;
@@ -1007,7 +1000,7 @@
             })
             .catch(error => {
                 console.error('Erro ao carregar playlist:', error);
-                currentSongText.textContent = 'ERRO: Não foi possível carregar a playlist. Tente novamente mais tarde.';
+                currentSongText.textContent = `Erro ao carregar a playlist. Tente novamente mais tarde.`; // Atualizado aqui
                 // Desabilita os botões em caso de erro no carregamento
                 playPauseBtn.disabled = true;
                 prevBtn.disabled = true;
@@ -1028,10 +1021,10 @@
                     console.warn('Erro ao tentar tocar música:', e.name, e.message);
                     if (e.name === "NotAllowedError" && audio.paused) {
                         playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
-                        currentSongText.textContent = `MÚSICA: ${playlist[currentIndex] ? playlist[currentIndex].title : 'N/A'} (Clique ▶️ para tocar)`;
+                        currentSongText.textContent = `${playlist[currentIndex] ? playlist[currentIndex].title : 'N/A'} (Clique ▶️ para tocar)`; // Atualizado aqui
                     } else {
                         console.error('Erro de reprodução inesperado:', e);
-                        currentSongText.textContent = `MÚSICA: ${playlist[currentIndex] ? playlist[currentIndex].title : 'Erro ao tocar'}`;
+                        currentSongText.textContent = `${playlist[currentIndex] ? playlist[currentIndex].title : 'Erro ao tocar'}`; // Atualizado aqui
                         playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
                     }
                 });
@@ -1316,7 +1309,7 @@
 
         function loadSong() {
             if (!playlist.length) {
-                currentSongText.textContent = 'MÚSICA: N/A (Playlist vazia ou erro)';
+                currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
                 playPauseBtn.disabled = true;
                 prevBtn.disabled = true;
                 nextBtn.disabled = true;
@@ -1327,7 +1320,7 @@
                 return;
             }
             const song = playlist[currentIndex];
-            currentSongText.textContent = `MÚSICA: ${song.title}`;
+            currentSongText.textContent = `${song.title}`; // Removido 'MÚSICA: '
             audio.src = song.url;
             
             // Habilita os botões se houver playlist
@@ -1359,12 +1352,12 @@
                     // Se o áudio está pausado (ex: autoplay bloqueado, ou usuário pausou manualmente)
                     // Garante que o ícone de play esteja visível
                     playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
-                    currentSongText.textContent = `MÚSICA: ${song.title}`; // Garante o nome da música
+                    currentSongText.textContent = `${song.title}`; // Atualizado aqui
                 }
             };
             audio.onerror = (e) => {
                 console.error("Erro ao carregar áudio:", e);
-                currentSongText.textContent = `MÚSICA: Erro ao carregar ${song.title}`;
+                currentSongText.textContent = `Erro ao carregar ${song.title}`; // Atualizado aqui
                 playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
             };
         }
@@ -1406,7 +1399,7 @@
                 }
             } else {
                 console.warn('Não foi possível iniciar a música: playlist vazia.');
-                currentSongText.textContent = 'MÚSICA: Não disponível (Erro na playlist)';
+                currentSongText.textContent = `Não disponível (Erro na playlist)`; // Atualizado aqui
             }
         }
 
