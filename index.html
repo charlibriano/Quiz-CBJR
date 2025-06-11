@@ -22,9 +22,9 @@
             --cor-fundo-transparente: rgba(0, 0, 0, 0.2);
             --cor-texto-claro: white;
             --cor-texto-escuro: black;
-            --cor-borda-quote: #d8c938;
-            --cor-fundo-quote: #fcf4a3;
-            --cor-texto-quote: #222;
+            /* --cor-borda-quote: #d8c938; REMOVIDO */
+            /* --cor-fundo-quote: #fcf4a3; REMOVIDO */
+            /* --cor-texto-quote: #222; REMOVIDO */
 
             --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.2);
             --cor-verde-vibrante: #1ed760; /* Usado no Spotify, mais vibrante */
@@ -100,19 +100,6 @@
             position: relative;
         }
 
-        /* Removido o posicionamento absoluto para quiz-info */
-        /* .quiz-info {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.8);
-            text-align: right;
-        } */
-        /* Novo estilo para quiz-info quando estiver dentro do fluxo */
         .quiz-info-bottom {
             display: flex;
             justify-content: center; /* Centraliza horizontalmente */
@@ -231,7 +218,7 @@
 
         #restart-btn, #start-btn {
             padding: 15px 30px;
-            margin-top: 20px;
+            margin-top: 20px; /* Mantenha para espaçamento dentro do container */
             background-color: var(--cor-amarelo-cbjr);
             color: var(--cor-texto-escuro);
             cursor: pointer;
@@ -547,45 +534,7 @@
             flex-shrink: 0;
         }
 
-        /* CÓDIGO DA CAIXA DE FRASES NO TOPO (Estilo Grafite Simples) */
-        #quote {
-            background-color: #1a1a1a;
-            color: var(--cor-amarelo-cbjr);
-            font-family: 'Elektrix', sans-serif;
-            font-size: 1.2em;
-            padding: 25px;
-            width: clamp(250px, 80%, 400px);
-            border-radius: 8px;
-            background-image: none;
-            border: none;
-            box-shadow: 0 0 15px rgba(0,0,0,0.8);
-            text-shadow: 2px 2px 5px rgba(241, 196, 15, 0.7);
-            position: relative;
-            margin: 20px auto 40px auto;
-            transform: rotate(1.5deg);
-            z-index: 1000;
-            text-align: center;
-            line-height: 1.3;
-        }
-
-        /* Ajustes de responsividade para a frase no topo */
-        @media (max-width: 768px) {
-            #quote {
-                font-size: 1em;
-                padding: 15px;
-                margin: 15px auto 30px auto;
-                text-shadow: 1px 1px 3px rgba(241, 196, 15, 0.7);
-            }
-        }
-
-        @media (max-width: 480px) {
-            #quote {
-                font-size: 0.9em;
-                padding: 12px;
-                margin: 10px auto 25px auto;
-                text-shadow: 1px 1px 2px rgba(241, 196, 15, 0.7);
-            }
-        }
+        /* REMOVIDO: CÓDIGO DA CAIXA DE FRASES NO TOPO */
 
         /* Estilo para a mensagem de nível */
         #level-up-message {
@@ -775,11 +724,11 @@
         <h1>Quiz: <br><br> Charlie <br><br> Brown Jr</h1>
     </header>
 
-    <div id="quote" class="quote"></div>
-
     <div class="container">
+        <button id="start-btn" onclick="startQuiz()">Iniciar Quiz</button>
+        
         <div id="quiz">
-            </div>
+        </div>
 
         <div id="quiz-info-bottom" class="quiz-info-bottom">
             <p id="progress-text"></p>
@@ -790,8 +739,6 @@
         <p id="medal"></p>
         <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
     </div>
-
-    <button id="start-btn" onclick="startQuiz()">Iniciar Quiz</button>
 
     <div id="level-up-message" style="display:none;"></div>
 
@@ -869,7 +816,7 @@
         const questionsByLevel = [
             // Nível 1 - Perguntas mais fáceis
             [
-                { pergunta: "Qual é o nome do vocalista da banda <br><br> Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Pelado"], correta: "Chorão", curiosidade: "Chorão, cujo nome verdadeiro era Alexandre Magno Abrão, foi a voz icônica do Charlie Brown Jr. e um verdadeiro poeta do rock nacional." },
+                { pergunta: "Qual é o nome do vocalista da banda <br><br> Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Pelado"], correta: "Chorão", curiosidade: "Chorão, cujo nome verdadeiro era Alexandre Magno Abrão, foi a voz icônica do Charlie Brown Jr. e um verdadeiro poeta do skate." },
                 { pergunta: "Em que ano a banda <br><br> Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992", curiosidade: "A banda foi formada em Santos, litoral de São Paulo, em 1992, e logo conquistou o Brasil com seu som único." },
                 { pergunta: "Que instrumento Champignon tocava?", respostas: ["Guitarra", "Bateria", "Baixo", "Teclado"], correta: "Baixo", curiosidade: "Champignon, ou Luiz Carlos Leão Duarte Júnior, era o baixista e backing vocal da banda, conhecido por sua energia no palco." },
                 { pergunta: "O que significa CBJR?", respostas: ["Coletivo Brasileiro de Juventude Revolucionária", "Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Cultura Brasileira Jovem de Rua"], correta: "Charlie Brown Jr", curiosidade: "CBJR é a abreviação do nome da própria banda, 'Charlie Brown Jr.', que se tornou um símbolo de uma geração." }
@@ -877,7 +824,7 @@
             // Nível 2 - Perguntas de dificuldade média
             [
                 { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Preço Curto... Prazo Longo", curiosidade: "Lançado em 1999, 'Preço Curto... Prazo Longo' trouxe hits como 'Zóio de Lula' e 'Não Deixe o Mar Te Engolir'." },
-                { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Gimme o anel", "Zóio de Lula"], correta: "I Feel So Good Today", curiosidade: "'I Feel So Good Today' é uma faixa menos conhecida, mas amada pelos fãs, do álbum 'Imunidade Musical'." },
+                { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today", curiosidade: "'I Feel So Good Today' é uma faixa menos conhecida, mas amada pelos fãs, do álbum 'Transpiração Contínua Prolongada'." },
                 { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000", curiosidade: "'Nadando com os Tubarões', de 2000, é um divisor de águas na carreira da banda, com sucessos como 'Rubão' e 'Não é Sério'." },
                 { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997", curiosidade: "O álbum de estreia, 'Transpiração Contínua Prolongada' (1997), já mostrava a identidade única da banda com hits como 'O Coro Vai Comê!'." }
             ],
@@ -885,14 +832,14 @@
             [
                 { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória", curiosidade: "'Dias de Luta, Dias de Glória' é um hino de superação e uma das músicas mais emblemáticas da banda." },
                 { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa", curiosidade: "'Ritmo, Ritual e Responsa' (2007) trouxe uma sonoridade mais madura e músicas como 'Me Encontra'." },
-                { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Sheik", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)", curiosidade: "'Proibida Pra Mim' é um dos maiores sucessos do Charlie Brown Jr., presente no álbum 'Preço Curto... Prazo Longo'." },
-                { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado", curiosidade: "Renato Pelado baterista da formação original saiu da banda em 2005." }
+                { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)", curiosidade: "'Proibida Pra Mim' é um dos maiores sucessos do Charlie Brown Jr., presente no álbum 'Preço Curto... Prazo Longo'." },
+                { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado", curiosidade: "Thiago Castanho (guitarra) e Pelado (bateria) saíram da banda em 2005, retornando anos depois." }
             ],
             // Nível 4 - Mais algumas perguntas
             [
                 { pergunta: "Qual o nome completo do Chorão?", respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"], correta: "Alexandre Magno Abrão", curiosidade: "Alexandre Magno Abrão, o Chorão, era conhecido por sua personalidade forte e suas letras que retratavam o cotidiano." },
                 { pergunta: "Onde nasceu o Chorão?", respostas: ["Santos", "São Vicente", "São Paulo", "Campinas"], correta: "São Paulo", curiosidade: "Embora muito ligado a Santos, Chorão nasceu na capital paulista, São Paulo." },
-                { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de glória", "Rubão", "Bons Aliados", "Só os Loucos Sabem"], correta: "Bons Aliados", curiosidade: "'Preço Curto... Prazo Longo' de 1999, consolidou a banda no cenário nacional." },
+                { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de glória", "Rubão", "Proibida pra mim", "Só os Loucos Sabem"], correta: "Proibida pra mim", curiosidade: "'Preço Curto... Prazo Longo' de 1999, consolidou a banda no cenário nacional." },
                 { pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?", respostas: ["O Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"], correta: "O Marginal Alado", curiosidade: "'Chorão: Marginal Alado' é um documentário aclamado que explora a vida e a carreira do vocalista." }
             ],
             // Nível 5
@@ -900,13 +847,13 @@
                 { pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:", respostas: ["Surfe", "Futebol", "Skate", "Capoeira"], correta: "Skate", curiosidade: "Chorão era um apaixonado por skate e um grande incentivador do esporte no Brasil, tendo sua própria pista em Santos." },
                 { pergunta: "Em que cidade nasceu a banda <br><br> Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos", curiosidade: "A banda Charlie Brown Jr. é de Santos, litoral de São Paulo, e sempre exaltou suas raízes caiçaras." },
                 { pergunta: "Qual o nome do primeiro <br><br> álbum da banda?", respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"], correta: "Transpiração Contínua Prolongada", curiosidade: "'Transpiração Contínua Prolongada' (1997) foi o pontapé inicial da banda, trazendo sucessos como 'O Coro Vai Comê!'." },
-                { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta", curiosidade: "'Champanhe e Água Benta' faz parte do álbum lançado em 2004, e é um dos clássicos da banda." }
+                { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta", curiosidade: "'Champanhe e Água Benta' faz parte do álbum 'Tamo Aí na Atividade', lançado em 2004, e é um dos clássicos da banda." }
             ],
             // Nível 6
             [
                 { pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?", respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"], correta: "Não é Sério", curiosidade: "'Não é Sério', do álbum 'Nadando com os Tubarões', conta com a participação marcante da cantora Negra Li." },
                 { pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?", respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"], correta: "Acústico MTV", curiosidade: "O 'Acústico MTV' do Charlie Brown Jr. é um dos álbuns mais aclamados e vendeu mais de 2 milhões de cópias." },
-                { pergunta: "Qual dessas músicas é do álbum <br><br> Bocas Ordinárias?", respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", "Tarja Preta"], correta: "Tarja Preta", curiosidade: "'Tarja Preta' é uma das faixas do álbum 'Bocas Ordinárias', de 2002." },
+                { pergunta: "Qual dessas músicas é do álbum <br><br> Bocas Ordinárias?", respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", "Tarja Preta"], correta: "Tarja Preta", curiosidade: "'Tarja Preta' é uma das faixas do álbum 'Bocas Ordinárias', de 2002, que também trouxe 'Só Pra Vadiar'." },
                 { pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?", respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"], correta: "Musica Popular Caiçara", curiosidade: "'Céu Azul' é um dos grandes sucessos póstumos da banda, lançada no álbum 'Música Popular Caiçara ao Vivo' em 2012." }
             ],
             // Nível 7 (e final, se não houver mais perguntas)
@@ -916,22 +863,8 @@
         ];
 
 
-        const quoteElement = document.getElementById('quote');
-        const quotes = [
-            "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
-            "Não tão complicado demais, mas nem tão simples assim.",
-            "Mas um homem de verdade não se faz só com palavras.",
-            "Quem é de verdade sabe quem é de mentira.",
-            "Deixem-me exercer minha loucura em paz!",
-            "Dias e noites, pensando no que fiz, eu sou um vencedor, eu lutei pelo que eu quis.",
-            "Aquele tempo eu não podia fazer mais por nós, eu estava errado e você não tem que me perdoar...",
-            "Eu me flagrei pensando em você em tudo o que eu queria te dizer...",
-            "Sem neurose. Cada um sabe o dom, o tom e o tamanho da dose.",
-            "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
-            "Ela tem força, ela tem sensibilidade, ela é guerreira. Ela é uma deusa, ela é mulher de verdade.",
-            "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
-            "Eles querem que você se sinta mal, pois assim eles se sentem bem."
-        ];
+        // REMOVIDO: const quoteElement = document.getElementById('quote');
+        // REMOVIDO: const quotes = [...]; // O array de frases
 
         const quiz = document.getElementById('quiz');
         const scoreText = document.getElementById('score-text');
@@ -974,7 +907,7 @@
         let currentLevelQuestions = [];
         let quizPaused = false;
         let isProcessingAnswer = false;
-        let errorsInCurrentLevel = 0; // <--- NOVA VARIÁVEL: Contador de erros no nível atual
+        let errorsInCurrentLevel = 0;
 
         // Variáveis para o player
         let isShuffling = false;
@@ -1015,9 +948,9 @@
                 document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
                 changeBackgroundImageInterval();
             });
-            shuffleQuotes(quotes);
-            changeQuote();
-            setInterval(changeQuote, 10000);
+            // REMOVIDO: shuffleQuotes(quotes);
+            // REMOVIDO: changeQuote();
+            // REMOVIDO: setInterval(changeQuote, 10000);
             quiz.addEventListener('click', handleQuizClick);
             
             // Adiciona a curiosidade box ao quiz (abaixo do quiz, antes dos botões de restart/start)
@@ -1445,14 +1378,10 @@
             }
         }
 
-        function changeQuote() {
-            if (quotes.length === 0) return;
-            quoteElement.textContent = quotes[quoteIndex];
-            quoteIndex = (quoteIndex + 1) % quotes.length;
-            if (quoteIndex === 0) {
-                shuffleQuotes(quotes);
-            }
-        }
+        // REMOVIDO: let quoteIndex = 0;
+        // REMOVIDO: function shuffleQuotes(arr) { ... }
+        // REMOVIDO: function changeQuote() { ... }
+
 
         function startQuiz() {
             startBtn.style.display = 'none';
@@ -1779,23 +1708,6 @@
                 startQuiz();
                 
             }, 500);
-        }
-
-        let quoteIndex = 0;
-        function shuffleQuotes(arr) {
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-        }
-
-        function changeQuote() {
-            if (quotes.length === 0) return;
-            quoteElement.textContent = quotes[quoteIndex];
-            quoteIndex = (quoteIndex + 1) % quotes.length;
-            if (quoteIndex === 0) {
-                shuffleQuotes(quotes);
-            }
         }
     </script>
 </body>
