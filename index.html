@@ -215,17 +215,17 @@
             color: var(--cor-texto-claro);
             padding: 15px;
             border-radius: 8px;
-            font-size: 0.9em; /* Um pouco menor para caber melhor */
+            font-size: 0.9em;
             line-height: 1.5;
-            text-align: left;
-            flex-basis: 35%; /* Ocupa 35% do espaço quando lado a lado */
-            max-width: 40%; /* Garante que não fique muito largo */
-            min-width: 250px; /* Largura mínima para ser legível */
+            text-align: center; /* ALTERADO: Centraliza o texto dentro da caixa por padrão (para mobile) */
+            flex-basis: 35%;
+            max-width: 40%;
+            min-width: 250px;
             box-sizing: border-box;
-            opacity: 0; /* Começa transparente */
+            opacity: 0;
             transition: opacity 0.5s ease-in-out;
             pointer-events: none;
-            align-self: flex-start; /* Alinha ao topo na linha */
+            align-self: center; /* ALTERADO: Centraliza a própria caixa de curiosidade no flex container (por padrão, mobile) */
             display: flex; /* Para o título da curiosidade dentro dela */
             flex-direction: column;
             justify-content: flex-start;
@@ -238,6 +238,8 @@
         @media (min-width: 769px) {
             .curiosity-sidebar-box {
                 margin-top: 0; /* Remove margem superior quando lado a lado */
+                text-align: left; /* NOVO: Volta para texto à esquerda em desktop (layout em linha) */
+                align-self: flex-start; /* Mantém alinhamento ao topo em desktop */
             }
         }
 
@@ -336,9 +338,9 @@
             height: 4px;
             background-color: #535353;
             border-radius: 2px;
+            outline: none;
             cursor: pointer;
-            margin-top: 0;
-            position: relative;
+            transition: background 0.2s ease;
         }
 
         .progress-bar {
@@ -1404,7 +1406,7 @@
             // Pega a frase do Chorão do nível recém-concluído (o nível anterior ao atual)
             const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
             
-            // ALTERADO: Adicionado a frase "No passo a <br> passo eu chego <br> lá!" e o nível dinâmico.
+            // ALTERADO: Adicionado a frase "No passo a passo eu chego lá!" e o nível dinâmico.
             elements.levelUpMessage.innerHTML = `
                 <div>No passo a passo eu chego lá!</div>
                 <div style="font-size: 0.7em; margin-top: 15px; font-family: Arial, sans-serif; opacity: 0.9;">Você avançou para o Nível ${quizState.currentLevel + 1}!</div>
