@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Charlie Brown Jr</title>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JCN94Y3P0"></script>
@@ -22,9 +22,6 @@
             --cor-fundo-transparente: rgba(0, 0, 0, 0.2);
             --cor-texto-claro: white;
             --cor-texto-escuro: black;
-            /* --cor-borda-quote: #d8c938; REMOVIDO */
-            /* --cor-fundo-quote: #fcf4a3; REMOVIDO */
-            /* --cor-texto-quote: #222; REMOVIDO */
 
             --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.2);
             --cor-verde-vibrante: #1ed760; /* Usado no Spotify, mais vibrante */
@@ -534,8 +531,6 @@
             flex-shrink: 0;
         }
 
-        /* REMOVIDO: CÓDIGO DA CAIXA DE FRASES NO TOPO */
-
         /* Estilo para a mensagem de nível */
         #level-up-message {
             position: fixed;
@@ -721,7 +716,7 @@
 </head>
 <body>
     <header>
-        <h1>Quiz: <br><br> Charlie   Brown Jr</h1>
+        <h1>Quiz: <br><br> Charlie Brown Jr</h1>
     </header>
 
     <div class="container">
@@ -814,51 +809,68 @@
 
     <script>
         const questionsByLevel = [
-            // Nível 1 - Perguntas mais fáceis
+            // Nível 1 - Perguntas mais fáceis (5 perguntas)
             [
-                { pergunta: "Qual é o nome do vocalista da banda <br><br> Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Pelado"], correta: "Chorão", curiosidade: "Chorão, cujo nome verdadeiro era Alexandre Magno Abrão, foi a voz icônica do Charlie Brown Jr. e um verdadeiro poeta do skate." },
+                { pergunta: "Quem é vocalista da banda <br><br> Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Pelado"], correta: "Chorão", curiosidade: "Chorão, cujo nome verdadeiro era Alexandre Magno Abrão, foi a voz icônica do Charlie Brown Jr. e um verdadeiro poeta do rock nacional." },
                 { pergunta: "Em que ano a banda <br><br> Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992", curiosidade: "A banda foi formada em Santos, litoral de São Paulo, em 1992, e logo conquistou o Brasil com seu som único." },
                 { pergunta: "Que instrumento Champignon tocava?", respostas: ["Guitarra", "Bateria", "Baixo", "Teclado"], correta: "Baixo", curiosidade: "Champignon, ou Luiz Carlos Leão Duarte Júnior, era o baixista e backing vocal da banda, conhecido por sua energia no palco." },
-                { pergunta: "O que significa CBJR?", respostas: ["Coletivo Brasileiro de Juventude Revolucionária", "Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Cultura Brasileira Jovem de Rua"], correta: "Charlie Brown Jr", curiosidade: "CBJR é a abreviação do nome da própria banda, 'Charlie Brown Jr.', que se tornou um símbolo de uma geração." }
+                { pergunta: "O que significa CBJR?", respostas: ["Coletivo Brasileiro de Juventude Revolucionária", "Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Cultura Brasileira Jovem de Rua"], correta: "Charlie Brown Jr", curiosidade: "CBJR é a abreviação do nome da própria banda, 'Charlie Brown Jr.', que se tornou um símbolo de uma geração." },
+                { pergunta: "Onde nasceu o Chorão?", respostas: ["Santos", "São Vicente", "São Paulo", "Campinas"], correta: "São Paulo", curiosidade: "Embora muito ligado a Santos, Chorão nasceu na capital paulista, São Paulo." }
             ],
-            // Nível 2 - Perguntas de dificuldade média
+            // Nível 2 - Perguntas de dificuldade média (5 perguntas)
             [
                 { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Preço Curto... Prazo Longo", curiosidade: "Lançado em 1999, 'Preço Curto... Prazo Longo' trouxe hits como 'Zóio de Lula' e 'Não Deixe o Mar Te Engolir'." },
-                { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today", curiosidade: "'I Feel So Good Today' é uma faixa menos conhecida, mas amada pelos fãs, do álbum 'Transpiração Contínua Prolongada'." },
+                { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today", curiosidade: "'I Feel So Good Today' é uma faixa menos conhecida, mas amada pelos fãs, do álbum 'Imunidade Musical'." },
                 { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000", curiosidade: "'Nadando com os Tubarões', de 2000, é um divisor de águas na carreira da banda, com sucessos como 'Rubão' e 'Não é Sério'." },
-                { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997", curiosidade: "O álbum de estreia, 'Transpiração Contínua Prolongada' (1997), já mostrava a identidade única da banda com hits como 'O Coro Vai Comê!'." }
+                { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997", curiosidade: "O álbum de estreia, 'Transpiração Contínua Prolongada' (1997), já mostrava a identidade única da banda com hits como 'O Coro Vai Comê!'." },
+                { pergunta: "Qual o nome completo do Chorão?", respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"], correta: "Alexandre Magno Abrão", curiosidade: "Alexandre Magno Abrão, o Chorão, era conhecido por sua personalidade forte e suas letras que retratavam o cotidiano." }
             ],
-            // Nível 3 - Perguntas mais difíceis
+            // Nível 3 - Perguntas mais difíceis (5 perguntas)
             [
                 { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória", curiosidade: "'Dias de Luta, Dias de Glória' é um hino de superação e uma das músicas mais emblemáticas da banda." },
-                { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa", curiosidade: "'Ritmo, Ritual e Responsa' (2007) trouxe uma sonoridade mais madura e músicas como 'Me Encontra'." },
-                { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)", curiosidade: "'Proibida Pra Mim' é um dos maiores sucessos do Charlie Brown Jr., presente no álbum 'Preço Curto... Prazo Longo'." },
-                { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado", curiosidade: "Thiago Castanho (guitarra) e Pelado (bateria) saíram da banda em 2005, retornando anos depois." }
+                { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa", curiosidade: "'Ritmo, Ritual e Responsa' (2007) trouxe uma sonoridade mais madura e músicas como 'Pontes indestrutíveis'." },
+                { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)", curiosidade: "'Proibida Pra Mim' é um dos maiores sucessos do Charlie Brown Jr., presente no álbum 'Transpiração Contínua Prolongada'." },
+                { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado", curiosidade: "Renato Pelado saiu da banda em 2005." },
+                { pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:", respostas: ["Surfe", "Futebol", "Skate", "Capoeira"], correta: "Skate", curiosidade: "Chorão era um apaixonado por skate e um grande incentivador do esporte no Brasil, tendo sua própria pista em Santos." }
             ],
-            // Nível 4 - Mais algumas perguntas
+            // Nível 4 - Mais algumas perguntas (5 perguntas)
             [
-                { pergunta: "Qual o nome completo do Chorão?", respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"], correta: "Alexandre Magno Abrão", curiosidade: "Alexandre Magno Abrão, o Chorão, era conhecido por sua personalidade forte e suas letras que retratavam o cotidiano." },
-                { pergunta: "Onde nasceu o Chorão?", respostas: ["Santos", "São Vicente", "São Paulo", "Campinas"], correta: "São Paulo", curiosidade: "Embora muito ligado a Santos, Chorão nasceu na capital paulista, São Paulo." },
-                { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de glória", "Rubão", "Proibida pra mim", "Só os Loucos Sabem"], correta: "Proibida pra mim", curiosidade: "'Preço Curto... Prazo Longo' de 1999, consolidou a banda no cenário nacional." },
-                { pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?", respostas: ["O Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"], correta: "O Marginal Alado", curiosidade: "'Chorão: Marginal Alado' é um documentário aclamado que explora a vida e a carreira do vocalista." }
+                { pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?", respostas: ["Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"], correta: "Marginal Alado", curiosidade: "'Chorão: Marginal Alado' é um documentário aclamado que explora a vida e a carreira do vocalista." },
+                { pergunta: "Qual o nome do primeiro álbum de estúdio do Charlie Brown Jr.?", respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"], correta: "Transpiração Contínua Prolongada", curiosidade: "Lançado em 1997, 'Transpiração Contínua Prolongada' marcou a estreia oficial do Charlie Brown Jr. no cenário musical brasileiro, trazendo sucessos como 'O Coro Vai Comê!'." },
+                { pergunta: "Qual álbum de estúdio do Charlie Brown Jr. inclui a canção 'Lugar ao Sol'?", respostas: ["Bocas Ordinárias", "100% Charlie Brown Jr. - Abalando a Sua Fábrica", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "100% Charlie Brown Jr. - Abalando a Sua Fábrica", curiosidade: "'Lugar ao Sol' é uma das faixas mais conhecidas do álbum '100% Charlie Brown Jr. - Abalando a Sua Fábrica', lançado em 2001." },
+                { pergunta: "Qual foi o primeiro single do Charlie Brown Jr. a ter grande repercussão e tocar nas rádios de todo o Brasil?", respostas: ["Proibida Pra Mim", "Zóio de Lula", "O Coro Vai Comê!", "Te Levar"], correta: "O Coro Vai Comê!", curiosidade: "'O Coro Vai Comê!', do álbum de estreia 'Transpiração Contínua Prolongada', foi a música que abriu as portas das rádios para o Charlie Brown Jr., se tornando um marco na carreira da banda." },
+                { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de glória", "Rubão", "O Preço", "Só os Loucos Sabem"], correta: "O Preço", curiosidade: "'Preço Curto... Prazo Longo' de 1999, consolidou a banda no cenário nacional." }
             ],
-            // Nível 5
+            // Nível 5 - (5 perguntas)
             [
-                { pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:", respostas: ["Surfe", "Futebol", "Skate", "Capoeira"], correta: "Skate", curiosidade: "Chorão era um apaixonado por skate e um grande incentivador do esporte no Brasil, tendo sua própria pista em Santos." },
-                { pergunta: "Em que cidade nasceu a banda <br><br> Charlie Brown Jr.?", respostas: ["São Paulo", "Santos", "Rio de Janeiro", "Campinas"], correta: "Santos", curiosidade: "A banda Charlie Brown Jr. é de Santos, litoral de São Paulo, e sempre exaltou suas raízes caiçaras." },
-                { pergunta: "Qual o nome do primeiro <br><br> álbum da banda?", respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"], correta: "Transpiração Contínua Prolongada", curiosidade: "'Transpiração Contínua Prolongada' (1997) foi o pontapé inicial da banda, trazendo sucessos como 'O Coro Vai Comê!'." },
-                { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta", curiosidade: "'Champanhe e Água Benta' faz parte do álbum 'Tamo Aí na Atividade', lançado em 2004, e é um dos clássicos da banda." }
-            ],
-            // Nível 6
-            [
-                { pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?", respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"], correta: "Não é Sério", curiosidade: "'Não é Sério', do álbum 'Nadando com os Tubarões', conta com a participação marcante da cantora Negra Li." },
+                { pergunta: "Qual o nome do último álbum de estúdio lançado pelo Charlie Brown Jr?", respostas: ["Imunidade Musical", "Ritmo, Ritual e Responsa", "La Família 013", "Camisa 10 Joga Bola Até na Chuva"], correta: "La Família 013", curiosidade: "'La Família 013', lançado em 2013, foi o décimo álbum de estúdio da banda e o último a contar com a participação de Chorão. Ele faleceu meses antes do lançamento." },
+                { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta", curiosidade: "'Champanhe e Água Benta' faz parte do álbum 'Tamo Aí na Atividade', lançado em 2004, e é um dos clássicos da banda." },
                 { pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?", respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"], correta: "Acústico MTV", curiosidade: "O 'Acústico MTV' do Charlie Brown Jr. é um dos álbuns mais aclamados e vendeu mais de 2 milhões de cópias." },
-                { pergunta: "Qual dessas músicas é do álbum <br><br> Bocas Ordinárias?", respostas: ["Lugar ao Sol", "Céu Azul", "Senhor do Tempo", "Tarja Preta"], correta: "Tarja Preta", curiosidade: "'Tarja Preta' é uma das faixas do álbum 'Bocas Ordinárias', de 2002, que também trouxe 'Só Pra Vadiar'." },
+                { pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?", respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"], correta: "Não é Sério", curiosidade: "'Não é Sério', do álbum 'Nadando com os Tubarões', conta com a participação marcante da cantora Negra Li." },
                 { pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?", respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"], correta: "Musica Popular Caiçara", curiosidade: "'Céu Azul' é um dos grandes sucessos póstumos da banda, lançada no álbum 'Música Popular Caiçara ao Vivo' em 2012." }
             ],
-            // Nível 7 (e final, se não houver mais perguntas)
+            // Nível 6 - Perguntas mais avançadas (6 perguntas)
             [
-                { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records", curiosidade: "A Virgin Records foi a gravadora responsável pelos primeiros álbuns da banda, incluindo 'Transpiração Contínua Prolongada'." }
+                { pergunta: "Qual música do Charlie Brown Jr. foi indicada ao Grammy Latino em 2005?", respostas: ["Lutar pelo que é meu", "Tamo aí na Atividade", "Ela Vai Voltar", "Céu Azul"], correta: "Tamo aí na Atividade", curiosidade: "'Tamo aí na Atividade', música que leva o nome do álbum, recebeu indicação ao Grammy Latino na categoria Melhor Álbum de Rock Brasileiro em 2005 e venceu o prêmio." },
+                { pergunta: "Qual dessas músicas foi tema de abertura de uma novela da Globo?", respostas: ["Te Levar", "Só os Loucos Sabem", "Senhor do Tempo", "Longe de Você"], correta: "Te Levar", curiosidade: "'Te Levar' foi tema de abertura da série 'Malhação', exibida pela TV Globo entre 1999 e 2006." },
+                { pergunta: "Qual integrante do Charlie Brown Jr. também formou a banda Revolucionnários após sair do grupo?", respostas: ["Marcão Britto", "Graveto", "Heitor Gomes", "Champignon"], correta: "Champignon", curiosidade: "Após sair do Charlie Brown Jr., Champignon criou a banda Revolucionnários, onde foi vocalista e baixista, explorando novas sonoridades." },
+                { pergunta: "No projeto Estúdio Coca-Cola Zero, qual cantora da MPB dividiu o palco com o Charlie Brown Jr.?", respostas: ["Vanessa da Mata", "Maria Gadú", "Ana Carolina", "Ivete Sangalo"], correta: "Vanessa da Mata", curiosidade: "Em 2008, no projeto Estúdio Coca-Cola Zero, o Charlie Brown Jr. fez uma apresentação especial ao lado da cantora Vanessa da Mata, misturando rock e MPB em versões inéditas de seus sucessos." },
+                { pergunta: "Qual roqueiro brasileiro fez participações com Chorão nas músicas 'Hoje' e 'Coração Satânico' e era considerado por ele como um padrinho musical?", respostas: ["Marcelo Nova", "Raimundo Fagner", "Herbert Vianna", "Supla"], correta: "Marcelo Nova", curiosidade: "Marcelo Nova, conhecido por seu trabalho com o Camisa de Vênus, participou das músicas 'Hoje' e 'Coração Satânico'. Chorão o considerava um padrinho musical e uma referência no rock nacional." },
+                { pergunta: "Em qual programa da MTV Chorão participou ao lado da cantora Pitty?", respostas: ["Acústico MTV", "MTV na Estrada", "Covernation", "Supernova"], correta: "Covernation", curiosidade: "Chorão participou do programa 'Covernation' da MTV Brasil junto com Pitty. No episódio,  Charlie Brown Jr. interpretou músicas do Red Hot Chili Peppers e a Pitty, o Queens of the Stone Age ao vivo." }
+            ],
+            // Nível 7 - Perguntas mais avançadas (6 perguntas)
+            [
+                { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitar Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
+                { pergunta: "Qual banda internacional teve o Charlie Brown Jr. como banda de abertura em suas turnês no Brasil nos anos de 2004 e 2012?", respostas: ["Limp Bizkit", "Green Day", "Foo Fighters", "Linkin Park"], correta: "Linkin Park", curiosidade: "O Charlie Brown Jr. abriu shows do Linkin Park no Brasil em duas ocasiões: em 2004, durante a turnê do álbum 'Meteora', e novamente em 2012, na turnê de 'Living Things', com uma apresentação marcante na Arena Anhembi, em São Paulo." },
+                { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records", curiosidade: "A Virgin Records foi a gravadora responsável pelos primeiros álbuns da banda, incluindo 'Transpiração Contínua Prolongada'." },
+                { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas mais esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
+                { pergunta: "Qual o nome do álbum que inclui o hit 'Senhor do Tempo'?", respostas: ["Nadando com os Tubarões", "Bocas Ordinárias", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "Imunidade Musical", curiosidade: "'Senhor do Tempo' é uma das faixas mais conhecidas do álbum 'Imunidade Musical', lançado em 2004, e aborda temas de fé e destino." },
+                {
+  "pergunta": "Em qual programa da MTV Chorão abriu as portas de sua casa para o público?",
+  "respostas": ["MTV Cribs Brasil", "Diário de Bordo", "Família MTV", "MTV na Estrada"],
+  "correta": "Família MTV",
+  "curiosidade": "No programa 'Família MTV gravado em 2005', Chorão mostrou detalhes da sua casa em Santos, incluindo sua rotina e ambiente pessoal." }
+
             ]
         ];
 
@@ -987,7 +999,7 @@
                     loadSong();
                 } else {
                     console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
-                    currentSongText.textContent = `N/A (Playlist vazia ou erro)`; // Atualizado aqui
+                    currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
                     // Desabilita os botões se a playlist estiver vazia
                     playPauseBtn.disabled = true;
                     prevBtn.disabled = true;
@@ -1000,7 +1012,7 @@
             })
             .catch(error => {
                 console.error('Erro ao carregar playlist:', error);
-                currentSongText.textContent = `Erro ao carregar a playlist. Tente novamente mais tarde.`; // Atualizado aqui
+                currentSongText.textContent = `Erro ao carregar a playlist. Tente novamente mais tarde.`;
                 // Desabilita os botões em caso de erro no carregamento
                 playPauseBtn.disabled = true;
                 prevBtn.disabled = true;
@@ -1021,10 +1033,10 @@
                     console.warn('Erro ao tentar tocar música:', e.name, e.message);
                     if (e.name === "NotAllowedError" && audio.paused) {
                         playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
-                        currentSongText.textContent = `${playlist[currentIndex] ? playlist[currentIndex].title : 'N/A'} (Clique ▶️ para tocar)`; // Atualizado aqui
+                        currentSongText.textContent = `${playlist[currentIndex] ? playlist[currentIndex].title : 'N/A'} (Clique ▶️ para tocar)`;
                     } else {
                         console.error('Erro de reprodução inesperado:', e);
-                        currentSongText.textContent = `${playlist[currentIndex] ? playlist[currentIndex].title : 'Erro ao tocar'}`; // Atualizado aqui
+                        currentSongText.textContent = `${playlist[currentIndex] ? playlist[currentIndex].title : 'Erro ao tocar'}`;
                         playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
                     }
                 });
@@ -1320,7 +1332,7 @@
                 return;
             }
             const song = playlist[currentIndex];
-            currentSongText.textContent = `${song.title}`; // Removido 'MÚSICA: '
+            currentSongText.textContent = `${song.title}`;
             audio.src = song.url;
             
             // Habilita os botões se houver playlist
@@ -1352,12 +1364,12 @@
                     // Se o áudio está pausado (ex: autoplay bloqueado, ou usuário pausou manualmente)
                     // Garante que o ícone de play esteja visível
                     playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
-                    currentSongText.textContent = `${song.title}`; // Atualizado aqui
+                    currentSongText.textContent = `${song.title}`;
                 }
             };
             audio.onerror = (e) => {
                 console.error("Erro ao carregar áudio:", e);
-                currentSongText.textContent = `Erro ao carregar ${song.title}`; // Atualizado aqui
+                currentSongText.textContent = `Erro ao carregar ${song.title}`;
                 playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
             };
         }
@@ -1370,10 +1382,6 @@
                 [array[i], array[j]] = [array[j], array[i]];
             }
         }
-
-        // REMOVIDO: let quoteIndex = 0;
-        // REMOVIDO: function shuffleQuotes(arr) { ... }
-        // REMOVIDO: function changeQuote() { ... }
 
 
         function startQuiz() {
@@ -1399,7 +1407,7 @@
                 }
             } else {
                 console.warn('Não foi possível iniciar a música: playlist vazia.');
-                currentSongText.textContent = `Não disponível (Erro na playlist)`; // Atualizado aqui
+                currentSongText.textContent = `Não disponível (Erro na playlist)`;
             }
         }
 
