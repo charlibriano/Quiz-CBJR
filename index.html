@@ -54,7 +54,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: var(--cor-preto-principal); /* Usando a nova variável */
+            background-color: var(--cor-preto-principal);
             background-repeat: no-repeat;
             background-position: center center;
             background-size: contain;
@@ -86,7 +86,7 @@
         .container {
             max-width: 900px;
             width: 100%;
-            background-color: var(--cor-fundo-transparente); /* Usando a nova transparência */
+            background-color: var(--cor-fundo-transparente);
             padding: 40px;
             border-radius: 16px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
@@ -145,12 +145,13 @@
             flex-direction: column; /* Padrão para mobile: em coluna */
             gap: 20px; /* Espaçamento entre as respostas e a curiosidade */
             width: 100%;
-            align-items: flex-start; /* Alinha ao topo quando em linha */
+            align-items: center; /* ALTERADO: Centraliza itens horizontalmente */
         }
 
         @media (min-width: 769px) { /* Em telas maiores, coloca lado a lado */
             .question-content {
                 flex-direction: row;
+                align-items: flex-start; /* Volta a alinhar ao topo para o layout lateral */
             }
         }
 
@@ -169,8 +170,8 @@
             font-size: 1.2em;
             border-radius: 10px;
             border: none;
-            background-color: var(--cor-preto-principal); /* Fundo dos botões de resposta agora é cinza */
-            color: var(--cor-texto-claro); /* Cor do texto dos botões agora é branco para contraste */
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
             
@@ -257,8 +258,8 @@
         #restart-btn, #start-btn {
             padding: 15px 30px;
             margin-top: 20px; /* Mantenha para espaçamento dentro do container */
-            background-color: var(--cor-preto-principal); /* Fundo dos botões agora é cinza */
-            color: var(--cor-texto-claro); /* Texto dos botões agora é branco */
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
             cursor: pointer;
             border: none;
             border-radius: 10px;
@@ -280,7 +281,7 @@
             max-width: 500px;
             width: 95%;
             padding: 15px 20px;
-            background: var(--cor-fundo-audio-player-com-cor); /* Usando a nova transparência */
+            background: var(--cor-fundo-audio-player-com-cor);
             box-shadow: 0 -4px 20px rgba(0,0,0,0.9);
             z-index: 999;
             display: flex;
@@ -602,9 +603,7 @@
         #level-up-message button {
             padding: 12px 25px;
             font-size: 1.2em;
-            /* ALTERADO: Fundo do botão agora é cinza */
             background-color: var(--cor-preto-principal); 
-            /* ALTERADO: Texto do botão agora é branco */
             color: var(--cor-texto-claro); 
             border: none;
             border-radius: 8px;
@@ -660,7 +659,7 @@
                 border-top-right-radius: 12px;
                 border-bottom-left-radius: 12px;
                 border-bottom-right-radius: 12px;
-                min-height: 75px; /* Reduzida a altura mínima para 75px */
+                min-height: 75px; /* Reduzida a altura mínima para caber melhor */
                 bottom: 15px; /* Elevado um pouco mais para mobile */
             }
             .player-content {
@@ -800,7 +799,7 @@
 
             <div class="audio-main-controls">
                 <button id="repeat-btn" class="audio-control-btn" title="Repetir Playlist">
-                    <svg id="repeat-all-svg" viewBox="0 0 473.677 473.677" fill="currentColor">
+                    <svg viewBox="0 0 473.677 473.677" fill="currentColor">
                         <path class="repeat-outer-circle" d="M0,236.84C0,106.026,106.036,0.002,236.835,0.002c130.807,0,236.842,106.028,236.842,236.838 c0,130.795-106.036,236.835-236.842,236.835C106.039,473.671,0,367.636,0,236.84z"></path>
                         <g>
                             <path class="repeat-arrow-1" d="M408.84,164.345c-9.88,0.022-19.756,0.049-29.636,0.075 c-22.217-49.815-65.828-85.797-120.912-94.428c-61.374-9.614-120.115,18.889-155.14,69.036 c-15.557,22.269,21.005,43.121,36.431,21.035c48.039-68.774,150.608-62.559,192.76,4.473c-9.125,0.022-18.253,0.045-27.377,0.067 c-2.554,0.004-4.368,1.144-5.49,2.745c-1.832,1.967-2.532,4.839-0.61,7.816c17.378,26.966,34.759,53.936,52.141,80.902 c2.921,4.532,9.226,4.495,12.12-0.045c17.243-27.052,34.49-54.104,51.733-81.16C417.714,170.388,413.956,164.334,408.84,164.345z"></path>
@@ -839,7 +838,7 @@
 
             <div class="audio-volume-controls">
                 <button id="mute-btn" class="audio-control-btn" title="Mudo">
-                    <svg id="volume-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 4L8 8H4v8h4l4 4V4z"></path>
                     </svg>
                     <svg id="mute-svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
@@ -1405,8 +1404,11 @@
             // Pega a frase do Chorão do nível recém-concluído (o nível anterior ao atual)
             const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
             
+            // ALTERADO: Adicionado a frase "No passo a <br> passo eu chego <br> lá!" e o nível dinâmico.
             elements.levelUpMessage.innerHTML = `
-                <div>No passo a passo eu chego lá!</div> <div style="font-size: 0.7em; margin-top: 15px; font-family: Arial, sans-serif; opacity: 0.9;">"${fraseChorao}"</div>
+                <div>No passo a passo eu chego lá!</div>
+                <div style="font-size: 0.7em; margin-top: 15px; font-family: Arial, sans-serif; opacity: 0.9;">Você avançou para o Nível ${quizState.currentLevel + 1}!</div>
+                <div style="font-size: 0.7em; margin-top: 5px; font-family: Arial, sans-serif; opacity: 0.9;">"${fraseChorao}"</div>
                 <button onclick="continueQuiz()">Próxima fase</button> `;
             // Background da mensagem de nível é o cinza principal
             elements.levelUpMessage.style.backgroundColor = 'var(--cor-preto-principal)'; 
