@@ -237,7 +237,7 @@
 
         @media (min-width: 769px) {
             .curiosity-sidebar-box {
-                margin-top: 0; /* Remove margem superior quando lado a lado */
+                margin-top: 0;
                 text-align: left; /* NOVO: Volta para texto à esquerda em desktop (layout em linha) */
                 align-self: flex-start; /* Mantém alinhamento ao topo em desktop */
             }
@@ -1406,12 +1406,12 @@
             // Pega a frase do Chorão do nível recém-concluído (o nível anterior ao atual)
             const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
             
-            // ALTERADO: Adicionado a frase "No passo a passo eu chego lá!" e o nível dinâmico.
+            // ALTERADO: Adicionado a frase "No passo a <br> passo eu chego <br> lá!" e o nível dinâmico.
             elements.levelUpMessage.innerHTML = `
                 <div>No passo a passo eu chego lá!</div>
                 <div style="font-size: 0.7em; margin-top: 15px; font-family: Arial, sans-serif; opacity: 0.9;">Você avançou para o Nível ${quizState.currentLevel + 1}!</div>
                 <div style="font-size: 0.7em; margin-top: 5px; font-family: Arial, sans-serif; opacity: 0.9;">"${fraseChorao}"</div>
-                <button onclick="continueQuiz()">Próxima fase</button> `;
+                <button onclick="continueQuiz()">Avançar</button> `;
             // Background da mensagem de nível é o cinza principal
             elements.levelUpMessage.style.backgroundColor = 'var(--cor-preto-principal)'; 
             elements.levelUpMessage.style.display = 'flex';
