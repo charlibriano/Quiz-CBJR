@@ -19,11 +19,11 @@
             --cor-preto-principal: #343434;
             --cor-verde-correto: #2ecc71;
             --cor-vermelho-incorreto: #e74c3c;
-            --cor-fundo-transparente: rgba(0, 0, 0, 0.4); /* ALTERADO: Aumentada a transparência (de 0.2 para 0.4) */
+            --cor-fundo-transparente: rgba(0, 0, 0, 0.4);
             --cor-texto-claro: white;
             --cor-texto-escuro: black;
 
-            --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.3); /* ALTERADO: Aumentada a transparência (de 0.2 para 0.3) */
+            --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.3);
             --cor-verde-vibrante: #1ed760; /* Usado no Spotify, mais vibrante */
         }
 
@@ -169,8 +169,8 @@
             font-size: 1.2em;
             border-radius: 10px;
             border: none;
-            background-color: var(--cor-amarelo-cbjr);
-            color: var(--cor-texto-escuro);
+            background-color: var(--cor-preto-principal); /* Fundo dos botões de resposta agora é cinza */
+            color: var(--cor-texto-claro); /* Cor do texto dos botões agora é branco para contraste */
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
             
@@ -187,6 +187,7 @@
 
         .question button:hover:not(:disabled) {
             transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.1); /* Um tom mais claro no hover */
         }
 
         .question button.correct {
@@ -198,6 +199,7 @@
         }
         .question button .feedback-icon { /* Estilo para o ícone de feedback */
             margin-left: 8px; /* Espaçamento do texto */
+            color: white; 
             font-size: 1.2em;
         }
 
@@ -244,7 +246,7 @@
         }
 
         .curiosity-sidebar-box strong {
-            color: var(--cor-amarelo-cbjr);
+            color: var(--cor-amarelo-cbjr); /* Título da curiosidade ainda amarelo para destaque */
             font-family: 'Elektrix', sans-serif;
             font-size: 1.1em;
             display: block;
@@ -255,17 +257,18 @@
         #restart-btn, #start-btn {
             padding: 15px 30px;
             margin-top: 20px; /* Mantenha para espaçamento dentro do container */
-            background-color: var(--cor-amarelo-cbjr);
-            color: var(--cor-texto-escuro);
+            background-color: var(--cor-preto-principal); /* Fundo dos botões agora é cinza */
+            color: var(--cor-texto-claro); /* Texto dos botões agora é branco */
             cursor: pointer;
             border: none;
             border-radius: 10px;
             font-size: 1.5em;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, background-color 0.3s ease;
         }
 
         #restart-btn:hover, #start-btn:hover {
             transform: scale(1.05);
+            background-color: #4a4a4a; /* Um cinza um pouco mais claro no hover */
         }
 
         /* --- PLAYER ATUALIZADO E CORRIGIDO --- */
@@ -576,7 +579,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: var(--cor-verde-correto);
+            background-color: var(--cor-preto-principal); 
             color: var(--cor-texto-claro);
             padding: 25px 40px;
             border-radius: 15px;
@@ -599,15 +602,18 @@
         #level-up-message button {
             padding: 12px 25px;
             font-size: 1.2em;
-            background-color: var(--cor-amarelo-cbjr);
-            color: var(--cor-texto-escuro);
+            /* ALTERADO: Fundo do botão agora é cinza */
+            background-color: var(--cor-preto-principal); 
+            /* ALTERADO: Texto do botão agora é branco */
+            color: var(--cor-texto-claro); 
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, background-color 0.3s ease;
         }
         #level-up-message button:hover {
             transform: scale(1.05);
+            background-color: #4a4a4a; /* Um cinza um pouco mais claro no hover */
         }
 
         /* Estilo para cobrir o quiz e desabilitar cliques */
@@ -990,7 +996,7 @@
             currentIndex: 0,
             isShuffling: false,
             repeatMode: 0, // 0 = off, 1 = repeat playlist, 2 = repeat one song
-            previousVolume: 0.4 // ALTERADO: Volume inicial agora é 40%
+            previousVolume: 0.4 // Volume inicial agora é 40%
         };
 
         // --- Configurações e Funções Auxiliares ---
@@ -1389,6 +1395,7 @@
             }
         }
 
+        // Função showLevelUpMessage (ALTERADA)
         function showLevelUpMessage() {
             quizState.quizPaused = true;
             quizState.isProcessingAnswer = true;
@@ -1399,11 +1406,10 @@
             const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
             
             elements.levelUpMessage.innerHTML = `
-                <div>Nível ${quizState.currentLevel + 1}! Mandou bem!</div>
-                <div style="font-size: 0.7em; margin-top: 15px; font-family: Arial, sans-serif; opacity: 0.9;">"${fraseChorao}"</div>
-                <button onclick="continueQuiz()">Continuar</button>
-            `;
-            elements.levelUpMessage.style.backgroundColor = 'var(--cor-verde-correto)';
+                <div>No passo a passo eu chego lá!</div> <div style="font-size: 0.7em; margin-top: 15px; font-family: Arial, sans-serif; opacity: 0.9;">"${fraseChorao}"</div>
+                <button onclick="continueQuiz()">Próxima fase</button> `;
+            // Background da mensagem de nível é o cinza principal
+            elements.levelUpMessage.style.backgroundColor = 'var(--cor-preto-principal)'; 
             elements.levelUpMessage.style.display = 'flex';
             elements.levelUpMessage.classList.add('show');
         }
@@ -1614,7 +1620,8 @@
                     <div style="font-size: 0.8em; margin-top: 10px;">Você acertou ${quizState.score} de ${quizState.totalQuestions} perguntas!</div>
                     <button onclick="restartQuiz()">Jogar Novamente</button>
                 `;
-                elements.levelUpMessage.style.backgroundColor = 'var(--cor-verde-correto)';
+                // Background da mensagem de nível é o cinza principal
+                elements.levelUpMessage.style.backgroundColor = 'var(--cor-preto-principal)'; 
                 elements.levelUpMessage.style.display = 'flex';
                 elements.levelUpMessage.classList.add('show');
             } else { // CASO DE DERROTA
