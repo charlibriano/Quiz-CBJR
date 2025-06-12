@@ -1406,9 +1406,9 @@
             // Pega a frase do Chorão do nível recém-concluído (o nível anterior ao atual)
             const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
             
-            // ALTERADO: Adicionado a frase "No passo a <br> passo eu chego <br> lá!" e o nível dinâmico.
+            // ALTERADO: Adicionado a frase "No passo a <br><br> passo eu chego <br><br> lá!" e o nível dinâmico.
             elements.levelUpMessage.innerHTML = `
-                <div>No passo a <br> passo eu chego <br> lá!</div>
+                <div>No passo a <br><br> passo eu chego <br><br> lá!</div>
                 <div style="font-size: 0.7em; margin-top: 15px; font-family: Arial, sans-serif; opacity: 0.9;">Você avançou para o Nível ${quizState.currentLevel + 1}!</div>
                 <div style="font-size: 0.7em; margin-top: 5px; font-family: Arial, sans-serif; opacity: 0.9;">"${fraseChorao}"</div>
                 <button onclick="continueQuiz()">Avançar</button> `;
