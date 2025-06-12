@@ -808,121 +808,152 @@
     </div>
 
     <script>
+        // --- Dados do Quiz ---
         const questionsByLevel = [
-            // Nível 1 - Perguntas mais fáceis (5 perguntas)
-            [
-                { pergunta: "Quem é vocalista da banda <br><br> Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Pelado"], correta: "Chorão", curiosidade: "Chorão, cujo nome verdadeiro era Alexandre Magno Abrão, foi a voz icônica do Charlie Brown Jr. e um verdadeiro poeta do rock nacional." },
-                { pergunta: "Em que ano a banda <br><br> Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992", curiosidade: "A banda foi formada em Santos, litoral de São Paulo, em 1992, e logo conquistou o Brasil com seu som único." },
-                { pergunta: "Que instrumento Champignon tocava?", respostas: ["Guitarra", "Bateria", "Baixo", "Teclado"], correta: "Baixo", curiosidade: "Champignon, ou Luiz Carlos Leão Duarte Júnior, era o baixista e backing vocal da banda, conhecido por sua energia no palco." },
-                { pergunta: "O que significa CBJR?", respostas: ["Coletivo Brasileiro de Juventude Revolucionária", "Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Cultura Brasileira Jovem de Rua"], correta: "Charlie Brown Jr", curiosidade: "CBJR é a abreviação do nome da própria banda, 'Charlie Brown Jr.', que se tornou um símbolo de uma geração." },
-                { pergunta: "Onde nasceu o Chorão?", respostas: ["Santos", "São Vicente", "São Paulo", "Campinas"], correta: "São Paulo", curiosidade: "Embora muito ligado a Santos, Chorão nasceu na capital paulista, São Paulo." }
-            ],
-            // Nível 2 - Perguntas de dificuldade média (5 perguntas)
-            [
-                { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Preço Curto... Prazo Longo", curiosidade: "Lançado em 1999, 'Preço Curto... Prazo Longo' trouxe hits como 'Zóio de Lula' e 'Não Deixe o Mar Te Engolir'." },
-                { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today", curiosidade: "'I Feel So Good Today' é uma faixa menos conhecida, mas amada pelos fãs, do álbum 'Imunidade Musical'." },
-                { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000", curiosidade: "'Nadando com os Tubarões', de 2000, é um divisor de águas na carreira da banda, com sucessos como 'Rubão' e 'Não é Sério'." },
-                { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997", curiosidade: "O álbum de estreia, 'Transpiração Contínua Prolongada' (1997), já mostrava a identidade única da banda com hits como 'O Coro Vai Comê!'." },
-                { pergunta: "Qual o nome completo do Chorão?", respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"], correta: "Alexandre Magno Abrão", curiosidade: "Alexandre Magno Abrão, o Chorão, era conhecido por sua personalidade forte e suas letras que retratavam o cotidiano." }
-            ],
-            // Nível 3 - Perguntas mais difíceis (5 perguntas)
-            [
-                { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória", curiosidade: "'Dias de Luta, Dias de Glória' é um hino de superação e uma das músicas mais emblemáticas da banda." },
-                { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa", curiosidade: "'Ritmo, Ritual e Responsa' (2007) trouxe uma sonoridade mais madura e músicas como 'Pontes indestrutíveis'." },
-                { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)", curiosidade: "'Proibida Pra Mim' é um dos maiores sucessos do Charlie Brown Jr., presente no álbum 'Transpiração Contínua Prolongada'." },
-                { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado", curiosidade: "Renato Pelado saiu da banda em 2005." },
-                { pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:", respostas: ["Surfe", "Futebol", "Skate", "Capoeira"], correta: "Skate", curiosidade: "Chorão era um apaixonado por skate e um grande incentivador do esporte no Brasil, tendo sua própria pista em Santos." }
-            ],
-            // Nível 4 - Mais algumas perguntas (5 perguntas)
-            [
-                { pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?", respostas: ["Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"], correta: "Marginal Alado", curiosidade: "'Chorão: Marginal Alado' é um documentário aclamado que explora a vida e a carreira do vocalista." },
-                { pergunta: "Qual o nome do primeiro álbum de estúdio do Charlie Brown Jr.?", respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"], correta: "Transpiração Contínua Prolongada", curiosidade: "Lançado em 1997, 'Transpiração Contínua Prolongada' marcou a estreia oficial do Charlie Brown Jr. no cenário musical brasileiro, trazendo sucessos como 'O Coro Vai Comê!'." },
-                { pergunta: "Qual álbum de estúdio do Charlie Brown Jr. inclui a canção 'Lugar ao Sol'?", respostas: ["Bocas Ordinárias", "100% Charlie Brown Jr. - Abalando a Sua Fábrica", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "100% Charlie Brown Jr. - Abalando a Sua Fábrica", curiosidade: "'Lugar ao Sol' é uma das faixas mais conhecidas do álbum '100% Charlie Brown Jr. - Abalando a Sua Fábrica', lançado em 2001." },
-                { pergunta: "Qual foi o primeiro single do Charlie Brown Jr. a ter grande repercussão e tocar nas rádios de todo o Brasil?", respostas: ["Proibida Pra Mim", "Zóio de Lula", "O Coro Vai Comê!", "Te Levar"], correta: "O Coro Vai Comê!", curiosidade: "'O Coro Vai Comê!', do álbum de estreia 'Transpiração Contínua Prolongada', foi a música que abriu as portas das rádios para o Charlie Brown Jr., se tornando um marco na carreira da banda." },
-                { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de glória", "Rubão", "O Preço", "Só os Loucos Sabem"], correta: "O Preço", curiosidade: "'Preço Curto... Prazo Longo' de 1999, consolidou a banda no cenário nacional." }
-            ],
-            // Nível 5 - (5 perguntas)
-            [
-                { pergunta: "Qual o nome do último álbum de estúdio lançado pelo Charlie Brown Jr?", respostas: ["Imunidade Musical", "Ritmo, Ritual e Responsa", "La Família 013", "Camisa 10 Joga Bola Até na Chuva"], correta: "La Família 013", curiosidade: "'La Família 013', lançado em 2013, foi o décimo álbum de estúdio da banda e o último a contar com a participação de Chorão. Ele faleceu meses antes do lançamento." },
-                { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta", curiosidade: "'Champanhe e Água Benta' faz parte do álbum 'Tamo Aí na Atividade', lançado em 2004, e é um dos clássicos da banda." },
-                { pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?", respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"], correta: "Acústico MTV", curiosidade: "O 'Acústico MTV' do Charlie Brown Jr. é um dos álbuns mais aclamados e vendeu mais de 2 milhões de cópias." },
-                { pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?", respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"], correta: "Não é Sério", curiosidade: "'Não é Sério', do álbum 'Nadando com os Tubarões', conta com a participação marcante da cantora Negra Li." },
-                { pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?", respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"], correta: "Musica Popular Caiçara", curiosidade: "'Céu Azul' é um dos grandes sucessos póstumos da banda, lançada no álbum 'Música Popular Caiçara ao Vivo' em 2012." }
-            ],
-            // Nível 6 - Perguntas mais avançadas (6 perguntas)
-            [
-                { pergunta: "Qual música do Charlie Brown Jr. foi indicada ao Grammy Latino em 2005?", respostas: ["Lutar pelo que é meu", "Tamo aí na Atividade", "Ela Vai Voltar", "Céu Azul"], correta: "Tamo aí na Atividade", curiosidade: "'Tamo aí na Atividade', música que leva o nome do álbum, recebeu indicação ao Grammy Latino na categoria Melhor Álbum de Rock Brasileiro em 2005 e venceu o prêmio." },
-                { pergunta: "Qual dessas músicas foi tema de abertura de uma novela da Globo?", respostas: ["Te Levar", "Só os Loucos Sabem", "Senhor do Tempo", "Longe de Você"], correta: "Te Levar", curiosidade: "'Te Levar' foi tema de abertura da série 'Malhação', exibida pela TV Globo entre 1999 e 2006." },
-                { pergunta: "Qual integrante do Charlie Brown Jr. também formou a banda Revolucionnários após sair do grupo?", respostas: ["Marcão Britto", "Graveto", "Heitor Gomes", "Champignon"], correta: "Champignon", curiosidade: "Após sair do Charlie Brown Jr., Champignon criou a banda Revolucionnários, onde foi vocalista e baixista, explorando novas sonoridades." },
-                { pergunta: "No projeto Estúdio Coca-Cola Zero, qual cantora da MPB dividiu o palco com o Charlie Brown Jr.?", respostas: ["Vanessa da Mata", "Maria Gadú", "Ana Carolina", "Ivete Sangalo"], correta: "Vanessa da Mata", curiosidade: "Em 2008, no projeto Estúdio Coca-Cola Zero, o Charlie Brown Jr. fez uma apresentação especial ao lado da cantora Vanessa da Mata, misturando rock e MPB em versões inéditas de seus sucessos." },
-                { pergunta: "Qual roqueiro brasileiro fez participações com Chorão nas músicas 'Hoje' e 'Coração Satânico' e era considerado por ele como um padrinho musical?", respostas: ["Marcelo Nova", "Raimundo Fagner", "Herbert Vianna", "Supla"], correta: "Marcelo Nova", curiosidade: "Marcelo Nova, conhecido por seu trabalho com o Camisa de Vênus, participou das músicas 'Hoje' e 'Coração Satânico'. Chorão o considerava um padrinho musical e uma referência no rock nacional." },
-                { pergunta: "Em qual programa da MTV Chorão participou ao lado da cantora Pitty?", respostas: ["Acústico MTV", "MTV na Estrada", "Covernation", "Supernova"], correta: "Covernation", curiosidade: "Chorão participou do programa 'Covernation' da MTV Brasil junto com Pitty. No episódio,  Charlie Brown Jr. interpretou músicas do Red Hot Chili Peppers e a Pitty, o Queens of the Stone Age ao vivo." }
-            ],
-            // Nível 7 - Perguntas mais avançadas (6 perguntas)
-            [
-                { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitar Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
-                { pergunta: "Qual banda internacional teve o Charlie Brown Jr. como banda de abertura em suas turnês no Brasil nos anos de 2004 e 2012?", respostas: ["Limp Bizkit", "Green Day", "Foo Fighters", "Linkin Park"], correta: "Linkin Park", curiosidade: "O Charlie Brown Jr. abriu shows do Linkin Park no Brasil em duas ocasiões: em 2004, durante a turnê do álbum 'Meteora', e novamente em 2012, na turnê de 'Living Things', com uma apresentação marcante na Arena Anhembi, em São Paulo." },
-                { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records", curiosidade: "A Virgin Records foi a gravadora responsável pelos primeiros álbuns da banda, incluindo 'Transpiração Contínua Prolongada'." },
-                { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas mais esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
-                { pergunta: "Qual o nome do álbum que inclui o hit 'Senhor do Tempo'?", respostas: ["Nadando com os Tubarões", "Bocas Ordinárias", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "Imunidade Musical", curiosidade: "'Senhor do Tempo' é uma das faixas mais conhecidas do álbum 'Imunidade Musical', lançado em 2004, e aborda temas de fé e destino." },
-                {
-  "pergunta": "Em qual programa da MTV Chorão abriu as portas de sua casa para o público?",
-  "respostas": ["MTV Cribs Brasil", "Diário de Bordo", "Família MTV", "MTV na Estrada"],
-  "correta": "Família MTV",
-  "curiosidade": "No programa 'Família MTV gravado em 2005', Chorão mostrou detalhes da sua casa em Santos, incluindo sua rotina e ambiente pessoal." }
-
-            ]
+            // Nível 1
+            {
+                fraseChorao: "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
+                perguntas: [
+                    { pergunta: "Quem é vocalista da banda <br><br> Charlie Brown Jr.?", respostas: ["Chorão", "Champignon", "Marcão", "Pelado"], correta: "Chorão", curiosidade: "Chorão, cujo nome verdadeiro era Alexandre Magno Abrão, foi a voz icônica do Charlie Brown Jr. e um verdadeiro poeta do rock nacional." },
+                    { pergunta: "Em que ano a banda <br><br> Charlie Brown Jr. foi formada?", respostas: ["1990", "1992", "1994", "1996"], correta: "1992", curiosidade: "A banda foi formada em Santos, litoral de São Paulo, em 1992, e logo conquistou o Brasil com seu som único." },
+                    { pergunta: "Que instrumento Champignon tocava?", respostas: ["Guitarra", "Bateria", "Baixo", "Teclado"], correta: "Baixo", curiosidade: "Champignon, ou Luiz Carlos Leão Duarte Júnior, era o baixista e backing vocal da banda, conhecido por sua energia no palco." },
+                    { pergunta: "O que significa CBJR?", respostas: ["Coletivo Brasileiro de Juventude Revolucionária", "Clube Brasileiro de Jovens Rebeldes", "Charlie Brown Jr", "Cultura Brasileira Jovem de Rua"], correta: "Charlie Brown Jr", curiosidade: "CBJR é a abreviação do nome da própria banda, 'Charlie Brown Jr.', que se tornou um símbolo de uma geração." },
+                    { pergunta: "Onde nasceu o Chorão?", respostas: ["Santos", "São Vicente", "São Paulo", "Campinas"], correta: "São Paulo", curiosidade: "Embora muito ligado a Santos, Chorão nasceu na capital paulista, São Paulo." }
+                ]
+            },
+            // Nível 2
+            {
+                fraseChorao: "Quem é de verdade sabe quem é de mentira.",
+                perguntas: [
+                    { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Preço Curto... Prazo Longo", curiosidade: "Lançado em 1999, 'Preço Curto... Prazo Longo' trouxe hits como 'Zóio de Lula' e 'Não Deixe o Mar Te Engolir'." },
+                    { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today", curiosidade: "'I Feel So Good Today' é uma faixa menos conhecida, mas amada pelos fãs, do álbum 'Imunidade Musical'." },
+                    { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000", curiosidade: "'Nadando com os Tubarões', de 2000, é um divisor de águas na carreira da banda, com sucessos como 'Rubão' e 'Não é Sério'." },
+                    { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997", curiosidade: "O álbum de estreia, 'Transpiração Contínua Prolongada' (1997), já mostrava a identidade única da banda com hits como 'O Coro Vai Comê!'." },
+                    { pergunta: "Qual o nome completo do Chorão?", respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"], correta: "Alexandre Magno Abrão", curiosidade: "Alexandre Magno Abrão, o Chorão, era conhecido por sua personalidade forte e suas letras que retratavam o cotidiano." }
+                ]
+            },
+            // Nível 3
+            {
+                fraseChorao: "Eles querem que você se sinta mal, pois assim eles se sentem bem.",
+                perguntas: [
+                    { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória", curiosidade: "'Dias de Luta, Dias de Glória' é um hino de superação e uma das músicas mais emblemáticas da banda." },
+                    { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa", curiosidade: "'Ritmo, Ritual e Responsa' (2007) trouxe uma sonoridade mais madura e músicas como 'Pontes indestrutíveis'." },
+                    { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)", curiosidade: "'Proibida Pra Mim' é um dos maiores sucessos do Charlie Brown Jr., presente no álbum 'Transpiração Contínua Prolongada'." },
+                    { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado", curiosidade: "Renato Pelado saiu da banda em 2005." },
+                    { pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:", respostas: ["Surfe", "Futebol", "Skate", "Capoeira"], correta: "Skate", curiosidade: "Chorão era um apaixonado por skate e um grande incentivador do esporte no Brasil, tendo sua própria pista em Santos." }
+                ]
+            },
+            // Nível 4
+            {
+                fraseChorao: "Eu me flagrei pensando em você em tudo o que eu queria te dizer...",
+                perguntas: [
+                    { pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?", respostas: ["Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"], correta: "Marginal Alado", curiosidade: "'Chorão: Marginal Alado' é um documentário aclamado que explora a vida e a carreira do vocalista." },
+                    { pergunta: "Qual o nome do primeiro álbum de estúdio do Charlie Brown Jr.?", respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"], correta: "Transpiração Contínua Prolongada", curiosidade: "Lançado em 1997, 'Transpiração Contínua Prolongada' marcou a estreia oficial do Charlie Brown Jr. no cenário musical brasileiro, trazendo sucessos como 'O Coro Vai Comê!'." },
+                    { pergunta: "Qual álbum de estúdio do Charlie Brown Jr. inclui a canção 'Lugar ao Sol'?", respostas: ["Bocas Ordinárias", "100% Charlie Brown Jr. - Abalando a Sua Fábrica", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "100% Charlie Brown Jr. - Abalando a Sua Fábrica", curiosidade: "'Lugar ao Sol' é uma das faixas mais conhecidas do álbum '100% Charlie Brown Jr. - Abalando a Sua Fábrica', lançado em 2001." },
+                    { pergunta: "Qual foi o primeiro single do Charlie Brown Jr. a ter grande repercussão e tocar nas rádios de todo o Brasil?", respostas: ["Proibida Pra Mim", "Zóio de Lula", "O Coro Vai Comê!", "Te Levar"], correta: "O Coro Vai Comê!", curiosidade: "'O Coro Vai Comê!', do álbum de estreia 'Transpiração Contínua Prolongada', foi a música que abriu as portas das rádios para o Charlie Brown Jr., se tornando um marco na carreira da banda." },
+                    { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de gloriar", "Rubão", "O Preço", "Só os Loucos Sabem"], correta: "O Preço", curiosidade: "'Preço Curto... Prazo Longo' de 1999, consolidou a banda no cenário nacional." }
+                ]
+            },
+            // Nível 5
+            {
+                fraseChorao: "Não tão complicado demais, mas nem tão simples assim.",
+                perguntas: [
+                    { pergunta: "Qual o nome do último álbum de estúdio lançado pelo Charlie Brown Jr?", respostas: ["Imunidade Musical", "Ritmo, Ritual e Responsa", "La Família 013", "Camisa 10 Joga Bola Até na Chuva"], correta: "La Família 013", curiosidade: "'La Família 013', lançado em 2013, foi o décimo álbum de estúdio da banda e o último a contar com a participação de Chorão. Ele faleceu meses antes do lançamento." },
+                    { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta", curiosidade: "'Champanhe e Água Benta' faz parte do álbum 'Tamo Aí na Atividade', lançado em 2004, e é um dos clássicos da banda." },
+                    { pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?", respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"], correta: "Acústico MTV", curiosidade: "O 'Acústico MTV' do Charlie Brown Jr. é um dos álbuns mais aclamados e vendeu mais de 2 milhões de cópias." },
+                    { pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?", respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"], correta: "Não é Sério", curiosidade: "'Não é Sério', do álbum 'Nadando com os Tubarões', conta com a participação marcante da cantora Negra Li." },
+                    { pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?", respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"], correta: "Musica Popular Caiçara", curiosidade: "'Céu Azul' é um dos grandes sucessos póstumos da banda, lançada no álbum 'Música Popular Caiçara ao Vivo' em 2012." }
+                ]
+            },
+            // Nível 6
+            {
+                fraseChorao: "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
+                perguntas: [
+                    { pergunta: "Qual música do Charlie Brown Jr. foi indicada ao Grammy Latino em 2005?", respostas: ["Lutar pelo que é meu", "Tamo aí na Atividade", "Ela Vai Voltar", "Céu Azul"], correta: "Tamo aí na Atividade", curiosidade: "'Tamo aí na Atividade', música que leva o nome do álbum, recebeu indicação ao Grammy Latino na categoria Melhor Álbum de Rock Brasileiro em 2005 e venceu o prêmio." },
+                    { pergunta: "Qual dessas músicas foi tema de abertura de uma novela da Globo?", respostas: ["Te Levar", "Só os Loucos Sabem", "Senhor do Tempo", "Longe de Você"], correta: "Te Levar", curiosidade: "'Te Levar' foi tema de abertura da série 'Malhação', exibida pela TV Globo entre 1999 e 2006." },
+                    { pergunta: "Qual integrante do Charlie Brown Jr. também formou a banda Revolucionnários após sair do grupo?", respostas: ["Marcão Britto", "Graveto", "Heitor Gomes", "Champignon"], correta: "Champignon", curiosidade: "Após sair do Charlie Brown Jr., Champignon criou a banda Revolucionnários, onde foi vocalista e baixista, explorando novas sonoridades." },
+                    { pergunta: "No projeto Estúdio Coca-Cola Zero, qual cantora da MPB dividiu o palco com o Charlie Brown Jr.?", respostas: ["Vanessa da Mata", "Maria Gadú", "Ana Carolina", "Ivete Sangalo"], correta: "Vanessa da Mata", curiosidade: "Em 2008, no projeto Estúdio Coca-Cola Zero, o Charlie Brown Jr. fez uma apresentação especial ao lado da cantora Vanessa da Mata, misturando rock e MPB em versões inéditas de seus sucessos." },
+                    { pergunta: "Qual roqueiro brasileiro fez participações com Chorão nas músicas 'Hoje' e 'Coração Satânico' e era considerado por ele como um padrinho musical?", respostas: ["Marcelo Nova", "Raimundo Fagner", "Herbert Vianna", "Supla"], correta: "Marcelo Nova", curiosidade: "Marcelo Nova, conhecido por seu trabalho com o Camisa de Vênus, participou das músicas 'Hoje' e 'Coração Satânico'. Chorão o considerava um padrinho musical e uma referência no rock nacional." },
+                    { pergunta: "Em qual programa da MTV Chorão participou ao lado da cantora Pitty?", respostas: ["Acústico MTV", "MTV na Estrada", "Covernation", "Supernova"], correta: "Covernation", curiosidade: "Chorão participou do programa 'Covernation' da MTV Brasil junto com Pitty. No episódio, Charlie Brown Jr. interpretou músicas do Red Hot Chili Peppers e a Pitty, o Queens of the Stone Age ao vivo." }
+                ]
+            },
+            // Nível 7
+            {
+                fraseChorao: "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
+                perguntas: [
+                    { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
+                    { pergunta: "Qual banda internacional teve o Charlie Brown Jr. como banda de abertura em suas turnês no Brasil nos anos de 2004 e 2012?", respostas: ["Limp Bizkit", "Green Day", "Foo Fighters", "Linkin Park"], correta: "Linkin Park", curiosidade: "O Charlie Brown Jr. abriu shows do Linkin Park no Brasil em duas ocasiões: em 2004, durante a turnê do álbum 'Meteora', e novamente em 2012, na turnê de 'Living Things', com uma apresentação marcante na Arena Anhembi, em São Paulo." },
+                    { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records", curiosidade: "A Virgin Records foi a gravadora responsável pelos primeiros álbuns da banda, incluindo 'Transpiração Contínua Prolongada'." },
+                    { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas mais esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
+                    { pergunta: "Qual o nome do álbum que inclui o hit 'Senhor do Tempo'?", respostas: ["Nadando com os Tubarões", "Bocas Ordinárias", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "Imunidade Musical", curiosidade: "'Senhor do Tempo' é uma das faixas mais conhecidas do álbum 'Imunidade Musical', lançado em 2004, e aborda temas de fé e destino." },
+                    {
+                    "pergunta": "Em qual programa da MTV Chorão abriu as portas de sua casa para o público?",
+                    "respostas": ["MTV Cribs Brasil", "Diário de Bordo", "Família MTV", "MTV na Estrada"],
+                    "correta": "Família MTV",
+                    "curiosidade": "No programa 'Família MTV gravado em 2005', Chorão mostrou detalhes da sua casa em Santos, incluindo sua rotina e ambiente pessoal." }
+                ]
+            }
         ];
 
-        const quiz = document.getElementById('quiz');
-        const scoreText = document.getElementById('score-text');
-        const progressText = document.getElementById('progress-text');
-        const levelText = document.getElementById('level-text');
-        const medalText = document.getElementById('medal');
-        const restartBtn = document.getElementById('restart-btn');
-        const startBtn = document.getElementById('start-btn');
-        const audio = document.getElementById('audio');
-        const currentSongText = document.getElementById('current-song');
-        const levelUpMessage = document.getElementById('level-up-message');
-        const mainOverlay = document.getElementById('overlay');
+        // --- Referências de Elementos DOM ---
+        const elements = {
+            quiz: document.getElementById('quiz'),
+            scoreText: document.getElementById('score-text'),
+            progressText: document.getElementById('progress-text'),
+            levelText: document.getElementById('level-text'),
+            medalText: document.getElementById('medal'),
+            restartBtn: document.getElementById('restart-btn'),
+            startBtn: document.getElementById('start-btn'),
+            audio: document.getElementById('audio'),
+            currentSongText: document.getElementById('current-song'),
+            levelUpMessage: document.getElementById('level-up-message'),
+            mainOverlay: document.getElementById('overlay'),
+            curiosityBox: document.createElement('div'), // Criar uma vez e reutilizar
 
-        // Elemento para a curiosidade
-        const curiosityBox = document.createElement('div');
-        curiosityBox.classList.add('curiosity-box');
-        curiosityBox.style.display = 'none'; // Esconde inicialmente
+            // Player Elements
+            playPauseBtn: document.getElementById('play-pause-btn'),
+            prevBtn: document.getElementById('prev-btn'),
+            nextBtn: document.getElementById('next-btn'),
+            progressBar: document.getElementById('progress-bar'),
+            progressContainer: document.querySelector('.progress-container'),
+            repeatBtn: document.getElementById('repeat-btn'),
+            shuffleBtn: document.getElementById('shuffle-btn'),
+            muteBtn: document.getElementById('mute-btn'),
+            volumeSlider: document.getElementById('volume-slider'),
+            volumeValueSpan: document.getElementById('volume-value'),
+            currentTimeSpan: document.getElementById('current-time'),
+            totalDurationSpan: document.getElementById('total-duration'),
 
+            // SVG Elements for Repeat/Mute
+            repeatAllSvg: document.getElementById('repeat-all-svg'),
+            repeatOneSvg: document.getElementById('repeat-one-svg'),
+            volumeSvg: document.getElementById('volume-svg'),
+            muteSvg: document.getElementById('mute-svg')
+        };
 
-        // VARIÁVEIS DO PLAYER INTERATIVO
-        const playPauseBtn = document.getElementById('play-pause-btn');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const progressBar = document.getElementById('progress-bar');
-        const progressContainer = document.querySelector('.progress-container');
-        const repeatBtn = document.getElementById('repeat-btn');
-        const shuffleBtn = document.getElementById('shuffle-btn');
-        const muteBtn = document.getElementById('mute-btn');
-        const volumeSlider = document.getElementById('volume-slider');
-        const volumeValueSpan = document.getElementById('volume-value');
-        const currentTimeSpan = document.getElementById('current-time');    
-        const totalDurationSpan = document.getElementById('total-duration');    
+        // --- Estado do Quiz (Centralizado) ---
+        const quizState = {
+            currentLevel: 0,
+            currentQuestionIndexInLevel: 0,
+            score: 0,
+            errorsInCurrentLevel: 0,
+            quizPaused: false,
+            isProcessingAnswer: false, // Impede cliques múltiplos enquanto a resposta está sendo processada
+            currentLevelQuestions: [],
+            totalQuestions: 0 // Será calculado na inicialização
+        };
 
+        // --- Estado do Player ---
+        let playerState = {
+            playlist: [],
+            originalPlaylist: [],
+            currentIndex: 0,
+            isShuffling: false,
+            repeatMode: 0, // 0 = off, 1 = repeat playlist, 2 = repeat one song
+            previousVolume: 0.7 // Para restaurar o volume ao desmutar
+        };
 
-        let playlist = [];
-        let currentIndex = 0;
-        let currentLevel = 0;
-        let currentQuestionIndexInLevel = 0;
-        let score = 0;
-        let currentLevelQuestions = [];
-        let quizPaused = false;
-        let isProcessingAnswer = false;
-        let errorsInCurrentLevel = 0;
-
-        // Variáveis para o player
-        let isShuffling = false;
-        let repeatMode = 0; // 0 = off, 1 = repeat playlist, 2 = repeat one song
-        let originalPlaylist = [];    
-        let previousVolume = 0.7; // Para restaurar o volume ao desmutar (valor inicial do slider)
-
+        // --- Configurações e Funções Auxiliares ---
         const backgroundImages = [
             'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr.jpg',
             'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/fundo-cbjr2.jpg'
@@ -951,32 +982,6 @@
             });
         }
 
-        window.onload = () => {
-            preloadImages(backgroundImages, () => {
-                document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
-                changeBackgroundImageInterval();
-            });
-            quiz.addEventListener('click', handleQuizClick);
-            
-            // Adiciona a curiosidade box ao quiz (abaixo do quiz, antes dos botões de restart/start)
-            const container = document.querySelector('.container');
-            container.insertBefore(curiosityBox, document.getElementById('medal'));
-
-
-            // Inicializar o ícone de volume corretamente ao carregar
-            const volumeSvg = document.getElementById('volume-svg');
-            const muteSvg = document.getElementById('mute-svg');
-            if (audio.volume === 0 || audio.muted) {    
-                volumeSvg.style.display = 'none';
-                muteSvg.style.display = 'block';
-                audio.muted = true;    
-            } else {    
-                volumeSvg.style.display = 'block';
-                muteSvg.style.display = 'none';
-                audio.muted = false;    
-            }
-        };
-
         function changeBackgroundImageInterval() {
             setInterval(() => {
                 currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundImages.length;
@@ -984,74 +989,10 @@
             }, 10000);
         }
 
-        fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
-                return res.json();
-            })
-            .then(data => {
-                playlist = data;
-                originalPlaylist = [...data]; // Guarda uma cópia da playlist original
-                if (playlist.length > 0) {
-                    currentIndex = Math.floor(Math.random() * playlist.length);
-                    loadSong();
-                } else {
-                    console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
-                    currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
-                    // Desabilita os botões se a playlist estiver vazia
-                    playPauseBtn.disabled = true;
-                    prevBtn.disabled = true;
-                    nextBtn.disabled = true;
-                    repeatBtn.disabled = true;
-                    shuffleBtn.disabled = true;
-                    muteBtn.disabled = true;
-                    volumeSlider.disabled = true;
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao carregar playlist:', error);
-                currentSongText.textContent = `Erro ao carregar a playlist. Tente novamente mais tarde.`;
-                // Desabilita os botões em caso de erro no carregamento
-                playPauseBtn.disabled = true;
-                prevBtn.disabled = true;
-                nextBtn.disabled = true;
-                repeatBtn.disabled = true;
-                shuffleBtn.disabled = true;
-                muteBtn.disabled = true;
-                volumeSlider.disabled = true;
-            });
-
-        // FUNÇÕES DO PLAYER
-        function playSong() {
-            audio.play()
-                .then(() => {
-                    playPauseBtn.querySelector('svg path').setAttribute('d', 'M6 18h4V6H6v12zm8 0h4V6h-4v12z'); // Ícone de pause
-                })
-                .catch(e => {
-                    console.warn('Erro ao tentar tocar música:', e.name, e.message);
-                    if (e.name === "NotAllowedError" && audio.paused) {
-                        playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
-                        currentSongText.textContent = `${playlist[currentIndex] ? playlist[currentIndex].title : 'N/A'} (Clique ▶️ para tocar)`;
-                    } else {
-                        console.error('Erro de reprodução inesperado:', e);
-                        currentSongText.textContent = `${playlist[currentIndex] ? playlist[currentIndex].title : 'Erro ao tocar'}`;
-                        playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
-                    }
-                });
-        }
-
-        function pauseSong() {
-            audio.pause();
-            playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
-        }
-
-        function togglePlayPause() {
-            if (audio.paused) {
-                playSong();
-            } else {
-                pauseSong();
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
         }
 
@@ -1063,407 +1004,376 @@
             return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
+        // --- Funções do Player de Áudio ---
+        function loadSong() {
+            if (!playerState.playlist.length) {
+                elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
+                Object.values(elements).forEach(el => {
+                    if (el && el.id && (el.id.includes('btn') || el.id.includes('slider'))) {
+                        el.disabled = true;
+                    }
+                });
+                return;
+            }
+            const song = playerState.playlist[playerState.currentIndex];
+            elements.currentSongText.textContent = `${song.title}`;
+            elements.audio.src = song.url;
+            
+            // Habilita os botões se houver playlist
+            elements.playPauseBtn.disabled = false;
+            elements.prevBtn.disabled = false;
+            elements.nextBtn.disabled = false;
+            elements.repeatBtn.disabled = false;
+            elements.shuffleBtn.disabled = false;
+            elements.muteBtn.disabled = false;
+            elements.volumeSlider.disabled = false;
+
+            // Garante que o volume inicial seja aplicado ao carregar a página
+            elements.audio.volume = elements.volumeSlider.value;
+            elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
+
+            // Resetar o tempo e carregar a duração total
+            elements.currentTimeSpan.textContent = '0:00';
+            elements.totalDurationSpan.textContent = '0:00';    
+            elements.audio.onloadedmetadata = () => {
+                if (!isNaN(elements.audio.duration) && elements.audio.duration > 0) {
+                    elements.totalDurationSpan.textContent = formatTime(elements.audio.duration);
+                }
+            };
+            elements.audio.oncanplaythrough = () => {
+                // Tenta tocar a música assim que estiver pronta, se não estiver pausada
+                if (!elements.audio.paused) { // Se não estiver pausado (ou seja, deveria estar tocando)
+                    playSong();
+                } else {
+                    // Se o áudio está pausado (ex: autoplay bloqueado, ou usuário pausou manualmente)
+                    // Garante que o ícone de play esteja visível
+                    elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
+                    elements.currentSongText.textContent = `${song.title}`;
+                }
+            };
+            elements.audio.onerror = (e) => {
+                console.error("Erro ao carregar áudio:", e);
+                elements.currentSongText.textContent = `Erro ao carregar ${song.title}`;
+                elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
+            };
+        }
+
+        function playSong() {
+            elements.audio.play()
+                .then(() => {
+                    elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M6 18h4V6H6v12zm8 0h4V6h-4v12z'); // Ícone de pause
+                })
+                .catch(e => {
+                    console.warn('Erro ao tentar tocar música:', e.name, e.message);
+                    if (e.name === "NotAllowedError" && elements.audio.paused) {
+                        elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
+                        elements.currentSongText.textContent = `${playerState.playlist[playerState.currentIndex] ? playerState.playlist[playerState.currentIndex].title : 'N/A'} (Clique ▶️ para tocar)`;
+                    } else {
+                        console.error('Erro de reprodução inesperado:', e);
+                        elements.currentSongText.textContent = `${playerState.playlist[playerState.currentIndex] ? playerState.playlist[playerState.currentIndex].title : 'Erro ao tocar'}`;
+                        elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
+                    }
+                });
+        }
+
+        function pauseSong() {
+            elements.audio.pause();
+            elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
+        }
+
+        function togglePlayPause() {
+            if (elements.audio.paused) {
+                playSong();
+            } else {
+                pauseSong();
+            }
+        }
+
         function playNextSong() {
-            if (playlist.length === 0) return;
-            if (isShuffling) {
+            if (playerState.playlist.length === 0) return;
+            if (playerState.isShuffling) {
                 let nextIndex;
                 do {
-                    nextIndex = Math.floor(Math.random() * playlist.length);
-                } while (nextIndex === currentIndex && playlist.length > 1); // Evita a mesma música se houver mais de uma
-                currentIndex = nextIndex;
+                    nextIndex = Math.floor(Math.random() * playerState.playlist.length);
+                } while (nextIndex === playerState.currentIndex && playerState.playlist.length > 1);
+                playerState.currentIndex = nextIndex;
             } else {
-                currentIndex = (currentIndex + 1) % playlist.length;
+                playerState.currentIndex = (playerState.currentIndex + 1) % playerState.playlist.length;
             }
             loadSong();
             playSong();
         }
 
         function playPrevSong() {
-            if (playlist.length === 0) return;
-            if (isShuffling) {
+            if (playerState.playlist.length === 0) return;
+            if (playerState.isShuffling) {
                 let prevIndex;
                 do {
-                    prevIndex = Math.floor(Math.random() * playlist.length);
-                } while (prevIndex === currentIndex && playlist.length > 1);
-                prevIndex = Math.floor(Math.random() * playlist.length); // Shuffle para anterior também é aleatório
-                currentIndex = prevIndex;
+                    prevIndex = Math.floor(Math.random() * playerState.playlist.length);
+                } while (prevIndex === playerState.currentIndex && playerState.playlist.length > 1);
+                playerState.currentIndex = prevIndex;
             } else {
-                currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+                playerState.currentIndex = (playerState.currentIndex - 1 + playerState.playlist.length) % playerState.playlist.length;
             }
             loadSong();
             playSong();
         }
 
         function updateProgressBar() {
-            const { duration, currentTime } = audio;
+            const { duration, currentTime } = elements.audio;
             
             if (!isNaN(duration) && duration > 0) {
                 const progressPercent = (currentTime / duration) * 100;
-                progressBar.style.width = `${progressPercent}%`;
+                elements.progressBar.style.width = `${progressPercent}%`;
                 
-                // Atualiza os spans de tempo
-                currentTimeSpan.textContent = formatTime(currentTime);
-                totalDurationSpan.textContent = formatTime(duration);
+                elements.currentTimeSpan.textContent = formatTime(currentTime);
+                elements.totalDurationSpan.textContent = formatTime(duration);
             } else {
-                progressBar.style.width = '0%';
-                currentTimeSpan.textContent = '0:00';
-                totalDurationSpan.textContent = '0:00';
+                elements.progressBar.style.width = '0%';
+                elements.currentTimeSpan.textContent = '0:00';
+                elements.totalDurationSpan.textContent = '0:00';
             }
         }
 
         function setProgressBar(e) {
-            const width = progressContainer.clientWidth; // Largura total da barra
-            const clickX = e.offsetX; // Posição do clique dentro da barra
-            const duration = audio.duration;
+            const width = elements.progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            const duration = elements.audio.duration;
 
-            if (!isNaN(duration) && duration > 0) { // Garante que a duração é válida
-                audio.currentTime = (clickX / width) * duration;
+            if (!isNaN(duration) && duration > 0) {
+                elements.audio.currentTime = (clickX / width) * duration;
             }
         }
 
-        // Adicionar event listeners aos botões do player
-        playPauseBtn.addEventListener('click', togglePlayPause);
-        prevBtn.addEventListener('click', playPrevSong);
-        nextBtn.addEventListener('click', playNextSong);
-
-        // Adicionar event listeners para a barra de progresso
-        audio.addEventListener('timeupdate', updateProgressBar); // Atualiza a barra enquanto a música toca
-        progressContainer.addEventListener('click', setProgressBar); // Permite pular para uma parte da música
-
-        // Lógica para os novos controles (Volume, Repeat, Shuffle)
-        // Volume
-        muteBtn.addEventListener('click', () => {
-            const volumeSvg = document.getElementById('volume-svg');
-            const muteSvg = document.getElementById('mute-svg');
-
-            if (audio.muted) { // Se ESTAVA mutado, agora vai DESMUTAR
-                audio.muted = false;
-                volumeSvg.style.display = 'block'; // Mostra ícone de volume normal
-                muteSvg.style.display = 'none';    // Esconde ícone de mudo
-                audio.volume = previousVolume; // Restaura o volume anterior
-                volumeSlider.value = previousVolume;
-                volumeValueSpan.textContent = `${Math.round(previousVolume * 100)}%`;
-            } else { // Se NÃO ESTAVA mutado, agora vai MUTAR
-                previousVolume = audio.volume; // Salva o volume atual antes de mutar
-                audio.muted = true;
-                volumeSvg.style.display = 'none'; // Esconde ícone de volume normal
-                muteSvg.style.display = 'block';    // Mostra ícone de mudo
-                volumeSlider.value = 0; // Move o slider para 0
-                volumeValueSpan.textContent = '0%';
-            }
-        });
-
-
-        volumeSlider.addEventListener('input', () => {
-            const volumeSvg = document.getElementById('volume-svg');
-            const muteSvg = document.getElementById('mute-svg');
-            
-            audio.volume = volumeSlider.value;
-            volumeValueSpan.textContent = `${Math.round(volumeSlider.value * 100)}%`;
-
-            if (audio.volume === 0) { // Se o volume é 0, mostrar ícone de mudo
-                volumeSvg.style.display = 'none';
-                muteSvg.style.display = 'block';
-                audio.muted = true;
-            } else { // Se o volume não é 0, mostrar ícone de som
-                volumeSvg.style.display = 'block';
-                muteSvg.style.display = 'none';
-                audio.muted = false;
-                previousVolume = audio.volume;
-            }
-        });
-
-        // Repeat
-        repeatBtn.addEventListener('click', () => {
-            repeatMode = (repeatMode + 1) % 3; // 0 = off, 1 = repeat playlist, 2 = repeat one song
-            
-            const repeatAllSvg = document.getElementById('repeat-all-svg');
-            const repeatOneSvg = document.getElementById('repeat-one-svg');
-
-            // Elements of repeatAllSvg
-            const repeatAllOuterCircle = repeatAllSvg.querySelector('.repeat-outer-circle');
-            const repeatAllArrow1 = repeatAllSvg.querySelector('.repeat-arrow-1');
-            const repeatAllArrow2 = repeatAllSvg.querySelector('.repeat-arrow-2');
-
-            // Elements of repeatOneSvg
-            const repeatOneCircle = repeatOneSvg.querySelector('.repeat-one-circle');
-            const repeatOneNumber = repeatOneSvg.querySelector('.repeat-one-number');
-            const repeatOneArrows = repeatOneSvg.querySelector('.repeat-one-arrows');
-            
-            if (repeatMode === 1) { // Repetir playlist (ícone original de repeat all)
-                repeatBtn.classList.add('active');
-                repeatBtn.title = 'Repetir Playlist (ativo)';
-
-                repeatAllSvg.style.display = 'block'; // Mostra o SVG de repeat all
-                repeatOneSvg.style.display = 'none';    // Esconde o SVG de repeat one
-
-                // Redefine as cores para o estado ativo do repeat all (fundo verde, setas brancas)
-                if(repeatAllOuterCircle) repeatAllOuterCircle.style.fill = 'var(--cor-verde-vibrante)';
-                if(repeatAllArrow1) repeatAllArrow1.style.fill = 'white';
-                if(repeatAllArrow2) repeatAllArrow2.style.fill = 'white';
-
-            } else if (repeatMode === 2) { // Repetir uma música (ícone com "1")
-                repeatBtn.classList.add('active');
-                repeatBtn.title = 'Repetir Música Atual (ativo)';
-
-                repeatAllSvg.style.display = 'none';    // Esconde o SVG de repeat all
-                repeatOneSvg.style.display = 'block';    // Mostra o SVG de repeat one
-                
-                // Redefine as cores para o estado ativo do repeat one (fundo verde, "1" e setas brancas)
-                if(repeatOneCircle) repeatOneCircle.style.fill = 'var(--cor-verde-vibrante)';
-                if(repeatOneNumber) repeatOneNumber.style.fill = 'white';
-                if(repeatOneArrows) repeatOneArrows.style.fill = 'white';
-
-            } else { // Desativado (voltar ao estado inicial do repeat all)
-                repeatBtn.classList.remove('active');
-                repeatBtn.title = 'Repetir Playlist (desativado)';
-
-                repeatAllSvg.style.display = 'block'; // Mostra o SVG de repeat all
-                repeatOneSvg.style.display = 'none';    // Esconde o SVG de repeat one
-
-                // Restaura as cores originais do SVG de repeat all (fundo cinza do SVG, setas brancas)
-                if(repeatAllOuterCircle) repeatAllOuterCircle.style.fill = '#344E5D';
-                if(repeatAllArrow1) repeatAllArrow1.style.fill = 'white';
-                if(repeatAllArrow2) repeatAllArrow2.style.fill = 'white';
-            }
-            console.log(`Modo de repetição: ${repeatMode}`);
-        });
-
-        // Shuffle
-        shuffleBtn.addEventListener('click', () => {
-            isShuffling = !isShuffling;
-            shuffleBtn.classList.toggle('active', isShuffling);
-
-            const shuffleSvg = shuffleBtn.querySelector('svg');
-            const shuffleOuterCircle = shuffleSvg.querySelector('.shuffle-main-circle');
-            const shuffleLine1 = shuffleSvg.querySelector('.shuffle-line-1');
-            const shuffleLine2 = shuffleSvg.querySelector('.shuffle-line-2');
-            const shuffleLine3 = shuffleSvg.querySelector('.shuffle-line-3');
-            const shuffleLine4 = shuffleSvg.querySelector('.shuffle-line-4');
-            const shuffleArrow1 = shuffleSvg.querySelector('.shuffle-arrow-1');
-            const shuffleArrow2 = shuffleSvg.querySelector('.shuffle-arrow-2');
-
-
-            if (isShuffling) {
-                shuffleBtn.title = 'Ordem Aleatória (ativo)';
-                // Quando ativo: círculo verde, setas brancas (stroke)
-                if (shuffleOuterCircle) shuffleOuterCircle.style.fill = 'var(--cor-verde-vibrante)';
-                // Setas
-                if (shuffleLine1) shuffleLine1.style.stroke = 'white';
-                if (shuffleLine2) shuffleLine2.style.stroke = 'white';
-                if (shuffleLine3) shuffleLine3.style.stroke = 'white';
-                if (shuffleLine4) shuffleLine4.style.stroke = 'white';
-                if (shuffleArrow1) shuffleArrow1.style.stroke = 'white';
-                if (shuffleArrow2) shuffleArrow2.style.stroke = 'white';
-
-                playlist = [...originalPlaylist];
-                shuffleArray(playlist);
-                // A música atual NÃO é alterada. A próxima música será aleatória.
-
-            } else {
-                shuffleBtn.title = 'Ordem Aleatória (desativado)';
-                // Quando inativo: círculo cinza, setas cinzas
-                if (shuffleOuterCircle) shuffleOuterCircle.style.fill = '#b3b3b3'; /* Cinza padrão */
-                // Setas
-                if (shuffleLine1) shuffleLine1.style.stroke = '#535353'; /* Cinza escuro para inativo */
-                if (shuffleLine2) shuffleLine2.style.stroke = '#535353';
-                if (shuffleLine3) shuffleLine3.style.stroke = '#535353';
-                if (shuffleLine4) shuffleLine4.style.stroke = '#535353';
-                if (shuffleArrow1) shuffleArrow1.style.stroke = '#535353';
-                if (shuffleArrow2) shuffleArrow2.style.stroke = '#535353';
-
-                playlist = [...originalPlaylist]; // Restaura a playlist original (linear)
-                // Encontra a música atual na playlist original restaurada para manter a posição após desativar o shuffle
-                const currentSongUrl = audio.src;
-                const newIndex = playlist.findIndex(song => song.url === currentSongUrl);
-                if (newIndex !== -1) {
-                    currentIndex = newIndex;
-                } else {
-                    currentIndex = 0;
-                }
-            }
-            console.log(`Shuffle: ${isShuffling}`);
-        });
-        
-        // Função para lidar com o fim da música, considerando os modos de repetição e shuffle
         function handleSongEnd() {
-            if (playlist.length === 0) return;
+            if (playerState.playlist.length === 0) return;
 
-            if (repeatMode === 2) { // Repeat one song
+            if (playerState.repeatMode === 2) { // Repeat one song
                 playSong(); // Apenas reinicia a atual
-            } else if (isShuffling) { // Shuffle (avançar para próxima aleatória)
+            } else if (playerState.isShuffling) { // Shuffle (avançar para próxima aleatória)
                 let nextIndex;
                 do {
-                    nextIndex = Math.floor(Math.random() * playlist.length);
-                } while (nextIndex === currentIndex && playlist.length > 1); // Evita a mesma música se houver mais de uma
-                currentIndex = nextIndex;
+                    nextIndex = Math.floor(Math.random() * playerState.playlist.length);
+                } while (nextIndex === playerState.currentIndex && playerState.playlist.length > 1);
+                playerState.currentIndex = nextIndex;
                 loadSong();
                 playSong();
-            } else if (repeatMode === 1) { // Repeat playlist (linear, loop)
-                currentIndex = (currentIndex + 1) % playlist.length;
+            } else if (playerState.repeatMode === 1) { // Repeat playlist (linear, loop)
+                playerState.currentIndex = (playerState.currentIndex + 1) % playerState.playlist.length;
                 loadSong();
                 playSong();
             } else { // No repeat, no shuffle (linear, para no final)
-                currentIndex = (currentIndex + 1);
-                if (currentIndex < playlist.length) {
+                playerState.currentIndex = (playerState.currentIndex + 1);
+                if (playerState.currentIndex < playerState.playlist.length) {
                     loadSong();
                     playSong();
                 } else {
-                    audio.pause();
-                    playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
-                    currentSongText.textContent = 'Fim da playlist';
-                    currentIndex = 0; // Reseta para o início da playlist
+                    elements.audio.pause();
+                    elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
+                    elements.currentSongText.textContent = 'Fim da playlist';
+                    playerState.currentIndex = 0; // Reseta para o início da playlist
                     loadSong(); // Carrega a primeira música sem tocar
                 }
             }
         }
-        // FIM DAS FUNÇÕES DO PLAYER INTERATIVO
 
-        function loadSong() {
-            if (!playlist.length) {
-                currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
-                playPauseBtn.disabled = true;
-                prevBtn.disabled = true;
-                nextBtn.disabled = true;
-                repeatBtn.disabled = true;
-                shuffleBtn.disabled = true;
-                muteBtn.disabled = true;
-                volumeSlider.disabled = true;
-                return;
-            }
-            const song = playlist[currentIndex];
-            currentSongText.textContent = `${song.title}`;
-            audio.src = song.url;
-            
-            // Habilita os botões se houver playlist
-            playPauseBtn.disabled = false;
-            prevBtn.disabled = false;
-            nextBtn.disabled = false;
-            repeatBtn.disabled = false;
-            shuffleBtn.disabled = false;
-            muteBtn.disabled = false;
-            volumeSlider.disabled = false;
+        function setupPlayerEventListeners() {
+            elements.playPauseBtn.addEventListener('click', togglePlayPause);
+            elements.prevBtn.addEventListener('click', playPrevSong);
+            elements.nextBtn.addEventListener('click', playNextSong);
+            elements.audio.addEventListener('timeupdate', updateProgressBar);
+            elements.progressContainer.addEventListener('click', setProgressBar);
+            elements.audio.addEventListener('ended', handleSongEnd);
 
-            // Garante que o volume inicial seja aplicado ao carregar a página
-            audio.volume = volumeSlider.value;
-            volumeValueSpan.textContent = `${Math.round(volumeSlider.value * 100)}%`;
-
-            // Resetar o tempo e carregar a duração total
-            currentTimeSpan.textContent = '0:00';
-            totalDurationSpan.textContent = '0:00';    
-            audio.onloadedmetadata = () => {
-                if (!isNaN(audio.duration) && audio.duration > 0) {
-                    totalDurationSpan.textContent = formatTime(audio.duration);
-                }
-            };
-            audio.oncanplaythrough = () => {
-                // Tenta tocar a música assim que estiver pronta, se não estiver pausada
-                if (!audio.paused) { // Se não estiver pausado (ou seja, deveria estar tocando)
-                    playSong();
+            elements.muteBtn.addEventListener('click', () => {
+                if (elements.audio.muted) {
+                    elements.audio.muted = false;
+                    elements.volumeSvg.style.display = 'block';
+                    elements.muteSvg.style.display = 'none';
+                    elements.audio.volume = playerState.previousVolume;
+                    elements.volumeSlider.value = playerState.previousVolume;
+                    elements.volumeValueSpan.textContent = `${Math.round(playerState.previousVolume * 100)}%`;
                 } else {
-                    // Se o áudio está pausado (ex: autoplay bloqueado, ou usuário pausou manualmente)
-                    // Garante que o ícone de play esteja visível
-                    playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
-                    currentSongText.textContent = `${song.title}`;
+                    playerState.previousVolume = elements.audio.volume;
+                    elements.audio.muted = true;
+                    elements.volumeSvg.style.display = 'none';
+                    elements.muteSvg.style.display = 'block';
+                    elements.volumeSlider.value = 0;
+                    elements.volumeValueSpan.textContent = '0%';
                 }
-            };
-            audio.onerror = (e) => {
-                console.error("Erro ao carregar áudio:", e);
-                currentSongText.textContent = `Erro ao carregar ${song.title}`;
-                playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
-            };
+            });
+
+            elements.volumeSlider.addEventListener('input', () => {
+                elements.audio.volume = elements.volumeSlider.value;
+                elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
+
+                if (elements.audio.volume === 0) {
+                    elements.volumeSvg.style.display = 'none';
+                    elements.muteSvg.style.display = 'block';
+                    elements.audio.muted = true;
+                } else {
+                    elements.volumeSvg.style.display = 'block';
+                    elements.muteSvg.style.display = 'none';
+                    elements.audio.muted = false;
+                    playerState.previousVolume = elements.audio.volume;
+                }
+            });
+
+            elements.repeatBtn.addEventListener('click', () => {
+                playerState.repeatMode = (playerState.repeatMode + 1) % 3;
+                
+                const repeatAllOuterCircle = elements.repeatAllSvg.querySelector('.repeat-outer-circle');
+                const repeatAllArrow1 = elements.repeatAllSvg.querySelector('.repeat-arrow-1');
+                const repeatAllArrow2 = elements.repeatAllSvg.querySelector('.repeat-arrow-2');
+
+                const repeatOneCircle = elements.repeatOneSvg.querySelector('.repeat-one-circle');
+                const repeatOneNumber = elements.repeatOneSvg.querySelector('.repeat-one-number');
+                const repeatOneArrows = elements.repeatOneSvg.querySelector('.repeat-one-arrows');
+                
+                elements.repeatBtn.classList.remove('active'); // Remove antes de reavaliar
+                elements.repeatAllSvg.style.display = 'none';
+                elements.repeatOneSvg.style.display = 'none';
+
+                if (playerState.repeatMode === 1) { // Repeat playlist
+                    elements.repeatBtn.classList.add('active');
+                    elements.repeatBtn.title = 'Repetir Playlist (ativo)';
+                    elements.repeatAllSvg.style.display = 'block';
+                    if(repeatAllOuterCircle) repeatAllOuterCircle.style.fill = 'var(--cor-verde-vibrante)';
+                    if(repeatAllArrow1) repeatAllArrow1.style.fill = 'white';
+                    if(repeatAllArrow2) repeatAllArrow2.style.fill = 'white';
+                } else if (playerState.repeatMode === 2) { // Repeat one song
+                    elements.repeatBtn.classList.add('active');
+                    elements.repeatBtn.title = 'Repetir Música Atual (ativo)';
+                    elements.repeatOneSvg.style.display = 'block';
+                    if(repeatOneCircle) repeatOneCircle.style.fill = 'var(--cor-verde-vibrante)';
+                    if(repeatOneNumber) repeatOneNumber.style.fill = 'white';
+                    if(repeatOneArrows) repeatOneArrows.style.fill = 'white';
+                } else { // Off
+                    elements.repeatBtn.title = 'Repetir Playlist (desativado)';
+                    elements.repeatAllSvg.style.display = 'block'; // Mostra o SVG de repeat all no estado inativo
+                    if(repeatAllOuterCircle) repeatAllOuterCircle.style.fill = '#b3b3b3'; // Cor padrão inativa
+                    if(repeatAllArrow1) repeatAllArrow1.style.fill = 'white';
+                    if(repeatAllArrow2) repeatAllArrow2.style.fill = 'white';
+                }
+                console.log(`Modo de repetição: ${playerState.repeatMode}`);
+            });
+
+            elements.shuffleBtn.addEventListener('click', () => {
+                playerState.isShuffling = !playerState.isShuffling;
+                elements.shuffleBtn.classList.toggle('active', playerState.isShuffling);
+
+                const shuffleSvg = elements.shuffleBtn.querySelector('svg');
+                const shuffleOuterCircle = shuffleSvg.querySelector('.shuffle-main-circle');
+                const shuffleLines = shuffleSvg.querySelectorAll('path:not(.shuffle-main-circle)');
+                const shufflePolylines = shuffleSvg.querySelectorAll('polyline');
+
+                if (playerState.isShuffling) {
+                    elements.shuffleBtn.title = 'Ordem Aleatória (ativo)';
+                    if (shuffleOuterCircle) shuffleOuterCircle.style.fill = 'var(--cor-verde-vibrante)';
+                    shuffleLines.forEach(line => line.style.stroke = 'white');
+                    shufflePolylines.forEach(line => line.style.stroke = 'white');
+                    
+                    playerState.playlist = [...playerState.originalPlaylist];
+                    shuffleArray(playerState.playlist);
+                } else {
+                    elements.shuffleBtn.title = 'Ordem Aleatória (desativado)';
+                    if (shuffleOuterCircle) shuffleOuterCircle.style.fill = '#b3b3b3';
+                    shuffleLines.forEach(line => line.style.stroke = '#535353');
+                    shufflePolylines.forEach(line => line.style.stroke = '#535353');
+
+                    playerState.playlist = [...playerState.originalPlaylist];
+                    const currentSongUrl = elements.audio.src;
+                    const newIndex = playerState.playlist.findIndex(song => song.url === currentSongUrl);
+                    if (newIndex !== -1) {
+                        playerState.currentIndex = newIndex;
+                    } else {
+                        playerState.currentIndex = 0;
+                    }
+                }
+                console.log(`Shuffle: ${playerState.isShuffling}`);
+            });
         }
 
-        audio.addEventListener('ended', handleSongEnd); // Usa a nova função para lidar com o fim da música
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-
+        // --- Funções do Quiz ---
         function startQuiz() {
-            startBtn.style.display = 'none';
-            currentLevel = 0;
-            currentQuestionIndexInLevel = 0;
-            score = 0;
-            errorsInCurrentLevel = 0; // Resetar erros ao iniciar um novo quiz
-            quizPaused = false;
-            isProcessingAnswer = false;
-            quiz.style.pointerEvents = 'all';
+            elements.startBtn.style.display = 'none';
+            Object.assign(quizState, {
+                currentLevel: 0,
+                currentQuestionIndexInLevel: 0,
+                score: 0,
+                errorsInCurrentLevel: 0,
+                quizPaused: false,
+                isProcessingAnswer: false
+            });
+            elements.quiz.style.pointerEvents = 'all';
 
-            // Garante que a curiosidade box esteja escondida no início de um novo quiz
-            curiosityBox.style.display = 'none';
-            curiosityBox.classList.remove('show');
+            elements.curiosityBox.style.display = 'none';
+            elements.curiosityBox.classList.remove('show');
 
-            loadLevel(true); // Adicione um parâmetro `isStartOfQuiz` para `loadLevel`
-            
-            if (playlist.length > 0) {
-                if (!audio.src || audio.src === window.location.href || currentSongText.textContent.includes('N/A') || audio.readyState === 0) {
-                    currentIndex = Math.floor(Math.random() * playlist.length);
+            if (playerState.playlist.length > 0) {
+                if (!elements.audio.src || elements.audio.src === window.location.href || elements.currentSongText.textContent.includes('N/A') || elements.audio.readyState === 0) {
+                    playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
                     loadSong();
                 }
             } else {
                 console.warn('Não foi possível iniciar a música: playlist vazia.');
-                currentSongText.textContent = `Não disponível (Erro na playlist)`;
+                elements.currentSongText.textContent = `Não disponível (Erro na playlist)`;
             }
+            loadLevel(true); // Adicione um parâmetro `isStartOfQuiz` para `loadLevel`
         }
 
-        // Modifique a função loadLevel para aceitar um parâmetro `isStartOfQuiz`
         function loadLevel(isStartOfQuiz = false) {
-            // Esconde a curiosidade box ao carregar um novo nível/pergunta
-            curiosityBox.style.display = 'none';
-            curiosityBox.classList.remove('show');
+            elements.curiosityBox.style.display = 'none';
+            elements.curiosityBox.classList.remove('show');
 
-            if (currentLevel >= questionsByLevel.length) {
+            if (quizState.currentLevel >= questionsByLevel.length) {
                 endGame(true); // Vencedor
                 return;
             }
 
-            errorsInCurrentLevel = 0; // <--- RESETAR ERROS PARA O NOVO NÍVEL
-            currentQuestionIndexInLevel = 0;
-            currentLevelQuestions = [...questionsByLevel[currentLevel]];
-            shuffleArray(currentLevelQuestions);
+            quizState.errorsInCurrentLevel = 0;
+            quizState.currentQuestionIndexInLevel = 0;
+            // ATENÇÃO: Agora pegamos as perguntas de 'questionsByLevel[currentLevel].perguntas'
+            quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
+            shuffleArray(quizState.currentLevelQuestions);
             
-            // NOVO: Chama showLevelUpMessage() apenas se não for o início do quiz e houver níveis seguintes
-            // E currentLevel é o nível para o QUAL estamos indo, então se for > 0, significa que não é o primeiro nível do jogo.
-            if (!isStartOfQuiz && currentLevel > 0) {
-                    showLevelUpMessage();
+            if (!isStartOfQuiz && quizState.currentLevel > 0) {
+                showLevelUpMessage();
             } else {
-                // Se for o início do quiz (currentLevel === 0) ou se for o primeiro nível a ser carregado,
-                // já mostra a primeira pergunta diretamente.
                 showQuestion();
                 updateQuizInfo();
-                isProcessingAnswer = false; // Garante que esteja pronto para a próxima interação
-                quiz.style.pointerEvents = 'all'; // Reabilita a interação com o quiz
+                quizState.isProcessingAnswer = false;
+                elements.quiz.style.pointerEvents = 'all';
             }
         }
 
         function showLevelUpMessage() {
-            quizPaused = true;
-            isProcessingAnswer = true; // Impede cliques enquanto a mensagem estiver ativa
-            quiz.style.pointerEvents = 'none';
-            mainOverlay.style.display = 'block';
+            quizState.quizPaused = true;
+            quizState.isProcessingAnswer = true;
+            elements.quiz.style.pointerEvents = 'none';
+            elements.mainOverlay.style.display = 'block';
             
-            levelUpMessage.innerHTML = `
-                <div>Nível ${currentLevel + 1}! Mandou bem!</div>
+            // Pega a frase do Chorão do nível recém-concluído (o nível anterior ao atual)
+            const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
+            
+            elements.levelUpMessage.innerHTML = `
+                <div>Nível ${quizState.currentLevel + 1}! Mandou bem!</div>
+                <div style="font-size: 0.7em; margin-top: 15px; font-family: Arial, sans-serif; opacity: 0.9;">"${fraseChorao}"</div>
                 <button onclick="continueQuiz()">Continuar</button>
             `;
-            levelUpMessage.style.backgroundColor = 'var(--cor-verde-correto)';
-            levelUpMessage.style.display = 'flex';
-            levelUpMessage.classList.add('show');
+            elements.levelUpMessage.style.backgroundColor = 'var(--cor-verde-correto)';
+            elements.levelUpMessage.style.display = 'flex';
+            elements.levelUpMessage.classList.add('show');
         }
 
         function continueQuiz() {
-            levelUpMessage.classList.remove('show');
+            elements.levelUpMessage.classList.remove('show');
             setTimeout(() => {
-                levelUpMessage.style.display = 'none';
-                mainOverlay.style.display = 'none';
-                quizPaused = false;
-                isProcessingAnswer = false; // Reabilita o processamento após o clique
-                quiz.style.pointerEvents = 'all'; // Reabilita a interação
+                elements.levelUpMessage.style.display = 'none';
+                elements.mainOverlay.style.display = 'none';
+                quizState.quizPaused = false;
+                quizState.isProcessingAnswer = false;
+                elements.quiz.style.pointerEvents = 'all';
                 
                 // Após o "Continuar", re-exibe a primeira pergunta do nível recém-carregado
                 showQuestion();
@@ -1472,40 +1382,38 @@
         }
 
         function updateQuizInfo() {
-            scoreText.textContent = `Acertos: ${score}`;
-            levelText.textContent = `Nível: ${currentLevel + 1}`;
-            if (currentLevelQuestions.length > 0) {
-                progressText.textContent = `Pergunta: ${currentQuestionIndexInLevel + 1}/${currentLevelQuestions.length}`;
+            elements.scoreText.textContent = `Acertos: ${quizState.score}`;
+            elements.levelText.textContent = `Nível: ${quizState.currentLevel + 1}`;
+            if (quizState.currentLevelQuestions.length > 0) {
+                elements.progressText.textContent = `Pergunta: ${quizState.currentQuestionIndexInLevel + 1}/${quizState.currentLevelQuestions.length}`;
             } else {
-                progressText.textContent = `Pergunta: 0/0`;
+                elements.progressText.textContent = `Pergunta: 0/0`;
             }
             // ADICIONA INFORMAÇÃO DE ERROS NO NÍVEL SE HOUVER
-            if (errorsInCurrentLevel > 0) {
-                levelText.textContent += ` (Erros: ${errorsInCurrentLevel})`;
+            if (quizState.errorsInCurrentLevel > 0) {
+                elements.levelText.textContent += ` (Erros: ${quizState.errorsInCurrentLevel})`;
             }
         }
 
         function showQuestion() {
-            if (quizPaused) return;
+            if (quizState.quizPaused) return;
 
-            // Esconde a curiosidade box quando uma nova pergunta é exibida
-            curiosityBox.style.display = 'none';
-            curiosityBox.classList.remove('show');
+            elements.curiosityBox.style.display = 'none';
+            elements.curiosityBox.classList.remove('show');
 
-            // Verifica se todas as perguntas do nível atual foram respondidas
-            if (currentQuestionIndexInLevel >= currentLevelQuestions.length) {
-                currentLevel++; // Incrementa o nível.
-                loadLevel(); // Tenta carregar o próximo nível ou encerra o jogo.
+            if (quizState.currentQuestionIndexInLevel >= quizState.currentLevelQuestions.length) {
+                quizState.currentLevel++;
+                loadLevel();
                 return;
             }
             
-            isProcessingAnswer = true;
-            quiz.style.pointerEvents = 'none';
+            quizState.isProcessingAnswer = true;
+            elements.quiz.style.pointerEvents = 'none';
 
             const questionElement = document.createElement('div');
             questionElement.classList.add('question');
             
-            const questionData = currentLevelQuestions[currentQuestionIndexInLevel];
+            const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
             const shuffledAnswers = [...questionData.respostas];
             shuffleArray(shuffledAnswers);
 
@@ -1518,27 +1426,27 @@
                 </div>
             `;
 
-            const currentQuizContent = quiz.querySelector('.question');
+            const currentQuizContent = elements.quiz.querySelector('.question');
             if (currentQuizContent) {
                 currentQuizContent.classList.add('fade-out');
                 setTimeout(() => {
-                    quiz.innerHTML = '';
-                    quiz.appendChild(questionElement);
+                    elements.quiz.innerHTML = '';
+                    elements.quiz.appendChild(questionElement);
                     updateQuizInfo();
-                    isProcessingAnswer = false;
-                    quiz.style.pointerEvents = 'all';
+                    quizState.isProcessingAnswer = false;
+                    elements.quiz.style.pointerEvents = 'all';
                 }, 500);
             } else {
-                quiz.innerHTML = '';
-                quiz.appendChild(questionElement);
+                elements.quiz.innerHTML = '';
+                elements.quiz.appendChild(questionElement);
                 updateQuizInfo();
-                isProcessingAnswer = false;
-                quiz.style.pointerEvents = 'all';
+                quizState.isProcessingAnswer = false;
+                elements.quiz.style.pointerEvents = 'all';
             }
         }
 
         function handleQuizClick(event) {
-            if (quizPaused || isProcessingAnswer) {
+            if (quizState.quizPaused || quizState.isProcessingAnswer) {
                 event.stopPropagation();
                 return;
             }
@@ -1552,52 +1460,51 @@
         }
 
         function checkAnswer(clickedButton, answer, correta) {
-            if (quizPaused || isProcessingAnswer) return;
+            if (quizState.quizPaused || quizState.isProcessingAnswer) return;
 
-            isProcessingAnswer = true; // Bloqueia novos cliques
-            quiz.style.pointerEvents = 'none'; // Desabilita interação com o quiz
+            quizState.isProcessingAnswer = true; // Bloqueia novos cliques
+            elements.quiz.style.pointerEvents = 'none'; // Desabilita interação com o quiz
 
-            const buttons = quiz.querySelectorAll('.answer-button');
+            const buttons = elements.quiz.querySelectorAll('.answer-button');
             buttons.forEach(button => {
                 button.disabled = true; // Desabilita todos os botões para evitar múltiplos cliques
             });
 
-            const questionData = currentLevelQuestions[currentQuestionIndexInLevel];
+            const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
 
             if (answer === correta) {
                 clickedButton.classList.add('correct');
                 clickedButton.innerHTML += ' <span class="feedback-icon">✅</span>';
-                score++;
+                quizState.score++;
                 updateQuizInfo();
                 showCuriosity(questionData.curiosidade, true);
 
                 setTimeout(() => {
-                    curiosityBox.classList.remove('show');
+                    elements.curiosityBox.classList.remove('show');
                     setTimeout(() => {
-                        currentQuestionIndexInLevel++;
+                        quizState.currentQuestionIndexInLevel++;
                         showQuestion();
                     }, 500);
                 }, 4000);
             } else {
                 clickedButton.classList.add('incorrect');
                 clickedButton.innerHTML += ' <span class="feedback-icon">❌</span>';
-                errorsInCurrentLevel++; // <--- INCREMENTA O CONTADOR DE ERROS NO NÍVEL
+                quizState.errorsInCurrentLevel++;
                 updateQuizInfo();
                 showCuriosity(questionData.curiosidade, false);
 
-                if (errorsInCurrentLevel >= 2) { // <--- SE 2 OU MAIS ERROS NO NÍVEL ATUAL
+                if (quizState.errorsInCurrentLevel >= 2) {
                     setTimeout(() => {
-                        curiosityBox.classList.remove('show');
+                        elements.curiosityBox.classList.remove('show');
                         setTimeout(() => {
                             endGame(false, true); // Chama endGame indicando que falhou o nível
                         }, 500);
                     }, 4000);
                 } else {
-                    // SE APENAS 1 ERRO, AVANÇA PARA A PRÓXIMA PERGUNTA
                     setTimeout(() => {
-                        curiosityBox.classList.remove('show');
+                        elements.curiosityBox.classList.remove('show');
                         setTimeout(() => {
-                            currentQuestionIndexInLevel++;
+                            quizState.currentQuestionIndexInLevel++;
                             showQuestion();
                         }, 500);
                     }, 4000);
@@ -1606,110 +1513,181 @@
         }
 
         function showCuriosity(curiosity, isCorrect) {
-            curiosityBox.innerHTML = `<strong>Curiosidade:</strong> ${curiosity}`;
-            curiosityBox.style.display = 'block';
+            elements.curiosityBox.innerHTML = `<strong>Curiosidade:</strong> ${curiosity}`;
+            elements.curiosityBox.style.display = 'block';
             setTimeout(() => {
-                curiosityBox.classList.add('show');
+                elements.curiosityBox.classList.add('show');
             }, 10);
         }
 
-        // MODIFICADO: Adicionado parâmetro `failedLevel` para diferenciar o tipo de derrota
         function endGame(isWinner, failedLevel = false) {
-            quizPaused = true;
-            isProcessingAnswer = true;
-            quiz.style.pointerEvents = 'none';
-            mainOverlay.style.display = 'block';
+            quizState.quizPaused = true;
+            quizState.isProcessingAnswer = true;
+            elements.quiz.style.pointerEvents = 'none';
+            elements.mainOverlay.style.display = 'block';
 
-            quiz.innerHTML = '';
+            elements.quiz.innerHTML = '';
             
-            const totalQuestions = questionsByLevel.reduce((acc, level) => acc + level.length, 0);
+            // ATENÇÃO: Recalcular total de perguntas baseado na nova estrutura
+            quizState.totalQuestions = questionsByLevel.reduce((acc, levelData) => acc + levelData.perguntas.length, 0);
 
             if (isWinner) {
                 let medalTitle = "";
-                if (score === totalQuestions) {
+                if (quizState.score === quizState.totalQuestions) {
                     medalTitle = "Mestre Chorão! 🎸🏆";
-                } else if (score >= totalQuestions * 0.75) {
+                } else if (quizState.score >= quizState.totalQuestions * 0.75) {
                     medalTitle = "Fã Conhecedor! 🧠✨";
-                } else if (score >= totalQuestions * 0.5) {
+                } else if (quizState.score >= quizState.totalQuestions * 0.5) {
                     medalTitle = "Fã Iniciado! 🤘";
                 } else {
                     medalTitle = "Skate na Mão! 😉";
                 }
 
-                levelUpMessage.innerHTML = `
+                elements.levelUpMessage.innerHTML = `
                     <div>${medalTitle}</div>
-                    <div style="font-size: 0.8em; margin-top: 10px;">Você acertou ${score} de ${totalQuestions} perguntas!</div>
+                    <div style="font-size: 0.8em; margin-top: 10px;">Você acertou ${quizState.score} de ${quizState.totalQuestions} perguntas!</div>
                     <button onclick="restartQuiz()">Jogar Novamente</button>
                 `;
-                levelUpMessage.style.backgroundColor = 'var(--cor-verde-correto)';
-                levelUpMessage.style.display = 'flex';
-                levelUpMessage.classList.add('show');
+                elements.levelUpMessage.style.backgroundColor = 'var(--cor-verde-correto)';
+                elements.levelUpMessage.style.display = 'flex';
+                elements.levelUpMessage.classList.add('show');
             } else { // CASO DE DERROTA
                 if (failedLevel) { // Derrota por excesso de erros no nível
-                    levelUpMessage.innerHTML = `
+                    elements.levelUpMessage.innerHTML = `
                         <div>Você errou demais neste nível.</div>
-                        <div style="font-size: 0.8em; margin-top: 10px;">Tente novamente para dominar o Nível ${currentLevel + 1}!</div>
+                        <div style="font-size: 0.8em; margin-top: 10px;">Tente novamente para dominar o Nível ${quizState.currentLevel + 1}!</div>
                         <button onclick="retryLevel()">Tentar Nível Novamente</button>
                         <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
                     `;
-                    levelUpMessage.style.backgroundColor = 'var(--cor-vermelho-incorreto)';
-                    levelUpMessage.style.display = 'flex';
-                    levelUpMessage.classList.add('show');
+                    elements.levelUpMessage.style.backgroundColor = 'var(--cor-vermelho-incorreto)';
+                    elements.levelUpMessage.style.display = 'flex';
+                    elements.levelUpMessage.classList.add('show');
                 } else { // Derrota por ter chegado ao fim sem vencer (caso original)
-                    levelUpMessage.innerHTML = `
+                    elements.levelUpMessage.innerHTML = `
                         <div>Oops! Quase lá!</div>
-                        <div style="font-size: 0.8em; margin-top: 10px;">Você acertou ${score} de ${totalQuestions} perguntas.</div>
+                        <div style="font-size: 0.8em; margin-top: 10px;">Você acertou ${quizState.score} de ${quizState.totalQuestions} perguntas.</div>
                         <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
                     `;
-                    levelUpMessage.style.backgroundColor = 'var(--cor-vermelho-incorreto)';
-                    levelUpMessage.style.display = 'flex';
-                    levelUpMessage.classList.add('show');
+                    elements.levelUpMessage.style.backgroundColor = 'var(--cor-vermelho-incorreto)';
+                    elements.levelUpMessage.style.display = 'flex';
+                    elements.levelUpMessage.classList.add('show');
                 }
             }
         }
 
         function retryLevel() {
-            levelUpMessage.classList.remove('show');
+            elements.levelUpMessage.classList.remove('show');
             setTimeout(() => {
-                levelUpMessage.style.display = 'none';
-                mainOverlay.style.display = 'none';
-                quizPaused = false;
-                isProcessingAnswer = false;
-                quiz.style.pointerEvents = 'all';
+                elements.levelUpMessage.style.display = 'none';
+                elements.mainOverlay.style.display = 'none';
+                quizState.quizPaused = false;
+                quizState.isProcessingAnswer = false;
+                elements.quiz.style.pointerEvents = 'all';
 
-                errorsInCurrentLevel = 0; // <--- RESETAR ERROS AO TENTAR NÍVEL NOVAMENTE
-                currentQuestionIndexInLevel = 0;    
-                currentLevelQuestions = [...questionsByLevel[currentLevel]];
-                shuffleArray(currentLevelQuestions);
+                quizState.errorsInCurrentLevel = 0;
+                quizState.currentQuestionIndexInLevel = 0;    
+                // ATENÇÃO: Pega as perguntas do nível atual novamente
+                quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
+                shuffleArray(quizState.currentLevelQuestions);
                 showQuestion();
                 updateQuizInfo();
             }, 500);
         }
 
         function restartQuiz() {
-            levelUpMessage.classList.remove('show');
+            elements.levelUpMessage.classList.remove('show');
             setTimeout(() => {
-                currentLevel = 0;
-                currentQuestionIndexInLevel = 0;
-                score = 0;
-                errorsInCurrentLevel = 0; // <--- RESETAR ERROS AO REINICIAR O QUIZ
-                scoreText.textContent = '';
-                progressText.textContent = '';
-                levelText.textContent = '';
-                medalText.textContent = '';
-                restartBtn.style.display = 'none';
-                levelUpMessage.style.display = 'none';
-                mainOverlay.style.display = 'none';
-                quizPaused = false;
-                isProcessingAnswer = false;
-                quiz.style.pointerEvents = 'all';
+                Object.assign(quizState, {
+                    currentLevel: 0,
+                    currentQuestionIndexInLevel: 0,
+                    score: 0,
+                    errorsInCurrentLevel: 0,
+                    quizPaused: false,
+                    isProcessingAnswer: false
+                });
+                elements.scoreText.textContent = '';
+                elements.progressText.textContent = '';
+                elements.levelText.textContent = '';
+                elements.medalText.textContent = '';
+                elements.restartBtn.style.display = 'none';
+                elements.levelUpMessage.style.display = 'none';
+                elements.mainOverlay.style.display = 'none';
+                elements.quiz.style.pointerEvents = 'all';
 
-                quiz.innerHTML = '';
-                
-                startQuiz();
+                elements.quiz.innerHTML = '';
+                elements.startBtn.style.display = 'block'; // Mostra o botão de iniciar novamente
                 
             }, 500);
         }
+
+        // --- Inicialização ao Carregar a Página ---
+        window.onload = () => {
+            preloadImages(backgroundImages, () => {
+                document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
+                changeBackgroundImageInterval();
+            });
+
+            // Adiciona a curiosidade box ao quiz (abaixo do quiz, antes dos botões de restart/start)
+            const container = document.querySelector('.container');
+            container.insertBefore(elements.curiosityBox, document.getElementById('medal'));
+            
+            elements.quiz.addEventListener('click', handleQuizClick);
+            setupPlayerEventListeners(); // Configura os listeners do player
+
+            // Inicializar o ícone de volume corretamente ao carregar
+            if (elements.audio.volume === 0 || elements.audio.muted) {    
+                elements.volumeSvg.style.display = 'none';
+                elements.muteSvg.style.display = 'block';
+                elements.audio.muted = true;    
+            } else {    
+                elements.volumeSvg.style.display = 'block';
+                elements.muteSvg.style.display = 'none';
+                elements.audio.muted = false;    
+            }
+
+            // Calcular total de perguntas uma vez, adaptado à nova estrutura
+            quizState.totalQuestions = questionsByLevel.reduce((acc, levelData) => acc + levelData.perguntas.length, 0);
+
+            // Carregar playlist
+            fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`HTTP error! status: ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    playerState.playlist = data;
+                    playerState.originalPlaylist = [...data]; // Guarda uma cópia da playlist original
+                    if (playerState.playlist.length > 0) {
+                        playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
+                        loadSong();
+                    } else {
+                        console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
+                        elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
+                        // Desabilita os botões se a playlist estiver vazia
+                        elements.playPauseBtn.disabled = true;
+                        elements.prevBtn.disabled = true;
+                        elements.nextBtn.disabled = true;
+                        elements.repeatBtn.disabled = true;
+                        elements.shuffleBtn.disabled = true;
+                        elements.muteBtn.disabled = true;
+                        elements.volumeSlider.disabled = true;
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar playlist:', error);
+                    elements.currentSongText.textContent = `Erro ao carregar a playlist. Tente novamente mais tarde.`;
+                    // Desabilita os botões em caso de erro no carregamento
+                    elements.playPauseBtn.disabled = true;
+                    elements.prevBtn.disabled = true;
+                    elements.nextBtn.disabled = true;
+                    elements.repeatBtn.disabled = true;
+                    elements.shuffleBtn.disabled = true;
+                    elements.muteBtn.disabled = true;
+                    elements.volumeSlider.disabled = true;
+                });
+        };
     </script>
 </body>
 </html>
