@@ -640,9 +640,11 @@
             flex-direction: column;
             gap: 20px;
             pointer-events: all;
-            /* Responsividade adicionada */
-            max-width: 90%; /* Limita a largura em telas menores */
-            box-sizing: border-box; /* Garante que padding e border estão incluídos na largura */
+            /* Responsividade padrão para telas maiores/médias */
+            width: auto; /* Deixa o conteúdo determinar a largura */
+            max-width: 900px; /* Mantém a largura máxima do container */
+            min-width: 300px; /* Garante uma largura mínima para a legibilidade */
+            box-sizing: border-box;
         }
         #level-up-message.show {
             opacity: 1;
@@ -650,34 +652,64 @@
         #level-up-message h3 {
             font-size: 1.2em; /* Reduz o tamanho do título em telas pequenas */
             margin-bottom: 10px;
+            line-height: 1.2;
         }
         #level-up-message p {
             font-size: 0.9em; /* Ajusta o tamanho do parágrafo */
             line-height: 1.4;
         }
         #level-up-message ul {
-            font-size: 0.7em; /* Diminui a fonte da lista em mobile */
+            font-size: 0.8em; /* Diminui a fonte da lista em mobile */
             padding-left: 15px; /* Adiciona um pouco de padding para a lista */
             text-align: left; /* Garante que a lista se alinha à esquerda */
+            margin: 10px auto 20px auto; /* Centraliza a lista e ajusta margens */
+            max-width: 85%; /* Limita a largura da lista para evitar quebras de linha estranhas */
         }
         #level-up-message li {
             margin-bottom: 5px; /* Espaçamento entre itens da lista */
         }
 
-        /* Ajustes específicos para telas muito pequenas */
+        /* Media query para telas médias (tablets e smartphones maiores) */
+        @media (max-width: 768px) {
+            #level-up-message {
+                padding: 20px 30px; /* Reduz o padding */
+                font-size: 1.8em; /* Ajusta o tamanho da fonte principal */
+                max-width: 95%; /* Permite que ocupe mais largura */
+                min-width: unset; /* Remove o min-width para maior flexibilidade */
+            }
+            #level-up-message h3 {
+                font-size: 1.1em;
+            }
+            #level-up-message p {
+                font-size: 0.8em;
+            }
+            #level-up-message ul {
+                font-size: 0.75em;
+                max-width: 90%;
+            }
+        }
+
+        /* Media query para telas pequenas (smartphones menores) */
         @media (max-width: 480px) {
             #level-up-message {
                 padding: 15px 20px; /* Reduz o padding */
-                font-size: 1.5em; /* Reduz ainda mais o tamanho da fonte principal */
+                font-size: 1.2em; /* Reduz ainda mais o tamanho da fonte principal */
+                border-radius: 10px; /* Arredonda menos as bordas */
             }
             #level-up-message h3 {
-                font-size: 1em; /* Título menor */
+                font-size: 0.9em; /* Título menor */
             }
             #level-up-message p {
-                font-size: 0.8em; /* Parágrafo menor */
+                font-size: 0.7em; /* Parágrafo menor */
             }
             #level-up-message ul {
-                font-size: 0.65em; /* Lista menor */
+                font-size: 0.6em; /* Lista menor */
+                max-width: 95%; /* Permite que a lista ocupe mais espaço horizontal */
+                padding-left: 10px; /* Diminui o padding da lista */
+            }
+            #level-up-message button {
+                font-size: 1em; /* Botão menor */
+                padding: 10px 20px;
             }
         }
 
@@ -710,7 +742,7 @@
             pointer-events: all;
         }
 
-        /* Responsividade para telas menores */
+        /* Responsividade para header e container principal (já estavam boas, mas mantidas para contexto) */
         @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8em;
@@ -726,55 +758,10 @@
                 font-size: 1.4em;
             }
             
-            /* Mantém o grid 2x2 para telas menores, ajustando o tamanho da fonte dos botões */
             .question button {
                 height: auto;
                 padding: 12px 10px;
                 font-size: 0.9em;
-            }
-
-            /* Ajustes responsiveis para o player */
-            #audio-player-wrapper {
-                /* Reduzir o padding vertical para compactar mais */
-                padding: 8px 15px;
-                border-top-left-radius: 12px;
-                border-top-right-radius: 12px;
-                border-bottom-left-radius: 12px;
-                border-bottom-right-radius: 12px;
-                min-height: 75px;
-                bottom: 15px;
-            }
-            .player-content {
-                /* Reduzir o gap para compactar mais os elementos internos */
-                gap: 5px;
-            }
-            #current-song {
-                font-size: 0.9em;
-            }
-            .progress-container {
-                height: 3px;
-            }
-            .time-display {
-                font-size: 0.75em;
-            }
-            .audio-main-controls {
-                gap: 15px;
-            }
-            .audio-control-btn {
-                width: 35px;
-                height: 35px;
-            }
-            .audio-control-btn svg {
-                width: 100%;
-                height: 100%;
-            }
-            .audio-control-btn.large-button {
-                width: 50px;
-                height: 50px;
-            }
-            .audio-control-btn.large-button svg {
-                width: 50%;
-                height: 50%;
             }
         }
 
@@ -792,50 +779,6 @@
             #start-btn, #restart-btn, #info-btn {
                 font-size: 1.2em;
                 padding: 10px 20px;
-            }
-
-            /* Ajustes responsiveis para o player */
-            #audio-player-wrapper {
-                /* Reduzir o padding vertical para compactar mais */
-                padding: 6px 12px;
-                border-top-left-radius: 10px;
-                border-top-right-radius: 10px;
-                border-bottom-left-radius: 10px;
-                border-bottom-right-radius: 10px;
-                min-height: 65px;
-                bottom: 10px;
-            }
-            .player-content {
-                /* Reduzir o gap para compactar mais os elementos internos */
-                gap: 2px;
-            }
-            #current-song {
-                font-size: 0.8em;
-            }
-            .progress-container {
-                height: 3px;
-            }
-            .time-display {
-                font-size: 0.7em;
-            }
-            .audio-main-controls {
-                gap: 10px;
-            }
-            .audio-control-btn {
-                width: 30px;
-                height: 30px;
-            }
-            .audio-control-btn svg {
-                width: 100%;
-                height: 100%;
-            }
-            .audio-control-btn.large-button {
-                width: 45px;
-                height: 45px;
-            }
-            .audio-control-btn.large-button svg {
-                width: 45%;
-                height: 45%;
             }
         }
     </style>
@@ -1414,7 +1357,7 @@
                     <h3>Bem-vindo ao Quiz do Charlie Brown Jr!</h3>
                     <p style="font-family: Arial, sans-serif; font-size: 1em; margin-top: 15px;">Este é um Quiz para testar seus conhecimentos sobre a banda!</p>
                     <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; font-weight: bold;">A pontuação é distribuída da seguinte forma:</p>
-                    <ul style="font-family: Arial, sans-serif; font-size: 0.8em; text-align: left; max-width: 90%; margin: 10px auto 20px auto; list-style-type: none; padding: 0;">
+                    <ul style="font-family: Arial, sans-serif; text-align: left; list-style-type: none; padding: 0;">
                         <li>&#x2705; Resposta correta: <b>${BASE_SCORE_PER_CORRECT} pontos base</b>.</li>
                         <li>&#x1F680; Resposta muito rápida (até ${BONUS_MAX_THRESHOLD}s): <b>+${BONUS_MAX} pontos bônus</b>.</li>
                         <li>&#x26A1; Resposta rápida (até ${BONUS_MEDIUM_THRESHOLD}s): <b>+${BONUS_MEDIUM} pontos bônus</b>.</li>
@@ -1456,7 +1399,7 @@
                     playSong(); 
                 } else {
                     console.warn('Não foi possível iniciar a música: playlist vazia.');
-                    elements.currentSongText.textContent = `Não disponível (Playlist vazia ou erro)`;
+                    elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
                 }
                 loadLevel(true);
             }, 500); // Aguarda a transição de saída da mensagem
