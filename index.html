@@ -786,7 +786,7 @@
     <div id="overlay" style="display:none;"></div>
     
     <div id="audio-player-wrapper">
-        <audio id="audio"></audio>    
+        <audio id="audio"></audio>     
         
         <div class="player-content">
             <p id="current-song"></p>
@@ -801,14 +801,14 @@
 
             <div class="audio-main-controls">
                 <button id="repeat-btn" class="audio-control-btn" title="Repetir Playlist">
-                    <svg viewBox="0 0 473.677 473.677" fill="currentColor">
+                    <svg id="repeat-all-svg" viewBox="0 0 473.677 473.677" fill="currentColor">
                         <path class="repeat-outer-circle" d="M0,236.84C0,106.026,106.036,0.002,236.835,0.002c130.807,0,236.842,106.028,236.842,236.838 c0,130.795-106.036,236.835-236.842,236.835C106.039,473.671,0,367.636,0,236.84z"></path>
                         <g>
                             <path class="repeat-arrow-1" d="M408.84,164.345c-9.88,0.022-19.756,0.049-29.636,0.075 c-22.217-49.815-65.828-85.797-120.912-94.428c-61.374-9.614-120.115,18.889-155.14,69.036 c-15.557,22.269,21.005,43.121,36.431,21.035c48.039-68.774,150.608-62.559,192.76,4.473c-9.125,0.022-18.253,0.045-27.377,0.067 c-2.554,0.004-4.368,1.144-5.49,2.745c-1.832,1.967-2.532,4.839-0.61,7.816c17.378,26.966,34.759,53.936,52.141,80.902 c2.921,4.532,9.226,4.495,12.12-0.045c17.243-27.052,34.49-54.104,51.733-81.16C417.714,170.388,413.956,164.334,408.84,164.345z"></path>
                             <path class="repeat-arrow-2" d="M334.479,312.395c-47.665,68.251-149.037,62.657-191.784-2.909 c8.747-0.022,17.494-0.045,26.241-0.067c2.547-0.007,4.357-1.137,5.482-2.734c1.836-1.963,2.539-4.843,0.617-7.827 c-17.374-26.966-34.756-53.94-52.133-80.902c-2.917-4.532-9.226-4.495-12.12,0.045c-17.243,27.052-34.494,54.104-51.741,81.16 c-2.853,4.476,0.905,10.531,6.021,10.519c10.187-0.026,20.369-0.052,30.556-0.079c22.434,48.996,65.663,84.331,120.164,92.869 c61.374,9.614,120.115-18.889,155.132-69.036C386.466,311.157,349.901,290.309,334.479,312.395z"></path>
                         </g>
                     </svg>
-                    <svg id="repeat-one-svg" viewBox="0 0 64 64" fill="currentColor" style="display: none;">
+                    <svg id="repeat-one-svg" viewBox="0 0 64 64" fill="currentColor">
                         <path class="repeat-one-circle" d="M32 2C15.432 2 2 15.432 2 32s13.432 30 30 30s30-13.432 30-30S48.568 2 32 2"></path>
                         <path class="repeat-one-number" d="M21.039 34.938c-2.604 0-4.717 2.166-4.717 4.84c0 2.672 2.113 4.84 4.717 4.84c2.605 0 4.715-2.168 4.715-4.84c0-2.674-2.109-4.84-4.715-4.84m.746 7.804h-1.1v-4.27a3.758 3.758 0 0 1-1.422.859v-1.029c.289-.098.6-.279.936-.549a2.08 2.08 0 0 0 .693-.941h.893v5.93"></path>
                         <path class="repeat-one-arrows" d="M17.053 23.951c1.969-2.02 4.586-3.133 7.369-3.133h11.539V17l11.369 6.736l-11.369 6.734v-3.82H24.422c-2.611 0-4.736 2.18-4.736 4.861c0 .043 0 .088.002.129a7.746 7.746 0 0 0-1.779.533a8.016 8.016 0 0 0-2.555 1.768c-.299.305-.57.631-.814.977a10.957 10.957 0 0 1-.54-3.406c0-2.856 1.084-5.541 3.053-7.561m29.896 15.123c-1.969 2.02-4.586 3.131-7.371 3.131H27.67C26.697 45.002 24.098 47 21.039 47C17.152 47 14 43.766 14 39.777s3.152-7.223 7.039-7.223c2.689 0 5.025 1.545 6.211 3.818h12.328c2.613 0 4.738-2.18 4.738-4.861c0-.125-.006-.25-.014-.371l5.154-3.053c.358 1.089.544 2.243.544 3.425c0 2.855-1.084 5.543-3.051 7.562"></path>
@@ -840,7 +840,7 @@
 
             <div class="audio-volume-controls">
                 <button id="mute-btn" class="audio-control-btn" title="Mudo">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
+                    <svg id="volume-svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 4L8 8H4v8h4l4 4V4z"></path>
                     </svg>
                     <svg id="mute-svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
@@ -1088,20 +1088,17 @@
                 }
             };
             elements.audio.oncanplaythrough = () => {
-                // Tenta tocar a música assim que estiver pronta, se não estiver pausada
-                if (!elements.audio.paused) { // Se não estiver pausado (ou seja, deveria estar tocando)
-                    playSong();
-                } else {
-                    // Se o áudio está pausado (ex: autoplay bloqueado, ou usuário pausou manualmente)
-                    // Garante que o ícone de play esteja visível
+                // Se o áudio está pausado (ex: autoplay bloqueado, ou usuário pausou manualmente)
+                // Garante que o ícone de play esteja visível
+                if (elements.audio.paused) {
                     elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
-                    elements.currentSongText.textContent = `${song.title}`;
                 }
+                elements.currentSongText.textContent = `${song.title}`;
             };
             elements.audio.onerror = (e) => {
                 console.error("Erro ao carregar áudio:", e);
                 elements.currentSongText.textContent = `Erro ao carregar ${song.title}`;
-                elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
+                elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Ícone de play
             };
         }
 
@@ -1138,7 +1135,10 @@
 
         function playNextSong() {
             if (playerState.playlist.length === 0) return;
-            if (playerState.isShuffling) {
+            if (playerState.repeatMode === 2) { // Repeat one song
+                elements.audio.currentTime = 0; // Reinicia a música atual
+                playSong();
+            } else if (playerState.isShuffling) {
                 let nextIndex;
                 do {
                     nextIndex = Math.floor(Math.random() * playerState.playlist.length);
@@ -1153,7 +1153,13 @@
 
         function playPrevSong() {
             if (playerState.playlist.length === 0) return;
-            if (playerState.isShuffling) {
+            if (playerState.repeatMode === 2) { // Repeat one song
+                elements.audio.currentTime = 0; // Reinicia a música atual
+                playSong();
+            } else if (elements.audio.currentTime > 3) { // Se já tocou mais de 3 segundos, reinicia a atual
+                elements.audio.currentTime = 0;
+                playSong();
+            } else if (playerState.isShuffling) {
                 let prevIndex;
                 do {
                     prevIndex = Math.floor(Math.random() * playerState.playlist.length);
@@ -1269,38 +1275,25 @@
             elements.repeatBtn.addEventListener('click', () => {
                 playerState.repeatMode = (playerState.repeatMode + 1) % 3;
                 
-                const repeatAllOuterCircle = elements.repeatAllSvg.querySelector('.repeat-outer-circle');
-                const repeatAllArrow1 = elements.repeatAllSvg.querySelector('.repeat-arrow-1');
-                const repeatAllArrow2 = elements.repeatAllSvg.querySelector('.repeat-arrow-2');
-
-                const repeatOneCircle = elements.repeatOneSvg.querySelector('.repeat-one-circle');
-                const repeatOneNumber = elements.repeatOneSvg.querySelector('.repeat-one-number');
-                const repeatOneArrows = elements.repeatOneSvg.querySelector('.repeat-one-arrows');
-                
-                elements.repeatBtn.classList.remove('active'); // Remove antes de reavaliar
+                // Resetar estados de exibição para reconfigurar
                 elements.repeatAllSvg.style.display = 'none';
                 elements.repeatOneSvg.style.display = 'none';
+                elements.repeatBtn.classList.remove('active');
 
                 if (playerState.repeatMode === 1) { // Repeat playlist
                     elements.repeatBtn.classList.add('active');
                     elements.repeatBtn.title = 'Repetir Playlist (ativo)';
                     elements.repeatAllSvg.style.display = 'block';
-                    if(repeatAllOuterCircle) repeatAllOuterCircle.style.fill = 'var(--cor-verde-vibrante)';
-                    if(repeatAllArrow1) repeatAllArrow1.style.fill = 'white';
-                    if(repeatAllArrow2) repeatAllArrow2.style.fill = 'white';
+                    // Cores já são definidas no CSS para .active
                 } else if (playerState.repeatMode === 2) { // Repeat one song
                     elements.repeatBtn.classList.add('active');
                     elements.repeatBtn.title = 'Repetir Música Atual (ativo)';
                     elements.repeatOneSvg.style.display = 'block';
-                    if(repeatOneCircle) repeatOneCircle.style.fill = 'var(--cor-verde-vibrante)';
-                    if(repeatOneNumber) repeatOneNumber.style.fill = 'white';
-                    if(repeatOneArrows) repeatOneArrows.style.fill = 'white';
+                    // Cores já são definidas no CSS para .active
                 } else { // Off
                     elements.repeatBtn.title = 'Repetir Playlist (desativado)';
                     elements.repeatAllSvg.style.display = 'block'; // Mostra o SVG de repeat all no estado inativo
-                    if(repeatAllOuterCircle) repeatAllOuterCircle.style.fill = '#b3b3b3'; // Cor padrão inativa
-                    if(repeatAllArrow1) repeatAllArrow1.style.fill = 'white';
-                    if(repeatAllArrow2) repeatAllArrow2.style.fill = 'white';
+                    // Cores já são definidas no CSS para o estado normal (inativo)
                 }
                 console.log(`Modo de repetição: ${playerState.repeatMode}`);
             });
@@ -1316,17 +1309,13 @@
 
                 if (playerState.isShuffling) {
                     elements.shuffleBtn.title = 'Ordem Aleatória (ativo)';
-                    if (shuffleOuterCircle) shuffleOuterCircle.style.fill = 'var(--cor-verde-vibrante)';
-                    shuffleLines.forEach(line => line.style.stroke = 'white');
-                    shufflePolylines.forEach(line => line.style.stroke = 'white');
+                    // Cores já são definidas no CSS para .active
                     
                     playerState.playlist = [...playerState.originalPlaylist];
                     shuffleArray(playerState.playlist);
                 } else {
                     elements.shuffleBtn.title = 'Ordem Aleatória (desativado)';
-                    if (shuffleOuterCircle) shuffleOuterCircle.style.fill = '#b3b3b3';
-                    shuffleLines.forEach(line => line.style.stroke = '#535353');
-                    shufflePolylines.forEach(line => line.style.stroke = '#535353');
+                    // Cores já são definidas no CSS para o estado normal (inativo)
 
                     playerState.playlist = [...playerState.originalPlaylist];
                     const currentSongUrl = elements.audio.src;
@@ -1338,6 +1327,10 @@
                     }
                 }
                 console.log(`Shuffle: ${playerState.isShuffling}`);
+                // Se o player está tocando e o shuffle foi ativado/desativado, pode ser bom recarregar a música
+                // para garantir que o índice atual da nova playlist ordenada/aleatória esteja correto.
+                // Mas geralmente só é necessário se o usuário está mudando a ordem ATIVA.
+                // Por simplicidade, vamos manter como está por enquanto, mas é um ponto a observar.
             });
         }
 
@@ -1354,15 +1347,14 @@
             });
             elements.quiz.style.pointerEvents = 'all';
 
-            // A antiga curiosityBox agora é apenas um div temporário, não precisa ser manipulada aqui
-            // elements.curiosityBox.style.display = 'none'; 
-            // elements.curiosityBox.classList.remove('show');
-
             if (playerState.playlist.length > 0) {
-                if (!elements.audio.src || elements.audio.src === window.location.href || elements.currentSongText.textContent.includes('N/A') || elements.audio.readyState === 0) {
+                // Se a playlist ainda não foi carregada ou está vazia no player, carrega uma nova música
+                if (!elements.audio.src || elements.audio.src === window.location.href || elements.audio.readyState === 0) {
                     playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
                     loadSong();
                 }
+                // Toca a música APENAS após o clique no botão "Iniciar Quiz"
+                playSong(); 
             } else {
                 console.warn('Não foi possível iniciar a música: playlist vazia.');
                 elements.currentSongText.textContent = `Não disponível (Erro na playlist)`;
@@ -1371,9 +1363,12 @@
         }
 
         function loadLevel(isStartOfQuiz = false) {
-            // A antiga curiosityBox agora é apenas um div temporário, não precisa ser manipulada aqui
-            // elements.curiosityBox.style.display = 'none';
-            // elements.curiosityBox.classList.remove('show');
+            // Limpa a curiosidade da caixa lateral se ela já existe na pergunta anterior
+            const oldCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
+            if (oldCuriositySidebar) {
+                oldCuriositySidebar.classList.remove('show');
+                oldCuriositySidebar.innerHTML = ''; // Limpa o conteúdo
+            }
 
             if (quizState.currentLevel >= questionsByLevel.length) {
                 endGame(true); // Vencedor
@@ -1710,15 +1705,10 @@
                 changeBackgroundImageInterval();
             });
 
-            // ATENÇÃO: Esta linha foi removida pois a curiosity-sidebar-box agora é criada dentro da pergunta
-            // const container = document.querySelector('.container');
-            // container.insertBefore(elements.curiosityBox, document.getElementById('medal'));
-            
             elements.quiz.addEventListener('click', handleQuizClick);
             setupPlayerEventListeners(); // Configura os listeners do player
 
             // Inicializar o ícone de volume corretamente ao carregar
-            // O volume inicial já foi definido em playerState.previousVolume
             elements.audio.volume = playerState.previousVolume;
             elements.volumeSlider.value = playerState.previousVolume;
             elements.volumeValueSpan.textContent = `${Math.round(playerState.previousVolume * 100)}%`;
@@ -1750,6 +1740,8 @@
                     if (playerState.playlist.length > 0) {
                         playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
                         loadSong();
+                        // Nao tocar automaticamente, espera o clique no "Iniciar Quiz"
+                        elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z'); // Garante que seja o play
                     } else {
                         console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
                         elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
