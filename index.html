@@ -1329,7 +1329,6 @@
                 console.log(`Shuffle: ${playerState.isShuffling}`);
                 // Se o player está tocando e o shuffle foi ativado/desativado, pode ser bom recarregar a música
                 // para garantir que o índice atual da nova playlist ordenada/aleatória esteja correto.
-                // Mas geralmente só é necessário se o usuário está mudando a ordem ATIVA.
                 // Por simplicidade, vamos manter como está por enquanto, mas é um ponto a observar.
             });
         }
@@ -1375,14 +1374,19 @@
                 return;
             }
 
-            quizState.errorsInCurrentLevel = 0;
+            // AQUI É ONDE SE DEFINE A MENSAGEM DO NÍVEL COM BASE NOS ERROS DO NÍVEL ANTERIOR
+            // Resetamos os erros apenas DEPOIS de usar o valor para a mensagem
+            const errorsToReport = quizState.errorsInCurrentLevel; 
+            quizState.errorsInCurrentLevel = 0; // Agora sim, resetamos para o novo nível
+
             quizState.currentQuestionIndexInLevel = 0;
             // ATENÇÃO: Agora pegamos as perguntas de 'questionsByLevel[currentLevel].perguntas'
             quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
             shuffleArray(quizState.currentLevelQuestions);
             
             if (!isStartOfQuiz && quizState.currentLevel > 0) {
-                showLevelUpMessage();
+                // Passamos o número de erros para showLevelUpMessage
+                showLevelUpMessage(errorsToReport); 
             } else {
                 showQuestion();
                 updateQuizInfo();
@@ -1391,22 +1395,36 @@
             }
         }
 
-        // Função showLevelUpMessage (ALTERADA)
-        function showLevelUpMessage() {
+        // Função showLevelUpMessage (ALTERADA NOVAMENTE)
+        // Agora aceita um parâmetro `errorsInPreviousLevel`
+        function showLevelUpMessage(errorsInPreviousLevel = 0) {
             quizState.quizPaused = true;
             quizState.isProcessingAnswer = true;
             elements.quiz.style.pointerEvents = 'none';
             elements.mainOverlay.style.display = 'block';
             
             // Pega a frase do Chorão do nível recém-concluído (o nível anterior ao atual)
+            // Lembre-se que quizState.currentLevel já foi incrementado em loadLevel
             const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
             
-            // ALTERADO: Adicionado a frase "No passo a <br><br> passo eu chego <br><br> lá!" e o nível dinâmico.
+            let mainLevelMessage = '';
+            let errorFeedbackMessage = '';
+
+            if (errorsInPreviousLevel === 0) {
+                mainLevelMessage = `<div>No passo a <br><br> passo eu chego <br><br> lá!</div>`;
+            } else if (errorsInPreviousLevel === 1) {
+                mainLevelMessage = `<div style="font-family: 'Elektrix', sans-serif; color: var(--cor-amarelo-cbjr); font-size: 1.1em;">Errou 1 heim mané! Pra ser CBJR tem que ficar mais esperto.</div>`;
+            } else if (errorsInPreviousLevel > 1) {
+                mainLevelMessage = `<div style="font-family: 'Elektrix', sans-serif; color: var(--cor-amarelo-cbjr); font-size: 1.1em;">Você cometeu alguns erros (${errorsInPreviousLevel}) neste nível, mas avançou!</div>`;
+            }
+
             elements.levelUpMessage.innerHTML = `
-                <div>No passo a <br><br> passo eu chego <br><br> lá!</div>
+                ${mainLevelMessage}
                 <div style="font-size: 0.7em; margin-top: 15px; font-family: Arial, sans-serif; opacity: 0.9;">Você avançou para o Nível ${quizState.currentLevel + 1}!</div>
                 <div style="font-size: 0.7em; margin-top: 5px; font-family: Arial, sans-serif; opacity: 0.9;">"${fraseChorao}"</div>
-                <button onclick="continueQuiz()">Avançar</button> `;
+                <button onclick="continueQuiz()">Avançar</button>
+            `;
+
             // Background da mensagem de nível é o cinza principal
             elements.levelUpMessage.style.backgroundColor = 'var(--cor-preto-principal)'; 
             elements.levelUpMessage.style.display = 'flex';
@@ -1437,12 +1455,15 @@
                 elements.progressText.textContent = `Pergunta: 0/0`;
             }
             // ADICIONA INFORMAÇÃO DE ERROS NO NÍVEL SE HOUVER
+            // Removemos essa parte daqui, pois o feedback de erro agora é na tela de "Level Up"
+            /*
             if (quizState.errorsInCurrentLevel > 0) {
                 elements.levelText.textContent += ` (Erros: ${quizState.errorsInCurrentLevel})`;
             }
+            */
         }
 
-        // Função showQuestion (ALTERADA)
+        // Função showQuestion (inalterada)
         function showQuestion() {
             if (quizState.quizPaused) return;
 
@@ -1516,6 +1537,7 @@
             }
         }
 
+        // Função checkAnswer (Corrigida)
         function checkAnswer(clickedButton, answer, correta) {
             if (quizState.quizPaused || quizState.isProcessingAnswer) return;
 
@@ -1534,11 +1556,10 @@
                 clickedButton.innerHTML += ' <span class="feedback-icon">✅</span>';
                 quizState.score++;
                 updateQuizInfo();
-                showCuriosity(questionData.curiosidade, true);
+                // Passa a curiosidade, sem mensagem de erro aqui
+                showCuriosity(questionData.curiosidade); 
 
                 setTimeout(() => {
-                    // Não remove a classe 'show' da curiosity-sidebar-box aqui
-                    // Ela será limpa e escondida na próxima chamada de showQuestion()
                     quizState.currentQuestionIndexInLevel++;
                     showQuestion();
                 }, 4000); // tempo para ler a curiosidade
@@ -1547,18 +1568,15 @@
                 clickedButton.innerHTML += ' <span class="feedback-icon">❌</span>';
                 quizState.errorsInCurrentLevel++;
                 updateQuizInfo();
-                showCuriosity(questionData.curiosidade, false);
+                // Passa a curiosidade, sem mensagem de erro aqui
+                showCuriosity(questionData.curiosidade); 
 
                 if (quizState.errorsInCurrentLevel >= 2) {
                     setTimeout(() => {
-                        // Não remove a classe 'show' da curiosity-sidebar-box aqui
-                        // Ela será limpa e escondida na próxima chamada de showQuestion()
                         endGame(false, true); // Chama endGame indicando que falhou o nível
                     }, 4000); // tempo para ler a curiosidade
                 } else {
                     setTimeout(() => {
-                        // Não remove a classe 'show' da curiosity-sidebar-box aqui
-                        // Ela será limpa e escondida na próxima chamada de showQuestion()
                         quizState.currentQuestionIndexInLevel++;
                         showQuestion();
                     }, 4000); // tempo para ler a curiosidade
@@ -1566,21 +1584,14 @@
             }
         }
 
-        // Função showCuriosity (ALTERADA)
-        function showCuriosity(curiosity, isCorrect) {
-            // Agora a curiosidade é inserida na nova caixa lateral dentro da pergunta
+        // Função showCuriosity (Volta a exibir apenas curiosidade)
+        function showCuriosity(curiosity) {
             const curiositySidebarBox = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (curiositySidebarBox) {
                 curiositySidebarBox.innerHTML = `<strong>Curiosidade:</strong> ${curiosity}`;
                 curiositySidebarBox.classList.add('show');
             } else {
                 console.warn("Elemento .curiosity-sidebar-box não encontrado para exibir a curiosidade.");
-                // Fallback para o comportamento antigo (apenas para debug, não deve acontecer)
-                elements.curiosityBox.innerHTML = `<strong>Curiosidade:</strong> ${curiosity}`;
-                elements.curiosityBox.style.display = 'block';
-                setTimeout(() => {
-                    elements.curiosityBox.classList.add('show');
-                }, 10);
             }
         }
 
@@ -1711,7 +1722,7 @@
             // Inicializar o ícone de volume corretamente ao carregar
             elements.audio.volume = playerState.previousVolume;
             elements.volumeSlider.value = playerState.previousVolume;
-            elements.volumeValueSpan.textContent = `${Math.round(playerState.previousVolume * 100)}%`;
+            elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
 
             if (elements.audio.volume === 0 || elements.audio.muted) {    
                 elements.volumeSvg.style.display = 'none';
