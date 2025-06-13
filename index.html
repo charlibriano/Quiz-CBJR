@@ -292,7 +292,7 @@
         }
 
 
-        #restart-btn, #start-btn {
+        #restart-btn, #start-btn, #info-btn {
             padding: 15px 30px;
             margin-top: 20px;
             background-color: var(--cor-preto-principal);
@@ -304,7 +304,7 @@
             transition: transform 0.2s ease, background-color 0.3s ease;
         }
 
-        #restart-btn:hover, #start-btn:hover {
+        #restart-btn:hover, #start-btn:hover, #info-btn:hover {
             transform: scale(1.05);
             background-color: #4a4a4a;
         }
@@ -618,7 +618,7 @@
             flex-shrink: 0;
         }
 
-        /* Estilo para a mensagem de nível */
+        /* Estilo para a mensagem de nível e instruções */
         #level-up-message {
             position: fixed;
             top: 50%;
@@ -751,7 +751,7 @@
                 padding: 10px 8px;
             }
 
-            #start-btn, #restart-btn {
+            #start-btn, #restart-btn, #info-btn {
                 font-size: 1.2em;
                 padding: 10px 20px;
             }
@@ -808,7 +808,7 @@
     </header>
 
     <div class="container">
-        <button id="start-btn" onclick="startQuiz()">Iniciar Quiz</button>
+        <button id="start-btn" onclick="showIntroMessage()">Iniciar Quiz</button>
         
         <div id="quiz">
         </div>
@@ -1023,9 +1023,9 @@
 
         // --- Constantes para Pontuação por Tempo ---
         const TIME_PER_QUESTION = 15; // Segundos
+        const BASE_SCORE_PER_CORRECT = 10;
         const BONUS_MAX_THRESHOLD = 5; // Resposta até 5s para bônus máximo
         const BONUS_MEDIUM_THRESHOLD = 10; // Resposta até 10s para bônus médio
-        const BASE_SCORE_PER_CORRECT = 10;
         const BONUS_MAX = 5; // Total de 15 pontos (10 + 5)
         const BONUS_MEDIUM = 3; // Total de 13 pontos (10 + 3)
         const BONUS_MIN = 1; // Total de 11 pontos (10 + 1)
@@ -1045,8 +1045,6 @@
         // --- Variáveis de controle de tempo ---
         let timerInterval = null;
         let questionStartTime = 0; // Timestamp de quando a pergunta apareceu
-        const CIRCLE_RADIUS = 25; // Raio do círculo no SVG
-        const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
 
         // --- Estado do Player ---
         let playerState = {
@@ -1205,10 +1203,7 @@
 
         function playPrevSong() {
             if (playerState.playlist.length === 0) return;
-            if (playerState.repeatMode === 2) {
-                elements.audio.currentTime = 0;
-                playSong();
-            } else if (elements.audio.currentTime > 3) {
+            if (elements.audio.currentTime > 3) {
                 elements.audio.currentTime = 0;
                 playSong();
             } else if (playerState.isShuffling) {
@@ -1370,31 +1365,63 @@
         }
 
         // --- Funções do Quiz ---
+        function showIntroMessage() {
+            quizState.quizPaused = true;
+            elements.mainOverlay.style.display = 'block';
+            elements.startBtn.style.display = 'none'; // Esconde o botão Iniciar
+            elements.quiz.innerHTML = ''; // Limpa qualquer conteúdo anterior do quiz
+
+            elements.levelUpMessage.innerHTML = `
+                <div>
+                    <h3>Bem-vindo ao Quiz do Charlie Brown Jr!</h3>
+                    <p style="font-family: Arial, sans-serif; font-size: 0.7em; margin-top: 15px;">Este é um Quiz para testar seus conhecimentos sobre a banda!</p>
+                    <p style="font-family: Arial, sans-serif; font-size: 0.7em; margin-top: 10px;">A pontuação é distribuída da seguinte forma:</p>
+                    <ul style="font-family: Arial, sans-serif; font-size: 0.6em; text-align: left; max-width: 80%; margin: 0 auto; list-style-type: none; padding: 0;">
+                        <li>✅ Resposta correta: <b>${BASE_SCORE_PER_CORRECT} pontos base</b>.</li>
+                        <li>🚀 Resposta muito rápida (até ${BONUS_MAX_THRESHOLD}s): <b>+${BONUS_MAX} pontos bônus</b>.</li>
+                        <li>⚡ Resposta rápida (até ${BONUS_MEDIUM_THRESHOLD}s): <b>+${BONUS_MEDIUM} pontos bônus</b>.</li>
+                        <li>⏱️ Resposta no tempo (até ${TIME_PER_QUESTION}s): <b>+${BONUS_MIN} ponto bônus</b>.</li>
+                        <li>❌ Resposta incorreta ou tempo esgotado: <b>0 pontos e 1 erro</b>.</li>
+                        <li>⚠️ Você tem <b>2 erros</b> por nível antes de precisar reiniciar o nível.</li>
+                    </ul>
+                </div>
+                <button onclick="startQuiz()">Entendi! Começar!</button>
+            `;
+            elements.levelUpMessage.style.backgroundColor = 'var(--cor-preto-principal)';    
+            elements.levelUpMessage.style.display = 'flex';
+            elements.levelUpMessage.classList.add('show');
+        }
+
         function startQuiz() {
-            elements.startBtn.style.display = 'none';
-            Object.assign(quizState, {
-                currentLevel: 0,
-                currentQuestionIndexInLevel: 0,
-                score: 0,
-                errorsInCurrentLevel: 0,
-                quizPaused: false,
-                isProcessingAnswer: false
-            });
-            elements.quiz.style.pointerEvents = 'all';
+            elements.levelUpMessage.classList.remove('show');
+            setTimeout(() => {
+                elements.levelUpMessage.style.display = 'none';
+                elements.mainOverlay.style.display = 'none';
 
-            elements.scoreText.textContent = `Pontos: ${quizState.score}`;
+                Object.assign(quizState, {
+                    currentLevel: 0,
+                    currentQuestionIndexInLevel: 0,
+                    score: 0,
+                    errorsInCurrentLevel: 0,
+                    quizPaused: false,
+                    isProcessingAnswer: false
+                });
+                elements.quiz.style.pointerEvents = 'all';
 
-            if (playerState.playlist.length > 0) {
-                if (!elements.audio.src || elements.audio.src === window.location.href || elements.audio.readyState === 0) {
-                    playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
-                    loadSong();
+                elements.scoreText.textContent = `Pontos: ${quizState.score}`;
+
+                if (playerState.playlist.length > 0) {
+                    if (!elements.audio.src || elements.audio.src === window.location.href || elements.audio.readyState === 0) {
+                        playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
+                        loadSong();
+                    }
+                    playSong(); 
+                } else {
+                    console.warn('Não foi possível iniciar a música: playlist vazia.');
+                    elements.currentSongText.textContent = `Não disponível (Playlist vazia ou erro)`;
                 }
-                playSong(); 
-            } else {
-                console.warn('Não foi possível iniciar a música: playlist vazia.');
-                elements.currentSongText.textContent = `Não disponível (Playlist vazia ou erro)`;
-            }
-            loadLevel(true);
+                loadLevel(true);
+            }, 500); // Aguarda a transição de saída da mensagem
         }
 
         function loadLevel(isStartOfQuiz = false) {
@@ -1433,7 +1460,6 @@
             elements.mainOverlay.style.display = 'block';
             
             clearInterval(timerInterval);
-            // Cronômetro visual não é mais exibido, então não precisa de reset visual
             
             const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
             
@@ -1508,7 +1534,6 @@
             const shuffledAnswers = [...questionData.respostas];
             shuffleArray(shuffledAnswers);
 
-            // Removido o SVG do cronômetro visual daqui
             questionElement.innerHTML = `
                 <h3>${questionData.pergunta}</h3>
                 <div class="question-content">
@@ -1557,18 +1582,15 @@
             }
         }
 
-        // Removida a função showPointsPopup já que o pop-up será desativado
-        // function showPointsPopup(points) {
-        //     elements.pointsPopup.textContent = `+${points} PONTOS!`;
-        //     elements.pointsPopup.style.display = 'block';
-        //     elements.pointsPopup.classList.add('show');
-        //     setTimeout(() => {
-        //         elements.pointsPopup.classList.remove('show');
-        //         setTimeout(() => {
-        //             elements.pointsPopup.style.display = 'none';
-        //         }, 500); // tempo de transição (0.5s)
-        //     }, 2000); // 2 segundos visível
-        // }
+        function showCuriosity(curiosity) {
+            const curiositySidebarBox = elements.quiz.querySelector('.curiosity-sidebar-box');
+            if (curiositySidebarBox) {
+                curiositySidebarBox.innerHTML = `<strong>Curiosidade:</strong> ${curiosity}`;
+                curiositySidebarBox.classList.add('show');
+            } else {
+                console.warn("Elemento .curiosity-sidebar-box não encontrado para exibir a curiosidade.");
+            }
+        }
 
         function checkAnswer(clickedButton, answer, correta) {
             if (quizState.quizPaused || quizState.isProcessingAnswer) return;
@@ -1577,7 +1599,6 @@
             elements.quiz.style.pointerEvents = 'none';
 
             clearInterval(timerInterval);
-            // O timer visual foi removido, então não há necessidade de manipulá-lo aqui
 
             const timeTaken = (Date.now() - questionStartTime) / 1000;
 
@@ -1604,7 +1625,6 @@
                 
                 quizState.score += pointsEarned;
                 updateQuizInfo();
-                // showPointsPopup(pointsEarned); // Desativado
                 showCuriosity(questionData.curiosidade);    
 
                 setTimeout(() => {
@@ -1617,7 +1637,6 @@
                 clickedButton.innerHTML += ' <span class="feedback-icon">❌</span>';
                 quizState.errorsInCurrentLevel++;
                 updateQuizInfo();
-                // showPointsPopup(0); // Desativado
                 showCuriosity(questionData.curiosidade);    
 
                 if (quizState.errorsInCurrentLevel >= 2) {
@@ -1632,16 +1651,6 @@
                         showQuestion();
                     }, 4000);
                 }
-            }
-        }
-
-        function showCuriosity(curiosity) {
-            const curiositySidebarBox = elements.quiz.querySelector('.curiosity-sidebar-box');
-            if (curiositySidebarBox) {
-                curiositySidebarBox.innerHTML = `<strong>Curiosidade:</strong> ${curiosity}`;
-                curiositySidebarBox.classList.add('show');
-            } else {
-                console.warn("Elemento .curiosity-sidebar-box não encontrado para exibir a curiosidade.");
             }
         }
 
@@ -1764,9 +1773,6 @@
             clearInterval(timerInterval);
             questionStartTime = Date.now();
 
-            // Os elementos visuais do cronômetro foram removidos, então não precisamos mais acessá-los aqui.
-            // A lógica do timer continua rodando em segundo plano para controle do tempo de resposta.
-
             let timeLeft = TIME_PER_QUESTION;
             timerInterval = setInterval(() => {
                 timeLeft--;
@@ -1784,13 +1790,11 @@
             elements.quiz.style.pointerEvents = 'none';
 
             clearInterval(timerInterval);
-            // Os elementos visuais do cronômetro foram removidos.
 
             quizState.errorsInCurrentLevel++;
             updateQuizInfo();
             
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
-            // showPointsPopup(0); // Desativado
             showCuriosity("Tempo esgotado! A resposta era: " + questionData.correta + ". " + questionData.curiosidade);
 
             setTimeout(() => {
