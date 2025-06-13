@@ -26,7 +26,7 @@
             --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.3);
             --cor-verde-vibrante: #1ed760; /* Usado no Spotify, mais vibrante */
 
-            /* Cores para o cronômetro circular */
+            /* Cores para o cronômetro circular (mantidas para funcionalidade interna, mas invisíveis) */
             --cor-timer-fundo-circulo: rgba(255, 255, 255, 0.1);
             --cor-timer-progresso: #f1c40f; /* Amarelo do CBJR */
             --cor-timer-progresso-perigo: #e74c3c; /* Vermelho quando o tempo está acabando */
@@ -158,78 +158,9 @@
             line-height: 1.4;
         }
 
-        /* Estilos para o cronômetro circular */
+        /* REMOVENDO CRONÔMETRO VISUAL */
         .timer-display {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.6);
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            z-index: 10;
-        }
-
-        .timer-svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg); /* Começa o preenchimento de cima */
-        }
-
-        .timer-circle-background {
-            fill: none;
-            stroke: var(--cor-timer-fundo-circulo);
-            stroke-width: 6;
-        }
-
-        .timer-circle-progress {
-            fill: none;
-            stroke: var(--cor-timer-progresso);
-            stroke-width: 6;
-            stroke-linecap: round;
-            transition: stroke-dashoffset linear, stroke 0.5s ease-in-out;
-        }
-
-        .timer-text {
-            position: absolute;
-            font-family: 'Elektrix', sans-serif;
-            font-size: 1.2em;
-            color: var(--cor-timer-texto);
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-        }
-        /* Ajuste para mobile para não sobrepor o título */
-        @media (max-width: 768px) {
-            .timer-display {
-                top: 80px;
-                right: 15px;
-                width: 50px;
-                height: 50px;
-            }
-            .timer-text {
-                font-size: 1em;
-            }
-            .timer-circle-background, .timer-circle-progress {
-                stroke-width: 5;
-            }
-        }
-        @media (max-width: 480px) {
-            .timer-display {
-                top: 70px;
-                right: 10px;
-                width: 45px;
-                height: 45px;
-            }
-            .timer-text {
-                font-size: 0.9em;
-            }
-            .timer-circle-background, .timer-circle-progress {
-                stroke-width: 4;
-            }
+            display: none; 
         }
 
         /* NOVO: Container para respostas e curiosidade lado a lado */
@@ -378,53 +309,12 @@
             background-color: #4a4a4a;
         }
 
-        /* --- Pop-up de Pontuação por Pergunta --- */
+        /* REMOVENDO POP-UP DE PONTUAÇÃO VISUAL */
         #points-popup {
-            position: fixed;
-            /* Posiciona abaixo do timer-display */
-            top: 20px; /* Alinha com o timer-display */
-            right: 20px; /* Alinha com o timer-display */
-            transform: translate(0, 80px); /* Move 80px para baixo (aproximadamente a altura do relógio + espaçamento) */
-            background-color: rgba(0, 0, 0, 0.4); /* Mais transparente */
-            color: var(--cor-amarelo-cbjr);
-            font-family: 'Elektrix', sans-serif;
-            font-size: 1.5em; /* Tamanho reduzido */
-            padding: 10px 20px; /* Padding reduzido */
-            border-radius: 8px; /* Borda mais suave */
-            box-shadow: 0 0 15px rgba(0,0,0,0.7); /* Sombra mais sutil */
-            z-index: 3000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0s linear 0.5s; /* Transições mais suaves */
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-            white-space: nowrap; /* Garante que o texto não quebre */
+            display: none !important; /* Força a remoção do display */
+            visibility: hidden !important; /* Garante que não é visível */
+            opacity: 0 !important; /* Garante que não é visível */
         }
-
-        #points-popup.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translate(0, 80px) scale(1); /* Mantém a posição durante a transição */
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0s linear 0s;
-        }
-        @media (max-width: 768px) {
-            #points-popup {
-                top: 80px; /* Alinha com o timer-display em mobile */
-                right: 15px;
-                transform: translate(0, 60px); /* Ajusta movimento para baixo */
-                font-size: 1.2em;
-                padding: 8px 15px;
-            }
-        }
-        @media (max-width: 480px) {
-            #points-popup {
-                top: 70px;
-                right: 10px;
-                transform: translate(0, 55px);
-                font-size: 1em;
-                padding: 6px 12px;
-            }
-        }
-
 
         /* --- PLAYER ATUALIZADO E CORRIGIDO --- */
         #audio-player-wrapper {
@@ -934,12 +824,12 @@
     </div>
 
     <div id="level-up-message" style="display:none;"></div>
-    <div id="points-popup" style="display:none;"></div>
+    <div id="points-popup" style="display:none;"></div> 
 
     <div id="overlay" style="display:none;"></div>
     
     <div id="audio-player-wrapper">
-        <audio id="audio"></audio>      
+        <audio id="audio"></audio>         
         
         <div class="player-content">
             <p id="current-song"></p>
@@ -1519,7 +1409,7 @@
                 return;
             }
 
-            const errorsToReport = quizState.errorsInCurrentLevel;    
+            const errorsToReport = quizState.errorsInCurrentLevel;   
             quizState.errorsInCurrentLevel = 0;
 
             quizState.currentQuestionIndexInLevel = 0;
@@ -1543,16 +1433,8 @@
             elements.mainOverlay.style.display = 'block';
             
             clearInterval(timerInterval);
-            // Resetar o cronômetro visualmente
-            const timerCircleProgress = elements.quiz.querySelector('.timer-circle-progress');
-            const timerText = elements.quiz.querySelector('.timer-text');
-            if (timerCircleProgress) {
-                timerCircleProgress.style.transition = 'none';
-                timerCircleProgress.style.strokeDashoffset = 0;
-                timerCircleProgress.style.stroke = 'var(--cor-timer-progresso)';
-            }
-            if (timerText) timerText.textContent = TIME_PER_QUESTION;
-
+            // Cronômetro visual não é mais exibido, então não precisa de reset visual
+            
             const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
             
             let mainLevelMessage = '';
@@ -1626,16 +1508,9 @@
             const shuffledAnswers = [...questionData.respostas];
             shuffleArray(shuffledAnswers);
 
-            // NOVA ESTRUTURA PARA A PERGUNTA COM CRONÔMETRO CIRCULAR
+            // Removido o SVG do cronômetro visual daqui
             questionElement.innerHTML = `
                 <h3>${questionData.pergunta}</h3>
-                <div class="timer-display">
-                    <svg class="timer-svg" viewBox="0 0 60 60">
-                        <circle class="timer-circle-background" cx="30" cy="30" r="${CIRCLE_RADIUS}"></circle>
-                        <circle class="timer-circle-progress" cx="30" cy="30" r="${CIRCLE_RADIUS}"></circle>
-                    </svg>
-                    <span class="timer-text">${TIME_PER_QUESTION}</span>
-                </div>
                 <div class="question-content">
                     <div class="answers-container">
                         ${shuffledAnswers.map(resposta => `
@@ -1656,7 +1531,7 @@
                     updateQuizInfo();
                     quizState.isProcessingAnswer = false;
                     elements.quiz.style.pointerEvents = 'all';
-                    startTimer();
+                    startTimer(); // O timer continua rodando em segundo plano
                 }, 500);
             } else {
                 elements.quiz.innerHTML = '';
@@ -1664,7 +1539,7 @@
                 updateQuizInfo();
                 quizState.isProcessingAnswer = false;
                 elements.quiz.style.pointerEvents = 'all';
-                startTimer();
+                startTimer(); // O timer continua rodando em segundo plano
             }
         }
 
@@ -1682,17 +1557,18 @@
             }
         }
 
-        function showPointsPopup(points) {
-            elements.pointsPopup.textContent = `+${points} PONTOS!`;
-            elements.pointsPopup.style.display = 'block';
-            elements.pointsPopup.classList.add('show');
-            setTimeout(() => {
-                elements.pointsPopup.classList.remove('show');
-                setTimeout(() => {
-                    elements.pointsPopup.style.display = 'none';
-                }, 500); // tempo de transição (0.5s)
-            }, 2000); // 2 segundos visível
-        }
+        // Removida a função showPointsPopup já que o pop-up será desativado
+        // function showPointsPopup(points) {
+        //     elements.pointsPopup.textContent = `+${points} PONTOS!`;
+        //     elements.pointsPopup.style.display = 'block';
+        //     elements.pointsPopup.classList.add('show');
+        //     setTimeout(() => {
+        //         elements.pointsPopup.classList.remove('show');
+        //         setTimeout(() => {
+        //             elements.pointsPopup.style.display = 'none';
+        //         }, 500); // tempo de transição (0.5s)
+        //     }, 2000); // 2 segundos visível
+        // }
 
         function checkAnswer(clickedButton, answer, correta) {
             if (quizState.quizPaused || quizState.isProcessingAnswer) return;
@@ -1701,27 +1577,7 @@
             elements.quiz.style.pointerEvents = 'none';
 
             clearInterval(timerInterval);
-            const timerCircleProgress = elements.quiz.querySelector('.timer-circle-progress');
-            const timerText = elements.quiz.querySelector('.timer-text');
-
-            if (timerCircleProgress) {
-                timerCircleProgress.style.transition = 'none'; // Para a transição
-                const elapsedFraction = (Date.now() - questionStartTime) / (TIME_PER_QUESTION * 1000);
-                const offset = CIRCLE_CIRCUMFERENCE - (elapsedFraction * CIRCLE_CIRCUMFERENCE);
-                timerCircleProgress.style.strokeDashoffset = offset; // Congela o offset
-
-                const timeTakenForColor = (Date.now() - questionStartTime) / 1000;
-                if (timeTakenForColor > (TIME_PER_QUESTION - 5)) {
-                    timerCircleProgress.style.stroke = 'var(--cor-vermelho-incorreto)';
-                } else {
-                    timerCircleProgress.style.stroke = 'var(--cor-timer-progresso)';
-                }
-            }
-            if (timerText) {
-                const remainingTime = Math.max(0, TIME_PER_QUESTION - Math.floor((Date.now() - questionStartTime) / 1000));
-                timerText.textContent = remainingTime;
-            }
-
+            // O timer visual foi removido, então não há necessidade de manipulá-lo aqui
 
             const timeTaken = (Date.now() - questionStartTime) / 1000;
 
@@ -1748,7 +1604,7 @@
                 
                 quizState.score += pointsEarned;
                 updateQuizInfo();
-                showPointsPopup(pointsEarned);
+                // showPointsPopup(pointsEarned); // Desativado
                 showCuriosity(questionData.curiosidade);    
 
                 setTimeout(() => {
@@ -1761,7 +1617,7 @@
                 clickedButton.innerHTML += ' <span class="feedback-icon">❌</span>';
                 quizState.errorsInCurrentLevel++;
                 updateQuizInfo();
-                showPointsPopup(0);
+                // showPointsPopup(0); // Desativado
                 showCuriosity(questionData.curiosidade);    
 
                 if (quizState.errorsInCurrentLevel >= 2) {
@@ -1811,7 +1667,7 @@
                 let medalTitle = "";
                 const maxPossibleScore = quizState.totalQuestions * (BASE_SCORE_PER_CORRECT + BONUS_MAX);
                 
-                if (quizState.score === maxPossibleScore) { 
+                if (quizState.score === maxPossibleScore) {    
                     medalTitle = "Mestre Chorão! 🎸🏆";
                 } else if (quizState.score >= maxPossibleScore * 0.75) {
                     medalTitle = "Fã Conhecedor! 🧠✨";
@@ -1908,39 +1764,12 @@
             clearInterval(timerInterval);
             questionStartTime = Date.now();
 
-            const timerCircleProgress = elements.quiz.querySelector('.timer-circle-progress');
-            const timerText = elements.quiz.querySelector('.timer-text');
-            
-            if (!timerCircleProgress || !timerText) {
-                console.error("Elementos do cronômetro circular não encontrados na DOM.");
-                return;
-            }
-
-            // Configurações iniciais do círculo de progresso
-            timerCircleProgress.style.transition = 'none';
-            timerCircleProgress.style.strokeDasharray = `${CIRCLE_CIRCUMFERENCE} ${CIRCLE_CIRCUMFERENCE}`;
-            timerCircleProgress.style.strokeDashoffset = 0;
-            timerCircleProgress.style.stroke = 'var(--cor-timer-progresso)';
-            timerText.textContent = TIME_PER_QUESTION;
-
-            void timerCircleProgress.offsetWidth; 
-            void timerText.offsetWidth;
-
-            timerCircleProgress.style.transition = `stroke-dashoffset ${TIME_PER_QUESTION}s linear`;
-            
-            requestAnimationFrame(() => {
-                timerCircleProgress.style.strokeDashoffset = CIRCLE_CIRCUMFERENCE;
-            });
-
-            // Muda a cor para "perigo" quando faltarem 5 segundos
-            setTimeout(() => {
-                timerCircleProgress.style.stroke = 'var(--cor-timer-progresso-perigo)';
-            }, (TIME_PER_QUESTION - 5) * 1000);
+            // Os elementos visuais do cronômetro foram removidos, então não precisamos mais acessá-los aqui.
+            // A lógica do timer continua rodando em segundo plano para controle do tempo de resposta.
 
             let timeLeft = TIME_PER_QUESTION;
             timerInterval = setInterval(() => {
                 timeLeft--;
-                timerText.textContent = timeLeft;
 
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
@@ -1955,20 +1784,13 @@
             elements.quiz.style.pointerEvents = 'none';
 
             clearInterval(timerInterval);
-            const timerCircleProgress = elements.quiz.querySelector('.timer-circle-progress');
-            const timerText = elements.quiz.querySelector('.timer-text');
-            if (timerCircleProgress) {
-                timerCircleProgress.style.transition = 'none';
-                timerCircleProgress.style.strokeDashoffset = CIRCLE_CIRCUMFERENCE;
-                timerCircleProgress.style.stroke = 'var(--cor-vermelho-incorreto)';
-            }
-            if (timerText) timerText.textContent = '0';
+            // Os elementos visuais do cronômetro foram removidos.
 
             quizState.errorsInCurrentLevel++;
             updateQuizInfo();
             
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
-            showPointsPopup(0);
+            // showPointsPopup(0); // Desativado
             showCuriosity("Tempo esgotado! A resposta era: " + questionData.correta + ". " + questionData.curiosidade);
 
             setTimeout(() => {
