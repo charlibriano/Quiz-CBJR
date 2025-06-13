@@ -640,10 +640,48 @@
             flex-direction: column;
             gap: 20px;
             pointer-events: all;
+            /* Responsividade adicionada */
+            max-width: 90%; /* Limita a largura em telas menores */
+            box-sizing: border-box; /* Garante que padding e border estão incluídos na largura */
         }
         #level-up-message.show {
             opacity: 1;
         }
+        #level-up-message h3 {
+            font-size: 1.2em; /* Reduz o tamanho do título em telas pequenas */
+            margin-bottom: 10px;
+        }
+        #level-up-message p {
+            font-size: 0.9em; /* Ajusta o tamanho do parágrafo */
+            line-height: 1.4;
+        }
+        #level-up-message ul {
+            font-size: 0.7em; /* Diminui a fonte da lista em mobile */
+            padding-left: 15px; /* Adiciona um pouco de padding para a lista */
+            text-align: left; /* Garante que a lista se alinha à esquerda */
+        }
+        #level-up-message li {
+            margin-bottom: 5px; /* Espaçamento entre itens da lista */
+        }
+
+        /* Ajustes específicos para telas muito pequenas */
+        @media (max-width: 480px) {
+            #level-up-message {
+                padding: 15px 20px; /* Reduz o padding */
+                font-size: 1.5em; /* Reduz ainda mais o tamanho da fonte principal */
+            }
+            #level-up-message h3 {
+                font-size: 1em; /* Título menor */
+            }
+            #level-up-message p {
+                font-size: 0.8em; /* Parágrafo menor */
+            }
+            #level-up-message ul {
+                font-size: 0.65em; /* Lista menor */
+            }
+        }
+
+
         #level-up-message button {
             padding: 12px 25px;
             font-size: 1.2em;
@@ -1374,15 +1412,15 @@
             elements.levelUpMessage.innerHTML = `
                 <div>
                     <h3>Bem-vindo ao Quiz do Charlie Brown Jr!</h3>
-                    <p style="font-family: Arial, sans-serif; font-size: 0.7em; margin-top: 15px;">Este é um Quiz para testar seus conhecimentos sobre a banda!</p>
-                    <p style="font-family: Arial, sans-serif; font-size: 0.7em; margin-top: 10px;">A pontuação é distribuída da seguinte forma:</p>
-                    <ul style="font-family: Arial, sans-serif; font-size: 0.6em; text-align: left; max-width: 80%; margin: 0 auto; list-style-type: none; padding: 0;">
-                        <li>✅ Resposta correta: <b>${BASE_SCORE_PER_CORRECT} pontos base</b>.</li>
-                        <li>🚀 Resposta muito rápida (até ${BONUS_MAX_THRESHOLD}s): <b>+${BONUS_MAX} pontos bônus</b>.</li>
-                        <li>⚡ Resposta rápida (até ${BONUS_MEDIUM_THRESHOLD}s): <b>+${BONUS_MEDIUM} pontos bônus</b>.</li>
-                        <li>⏱️ Resposta no tempo (até ${TIME_PER_QUESTION}s): <b>+${BONUS_MIN} ponto bônus</b>.</li>
-                        <li>❌ Resposta incorreta ou tempo esgotado: <b>0 pontos e 1 erro</b>.</li>
-                        <li>⚠️ Você tem <b>2 erros</b> por nível antes de precisar reiniciar o nível.</li>
+                    <p style="font-family: Arial, sans-serif; font-size: 1em; margin-top: 15px;">Este é um Quiz para testar seus conhecimentos sobre a banda!</p>
+                    <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; font-weight: bold;">A pontuação é distribuída da seguinte forma:</p>
+                    <ul style="font-family: Arial, sans-serif; font-size: 0.8em; text-align: left; max-width: 90%; margin: 10px auto 20px auto; list-style-type: none; padding: 0;">
+                        <li>&#x2705; Resposta correta: <b>${BASE_SCORE_PER_CORRECT} pontos base</b>.</li>
+                        <li>&#x1F680; Resposta muito rápida (até ${BONUS_MAX_THRESHOLD}s): <b>+${BONUS_MAX} pontos bônus</b>.</li>
+                        <li>&#x26A1; Resposta rápida (até ${BONUS_MEDIUM_THRESHOLD}s): <b>+${BONUS_MEDIUM} pontos bônus</b>.</li>
+                        <li>&#x23F1; Resposta no tempo (até ${TIME_PER_QUESTION}s): <b>+${BONUS_MIN} ponto bônus</b>.</li>
+                        <li>&#x274C; Resposta incorreta ou tempo esgotado: <b>0 pontos e 1 erro</b>.</li>
+                        <li>&#x26A0; Você tem <b>2 erros</b> por nível antes de precisar reiniciar o nível.</li>
                     </ul>
                 </div>
                 <button onclick="startQuiz()">Entendi! Começar!</button>
