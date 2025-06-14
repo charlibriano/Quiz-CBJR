@@ -160,7 +160,7 @@
 
         /* REMOVENDO CRONÔMETRO VISUAL */
         .timer-display {
-            display: none; 
+            display: none;  
         }
 
         /* NOVO: Container para respostas e curiosidade lado a lado */
@@ -236,13 +236,13 @@
 
         .question button .feedback-icon {
             margin-left: 8px;
-            color: white; 
+            color: white;  
             font-size: 1.2em;
         }
 
         /* Antiga curiosity-box - agora estará oculta, o conteúdo vai para curiosity-sidebar-box */
         .curiosity-box {
-            display: none; 
+            display: none;  
         }
 
         /* NOVO: Estilo para a caixa de curiosidade ao lado */
@@ -624,7 +624,9 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: var(--cor-preto-principal); 
+            background-color: var(--cor-fundo-transparente); 
+            backdrop-filter: blur(5px); /* Adiciona um blur para a transparência ficar mais legal */
+            -webkit-backdrop-filter: blur(5px); /* Suporte para Safari */
             color: var(--cor-texto-claro);
             padding: 25px 40px;
             border-radius: 15px;
@@ -640,42 +642,41 @@
             flex-direction: column;
             gap: 20px;
             pointer-events: all;
-            /* Responsividade padrão para telas maiores/médias */
-            width: auto; /* Deixa o conteúdo determinar a largura */
-            max-width: 900px; /* Mantém a largura máxima do container */
-            min-width: 300px; /* Garante uma largura mínima para a legibilidade */
+            width: auto; 
+            max-width: 900px; 
+            min-width: 300px; 
             box-sizing: border-box;
         }
         #level-up-message.show {
             opacity: 1;
         }
         #level-up-message h3 {
-            font-size: 1.2em; /* Reduz o tamanho do título em telas pequenas */
+            font-size: 1.2em; 
             margin-bottom: 10px;
             line-height: 1.2;
         }
         #level-up-message p {
-            font-size: 0.9em; /* Ajusta o tamanho do parágrafo */
+            font-size: 0.9em; 
             line-height: 1.4;
         }
         #level-up-message ul {
-            font-size: 0.8em; /* Diminui a fonte da lista em mobile */
-            padding-left: 15px; /* Adiciona um pouco de padding para a lista */
-            text-align: left; /* Garante que a lista se alinha à esquerda */
-            margin: 10px auto 20px auto; /* Centraliza a lista e ajusta margens */
-            max-width: 85%; /* Limita a largura da lista para evitar quebras de linha estranhas */
+            font-size: 0.8em; 
+            padding-left: 15px; 
+            text-align: left; 
+            margin: 10px auto 20px auto; 
+            max-width: 85%; 
         }
         #level-up-message li {
-            margin-bottom: 5px; /* Espaçamento entre itens da lista */
+            margin-bottom: 5px; 
         }
 
         /* Media query para telas médias (tablets e smartphones maiores) */
         @media (max-width: 768px) {
             #level-up-message {
-                padding: 20px 30px; /* Reduz o padding */
-                font-size: 1.8em; /* Ajusta o tamanho da fonte principal */
-                max-width: 95%; /* Permite que ocupe mais largura */
-                min-width: unset; /* Remove o min-width para maior flexibilidade */
+                padding: 20px 30px; 
+                font-size: 1.8em; 
+                max-width: 95%; 
+                min-width: unset; 
             }
             #level-up-message h3 {
                 font-size: 1.1em;
@@ -687,29 +688,40 @@
                 font-size: 0.75em;
                 max-width: 90%;
             }
+            /* Botões flex-wrap para responsividade */
+            #level-up-message .message-buttons {
+                flex-direction: column;
+                gap: 10px; /* Reduz o gap entre os botões */
+            }
         }
 
         /* Media query para telas pequenas (smartphones menores) */
         @media (max-width: 480px) {
             #level-up-message {
-                padding: 15px 20px; /* Reduz o padding */
-                font-size: 1.2em; /* Reduz ainda mais o tamanho da fonte principal */
-                border-radius: 10px; /* Arredonda menos as bordas */
+                padding: 15px 20px; 
+                font-size: 1.2em; 
+                border-radius: 10px; 
+                width: 90%; /* Aumenta um pouco a largura relativa para preencher mais */
+                max-width: 350px; /* Limita a largura máxima para não ficar grande demais */
             }
             #level-up-message h3 {
-                font-size: 0.9em; /* Título menor */
+                font-size: 0.9em; 
             }
             #level-up-message p {
-                font-size: 0.7em; /* Parágrafo menor */
+                font-size: 0.7em; 
             }
             #level-up-message ul {
-                font-size: 0.6em; /* Lista menor */
-                max-width: 95%; /* Permite que a lista ocupe mais espaço horizontal */
-                padding-left: 10px; /* Diminui o padding da lista */
+                font-size: 0.6em; 
+                max-width: 95%; 
+                padding-left: 10px; 
             }
             #level-up-message button {
-                font-size: 1em; /* Botão menor */
+                font-size: 1em; 
                 padding: 10px 20px;
+            }
+            #level-up-message .message-buttons {
+                flex-direction: column;
+                gap: 8px; /* Reduz ainda mais o gap */
             }
         }
 
@@ -717,8 +729,8 @@
         #level-up-message button {
             padding: 12px 25px;
             font-size: 1.2em;
-            background-color: var(--cor-preto-principal); 
-            color: var(--cor-texto-claro); 
+            background-color: var(--cor-preto-principal);  
+            color: var(--cor-texto-claro);  
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -789,7 +801,7 @@
     </header>
 
     <div class="container">
-        <button id="start-btn" onclick="showIntroMessage()">Iniciar Quiz</button>
+        <button id="start-btn" style="display:none;">Iniciar Quiz</button> 
         
         <div id="quiz">
         </div>
@@ -805,12 +817,12 @@
     </div>
 
     <div id="level-up-message" style="display:none;"></div>
-    <div id="points-popup" style="display:none;"></div> 
+    <div id="points-popup" style="display:none;"></div>  
 
     <div id="overlay" style="display:none;"></div>
     
     <div id="audio-player-wrapper">
-        <audio id="audio"></audio>         
+        <audio id="audio"></audio>          
         
         <div class="player-content">
             <p id="current-song"></p>
@@ -979,7 +991,7 @@
             levelUpMessage: document.getElementById('level-up-message'),
             pointsPopup: document.getElementById('points-popup'),
             mainOverlay: document.getElementById('overlay'),
-            curiosityBox: document.createElement('div'), 
+            curiosityBox: document.createElement('div'),  
             
             // Player Elements (mantidos)
             playPauseBtn: document.getElementById('play-pause-btn'),
@@ -1237,8 +1249,6 @@
                     nextIndex = Math.floor(Math.random() * playerState.playlist.length);
                 } while (nextIndex === playerState.currentIndex && playerState.playlist.length > 1);
                 playerState.currentIndex = nextIndex;
-                loadSong();
-                playSong();
             } else if (playerState.repeatMode === 1) {
                 playerState.currentIndex = (playerState.currentIndex + 1) % playerState.playlist.length;
                 loadSong();
@@ -1349,13 +1359,13 @@
         function showIntroMessage() {
             quizState.quizPaused = true;
             elements.mainOverlay.style.display = 'block';
-            elements.startBtn.style.display = 'none'; // Esconde o botão Iniciar
+            elements.startBtn.style.display = 'none'; // Garante que o botão iniciar esteja oculto
             elements.quiz.innerHTML = ''; // Limpa qualquer conteúdo anterior do quiz
 
             elements.levelUpMessage.innerHTML = `
                 <div>
                     <h3>Bem-vindo ao Quiz do Charlie Brown Jr!</h3>
-                    <p style="font-family: Arial, sans-serif; font-size: 1em; margin-top: 15px;">Este é um Quiz para testar seus conhecimentos sobre a banda!</p>
+                    <p style="font-family: Arial, sans-serif; font-size: 1em; margin-top: 15px;">Venha testar seus conhecimentos sobre a banda!</p>
                     <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; font-weight: bold;">A pontuação é distribuída da seguinte forma:</p>
                     <ul style="font-family: Arial, sans-serif; text-align: left; list-style-type: none; padding: 0;">
                         <li>&#x2705; Resposta correta: <b>${BASE_SCORE_PER_CORRECT} pontos base</b>.</li>
@@ -1366,9 +1376,11 @@
                         <li>&#x26A0; Você tem <b>2 erros</b> por nível antes de precisar reiniciar o nível.</li>
                     </ul>
                 </div>
-                <button onclick="startQuiz()">Entendi! Começar!</button>
+                <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <button onclick="startQuiz()">Entendi! Começar!</button>
+                </div>
             `;
-            elements.levelUpMessage.style.backgroundColor = 'var(--cor-preto-principal)';    
+            // A cor de fundo já está configurada no CSS para ser transparente
             elements.levelUpMessage.style.display = 'flex';
             elements.levelUpMessage.classList.add('show');
         }
@@ -1396,12 +1408,12 @@
                         playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
                         loadSong();
                     }
-                    playSong(); 
+                    playSong();
                 } else {
                     console.warn('Não foi possível iniciar a música: playlist vazia.');
                     elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
                 }
-                loadLevel(true);
+                loadLevel(true); // Inicia o primeiro nível do quiz
             }, 500); // Aguarda a transição de saída da mensagem
         }
 
@@ -1417,7 +1429,7 @@
                 return;
             }
 
-            const errorsToReport = quizState.errorsInCurrentLevel;   
+            const errorsToReport = quizState.errorsInCurrentLevel;    
             quizState.errorsInCurrentLevel = 0;
 
             quizState.currentQuestionIndexInLevel = 0;
@@ -1445,6 +1457,8 @@
             const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
             
             let mainLevelMessage = '';
+            // A cor de fundo da levelUpMessage já é transparente por padrão no CSS
+            // elements.levelUpMessage.style.backgroundColor = 'var(--cor-fundo-transparente)'; 
 
             if (errorsInPreviousLevel === 0) {
                 mainLevelMessage = `<div>No passo a <br><br> passo eu chego <br><br> lá!</div>`;
@@ -1458,10 +1472,11 @@
                 ${mainLevelMessage}
                 <div style="font-size: 0.7em; margin-top: 15px; font-family: Arial, sans-serif; opacity: 0.9;">Você avançou para o Nível ${quizState.currentLevel + 1}!</div>
                 <div style="font-size: 0.7em; margin-top: 5px; font-family: Arial, sans-serif; opacity: 0.9;">"${fraseChorao}"</div>
-                <button onclick="continueQuiz()">Avançar</button>
+                <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <button onclick="continueQuiz()">Avançar</button>
+                </div>
             `;
-
-            elements.levelUpMessage.style.backgroundColor = 'var(--cor-preto-principal)';    
+            
             elements.levelUpMessage.style.display = 'flex';
             elements.levelUpMessage.classList.add('show');
         }
@@ -1653,6 +1668,9 @@
 
             quizState.totalQuestions = questionsByLevel.reduce((acc, levelData) => acc + levelData.perguntas.length, 0);
 
+            let messageHtml = '';
+            let bgColor = 'var(--cor-fundo-transparente)'; // Padrão transparente
+
             if (isWinner) {
                 let medalTitle = "";
                 const maxPossibleScore = quizState.totalQuestions * (BASE_SCORE_PER_CORRECT + BONUS_MAX);
@@ -1667,36 +1685,39 @@
                     medalTitle = "Skate na Mão! 😉";
                 }
 
-                elements.levelUpMessage.innerHTML = `
+                messageHtml = `
                     <div>${medalTitle}</div>
-                    <div style="font-size: 0.8em; margin-top: 10px;">Você fez ${quizState.score} pontos!</div>
-                    <button onclick="restartQuiz()">Jogar Novamente</button>
+                    <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Você fez ${quizState.score} pontos!</div>
+                    <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button onclick="restartQuiz()">Jogar Novamente</button>
+                    </div>
                 `;
-                elements.levelUpMessage.style.backgroundColor = 'var(--cor-preto-principal)';    
-                elements.levelUpMessage.style.display = 'flex';
-                elements.levelUpMessage.classList.add('show');
             } else {
                 if (failedLevel) {
-                    elements.levelUpMessage.innerHTML = `
+                    messageHtml = `
                         <div>Você errou demais neste nível.</div>
-                        <div style="font-size: 0.8em; margin-top: 10px;">Tente novamente para dominar o Nível ${quizState.currentLevel + 1}!</div>
-                        <button onclick="retryLevel()">Tentar Nível Novamente</button>
-                        <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
+                        <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Tente novamente para dominar o Nível ${quizState.currentLevel + 1}!</div>
+                        <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <button onclick="retryLevel()">Tentar Nível Novamente</button>
+                            <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
+                        </div>
                     `;
-                    elements.levelUpMessage.style.backgroundColor = 'var(--cor-vermelho-incorreto)';
-                    elements.levelUpMessage.style.display = 'flex';
-                    elements.levelUpMessage.classList.add('show');
+                    bgColor = 'rgba(231, 76, 60, 0.7)'; /* Vermelho um pouco transparente para erro */
                 } else {
-                    elements.levelUpMessage.innerHTML = `
+                    messageHtml = `
                         <div>Oops! Quase lá!</div>
-                        <div style="font-size: 0.8em; margin-top: 10px;">Você fez ${quizState.score} pontos.</div>
-                        <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
+                        <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Você fez ${quizState.score} pontos.</div>
+                        <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
+                        </div>
                     `;
-                    elements.levelUpMessage.style.backgroundColor = 'var(--cor-vermelho-incorreto)';
-                    elements.levelUpMessage.style.display = 'flex';
-                    elements.levelUpMessage.classList.add('show');
+                    bgColor = 'rgba(231, 76, 60, 0.7)'; /* Vermelho um pouco transparente para erro */
                 }
             }
+            elements.levelUpMessage.innerHTML = messageHtml;
+            elements.levelUpMessage.style.backgroundColor = bgColor; // Aplica a cor de fundo (transparente ou erro transparente)
+            elements.levelUpMessage.style.display = 'flex';
+            elements.levelUpMessage.classList.add('show');
         }
 
         function retryLevel() {
@@ -1745,8 +1766,7 @@
                     currentCuriositySidebar.classList.remove('show');
                     currentCuriositySidebar.innerHTML = '';
                 }
-                elements.startBtn.style.display = 'block';
-                
+                showIntroMessage(); // Chama a mensagem de introdução novamente para reiniciar o ciclo
             }, 500);
         }
 
@@ -1839,6 +1859,7 @@
                         elements.muteBtn.disabled = true;
                         elements.volumeSlider.disabled = true;
                     }
+                    showIntroMessage(); // CHAMA A MENSAGEM DE BOAS-VINDAS AQUI AO CARREGAR
                 })
                 .catch(error => {
                     console.error('Erro ao carregar playlist:', error);
@@ -1850,6 +1871,7 @@
                     elements.shuffleBtn.disabled = true;
                     elements.muteBtn.disabled = true;
                     elements.volumeSlider.disabled = true;
+                    showIntroMessage(); // Ainda mostra a intro message mesmo que a playlist falhe
                 });
         };
     </script>
