@@ -19,7 +19,8 @@
             --cor-preto-principal: #343434;
             --cor-verde-correto: #2ecc71;
             --cor-vermelho-incorreto: #e74c3c;
-            --cor-fundo-transparente: rgba(0, 0, 0, 0.4);
+            /* Mais transparência para a caixa de mensagem principal */
+            --cor-fundo-transparente: rgba(0, 0, 0, 0.55); /* Ajustado para mais transparência */
             --cor-texto-claro: white;
             --cor-texto-escuro: black;
 
@@ -624,7 +625,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: var(--cor-fundo-transparente); 
+            background-color: var(--cor-fundo-transparente); /* Usando a nova variável com mais transparência */
             backdrop-filter: blur(5px); /* Adiciona um blur para a transparência ficar mais legal */
             -webkit-backdrop-filter: blur(5px); /* Suporte para Safari */
             color: var(--cor-texto-claro);
@@ -632,7 +633,11 @@
             border-radius: 15px;
             font-family: 'Elektrix', sans-serif;
             font-size: 2em;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+            /* Adicionado brilho ao texto principal */
+            text-shadow: 
+                0 0 5px rgba(255, 255, 255, 0.7), /* brilho branco suave */
+                0 0 10px rgba(255, 255, 255, 0.5), /* brilho branco mais difuso */
+                0 0 15px var(--cor-amarelo-cbjr); /* brilho amarelo para realce */
             z-index: 2000;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
@@ -654,7 +659,15 @@
             font-size: 1.2em; 
             margin-bottom: 10px;
             line-height: 1.2;
+            text-shadow: 
+                0 0 5px var(--cor-amarelo-cbjr), /* Brilho amarelo para o h3 */
+                0 0 10px rgba(241, 196, 15, 0.7);
         }
+        #level-up-message p, #level-up-message ul, #level-up-message li, #level-up-message strong {
+            font-family: Arial, sans-serif; /* Força Arial para estas tags */
+            text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.5); /* Brilho suave para o texto normal */
+        }
+
         #level-up-message p {
             font-size: 0.9em; 
             line-height: 1.4;
@@ -702,7 +715,7 @@
                 font-size: 1.2em; 
                 border-radius: 10px; 
                 width: 90%; /* Aumenta um pouco a largura relativa para preencher mais */
-                max-width: 350px; /* Limita a largura máxima para não ficar grande demais */
+                max-width: 300px; /* Reduz a largura máxima para não ficar grande demais */
             }
             #level-up-message h3 {
                 font-size: 0.9em; 
@@ -735,6 +748,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: transform 0.2s ease, background-color 0.3s ease;
+            text-shadow: 0 0 8px rgba(255,255,255,0.8); /* Brilho nos botões da mensagem */
         }
         #level-up-message button:hover {
             transform: scale(1.05);
@@ -1458,7 +1472,8 @@
             
             let mainLevelMessage = '';
             // A cor de fundo da levelUpMessage já é transparente por padrão no CSS
-            // elements.levelUpMessage.style.backgroundColor = 'var(--cor-fundo-transparente)'; 
+            elements.levelUpMessage.style.backgroundColor = 'var(--cor-fundo-transparente)'; /* Garante transparência */
+
 
             if (errorsInPreviousLevel === 0) {
                 mainLevelMessage = `<div>No passo a <br><br> passo eu chego <br><br> lá!</div>`;
