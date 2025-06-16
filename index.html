@@ -77,7 +77,7 @@
             background-color: var(--cor-preto-principal);
             background-repeat: no-repeat;
             background-position: center center;
-            background-size: cover;
+            background-size: cover; /* Mantido como 'cover' para preencher a tela */
             background-attachment: fixed;
             color: var(--cor-texto-claro);
             text-align: center;
@@ -87,8 +87,16 @@
             justify-content: flex-start;
             align-items: center;
             padding-bottom: 180px;
-            transition: background-image 1s ease-in-out;
+            transition: background-image 1s ease-in-out; /* Mantido para transição suave */
         }
+
+        /* Media query para telas menores: 'cover' ainda é geralmente o melhor para preencher */
+        @media (max-width: 768px) {
+            body {
+                background-size: cover;
+            }
+        }
+
 
         header h1 {
             font-family: 'Elektrix', sans-serif;
@@ -141,7 +149,7 @@
                 margin-top: 15px;
             }
         }
-        
+
         .question {
             opacity: 1;
             transition: opacity 0.5s ease-in-out;
@@ -161,7 +169,7 @@
 
         /* REMOVENDO CRONÔMETRO VISUAL */
         .timer-display {
-            display: none;  
+            display: none;
         }
 
         /* NOVO: Container para respostas e curiosidade lado a lado */
@@ -199,7 +207,7 @@
             color: var(--cor-texto-claro);
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            
+
             width: 100%;
             height: 80px;
             display: flex;
@@ -237,13 +245,13 @@
 
         .question button .feedback-icon {
             margin-left: 8px;
-            color: white;  
+            color: white;
             font-size: 1.2em;
         }
 
         /* Antiga curiosity-box - agora estará oculta, o conteúdo vai para curiosity-sidebar-box */
         .curiosity-box {
-            display: none;  
+            display: none;
         }
 
         /* NOVO: Estilo para a caixa de curiosidade ao lado */
@@ -266,7 +274,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            
+
             margin-top: 20px;
             margin-bottom: 0;
         }
@@ -415,16 +423,16 @@
             background-color: transparent;
             border: none;
             border-radius: 0;
-            
+
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0;
-            
+
             cursor: pointer;
             transition: transform 0.2s ease, background-color 0.3s ease;
             box-shadow: none;
-            
+
             width: 35px;
             height: 35px;
             flex-shrink: 0;
@@ -508,10 +516,10 @@
         .audio-control-btn.large-button {
             background-color: #ffffff;
             border-radius: 50%;
-            
+
             width: 55px;
             height: 55px;
-            
+
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
@@ -625,19 +633,18 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: var(--cor-fundo-transparente); /* Usando a nova variável com mais transparência */
+            background-color: var(--cor-fundo-transparente); /* A cor já está com 0.55 de transparência */
             backdrop-filter: blur(5px); /* Adiciona um blur para a transparência ficar mais legal */
             -webkit-backdrop-filter: blur(5px); /* Suporte para Safari */
             color: var(--cor-texto-claro);
-            padding: 25px 40px;
+            padding: 20px 30px; /* Reduzido o padding */
             border-radius: 15px;
             font-family: 'Elektrix', sans-serif;
-            font-size: 2em;
-            /* Adicionado brilho ao texto principal */
-            text-shadow: 
-                0 0 5px rgba(255, 255, 255, 0.7), /* brilho branco suave */
-                0 0 10px rgba(255, 255, 255, 0.5), /* brilho branco mais difuso */
-                0 0 15px var(--cor-amarelo-cbjr); /* brilho amarelo para realce */
+            font-size: 1.8em; /* Reduzido o font-size base */
+            text-shadow:
+                0 0 5px rgba(255, 255, 255, 0.7),
+                0 0 10px rgba(255, 255, 255, 0.5),
+                0 0 15px var(--cor-amarelo-cbjr);
             z-index: 2000;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
@@ -645,96 +652,97 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px; /* Reduzido o gap entre os elementos */
             pointer-events: all;
-            width: auto; 
-            max-width: 900px; 
-            min-width: 300px; 
+            width: auto;
+            max-width: 700px; /* Reduzido o max-width */
+            min-width: 280px; /* Ajustado min-width */
             box-sizing: border-box;
         }
         #level-up-message.show {
             opacity: 1;
         }
         #level-up-message h3 {
-            font-size: 1.2em; 
-            margin-bottom: 10px;
+            font-size: 1.1em; /* Ajustado em relação ao novo font-size base */
+            margin-bottom: 8px; /* Ajustado */
             line-height: 1.2;
-            text-shadow: 
-                0 0 5px var(--cor-amarelo-cbjr), /* Brilho amarelo para o h3 */
+            text-shadow:
+                0 0 5px var(--cor-amarelo-cbjr),
                 0 0 10px rgba(241, 196, 15, 0.7);
         }
         #level-up-message p, #level-up-message ul, #level-up-message li, #level-up-message strong {
-            font-family: Arial, sans-serif; /* Força Arial para estas tags */
-            text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.5); /* Brilho suave para o texto normal */
+            font-family: Arial, sans-serif;
+            text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.5);
         }
 
         #level-up-message p {
-            font-size: 0.9em; 
+            font-size: 0.85em; /* Ajustado */
             line-height: 1.4;
         }
         #level-up-message ul {
-            font-size: 0.8em; 
-            padding-left: 15px; 
-            text-align: left; 
-            margin: 10px auto 20px auto; 
-            max-width: 85%; 
+            font-size: 0.75em; /* Ajustado */
+            padding-left: 15px;
+            text-align: left;
+            margin: 10px auto 15px auto; /* Ajustado margem */
+            max-width: 90%; /* Ajustado max-width */
         }
         #level-up-message li {
-            margin-bottom: 5px; 
+            margin-bottom: 4px; /* Ajustado */
         }
 
         /* Media query para telas médias (tablets e smartphones maiores) */
         @media (max-width: 768px) {
             #level-up-message {
-                padding: 20px 30px; 
-                font-size: 1.8em; 
-                max-width: 95%; 
-                min-width: unset; 
+                padding: 18px 25px; /* Mais ajuste para telas médias */
+                font-size: 1.6em; /* Mais ajuste */
+                max-width: 90%; /* Ocupa mais largura em telas médias */
+                min-width: unset;
+                gap: 12px;
             }
             #level-up-message h3 {
-                font-size: 1.1em;
+                font-size: 1em;
             }
             #level-up-message p {
                 font-size: 0.8em;
             }
             #level-up-message ul {
-                font-size: 0.75em;
-                max-width: 90%;
+                font-size: 0.7em;
+                max-width: 95%;
             }
-            /* Botões flex-wrap para responsividade */
             #level-up-message .message-buttons {
                 flex-direction: column;
-                gap: 10px; /* Reduz o gap entre os botões */
+                gap: 8px;
             }
         }
 
         /* Media query para telas pequenas (smartphones menores) */
         @media (max-width: 480px) {
             #level-up-message {
-                padding: 15px 20px; 
-                font-size: 1.2em; 
-                border-radius: 10px; 
-                width: 90%; /* Aumenta um pouco a largura relativa para preencher mais */
-                max-width: 300px; /* Reduz a largura máxima para não ficar grande demais */
+                padding: 15px 20px; /* Ajuste final para telas pequenas */
+                font-size: 1.1em; /* Menor ainda para caber */
+                border-radius: 10px;
+                width: 90%;
+                max-width: 280px; /* Limite máximo para não ficar gigante */
+                gap: 10px;
             }
             #level-up-message h3 {
-                font-size: 0.9em; 
+                font-size: 0.85em; /* Ajustado */
             }
             #level-up-message p {
-                font-size: 0.7em; 
+                font-size: 0.7em; /* Ajustado */
             }
             #level-up-message ul {
-                font-size: 0.6em; 
-                max-width: 95%; 
-                padding-left: 10px; 
+                font-size: 0.6em; /* Ajustado */
+                max-width: 98%;
+                padding-left: 8px; /* Reduzido padding */
             }
             #level-up-message button {
-                font-size: 1em; 
-                padding: 10px 20px;
+                font-size: 1em;
+                padding: 10px 18px; /* Ajustado */
             }
             #level-up-message .message-buttons {
                 flex-direction: column;
-                gap: 8px; /* Reduz ainda mais o gap */
+                gap: 6px; /* Reduzido o gap */
             }
         }
 
@@ -742,13 +750,13 @@
         #level-up-message button {
             padding: 12px 25px;
             font-size: 1.2em;
-            background-color: var(--cor-preto-principal);  
-            color: var(--cor-texto-claro);  
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: transform 0.2s ease, background-color 0.3s ease;
-            text-shadow: 0 0 8px rgba(255,255,255,0.8); /* Brilho nos botões da mensagem */
+            text-shadow: 0 0 8px rgba(255,255,255,0.8);
         }
         #level-up-message button:hover {
             transform: scale(1.05);
@@ -783,7 +791,7 @@
             .question h3 {
                 font-size: 1.4em;
             }
-            
+
             .question button {
                 height: auto;
                 padding: 12px 10px;
@@ -815,8 +823,8 @@
     </header>
 
     <div class="container">
-        <button id="start-btn" style="display:none;">Iniciar Quiz</button> 
-        
+        <button id="start-btn" style="display:none;">Iniciar Quiz</button>
+
         <div id="quiz">
         </div>
 
@@ -831,13 +839,13 @@
     </div>
 
     <div id="level-up-message" style="display:none;"></div>
-    <div id="points-popup" style="display:none;"></div>  
+    <div id="points-popup" style="display:none;"></div>
 
     <div id="overlay" style="display:none;"></div>
-    
+
     <div id="audio-player-wrapper">
-        <audio id="audio"></audio>          
-        
+        <audio id="audio"></audio>
+
         <div class="player-content">
             <p id="current-song"></p>
             <div class="progress-bar-area">
@@ -1005,8 +1013,8 @@
             levelUpMessage: document.getElementById('level-up-message'),
             pointsPopup: document.getElementById('points-popup'),
             mainOverlay: document.getElementById('overlay'),
-            curiosityBox: document.createElement('div'),  
-            
+            curiosityBox: document.createElement('div'),
+
             // Player Elements (mantidos)
             playPauseBtn: document.getElementById('play-pause-btn'),
             prevBtn: document.getElementById('prev-btn'),
@@ -1127,7 +1135,7 @@
             const song = playerState.playlist[playerState.currentIndex];
             elements.currentSongText.textContent = `${song.title}`;
             elements.audio.src = song.url;
-            
+
             elements.playPauseBtn.disabled = false;
             elements.prevBtn.disabled = false;
             elements.nextBtn.disabled = false;
@@ -1140,7 +1148,7 @@
             elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
 
             elements.currentTimeSpan.textContent = '0:00';
-            elements.totalDurationSpan.textContent = '0:00';    
+            elements.totalDurationSpan.textContent = '0:00';
             elements.audio.onloadedmetadata = () => {
                 if (!isNaN(elements.audio.duration) && elements.audio.duration > 0) {
                     elements.totalDurationSpan.textContent = formatTime(elements.audio.duration);
@@ -1228,11 +1236,11 @@
 
         function updateProgressBar() {
             const { duration, currentTime } = elements.audio;
-            
+
             if (!isNaN(duration) && duration > 0) {
                 const progressPercent = (currentTime / duration) * 100;
                 elements.progressBar.style.width = `${progressPercent}%`;
-                
+
                 elements.currentTimeSpan.textContent = formatTime(currentTime);
                 elements.totalDurationSpan.textContent = formatTime(duration);
             } else {
@@ -1326,7 +1334,7 @@
 
             elements.repeatBtn.addEventListener('click', () => {
                 playerState.repeatMode = (playerState.repeatMode + 1) % 3;
-                
+
                 elements.repeatAllSvg.style.display = 'none';
                 elements.repeatOneSvg.style.display = 'none';
                 elements.repeatBtn.classList.remove('active');
@@ -1443,15 +1451,15 @@
                 return;
             }
 
-            const errorsToReport = quizState.errorsInCurrentLevel;    
+            const errorsToReport = quizState.errorsInCurrentLevel;
             quizState.errorsInCurrentLevel = 0;
 
             quizState.currentQuestionIndexInLevel = 0;
             quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
             shuffleArray(quizState.currentLevelQuestions);
-            
+
             if (!isStartOfQuiz && quizState.currentLevel > 0) {
-                showLevelUpMessage(errorsToReport);    
+                showLevelUpMessage(errorsToReport);
             } else {
                 showQuestion();
                 updateQuizInfo();
@@ -1465,11 +1473,11 @@
             quizState.isProcessingAnswer = true;
             elements.quiz.style.pointerEvents = 'none';
             elements.mainOverlay.style.display = 'block';
-            
+
             clearInterval(timerInterval);
-            
+
             const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
-            
+
             let mainLevelMessage = '';
             // A cor de fundo da levelUpMessage já é transparente por padrão no CSS
             elements.levelUpMessage.style.backgroundColor = 'var(--cor-fundo-transparente)'; /* Garante transparência */
@@ -1491,7 +1499,7 @@
                     <button onclick="continueQuiz()">Avançar</button>
                 </div>
             `;
-            
+
             elements.levelUpMessage.style.display = 'flex';
             elements.levelUpMessage.classList.add('show');
         }
@@ -1504,7 +1512,7 @@
                 quizState.quizPaused = false;
                 quizState.isProcessingAnswer = false;
                 elements.quiz.style.pointerEvents = 'all';
-                
+
                 showQuestion();
                 updateQuizInfo();
             }, 500);
@@ -1534,13 +1542,13 @@
                 loadLevel();
                 return;
             }
-            
+
             quizState.isProcessingAnswer = true;
             elements.quiz.style.pointerEvents = 'none';
 
             const questionElement = document.createElement('div');
             questionElement.classList.add('question');
-            
+
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
             const shuffledAnswers = [...questionData.respostas];
             shuffleArray(shuffledAnswers);
@@ -1624,7 +1632,7 @@
             if (answer === correta) {
                 clickedButton.classList.add('correct', 'glow-correct');
                 clickedButton.innerHTML += ' <span class="feedback-icon">✅</span>';
-                
+
                 pointsEarned = BASE_SCORE_PER_CORRECT;
                 if (timeTaken <= BONUS_MAX_THRESHOLD) {
                     pointsEarned += BONUS_MAX;
@@ -1633,13 +1641,13 @@
                 } else if (timeTaken <= TIME_PER_QUESTION) {
                     pointsEarned += BONUS_MIN;
                 }
-                
+
                 quizState.score += pointsEarned;
                 updateQuizInfo();
-                showCuriosity(questionData.curiosidade);    
+                showCuriosity(questionData.curiosidade);
 
                 setTimeout(() => {
-                    clickedButton.classList.remove('glow-correct');    
+                    clickedButton.classList.remove('glow-correct');
                     quizState.currentQuestionIndexInLevel++;
                     showQuestion();
                 }, 4000);
@@ -1648,7 +1656,7 @@
                 clickedButton.innerHTML += ' <span class="feedback-icon">❌</span>';
                 quizState.errorsInCurrentLevel++;
                 updateQuizInfo();
-                showCuriosity(questionData.curiosidade);    
+                showCuriosity(questionData.curiosidade);
 
                 if (quizState.errorsInCurrentLevel >= 2) {
                     setTimeout(() => {
@@ -1672,9 +1680,9 @@
             elements.mainOverlay.style.display = 'block';
 
             clearInterval(timerInterval);
-            
+
             elements.quiz.innerHTML = '';
-            
+
             const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (currentCuriositySidebar) {
                 currentCuriositySidebar.classList.remove('show');
@@ -1689,8 +1697,8 @@
             if (isWinner) {
                 let medalTitle = "";
                 const maxPossibleScore = quizState.totalQuestions * (BASE_SCORE_PER_CORRECT + BONUS_MAX);
-                
-                if (quizState.score === maxPossibleScore) {    
+
+                if (quizState.score === maxPossibleScore) {
                     medalTitle = "Mestre Chorão! 🎸🏆";
                 } else if (quizState.score >= maxPossibleScore * 0.75) {
                     medalTitle = "Fã Conhecedor! 🧠✨";
@@ -1745,7 +1753,7 @@
                 elements.quiz.style.pointerEvents = 'all';
 
                 quizState.errorsInCurrentLevel = 0;
-                quizState.currentQuestionIndexInLevel = 0;    
+                quizState.currentQuestionIndexInLevel = 0;
                 quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
                 shuffleArray(quizState.currentLevelQuestions);
                 showQuestion();
@@ -1809,7 +1817,7 @@
 
             quizState.errorsInCurrentLevel++;
             updateQuizInfo();
-            
+
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
             showCuriosity("Tempo esgotado! A resposta era: " + questionData.correta + ". " + questionData.curiosidade);
 
@@ -1837,14 +1845,14 @@
             elements.volumeSlider.value = playerState.previousVolume;
             elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
 
-            if (elements.audio.volume === 0 || elements.audio.muted) {    
+            if (elements.audio.volume === 0 || elements.audio.muted) {
                 elements.volumeSvg.style.display = 'none';
                 elements.muteSvg.style.display = 'block';
-                elements.audio.muted = true;    
-            } else {    
+                elements.audio.muted = true;
+            } else {
                 elements.volumeSvg.style.display = 'block';
                 elements.muteSvg.style.display = 'none';
-                elements.audio.muted = false;    
+                elements.audio.muted = false;
             }
 
             quizState.totalQuestions = questionsByLevel.reduce((acc, levelData) => acc + levelData.perguntas.length, 0);
