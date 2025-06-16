@@ -326,6 +326,7 @@
         }
 
         /* --- PLAYER ATUALIZADO E CORRIGIDO --- */
+        /* Estilos padrão para telas maiores (retangular) */
         #audio-player-wrapper {
             position: fixed;
             bottom: 20px;
@@ -744,75 +745,46 @@
                 flex-direction: column;
                 gap: 6px; /* Reduzido o gap */
             }
-        }
 
-
-        #level-up-message button {
-            padding: 12px 25px;
-            font-size: 1.2em;
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-texto-claro);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.3s ease;
-            text-shadow: 0 0 8px rgba(255,255,255,0.8);
-        }
-        #level-up-message button:hover {
-            transform: scale(1.05);
-            background-color: #4a4a4a;
-        }
-
-        /* Estilo para cobrir o quiz e desabilitar cliques */
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 1500;
-            display: none;
-            pointer-events: all;
-        }
-
-        /* Responsividade para header e container principal (já estavam boas, mas mantidas para contexto) */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8em;
-                padding: 15px 20px;
+            /* --- Ajustes ESPECÍFICOS para o Player em Telas MUITO PEQUENAS (<480px) --- */
+            #audio-player-wrapper {
+                max-width: 90%; /* Ocupa a maior parte da largura da tela */
+                width: 90%; /* Garante a largura */
+                padding: 5px 10px; /* Ainda mais reduzido */
+                min-height: 50px; /* Mais compacto na altura */
             }
-
-            .container {
-                padding: 20px;
-                margin: 0 10px 40px 10px;
+            #current-song {
+                font-size: 0.8em; /* Menor fonte */
             }
-
-            .question h3 {
-                font-size: 1.4em;
+            .progress-container {
+                height: 1px; /* Barra de progresso mais fina */
             }
-
-            .question button {
-                height: auto;
-                padding: 12px 10px;
-                font-size: 0.9em;
+            .time-display {
+                font-size: 0.6em; /* Tempo menor */
             }
-        }
-
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 1.5em;
-                padding: 10px 15px;
+            .audio-main-controls {
+                gap: 10px; /* Menor espaçamento entre botões */
             }
-
-            .question button {
-                font-size: 0.85em;
-                padding: 10px 8px;
+            .audio-control-btn {
+                width: 25px; /* Botões menores */
+                height: 25px; /* Botões menores */
             }
-
-            #start-btn, #restart-btn, #info-btn {
-                font-size: 1.2em;
-                padding: 10px 20px;
+            .audio-control-btn.large-button {
+                width: 35px; /* Botão play/pause menor */
+                height: 35px; /* Botão play/pause menor */
+            }
+            #volume-slider {
+                height: 1px; /* Slider de volume mais fino */
+            }
+            #volume-slider::-webkit-slider-thumb,
+            #volume-slider::-moz-range-thumb {
+                width: 10px; /* Thumb do slider menor */
+                height: 10px; /* Thumb do slider menor */
+                margin-top: -4px; /* Ajuste para centralizar */
+            }
+            #volume-value {
+                font-size: 0.6em; /* Valor do volume menor */
+                width: 20px; /* Largura do valor do volume */
             }
         }
     </style>
