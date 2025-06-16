@@ -20,11 +20,11 @@
             --cor-verde-correto: #2ecc71;
             --cor-vermelho-incorreto: #e74c3c;
             /* Mais transparência para a caixa de mensagem principal */
-            --cor-fundo-transparente: rgba(0, 0, 0, 0.55); /* Ajustado para mais transparência */
+            --cor-fundo-transparente: rgba(0, 0, 0, 0.3); 
             --cor-texto-claro: white;
             --cor-texto-escuro: black;
 
-            --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.3);
+            --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.3); /* Já é 0.3 */
             --cor-verde-vibrante: #1ed760; /* Usado no Spotify, mais vibrante */
 
             /* Cores para o cronômetro circular (mantidas para funcionalidade interna, mas invisíveis) */
@@ -114,7 +114,8 @@
         .container {
             max-width: 900px;
             width: 100%;
-            background-color: var(--cor-fundo-transparente);
+            /* AGORA USA a variável centralizada */
+            background-color: var(--cor-fundo-transparente); 
             padding: 40px;
             border-radius: 16px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
@@ -130,13 +131,13 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 10px;
-            font-size: 1.1em;
             color: rgba(255, 255, 255, 0.9);
             text-align: center;
             margin-top: 20px;
             padding-top: 10px;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             width: 100%;
+            font-size: 1.1em; /* Removido para manter a consistência da fonte padrão, mas pode ser mantido se for intencional */
         }
         .quiz-info-bottom p {
             margin: 0;
@@ -165,6 +166,11 @@
             font-family: 'Elektrix', sans-serif;
             margin-bottom: 25px;
             line-height: 1.4;
+            /* NOVO: Brilho na fonte para destaque */
+            text-shadow:
+                0 0 5px rgba(255, 255, 255, 0.7),   /* Brilho branco suave */
+                0 0 10px rgba(255, 255, 255, 0.5),  /* Brilho branco mais difuso */
+                0 0 15px var(--cor-amarelo-cbjr); /* Brilho amarelo do CBJR para realce */
         }
 
         /* REMOVENDO CRONÔMETRO VISUAL */
@@ -256,7 +262,8 @@
 
         /* NOVO: Estilo para a caixa de curiosidade ao lado */
         .curiosity-sidebar-box {
-            background-color: rgba(0, 0, 0, 0.5);
+            /* AGORA USA a variável centralizada */
+            background-color: var(--cor-fundo-transparente); 
             color: var(--cor-texto-claro);
             padding: 15px;
             border-radius: 8px;
@@ -267,7 +274,7 @@
             max-width: 40%;
             min-width: 250px;
             box-sizing: border-box;
-            opacity: 0;
+            opacity: 0; /* Controlado por JS para fade-in/out */
             transition: opacity 0.5s ease-in-out;
             pointer-events: none;
             align-self: center;
@@ -454,7 +461,7 @@
             transition: fill 0.3s ease, transform 0.2s ease;
         }
         /* Cor padrão para os elementos internos dos SVGs complexos (repeat e shuffle) */
-        /* Estes são os defaults baseados nos SVGs que você forneceu */
+        /* Estes são os defaults baseados nos SVGs que você fornecido */
         #repeat-btn svg .repeat-outer-circle { fill: #344E5D; }
         #repeat-btn svg .repeat-arrow-1, #repeat-btn svg .repeat-arrow-2 { fill: white; }
         #repeat-btn #repeat-one-svg .repeat-one-circle { fill: #b3b3b3; }
@@ -633,7 +640,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: var(--cor-fundo-transparente); /* A cor já está com 0.55 de transparência */
+            /* AGORA USA a variável centralizada */
+            background-color: var(--cor-fundo-transparente); 
             backdrop-filter: blur(5px); /* Adiciona um blur para a transparência ficar mais legal */
             -webkit-backdrop-filter: blur(5px); /* Suporte para Safari */
             color: var(--cor-texto-claro);
@@ -832,7 +840,7 @@
             <p id="progress-text"></p>
             <p id="score-text">Pontos: 0</p>
             <p id="level-text"></p>
-        </div>
+            <p id="high-score-text">Recorde: 0</p> </div>
 
         <p id="medal"></p>
         <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
@@ -931,7 +939,7 @@
                 perguntas: [
                     { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Preço Curto... Prazo Longo", curiosidade: "Lançado em 1999, 'Preço Curto... Prazo Longo' trouxe hits como 'Zóio de Lula' e 'Não Deixe o Mar Te Engolir'." },
                     { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today", curiosidade: "'I Feel So Good Today' é uma faixa menos conhecida, mas amada pelos fãs, do álbum 'Imunidade Musical'." },
-                    { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000", curiosidade: "'Nadando com os Tubarões', de 2000, é um divisor de águas na carreira da banda, com sucessos como 'Rubão' e 'Não é Sério'." },
+                    { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000", curiosidade: "O 'Nadando com os Tubarões', de 2000, é um divisor de águas na carreira da banda, com sucessos como 'Rubão' e 'Não é Sério'." },
                     { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997", curiosidade: "O álbum de estreia, 'Transpiração Contínua Prolongada' (1997), já mostrava a identidade única da banda com hits como 'O Coro Vai Comê!'." },
                     { pergunta: "Qual o nome completo do Chorão?", respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"], correta: "Alexandre Magno Abrão", curiosidade: "Alexandre Magno Abrão, o Chorão, era conhecido por sua personalidade forte e suas letras que retratavam o cotidiano." }
                 ]
@@ -973,7 +981,12 @@
             {
                 fraseChorao: "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
                 perguntas: [
-                    { pergunta: "Qual música do Charlie Brown Jr. foi indicada ao Grammy Latino em 2005?", respostas: ["Lutar pelo que é meu", "Tamo aí na Atividade", "Ela Vai Voltar", "Céu Azul"], correta: "Tamo Aí na Atividade", curiosidade: "'Tamo aí na Atividade', música que leva o nome do álbum, recebeu indicação ao Grammy Latino na categoria Melhor Álbum de Rock Brasileiro em 2005 e venceu o prêmio." },
+                    { 
+                        pergunta: "Qual álbum do Charlie Brown Jr. foi indicado ao Grammy Latino em 2005?", // PERGUNTA CORRIGIDA
+                        respostas: ["Imunidade Musical", "Nadando com os Tubarões", "Tamo Aí na Atividade", "Transpiração Contínua Prolongada"], // RESPOSTAS AJUSTADAS
+                        correta: "Tamo Aí na Atividade", 
+                        curiosidade: "O álbum 'Tamo Aí na Atividade', lançado em 2004, foi indicado ao Grammy Latino em 2005 na categoria Melhor Álbum de Rock Brasileiro e venceu o prêmio." // CURIOSIDADE CORRIGIDA
+                    },
                     { pergunta: "Qual dessas músicas foi tema de abertura de uma novela da Globo?", respostas: ["Te Levar", "Só os Loucos Sabem", "Senhor do Tempo", "Longe de Você"], correta: "Te Levar", curiosidade: "'Te Levar' foi tema de abertura da série 'Malhação', exibida pela TV Globo entre 1999 e 2006." },
                     { pergunta: "Qual integrante do Charlie Brown Jr. também formou a banda Revolucionnários após sair do grupo?", respostas: ["Marcão Britto", "Graveto", "Heitor Gomes", "Champignon"], correta: "Champignon", curiosidade: "Após sair do Charlie Brown Jr., Champignon criou a banda Revolucionnários, onde foi vocalista e baixista, explorando novas sonoridades." },
                     { pergunta: "No projeto Estúdio Coca-Cola Zero, qual cantora da MPB dividiu o palco com o Charlie Brown Jr.?", respostas: ["Vanessa da Mata", "Maria Gadú", "Ana Carolina", "Ivete Sangalo"], correta: "Vanessa da Mata", curiosidade: "Em 2008, no projeto Estúdio Coca-Cola Zero, o Charlie Brown Jr. fez uma apresentação especial ao lado da cantora Vanessa da Mata, misturando rock e MPB em versões inéditas de seus sucessos." },
@@ -1014,6 +1027,7 @@
             pointsPopup: document.getElementById('points-popup'),
             mainOverlay: document.getElementById('overlay'),
             curiosityBox: document.createElement('div'),
+            highScoreText: document.getElementById('high-score-text'), // Novo elemento para o recorde
 
             // Player Elements (mantidos)
             playPauseBtn: document.getElementById('play-pause-btn'),
@@ -1054,7 +1068,8 @@
             quizPaused: false,
             isProcessingAnswer: false, // Impede cliques múltiplos enquanto a resposta está sendo processada
             currentLevelQuestions: [],
-            totalQuestions: 0 // Será calculado na inicialização
+            totalQuestions: 0, // Será calculado na inicialização
+            highScore: 0 // NOVO: Variável para o score recorde
         };
 
         // --- Variáveis de controle de tempo ---
@@ -1144,7 +1159,7 @@
             elements.muteBtn.disabled = false;
             elements.volumeSlider.disabled = false;
 
-            elements.audio.volume = elements.volumeSlider.value;
+            elements.audio.volume = playerState.previousVolume;
             elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
 
             elements.currentTimeSpan.textContent = '0:00';
@@ -1305,7 +1320,7 @@
                     elements.muteSvg.style.display = 'none';
                     elements.audio.volume = playerState.previousVolume;
                     elements.volumeSlider.value = playerState.previousVolume;
-                    elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
+                    elements.volumeValueSpan.textContent = `${Math.round(playerState.previousVolume * 100)}%`;
                 } else {
                     playerState.previousVolume = elements.audio.volume;
                     elements.audio.muted = true;
@@ -1359,11 +1374,9 @@
                 elements.shuffleBtn.classList.toggle('active', playerState.isShuffling);
 
                 if (playerState.isShuffling) {
-                    elements.shuffleBtn.title = 'Ordem Aleatória (ativo)';
                     playerState.playlist = [...playerState.originalPlaylist];
                     shuffleArray(playerState.playlist);
                 } else {
-                    elements.shuffleBtn.title = 'Ordem Aleatória (desativado)';
                     playerState.playlist = [...playerState.originalPlaylist];
                     const currentSongUrl = elements.audio.src;
                     const newIndex = playerState.playlist.findIndex(song => song.url === currentSongUrl);
@@ -1424,6 +1437,7 @@
                 elements.quiz.style.pointerEvents = 'all';
 
                 elements.scoreText.textContent = `Pontos: ${quizState.score}`;
+                elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`; // Exibe o recorde ao iniciar
 
                 if (playerState.playlist.length > 0) {
                     if (!elements.audio.src || elements.audio.src === window.location.href || elements.audio.readyState === 0) {
@@ -1476,11 +1490,13 @@
 
             clearInterval(timerInterval);
 
-            const fraseChorao = questionsByLevel[quizState.currentLevel -1].fraseChorao;
+            // Selecionar uma frase aleatória do array global de frases
+            const randomFraseIndex = Math.floor(Math.random() * allChoraoPhrases.length);
+            const fraseChorao = allChoraoPhrases[randomFraseIndex];
 
             let mainLevelMessage = '';
-            // A cor de fundo da levelUpMessage já é transparente por padrão no CSS
-            elements.levelUpMessage.style.backgroundColor = 'var(--cor-fundo-transparente)'; /* Garante transparência */
+            // A cor de fundo da levelUpMessage AGORA USA a variável centralizada
+            elements.levelUpMessage.style.backgroundColor = 'var(--cor-fundo-transparente)'; 
 
 
             if (errorsInPreviousLevel === 0) {
@@ -1526,6 +1542,7 @@
             } else {
                 elements.progressText.textContent = `Pergunta: 0/0`;
             }
+            elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`; // Atualiza o recorde
         }
 
         function showQuestion() {
@@ -1604,8 +1621,10 @@
         function showCuriosity(curiosity) {
             const curiositySidebarBox = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (curiositySidebarBox) {
-                // Alterado de 'Curiosidade:' para 'Você Sabia?'
+                // ALTERAÇÃO AQUI: De 'Curiosidade:' para 'Você Sabia?'
                 curiositySidebarBox.innerHTML = `<strong>Você Sabia?:</strong> ${curiosity}`;
+                // AGORA USA a variável centralizada
+                curiositySidebarBox.style.backgroundColor = 'var(--cor-fundo-transparente)'; 
                 curiositySidebarBox.classList.add('show');
             } else {
                 console.warn("Elemento .curiosity-sidebar-box não encontrado para exibir a curiosidade.");
@@ -1630,7 +1649,7 @@
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
             let pointsEarned = 0;
 
-            if (answer === correta) {
+            if (answer.toLowerCase() === correta.toLowerCase()) { // Correção do bug de case-insensitive
                 clickedButton.classList.add('correct', 'glow-correct');
                 clickedButton.innerHTML += ' <span class="feedback-icon">✅</span>';
 
@@ -1696,6 +1715,12 @@
             let messageHtml = '';
             let bgColor = 'var(--cor-fundo-transparente)'; // Padrão transparente
 
+            // NOVO: Atualiza o score recorde se a pontuação atual for maior
+            if (quizState.score > quizState.highScore) {
+                quizState.highScore = quizState.score;
+                localStorage.setItem('cobjr_quiz_highscore', quizState.highScore);
+            }
+
             if (isWinner) {
                 let medalTitle = "";
                 const maxPossibleScore = quizState.totalQuestions * (BASE_SCORE_PER_CORRECT + BONUS_MAX);
@@ -1713,7 +1738,7 @@
                 messageHtml = `
                     <div>${medalTitle}</div>
                     <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Você fez ${quizState.score} pontos!</div>
-                    <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu recorde é: ${quizState.highScore} pontos!</div> <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                         <button onclick="restartQuiz()">Jogar Novamente</button>
                     </div>
                 `;
@@ -1722,7 +1747,7 @@
                     messageHtml = `
                         <div>Você errou demais neste nível.</div>
                         <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Tente novamente para dominar o Nível ${quizState.currentLevel + 1}!</div>
-                        <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu recorde é: ${quizState.highScore} pontos!</div> <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                             <button onclick="retryLevel()">Tentar Nível Novamente</button>
                             <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
                         </div>
@@ -1732,7 +1757,7 @@
                     messageHtml = `
                         <div>Oops! Quase lá!</div>
                         <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Você fez ${quizState.score} pontos.</div>
-                        <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu recorde é: ${quizState.highScore} pontos!</div> <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                             <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
                         </div>
                     `;
@@ -1785,6 +1810,10 @@
                 elements.mainOverlay.style.display = 'none';
                 elements.quiz.style.pointerEvents = 'all';
 
+                // NOVO: Carrega o recorde ao reiniciar o quiz
+                quizState.highScore = parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0');
+                elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
+
                 elements.quiz.innerHTML = '';
                 const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
                 if (currentCuriositySidebar) {
@@ -1820,7 +1849,6 @@
             quizState.errorsInCurrentLevel++;
             updateQuizInfo();
 
-            // ALTERAÇÃO AQUI: De 'Curiosidade:' para 'Você Sabia?' ao mostrar a curiosidade no fim do tempo
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
             showCuriosity("Tempo esgotado! A resposta era: " + questionData.correta + ". " + questionData.curiosidade);
 
@@ -1835,7 +1863,24 @@
         }
 
         // --- Inicialização ao Carregar a Página ---
+        // Array com todas as frases do Chorão para serem sorteadas aleatoriamente
+        const allChoraoPhrases = [
+            "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
+            "Quem é de verdade sabe quem é de mentira.",
+            "Eles querem que você se sinta mal, pois assim eles se sentem bem.",
+            "Eu me flagrei pensando em você em tudo o que eu queria te dizer...",
+            "Não tão complicado demais, mas nem tão simples assim.",
+            "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
+            "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum."
+            // Adicione mais frases aqui se desejar
+        ];
+
+
         window.onload = () => {
+            // NOVO: Carrega o recorde do localStorage ao carregar a página
+            quizState.highScore = parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0');
+            elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
+
             preloadImages(backgroundImages, () => {
                 document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
                 changeBackgroundImageInterval();
@@ -1845,18 +1890,20 @@
             setupPlayerEventListeners();
 
             elements.audio.volume = playerState.previousVolume;
-            elements.volumeSlider.value = playerState.previousVolume;
+            elements.volumeSlider.value = playerState.previousVolume; // Usa o volume existente
             elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
 
-            if (elements.audio.volume === 0 || elements.audio.muted) {
+            // Mantenha a lógica de mute/unmute baseada no volume inicial ou estado salvo
+            if (elements.audio.volume === 0 || elements.audio.muted) {    
                 elements.volumeSvg.style.display = 'none';
                 elements.muteSvg.style.display = 'block';
-                elements.audio.muted = true;
-            } else {
+                elements.audio.muted = true;    
+            } else {    
                 elements.volumeSvg.style.display = 'block';
                 elements.muteSvg.style.display = 'none';
-                elements.audio.muted = false;
+                elements.audio.muted = false;    
             }
+
 
             quizState.totalQuestions = questionsByLevel.reduce((acc, levelData) => acc + levelData.perguntas.length, 0);
 
