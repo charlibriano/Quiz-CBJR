@@ -331,9 +331,9 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            max-width: 250px; /* Reduzido de 500px para 250px (metade) */
-            width: 90%; /* Ajustado para 90% para mobile */
-            padding: 10px 15px; /* Reduzido o padding */
+            max-width: 400px; /* Aumentado um pouco para mais largura, mas não tão grande */
+            width: 95%; /* Ajustado para 95% para telas menores, dando mais espaço */
+            padding: 8px 15px; /* Reduzido o padding vertical para menor altura */
             background: var(--cor-fundo-audio-player-com-cor);
             box-shadow: 0 -4px 20px rgba(0,0,0,0.9);
             z-index: 999;
@@ -347,7 +347,7 @@
             border-bottom-right-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-sizing: border-box;
-            min-height: 80px; /* Reduzido min-height */
+            min-height: 60px; /* Reduzido min-height para ficar mais retangular */
             flex-wrap: wrap;
         }
 
@@ -356,15 +356,15 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            gap: 8px; /* Reduzido o gap */
+            gap: 5px; /* Reduzido o gap para compactar */
         }
 
         #current-song {
             color: var(--cor-verde-vibrante);
-            font-size: 0.9em; /* Reduzido */
+            font-size: 0.85em; /* Ajustado */
             font-weight: bold;
             text-shadow: none;
-            margin-bottom: 2px; /* Reduzido */
+            margin-bottom: 0px; /* Reduzido */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -381,14 +381,14 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            gap: 2px; /* Reduzido */
+            gap: 1px; /* Reduzido para compactar */
         }
 
         .progress-container {
             width: 100%;
-            height: 3px; /* Reduzido */
+            height: 2px; /* Reduzido para ser mais fino */
             background-color: #535353;
-            border-radius: 2px;
+            border-radius: 1px;
             outline: none;
             cursor: pointer;
             transition: background 0.2s ease;
@@ -397,13 +397,13 @@
         .progress-bar {
             height: 100%;
             background-color: var(--cor-verde-vibrante);
-            border-radius: 2px;
+            border-radius: 1px;
             transition: width 0.1s linear;
         }
 
         .time-display {
             color: var(--cor-verde-vibrante);
-            font-size: 0.75em; /* Reduzido */
+            font-size: 0.7em; /* Reduzido */
             width: 100%;
             margin-top: 0;
             display: flex;
@@ -414,7 +414,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px; /* Reduzido */
+            gap: 12px; /* Reduzido o gap entre os botões principais */
             width: 100%;
             margin-top: 5px;
         }
@@ -433,8 +433,8 @@
             transition: transform 0.2s ease, background-color 0.3s ease;
             box-shadow: none;
 
-            width: 30px; /* Reduzido */
-            height: 30px; /* Reduzido */
+            width: 28px; /* Reduzido */
+            height: 28px; /* Reduzido */
             flex-shrink: 0;
         }
 
@@ -517,8 +517,8 @@
             background-color: #ffffff;
             border-radius: 50%;
 
-            width: 45px; /* Reduzido de 55px */
-            height: 45px; /* Reduzido de 55px */
+            width: 40px; /* Reduzido de 45px */
+            height: 40px; /* Reduzido de 45px */
 
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
@@ -566,21 +566,21 @@
 
         .audio-volume-controls {
             display: flex;
-            gap: 8px; /* Reduzido */
+            gap: 6px; /* Reduzido */
             align-items: center;
             justify-content: center;
-            width: 90%; /* Ajustado */
-            max-width: 250px; /* Reduzido */
-            margin-top: 5px; /* Reduzido */
+            width: 90%;
+            max-width: 200px; /* Reduzido */
+            margin-top: 3px; /* Reduzido */
         }
 
         #volume-slider {
             -webkit-appearance: none;
             appearance: none;
             width: 100%;
-            height: 3px; /* Reduzido */
+            height: 2px; /* Reduzido */
             background: #535353;
-            border-radius: 2px;
+            border-radius: 1px;
             outline: none;
             cursor: pointer;
             transition: background 0.2s ease;
@@ -589,8 +589,8 @@
         #volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 14px; /* Reduzido */
-            height: 14px; /* Reduzido */
+            width: 12px; /* Reduzido */
+            height: 12px; /* Reduzido */
             background: var(--cor-verde-vibrante);
             border-radius: 50%;
             cursor: grab;
@@ -600,8 +600,8 @@
         }
 
         #volume-slider::-moz-range-thumb {
-            width: 14px; /* Reduzido */
-            height: 14px; /* Reduzido */
+            width: 12px; /* Reduzido */
+            height: 12px; /* Reduzido */
             background: var(--cor-verde-vibrante);
             border-radius: 50%;
             cursor: grab;
@@ -621,8 +621,8 @@
 
         #volume-value {
             color: var(--cor-verde-vibrante);
-            font-size: 0.7em; /* Reduzido */
-            width: 30px; /* Reduzido */
+            font-size: 0.65em; /* Reduzido */
+            width: 25px; /* Reduzido */
             text-align: right;
             flex-shrink: 0;
         }
