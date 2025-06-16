@@ -206,8 +206,7 @@
             background-color: var(--cor-preto-principal);
             color: var(--cor-texto-claro);
             cursor: pointer;
-            /* Adicione 'transform' à transição para redimensionamento suave */
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Aumentado de 0.2s para 0.3s */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 
             width: 100%;
             height: 80px;
@@ -219,31 +218,19 @@
             white-space: normal;
             word-wrap: break-word;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-            transform: scale(1); /* Garante o tamanho padrão inicial */
         }
 
         .question button:hover:not(:disabled) {
-            transform: scale(1.05); /* Continua aumentando no hover */
+            transform: scale(1.05);
             background-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* Remover o :active se não quiser que ele encolha ao clicar */
-        .question button:active:not(:disabled) {
-            /* Remova esta regra ou comente-a se não quiser o encolhimento ao clique */
-            /* transform: scale(0.95); */
-            /* Pode deixar vazio ou apenas manter o background-color */
-            background-color: rgba(255, 255, 255, 0.15); /* Um pouco mais claro no clique */
-        }
-
-
         .question button.correct {
             background-color: var(--cor-verde-correto);
-            transform: scale(1.08); /* Aumenta e mantém o tamanho maior após o clique se for correto */
         }
 
         .question button.incorrect {
             background-color: var(--cor-vermelho-incorreto);
-            transform: scale(1.02); /* Pode ser um pouco maior, mas não tanto quanto o correto, ou no tamanho original */
         }
 
         /* Estilos de brilho aplicados via JS */
@@ -339,15 +326,14 @@
         }
 
         /* --- PLAYER ATUALIZADO E CORRIGIDO --- */
-        /* Estilos padrão para telas maiores (retangular) */
         #audio-player-wrapper {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            max-width: 400px; /* Aumentado um pouco para mais largura, mas não tão grande */
-            width: 95%; /* Ajustado para 95% para telas menores, dando mais espaço */
-            padding: 8px 15px; /* Reduzido o padding vertical para menor altura */
+            max-width: 250px; /* Reduzido de 500px para 250px (metade) */
+            width: 90%; /* Ajustado para 90% para mobile */
+            padding: 10px 15px; /* Reduzido o padding */
             background: var(--cor-fundo-audio-player-com-cor);
             box-shadow: 0 -4px 20px rgba(0,0,0,0.9);
             z-index: 999;
@@ -361,7 +347,7 @@
             border-bottom-right-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-sizing: border-box;
-            min-height: 60px; /* Reduzido min-height para ficar mais retangular */
+            min-height: 80px; /* Reduzido min-height */
             flex-wrap: wrap;
         }
 
@@ -370,15 +356,15 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            gap: 5px; /* Reduzido o gap para compactar */
+            gap: 8px; /* Reduzido o gap */
         }
 
         #current-song {
             color: var(--cor-verde-vibrante);
-            font-size: 0.85em; /* Ajustado */
+            font-size: 0.9em; /* Reduzido */
             font-weight: bold;
             text-shadow: none;
-            margin-bottom: 0px; /* Reduzido */
+            margin-bottom: 2px; /* Reduzido */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -395,14 +381,14 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            gap: 1px; /* Reduzido para compactar */
+            gap: 2px; /* Reduzido */
         }
 
         .progress-container {
             width: 100%;
-            height: 2px; /* Reduzido para ser mais fino */
+            height: 3px; /* Reduzido */
             background-color: #535353;
-            border-radius: 1px;
+            border-radius: 2px;
             outline: none;
             cursor: pointer;
             transition: background 0.2s ease;
@@ -411,13 +397,13 @@
         .progress-bar {
             height: 100%;
             background-color: var(--cor-verde-vibrante);
-            border-radius: 1px;
+            border-radius: 2px;
             transition: width 0.1s linear;
         }
 
         .time-display {
             color: var(--cor-verde-vibrante);
-            font-size: 0.7em; /* Reduzido */
+            font-size: 0.75em; /* Reduzido */
             width: 100%;
             margin-top: 0;
             display: flex;
@@ -428,7 +414,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px; /* Reduzido o gap entre os botões principais */
+            gap: 15px; /* Reduzido */
             width: 100%;
             margin-top: 5px;
         }
@@ -447,8 +433,8 @@
             transition: transform 0.2s ease, background-color 0.3s ease;
             box-shadow: none;
 
-            width: 28px; /* Reduzido */
-            height: 28px; /* Reduzido */
+            width: 30px; /* Reduzido */
+            height: 30px; /* Reduzido */
             flex-shrink: 0;
         }
 
@@ -531,8 +517,8 @@
             background-color: #ffffff;
             border-radius: 50%;
 
-            width: 40px; /* Reduzido de 45px */
-            height: 40px; /* Reduzido de 45px */
+            width: 45px; /* Reduzido de 55px */
+            height: 45px; /* Reduzido de 55px */
 
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
@@ -580,21 +566,21 @@
 
         .audio-volume-controls {
             display: flex;
-            gap: 6px; /* Reduzido */
+            gap: 8px; /* Reduzido */
             align-items: center;
             justify-content: center;
-            width: 90%;
-            max-width: 200px; /* Reduzido */
-            margin-top: 3px; /* Reduzido */
+            width: 90%; /* Ajustado */
+            max-width: 250px; /* Reduzido */
+            margin-top: 5px; /* Reduzido */
         }
 
         #volume-slider {
             -webkit-appearance: none;
             appearance: none;
             width: 100%;
-            height: 2px; /* Reduzido */
+            height: 3px; /* Reduzido */
             background: #535353;
-            border-radius: 1px;
+            border-radius: 2px;
             outline: none;
             cursor: pointer;
             transition: background 0.2s ease;
@@ -603,8 +589,8 @@
         #volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 12px; /* Reduzido */
-            height: 12px; /* Reduzido */
+            width: 14px; /* Reduzido */
+            height: 14px; /* Reduzido */
             background: var(--cor-verde-vibrante);
             border-radius: 50%;
             cursor: grab;
@@ -614,8 +600,8 @@
         }
 
         #volume-slider::-moz-range-thumb {
-            width: 12px; /* Reduzido */
-            height: 12px; /* Reduzido */
+            width: 14px; /* Reduzido */
+            height: 14px; /* Reduzido */
             background: var(--cor-verde-vibrante);
             border-radius: 50%;
             cursor: grab;
@@ -635,8 +621,8 @@
 
         #volume-value {
             color: var(--cor-verde-vibrante);
-            font-size: 0.65em; /* Reduzido */
-            width: 25px; /* Reduzido */
+            font-size: 0.7em; /* Reduzido */
+            width: 30px; /* Reduzido */
             text-align: right;
             flex-shrink: 0;
         }
@@ -758,48 +744,75 @@
                 flex-direction: column;
                 gap: 6px; /* Reduzido o gap */
             }
+        }
 
-            /* --- Ajustes ESPECÍFICOS para o Player em Telas MUITO PEQUENAS (<480px) --- */
-            #audio-player-wrapper {
-                max-width: 200px; /* Reduzido de 90% para um valor fixo menor */
-                width: 95%; /* Mantém a largura responsiva dentro do max-width */
-                padding: 5px 8px; /* Ainda mais reduzido */
-                min-height: 45px; /* Mais compacto na altura */
+
+        #level-up-message button {
+            padding: 12px 25px;
+            font-size: 1.2em;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+            text-shadow: 0 0 8px rgba(255,255,255,0.8);
+        }
+        #level-up-message button:hover {
+            transform: scale(1.05);
+            background-color: #4a4a4a;
+        }
+
+        /* Estilo para cobrir o quiz e desabilitar cliques */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1500;
+            display: none;
+            pointer-events: all;
+        }
+
+        /* Responsividade para header e container principal (já estavam boas, mas mantidas para contexto) */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+                padding: 15px 20px;
             }
-            #current-song {
-                font-size: 0.75em; /* Menor fonte */
-                margin-bottom: 0;
+
+            .container {
+                padding: 20px;
+                margin: 0 10px 40px 10px;
             }
-            .progress-container {
-                height: 1px; /* Barra de progresso mais fina */
+
+            .question h3 {
+                font-size: 1.4em;
             }
-            .time-display {
-                font-size: 0.55em; /* Tempo menor */
+
+            .question button {
+                height: auto;
+                padding: 12px 10px;
+                font-size: 0.9em;
             }
-            .audio-main-controls {
-                gap: 8px; /* Menor espaçamento entre botões */
-                margin-top: 3px;
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5em;
+                padding: 10px 15px;
             }
-            .audio-control-btn {
-                width: 22px; /* Botões menores */
-                height: 22px; /* Botões menores */
+
+            .question button {
+                font-size: 0.85em;
+                padding: 10px 8px;
             }
-            .audio-control-btn.large-button {
-                width: 30px; /* Botão play/pause menor */
-                height: 30px; /* Botão play/pause menor */
-            }
-            #volume-slider {
-                height: 1px; /* Slider de volume mais fino */
-            }
-            #volume-slider::-webkit-slider-thumb,
-            #volume-slider::-moz-range-thumb {
-                width: 9px; /* Thumb do slider menor */
-                height: 9px; /* Thumb do slider menor */
-                margin-top: -4px; /* Ajuste para centralizar */
-            }
-            #volume-value {
-                font-size: 0.6em; /* Valor do volume menor */
-                width: 18px; /* Largura do valor do volume */
+
+            #start-btn, #restart-btn, #info-btn {
+                font-size: 1.2em;
+                padding: 10px 20px;
             }
         }
     </style>
@@ -1292,7 +1305,7 @@
                     elements.muteSvg.style.display = 'none';
                     elements.audio.volume = playerState.previousVolume;
                     elements.volumeSlider.value = playerState.previousVolume;
-                    elements.volumeValueSpan.textContent = `${Math.round(playerState.previousVolume * 100)}%`;
+                    elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
                 } else {
                     playerState.previousVolume = elements.audio.volume;
                     elements.audio.muted = true;
@@ -1644,7 +1657,8 @@
                 clickedButton.innerHTML += ' <span class="feedback-icon">❌</span>';
                 quizState.errorsInCurrentLevel++;
                 updateQuizInfo();
-                showCuriosity(questionData.curiosidade);
+                // ALTERAÇÃO AQUI: De 'Curiosidade:' para 'Você Sabia?' ao mostrar a curiosidade no fim do tempo
+                showCuriosity("Tempo esgotado! A resposta era: " + questionData.correta + ". " + questionData.curiosidade);
 
                 if (quizState.errorsInCurrentLevel >= 2) {
                     setTimeout(() => {
@@ -1806,7 +1820,7 @@
             quizState.errorsInCurrentLevel++;
             updateQuizInfo();
 
-            // Alterado de 'Curiosidade:' para 'Você Sabia?'
+            // ALTERAÇÃO AQUI: De 'Curiosidade:' para 'Você Sabia?' ao mostrar a curiosidade no fim do tempo
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
             showCuriosity("Tempo esgotado! A resposta era: " + questionData.correta + ". " + questionData.curiosidade);
 
