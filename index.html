@@ -75,6 +75,30 @@
             100% { box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
         }
 
+        /* NOVO: Keyframes para transição de entrada das respostas (DURAÇÃO AUMENTADA) */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px); /* Levemente mais para baixo */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* REMOVIDO Keyframes para transição de entrada da curiosidade (slide-left) */
+        /* @keyframes fadeInSlideLeft {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        } */
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -147,7 +171,8 @@
             width: 0%;
             background-color: var(--cor-progresso-preenchimento);
             border-radius: 6px;
-            transition: width 0.5s ease-out;
+            /* Transição ajustada para mais suavidade */
+            transition: all 0.6s ease-in-out;
         }
 
         #level-progress-bar-text {
@@ -264,6 +289,15 @@
             word-wrap: break-word;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
             position: relative; /* Para posicionar o atalho de teclado */
+
+            /* NOVO: Estilos iniciais para a animação de entrada das respostas */
+            opacity: 0;
+            transform: translateY(30px); /* Move mais para baixo para um slide mais visível */
+        }
+
+        /* DURAÇÃO AUMENTADA AQUI */
+        .question button.show {
+            animation: fadeInSlideUp 0.8s ease-out forwards;
         }
 
         /* Estilo para o atalho de teclado */
@@ -326,6 +360,7 @@
             min-width: 250px;
             box-sizing: border-box;
             opacity: 0; /* Controlado por JS para fade-in/out */
+            /* Transição ajustada para a curiosidade: apenas opacidade e sem transform */
             transition: opacity 0.5s ease-in-out;
             pointer-events: none;
             align-self: center;
@@ -335,6 +370,9 @@
 
             margin-top: 20px;
             margin-bottom: 0;
+
+            /* REMOVIDO: Estilos iniciais para a animação de entrada da curiosidade (transform) */
+            /* transform: translateX(30px); */
         }
 
         @media (min-width: 769px) {
@@ -345,9 +383,14 @@
             }
         }
 
+        /* DURAÇÃO RESTAURADA e ANIMAÇÃO REMOVIDA */
         .curiosity-sidebar-box.show {
             opacity: 1;
             pointer-events: all;
+            /* REMOVIDO: Aplica a animação fadeInSlideLeft */
+            /* animation: fadeInSlideLeft 0.8s ease-out forwards; */
+            /* REMOVIDO: Pequeno atraso para a animação ficar mais suave */
+            /* animation-delay: 0.2s; */
         }
 
         .curiosity-sidebar-box strong {
@@ -1676,6 +1719,13 @@
                 setTimeout(() => {
                     elements.quiz.innerHTML = '';
                     elements.quiz.appendChild(questionElement);
+                    // Aplica a classe 'show' para iniciar a animação das respostas
+                    questionElement.querySelectorAll('.answer-button').forEach((button, i) => {
+                        // Atraso AUMENTADO para cada botão aparecer sequencialmente
+                        setTimeout(() => {
+                            button.classList.add('show');
+                        }, i * 100);
+                    });
                     updateQuizInfo();
                     quizState.isProcessingAnswer = false;
                     elements.quiz.style.pointerEvents = 'all';
@@ -1684,6 +1734,13 @@
             } else {
                 elements.quiz.innerHTML = '';
                 elements.quiz.appendChild(questionElement);
+                // Aplica a classe 'show' para iniciar a animação das respostas
+                questionElement.querySelectorAll('.answer-button').forEach((button, i) => {
+                    // Atraso AUMENTADO para cada botão aparecer sequencialmente
+                    setTimeout(() => {
+                        button.classList.add('show');
+                    }, i * 100);
+                });
                 updateQuizInfo();
                 quizState.isProcessingAnswer = false;
                 elements.quiz.style.pointerEvents = 'all';
@@ -1764,11 +1821,15 @@
         function showCuriosity(curiosity) {
             const curiositySidebarBox = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (curiositySidebarBox) {
-                // ALTERAÇÃO AQUI: De 'Curiosidade:' para 'Você Sabia?'
                 curiositySidebarBox.innerHTML = `<strong>Você Sabia?:</strong> ${curiosity}`;
-                // AGORA USA a variável centralizada
                 curiositySidebarBox.style.backgroundColor = 'var(--cor-fundo-transparente)';
-                curiositySidebarBox.classList.add('show');
+                // Garante que a opacidade seja 0 antes de adicionar 'show' para a transição
+                curiositySidebarBox.style.opacity = 0;
+                // Adiciona a classe 'show' após um pequeno atraso para reativar a transição de opacidade
+                setTimeout(() => {
+                    curiositySidebarBox.classList.add('show');
+                    curiositySidebarBox.style.opacity = 1; // Garante que a opacidade final seja 1
+                }, 50); // Pequeno atraso para garantir que a transição de opacidade aconteça
             } else {
                 console.warn("Elemento .curiosity-sidebar-box não encontrado para exibir a curiosidade.");
             }
