@@ -558,24 +558,57 @@
             background-color: #4a4a4a;
         }
 
-        /* Responsividade para a tela de conquistas */
+        /* Responsividade para a tela de conquistas - AJUSTADO PARA EVITAR SCROLL */
         @media (max-width: 600px) {
+            #achievements-screen {
+                padding: 15px; /* Reduz padding geral */
+                overflow-y: auto; /* Permite scroll no container se necessário, mas os cards devem se ajustar */
+                justify-content: flex-start; /* Alinha o conteúdo ao topo */
+            }
             #achievements-screen h2 {
                 font-size: 1.8em;
+                margin-bottom: 20px; /* Reduz margem */
             }
             #achievements-list {
                 grid-template-columns: 1fr; /* Uma coluna em telas menores */
-                max-width: 90%;
+                width: 95%; /* Ocupa quase toda a largura */
+                gap: 15px; /* Espaçamento entre os cards */
+            }
+            .achievement-card {
+                padding: 15px; /* Reduz padding do card */
+                min-height: 100px; /* Ajusta altura mínima, se necessário */
+                font-size: 0.85em; /* Reduz fonte base */
             }
             .achievement-card h3 {
-                font-size: 1.2em;
+                font-size: 1.1em; /* Reduz fonte do título do card */
             }
             .achievement-card p {
-                font-size: 0.8em;
+                font-size: 0.8em; /* Reduz fonte do texto do card */
+                margin-bottom: 10px; /* Reduz margem inferior */
+            }
+            .achievement-card .status {
+                font-size: 0.7em; /* Reduz fonte do status */
+            }
+            #close-achievements-btn {
+                font-size: 1.1em; /* Reduz fonte do botão */
+                padding: 10px 20px; /* Reduz padding do botão */
             }
         }
 
-        #restart-btn, #start-btn, #info-btn {
+        #restart-btn {
+            padding: 15px 30px;
+            margin-top: 20px;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.5em;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+        /* Os botões start-btn e achievements-btn não estão mais no container principal HTML, mas sim na overlay da intro message */
+        /* Mas podemos manter o estilo base para botões da overlay para consistência, ou criar um estilo específico para eles lá se quiser */
+        #level-up-message .message-buttons button {
             padding: 15px 30px;
             margin-top: 20px;
             background-color: var(--cor-preto-principal);
@@ -587,7 +620,7 @@
             transition: transform 0.2s ease, background-color 0.3s ease;
         }
 
-        #restart-btn:hover, #start-btn:hover, #info-btn:hover {
+        #restart-btn:hover, #level-up-message .message-buttons button:hover {
             transform: scale(1.05);
             background-color: #4a4a4a;
         }
@@ -1011,7 +1044,7 @@
                 max-width: 98%;
                 padding-left: 8px; /* Reduzido padding */
             }
-            #level-up-message button {
+            #level-up-message .message-buttons button { /* Ajustado para afetar os botões dentro da div */
                 font-size: 1em;
                 padding: 10px 18px; /* Ajustado */
             }
@@ -1022,7 +1055,7 @@
         }
 
 
-        #level-up-message button {
+        #level-up-message button { /* Revertido para o seletor mais genérico para os botões da intro message */
             padding: 12px 25px;
             font-size: 1.2em;
             background-color: var(--cor-preto-principal);
@@ -1080,15 +1113,8 @@
                 padding: 10px 15px;
             }
 
-            .question button {
-                font-size: 0.85em;
-                padding: 10px 8px;
-            }
-
-            #start-btn, #restart-btn, #info-btn {
-                font-size: 1.2em;
-                padding: 10px 20px;
-            }
+            /* Removido o estilo duplicado para #start-btn, #restart-btn, #info-btn */
+            /* Pois agora são estilizados pelo seletor #level-up-message .message-buttons button */
         }
     </style>
 </head>
@@ -1098,8 +1124,7 @@
     </header>
 
     <div class="container">
-        <div id="quiz">
-        </div>
+        <div id="quiz" style="display:none;"> </div>
 
         <div id="level-progress-bar-container">
             <div id="level-progress-bar-fill"></div>
@@ -1346,20 +1371,18 @@
             levelText: document.getElementById('level-text'),
             medalText: document.getElementById('medal'),
             restartBtn: document.getElementById('restart-btn'),
-            // Removidos startBtn e achievementsBtn daqui, serão gerenciados no level-up-message
             audio: document.getElementById('audio'),
             currentSongText: document.getElementById('current-song'),
             levelUpMessage: document.getElementById('level-up-message'),
             pointsPopup: document.getElementById('points-popup'),
-            comboMessage: document.getElementById('combo-message'), // NOVO: Elemento da mensagem de combo
-            achievementPopup: document.getElementById('achievement-popup'), // NOVO: Elemento do pop-up de conquista
+            comboMessage: document.getElementById('combo-message'),
+            achievementPopup: document.getElementById('achievement-popup'),
             mainOverlay: document.getElementById('overlay'),
-            achievementsScreen: document.getElementById('achievements-screen'), // NOVO: Tela de Conquistas
-            achievementsList: document.getElementById('achievements-list'), // NOVO: Lista de conquistas
+            achievementsScreen: document.getElementById('achievements-screen'),
+            achievementsList: document.getElementById('achievements-list'),
             curiosityBox: document.createElement('div'),
-            highScoreText: document.getElementById('high-score-text'), // Novo elemento para o recorde
+            highScoreText: document.getElementById('high-score-text'),
 
-            // Player Elements (mantidos)
             playPauseBtn: document.getElementById('play-pause-btn'),
             prevBtn: document.getElementById('prev-btn'),
             nextBtn: document.getElementById('next-btn'),
@@ -1373,13 +1396,11 @@
             currentTimeSpan: document.getElementById('current-time'),
             totalDurationSpan: document.getElementById('total-duration'),
 
-            // SVG Elements for Repeat/Mute (mantidos)
             repeatAllSvg: document.getElementById('repeat-all-svg'),
             repeatOneSvg: document.getElementById('repeat-one-svg'),
             volumeSvg: document.getElementById('volume-svg'),
             muteSvg: document.getElementById('mute-svg'),
 
-            // NOVO: Elementos da barra de progresso de níveis
             levelProgressBarFill: document.getElementById('level-progress-bar-fill'),
             levelProgressBarText: document.getElementById('level-progress-bar-text')
         };
@@ -1392,6 +1413,16 @@
         const BONUS_MAX = 5; // Total de 15 pontos (10 + 5)
         const BONUS_MEDIUM = 3; // Total de 13 pontos (10 + 3)
         const BONUS_MIN = 1; // Total de 11 pontos (10 + 1)
+
+        // NOVO: Bônus de Pontos por Combo
+        const COMBO_BONUS = {
+            3: 5,
+            5: 10,
+            7: 15,
+            10: 20,
+            // Para combos acima de 10x, a cada 5 acertos extras, +10 pontos
+            // A lógica de aplicação estará na função checkAnswer e showComboMessage
+        };
 
         // --- Estado do Quiz (Centralizado) ---
         const quizState = {
@@ -1752,6 +1783,7 @@
                         <li>&#x23F1; Resposta no tempo (até ${TIME_PER_QUESTION}s): <b>+${BONUS_MIN} ponto bônus</b>.</li>
                         <li>&#x274C; Resposta incorreta ou tempo esgotado: <b>0 pontos e 1 erro</b>.</li>
                         <li>&#x26A0; Você tem <b>2 erros</b> por nível antes de precisar reiniciar o nível.</li>
+                        <li style="margin-top: 8px;">&#x1F3C6; Acertos consecutivos (combo) dão <b>bônus de pontos extras!</b></li>
                     </ul>
                 </div>
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
@@ -1816,12 +1848,14 @@
                 return;
             }
 
-            // NOVO: Verifica conquistas de nível completado
-            if (quizState.currentLevel === 1 && !achievements.first_level_completed.unlocked) {
+            // NOVO: Verifica conquistas de nível completado (usa achievements.ID.unlocked)
+            if (quizState.currentLevel === 1) { // Após completar o nível 1 (que é o 0 na contagem)
                 unlockAchievement("first_level_completed");
-            } else if (quizState.currentLevel === 3 && !achievements.level_3_completed.unlocked) {
+            }
+            if (quizState.currentLevel === 3) { // Após completar o nível 3 (que é o 2 na contagem)
                 unlockAchievement("level_3_completed");
-            } else if (quizState.currentLevel === 5 && !achievements.level_5_completed.unlocked) {
+            }
+            if (quizState.currentLevel === 5) { // Após completar o nível 5 (que é o 4 na contagem)
                 unlockAchievement("level_5_completed");
             }
 
@@ -1926,17 +1960,36 @@
             }
         }
 
-        // NOVO: Função para mostrar a mensagem de combo
+        // NOVO: Função para mostrar a mensagem de combo e aplicar bônus de pontos
         function showComboMessage(combo) {
             let message = '';
-            if (combo === 3) message = "Combo! 3x acertos!";
-            else if (combo === 5) message = "Fera! 5x acertos!";
-            else if (combo === 7) message = "Lenda! 7x acertos!";
-            else if (combo === 10) message = "Mestre! 10x acertos!";
-            else if (combo > 10 && combo % 5 === 0) message = `Incrível! ${combo}x acertos!`; // Para combos maiores
+            let bonusPoints = 0;
+
+            if (combo === 3) {
+                message = "Combo! 3x acertos!";
+                bonusPoints = COMBO_BONUS[3];
+                unlockAchievement("combo_3x");
+            } else if (combo === 5) {
+                message = "Fera! 5x acertos!";
+                bonusPoints = COMBO_BONUS[5];
+                unlockAchievement("combo_5x");
+            } else if (combo === 7) {
+                message = "Lenda! 7x acertos!";
+                bonusPoints = COMBO_BONUS[7];
+                unlockAchievement("combo_7x");
+            } else if (combo === 10) {
+                message = "Mestre! 10x acertos!";
+                bonusPoints = COMBO_BONUS[10];
+                unlockAchievement("combo_10x");
+            } else if (combo > 10 && combo % 5 === 0) {
+                message = `Incrível! ${combo}x acertos!`;
+                bonusPoints = 10; // Bônus de 10 pontos para cada 5 acertos após 10x
+            }
 
             if (message) {
-                elements.comboMessage.textContent = message;
+                quizState.score += bonusPoints; // Aplica os pontos de bônus
+                elements.scoreText.textContent = `Pontos: ${quizState.score}`; // Atualiza o placar imediatamente
+                elements.comboMessage.textContent = `${message} (+${bonusPoints} pts)`; // Exibe pontos no combo
                 elements.comboMessage.classList.add('show');
                 setTimeout(() => {
                     elements.comboMessage.classList.remove('show');
@@ -1959,8 +2012,10 @@
 
         // NOVO: Função para desbloquear conquista
         function unlockAchievement(achievementId) {
-            if (!quizState.unlockedAchievements[achievementId]) {
-                quizState.unlockedAchievements[achievementId] = true;
+            // Verifica se a conquista já está desbloqueada no objeto 'achievements'
+            if (achievements[achievementId] && !achievements[achievementId].unlocked) {
+                achievements[achievementId].unlocked = true; // Marca como desbloqueada na definição global
+                quizState.unlockedAchievements[achievementId] = true; // Sincroniza com o estado do quiz
                 localStorage.setItem('cobjr_quiz_achievements', JSON.stringify(quizState.unlockedAchievements));
                 showAchievementPopup(achievements[achievementId].name);
                 console.log(`Conquista desbloqueada: ${achievements[achievementId].name}`);
@@ -1971,20 +2026,27 @@
         function loadAchievements() {
             const storedAchievements = localStorage.getItem('cobjr_quiz_achievements');
             if (storedAchievements) {
-                quizState.unlockedAchievements = JSON.parse(storedAchievements);
-                // Mescla com as conquistas padrão para garantir que novas conquistas sejam adicionadas
-                Object.keys(achievements).forEach(id => {
-                    if (!quizState.unlockedAchievements.hasOwnProperty(id)) {
+                const parsedAchievements = JSON.parse(storedAchievements);
+                // Itera sobre as conquistas definidas e atualiza o estado `unlocked` com base no localStorage
+                for (const id in achievements) {
+                    if (parsedAchievements.hasOwnProperty(id)) {
+                        achievements[id].unlocked = parsedAchievements[id];
+                        quizState.unlockedAchievements[id] = parsedAchievements[id]; // Mantém quizState sincronizado
+                    } else {
+                        // Se uma conquista no 'achievements' não está no localStorage, inicializa como false
+                        achievements[id].unlocked = false;
                         quizState.unlockedAchievements[id] = false;
                     }
-                });
+                }
             } else {
-                quizState.unlockedAchievements = {};
-                Object.keys(achievements).forEach(id => {
+                // Se não há dados no localStorage, inicializa todas como bloqueadas
+                for (const id in achievements) {
+                    achievements[id].unlocked = false;
                     quizState.unlockedAchievements[id] = false;
-                });
+                }
             }
         }
+
 
         // NOVO: Função para exibir a tela de conquistas
         function showAchievementsScreen() {
@@ -1997,7 +2059,7 @@
 
             for (const id in achievements) {
                 const achievement = achievements[id];
-                const isUnlocked = quizState.unlockedAchievements[id] || false; // Garante que seja um boolean
+                const isUnlocked = achievement.unlocked; // Usa o estado 'unlocked' da definição de conquista
                 const card = document.createElement('div');
                 card.classList.add('achievement-card');
                 if (isUnlocked) {
@@ -2240,17 +2302,11 @@
                 }
 
                 quizState.score += pointsEarned;
-                quizState.consecutiveCorrectAnswers++; // NOVO: Incrementa o combo
-
-                // NOVO: Verifica conquistas de combo
-                if (quizState.consecutiveCorrectAnswers === 3) unlockAchievement("combo_3x");
-                else if (quizState.consecutiveCorrectAnswers === 5) unlockAchievement("combo_5x");
-                else if (quizState.consecutiveCorrectAnswers === 7) unlockAchievement("combo_7x");
-                else if (quizState.consecutiveCorrectAnswers === 10) unlockAchievement("combo_10x");
-                else if (quizState.consecutiveCorrectAnswers > 10 && quizState.consecutiveCorrectAnswers % 5 === 0) showComboMessage(quizState.consecutiveCorrectAnswers);
-
-
-                showComboMessage(quizState.consecutiveCorrectAnswers); // NOVO: Mostra mensagem de combo
+                quizState.consecutiveCorrectAnswers++; // Incrementa o combo
+                
+                // NOVO: Verifica e mostra mensagens de combo (e aplica bônus)
+                showComboMessage(quizState.consecutiveCorrectAnswers);
+                
                 updateQuizInfo();
                 showCuriosity(questionData.curiosidade);
 
@@ -2272,9 +2328,9 @@
                 }
 
                 quizState.errorsInCurrentLevel++;
-                quizState.consecutiveCorrectAnswers = 0; // NOVO: Reseta o combo ao errar
+                quizState.consecutiveCorrectAnswers = 0; // Reseta o combo ao errar
                 updateQuizInfo();
-                showCuriosity(`A resposta correta era: "${questionData.correta}". ${questionData.curiosidade}`);
+                showCuriosity(`Tempo esgotado! A resposta correta era: "${questionData.correta}". ${questionData.curiosidade}`);
 
                 if (quizState.errorsInCurrentLevel >= 2) {
                     setTimeout(() => {
@@ -2321,7 +2377,7 @@
             }
 
             // NOVO: Desbloqueia conquista de completar todos os níveis
-            if (isWinner && quizState.currentLevel === quizState.totalLevels && !achievements.all_levels_completed.unlocked) {
+            if (isWinner && quizState.currentLevel === quizState.totalLevels) { // A condição aqui é '===' para garantir que o último nível foi alcançado
                 unlockAchievement("all_levels_completed");
             }
             updateLevelProgressBar(); // Atualiza barra de progresso para 100% ou 0% dependendo do fim de jogo
@@ -2518,9 +2574,6 @@
             elements.quiz.addEventListener('click', handleQuizClick);
             document.addEventListener('keydown', handleKeyboardInput); // Adiciona o listener de teclado
             
-            // NÃO MAIS NECESSÁRIO: elements.achievementsBtn.addEventListener('click', showAchievementsScreen);
-            // O listener para o botão de conquistas agora é adicionado diretamente no showIntroMessage
-
             setupPlayerEventListeners();
 
             elements.audio.volume = playerState.previousVolume;
