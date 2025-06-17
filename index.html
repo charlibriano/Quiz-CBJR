@@ -113,6 +113,7 @@
             align-items: center;
             padding-bottom: 180px;
             transition: background-image 1s ease-in-out; /* Mantido para transição suave */
+            overflow-x: hidden; /* Garante que não haverá scroll horizontal indesejado */
         }
 
         /* Media query para telas menores: 'cover' ainda é geralmente o melhor para preencher */
@@ -455,7 +456,7 @@
         }
         @keyframes fadeInOut {
             0% { opacity: 0; transform: translate(-50%, -30px); } /* Começa acima e transparente */
-            20% { opacity: 1; transform: translate(-50%, 0); } /* Sobe e aparece */
+            20% { opacity: 1; transform: translate(-50%, 0); } /* Sube e aparece */
             80% { opacity: 1; transform: translate(-50%, 0); } /* Permanece */
             100% { opacity: 0; transform: translate(-50%, -30px); } /* Desce e desaparece */
         }
@@ -561,37 +562,41 @@
         /* Responsividade para a tela de conquistas - AJUSTADO PARA EVITAR SCROLL */
         @media (max-width: 600px) {
             #achievements-screen {
-                padding: 15px; /* Reduz padding geral */
-                overflow-y: auto; /* Permite scroll no container se necessário, mas os cards devem se ajustar */
+                padding: 10px; /* Reduz padding geral para telas muito pequenas */
+                /* overflow-y: auto; -- Removido para garantir que o container não force scroll */
                 justify-content: flex-start; /* Alinha o conteúdo ao topo */
             }
             #achievements-screen h2 {
-                font-size: 1.8em;
-                margin-bottom: 20px; /* Reduz margem */
+                font-size: 1.5em; /* Fonte ainda menor para o título */
+                margin-bottom: 15px; /* Margem reduzida */
             }
             #achievements-list {
-                grid-template-columns: 1fr; /* Uma coluna em telas menores */
-                width: 95%; /* Ocupa quase toda a largura */
-                gap: 15px; /* Espaçamento entre os cards */
+                grid-template-columns: repeat(2, 1fr); /* DUAS COLUNAS para celulares */
+                width: 100%; /* Ocupa toda a largura disponível */
+                gap: 8px; /* Espaçamento menor entre os cards */
+                padding: 0 5px; /* Pequeno padding lateral para não colar nas bordas */
             }
             .achievement-card {
-                padding: 15px; /* Reduz padding do card */
-                min-height: 100px; /* Ajusta altura mínima, se necessário */
-                font-size: 0.85em; /* Reduz fonte base */
+                padding: 10px; /* Reduz padding do card ainda mais */
+                min-height: 90px; /* Altura mínima para tentar caber o conteúdo */
             }
             .achievement-card h3 {
-                font-size: 1.1em; /* Reduz fonte do título do card */
+                font-size: 0.9em; /* Reduz fonte do título do card */
+                margin-bottom: 5px; /* Margem reduzida */
+                line-height: 1.1; /* Ajusta line-height para caber mais texto */
             }
             .achievement-card p {
-                font-size: 0.8em; /* Reduz fonte do texto do card */
-                margin-bottom: 10px; /* Reduz margem inferior */
+                font-size: 0.7em; /* Reduz fonte do texto do card ainda mais */
+                margin-bottom: 8px; /* Margem inferior reduzida */
+                line-height: 1.3;
             }
             .achievement-card .status {
-                font-size: 0.7em; /* Reduz fonte do status */
+                font-size: 0.6em; /* Reduz fonte do status */
             }
             #close-achievements-btn {
-                font-size: 1.1em; /* Reduz fonte do botão */
-                padding: 10px 20px; /* Reduz padding do botão */
+                font-size: 1em; /* Reduz fonte do botão */
+                padding: 8px 15px; /* Reduz padding do botão */
+                margin-top: 15px; /* Reduz margem superior */
             }
         }
 
@@ -1420,8 +1425,6 @@
             5: 10,
             7: 15,
             10: 20,
-            // Para combos acima de 10x, a cada 5 acertos extras, +10 pontos
-            // A lógica de aplicação estará na função checkAnswer e showComboMessage
         };
 
         // --- Estado do Quiz (Centralizado) ---
@@ -1965,22 +1968,10 @@
             let message = '';
             let bonusPoints = 0;
 
-            if (combo === 3) {
-                message = "Combo! 3x acertos!";
-                bonusPoints = COMBO_BONUS[3];
-                unlockAchievement("combo_3x");
-            } else if (combo === 5) {
-                message = "Fera! 5x acertos!";
-                bonusPoints = COMBO_BONUS[5];
-                unlockAchievement("combo_5x");
-            } else if (combo === 7) {
-                message = "Lenda! 7x acertos!";
-                bonusPoints = COMBO_BONUS[7];
-                unlockAchievement("combo_7x");
-            } else if (combo === 10) {
-                message = "Mestre! 10x acertos!";
-                bonusPoints = COMBO_BONUS[10];
-                unlockAchievement("combo_10x");
+            if (COMBO_BONUS.hasOwnProperty(combo)) {
+                message = `${achievements[`combo_${combo}x`].name}! ${combo}x acertos!`;
+                bonusPoints = COMBO_BONUS[combo];
+                unlockAchievement(`combo_${combo}x`); // Desbloqueia a conquista de combo
             } else if (combo > 10 && combo % 5 === 0) {
                 message = `Incrível! ${combo}x acertos!`;
                 bonusPoints = 10; // Bônus de 10 pontos para cada 5 acertos após 10x
@@ -2304,7 +2295,7 @@
                 quizState.score += pointsEarned;
                 quizState.consecutiveCorrectAnswers++; // Incrementa o combo
                 
-                // NOVO: Verifica e mostra mensagens de combo (e aplica bônus)
+                // NOVO: Chama showComboMessage para verificar e aplicar bônus de combo
                 showComboMessage(quizState.consecutiveCorrectAnswers);
                 
                 updateQuizInfo();
@@ -2524,7 +2515,7 @@
             }
 
             quizState.errorsInCurrentLevel++;
-            quizState.consecutiveCorrectAnswers = 0; // NOVO: Reseta o combo ao tempo esgotar
+            quizState.consecutiveCorrectAnswers = 0; // Reseta o combo ao tempo esgotar
             updateQuizInfo();
 
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
