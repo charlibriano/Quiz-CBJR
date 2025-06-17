@@ -87,17 +87,14 @@
             }
         }
 
-        /* REMOVIDO Keyframes para transição de entrada da curiosidade (slide-left) */
-        /* @keyframes fadeInSlideLeft {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        } */
+        /* NOVO: Keyframes para o efeito de tremor */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
 
         body {
             margin: 0;
@@ -236,6 +233,12 @@
                 0 0 10px rgba(255, 255, 255, 0.5),
                 0 0 15px var(--cor-amarelo-cbjr);
         }
+
+        /* NOVO: Classe para aplicar o efeito de tremor */
+        .question h3.shake {
+            animation: shake 0.2s 3; /* Dura 0.2s e repete 3 vezes */
+        }
+
 
         /* REMOVENDO CRONÔMETRO VISUAL */
         .timer-display {
@@ -401,6 +404,176 @@
             margin-bottom: 8px;
         }
 
+        /* NOVO: Estilo para a mensagem de combo */
+        #combo-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(241, 196, 15, 0.8); /* Amarelo do CBJR */
+            color: var(--cor-preto-principal);
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+            z-index: 2500;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            white-space: nowrap; /* Para evitar quebras de linha */
+            display: none; /* Inicia oculto */
+        }
+
+        #combo-message.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+            display: block;
+        }
+
+        /* NOVO: Estilo para o pop-up de conquista */
+        #achievement-popup {
+            position: fixed;
+            top: 20%; /* Perto do topo */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--cor-verde-correto); /* Verde de acerto */
+            color: var(--cor-texto-claro);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-family: 'Elektrix', sans-serif;
+            font-size: 1.5em;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+            z-index: 3000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            box-shadow: 0 0 25px rgba(0,0,0,0.6);
+            display: none; /* Inicia oculto */
+            animation: fadeInOut 3s forwards; /* Animação de fade in e out */
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -30px); } /* Começa acima e transparente */
+            20% { opacity: 1; transform: translate(-50%, 0); } /* Sobe e aparece */
+            80% { opacity: 1; transform: translate(-50%, 0); } /* Permanece */
+            100% { opacity: 0; transform: translate(-50%, -30px); } /* Desce e desaparece */
+        }
+        #achievement-popup.show {
+            display: block;
+        }
+
+        /* NOVO: Estilos para a tela de conquistas */
+        #achievements-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* Fundo escuro com mais opacidade */
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto; /* Para rolagem se houver muitas conquistas */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none; /* Inicia desativado */
+        }
+        #achievements-screen.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #achievements-screen h2 {
+            font-family: 'Elektrix', sans-serif;
+            color: var(--cor-amarelo-cbjr);
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 15px var(--cor-preto-principal);
+        }
+        #achievements-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+        .achievement-card {
+            background-color: var(--cor-fundo-transparente);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px; /* Garante altura mínima para alinhamento */
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+        .achievement-card.unlocked {
+            border: 2px solid var(--cor-verde-vibrante);
+            background-color: rgba(30, 215, 96, 0.2); /* Verde mais suave */
+        }
+        .achievement-card h3 {
+            font-family: 'Elektrix', sans-serif;
+            color: var(--cor-texto-claro);
+            font-size: 1.4em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-shadow: none; /* Remove brilho padrão */
+        }
+        .achievement-card p {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            flex-grow: 1; /* Faz o parágrafo ocupar o espaço restante */
+        }
+        .achievement-card .status {
+            font-size: 0.8em;
+            font-weight: bold;
+            color: var(--cor-amarelo-cbjr);
+            text-align: right;
+        }
+        .achievement-card.unlocked .status {
+            color: var(--cor-verde-vibrante);
+        }
+        /* Botão de fechar da tela de conquistas */
+        #close-achievements-btn {
+            padding: 12px 25px;
+            font-size: 1.2em;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+            text-shadow: 0 0 8px rgba(255,255,255,0.8);
+            margin-top: 20px;
+        }
+        #close-achievements-btn:hover {
+            transform: scale(1.05);
+            background-color: #4a4a4a;
+        }
+
+        /* Responsividade para a tela de conquistas */
+        @media (max-width: 600px) {
+            #achievements-screen h2 {
+                font-size: 1.8em;
+            }
+            #achievements-list {
+                grid-template-columns: 1fr; /* Uma coluna em telas menores */
+                max-width: 90%;
+            }
+            .achievement-card h3 {
+                font-size: 1.2em;
+            }
+            .achievement-card p {
+                font-size: 0.8em;
+            }
+        }
 
         #restart-btn, #start-btn, #info-btn {
             padding: 15px 30px;
@@ -797,7 +970,7 @@
             #level-up-message {
                 padding: 18px 25px; /* Mais ajuste para telas médias */
                 font-size: 1.6em; /* Mais ajuste */
-                max-width: 90%; /* Ocupa mais largura em telas médias */
+                max-width: 90%;
                 min-width: unset;
                 gap: 12px;
             }
@@ -831,7 +1004,7 @@
                 font-size: 0.85em; /* Ajustado */
             }
             #level-up-message p {
-                font-size: 0.7em; /* Ajustado */
+                font-size: 0.7em;
             }
             #level-up-message ul {
                 font-size: 0.6em; /* Ajustado */
@@ -925,8 +1098,6 @@
     </header>
 
     <div class="container">
-        <button id="start-btn" style="display:none;">Iniciar Quiz</button>
-
         <div id="quiz">
         </div>
 
@@ -945,10 +1116,17 @@
         <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
     </div>
 
-    <div id="level-up-message" style="display:none;"></div>
+    <div id="level-up-message" style="display:none;">
+        </div>
     <div id="points-popup" style="display:none;"></div>
+    <div id="combo-message" style="display:none;"></div> <div id="achievement-popup" style="display:none;"></div> <div id="overlay" style="display:none;"></div>
 
-    <div id="overlay" style="display:none;"></div>
+    <div id="achievements-screen" style="display:none;">
+        <h2>Minhas Conquistas</h2>
+        <div id="achievements-list">
+            </div>
+        <button id="close-achievements-btn" onclick="closeAchievementsScreen()">Voltar</button>
+    </div>
 
     <div id="audio-player-wrapper">
         <audio id="audio"></audio>
@@ -1062,7 +1240,7 @@
                     { pergunta: "Qual o nome do primeiro álbum de estúdio do Charlie Brown Jr.?", respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"], correta: "Transpiração Contínua Prolongada", curiosidade: "Lançado em 1997, 'Transpiração Contínua Prolongada' marcou a estreia oficial do Charlie Brown Jr. no cenário musical brasileiro, trazendo sucessos como 'O Coro Vai Comê!'." },
                     { pergunta: "Qual álbum de estúdio do Charlie Brown Jr. inclui a canção 'Lugar ao Sol'?", respostas: ["Bocas Ordinárias", "100% Charlie Brown Jr. - Abalando a Sua Fábrica", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "100% Charlie Brown Jr. - Abalando a Sua Fábrica", curiosidade: "'Lugar ao Sol' é uma de suas faixas mais conhecidas do álbum '100% Charlie Brown Jr. - Abalando a Sua Fábrica', lançado em 2001." },
                     { pergunta: "Qual foi o primeiro single do Charlie Brown Jr. a ter grande repercussão e tocar nas rádios de todo o Brasil?", respostas: ["Proibida Pra Mim", "Zóio de Lula", "O Coro Vai Comê!", "Te Levar"], correta: "O Coro Vai Comê!", curiosidade: "'O Coro Vai Comê!', do álbum de estreia 'Transpiração Contínua Prolongada', foi a música que abriu as portas das rádios para o Charlie Brown Jr., se tornando um marco na carreira da banda." },
-                    { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de gloriar", "Rubão", "O Preço", "Só os Loucos Sabem"], correta: "O Preço", curiosidade: "'Preço Curto... Prazo Longo' de 1999, consolidou a banda no cenário nacional." }
+                    { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de gloriar", "Rubão", "O Preço", "Só os Loucos Sabem"], correta: "O Preço", curiosidade: "'Preço Curto... Prazo Largo' de 1999, consolidou a banda no cenário nacional." }
                 ]
             },
             // Nível 5
@@ -1111,6 +1289,55 @@
             }
         ];
 
+        // --- Definição das Conquistas ---
+        const achievements = {
+            "first_level_completed": {
+                name: "Primeiros Acordes",
+                description: "Complete o Nível 1.",
+                unlocked: false
+            },
+            "level_3_completed": {
+                name: "Fã da Galera",
+                description: "Complete o Nível 3.",
+                unlocked: false
+            },
+            "level_5_completed": {
+                name: "Expert no Rock",
+                description: "Complete o Nível 5.",
+                unlocked: false
+            },
+            "all_levels_completed": {
+                name: "Lenda do CBJR",
+                description: "Complete todos os níveis do quiz.",
+                unlocked: false
+            },
+            "combo_3x": {
+                name: "Vibe Positiva",
+                description: "Acerte 3 perguntas seguidas.",
+                unlocked: false
+            },
+            "combo_5x": {
+                name: "Flow Contínuo",
+                description: "Acerte 5 perguntas seguidas.",
+                unlocked: false
+            },
+            "combo_7x": {
+                name: "Mestre do Ritmo",
+                description: "Acerte 7 perguntas seguidas.",
+                unlocked: false
+            },
+            "combo_10x": {
+                name: "Inabalável",
+                description: "Acerte 10 perguntas seguidas.",
+                unlocked: false
+            },
+            "new_high_score": {
+                name: "Recordista",
+                description: "Alcance um novo recorde de pontuação.",
+                unlocked: false
+            }
+        };
+
         // --- Referências de Elementos DOM ---
         const elements = {
             quiz: document.getElementById('quiz'),
@@ -1119,12 +1346,16 @@
             levelText: document.getElementById('level-text'),
             medalText: document.getElementById('medal'),
             restartBtn: document.getElementById('restart-btn'),
-            startBtn: document.getElementById('start-btn'),
+            // Removidos startBtn e achievementsBtn daqui, serão gerenciados no level-up-message
             audio: document.getElementById('audio'),
             currentSongText: document.getElementById('current-song'),
             levelUpMessage: document.getElementById('level-up-message'),
             pointsPopup: document.getElementById('points-popup'),
+            comboMessage: document.getElementById('combo-message'), // NOVO: Elemento da mensagem de combo
+            achievementPopup: document.getElementById('achievement-popup'), // NOVO: Elemento do pop-up de conquista
             mainOverlay: document.getElementById('overlay'),
+            achievementsScreen: document.getElementById('achievements-screen'), // NOVO: Tela de Conquistas
+            achievementsList: document.getElementById('achievements-list'), // NOVO: Lista de conquistas
             curiosityBox: document.createElement('div'),
             highScoreText: document.getElementById('high-score-text'), // Novo elemento para o recorde
 
@@ -1174,7 +1405,9 @@
             totalLevels: questionsByLevel.length, // NOVO: Total de níveis
             totalQuestions: 0, // Será calculado na inicialização
             highScore: 0, // NOVO: Variável para o score recorde
-            scoreAtLevelStart: 0 // NOVO: Guarda a pontuação ao iniciar um nível
+            scoreAtLevelStart: 0, // NOVO: Guarda a pontuação ao iniciar um nível
+            consecutiveCorrectAnswers: 0, // NOVO: Contador de combo
+            unlockedAchievements: {} // NOVO: Objeto para armazenar conquistas desbloqueadas
         };
 
         // --- Variáveis de controle de tempo ---
@@ -1504,7 +1737,7 @@
         function showIntroMessage() {
             quizState.quizPaused = true;
             elements.mainOverlay.style.display = 'block';
-            elements.startBtn.style.display = 'none'; // Garante que o botão iniciar esteja oculto
+            
             elements.quiz.innerHTML = ''; // Limpa qualquer conteúdo anterior do quiz
 
             elements.levelUpMessage.innerHTML = `
@@ -1522,19 +1755,24 @@
                     </ul>
                 </div>
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                    <button onclick="startQuiz()">Entendi! Começar!</button>
+                    <button id="start-quiz-button" onclick="startQuiz()">Entendi! Começar!</button>
+                    <button id="show-achievements-button" onclick="showAchievementsScreen()">Conquistas</button>
                 </div>
             `;
-            // A cor de fundo já está configurada no CSS para ser transparente
             elements.levelUpMessage.style.display = 'flex';
             elements.levelUpMessage.classList.add('show');
+            // Garante que o quiz e o restart button não apareçam enquanto a intro está ativa
+            elements.quiz.style.display = 'none';
+            elements.restartBtn.style.display = 'none';
         }
 
         function startQuiz() {
             elements.levelUpMessage.classList.remove('show');
+            
             setTimeout(() => {
                 elements.levelUpMessage.style.display = 'none';
                 elements.mainOverlay.style.display = 'none';
+                elements.quiz.style.display = 'flex'; // Torna o quiz visível
 
                 Object.assign(quizState, {
                     currentLevel: 0,
@@ -1543,7 +1781,8 @@
                     errorsInCurrentLevel: 0,
                     quizPaused: false,
                     isProcessingAnswer: false,
-                    scoreAtLevelStart: 0 // Reseta ao iniciar o quiz
+                    scoreAtLevelStart: 0, // Reseta ao iniciar o quiz
+                    consecutiveCorrectAnswers: 0 // NOVO: Reseta combo ao iniciar o quiz
                 });
                 elements.quiz.style.pointerEvents = 'all';
 
@@ -1577,9 +1816,24 @@
                 return;
             }
 
+            // NOVO: Verifica conquistas de nível completado
+            if (quizState.currentLevel === 1 && !achievements.first_level_completed.unlocked) {
+                unlockAchievement("first_level_completed");
+            } else if (quizState.currentLevel === 3 && !achievements.level_3_completed.unlocked) {
+                unlockAchievement("level_3_completed");
+            } else if (quizState.currentLevel === 5 && !achievements.level_5_completed.unlocked) {
+                unlockAchievement("level_5_completed");
+            }
+
+
             const errorsToReport = quizState.errorsInCurrentLevel;
             quizState.errorsInCurrentLevel = 0;
             quizState.scoreAtLevelStart = quizState.score; // Salva a pontuação atual ao iniciar um novo nível
+
+            // NOVO: Reseta o combo ao avançar para um novo nível (se não for o início do quiz)
+            if (!isStartOfQuiz) {
+                quizState.consecutiveCorrectAnswers = 0;
+            }
 
             quizState.currentQuestionIndexInLevel = 0;
             quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
@@ -1672,6 +1926,103 @@
             }
         }
 
+        // NOVO: Função para mostrar a mensagem de combo
+        function showComboMessage(combo) {
+            let message = '';
+            if (combo === 3) message = "Combo! 3x acertos!";
+            else if (combo === 5) message = "Fera! 5x acertos!";
+            else if (combo === 7) message = "Lenda! 7x acertos!";
+            else if (combo === 10) message = "Mestre! 10x acertos!";
+            else if (combo > 10 && combo % 5 === 0) message = `Incrível! ${combo}x acertos!`; // Para combos maiores
+
+            if (message) {
+                elements.comboMessage.textContent = message;
+                elements.comboMessage.classList.add('show');
+                setTimeout(() => {
+                    elements.comboMessage.classList.remove('show');
+                }, 1500); // Mostra por 1.5 segundos
+            }
+        }
+
+        // NOVO: Função para mostrar o pop-up de conquista
+        function showAchievementPopup(achievementName) {
+            elements.achievementPopup.textContent = `Conquista: ${achievementName} Desbloqueada!`;
+            elements.achievementPopup.classList.add('show');
+            // Garante que o pop-up esteja na frente da overlay se ela estiver ativa
+            elements.achievementPopup.style.zIndex = Math.max(elements.achievementPopup.style.zIndex, elements.mainOverlay.style.zIndex + 1);
+
+            setTimeout(() => {
+                elements.achievementPopup.classList.remove('show');
+                elements.achievementPopup.style.display = 'none'; // Esconde completamente após a animação
+            }, 3000); // Exibe por 3 segundos
+        }
+
+        // NOVO: Função para desbloquear conquista
+        function unlockAchievement(achievementId) {
+            if (!quizState.unlockedAchievements[achievementId]) {
+                quizState.unlockedAchievements[achievementId] = true;
+                localStorage.setItem('cobjr_quiz_achievements', JSON.stringify(quizState.unlockedAchievements));
+                showAchievementPopup(achievements[achievementId].name);
+                console.log(`Conquista desbloqueada: ${achievements[achievementId].name}`);
+            }
+        }
+
+        // NOVO: Função para carregar conquistas do localStorage
+        function loadAchievements() {
+            const storedAchievements = localStorage.getItem('cobjr_quiz_achievements');
+            if (storedAchievements) {
+                quizState.unlockedAchievements = JSON.parse(storedAchievements);
+                // Mescla com as conquistas padrão para garantir que novas conquistas sejam adicionadas
+                Object.keys(achievements).forEach(id => {
+                    if (!quizState.unlockedAchievements.hasOwnProperty(id)) {
+                        quizState.unlockedAchievements[id] = false;
+                    }
+                });
+            } else {
+                quizState.unlockedAchievements = {};
+                Object.keys(achievements).forEach(id => {
+                    quizState.unlockedAchievements[id] = false;
+                });
+            }
+        }
+
+        // NOVO: Função para exibir a tela de conquistas
+        function showAchievementsScreen() {
+            quizState.quizPaused = true;
+            elements.mainOverlay.style.display = 'block';
+            elements.levelUpMessage.classList.remove('show'); // Esconde a mensagem de introdução se estiver visível
+            elements.levelUpMessage.style.display = 'none'; // Esconde completamente a mensagem de introdução
+
+            elements.achievementsList.innerHTML = ''; // Limpa a lista antes de preencher
+
+            for (const id in achievements) {
+                const achievement = achievements[id];
+                const isUnlocked = quizState.unlockedAchievements[id] || false; // Garante que seja um boolean
+                const card = document.createElement('div');
+                card.classList.add('achievement-card');
+                if (isUnlocked) {
+                    card.classList.add('unlocked');
+                }
+                card.innerHTML = `
+                    <h3>${achievement.name}</h3>
+                    <p>${achievement.description}</p>
+                    <div class="status">${isUnlocked ? 'Desbloqueada &#x2705;' : 'Bloqueada &#x1F512;'}</div>
+                `;
+                elements.achievementsList.appendChild(card);
+            }
+
+            elements.achievementsScreen.classList.add('show');
+            elements.achievementsScreen.style.display = 'flex';
+        }
+
+        // NOVO: Função para fechar a tela de conquistas
+        function closeAchievementsScreen() {
+            elements.achievementsScreen.classList.remove('show');
+            setTimeout(() => {
+                elements.achievementsScreen.style.display = 'none';
+                showIntroMessage(); // Volta para a tela de introdução
+            }, 500);
+        }
 
         function showQuestion() {
             if (quizState.quizPaused) return;
@@ -1699,8 +2050,7 @@
             shuffleArray(shuffledAnswers);
 
             questionElement.innerHTML = `
-                <h3>${questionData.pergunta}</h3>
-                <div class="question-content">
+                <h3 id="current-question-text">${questionData.pergunta}</h3> <div class="question-content">
                     <div class="answers-container">
                         ${shuffledAnswers.map((resposta, index) => `
                             <button class="answer-button" data-answer="${resposta}" data-correct="${questionData.correta}">
@@ -1712,6 +2062,9 @@
                     </div>
                 </div>
             `;
+
+            // Garante que o quiz container esteja visível antes de adicionar as questões
+            elements.quiz.style.display = 'flex'; // Certifica que o display é flex para que os elementos internos funcionem
 
             const currentQuizContent = elements.quiz.querySelector('.question');
             if (currentQuizContent) {
@@ -1749,6 +2102,17 @@
         }
 
         function handleQuizClick(event) {
+            // Verifica se o clique veio do botão "Conquistas" ou "Iniciar Quiz" na mensagem de introdução
+            if (event.target.id === 'show-achievements-button') {
+                showAchievementsScreen();
+                return;
+            }
+            if (event.target.id === 'start-quiz-button') {
+                startQuiz();
+                return;
+            }
+
+
             if (quizState.quizPaused || quizState.isProcessingAnswer) {
                 event.stopPropagation();
                 return;
@@ -1764,6 +2128,15 @@
 
         // NOVO: Handler para teclas do teclado
         function handleKeyboardInput(event) {
+            // Se a tela de conquistas está aberta, apenas permite fechar com 'Escape'
+            if (elements.achievementsScreen.classList.contains('show')) {
+                if (event.key === 'Escape') {
+                    closeAchievementsScreen();
+                }
+                return;
+            }
+
+
             if (quizState.quizPaused || quizState.isProcessingAnswer) return;
 
             // Teclas para respostas (1, 2, 3, 4)
@@ -1867,6 +2240,17 @@
                 }
 
                 quizState.score += pointsEarned;
+                quizState.consecutiveCorrectAnswers++; // NOVO: Incrementa o combo
+
+                // NOVO: Verifica conquistas de combo
+                if (quizState.consecutiveCorrectAnswers === 3) unlockAchievement("combo_3x");
+                else if (quizState.consecutiveCorrectAnswers === 5) unlockAchievement("combo_5x");
+                else if (quizState.consecutiveCorrectAnswers === 7) unlockAchievement("combo_7x");
+                else if (quizState.consecutiveCorrectAnswers === 10) unlockAchievement("combo_10x");
+                else if (quizState.consecutiveCorrectAnswers > 10 && quizState.consecutiveCorrectAnswers % 5 === 0) showComboMessage(quizState.consecutiveCorrectAnswers);
+
+
+                showComboMessage(quizState.consecutiveCorrectAnswers); // NOVO: Mostra mensagem de combo
                 updateQuizInfo();
                 showCuriosity(questionData.curiosidade);
 
@@ -1878,8 +2262,17 @@
             } else {
                 clickedButton.classList.add('incorrect', 'glow-incorrect');
                 clickedButton.innerHTML += ' <span class="feedback-icon">❌</span>';
-                
+
+                const questionTextElement = document.getElementById('current-question-text'); // Pega o elemento H3
+                if (questionTextElement) {
+                    questionTextElement.classList.add('shake'); // Adiciona a classe shake
+                    questionTextElement.addEventListener('animationend', () => {
+                        questionTextElement.classList.remove('shake'); // Remove a classe após a animação
+                    }, { once: true }); // Ouve o evento apenas uma vez
+                }
+
                 quizState.errorsInCurrentLevel++;
+                quizState.consecutiveCorrectAnswers = 0; // NOVO: Reseta o combo ao errar
                 updateQuizInfo();
                 showCuriosity(`A resposta correta era: "${questionData.correta}". ${questionData.curiosidade}`);
 
@@ -1919,10 +2312,17 @@
             let messageHtml = '';
             let bgColor = 'var(--cor-fundo-transparente)'; // Padrão transparente
 
-            // NOVO: Atualiza o score recorde se a pontuação atual for maior
-            if (quizState.score > quizState.highScore) {
+            // NOVO: Verifica conquista de novo recorde
+            const oldHighScore = parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0');
+            if (quizState.score > oldHighScore) {
                 quizState.highScore = quizState.score;
                 localStorage.setItem('cobjr_quiz_highscore', quizState.highScore);
+                unlockAchievement("new_high_score"); // Desbloqueia a conquista de recorde
+            }
+
+            // NOVO: Desbloqueia conquista de completar todos os níveis
+            if (isWinner && quizState.currentLevel === quizState.totalLevels && !achievements.all_levels_completed.unlocked) {
+                unlockAchievement("all_levels_completed");
             }
             updateLevelProgressBar(); // Atualiza barra de progresso para 100% ou 0% dependendo do fim de jogo
 
@@ -1987,6 +2387,7 @@
                 // NOVO: Reseta a pontuação para o valor que tinha ao INICIAR o nível
                 quizState.score = quizState.scoreAtLevelStart;
                 quizState.errorsInCurrentLevel = 0;
+                quizState.consecutiveCorrectAnswers = 0; // NOVO: Reseta combo ao tentar o nível novamente
                 quizState.currentQuestionIndexInLevel = 0;
                 quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
                 shuffleArray(quizState.currentLevelQuestions);
@@ -2006,7 +2407,8 @@
                     errorsInCurrentLevel: 0,
                     quizPaused: false,
                     isProcessingAnswer: false,
-                    scoreAtLevelStart: 0 // Reseta ao reiniciar o quiz completo
+                    scoreAtLevelStart: 0, // Reseta ao reiniciar o quiz completo
+                    consecutiveCorrectAnswers: 0 // NOVO: Reseta combo ao reiniciar o quiz completo
                 });
                 clearInterval(timerInterval);
                 elements.scoreText.textContent = `Pontos: ${quizState.score}`;
@@ -2018,6 +2420,7 @@
                 elements.pointsPopup.style.display = 'none';
                 elements.mainOverlay.style.display = 'none';
                 elements.quiz.style.pointerEvents = 'all';
+                elements.quiz.style.display = 'none'; // Garante que o quiz fique oculto no restart completo
 
                 // NOVO: Carrega o recorde ao reiniciar o quiz
                 quizState.highScore = parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0');
@@ -2056,7 +2459,16 @@
 
             clearInterval(timerInterval);
 
+            const questionTextElement = document.getElementById('current-question-text'); // Pega o elemento H3
+            if (questionTextElement) {
+                questionTextElement.classList.add('shake'); // Adiciona a classe shake
+                questionTextElement.addEventListener('animationend', () => {
+                    questionTextElement.classList.remove('shake'); // Remove a classe após a animação
+                }, { once: true }); // Ouve o evento apenas uma vez
+            }
+
             quizState.errorsInCurrentLevel++;
+            quizState.consecutiveCorrectAnswers = 0; // NOVO: Reseta o combo ao tempo esgotar
             updateQuizInfo();
 
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
@@ -2093,6 +2505,7 @@
 
 
         window.onload = () => {
+            loadAchievements(); // Carrega conquistas salvas ao iniciar
             // NOVO: Carrega o recorde do localStorage ao carregar a página
             quizState.highScore = parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0');
             elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
@@ -2104,6 +2517,10 @@
 
             elements.quiz.addEventListener('click', handleQuizClick);
             document.addEventListener('keydown', handleKeyboardInput); // Adiciona o listener de teclado
+            
+            // NÃO MAIS NECESSÁRIO: elements.achievementsBtn.addEventListener('click', showAchievementsScreen);
+            // O listener para o botão de conquistas agora é adicionado diretamente no showIntroMessage
+
             setupPlayerEventListeners();
 
             elements.audio.volume = playerState.previousVolume;
