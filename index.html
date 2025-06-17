@@ -20,7 +20,7 @@
             --cor-verde-correto: #2ecc71;
             --cor-vermelho-incorreto: #e74c3c;
             /* Mais transparência para a caixa de mensagem principal */
-            --cor-fundo-transparente: rgba(0, 0, 0, 0.3); 
+            --cor-fundo-transparente: rgba(0, 0, 0, 0.3);
             --cor-texto-claro: white;
             --cor-texto-escuro: black;
 
@@ -32,6 +32,10 @@
             --cor-timer-progresso: #f1c40f; /* Amarelo do CBJR */
             --cor-timer-progresso-perigo: #e74c3c; /* Vermelho quando o tempo está acabando */
             --cor-timer-texto: #f1c40f;
+
+            /* NOVO: Cores para a barra de progresso de níveis */
+            --cor-progresso-fundo: rgba(255, 255, 255, 0.15);
+            --cor-progresso-preenchimento: var(--cor-amarelo-cbjr);
         }
 
         @font-face {
@@ -115,7 +119,7 @@
             max-width: 900px;
             width: 100%;
             /* AGORA USA a variável centralizada */
-            background-color: var(--cor-fundo-transparente); 
+            background-color: var(--cor-fundo-transparente);
             padding: 40px;
             border-radius: 16px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
@@ -125,6 +129,41 @@
             align-items: center;
             position: relative;
         }
+
+        /* NOVO: Estilo para a barra de progresso de níveis */
+        #level-progress-bar-container {
+            width: 90%;
+            height: 12px;
+            background-color: var(--cor-progresso-fundo);
+            border-radius: 6px;
+            margin-top: 25px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        #level-progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background-color: var(--cor-progresso-preenchimento);
+            border-radius: 6px;
+            transition: width 0.5s ease-out;
+        }
+
+        #level-progress-bar-text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cor-texto-escuro); /* Texto escuro para contraste com o amarelo */
+            font-size: 0.7em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+            mix-blend-mode: overlay; /* Ajuste para melhor leitura sobre o preenchimento */
+        }
+
 
         .quiz-info-bottom {
             display: flex;
@@ -168,9 +207,9 @@
             line-height: 1.4;
             /* NOVO: Brilho na fonte para destaque */
             text-shadow:
-                0 0 5px rgba(255, 255, 255, 0.7),   /* Brilho branco suave */
-                0 0 10px rgba(255, 255, 255, 0.5),  /* Brilho branco mais difuso */
-                0 0 15px var(--cor-amarelo-cbjr); /* Brilho amarelo do CBJR para realce */
+                0 0 5px rgba(255, 255, 255, 0.7),
+                0 0 10px rgba(255, 255, 255, 0.5),
+                0 0 15px var(--cor-amarelo-cbjr);
         }
 
         /* REMOVENDO CRONÔMETRO VISUAL */
@@ -224,6 +263,18 @@
             white-space: normal;
             word-wrap: break-word;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            position: relative; /* Para posicionar o atalho de teclado */
+        }
+
+        /* Estilo para o atalho de teclado */
+        .question button .keyboard-shortcut {
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            font-size: 0.7em;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.5);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
         }
 
         .question button:hover:not(:disabled) {
@@ -263,7 +314,7 @@
         /* NOVO: Estilo para a caixa de curiosidade ao lado */
         .curiosity-sidebar-box {
             /* AGORA USA a variável centralizada */
-            background-color: var(--cor-fundo-transparente); 
+            background-color: var(--cor-fundo-transparente);
             color: var(--cor-texto-claro);
             padding: 15px;
             border-radius: 8px;
@@ -641,7 +692,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             /* AGORA USA a variável centralizada */
-            background-color: var(--cor-fundo-transparente); 
+            background-color: var(--cor-fundo-transparente);
             backdrop-filter: blur(5px); /* Adiciona um blur para a transparência ficar mais legal */
             -webkit-backdrop-filter: blur(5px); /* Suporte para Safari */
             color: var(--cor-texto-claro);
@@ -836,6 +887,11 @@
         <div id="quiz">
         </div>
 
+        <div id="level-progress-bar-container">
+            <div id="level-progress-bar-fill"></div>
+            <div id="level-progress-bar-text"></div>
+        </div>
+
         <div id="quiz-info-bottom" class="quiz-info-bottom">
             <p id="progress-text"></p>
             <p id="score-text">Pontos: 0</p>
@@ -981,10 +1037,10 @@
             {
                 fraseChorao: "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
                 perguntas: [
-                    { 
+                    {
                         pergunta: "Qual álbum do Charlie Brown Jr. foi indicado ao Grammy Latino em 2005?", // PERGUNTA CORRIGIDA
                         respostas: ["Imunidade Musical", "Nadando com os Tubarões", "Tamo Aí na Atividade", "Transpiração Contínua Prolongada"], // RESPOSTAS AJUSTADAS
-                        correta: "Tamo Aí na Atividade", 
+                        correta: "Tamo Aí na Atividade",
                         curiosidade: "O álbum 'Tamo Aí na Atividade', lançado em 2004, foi indicado ao Grammy Latino em 2005 na categoria Melhor Álbum de Rock Brasileiro e venceu o prêmio." // CURIOSIDADE CORRIGIDA
                     },
                     { pergunta: "Qual dessas músicas foi tema de abertura de uma novela da Globo?", respostas: ["Te Levar", "Só os Loucos Sabem", "Senhor do Tempo", "Longe de Você"], correta: "Te Levar", curiosidade: "'Te Levar' foi tema de abertura da série 'Malhação', exibida pela TV Globo entre 1999 e 2006." },
@@ -1047,7 +1103,11 @@
             repeatAllSvg: document.getElementById('repeat-all-svg'),
             repeatOneSvg: document.getElementById('repeat-one-svg'),
             volumeSvg: document.getElementById('volume-svg'),
-            muteSvg: document.getElementById('mute-svg')
+            muteSvg: document.getElementById('mute-svg'),
+
+            // NOVO: Elementos da barra de progresso de níveis
+            levelProgressBarFill: document.getElementById('level-progress-bar-fill'),
+            levelProgressBarText: document.getElementById('level-progress-bar-text')
         };
 
         // --- Constantes para Pontuação por Tempo ---
@@ -1068,8 +1128,10 @@
             quizPaused: false,
             isProcessingAnswer: false, // Impede cliques múltiplos enquanto a resposta está sendo processada
             currentLevelQuestions: [],
+            totalLevels: questionsByLevel.length, // NOVO: Total de níveis
             totalQuestions: 0, // Será calculado na inicialização
-            highScore: 0 // NOVO: Variável para o score recorde
+            highScore: 0, // NOVO: Variável para o score recorde
+            scoreAtLevelStart: 0 // NOVO: Guarda a pontuação ao iniciar um nível
         };
 
         // --- Variáveis de controle de tempo ---
@@ -1160,6 +1222,7 @@
             elements.volumeSlider.disabled = false;
 
             elements.audio.volume = playerState.previousVolume;
+            elements.volumeSlider.value = playerState.previousVolume;
             elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
 
             elements.currentTimeSpan.textContent = '0:00';
@@ -1279,6 +1342,7 @@
             if (playerState.playlist.length === 0) return;
 
             if (playerState.repeatMode === 2) {
+                elements.audio.currentTime = 0; // Reinicia a música atual
                 playSong();
             } else if (playerState.isShuffling) {
                 let nextIndex;
@@ -1286,11 +1350,13 @@
                     nextIndex = Math.floor(Math.random() * playerState.playlist.length);
                 } while (nextIndex === playerState.currentIndex && playerState.playlist.length > 1);
                 playerState.currentIndex = nextIndex;
-            } else if (playerState.repeatMode === 1) {
+                loadSong();
+                playSong();
+            } else if (playerState.repeatMode === 1) { // Repetir playlist
                 playerState.currentIndex = (playerState.currentIndex + 1) % playerState.playlist.length;
                 loadSong();
                 playSong();
-            } else {
+            } else { // Sem repetição
                 playerState.currentIndex = (playerState.currentIndex + 1);
                 if (playerState.currentIndex < playerState.playlist.length) {
                     loadSong();
@@ -1299,11 +1365,12 @@
                     elements.audio.pause();
                     elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
                     elements.currentSongText.textContent = 'Fim da playlist';
-                    playerState.currentIndex = 0;
-                    loadSong();
+                    playerState.currentIndex = 0; // Volta para o início da playlist, mas não toca automaticamente
+                    loadSong(); // Carrega a primeira música, mas permanece pausada
                 }
             }
         }
+
 
         function setupPlayerEventListeners() {
             elements.playPauseBtn.addEventListener('click', togglePlayPause);
@@ -1432,12 +1499,14 @@
                     score: 0,
                     errorsInCurrentLevel: 0,
                     quizPaused: false,
-                    isProcessingAnswer: false
+                    isProcessingAnswer: false,
+                    scoreAtLevelStart: 0 // Reseta ao iniciar o quiz
                 });
                 elements.quiz.style.pointerEvents = 'all';
 
                 elements.scoreText.textContent = `Pontos: ${quizState.score}`;
                 elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`; // Exibe o recorde ao iniciar
+                updateLevelProgressBar(); // Garante que a barra de progresso do nível seja zerada
 
                 if (playerState.playlist.length > 0) {
                     if (!elements.audio.src || elements.audio.src === window.location.href || elements.audio.readyState === 0) {
@@ -1467,6 +1536,7 @@
 
             const errorsToReport = quizState.errorsInCurrentLevel;
             quizState.errorsInCurrentLevel = 0;
+            quizState.scoreAtLevelStart = quizState.score; // Salva a pontuação atual ao iniciar um novo nível
 
             quizState.currentQuestionIndexInLevel = 0;
             quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
@@ -1477,6 +1547,7 @@
             } else {
                 showQuestion();
                 updateQuizInfo();
+                updateLevelProgressBar(); // Atualiza a barra de progresso no início do nível
                 quizState.isProcessingAnswer = false;
                 elements.quiz.style.pointerEvents = 'all';
             }
@@ -1496,7 +1567,7 @@
 
             let mainLevelMessage = '';
             // A cor de fundo da levelUpMessage AGORA USA a variável centralizada
-            elements.levelUpMessage.style.backgroundColor = 'var(--cor-fundo-transparente)'; 
+            elements.levelUpMessage.style.backgroundColor = 'var(--cor-fundo-transparente)';
 
 
             if (errorsInPreviousLevel === 0) {
@@ -1531,12 +1602,13 @@
 
                 showQuestion();
                 updateQuizInfo();
+                updateLevelProgressBar(); // Atualiza a barra de progresso após avançar
             }, 500);
         }
 
         function updateQuizInfo() {
             elements.scoreText.textContent = `Pontos: ${quizState.score}`;
-            elements.levelText.textContent = `Nível: ${quizState.currentLevel + 1}`;
+            elements.levelText.textContent = `Nível: ${quizState.currentLevel + 1}/${quizState.totalLevels}`;
             if (quizState.currentLevelQuestions.length > 0) {
                 elements.progressText.textContent = `Pergunta: ${quizState.currentQuestionIndexInLevel + 1}/${quizState.currentLevelQuestions.length}`;
             } else {
@@ -1544,6 +1616,19 @@
             }
             elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`; // Atualiza o recorde
         }
+
+        // NOVO: Função para atualizar a barra de progresso de níveis
+        function updateLevelProgressBar() {
+            const progress = (quizState.currentLevel / quizState.totalLevels) * 100;
+            elements.levelProgressBarFill.style.width = `${progress}%`;
+            elements.levelProgressBarText.textContent = `Nível ${quizState.currentLevel}/${quizState.totalLevels}`;
+            if (quizState.currentLevel === 0) {
+                elements.levelProgressBarText.textContent = `Comece a Jornada!`;
+            } else if (quizState.currentLevel === quizState.totalLevels) {
+                elements.levelProgressBarText.textContent = `Fim da Jornada!`;
+            }
+        }
+
 
         function showQuestion() {
             if (quizState.quizPaused) return;
@@ -1574,12 +1659,14 @@
                 <h3>${questionData.pergunta}</h3>
                 <div class="question-content">
                     <div class="answers-container">
-                        ${shuffledAnswers.map(resposta => `
-                            <button class="answer-button" data-answer="${resposta}" data-correct="${questionData.correta}">${resposta}</button>
+                        ${shuffledAnswers.map((resposta, index) => `
+                            <button class="answer-button" data-answer="${resposta}" data-correct="${questionData.correta}">
+                                <span class="keyboard-shortcut">${index + 1}</span>${resposta}
+                            </button>
                         `).join('')}
                     </div>
                     <div class="curiosity-sidebar-box">
-                        </div>
+                    </div>
                 </div>
             `;
 
@@ -1618,13 +1705,69 @@
             }
         }
 
+        // NOVO: Handler para teclas do teclado
+        function handleKeyboardInput(event) {
+            if (quizState.quizPaused || quizState.isProcessingAnswer) return;
+
+            // Teclas para respostas (1, 2, 3, 4)
+            const numberKey = parseInt(event.key);
+            if (!isNaN(numberKey) && numberKey >= 1 && numberKey <= 4) {
+                const answerButtons = elements.quiz.querySelectorAll('.answer-button');
+                if (answerButtons[numberKey - 1]) {
+                    answerButtons[numberKey - 1].click();
+                }
+                return; // Impede que outras ações de teclado ocorram
+            }
+
+            // Teclas para controles do player de áudio
+            switch (event.key.toLowerCase()) {
+                case ' ': // Barra de espaço para Play/Pause
+                    event.preventDefault(); // Evita rolagem da página
+                    togglePlayPause();
+                    break;
+                case 'arrowleft': // Seta esquerda para música anterior
+                    playPrevSong();
+                    break;
+                case 'arrowright': // Seta direita para próxima música
+                    playNextSong();
+                    break;
+                case 'r': // 'R' para repetir
+                    elements.repeatBtn.click();
+                    break;
+                case 'f': // 'F' para shuffle
+                    elements.shuffleBtn.click();
+                    break;
+                case 'arrowup': // Seta para cima para aumentar volume
+                    elements.audio.volume = Math.min(1, elements.audio.volume + 0.1);
+                    elements.volumeSlider.value = elements.audio.volume;
+                    elements.volumeValueSpan.textContent = `${Math.round(elements.audio.volume * 100)}%`;
+                    elements.audio.muted = false; // Desmuta se aumentar o volume
+                    elements.volumeSvg.style.display = 'block';
+                    elements.muteSvg.style.display = 'none';
+                    break;
+                case 'arrowdown': // Seta para baixo para diminuir volume
+                    elements.audio.volume = Math.max(0, elements.audio.volume - 0.1);
+                    elements.volumeSlider.value = elements.audio.volume;
+                    elements.volumeValueSpan.textContent = `${Math.round(elements.audio.volume * 100)}%`;
+                    if (elements.audio.volume === 0) { // Muta se o volume for para zero
+                        elements.audio.muted = true;
+                        elements.volumeSvg.style.display = 'none';
+                        elements.muteSvg.style.display = 'block';
+                    }
+                    break;
+                case 'm': // 'M' para mudo
+                    elements.muteBtn.click();
+                    break;
+            }
+        }
+
         function showCuriosity(curiosity) {
             const curiositySidebarBox = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (curiositySidebarBox) {
                 // ALTERAÇÃO AQUI: De 'Curiosidade:' para 'Você Sabia?'
                 curiositySidebarBox.innerHTML = `<strong>Você Sabia?:</strong> ${curiosity}`;
                 // AGORA USA a variável centralizada
-                curiositySidebarBox.style.backgroundColor = 'var(--cor-fundo-transparente)'; 
+                curiositySidebarBox.style.backgroundColor = 'var(--cor-fundo-transparente)';
                 curiositySidebarBox.classList.add('show');
             } else {
                 console.warn("Elemento .curiosity-sidebar-box não encontrado para exibir a curiosidade.");
@@ -1674,10 +1817,10 @@
             } else {
                 clickedButton.classList.add('incorrect', 'glow-incorrect');
                 clickedButton.innerHTML += ' <span class="feedback-icon">❌</span>';
+                
                 quizState.errorsInCurrentLevel++;
                 updateQuizInfo();
-                // ALTERAÇÃO AQUI: De 'Curiosidade:' para 'Você Sabia?' ao mostrar a curiosidade no fim do tempo
-                showCuriosity("Tempo esgotado! A resposta era: " + questionData.correta + ". " + questionData.curiosidade);
+                showCuriosity(`A resposta correta era: "${questionData.correta}". ${questionData.curiosidade}`);
 
                 if (quizState.errorsInCurrentLevel >= 2) {
                     setTimeout(() => {
@@ -1720,6 +1863,7 @@
                 quizState.highScore = quizState.score;
                 localStorage.setItem('cobjr_quiz_highscore', quizState.highScore);
             }
+            updateLevelProgressBar(); // Atualiza barra de progresso para 100% ou 0% dependendo do fim de jogo
 
             if (isWinner) {
                 let medalTitle = "";
@@ -1779,12 +1923,15 @@
                 quizState.isProcessingAnswer = false;
                 elements.quiz.style.pointerEvents = 'all';
 
+                // NOVO: Reseta a pontuação para o valor que tinha ao INICIAR o nível
+                quizState.score = quizState.scoreAtLevelStart;
                 quizState.errorsInCurrentLevel = 0;
                 quizState.currentQuestionIndexInLevel = 0;
                 quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
                 shuffleArray(quizState.currentLevelQuestions);
                 showQuestion();
                 updateQuizInfo();
+                updateLevelProgressBar();
             }, 500);
         }
 
@@ -1797,7 +1944,8 @@
                     score: 0,
                     errorsInCurrentLevel: 0,
                     quizPaused: false,
-                    isProcessingAnswer: false
+                    isProcessingAnswer: false,
+                    scoreAtLevelStart: 0 // Reseta ao reiniciar o quiz completo
                 });
                 clearInterval(timerInterval);
                 elements.scoreText.textContent = `Pontos: ${quizState.score}`;
@@ -1813,6 +1961,7 @@
                 // NOVO: Carrega o recorde ao reiniciar o quiz
                 quizState.highScore = parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0');
                 elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
+                updateLevelProgressBar(); // Reseta a barra de progresso
 
                 elements.quiz.innerHTML = '';
                 const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
@@ -1850,7 +1999,13 @@
             updateQuizInfo();
 
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
-            showCuriosity("Tempo esgotado! A resposta era: " + questionData.correta + ". " + questionData.curiosidade);
+            // No time-out, apenas desabilitar botões
+            const buttons = elements.quiz.querySelectorAll('.answer-button');
+            buttons.forEach(button => {
+                button.disabled = true; // Desabilita todos os botões
+            });
+
+            showCuriosity(`Tempo esgotado! A resposta correta era: "${questionData.correta}". ${questionData.curiosidade}`);
 
             setTimeout(() => {
                 if (quizState.errorsInCurrentLevel >= 2) {
@@ -1868,7 +2023,7 @@
             "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
             "Quem é de verdade sabe quem é de mentira.",
             "Eles querem que você se sinta mal, pois assim eles se sentem bem.",
-            "Eu me flagrei pensando em você em tudo o que eu queria te dizer...",
+            "Eu me flagrei pensando em você em você em tudo o que eu queria te dizer...",
             "Não tão complicado demais, mas nem tão simples assim.",
             "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
             "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum."
@@ -1887,6 +2042,7 @@
             });
 
             elements.quiz.addEventListener('click', handleQuizClick);
+            document.addEventListener('keydown', handleKeyboardInput); // Adiciona o listener de teclado
             setupPlayerEventListeners();
 
             elements.audio.volume = playerState.previousVolume;
@@ -1894,14 +2050,14 @@
             elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
 
             // Mantenha a lógica de mute/unmute baseada no volume inicial ou estado salvo
-            if (elements.audio.volume === 0 || elements.audio.muted) {    
+            if (elements.audio.volume === 0 || elements.audio.muted) {
                 elements.volumeSvg.style.display = 'none';
                 elements.muteSvg.style.display = 'block';
-                elements.audio.muted = true;    
-            } else {    
+                elements.audio.muted = true;
+            } else {
                 elements.volumeSvg.style.display = 'block';
                 elements.muteSvg.style.display = 'none';
-                elements.audio.muted = false;    
+                elements.audio.muted = false;
             }
 
 
@@ -1933,6 +2089,7 @@
                         elements.volumeSlider.disabled = true;
                     }
                     showIntroMessage(); // CHAMA A MENSAGEM DE BOAS-VINDAS AQUI AO CARREGAR
+                    updateLevelProgressBar(); // Inicializa a barra de progresso de níveis
                 })
                 .catch(error => {
                     console.error('Erro ao carregar playlist:', error);
@@ -1945,6 +2102,7 @@
                     elements.muteBtn.disabled = true;
                     elements.volumeSlider.disabled = true;
                     showIntroMessage(); // Ainda mostra a intro message mesmo que a playlist falhe
+                    updateLevelProgressBar(); // Inicializa a barra de progresso de níveis mesmo com erro na playlist
                 });
         };
     </script>
