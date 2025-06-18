@@ -456,7 +456,7 @@
         }
         @keyframes fadeInOut {
             0% { opacity: 0; transform: translate(-50%, -30px); } /* Começa acima e transparente */
-            20% { opacity: 1; transform: translate(-50%, 0); } /* Sube e aparece */
+            20% { opacity: 1; transform: translate(-50%, 0); } /* Sobe e aparece */
             80% { opacity: 1; transform: translate(-50%, 0); } /* Permanece */
             100% { opacity: 0; transform: translate(-50%, -30px); } /* Desce e desaparece */
         }
@@ -563,7 +563,6 @@
         @media (max-width: 600px) {
             #achievements-screen {
                 padding: 10px; /* Reduz padding geral para telas muito pequenas */
-                /* overflow-y: auto; -- Removido para garantir que o container não force scroll */
                 justify-content: flex-start; /* Alinha o conteúdo ao topo */
             }
             #achievements-screen h2 {
@@ -1441,6 +1440,8 @@
             highScore: 0, // NOVO: Variável para o score recorde
             scoreAtLevelStart: 0, // NOVO: Guarda a pontuação ao iniciar um nível
             consecutiveCorrectAnswers: 0, // NOVO: Contador de combo
+            highestCombo: 0, // NOVO: Maior sequência de acertos
+            comboPointsEarned: 0, // NOVO: Pontos ganhos por combo
             unlockedAchievements: {} // NOVO: Objeto para armazenar conquistas desbloqueadas
         };
 
@@ -1710,7 +1711,7 @@
 
             elements.volumeSlider.addEventListener('input', () => {
                 elements.audio.volume = elements.volumeSlider.value;
-                elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
+                elements.volumeValueSpan.textContent = `${Math.round(elements.audio.volume * 100)}%`;
 
                 if (elements.audio.volume === 0) {
                     elements.volumeSvg.style.display = 'none';
@@ -1720,7 +1721,6 @@
                     elements.volumeSvg.style.display = 'block';
                     elements.muteSvg.style.display = 'none';
                     elements.audio.muted = false;
-                    playerState.previousVolume = elements.audio.volume;
                 }
             });
 
@@ -1817,7 +1817,9 @@
                     quizPaused: false,
                     isProcessingAnswer: false,
                     scoreAtLevelStart: 0, // Reseta ao iniciar o quiz
-                    consecutiveCorrectAnswers: 0 // NOVO: Reseta combo ao iniciar o quiz
+                    consecutiveCorrectAnswers: 0, // Reseta combo ao iniciar o quiz
+                    highestCombo: 0, // Reseta highestCombo
+                    comboPointsEarned: 0 // Reseta comboPointsEarned
                 });
                 elements.quiz.style.pointerEvents = 'all';
 
@@ -1852,25 +1854,23 @@
             }
 
             // NOVO: Verifica conquistas de nível completado (usa achievements.ID.unlocked)
-            if (quizState.currentLevel === 1) { // Após completar o nível 1 (que é o 0 na contagem)
+            // Lembre-se que quizState.currentLevel é 0-indexed, então nível 1 é index 0
+            if (quizState.currentLevel === 1) { // Após completar o Nível 1
                 unlockAchievement("first_level_completed");
             }
-            if (quizState.currentLevel === 3) { // Após completar o nível 3 (que é o 2 na contagem)
+            if (quizState.currentLevel === 3) { // Após completar o Nível 3
                 unlockAchievement("level_3_completed");
             }
-            if (quizState.currentLevel === 5) { // Após completar o nível 5 (que é o 4 na contagem)
+            if (quizState.currentLevel === 5) { // Após completar o Nível 5
                 unlockAchievement("level_5_completed");
             }
-
 
             const errorsToReport = quizState.errorsInCurrentLevel;
             quizState.errorsInCurrentLevel = 0;
             quizState.scoreAtLevelStart = quizState.score; // Salva a pontuação atual ao iniciar um novo nível
 
-            // NOVO: Reseta o combo ao avançar para um novo nível (se não for o início do quiz)
-            if (!isStartOfQuiz) {
-                quizState.consecutiveCorrectAnswers = 0;
-            }
+            // CORRIGIDO: Removida a linha que resetava quizState.consecutiveCorrectAnswers
+            // O combo agora só é resetado ao errar ou no reinício completo do quiz.
 
             quizState.currentQuestionIndexInLevel = 0;
             quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
@@ -1969,22 +1969,30 @@
             let bonusPoints = 0;
 
             if (COMBO_BONUS.hasOwnProperty(combo)) {
+                // Combos específicos (3, 5, 7, 10)
                 message = `${achievements[`combo_${combo}x`].name}! ${combo}x acertos!`;
                 bonusPoints = COMBO_BONUS[combo];
                 unlockAchievement(`combo_${combo}x`); // Desbloqueia a conquista de combo
             } else if (combo > 10 && combo % 5 === 0) {
+                // Combos acima de 10 e múltiplos de 5
                 message = `Incrível! ${combo}x acertos!`;
                 bonusPoints = 10; // Bônus de 10 pontos para cada 5 acertos após 10x
             }
 
             if (message) {
-                quizState.score += bonusPoints; // Aplica os pontos de bônus
+                quizState.comboPointsEarned += bonusPoints; // Acumula os pontos de bônus de combo
+                quizState.score += bonusPoints; // Aplica os pontos de bônus ao score total
                 elements.scoreText.textContent = `Pontos: ${quizState.score}`; // Atualiza o placar imediatamente
                 elements.comboMessage.textContent = `${message} (+${bonusPoints} pts)`; // Exibe pontos no combo
                 elements.comboMessage.classList.add('show');
                 setTimeout(() => {
                     elements.comboMessage.classList.remove('show');
                 }, 1500); // Mostra por 1.5 segundos
+            }
+
+            // Atualiza a maior sequência se a atual for maior
+            if (combo > quizState.highestCombo) {
+                quizState.highestCombo = combo;
             }
         }
 
@@ -2323,18 +2331,14 @@
                 updateQuizInfo();
                 showCuriosity(`Tempo esgotado! A resposta correta era: "${questionData.correta}". ${questionData.curiosidade}`);
 
-                if (quizState.errorsInCurrentLevel >= 2) {
-                    setTimeout(() => {
-                        clickedButton.classList.remove('glow-incorrect');
+                setTimeout(() => {
+                    if (quizState.errorsInCurrentLevel >= 2) {
                         endGame(false, true);
-                    }, 4000);
-                } else {
-                    setTimeout(() => {
-                        clickedButton.classList.remove('glow-incorrect');
+                    } else {
                         quizState.currentQuestionIndexInLevel++;
                         showQuestion();
-                    }, 4000);
-                }
+                    }
+                }, 4000);
             }
         }
 
@@ -2373,6 +2377,25 @@
             }
             updateLevelProgressBar(); // Atualiza barra de progresso para 100% ou 0% dependendo do fim de jogo
 
+            // NOVO: Prepara a lista de conquistas para a tela final
+            let achievementsSummaryHtml = `
+                <div style="font-family: 'Elektrix', sans-serif; font-size: 1.2em; margin-top: 20px; color: var(--cor-amarelo-cbjr);">Conquistas Desbloqueadas:</div>
+                <ul style="list-style-type: none; padding: 0; text-align: center; margin-top: 10px; max-height: 120px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background-color: rgba(0,0,0,0.2);">
+            `;
+            let hasUnlockedAchievements = false;
+            for (const id in achievements) {
+                // Listar todas as conquistas que estão desbloqueadas no final do jogo
+                if (achievements[id].unlocked) {
+                    achievementsSummaryHtml += `<li style="margin-bottom: 5px; color: var(--cor-verde-vibrante); font-family: Arial, sans-serif; font-size: 0.9em;">&#x2705; ${achievements[id].name}</li>`;
+                    hasUnlockedAchievements = true;
+                }
+            }
+            achievementsSummaryHtml += '</ul>';
+            if (!hasUnlockedAchievements) {
+                achievementsSummaryHtml = '<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 20px; color: rgba(255,255,255,0.7); text-align: center;">Nenhuma conquista desbloqueada (ainda!).</p>';
+            }
+
+
             if (isWinner) {
                 let medalTitle = "";
                 const maxPossibleScore = quizState.totalQuestions * (BASE_SCORE_PER_CORRECT + BONUS_MAX);
@@ -2389,8 +2412,12 @@
 
                 messageHtml = `
                     <div>${medalTitle}</div>
-                    <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Você fez ${quizState.score} pontos!</div>
-                    <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu recorde é: ${quizState.highScore} pontos!</div> <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Pontuação Total: <b>${quizState.score}</b></div>
+                    <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu Recorde: <b>${quizState.highScore}</b></div>
+                    <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Pontos de Combo: <b>${quizState.comboPointsEarned}</b></div>
+                    <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Maior Sequência de Acertos: <b>${quizState.highestCombo}</b></div>
+                    ${achievementsSummaryHtml}
+                    <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                         <button onclick="restartQuiz()">Jogar Novamente</button>
                     </div>
                 `;
@@ -2399,7 +2426,12 @@
                     messageHtml = `
                         <div>Você errou demais neste nível.</div>
                         <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Tente novamente para dominar o Nível ${quizState.currentLevel + 1}!</div>
-                        <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu recorde é: ${quizState.highScore} pontos!</div> <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Sua Pontuação Total: <b>${quizState.score}</b></div>
+                        <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu Recorde: <b>${quizState.highScore}</b></div>
+                        <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Pontos de Combo: <b>${quizState.comboPointsEarned}</b></div>
+                        <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Maior Sequência de Acertos: <b>${quizState.highestCombo}</b></div>
+                        ${achievementsSummaryHtml}
+                        <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                             <button onclick="retryLevel()">Tentar Nível Novamente</button>
                             <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
                         </div>
@@ -2408,8 +2440,12 @@
                 } else {
                     messageHtml = `
                         <div>Oops! Quase lá!</div>
-                        <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Você fez ${quizState.score} pontos.</div>
-                        <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu recorde é: ${quizState.highScore} pontos!</div> <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Você fez <b>${quizState.score}</b> pontos.</div>
+                        <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu recorde é: <b>${quizState.highScore}</b> pontos!</div>
+                        <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Pontos de Combo: <b>${quizState.comboPointsEarned}</b></div>
+                        <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Maior Sequência de Acertos: <b>${quizState.highestCombo}</b></div>
+                        ${achievementsSummaryHtml}
+                        <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                             <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
                         </div>
                     `;
@@ -2435,6 +2471,7 @@
                 quizState.score = quizState.scoreAtLevelStart;
                 quizState.errorsInCurrentLevel = 0;
                 quizState.consecutiveCorrectAnswers = 0; // NOVO: Reseta combo ao tentar o nível novamente
+                // highestCombo e comboPointsEarned NÃO resetam aqui, eles continuam acumulando por sessão de jogo
                 quizState.currentQuestionIndexInLevel = 0;
                 quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
                 shuffleArray(quizState.currentLevelQuestions);
@@ -2455,7 +2492,9 @@
                     quizPaused: false,
                     isProcessingAnswer: false,
                     scoreAtLevelStart: 0, // Reseta ao reiniciar o quiz completo
-                    consecutiveCorrectAnswers: 0 // NOVO: Reseta combo ao reiniciar o quiz completo
+                    consecutiveCorrectAnswers: 0, // Reseta combo ao reiniciar o quiz completo
+                    highestCombo: 0, // NOVO: Reseta highestCombo ao reiniciar o quiz completo
+                    comboPointsEarned: 0 // NOVO: Reseta comboPointsEarned ao reiniciar o quiz completo
                 });
                 clearInterval(timerInterval);
                 elements.scoreText.textContent = `Pontos: ${quizState.score}`;
