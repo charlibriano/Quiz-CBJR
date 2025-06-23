@@ -1227,7 +1227,7 @@
         <div id="power-ups-container" style="display: flex;"> <button id="fifty-fifty-btn" class="power-up-btn" title="Remove 2 respostas incorretas (F1)">
                 50/50 <span id="fifty-fifty-count" class="power-up-count">0</span>
             </button>
-            <button id="skip-question-btn" class="power-up-btn" title="Pula a pergunta atual (F2)"> Pular <span id="skip-question-count" class="power-up-count">0</span>
+            <button id="skip-question-btn" class="power-up-btn" title="Pula a pergunta atual (F2)" disabled> Pular <span id="skip-question-count" class="power-up-count">0</span>
             </button>
         </div>
 
@@ -1486,7 +1486,7 @@
                 description: "Use o power-up 50/50 pela primeira vez.",
                 unlocked: false
             },
-            "used_skip": { // Conquista para Pular Pergunta
+            "used_skip": { // Conquista para Pular Pergunta - Adicionada aqui para ser desbloqueável
                 name: "Pulei na Frente",
                 description: "Use o power-up Pular Pergunta pela primeira vez.",
                 unlocked: false
@@ -1538,21 +1538,19 @@
             livesDisplay: document.getElementById('lives-display'),
             livesCount: document.getElementById('lives-count'),
             
-            // Elementos para os power-ups
+            // Elementos para o botão 50/50 e Pular
             powerUpsContainer: document.getElementById('power-ups-container'), 
             fiftyFiftyBtn: document.getElementById('fifty-fifty-btn'),
             fiftyFiftyCount: document.getElementById('fifty-fifty-count'),
-            skipQuestionBtn: document.getElementById('skip-question-btn'), 
-            skipQuestionCount: document.getElementById('skip-question-count') 
+            skipQuestionBtn: document.getElementById('skip-question-btn'), // Referência ao botão Pular
+            skipQuestionCount: document.getElementById('skip-question-count') // Referência ao contador Pular
         };
 
         // --- Constantes para Pontuação e Tempo ---
-        const TIME_PER_QUESTION = 15; // Segundos (TEMPO BASE AGORA)
-        const MIN_TIME_PER_QUESTION = 8; // Tempo mínimo para a dificuldade dinâmica
-        const TIME_DECREASE_PER_LEVEL = 0.5; // Redução de tempo por nível
+        const TIME_PER_QUESTION = 15; // Segundos
         const BASE_SCORE_PER_CORRECT = 10;
-        const BONUS_MAX_THRESHOLD_PERCENT = 0.3; // 30% do tempo do nível
-        const BONUS_MEDIUM_THRESHOLD_PERCENT = 0.6; // 60% do tempo do nível
+        const BONUS_MAX_THRESHOLD = 5; // Resposta até 5s para bônus máximo
+        const BONUS_MEDIUM_THRESHOLD = 10; // Resposta até 10s para bônus médio
         const BONUS_MAX = 5; // Total de 15 pontos (10 + 5)
         const BONUS_MEDIUM = 3; // Total de 13 pontos (10 + 3)
         const BONUS_MIN = 1; // Total de 11 pontos (10 + 1)
@@ -1592,8 +1590,7 @@
             comboPointsEarned: 0,
             unlockedAchievements: {},
             fiftyFiftyCount: INITIAL_FIFTY_FIFTY, 
-            skipQuestionCount: INITIAL_SKIP_QUESTION,
-            currentQuestionTimeLimit: TIME_PER_QUESTION // Tempo limite da pergunta atual
+            skipQuestionCount: INITIAL_SKIP_QUESTION 
         };
 
         // Variáveis de controle de tempo
@@ -2414,10 +2411,10 @@
             }
         }
 
-        // A função handleQuizClick será mais simples, focando em redirecionar clicks do quiz container.
-        // Os botões 50/50 e Pular terão listeners diretos no window.onload.
         function handleQuizClick(event) {
-            // Lidar com cliques em telas de overlay (conquistas, level-up/intro)
+            // Ordem de prioridade: overlays > botões de power-up > botões de resposta
+            
+            // 1. Lidar com cliques em telas de overlay (conquistas, level-up/intro)
             if (elements.achievementsScreen.classList.contains('show')) {
                 if (event.target.id === 'close-achievements-btn' || event.target.id === 'achievements-screen') {
                     closeAchievementsScreen();
@@ -2425,7 +2422,7 @@
                 event.stopPropagation();
                 return;
             }
-            // A tela de estatísticas não está no HTML desta versão
+            // A tela de estatísticas não está no HTML desta versão, então não precisa de verificação aqui.
             if (elements.levelUpMessage.classList.contains('show')) {
                 const clickedButtonInMessage = event.target.closest('.message-buttons button');
                 if (!clickedButtonInMessage) {
@@ -2433,8 +2430,14 @@
                 }
                 return;
             }
+
+            // Power-ups (já possuem onclick direto no HTML para esta versão, mas esta função pode reforçar)
+            // Esta lógica foi simplificada pois os eventos são adicionados diretamente no window.onload.
+            // O `event.stopPropagation()` em `useFiftyFifty()` e `skipQuestion()` (se ativado)
+            // é o que impede a propagação para os botões de resposta.
             
-            // Se o quiz está pausado OU está processando uma resposta, bloqueia cliques nos botões de resposta.
+            // 3. Lógica para cliques nos botões de resposta do quiz
+            // Só permitir cliques nos botões de resposta se o quiz NÃO estiver pausado E NÃO estiver processando uma resposta.
             if (quizState.quizPaused || quizState.isProcessingAnswer) {
                 event.stopPropagation();
                 return;
@@ -2452,13 +2455,14 @@
             }
         }
 
-        // Handler para teclas do teclado
+        // NOVO: Handler para teclas do teclado
         function handleKeyboardInput(event) {
             // Lógica similar a handleQuizClick para prioridade de eventos de teclado
             if (elements.achievementsScreen.classList.contains('show')) {
                 if (event.key === 'Escape') { closeAchievementsScreen(); }
                 return;
             }
+            // A tela de estatísticas não está no HTML desta versão
             if (elements.levelUpMessage.classList.contains('show')) {
                 if (event.key === 'Enter') {
                     const continueButton = elements.levelUpMessage.querySelector('button');
@@ -2840,18 +2844,13 @@
                 changeBackgroundImageInterval();
             });
 
-            elements.quiz.addEventListener('click', handleQuizClick); // Este listener gerencia os cliques nas respostas e na maioria dos elementos
+            elements.quiz.addEventListener('click', handleQuizClick); // Este listener gerencia os cliques nas respostas
             
-            // LISTENERS DIRETOS PARA BOTÕES DE POWER-UP (CRÍTICO PARA FUNCIONAR)
-            // Estes listeners devem capturar o clique independentemente do pai.
-            if (elements.fiftyFiftyBtn) {
-                elements.fiftyFiftyBtn.addEventListener('click', useFiftyFifty); 
-            }
-            if (elements.skipQuestionBtn) {
-                elements.skipQuestionBtn.addEventListener('click', skipQuestion); 
-            }
-
-            document.addEventListener('keydown', handleKeyboardInput);
+            // Listeners diretos para os botões de power-up (estes devem sempre ser clicáveis, a menos que isProcessingAnswer seja true na sua própria lógica)
+            elements.fiftyFiftyBtn.addEventListener('click', useFiftyFifty); 
+            elements.skipQuestionBtn.addEventListener('click', skipQuestion); // Listener para o botão Pular
+            
+            document.addEventListener('keydown', handleKeyboardInput); // Listener para atalhos de teclado
             
             setupPlayerEventListeners();
 
