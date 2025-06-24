@@ -27,16 +27,6 @@
             --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.3); /* Já é 0.3 */
             --cor-verde-vibrante: #1ed760; /* Usado no Spotify, más vibrante */
 
-            /* Cores para o cronômetro circular (mantidas para funcionalidade interna, más invisíveis) */
-            --cor-timer-fundo-circulo: rgba(255, 255, 255, 0.1);
-            --cor-timer-progresso: #f1c40f; /* Amarelo do CBJR */
-            --cor-timer-progresso-perigo: #e74c3c; /* Vermelho quando o tempo está acabando */
-            --cor-timer-texto: #f1c40f;
-
-            /* NOVO: Cores para a barra de progresso de níveis (REMOVIDAS NESTA ETAPA) */
-            /* --cor-progresso-fundo: rgba(255, 255, 255, 0.15); */
-            /* --cor-progresso-preenchimento: var(--cor-amarelo-cbjr); */
-
             /* NOVO: Cor para a barra de vida */
             --cor-vida: #e74c3c; /* Vermelho vibrante */
             --cor-vida-fundo: rgba(231, 76, 60, 0.2); /* Fundo sutil para o coração */
@@ -177,43 +167,6 @@
             align-items: center;
             position: relative;
         }
-
-        /* REMOVIDO: Estilo para a barra de progresso de níveis */
-        /* #level-progress-bar-container {
-            width: 90%;
-            height: 12px;
-            background-color: var(--cor-progresso-fundo);
-            border-radius: 6px;
-            margin-top: 25px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
-            position: relative;
-        } */
-
-        /* REMOVIDO: Estilo para o preenchimento da barra de progresso */
-        /* #level-progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background-color: var(--cor-progresso-preenchimento);
-            border-radius: 6px;
-            transition: all 0.6s ease-in-out;
-        } */
-
-        /* REMOVIDO: Estilo para o texto da barra de progresso */
-        /* #level-progress-bar-text {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--cor-texto-escuro);
-            font-size: 0.7em;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
-            mix-blend-mode: overlay;
-        } */
-
 
         .quiz-info-bottom {
             display: flex;
@@ -499,9 +452,6 @@
 
             margin-top: 20px;
             margin-bottom: 0;
-
-            /* REMOVIDO: Estilos iniciais para a animação de entrada da curiosidade (transform) */
-            /* transform: translateX(30px); */
         }
 
         @media (min-width: 769px) {
@@ -516,10 +466,6 @@
         .curiosity-sidebar-box.show {
             opacity: 1;
             pointer-events: all;
-            /* REMOVIDO: Aplica a animação fadeInSlideLeft */
-            /* animation: fadeInSlideLeft 0.8s ease-out forwards; */
-            /* REMOVIDO: Pequeno atraso para a animação ficar más suave */
-            /* animation-delay: 0.2s; */
         }
 
         .curiosity-sidebar-box strong {
@@ -1116,8 +1062,8 @@
             opacity: 1; /* Garante que não tenha opacidade reduzida */
             text-shadow:
                 0 0 8px rgba(255, 255, 255, 0.9), /* Brilho branco forte */
-                0 0 20px var(--cor-amarelo-cbjr), /* Brilho amarelo mais intenso */
-                0 0 30px rgba(241, 196, 15, 0.5); /* Sombra amarela extra para mais destaque */
+                0 0 20px var(--cor-amarelo-cbjr), /* Brilho amarelo más intenso */
+                0 0 30px rgba(241, 196, 15, 0.5); /* Sombra amarela extra para más destaque */
         }
         /* Media Query para responsividade da frase do Chorão no level-up */
         @media (max-width: 480px) {
@@ -1259,9 +1205,6 @@
                 font-size: 1.5em;
                 padding: 10px 15px;
             }
-
-            /* Removido o estilo duplicado para #start-btn, #restart-btn, #info-btn */
-            /* Pois agora são estilizados pelo seletor #level-up-message .message-buttons button */
         }
 
         /* --- NOVO: Estilo para a tela de conclusão/nível secreto --- */
@@ -1466,7 +1409,7 @@
                         <path class="repeat-outer-circle" d="M0,236.84C0,106.026,106.036,0.002,236.835,0.002c130.807,0,236.842,106.028,236.842,236.838 c0,130.795-106.036,236.835-236.842,236.835C106.039,473.671,0,367.636,0,236.84z"></path>
                         <g>
                             <path class="repeat-arrow-1" d="M408.84,164.345c-9.88,0.022-19.756,0.049-29.636,0.075 c-22.217-49.815-65.828-85.797-120.912-94.428c-61.374-9.614-120.115,18.889-155.14,69.036 c-15.557,22.269,21.005,43.121,36.431,21.035c48.039-68.774,150.608-62.559,192.76,4.473c-9.125,0.022-18.253,0.045-27.377,0.067 c-2.554,0.004-4.368,1.144-5.49,2.745c-1.832,1.967-2.532,4.839-0.61,7.816c17.378,26.966,34.759,53.936,52.141,80.902 c2.921,4.532,9.226,4.495,12.12-0.045c17.243-27.052,34.49-54.104,51.733-81.16C417.714,170.388,413.956,164.334,408.84,164.345z"></path>
-                        <path class="repeat-arrow-2" d="M334.479,312.395c-47.665,68.251-149.037,62.657-191.784-2.909 c8.747-0.022,17.494-0.045,26.241-0.067c2.547-0.007,4.357-1.137,5.482-2.734c1.836-1.963,2.539-4.843,0.617-7.827 c-17.374-26.966-34.756-53.94-52.133-80.902c-2.917-4.532-9.226-4.495-12.12,0.045c-17.243,27.052-34.494,54.104-51.741,81.16 c-2.853,4.476,0.905,10.531,6.021,10.519c10.187-0.026,20.369-0.052,30.556-0.079c22.434,48.996,65.663,84.331,120.164,92.869 c61.374,9.614,120.115-18.889,155.132-69.036C386.466,311.157,349.901,290.309,334.479,312.395z"></path>
+                            <path class="repeat-arrow-2" d="M334.479,312.395c-47.665,68.251-149.037,62.657-191.784-2.909 c8.747-0.022,17.494-0.045,26.241-0.067c2.547-0.007,4.357-1.137,5.482-2.734c1.836-1.963,2.539-4.843,0.617-7.827 c-17.374-26.966-34.756-53.94-52.133-80.902c-2.917-4.532-9.226-4.495-12.12,0.045c-17.243,27.052-34.494,54.104-51.741,81.16 c-2.853,4.476,0.905,10.531,6.021,10.519c10.187-0.026,20.369-0.052,30.556-0.079c22.434,48.996,65.663,84.331,120.164,92.869 c61.374,9.614,120.115-18.889,155.132-69.036C386.466,311.157,349.901,290.309,334.479,312.395z"></path>
                         </g>
                     </svg>
                     <svg id="repeat-one-svg" viewBox="0 0 64 64" fill="currentColor">
@@ -1533,7 +1476,7 @@
                 fraseChorao: "Quem é de verdade sabe quem é de mentira.",
                 perguntas: [
                     { pergunta: "Qual álbum tem a música <br><br> Zóio de Lula?", respostas: ["Nadando com os Tubarões", "Preço Curto... Prazo Longo", "Tamo Aí na Atividade", "Imunidade Musical"], correta: "Preço Curto... Prazo Longo", curiosidade: "Lançado em 1999, 'Preço Curto... Prazo Longo' trouxe hits como 'Zóio de Lula' e 'Não Deixe o Mar Te Engolir'." },
-                    { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today", curiosidade: "'I Feel So Good Today' é uma faixa menos conhecida, más amada pelos fãs, do álbum 'Imunidade Musical'." },
+                    { pergunta: "Qual dessas músicas é um lado B do <br><br> Charlie Brown Jr.?", respostas: ["Te Levar", "I Feel So Good Today", "Senhor do Tempo", "Zóio de Lula"], correta: "I Feel So Good Today", curiosidade: "'I Feel So Good Today' é uma faixa menos conhecida, mas amada pelos fãs, do álbum 'Imunidade Musical'." },
                     { pergunta: "Em que ano o álbum <br><br> Nadando com os Tubarões foi <br><br> lançado?", respostas: ["2000", "2002", "1999", "2001"], correta: "2000", curiosidade: "O 'Nadando com os Tubarões', de 2000, é um divisor de águas na carreira da banda, com sucessos como 'Rubão' e 'Não é Sério'." },
                     { pergunta: "Em que ano o álbum <br><br> Transpiração Contínua Prolongada foi <br><br> lançado?", respostas: ["1997", "1995", "2000", "1998"], correta: "1997", curiosidade: "O álbum de estreia, 'Transpiração Contínua Prolongada' (1997), já mostrava a identidade única da banda com hits como 'O Coro Vai Comê!'." },
                     { pergunta: "Qual o nome completo do Chorão?", respostas: ["Alexandre Magno Abrão", "Alexandre Abrantes", "Carlos Alexandre Jr", "Alexandre Bruno Chorão"], correta: "Alexandre Magno Abrão", curiosidade: "Alexandre Magno Abrão, o Chorão, era conhecido por sua personalidade forte e suas letras que retratavam o cotidiano." }
@@ -1543,8 +1486,8 @@
             {
                 fraseChorao: "Eles querem que você se sinta mal, pois assim eles se sentem bem.",
                 perguntas: [
-                    { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória", curiosidade: "'Dias de Luta, Dias de Glória' é um hino de superação e uma das músicas más emblemáticas da banda." },
-                    { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa", curiosidade: "'Ritmo, Ritual e Responsa' (2007) trouxe uma sonoridade más madura e músicas como 'Pontes indestrutíveis'." },
+                    { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória", curiosidade: "'Dias de Luta, Dias de Glória' é um hino de superação e uma das músicas mais emblemáticas da banda." },
+                    { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa", curiosidade: "'Ritmo, Ritual e Responsa' (2007) trouxe uma sonoridade mais madura e músicas como 'Pontes indestrutíveis'." },
                     { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)", curiosidade: "'Proibida Pra Mim' é um dos maiores sucessos do Charlie Brown Jr., presente no álbum 'Transpiração Contínua Prolongada'." },
                     { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado", curiosidade: "Renato Pelado saiu da banda em 2005." },
                     { pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:", respostas: ["Surfe", "Futebol", "Skate", "Capoeira"], correta: "Skate", curiosidade: "Chorão era um apaixonado por skate e um grande incentivador do esporte no Brasil, tendo sua própria pista em Santos." }
@@ -1556,25 +1499,25 @@
                 perguntas: [
                     { pergunta: "Qual o nome do documentário <br><br> sobre o Chorão lançado em 2021?", respostas: ["Marginal Alado", "O Gênio do Skate", "Dias de Luta, Dias de Glória", "Viva Chorão"], correta: "Marginal Alado", curiosidade: "'Chorão: Marginal Alado' é um documentário aclamado que explora a vida e a carreira do vocalista." },
                     { pergunta: "Qual o nome do primeiro álbum de estúdio do Charlie Brown Jr.?", respostas: ["Preço Curto... Prazo Longo", "Nadando com os Tubarões", "Transpiração Contínua Prolongada", "Tamo Aí na Atividade"], correta: "Transpiração Contínua Prolongada", curiosidade: "Lançado em 1997, 'Transpiração Contínua Prolongada' marcou a estreia oficial do Charlie Brown Jr. no cenário musical brasileiro, trazendo sucessos como 'O Coro Vai Comê!'." },
-                    { pergunta: "Qual álbum de estúdio do Charlie Brown Jr. inclui a canção 'Lugar ao Sol'?", respostas: ["Bocas Ordinárias", "100% Charlie Brown Jr. - Abalando a Sua Fábrica", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "100% Charlie Brown Jr. - Abalando a Sua Fábrica", curiosidade: "'Lugar ao Sol' é uma de suas faixas más conhecidas do álbum '100% Charlie Brown Jr. - Abalando a Sua Fábrica', lançado em 2001." },
+                    { pergunta: "Qual álbum de estúdio do Charlie Brown Jr. inclui a canção 'Lugar ao Sol'?", respostas: ["Bocas Ordinárias", "100% Charlie Brown Jr. - Abalando a Sua Fábrica", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "100% Charlie Brown Jr. - Abalando a Sua Fábrica", curiosidade: "'Lugar ao Sol' é uma de suas faixas mais conhecidas do álbum '100% Charlie Brown Jr. - Abalando a Sua Fábrica', lançado em 2001." },
                     { pergunta: "Qual foi o primeiro single do Charlie Brown Jr. a ter grande repercussão e tocar nas rádios de todo o Brasil?", respostas: ["Proibida Pra Mim", "Zóio de Lula", "O Coro Vai Comê!", "Te Levar"], correta: "O Coro Vai Comê!", curiosidade: "'O Coro Vai Comê!', do álbum de estreia 'Transpiração Contínua Prolongada', foi a música que abriu as portas das rádios para o Charlie Brown Jr., se tornando um marco na carreira da banda." },
                     { pergunta: "Qual dessas músicas faz parte do <br><br> álbum Preço Curto... Prazo Longo?", respostas: ["Dias de luta, dias de gloriar", "Rubão", "O Preço", "Só os Loucos Sabem"], correta: "O Preço", curiosidade: "'Preço Curto... Prazo Largo' de 1999, consolidou a banda no cenário nacional." }
                 ]
             },
             // Nível 5
             {
-                fraseChorao: "Não tão complicado demais, más nem tão simples assim.",
+                fraseChorao: "Não tão complicado demais, mas nem tão simples assim.",
                 perguntas: [
                     { pergunta: "Qual o nome do último álbum de estúdio lançado pelo Charlie Brown Jr?", respostas: ["Imunidade Musical", "Ritmo, Ritual e Responsa", "La Família 013", "Camisa 10 Joga Bola Até na Chuva"], correta: "La Família 013", curiosidade: "'La Família 013', lançado em 2013, foi o décimo álbum de estúdio da banda e o último a contar com a participação de Chorão. Ele faleceu meses antes do lançamento." },
                     { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta", curiosidade: "'Champanhe e Água Benta' faz parte do álbum 'Tamo Aí na Atividade', lançado em 2004, e é um dos clássicos da banda." },
-                    { pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?", respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"], correta: "Acústico MTV", curiosidade: "O 'Acústico MTV' do Charlie Brown Jr. é um dos álbuns más aclamados e vendeu más de 2 milhões de cópias." },
-                    { pergunta: "Qual dessas músicas tem a <br><br> participaão da Negra Li?", respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"], correta: "Não é Sério", curiosidade: "'Não é Sério', do álbum 'Nadando com os Tubarões', conta com a participação marcante da cantora Negra Li." },
+                    { pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?", respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"], correta: "Acústico MTV", curiosidade: "O 'Acústico MTV' do Charlie Brown Jr. é um dos álbuns mais aclamados e vendeu mais de 2 milhões de cópias." },
+                    { pergunta: "Qual dessas músicas tem a <br><br> participação da Negra Li?", respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"], correta: "Não é Sério", curiosidade: "'Não é Sério', do álbum 'Nadando com os Tubarões', conta com a participação marcante da cantora Negra Li." },
                     { pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?", respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"], correta: "Musica Popular Caiçara", curiosidade: "'Céu Azul' é um dos grandes sucessos póstumos da banda, lançada no álbum 'Música Popular Caiçara ao Vivo' em 2012." }
                 ]
             },
             // Nível 6
             {
-                fraseChorao: "Se eu não puder fazer você ser a pessoa más feliz, eu chego más perto disso possível.",
+                fraseChorao: "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
                 perguntas: [
                     {
                         pergunta: "Qual álbum do Charlie Brown Jr. foi indicado ao Grammy Latino em 2005?", // PERGUNTA CORRIGIDA
@@ -1593,11 +1536,11 @@
             {
                 fraseChorao: "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
                 perguntas: [
-                    { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skaf.innerHTMLter 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
+                    { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
                     { pergunta: "Qual banda internacional teve o Charlie Brown Jr. como banda de abertura em suas turnês no Brasil nos anos de 2004 e 2012?", respostas: ["Limp Bizkit", "Green Day", "Foo Fighters", "Linkin Park"], correta: "Linkin Park", curiosidade: "O Charlie Brown Jr. abriu shows do Linkin Park no Brasil em duas ocasiões: em 2004, durante a turnê do álbum 'Meteora', e novamente em 2012, na turnê de 'Living Things', com uma apresentação marcante na Arena Anhembi, em São Paulo." },
                     { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records", curiosidade: "A Virgin Records foi a gravadora responsável pelos primeiros álbuns da banda, incluindo 'Transpiração Contínua Prolongada'." },
-                    { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas más esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
-                    { pergunta: "Qual o nome do álbum que inclui o hit 'Senhor do Tempo'?", respostas: ["Nadando com os Tubarões", "Bocas Ordinárias", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "Imunidade Musical", curiosidade: "'Senhor do Tempo' é uma das faixas más conhecidas do álbum 'Imunidade Musical', lançado em 2004, e aborda temas de fé e destino." },
+                    { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas mais esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
+                    { pergunta: "Qual o nome do álbum que inclui o hit 'Senhor do Tempo'?", respostas: ["Nadando com os Tubarões", "Bocas Ordinárias", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "Imunidade Musical", curiosidade: "'Senhor do Tempo' é uma das faixas mais conhecidas do álbum 'Imunidade Musical', lançado em 2004, e aborda temas de fé e destino." },
                     {
                     "pergunta": "Em qual programa da MTV Chorão abriu as portas de sua casa para o público?",
                     "respostas": ["MTV Cribs Brasil", "Diário de Bordo", "Família MTV", "MTV na Estrada"],
@@ -1761,10 +1704,6 @@
             repeatOneSvg: document.getElementById('repeat-one-svg'),
             volumeSvg: document.getElementById('volume-svg'),
             muteSvg: document.getElementById('mute-svg'),
-
-            // REMOVIDO: Referências para elementos da barra de progresso de nível
-            // levelProgressBarFill: document.getElementById('level-progress-bar-fill'),
-            // levelProgressBarText: document.getElementById('level-progress-bar-text'),
 
             // Elementos para o sistema de vidas
             livesDisplay: document.getElementById('lives-display'),
@@ -2180,7 +2119,7 @@
 
         function startQuiz() {
             console.log("startQuiz: Iniciando o quiz.");
-            elements.levelUpMessage.classList.remove('show'); // Esconde a mensagem
+            elements.levelUpMessage.classList.remove('show'); 
             
             setTimeout(() => {
                 elements.levelUpMessage.style.display = 'none'; // Esconde display da mensagem
@@ -2194,7 +2133,7 @@
                     score: 0,
                     lives: MAX_LIVES, // Define as vidas para o máximo
                     errorsInCurrentLevel: 0, // Resetar
-                    quizPaused: false, // O quiz não está más pausado
+                    quizPaused: false, // O quiz não está mais pausado
                     isProcessingAnswer: false, // Nenhuma resposta está sendo processada no início
                     currentLevelQuestions: [], // Será preenchido em loadLevel
                     totalLevels: questionsByLevel.length, // Agora inclui o nível secreto
@@ -2219,8 +2158,6 @@
                 elements.livesDisplay.style.display = 'flex'; // Mostra display de vidas
                 updatePowerUpCounts(); // Atualiza o display de power-ups
                 elements.powerUpsContainer.style.display = 'flex'; // Mostra o container de power-ups
-
-                // REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual
 
                 if (playerState.playlist.length > 0) {
                     if (!elements.audio.src || elements.audio.src === window.location.href || elements.audio.readyState === 0) {
@@ -2290,9 +2227,9 @@
             
             // Verifica se não há mais níveis para carregar (caso tenha chegado ao fim do quiz completamente)
             if (quizState.currentLevel >= quizState.totalLevels) {
-                 console.log("loadLevel: Todos os níveis (incluindo secreto) completados. Finalizando jogo (vitória final).");
-                 endGame(true); // Se passou por todos os níveis e o secreto
-                 return;
+                   console.log("loadLevel: Todos os níveis (incluindo secreto) completados. Finalizando jogo (vitória final).");
+                   endGame(true); // Se passou por todos os níveis e o secreto
+                   return;
             }
 
             // --- Lógica de Recuperação de Vida ---
@@ -2323,7 +2260,6 @@
                 console.log("loadLevel: Carregando primeira pergunta do nível atual (início do quiz ou nível secreto).");
                 showQuestion(); 
                 updateQuizInfo();
-                // REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual
             }
         }
 
@@ -2370,9 +2306,9 @@
                             livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
                     }
                 } else if (errorsInPreviousLevel === 1) {
-                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Errou 1 heim mané! Pra ser CBJR tem que ficar más esperto.</p>`;
+                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Errou 1 heim mané! Pra ser CBJR tem que ficar mais esperto.</p>`;
                 } else if (errorsInPreviousLevel > 1) {
-                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Você cometeu ${errorsInPreviousLevel} erros neste nível, más avançou!</p>`;
+                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Você cometeu ${errorsInPreviousLevel} erros neste nível, mas avançou!</p>`;
                 }
             }
             
@@ -2402,7 +2338,6 @@
 
                 showQuestion();
                 updateQuizInfo();
-                // REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual
             }, 500); // Tempo para a transição de saída da mensagem
         }
 
@@ -2429,38 +2364,6 @@
             updateLivesDisplay(); // Chamar sempre para manter atualizado
             updatePowerUpCounts(); // Atualiza o display de power-ups
         }
-
-        /* REMOVIDO: Função updateLevelProgressBar não é más necessária */
-        /* function updateLevelProgressBar() {
-            let progress = 0;
-            let progressTextContent = '';
-
-            if (quizState.isSecretLevelActive) {
-                const secretLevelIndex = quizState.totalMainLevels;
-                const questionsInSecretLevel = questionsByLevel[secretLevelIndex].perguntas.length;
-                
-                if (questionsInSecretLevel > 0) {
-                    progress = (quizState.currentQuestionIndexInLevel / questionsInSecretLevel) * 100;
-                } else {
-                    progress = 0;
-                }
-                progressTextContent = `Nível Secreto: ${quizState.currentQuestionIndexInLevel}/${questionsInSecretLevel}`;
-            } else {
-                progress = (quizState.currentLevel / quizState.totalMainLevels) * 100;
-                progressTextContent = `Nível ${quizState.currentLevel}/${quizState.totalMainLevels}`;
-            }
-            
-            elements.levelProgressBarFill.style.width = `${progress}%`;
-            elements.levelProgressBarText.textContent = progressTextContent;
-
-            if (quizState.currentLevel === 0 && !quizState.isSecretLevelActive) {
-                elements.levelProgressBarText.textContent = `Comece a Jornada!`;
-            } else if (quizState.currentLevel === quizState.totalMainLevels && !quizState.isSecretLevelActive) {
-                elements.levelProgressBarText.textContent = `Pronto para o Desafio Final!`;
-            } else if (quizState.currentLevel === quizState.totalLevels && quizState.isSecretLevelActive) {
-                elements.levelProgressBarText.textContent = `Lenda do CBJR!`;
-            }
-        } */
 
         function updateLivesDisplay() {
             if (elements.livesCount) { // Verifica se o elemento existe
@@ -2724,7 +2627,6 @@
                         }, i * 100);
                     });
                     updateQuizInfo();
-                    /* REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual */
                     startTimer();
                 }, 500);
             } else {
@@ -2736,7 +2638,6 @@
                     }, i * 100);
                 });
                 updateQuizInfo();
-                /* REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual */
                 startTimer();
             }
         }
@@ -2761,9 +2662,14 @@
             }
             if (elements.levelUpMessage.classList.contains('show')) {
                 const clickedButtonInMessage = event.target.closest('.message-buttons button');
-                if (!clickedButtonInMessage) {
-                    event.stopPropagation();
+                if (clickedButtonInMessage) {
+                    // Se o botão clicado é um dos botões da mensagem (Start Quiz ou Conquistas),
+                    // não propague o evento para evitar que o handleQuizClick seja chamado novamente
+                    // quando a mensagem for fechada e o quiz aparecer.
+                    // A lógica de clique desses botões já está definida em seus respectivos onclicks.
+                    return; 
                 }
+                event.stopPropagation(); // Se clicou fora dos botões, ainda impede interação com o quiz por baixo
                 return;
             }
 
@@ -2802,10 +2708,10 @@
                 if (event.key === 'Enter') {
                     // Clica no botão "Nível Secreto" ou "Reiniciar"
                     const secretLevelBtn = elements.completionScreen.querySelector('#start-secret-level-btn');
-                    if (secretLevelBtn) secretLevelBtn.click();
+                    if (secretLevelBtn && !secretLevelBtn.disabled) secretLevelBtn.click();
                     else {
-                         const restartBtn = elements.completionScreen.querySelector('#restart-from-completion-btn');
-                         if (restartBtn) restartBtn.click();
+                        const restartBtn = elements.completionScreen.querySelector('#restart-from-completion-btn');
+                        if (restartBtn && !restartBtn.disabled) restartBtn.click();
                     }
                 }
                 return;
@@ -2813,7 +2719,7 @@
             if (elements.levelUpMessage.classList.contains('show')) {
                 if (event.key === 'Enter') {
                     const continueButton = elements.levelUpMessage.querySelector('button');
-                    if (continueButton) continueButton.click();
+                    if (continueButton && !continueButton.disabled) continueButton.click();
                 }
                 return;
             }
@@ -2822,12 +2728,12 @@
             if (!quizState.isProcessingAnswer) { 
                 if (event.key === 'F1') { 
                     event.preventDefault(); // Impede o comportamento padrão do navegador para F1
-                    useFiftyFifty(); 
+                    elements.fiftyFiftyBtn.click(); // Simula o clique no botão
                     return; 
                 }
                 if (event.key === 'F2') { 
                     event.preventDefault(); // Impede o comportamento padrão do navegador para F2
-                    skipQuestion(); 
+                    elements.skipQuestionBtn.click(); // Simula o clique no botão
                     return; 
                 }
             }
@@ -2892,7 +2798,7 @@
 
             const buttons = elements.quiz.querySelectorAll('.answer-button');
             buttons.forEach(button => {
-                button.disabled = true; // Desabilita todos os botões para evitar más cliques
+                button.disabled = true; // Desabilita todos os botões para evitar mais cliques
             });
 
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
@@ -2999,8 +2905,6 @@
             if (isWinner) { // Se for vencedor (agora só ocorre após o nível secreto)
                 unlockAchievement("all_levels_completed");
             }
-            /* REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual */
-
 
             let messageHtml = '';
             let bgColor = 'var(--cor-fundo-transparente)';
@@ -3086,7 +2990,6 @@
                 elements.powerUpsContainer.style.display = 'none'; // Esconde power-ups
 
                 elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
-                /* REMOVIDO: updateLevelProgressBar(); // Reseta a barra de progresso */
 
                 elements.quiz.innerHTML = '';
                 const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
@@ -3176,8 +3079,8 @@
             "Quem é de verdade sabe quem é de mentira.",
             "Eles querem que você se sinta mal, pois assim eles se sentem bem.",
             "Eu me flagrei pensando em você em você em tudo o que eu queria te dizer...",
-            "Não tão complicado demais, más nem tão simples assim.",
-            "Se eu não puder fazer você ser a pessoa más feliz, eu chego más perto disso possível.",
+            "Não tão complicado demais, mas nem tão simples assim.",
+            "Se eu não puder fazer você ser a pessoa mais feliz, eu chego mais perto disso possível.",
             "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum."
         ];
 
@@ -3239,11 +3142,10 @@
                         elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
                     }
                     showIntroMessage(); // CHAMA A MENSAGEM DE BOAS-VINDAS AQUI AO CARREGAR
-                    // REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual
                 })
                 .catch(error => {
                     console.error('Erro ao carregar playlist:', error);
-                    elements.currentSongText.textContent = `Erro ao carregar a playlist. Tente novamente más tarde.`;
+                    elements.currentSongText.textContent = `Erro ao carregar a playlist. Tente novamente mais tarde.`;
                     elements.playPauseBtn.disabled = true;
                     elements.prevBtn.disabled = true;
                     elements.nextBtn.disabled = true;
@@ -3252,12 +3154,11 @@
                     elements.muteBtn.disabled = true;
                     elements.volumeSlider.disabled = true;
                     showIntroMessage(); // Ainda mostra a intro message mesmo que a playlist falhe
-                    // REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual
                 });
 
             // Adiciona listeners para os botões da tela de conclusão
             elements.startSecretLevelBtn.addEventListener('click', startSecretLevel);
-            elements.restartFromCompletion-btn.addEventListener('click', restartQuiz);
+            elements.restartFromCompletionBtn.addEventListener('click', restartQuiz);
         };
     </script>
 </body>
