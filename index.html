@@ -33,9 +33,9 @@
             --cor-timer-progresso-perigo: #e74c3c; /* Vermelho quando o tempo está acabando */
             --cor-timer-texto: #f1c40f;
 
-            /* NOVO: Cores para a barra de progresso de níveis */
-            --cor-progresso-fundo: rgba(255, 255, 255, 0.15);
-            --cor-progresso-preenchimento: var(--cor-amarelo-cbjr);
+            /* NOVO: Cores para a barra de progresso de níveis (REMOVIDAS NESTA ETAPA) */
+            /* --cor-progresso-fundo: rgba(255, 255, 255, 0.15); */
+            /* --cor-progresso-preenchimento: var(--cor-amarelo-cbjr); */
 
             /* NOVO: Cor para a barra de vida */
             --cor-vida: #e74c3c; /* Vermelho vibrante */
@@ -178,8 +178,8 @@
             position: relative;
         }
 
-        /* NOVO: Estilo para a barra de progresso de níveis */
-        #level-progress-bar-container {
+        /* REMOVIDO: Estilo para a barra de progresso de níveis */
+        /* #level-progress-bar-container {
             width: 90%;
             height: 12px;
             background-color: var(--cor-progresso-fundo);
@@ -188,30 +188,31 @@
             overflow: hidden;
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
             position: relative;
-        }
+        } */
 
-        #level-progress-bar-fill {
+        /* REMOVIDO: Estilo para o preenchimento da barra de progresso */
+        /* #level-progress-bar-fill {
             height: 100%;
             width: 0%;
             background-color: var(--cor-progresso-preenchimento);
             border-radius: 6px;
-            /* Transição ajustada para más suavidade */
             transition: all 0.6s ease-in-out;
-        }
+        } */
 
-        #level-progress-bar-text {
+        /* REMOVIDO: Estilo para o texto da barra de progresso */
+        /* #level-progress-bar-text {
             position: absolute;
             width: 100%;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--cor-texto-escuro); /* Texto escuro para contraste com o amarelo */
+            color: var(--cor-texto-escuro);
             font-size: 0.7em;
             font-weight: bold;
             text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
-            mix-blend-mode: overlay; /* Ajuste para melhor leitura sobre o preenchimento */
-        }
+            mix-blend-mode: overlay;
+        } */
 
 
         .quiz-info-bottom {
@@ -221,11 +222,11 @@
             gap: 10px;
             color: rgba(255, 255, 255, 0.9);
             text-align: center;
-            margin-top: 20px;
+            margin-top: 20px; /* Ajustado para compensar a remoção da barra de progresso */
             padding-top: 10px;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             width: 100%;
-            font-size: 1.1em; /* Removido para manter a consistência da fonte padrão, más pode ser mantido se for intencional */
+            font-size: 1.1em;
         }
         .quiz-info-bottom p {
             margin: 0;
@@ -259,14 +260,17 @@
             font-size: 1.2em; /* Tamanho do texto das vidas */
         }
 
-        /* Power-ups: Visível agora */
+        /* Power-ups: NOVO POSICIONAMENTO AQUI DENTRO DO CONTAINER */
         #power-ups-container {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            display: flex; /* EXIBIR */
+            /* Removido `position: fixed;` e `bottom: ...` para que fique dentro do fluxo normal */
+            width: 90%; /* Ajuste a largura conforme o necessário para ficar bom no lugar da barra */
+            margin-top: 25px; /* Para dar um espaçamento em relação à pergunta ou elementos acima */
+            margin-bottom: 25px; /* Para dar um espaçamento em relação ao quiz-info-bottom */
+            display: flex;
+            justify-content: center; /* Centraliza os botões dentro do container */
             gap: 10px;
-            z-index: 10;
+            z-index: 10; /* Pode manter ou ajustar se houver sobreposição */
+            flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas pequenas */
         }
 
         .power-up-btn {
@@ -305,15 +309,18 @@
             border-radius: 3px;
         }
 
-        /* Media queries para power-ups */
+        /* Media queries para power-ups ajustadas para o novo posicionamento */
         @media (max-width: 768px) {
             #power-ups-container {
-                top: 50px; /* Abaixo do título */
-                left: 50%;
-                transform: translateX(-50%);
-                width: 90%;
+                position: relative; /* Volta para relative */
+                top: auto; /* Remove top */
+                left: auto; /* Remove left */
+                transform: none; /* Remove transform */
+                width: 90%; /* Ajuste a largura para ocupar o espaço necessário */
                 justify-content: center;
                 flex-wrap: wrap;
+                margin-top: 20px; /* Ajuste para espaçamento */
+                margin-bottom: 20px;
             }
             .power-up-btn {
                 padding: 8px 12px;
@@ -322,8 +329,10 @@
         }
         @media (max-width: 480px) {
             #power-ups-container {
-                top: 50px; /* Ajusta ainda más para baixo */
+                margin-top: 15px; /* Ajusta ainda mais para telas pequenas */
+                margin-bottom: 15px;
                 gap: 5px;
+                padding: 5px 0;
             }
             .power-up-btn {
                 padding: 6px 10px;
@@ -1099,6 +1108,26 @@
                 0 0 5px var(--cor-amarelo-cbjr),
                 0 0 10px rgba(241, 196, 15, 0.7);
         }
+        /* Destaque para a frase do Chorão na passagem de nível */
+        #level-up-message .chorao-quote {
+            font-size: 1.2em; /* Aumenta um pouco mais */
+            margin-top: 10px; /* Aumenta a margem */
+            font-family: 'Elektrix', sans-serif; /* Mantém a fonte Elektrix */
+            opacity: 1; /* Garante que não tenha opacidade reduzida */
+            text-shadow:
+                0 0 8px rgba(255, 255, 255, 0.9), /* Brilho branco forte */
+                0 0 20px var(--cor-amarelo-cbjr), /* Brilho amarelo mais intenso */
+                0 0 30px rgba(241, 196, 15, 0.5); /* Sombra amarela extra para mais destaque */
+        }
+        /* Media Query para responsividade da frase do Chorão no level-up */
+        @media (max-width: 480px) {
+            #level-up-message .chorao-quote {
+                font-size: 0.9em; /* Reduz um pouco em telas muito pequenas */
+                margin-top: 8px;
+            }
+        }
+
+
         #level-up-message p, #level-up-message ul, #level-up-message li, #level-up-message strong {
             font-family: Arial, sans-serif;
             text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.5);
@@ -1363,7 +1392,8 @@
             <span>❤️</span><span id="lives-count"></span>
         </div>
 
-        <div id="power-ups-container" style="display: flex;"> <button id="fifty-fifty-btn" class="power-up-btn" title="Remove 2 respostas incorretas (F1)">
+        <div id="power-ups-container" style="display: flex;"> 
+            <button id="fifty-fifty-btn" class="power-up-btn" title="Remove 2 respostas incorretas (F1)">
                 50/50 <span id="fifty-fifty-count" class="power-up-count">0</span>
             </button>
             <button id="skip-question-btn" class="power-up-btn" title="Pula a pergunta atual (F2)" disabled> Pular <span id="skip-question-count" class="power-up-count">0</span>
@@ -1371,11 +1401,6 @@
         </div>
 
         <div id="quiz" style="display:none;"> </div>
-
-        <div id="level-progress-bar-container">
-            <div id="level-progress-bar-fill"></div>
-            <div id="level-progress-bar-text"></div>
-        </div>
 
         <div id="quiz-info-bottom" class="quiz-info-bottom">
             <p id="progress-text"></p>
@@ -1441,7 +1466,7 @@
                         <path class="repeat-outer-circle" d="M0,236.84C0,106.026,106.036,0.002,236.835,0.002c130.807,0,236.842,106.028,236.842,236.838 c0,130.795-106.036,236.835-236.842,236.835C106.039,473.671,0,367.636,0,236.84z"></path>
                         <g>
                             <path class="repeat-arrow-1" d="M408.84,164.345c-9.88,0.022-19.756,0.049-29.636,0.075 c-22.217-49.815-65.828-85.797-120.912-94.428c-61.374-9.614-120.115,18.889-155.14,69.036 c-15.557,22.269,21.005,43.121,36.431,21.035c48.039-68.774,150.608-62.559,192.76,4.473c-9.125,0.022-18.253,0.045-27.377,0.067 c-2.554,0.004-4.368,1.144-5.49,2.745c-1.832,1.967-2.532,4.839-0.61,7.816c17.378,26.966,34.759,53.936,52.141,80.902 c2.921,4.532,9.226,4.495,12.12-0.045c17.243-27.052,34.49-54.104,51.733-81.16C417.714,170.388,413.956,164.334,408.84,164.345z"></path>
-                            <path class="repeat-arrow-2" d="M334.479,312.395c-47.665,68.251-149.037,62.657-191.784-2.909 c8.747-0.022,17.494-0.045,26.241-0.067c2.547-0.007,4.357-1.137,5.482-2.734c1.836-1.963,2.539-4.843,0.617-7.827 c-17.374-26.966-34.756-53.94-52.133-80.902c-2.917-4.532-9.226-4.495-12.12,0.045c-17.243,27.052-34.494,54.104-51.741,81.16 c-2.853,4.476,0.905,10.531,6.021,10.519c10.187-0.026,20.369-0.052,30.556-0.079c22.434,48.996,65.663,84.331,120.164,92.869 c61.374,9.614,120.115-18.889,155.132-69.036C386.466,311.157,349.901,290.309,334.479,312.395z"></path>
+                        <path class="repeat-arrow-2" d="M334.479,312.395c-47.665,68.251-149.037,62.657-191.784-2.909 c8.747-0.022,17.494-0.045,26.241-0.067c2.547-0.007,4.357-1.137,5.482-2.734c1.836-1.963,2.539-4.843,0.617-7.827 c-17.374-26.966-34.756-53.94-52.133-80.902c-2.917-4.532-9.226-4.495-12.12,0.045c-17.243,27.052-34.494,54.104-51.741,81.16 c-2.853,4.476,0.905,10.531,6.021,10.519c10.187-0.026,20.369-0.052,30.556-0.079c22.434,48.996,65.663,84.331,120.164,92.869 c61.374,9.614,120.115-18.889,155.132-69.036C386.466,311.157,349.901,290.309,334.479,312.395z"></path>
                         </g>
                     </svg>
                     <svg id="repeat-one-svg" viewBox="0 0 64 64" fill="currentColor">
@@ -1737,8 +1762,9 @@
             volumeSvg: document.getElementById('volume-svg'),
             muteSvg: document.getElementById('mute-svg'),
 
-            levelProgressBarFill: document.getElementById('level-progress-bar-fill'),
-            levelProgressBarText: document.getElementById('level-progress-bar-text'),
+            // REMOVIDO: Referências para elementos da barra de progresso de nível
+            // levelProgressBarFill: document.getElementById('level-progress-bar-fill'),
+            // levelProgressBarText: document.getElementById('level-progress-bar-text'),
 
             // Elementos para o sistema de vidas
             livesDisplay: document.getElementById('lives-display'),
@@ -2172,7 +2198,7 @@
                     isProcessingAnswer: false, // Nenhuma resposta está sendo processada no início
                     currentLevelQuestions: [], // Será preenchido em loadLevel
                     totalLevels: questionsByLevel.length, // Agora inclui o nível secreto
-                    totalMainLevels: questionsByLevel.length - 1,
+                    totalMainLevels: questionsByLevel.length - 1, // Exclui o nível secreto da contagem principal
                     isSecretLevelActive: false, // Garante que não está no nível secreto
                     totalQuestions: 0, // Recalcular em loadLevel se necessário
                     highScore: quizState.highScore, // Manter o high score carregado
@@ -2194,7 +2220,7 @@
                 updatePowerUpCounts(); // Atualiza o display de power-ups
                 elements.powerUpsContainer.style.display = 'flex'; // Mostra o container de power-ups
 
-                updateLevelProgressBar();
+                // REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual
 
                 if (playerState.playlist.length > 0) {
                     if (!elements.audio.src || elements.audio.src === window.location.href || elements.audio.readyState === 0) {
@@ -2224,7 +2250,7 @@
                 elements.livesDisplay.style.display = 'flex';
                 elements.powerUpsContainer.style.display = 'flex';
 
-                quizState.currentLevel = quizState.totalMainLevels; // Define o nível atual para o índice do nível secreto
+                quizState.currentLevel = quizState.totalMainLevels; // Define o nível atual para o índice do nível secreto (que é o último da array questionsByLevel)
                 quizState.isSecretLevelActive = true;
                 quizState.errorsInCurrentLevel = 0; // Reseta erros para o nível secreto
                 quizState.consecutiveCorrectAnswers = 0; // Reseta combo para o nível secreto
@@ -2244,18 +2270,29 @@
                 }, 500);
             }
 
-            // Lógica para quando o jogador completa os N níveis principais
-            if (!quizState.isSecretLevelActive && quizState.currentLevel >= quizState.totalMainLevels) {
-                console.log("loadLevel: Todos os níveis principais completados. Exibindo tela de conclusão.");
+            // Lógica para quando o jogador completa os N níveis principais (antes do nível secreto)
+            // Se o nível atual é o último dos níveis "principais" (totalMainLevels-1) e não estamos no nível secreto
+            if (!quizState.isSecretLevelActive && quizState.currentLevel === quizState.totalMainLevels) {
+                console.log("loadLevel: Todos os níveis principais completados. Desbloqueando conquista 'Mestre da Vibe' e exibindo tela de conclusão.");
+                unlockAchievement("all_main_levels_completed");
                 showCompletionScreen();
                 return;
             }
 
             // Lógica para quando o jogador completa o Nível Secreto (se ele estiver ativo)
-            if (quizState.isSecretLevelActive && quizState.currentLevel >= quizState.totalLevels) {
+            // currentLevel agora pode ser igual a questionsByLevel.length, que é o último índice
+            if (quizState.isSecretLevelActive && quizState.currentQuestionIndexInLevel >= questionsByLevel[quizState.currentLevel].perguntas.length) {
                 console.log("loadLevel: Nível Secreto completado. Finalizando jogo (vitória final).");
+                unlockAchievement("secret_level_completed"); // Conquista para o nível secreto
                 endGame(true); // Finaliza o jogo como vencedor (após o nível secreto)
                 return;
+            }
+            
+            // Verifica se não há mais níveis para carregar (caso tenha chegado ao fim do quiz completamente)
+            if (quizState.currentLevel >= quizState.totalLevels) {
+                 console.log("loadLevel: Todos os níveis (incluindo secreto) completados. Finalizando jogo (vitória final).");
+                 endGame(true); // Se passou por todos os níveis e o secreto
+                 return;
             }
 
             // --- Lógica de Recuperação de Vida ---
@@ -2281,12 +2318,12 @@
                 console.log("loadLevel: Avançou para um novo nível. Mostrando mensagem de level-up.");
                 // Passar o número de erros do NÍVEL ANTERIOR E se a vida foi recuperada para a mensagem
                 showLevelUpMessage(errorsInPreviousLevel, hasRecoveredLife); 
-            } else {
-                console.log("loadLevel: Carregando primeira pergunta do nível atual.");
-                showQuestion(); // Chama a exibição da primeira pergunta do nível
+            } else if (isStartOfQuiz || quizState.isSecretLevelActive) {
+                // Se é o início do quiz ou está começando o nível secreto, vai direto para a pergunta
+                console.log("loadLevel: Carregando primeira pergunta do nível atual (início do quiz ou nível secreto).");
+                showQuestion(); 
                 updateQuizInfo();
-                updateLevelProgressBar();
-                // isProcessingAnswer será setado como false no showQuestion
+                // REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual
             }
         }
 
@@ -2342,7 +2379,7 @@
             elements.levelUpMessage.innerHTML = `
                 ${mainLevelMessage}
                 <div style="font-size: 0.7em; margin-top: 15px; font-family: Arial, sans-serif; opacity: 0.9;">Você avançou para o Nível ${quizState.currentLevel + 1}!</div>
-                <div style="font-size: 0.7em; margin-top: 5px; font-family: Arial, sans-serif; opacity: 0.9;">"${fraseChorao}"</div>
+                <div class="chorao-quote">"${fraseChorao}"</div>
                 ${livesFeedbackMessage}
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                     <button onclick="continueQuiz()">Avançar</button>
@@ -2365,17 +2402,18 @@
 
                 showQuestion();
                 updateQuizInfo();
-                updateLevelProgressBar();
+                // REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual
             }, 500); // Tempo para a transição de saída da mensagem
         }
 
         function updateQuizInfo() {
             elements.scoreText.textContent = `Pontos: ${quizState.score}`;
             let displayLevel = quizState.currentLevel + 1;
-            let totalDisplayLevels = quizState.totalMainLevels; // Mostra o progresso dos níveis principais
+            let totalDisplayLevels = quizState.totalMainLevels; // Inicia com o total de níveis principais
 
             if (quizState.isSecretLevelActive) {
-                displayLevel = "Secreto"; // Ou quizState.totalMainLevels + 1
+                // Se no nível secreto, o display do nível é "Secreto" e o total é a quantidade de níveis principais + 1
+                displayLevel = "Secreto"; 
                 totalDisplayLevels = quizState.totalMainLevels + 1; // Ajusta o total para incluir o secreto
                 elements.levelText.textContent = `Nível: ${displayLevel}/${totalDisplayLevels}`;
             } else {
@@ -2392,13 +2430,13 @@
             updatePowerUpCounts(); // Atualiza o display de power-ups
         }
 
-        function updateLevelProgressBar() {
+        /* REMOVIDO: Função updateLevelProgressBar não é más necessária */
+        /* function updateLevelProgressBar() {
             let progress = 0;
             let progressTextContent = '';
 
             if (quizState.isSecretLevelActive) {
-                // Se no nível secreto, o progresso da barra representa o progresso DENTRO do nível secreto
-                const secretLevelIndex = quizState.totalMainLevels; // Índice do nível secreto
+                const secretLevelIndex = quizState.totalMainLevels;
                 const questionsInSecretLevel = questionsByLevel[secretLevelIndex].perguntas.length;
                 
                 if (questionsInSecretLevel > 0) {
@@ -2408,7 +2446,6 @@
                 }
                 progressTextContent = `Nível Secreto: ${quizState.currentQuestionIndexInLevel}/${questionsInSecretLevel}`;
             } else {
-                // Progresso para os níveis principais
                 progress = (quizState.currentLevel / quizState.totalMainLevels) * 100;
                 progressTextContent = `Nível ${quizState.currentLevel}/${quizState.totalMainLevels}`;
             }
@@ -2423,7 +2460,7 @@
             } else if (quizState.currentLevel === quizState.totalLevels && quizState.isSecretLevelActive) {
                 elements.levelProgressBarText.textContent = `Lenda do CBJR!`;
             }
-        }
+        } */
 
         function updateLivesDisplay() {
             if (elements.livesCount) { // Verifica se o elemento existe
@@ -2687,7 +2724,7 @@
                         }, i * 100);
                     });
                     updateQuizInfo();
-                    updateLevelProgressBar(); // Garante que a barra de progresso do nível se atualize
+                    /* REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual */
                     startTimer();
                 }, 500);
             } else {
@@ -2699,7 +2736,7 @@
                     }, i * 100);
                 });
                 updateQuizInfo();
-                updateLevelProgressBar(); // Garante que a barra de progresso do nível se atualize
+                /* REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual */
                 startTimer();
             }
         }
@@ -2922,7 +2959,7 @@
                         console.log("checkAnswer: Vidas esgotadas. Chamando endGame (derrota).");
                         endGame(false); // Game Over definitivo
                     } else {
-                        quizState.currentQuestionIndexInLevel++; // Avança para a próxima pergunta
+                        quizState.currentQuestionIndexInLevel++;
                         showQuestion();
                     }
                 }, 4000);
@@ -2962,7 +2999,7 @@
             if (isWinner) { // Se for vencedor (agora só ocorre após o nível secreto)
                 unlockAchievement("all_levels_completed");
             }
-            updateLevelProgressBar(); // Atualiza barra final
+            /* REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual */
 
 
             let messageHtml = '';
@@ -3049,7 +3086,7 @@
                 elements.powerUpsContainer.style.display = 'none'; // Esconde power-ups
 
                 elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
-                updateLevelProgressBar(); // Reseta a barra de progresso
+                /* REMOVIDO: updateLevelProgressBar(); // Reseta a barra de progresso */
 
                 elements.quiz.innerHTML = '';
                 const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
@@ -3071,14 +3108,14 @@
                 if (timeLeft <= 0) {
                     console.log("startTimer: Tempo esgotado.");
                     clearInterval(timerInterval);
-                    handleTimerEnd();
+                    handleTimerEnd(); // Chamar a função de tratamento de fim de tempo
                 }
             }, 1000);
         }
 
         function handleTimerEnd() {
             console.log("handleTimerEnd: Tempo da pergunta esgotado.");
-            if (quizState.isProcessingAnswer) { // Evita duplicação
+            if (quizState.isProcessingAnswer) { // Evita duplicação de processamento
                 console.log("handleTimerEnd: Já processando resposta/fim. Saindo.");
                 return;
             }
@@ -3086,7 +3123,7 @@
             quizState.isProcessingAnswer = true; // Bloqueia interações
             elements.quiz.style.pointerEvents = 'none';
 
-            clearInterval(timerInterval);
+            clearInterval(timerInterval); // Garante que o timer pare
 
             const questionTextElement = document.getElementById('current-question-text');
             if (questionTextElement) {
@@ -3096,34 +3133,41 @@
                 }, { once: true });
             }
 
-            quizState.lives--; // **AQUI DECREMENTA A VIDA POR TIMEOUT!**
-            quizState.errorsInCurrentLevel++; // Mantido para a mensagem de fim de nível
-            quizState.consecutiveCorrectAnswers = 0; // Reseta o combo
-            updateLivesDisplay(); // Atualiza o display de vidas
-            updateQuizInfo(); // Atualiza a info (pontos, progresso, vidas)
+            // Lógica de perda de vida e reset de combo
+            quizState.lives--; 
+            quizState.errorsInCurrentLevel++; 
+            quizState.consecutiveCorrectAnswers = 0; 
+            updateLivesDisplay(); 
+            updateQuizInfo(); 
 
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
-            const buttons = elements.quiz.querySelectorAll('.answer-button');
-            buttons.forEach(button => {
-                button.disabled = true;
-            });
-
-            // Feedback visual de perda de vida por timeout
+            // Mostrar a resposta correta e a curiosidade antes de avançar
+            const correctButton = Array.from(elements.quiz.querySelectorAll('.answer-button'))
+                .find(button => button.dataset.answer === questionData.correta);
+            if (correctButton) {
+                correctButton.classList.add('correct', 'glow-correct');
+                correctButton.innerHTML += ' <span class="feedback-icon">✅</span>';
+            }
+            
             let lostLifeMsg = `Você não respondeu a tempo e perdeu 1 vida! Vidas restantes: ${quizState.lives}.`;
             showCuriosity(`${lostLifeMsg} A resposta correta era: "${questionData.correta}". ${questionData.curiosidade}`);
 
+            const buttons = elements.quiz.querySelectorAll('.answer-button');
+            buttons.forEach(button => {
+                button.disabled = true; // Desabilita todos os botões
+            });
 
             setTimeout(() => {
                 console.log(`handleTimerEnd: Vidas restantes: ${quizState.lives}.`);
-                quizState.isProcessingAnswer = false; // Resetar para permitir novas interações
-                if (quizState.lives <= 0) { // Game Over se vidas acabarem
+                quizState.isProcessingAnswer = false; // Permite novas interações na próxima tela/pergunta
+                if (quizState.lives <= 0) { 
                     console.log("handleTimerEnd: Vidas esgotadas. Chamando endGame (derrota).");
-                    endGame(false); // Game Over definitivo
+                    endGame(false); 
                 } else {
-                    quizState.currentQuestionIndexInLevel++;
-                    showQuestion();
+                    quizState.currentQuestionIndexInLevel++; // Avança para a próxima pergunta
+                    showQuestion(); // Carrega a próxima pergunta
                 }
-            }, 4000);
+            }, 4000); // Aguarda para o jogador ver o feedback antes de avançar
         };
 
         // --- Inicialização ao Carregar a Página ---
@@ -3164,7 +3208,7 @@
 
             elements.audio.volume = playerState.previousVolume;
             elements.volumeSlider.value = playerState.previousVolume;
-            elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
+            elements.volumeValueSpan.textContent = `${Math.round(elements.audio.volume * 100)}%`;
 
             if (elements.audio.volume === 0 || elements.audio.muted) {
                 elements.volumeSvg.style.display = 'none';
@@ -3195,7 +3239,7 @@
                         elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
                     }
                     showIntroMessage(); // CHAMA A MENSAGEM DE BOAS-VINDAS AQUI AO CARREGAR
-                    updateLevelProgressBar(); // Inicializa a barra de progresso de níveis
+                    // REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual
                 })
                 .catch(error => {
                     console.error('Erro ao carregar playlist:', error);
@@ -3208,12 +3252,12 @@
                     elements.muteBtn.disabled = true;
                     elements.volumeSlider.disabled = true;
                     showIntroMessage(); // Ainda mostra a intro message mesmo que a playlist falhe
-                    updateLevelProgressBar(); // Inicializa a barra de progresso de níveis mesmo com erro na playlist
+                    // REMOVIDO: updateLevelProgressBar(); // Não há mais barra de progresso visual
                 });
 
             // Adiciona listeners para os botões da tela de conclusão
             elements.startSecretLevelBtn.addEventListener('click', startSecretLevel);
-            elements.restartFromCompletionBtn.addEventListener('click', restartQuiz);
+            elements.restartFromCompletion-btn.addEventListener('click', restartQuiz);
         };
     </script>
 </body>
