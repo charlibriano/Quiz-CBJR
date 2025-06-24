@@ -40,6 +40,12 @@
             /* NOVO: Cor para a barra de vida */
             --cor-vida: #e74c3c; /* Vermelho vibrante */
             --cor-vida-fundo: rgba(231, 76, 60, 0.2); /* Fundo sutil para o coração */
+
+            /* NOVO: Cores para a tela de conclusão/nível secreto */
+            --cor-secreto-fundo: rgba(0, 0, 0, 0.8);
+            --cor-secreto-texto: var(--cor-amarelo-cbjr);
+            --cor-secreto-borda: #fff; /* Borda branca para o efeito */
+            --cor-secreto-sombra: rgba(241, 196, 15, 0.7); /* Amarelo com transparência */
         }
 
         @font-face {
@@ -99,6 +105,22 @@
             75% { transform: translateX(-5px); }
             100% { transform: translateX(0); }
         }
+
+        /* NOVO: Keyframes para o tremor da tela secreta */
+        @keyframes strong-shake {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            10% { transform: translate(-50%, -50%) rotate(-1deg); }
+            20% { transform: translate(-50%, -50%) rotate(1deg); }
+            30% { transform: translate(-50%, -50%) rotate(-1deg); }
+            40% { transform: translate(-50%, -50%) rotate(1deg); }
+            50% { transform: translate(-50%, -50%) rotate(0deg); }
+            /* Repete o tremor mais forte no final para sustentar o efeito */
+            60% { transform: translate(-50%, -50%) rotate(-1.5deg); }
+            70% { transform: translate(-50%, -50%) rotate(1.5deg); }
+            80% { transform: translate(-50%, -50%) rotate(-1.5deg); }
+            90% { transform: translate(-50%, -50%) rotate(1.5deg); }
+        }
+
 
         body {
             margin: 0;
@@ -1212,6 +1234,123 @@
             /* Removido o estilo duplicado para #start-btn, #restart-btn, #info-btn */
             /* Pois agora são estilizados pelo seletor #level-up-message .message-buttons button */
         }
+
+        /* --- NOVO: Estilo para a tela de conclusão/nível secreto --- */
+        #completion-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 700px;
+            background-color: var(--cor-secreto-fundo);
+            color: var(--cor-secreto-texto);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px var(--cor-secreto-sombra), 0 0 60px rgba(241, 196, 15, 0.4);
+            text-align: center;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+            border: 3px solid var(--cor-secreto-borda);
+            box-sizing: border-box;
+        }
+
+        #completion-screen.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #completion-screen.shake-animation {
+            animation: strong-shake 0.5s infinite alternate; /* Aplica o tremor */
+        }
+
+        #completion-screen h2 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 3em;
+            color: var(--cor-amarelo-cbjr);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--cor-secreto-sombra);
+            line-height: 1.2;
+        }
+
+        #completion-screen p {
+            font-family: Arial, sans-serif;
+            font-size: 1.1em;
+            color: var(--cor-texto-claro);
+            margin-bottom: 25px;
+            line-height: 1.5;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        #completion-screen .message-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        #completion-screen button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-family: 'Elektrix', sans-serif;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-amarelo-cbjr);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+
+        #completion-screen button:hover {
+            background-color: var(--cor-amarelo-cbjr);
+            color: var(--cor-preto-principal);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--cor-amarelo-cbjr);
+        }
+
+        /* Responsividade para a tela de conclusão */
+        @media (max-width: 768px) {
+            #completion-screen {
+                padding: 30px 20px;
+                width: 90%;
+            }
+            #completion-screen h2 {
+                font-size: 2.2em;
+            }
+            #completion-screen p {
+                font-size: 1em;
+            }
+            #completion-screen button {
+                font-size: 1em;
+                padding: 12px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #completion-screen {
+                padding: 20px 15px;
+            }
+            #completion-screen h2 {
+                font-size: 1.8em;
+                margin-bottom: 15px;
+            }
+            #completion-screen p {
+                font-size: 0.9em;
+                margin-bottom: 20px;
+            }
+            #completion-screen .message-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1272,6 +1411,15 @@
         </div>
     </div>
 
+    <div id="completion-screen" style="display:none;">
+        <h2>Parabéns, Fera!</h2>
+        <p>Você dominou o Quiz Charlie Brown Jr! <br> Sua paixão pela banda é inabalável.</p>
+        <p>Mas, se você é um verdadeiro "marginal alado", temos um desafio final!</p>
+        <div class="message-buttons">
+            <button id="start-secret-level-btn" onclick="startSecretLevel()">Nível Secreto: Hardcore!</button>
+            <button id="restart-from-completion-btn" onclick="restartQuiz()">Reiniciar Quiz</button>
+        </div>
+    </div>
 
     <div id="audio-player-wrapper">
         <audio id="audio"></audio>
@@ -1431,6 +1579,54 @@
                     "correta": "Família MTV",
                     "curiosidade": "No programa 'Família MTV gravado em 2005', Chorão mostrou detalhes da sua casa em Santos, incluindo sua rotina e ambiente pessoal." }
                 ]
+            },
+            // Nível Secreto Hardcore (Nível 8 - índice 7)
+            {
+                fraseChorao: "A vida me ensinou a nunca desistir, nem ganhar, nem perder, mas procurar evoluir...",
+                perguntas: [
+                    {
+                        pergunta: "Qual foi a primeira música da banda a atingir o 1º lugar nas rádios brasileiras?",
+                        respostas: ["Confisco", "Zóio de Lula", "Te Levar", "Só os Loucos Sabem"],
+                        correta: "Zóio de Lula",
+                        curiosidade: "'Zóio de Lula' foi o primeiro single da banda a alcançar o topo das rádios no Brasil, marcando um ponto de virada na popularidade do CBJR."
+                    },
+                    {
+                        pergunta: "Quantas faixas o Charlie Brown Jr. gravou em um único dia durante a produção de 'Preço Curto... Prazo Longo'?",
+                        respostas: ["12", "25", "16", "30"],
+                        correta: "25",
+                        curiosidade: "Durante a produção do álbum 'Preço Curto... Prazo Longo', a banda conseguiu o feito impressionante de gravar 25 faixas em um único dia, mostrando sua intensidade e criatividade."
+                    },
+                    {
+                        pergunta: "Quem precisava de autorização judicial para subir no palco em shows do Charlie Brown Jr. por ser menor de idade?",
+                        respostas: ["Champignon", "Marcão", "Pelado", "Thiago"],
+                        correta: "Champignon",
+                        curiosidade: "No início da carreira, Champignon ainda era menor de idade e precisava de autorização judicial para se apresentar em casas noturnas, um detalhe curioso da história da banda."
+                    },
+                    {
+                        pergunta: "Como surgiu o nome 'Charlie Brown Jr.'?",
+                        respostas: ["Baseado em filme favorito de Chorão", "Por uma barraca de coco com o personagem", "Nome de skate patrocinador", "Homenagem a um amigo"],
+                        correta: "Por uma barraca de coco com o personagem",
+                        curiosidade: "O nome surgiu depois que Chorão atropelou, sem querer, uma barraca na praia com o desenho do Charlie Brown; o 'Jr.' veio porque se viam como 'filhos do rock'."
+                    },
+                    {
+                        pergunta: "Qual foi o produtor musical responsável por grande parte dos álbuns de sucesso do Charlie Brown Jr.?",
+                        respostas: ["Rick Bonadio", "Liminha", "Dudu Marote", "Marcelo Sussekind"],
+                        correta: "Rick Bonadio",
+                        curiosidade: "Rick Bonadio foi um parceiro fundamental na carreira da banda, produzindo vários de seus álbuns mais aclamados, moldando o som que conquistou o Brasil."
+                    },
+                    {
+                        pergunta: "Qual o nome do livro que aborda a vida e morte de Champignon, lançado após sua partida?",
+                        respostas: ["Champignon: O Legado do Baixista", "Champignon: A Voz do Baixo", "O Legado de Champignon", "CHAMP - a incrível história do baixista Champignon do Charlie Brown Jr"],
+                        correta: "CHAMP - a incrível história do baixista Champignon do Charlie Brown Jr",
+                        curiosidade: "Nesta biografia densa, emocionante e investigativa, a carreira de 35 anos de Champignon é dissecada nos mínimos detalhes. O livro também conta tudo sobre a sua passagem à frente das bandas Music Legends e Revolucionnários, e ao lado de Junior Lima no grupo Nove Mil Anjos."
+                    },
+                    {
+                        pergunta: "Em que ano foi lançado o single “Só os Loucos Sabem”?",
+                        respostas: ["2008", "2010", "2004", "2012"],
+                        correta: "2010",
+                        curiosidade: "Lançada em março de 2010 como parte do álbum 'Camisa 10 (Joga Bola Até a Chuva)', 'Só os Loucos Sabem' foi reconhecida como um dos 10 maiores hits do século pela Rolling Stone."
+                    }
+                ]
             }
         ];
 
@@ -1451,9 +1647,19 @@
                 description: "Complete o Nível 5.",
                 unlocked: false
             },
+            "all_main_levels_completed": { // NOVA CONQUISTA para os 7 níveis principais
+                name: "Mestre da Vibe",
+                description: "Complete todos os 7 níveis principais do quiz.",
+                unlocked: false
+            },
+            "secret_level_completed": { // NOVA CONQUISTA para o nível secreto
+                name: "Lenda Secreta do CBJR",
+                description: "Conclua o Nível Secreto Hardcore.",
+                unlocked: false
+            },
             "all_levels_completed": {
                 name: "Lenda do CBJR",
-                description: "Complete todos os níveis do quiz.",
+                description: "Complete todos os níveis do quiz, incluindo o Secreto.",
                 unlocked: false
             },
             "combo_3x": {
@@ -1543,7 +1749,12 @@
             fiftyFiftyBtn: document.getElementById('fifty-fifty-btn'),
             fiftyFiftyCount: document.getElementById('fifty-fifty-count'),
             skipQuestionBtn: document.getElementById('skip-question-btn'), // Referência ao botão Pular
-            skipQuestionCount: document.getElementById('skip-question-count') // Referência ao contador Pular
+            skipQuestionCount: document.getElementById('skip-question-count'), // Referência ao contador Pular
+
+            // NOVO: Elemento para a tela de conclusão
+            completionScreen: document.getElementById('completion-screen'),
+            startSecretLevelBtn: document.getElementById('start-secret-level-btn'),
+            restartFromCompletionBtn: document.getElementById('restart-from-completion-btn')
         };
 
         // --- Constantes para Pontuação e Tempo ---
@@ -1581,7 +1792,9 @@
             quizPaused: false,
             isProcessingAnswer: false, 
             currentLevelQuestions: [],
-            totalLevels: questionsByLevel.length,
+            totalLevels: questionsByLevel.length, // Agora inclui o nível secreto no total
+            totalMainLevels: questionsByLevel.length - 1, // Total de níveis principais (sem o secreto)
+            isSecretLevelActive: false, // NOVO: Flag para identificar se o nível secreto está ativo
             totalQuestions: 0, 
             highScore: 0,
             scoreAtLevelStart: 0,
@@ -1958,7 +2171,9 @@
                     quizPaused: false, // O quiz não está más pausado
                     isProcessingAnswer: false, // Nenhuma resposta está sendo processada no início
                     currentLevelQuestions: [], // Será preenchido em loadLevel
-                    totalLevels: questionsByLevel.length,
+                    totalLevels: questionsByLevel.length, // Agora inclui o nível secreto
+                    totalMainLevels: questionsByLevel.length - 1,
+                    isSecretLevelActive: false, // Garante que não está no nível secreto
                     totalQuestions: 0, // Recalcular em loadLevel se necessário
                     highScore: quizState.highScore, // Manter o high score carregado
                     scoreAtLevelStart: 0,
@@ -1995,8 +2210,32 @@
             }, 500); // Aguarda a transição de saída da mensagem
         }
 
+        // NOVO: Função para iniciar o nível secreto
+        function startSecretLevel() {
+            console.log("startSecretLevel: Iniciando o Nível Secreto.");
+            elements.completionScreen.classList.remove('show', 'shake-animation');
+            setTimeout(() => {
+                elements.completionScreen.style.display = 'none';
+                elements.mainOverlay.style.display = 'none';
+                elements.quiz.style.display = 'flex';
+                quizState.quizPaused = false;
+                quizState.isProcessingAnswer = false;
+                elements.quiz.style.pointerEvents = 'all';
+                elements.livesDisplay.style.display = 'flex';
+                elements.powerUpsContainer.style.display = 'flex';
+
+                quizState.currentLevel = quizState.totalMainLevels; // Define o nível atual para o índice do nível secreto
+                quizState.isSecretLevelActive = true;
+                quizState.errorsInCurrentLevel = 0; // Reseta erros para o nível secreto
+                quizState.consecutiveCorrectAnswers = 0; // Reseta combo para o nível secreto
+
+                loadLevel(true); // Carrega o nível secreto
+            }, 500);
+        }
+
         function loadLevel(isStartOfQuiz = false) {
-            console.log(`loadLevel: Carregando Nível ${quizState.currentLevel + 1}. isStartOfQuiz: ${isStartOfQuiz}`);
+            console.log(`loadLevel: Carregando Nível ${quizState.currentLevel + 1}. isStartOfQuiz: ${isStartOfQuiz}. Secret Level Active: ${quizState.isSecretLevelActive}`);
+            
             const oldCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (oldCuriositySidebar) {
                 oldCuriositySidebar.classList.remove('show');
@@ -2005,17 +2244,19 @@
                 }, 500);
             }
 
-            // Verifica se todos os níveis foram completados
-            if (quizState.currentLevel >= questionsByLevel.length) {
-                console.log("loadLevel: Todos os níveis completados. Finalizando jogo (vitória).");
-                endGame(true); // Finaliza o jogo como vencedor
+            // Lógica para quando o jogador completa os N níveis principais
+            if (!quizState.isSecretLevelActive && quizState.currentLevel >= quizState.totalMainLevels) {
+                console.log("loadLevel: Todos os níveis principais completados. Exibindo tela de conclusão.");
+                showCompletionScreen();
                 return;
             }
 
-            // Verifica conquistas de nível completado
-            if (quizState.currentLevel === 1) { unlockAchievement("first_level_completed"); }
-            if (quizState.currentLevel === 3) { unlockAchievement("level_3_completed"); }
-            if (quizState.currentLevel === 5) { unlockAchievement("level_5_completed"); }
+            // Lógica para quando o jogador completa o Nível Secreto (se ele estiver ativo)
+            if (quizState.isSecretLevelActive && quizState.currentLevel >= quizState.totalLevels) {
+                console.log("loadLevel: Nível Secreto completado. Finalizando jogo (vitória final).");
+                endGame(true); // Finaliza o jogo como vencedor (após o nível secreto)
+                return;
+            }
 
             // --- Lógica de Recuperação de Vida ---
             // Recupera vida: APENAS SE Nível > 0 (não é o primeiro nível) E ZEROU ERROS NO NÍVEL ANTERIOR E NÃO ESTÁ COM VIDAS NO MÁXIMO
@@ -2035,7 +2276,7 @@
             quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
             shuffleArray(quizState.currentLevelQuestions);
 
-            if (!isStartOfQuiz && quizState.currentLevel > 0) {
+            if (!isStartOfQuiz && quizState.currentLevel > 0 && !quizState.isSecretLevelActive) { // Não mostra LevelUpMessage para o nível secreto
                 // Se não é a primeira vez que o quiz carrega e o nível atual é > 0, significa que avançou de nível.
                 console.log("loadLevel: Avançou para um novo nível. Mostrando mensagem de level-up.");
                 // Passar o número de erros do NÍVEL ANTERIOR E se a vida foi recuperada para a mensagem
@@ -2047,6 +2288,24 @@
                 updateLevelProgressBar();
                 // isProcessingAnswer será setado como false no showQuestion
             }
+        }
+
+        // NOVO: Função para mostrar a tela de conclusão dos níveis principais
+        function showCompletionScreen() {
+            console.log("showCompletionScreen: Exibindo tela de conclusão dos níveis principais.");
+            quizState.quizPaused = true;
+            quizState.isProcessingAnswer = true;
+            elements.quiz.style.pointerEvents = 'none';
+            elements.mainOverlay.style.display = 'block';
+            elements.livesDisplay.style.display = 'none';
+            elements.powerUpsContainer.style.display = 'none';
+            clearInterval(timerInterval);
+
+            elements.quiz.innerHTML = ''; // Limpar quiz
+
+            elements.completionScreen.style.display = 'flex';
+            elements.completionScreen.classList.add('show');
+            elements.completionScreen.classList.add('shake-animation'); // Aplica o tremor
         }
 
         function showLevelUpMessage(errorsInPreviousLevel = 0, hasRecoveredLife = false) {
@@ -2071,7 +2330,7 @@
                     if (hasRecoveredLife) { // Se a lógica de recuperação foi ativada e adicionou vida
                         livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-verde-vibrante);">Perfeito! Você recuperou ${LIVES_RECOVER_PER_LEVEL} vida(s)! ❤️</p>`;
                     } else { // Já estava com o máximo de vidas e não errou
-                         livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
+                            livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
                     }
                 } else if (errorsInPreviousLevel === 1) {
                     livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Errou 1 heim mané! Pra ser CBJR tem que ficar más esperto.</p>`;
@@ -2112,7 +2371,17 @@
 
         function updateQuizInfo() {
             elements.scoreText.textContent = `Pontos: ${quizState.score}`;
-            elements.levelText.textContent = `Nível: ${quizState.currentLevel + 1}/${quizState.totalLevels}`;
+            let displayLevel = quizState.currentLevel + 1;
+            let totalDisplayLevels = quizState.totalMainLevels; // Mostra o progresso dos níveis principais
+
+            if (quizState.isSecretLevelActive) {
+                displayLevel = "Secreto"; // Ou quizState.totalMainLevels + 1
+                totalDisplayLevels = quizState.totalMainLevels + 1; // Ajusta o total para incluir o secreto
+                elements.levelText.textContent = `Nível: ${displayLevel}/${totalDisplayLevels}`;
+            } else {
+                elements.levelText.textContent = `Nível: ${displayLevel}/${totalDisplayLevels}`;
+            }
+            
             if (quizState.currentLevelQuestions.length > 0) {
                 elements.progressText.textContent = `Pergunta: ${quizState.currentQuestionIndexInLevel + 1}/${quizState.currentLevelQuestions.length}`;
             } else {
@@ -2124,13 +2393,35 @@
         }
 
         function updateLevelProgressBar() {
-            const progress = (quizState.currentLevel / quizState.totalLevels) * 100;
+            let progress = 0;
+            let progressTextContent = '';
+
+            if (quizState.isSecretLevelActive) {
+                // Se no nível secreto, o progresso da barra representa o progresso DENTRO do nível secreto
+                const secretLevelIndex = quizState.totalMainLevels; // Índice do nível secreto
+                const questionsInSecretLevel = questionsByLevel[secretLevelIndex].perguntas.length;
+                
+                if (questionsInSecretLevel > 0) {
+                    progress = (quizState.currentQuestionIndexInLevel / questionsInSecretLevel) * 100;
+                } else {
+                    progress = 0;
+                }
+                progressTextContent = `Nível Secreto: ${quizState.currentQuestionIndexInLevel}/${questionsInSecretLevel}`;
+            } else {
+                // Progresso para os níveis principais
+                progress = (quizState.currentLevel / quizState.totalMainLevels) * 100;
+                progressTextContent = `Nível ${quizState.currentLevel}/${quizState.totalMainLevels}`;
+            }
+            
             elements.levelProgressBarFill.style.width = `${progress}%`;
-            elements.levelProgressBarText.textContent = `Nível ${quizState.currentLevel}/${quizState.totalLevels}`;
-            if (quizState.currentLevel === 0) {
+            elements.levelProgressBarText.textContent = progressTextContent;
+
+            if (quizState.currentLevel === 0 && !quizState.isSecretLevelActive) {
                 elements.levelProgressBarText.textContent = `Comece a Jornada!`;
-            } else if (quizState.currentLevel === quizState.totalLevels) {
-                elements.levelProgressBarText.textContent = `Fim da Jornada!`;
+            } else if (quizState.currentLevel === quizState.totalMainLevels && !quizState.isSecretLevelActive) {
+                elements.levelProgressBarText.textContent = `Pronto para o Desafio Final!`;
+            } else if (quizState.currentLevel === quizState.totalLevels && quizState.isSecretLevelActive) {
+                elements.levelProgressBarText.textContent = `Lenda do CBJR!`;
             }
         }
 
@@ -2352,8 +2643,8 @@
             }
 
             if (quizState.currentQuestionIndexInLevel >= quizState.currentLevelQuestions.length) {
-                console.log(`showQuestion: Todas as perguntas do Nível ${quizState.currentLevel + 1} foram respondidas. Avançando para o próximo nível.`);
-                quizState.currentLevel++;
+                console.log(`showQuestion: Todas as perguntas do Nível ${quizState.currentLevel + 1} foram respondidas.`);
+                quizState.currentLevel++; 
                 loadLevel(); // Carrega o próximo nível ou encerra o jogo
                 return; 
             }
@@ -2396,6 +2687,7 @@
                         }, i * 100);
                     });
                     updateQuizInfo();
+                    updateLevelProgressBar(); // Garante que a barra de progresso do nível se atualize
                     startTimer();
                 }, 500);
             } else {
@@ -2407,6 +2699,7 @@
                     }, i * 100);
                 });
                 updateQuizInfo();
+                updateLevelProgressBar(); // Garante que a barra de progresso do nível se atualize
                 startTimer();
             }
         }
@@ -2414,7 +2707,7 @@
         function handleQuizClick(event) {
             // Ordem de prioridade: overlays > botões de power-up > botões de resposta
             
-            // 1. Lidar com cliques em telas de overlay (conquistas, level-up/intro)
+            // 1. Lidar com cliques em telas de overlay (conquistas, level-up/intro, completion-screen)
             if (elements.achievementsScreen.classList.contains('show')) {
                 if (event.target.id === 'close-achievements-btn' || event.target.id === 'achievements-screen') {
                     closeAchievementsScreen();
@@ -2422,7 +2715,13 @@
                 event.stopPropagation();
                 return;
             }
-            // A tela de estatísticas não está no HTML desta versão, então não precisa de verificação aqui.
+            if (elements.completionScreen.classList.contains('show')) {
+                const clickedButtonInCompletion = event.target.closest('#completion-screen button');
+                if (!clickedButtonInCompletion) { // Só impede se o clique não foi em um botão dentro da tela
+                    event.stopPropagation();
+                }
+                return;
+            }
             if (elements.levelUpMessage.classList.contains('show')) {
                 const clickedButtonInMessage = event.target.closest('.message-buttons button');
                 if (!clickedButtonInMessage) {
@@ -2462,7 +2761,18 @@
                 if (event.key === 'Escape') { closeAchievementsScreen(); }
                 return;
             }
-            // A tela de estatísticas não está no HTML desta versão
+            if (elements.completionScreen.classList.contains('show')) {
+                if (event.key === 'Enter') {
+                    // Clica no botão "Nível Secreto" ou "Reiniciar"
+                    const secretLevelBtn = elements.completionScreen.querySelector('#start-secret-level-btn');
+                    if (secretLevelBtn) secretLevelBtn.click();
+                    else {
+                         const restartBtn = elements.completionScreen.querySelector('#restart-from-completion-btn');
+                         if (restartBtn) restartBtn.click();
+                    }
+                }
+                return;
+            }
             if (elements.levelUpMessage.classList.contains('show')) {
                 if (event.key === 'Enter') {
                     const continueButton = elements.levelUpMessage.querySelector('button');
@@ -2627,6 +2937,7 @@
             elements.mainOverlay.style.display = 'block';
             elements.livesDisplay.style.display = 'none'; // Esconde vidas
             elements.powerUpsContainer.style.display = 'none'; // Esconde power-ups
+            elements.completionScreen.classList.remove('show', 'shake-animation'); // Esconde a tela de conclusão se estiver visível
 
             clearInterval(timerInterval); // Garante que nenhum timer esteja rodando
 
@@ -2648,53 +2959,43 @@
                 unlockAchievement("new_high_score");
             }
 
-            if (isWinner && quizState.currentLevel === quizState.totalLevels) {
+            if (isWinner) { // Se for vencedor (agora só ocorre após o nível secreto)
                 unlockAchievement("all_levels_completed");
             }
-            updateLevelProgressBar();
+            updateLevelProgressBar(); // Atualiza barra final
+
 
             let messageHtml = '';
             let bgColor = 'var(--cor-fundo-transparente)';
+            let title = '';
 
             if (isWinner) {
-                let medalTitle = "";
-                const totalPossibleQuestions = questionsByLevel.reduce((acc, level) => acc + level.perguntas.length, 0);
-                const maxPossibleScore = totalPossibleQuestions * (BASE_SCORE_PER_CORRECT + BONUS_MAX);
-
-                if (quizState.score === maxPossibleScore) {
-                    medalTitle = "Mestre Chorão! 🎸🏆";
-                } else if (quizState.score >= maxPossibleScore * 0.75) {
-                    medalTitle = "Fã Conhecedor! 🧠✨";
-                } else if (quizState.score >= maxPossibleScore * 0.5) {
-                    medalTitle = "Fã Iniciado! 🤘";
-                } else {
-                    medalTitle = "Skate na Mão! 😉";
-                }
-
+                title = "Parabéns, Lenda do CBJR!";
+                bgColor = 'rgba(46, 204, 113, 0.7)'; // Verde de vitória
                 messageHtml = `
-                    <div>${medalTitle}</div>
-                    <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Pontuação Total: <b>${quizState.score}</b></div>
-                    <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu Recorde: <b>${quizState.highScore}</b></div>
-                    <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Pontos de Combo: <b>${quizState.comboPointsEarned}</b></div>
-                    <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Maior Sequência de Acertos: <b>${quizState.highestCombo}</b></div>
-                    <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                        <button onclick="restartQuiz()">Jogar Novamente</button>
-                    </div>
+                    <div>${title}</div>
+                    <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Você completou todos os níveis, incluindo o Secreto!</div>
                 `;
             } else { // Game Over por vidas (ou erros no nível)
-                messageHtml = `
-                    <div>Suas vidas acabaram!</div>
-                    <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">A vida me ensinou a nunca desistir... Tente novamente!</div>
-                    <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Sua Pontuação Total: <b>${quizState.score}</b></div>
-                    <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu Recorde: <b>${quizState.highScore}</b></div>
-                    <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Pontos de Combo: <b>${quizState.comboPointsEarned}</b></div>
-                    <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Maior Sequência de Acertos: <b>${quizState.highestCombo}</b></div>
-                    <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                        <button onclick="restartQuiz()">Reiniciar Quiz (Do Início)</button>
-                    </div>
-                `;
+                title = "Suas vidas acabaram!";
                 bgColor = 'rgba(231, 76, 60, 0.7)'; // Vermelho um pouco transparente para erro
+                messageHtml = `
+                    <div>${title}</div>
+                    <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">A vida me ensinou a nunca desistir... Tente novamente!</div>
+                `;
             }
+
+            // Estatísticas comuns para ambos os cenários
+            messageHtml += `
+                <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Sua Pontuação Total: <b>${quizState.score}</b></div>
+                <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu Recorde: <b>${quizState.highScore}</b></div>
+                <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Pontos de Combo: <b>${quizState.comboPointsEarned}</b></div>
+                <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Maior Sequência de Acertos: <b>${quizState.highestCombo}</b></div>
+                <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <button onclick="restartQuiz()">Reiniciar Quiz</button>
+                </div>
+            `;
+            
             elements.levelUpMessage.innerHTML = messageHtml;
             elements.levelUpMessage.style.backgroundColor = bgColor;
             elements.levelUpMessage.style.display = 'flex';
@@ -2705,6 +3006,8 @@
             console.log("restartQuiz: Reiniciando o quiz.");
             elements.levelUpMessage.classList.remove('show');
             elements.achievementsScreen.classList.remove('show');
+            elements.completionScreen.classList.remove('show', 'shake-animation'); // Esconde a tela de conclusão também
+            
             setTimeout(() => {
                 Object.assign(quizState, {
                     currentLevel: 0,
@@ -2715,7 +3018,9 @@
                     quizPaused: false,
                     isProcessingAnswer: false, 
                     currentLevelQuestions: [],
-                    totalLevels: questionsByLevel.length,
+                    totalLevels: questionsByLevel.length, 
+                    totalMainLevels: questionsByLevel.length - 1,
+                    isSecretLevelActive: false, // Resetar a flag do nível secreto
                     totalQuestions: 0, 
                     highScore: parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0'), // Recarrega high score
                     scoreAtLevelStart: 0,
@@ -2744,7 +3049,7 @@
                 elements.powerUpsContainer.style.display = 'none'; // Esconde power-ups
 
                 elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
-                updateLevelProgressBar();
+                updateLevelProgressBar(); // Reseta a barra de progresso
 
                 elements.quiz.innerHTML = '';
                 const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
@@ -2839,6 +3144,9 @@
             quizState.highScore = parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0');
             elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
 
+            // Initialize totalMainLevels based on the actual number of main levels
+            quizState.totalMainLevels = questionsByLevel.length - 1; // All levels minus the secret one
+
             preloadImages(backgroundImages, () => {
                 document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
                 changeBackgroundImageInterval();
@@ -2902,6 +3210,10 @@
                     showIntroMessage(); // Ainda mostra a intro message mesmo que a playlist falhe
                     updateLevelProgressBar(); // Inicializa a barra de progresso de níveis mesmo com erro na playlist
                 });
+
+            // Adiciona listeners para os botões da tela de conclusão
+            elements.startSecretLevelBtn.addEventListener('click', startSecretLevel);
+            elements.restartFromCompletionBtn.addEventListener('click', restartQuiz);
         };
     </script>
 </body>
