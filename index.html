@@ -1168,55 +1168,74 @@
             margin-bottom: 4px; /* Ajustado */
         }
 
-        /* Media query para telas médias (tablets e smartphones maiores) */
+        /* Media query para telas médias (tablets e smartphones maiores) - Otimizado */
         @media (max-width: 768px) {
             #level-up-message {
-                padding: 18px 25px;
-                font-size: 1.6em;
-                max-width: 90%;
-                min-width: unset;
-                gap: 12px;
+                padding: 25px 30px; /* Aumentado padding para mais espaço */
+                font-size: 1.5em; /* Reduzido um pouco para ser mais responsivo */
+                max-width: 90%; /* Ocupa mais espaço horizontal */
+                min-width: unset; /* Remove min-width para flexibilidade */
+                gap: 15px; /* Mantido ou levemente ajustado o gap */
             }
             #level-up-message h3 {
-                font-size: 1em;
+                font-size: 1.2em; /* Título principal um pouco maior */
+                margin-bottom: 10px; /* Ajustado */
             }
             #level-up-message p {
-                font-size: 0.8em;
+                font-size: 0.9em; /* Texto do parágrafo um pouco maior */
+                line-height: 1.5; /* Melhorar legibilidade */
             }
             #level-up-message ul {
-                font-size: 0.7em;
-                max-width: 95%;
+                font-size: 0.8em; /* Lista maior */
+                padding-left: 20px; /* Aumentado indentação */
+                max-width: 95%; /* Ocupa mais largura */
+                margin: 15px auto; /* Más margem vertical */
+            }
+            #level-up-message li {
+                margin-bottom: 6px; /* Más espaço entre itens da lista */
             }
             #level-up-message .message-buttons {
-                flex-direction: column;
-                gap: 8px;
+                flex-direction: row; /* Volta para linha em telas médias */
+                gap: 15px; /* Espaço entre botões */
+            }
+            #level-up-message .message-buttons button {
+                padding: 15px 25px; /* Botões maiores e más fáceis de tocar */
+                font-size: 1.1em; /* Fonte dos botões más legível */
             }
         }
 
-        /* Media query para telas pequenas (smartphones menores) */
+        /* Media query para telas pequenas (smartphones menores) - Otimizado */
         @media (max-width: 480px) {
             #level-up-message {
-                padding: 15px 20px;
-                font-size: 1.1em;
-                border-radius: 10px;
-                width: 90%;
-                max-width: 280px;
-                gap: 10px;
+                padding: 20px; /* Padding ajustado */
+                font-size: 1.3em; /* Reduzido o font-size base novamente */
+                border-radius: 10px; /* Bordas más suaves */
+                width: 95%; /* Ocupa quase toda a largura */
+                max-width: 350px; /* Limite máximo para evitar que fique muito grande em landscape */
+                gap: 12px; /* Gap ajustado */
             }
             #level-up-message h3 {
-                font-size: 0.85em;
+                font-size: 1.1em; /* Título principal ainda legível */
             }
             #level-up-message p {
-                font-size: 0.7em;
+                font-size: 0.85em; /* Texto do parágrafo */
             }
             #level-up-message ul {
-                font-size: 0.6em;
-                max-width: 98%;
-                padding-left: 8px;
+                font-size: 0.75em; /* Lista menor, but ainda clara */
+                padding-left: 15px; /* Indentação mantida */
+                max-width: 100%; /* Ocupa toda a largura disponível */
+                margin: 10px auto; /* Margem ajustada */
+            }
+            #level-up-message li {
+                margin-bottom: 5px; /* Espaço entre itens da lista */
             }
             #level-up-message .message-buttons {
-                flex-direction: column;
-                gap: 6px;
+                flex-direction: column; /* Força coluna para botões em telas pequenas */
+                gap: 10px; /* Espaço entre botões */
+            }
+            #level-up-message .message-buttons button {
+                padding: 12px 20px; /* Botões menores, but ainda clicáveis */
+                font-size: 1em; /* Fonte dos botões */
             }
         }
 
@@ -1564,7 +1583,7 @@
         @media (max-width: 480px) {
             #achievement-detail-popup {
                 padding: 20px;
-                width: 95%; /* Ocupa mais largura em mobile */
+                width: 95%; /* Ocupa más largura em mobile */
                 max-width: 300px;
             }
             #achievement-detail-popup h3 {
@@ -1579,6 +1598,26 @@
             }
         }
 
+        /* Ajustes para a overlay principal */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro semi-transparente */
+            z-index: 1500; /* Z-index para estar abaixo dos pop-ups mas acima do quiz */
+            display: none; /* Inicialmente oculto */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none; /* Por padrão, permite que eventos passem por ela */
+        }
+
+        /* Adicionar classes para controlar a overlay com JS */
+        #overlay.active {
+            opacity: 1;
+            pointer-events: all; /* Ativa os ponteiros quando a overlay está ativa e cobrindo algo */
+        }
     </style>
 </head>
 <body>
@@ -1616,11 +1655,11 @@
     <div id="points-popup" style="display:none;"></div>
     <div id="combo-message" style="display:none;"></div>
     <div id="achievement-popup" style="display:none;"></div>
-    <div id="overlay" style="display:none;"></div>
+    
+    <div id="main-overlay" style="display:none;"></div>
 
     <div id="achievements-screen" style="display:none;">
-        <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2> <!-- Apliquei o font-family aqui -->
-        <div id="achievements-list"></div>
+        <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2> <div id="achievements-list"></div>
         <button id="close-achievements-btn" onclick="closeAchievementsScreen()">Voltar</button>
     </div>
 
@@ -1645,14 +1684,12 @@
         </div>
     </div>
 
-    <!-- NOVO: Tela de Ranking Online -->
     <div id="ranking-screen" style="display:none;">
         <h2>Top 10 Feras do CBJR</h2>
         <ol id="ranking-list"></ol>
         <button id="close-ranking-btn" onclick="closeRankingScreen()">Voltar ao Início</button>
     </div>
 
-    <!-- NOVO: Pop-up de Detalhes da Conquista -->
     <div id="achievement-detail-popup" style="display:none;">
         <h3 id="detail-achievement-name"></h3>
         <p id="detail-achievement-description"></p>
@@ -1984,7 +2021,7 @@
             pointsPopup: document.getElementById('points-popup'),
             comboMessage: document.getElementById('combo-message'),
             achievementPopup: document.getElementById('achievement-popup'),
-            mainOverlay: document.getElementById('overlay'),
+            mainOverlay: document.getElementById('main-overlay'), // Alterado para main-overlay
             achievementsScreen: document.getElementById('achievements-screen'),
             achievementsList: document.getElementById('achievements-list'),
             curiosityBox: document.createElement('div'), 
@@ -2029,7 +2066,7 @@
             rankingList: document.getElementById('ranking-list'),
             closeRankingBtn: document.getElementById('close-ranking-btn'),
 
-            // NOVO: Elementos do Pop-up de Detalhes da Conquista
+            // NOVO: Pop-up de Detalhes da Conquista
             achievementDetailPopup: document.getElementById('achievement-detail-popup'),
             detailAchievementName: document.getElementById('detail-achievement-name'),
             detailAchievementDescription: document.getElementById('detail-achievement-description'),
@@ -2450,10 +2487,23 @@
         }
 
         // --- Funções do Quiz ---
+        // Funções para controlar a visibilidade da overlay principal
+        function showMainOverlay() {
+            elements.mainOverlay.style.display = 'block';
+            elements.mainOverlay.classList.add('active');
+        }
+
+        function hideMainOverlay() {
+            elements.mainOverlay.classList.remove('active');
+            setTimeout(() => {
+                elements.mainOverlay.style.display = 'none';
+            }, 500); // Tempo da transição CSS
+        }
+
         function showIntroMessage() {
             console.log("showIntroMessage: Exibindo tela de introdução.");
             quizState.quizPaused = true; // Pausa o quiz
-            elements.mainOverlay.style.display = 'block'; // Mostra a overlay
+            showMainOverlay(); // Mostra a overlay principal
             
             elements.quiz.innerHTML = ''; // Limpa qualquer conteúdo anterior do quiz
 
@@ -2475,8 +2525,7 @@
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                     <button id="start-quiz-button" onclick="startQuiz()">Entendi! Começar!</button>
                     <button id="show-achievements-button" onclick="showAchievementsScreen()">Conquistas</button>
-                    <button id="show-ranking-button-intro" onclick="showRankingScreen()">Ranking Online</button> <!-- NOVO BOTÃO -->
-                </div>
+                    <button id="show-ranking-button-intro" onclick="showRankingScreen()">Ranking Online</button> </div>
             `;
             elements.levelUpMessage.style.display = 'flex'; // Mostra a mensagem
             elements.levelUpMessage.classList.add('show');
@@ -2490,10 +2539,10 @@
         function startQuiz() {
             console.log("startQuiz: Iniciando o quiz.");
             elements.levelUpMessage.classList.remove('show'); 
+            hideMainOverlay(); // Esconde a overlay principal
             
             setTimeout(() => {
                 elements.levelUpMessage.style.display = 'none'; // Esconde display da mensagem
-                elements.mainOverlay.style.display = 'none'; // Esconde a overlay
                 elements.quiz.style.display = 'flex'; // Torna o quiz visível
 
                 // Resetar o quizState completamente para um novo jogo
@@ -2547,9 +2596,9 @@
         function startSecretLevel() {
             console.log("startSecretLevel: Iniciando o Nível Secreto.");
             elements.completionScreen.classList.remove('show', 'shake-animation');
+            hideMainOverlay(); // Esconde a overlay principal
             setTimeout(() => {
                 elements.completionScreen.style.display = 'none';
-                elements.mainOverlay.style.display = 'none';
                 elements.quiz.style.display = 'flex';
                 quizState.quizPaused = false;
                 quizState.isProcessingAnswer = false;
@@ -2639,7 +2688,7 @@
             quizState.quizPaused = true;
             quizState.isProcessingAnswer = true;
             elements.quiz.style.pointerEvents = 'none';
-            elements.mainOverlay.style.display = 'block';
+            showMainOverlay(); // Mostra a overlay principal
             elements.livesDisplay.style.display = 'none';
             elements.powerUpsContainer.style.display = 'none';
             clearInterval(timerInterval);
@@ -2656,7 +2705,7 @@
             quizState.quizPaused = true; // Pausa o quiz
             quizState.isProcessingAnswer = true; // Bloqueia interações durante a mensagem
             elements.quiz.style.pointerEvents = 'none'; // Desabilita cliques no quiz
-            elements.mainOverlay.style.display = 'block'; // Mostra overlay
+            showMainOverlay(); // Mostra overlay principal
 
             clearInterval(timerInterval); // Para qualquer timer de pergunta
 
@@ -2700,9 +2749,9 @@
         function continueQuiz() {
             console.log("continueQuiz: Continuando o quiz após mensagem de level-up.");
             elements.levelUpMessage.classList.remove('show');
+            hideMainOverlay(); // Esconde a overlay principal
             setTimeout(() => {
                 elements.levelUpMessage.style.display = 'none';
-                elements.mainOverlay.style.display = 'none';
                 quizState.quizPaused = false; // Despausa o quiz
                 // isProcessingAnswer será setado em showQuestion como false
                 elements.quiz.style.pointerEvents = 'all';
@@ -2715,10 +2764,9 @@
         function updateQuizInfo() {
             elements.scoreText.textContent = `Pontos: ${quizState.score}`;
             let displayLevel = quizState.currentLevel + 1;
-            let totalDisplayLevels = quizState.totalMainLevels; // Inicia com o total de níveis principais
+            let totalDisplayLevels = quizState.currentLevel === quizState.totalMainLevels ? quizState.totalMainLevels : quizState.totalMainLevels; // Ajuste para o número correto de níveis principais
 
             if (quizState.isSecretLevelActive) {
-                // Se no nível secreto, o display do nível é "Secreto" e o total é a contagem, e o total é a quantidade de níveis principais + 1
                 displayLevel = "Secreto"; 
                 totalDisplayLevels = quizState.totalMainLevels + 1; // Ajusta o total para incluir o secreto
                 elements.levelText.textContent = `Nível: ${displayLevel}/${totalDisplayLevels}`;
@@ -2893,7 +2941,7 @@
         function showAchievementsScreen() {
             console.log("showAchievementsScreen: Exibindo tela de conquistas.");
             quizState.quizPaused = true;
-            elements.mainOverlay.style.display = 'block';
+            showMainOverlay(); // Mostra a overlay principal
             elements.levelUpMessage.classList.remove('show');
             elements.levelUpMessage.style.display = 'none';
             elements.rankingScreen.classList.remove('show'); // Garante que o ranking está escondido
@@ -2939,14 +2987,14 @@
 
 
             elements.achievementDetailPopup.classList.add('show');
-            elements.mainOverlay.style.display = 'block'; // Mostra a overlay principal
+            showMainOverlay(); // Mostra a overlay principal
             quizState.quizPaused = true; // Pausa o quiz
         }
 
         // NOVO: Função para fechar o pop-up de detalhes da conquista
         function closeAchievementDetailPopup() {
             elements.achievementDetailPopup.classList.remove('show');
-            elements.mainOverlay.style.display = 'none'; // Esconde a overlay principal
+            hideMainOverlay(); // Esconde a overlay principal
             quizState.quizPaused = false; // Despausa o quiz
         }
 
@@ -3058,57 +3106,59 @@
             // Ordem de prioridade: overlays > botões de power-up > botões de resposta
             
             // 1. Lidar com cliques em telas de overlay (conquistas, level-up/intro, completion-screen, ranking-screen)
+            // Se qualquer uma dessas telas está ativa, ela deve consumir o clique.
             if (elements.achievementsScreen.classList.contains('show')) {
-                // Se o clique for em um card de conquista, abre o detalhe
                 const clickedCard = event.target.closest('.achievement-card');
                 if (clickedCard) {
                     const achievementId = clickedCard.dataset.achievementId;
                     showAchievementDetailPopup(achievementId);
-                    event.stopPropagation(); // Impede que o clique feche a tela de conquistas
-                } else if (event.target.id === 'close-achievements-btn' || event.target.id === 'achievements-screen') {
+                } else if (event.target.id === 'close-achievements-btn') { // Apenas o botão de fechar dentro da tela
                     closeAchievementsScreen();
                 }
-                event.stopPropagation();
+                event.stopPropagation(); // Sempre parar a propagação se uma tela de overlay está ativa
                 return;
             }
-            if (elements.rankingScreen.classList.contains('show')) { // NOVO: Lidar com cliques no ranking
-                if (event.target.id === 'close-ranking-btn' || event.target.id === 'ranking-screen') {
+            if (elements.rankingScreen.classList.contains('show')) {
+                if (event.target.id === 'close-ranking-btn') { // Apenas o botão de fechar dentro da tela
                     closeRankingScreen();
                 }
                 event.stopPropagation();
                 return;
             }
-            if (elements.achievementDetailPopup.classList.contains('show')) { // NOVO: Lidar com cliques no pop-up de detalhes
+            if (elements.achievementDetailPopup.classList.contains('show')) {
                 if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Fechar') {
                     closeAchievementDetailPopup();
                 }
-                event.stopPropagation(); // Impede que o clique no popup feche a tela de conquistas
+                event.stopPropagation();
                 return;
             }
             if (elements.completionScreen.classList.contains('show')) {
+                // Deixa os botões internos da tela de conclusão lidarem com seus próprios cliques
+                // Se o clique não for nos botões internos, ele ainda deve ser consumido pela overlay.
                 const clickedButtonInCompletion = event.target.closest('#completion-screen button');
-                if (!clickedButtonInCompletion) { // Só impede se o clique não foi em um botão dentro da tela
+                if (!clickedButtonInCompletion) {
                     event.stopPropagation();
                 }
                 return;
             }
             if (elements.levelUpMessage.classList.contains('show')) {
+                // Deixa os botões internos da tela de level-up/intro lidarem com seus próprios cliques
                 const clickedButtonInMessage = event.target.closest('.message-buttons button');
-                if (clickedButtonInMessage) {
-                    // Se o botão clicado é um dos botões da mensagem (Start Quiz ou Conquistas ou Ranking),
-                    // não propague o evento para evitar que o handleQuizClick seja chamado novamente
-                    // quando a mensagem for fechada e o quiz aparecer.
-                    // A lógica de clique desses botões já está definida em seus respectivos onclicks.
-                    return; 
+                if (!clickedButtonInMessage) {
+                    event.stopPropagation();
                 }
-                event.stopPropagation(); // Se clicou fora dos botões, ainda impede interação com o quiz por baixo
                 return;
             }
 
-            // Power-ups (já possuem onclick direto no HTML para esta versão, mas esta função pode reforçar)
-            // Esta lógica foi simplificada pois os eventos são adicionados diretamente no window.onload.
-            // O `event.stopPropagation()` em `useFiftyFifty()` e `skipQuestion()` (se ativado)
-            // é o que impede a propagação para os botões de resposta.
+            // Se chegamos aqui, nenhuma tela de overlay está consumindo o clique.
+            // Agora, verificar os power-ups.
+            const clickedPowerUp = event.target.closest('.power-up-btn');
+            if (clickedPowerUp) {
+                // A lógica para usar o power-up já está nos listeners diretos dos botões.
+                // Apenas garantir que o clique não "caia" nos botões de resposta.
+                event.stopPropagation();
+                return;
+            }
             
             // 3. Lógica para cliques nos botões de resposta do quiz
             // Só permitir cliques nos botões de resposta se o quiz NÃO estiver pausado E NÃO estiver processando uma resposta.
@@ -3170,8 +3220,8 @@
                     } else if (showRankingButton === document.activeElement && !showRankingButton.disabled) {
                         showRankingButton.click();
                     } else { // Fallback, se nenhum botão específico está focado, clica no primeiro (geralmente "Entendi! Começar!")
-                         const firstButton = elements.levelUpMessage.querySelector('button');
-                         if (firstButton && !firstButton.disabled) firstButton.click();
+                           const firstButton = elements.levelUpMessage.querySelector('button');
+                           if (firstButton && !firstButton.disabled) firstButton.click();
                     }
                 }
                 return;
@@ -3418,7 +3468,7 @@
             console.log(`endGame: Finalizando o jogo. Vencedor: ${isWinner}.`);
             quizState.quizPaused = true;
             elements.quiz.style.pointerEvents = 'none';
-            elements.mainOverlay.style.display = 'block';
+            showMainOverlay(); // Mostra a overlay principal
             elements.livesDisplay.style.display = 'none'; // Esconde vidas
             elements.powerUpsContainer.style.display = 'none'; // Esconde power-ups
             elements.completionScreen.classList.remove('show', 'shake-animation'); // Esconde a tela de conclusão se estiver visível
@@ -3490,8 +3540,7 @@
                 <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Maior Sequência de Acertos: <b>${quizState.highestCombo}</b></div>
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                     <button onclick="restartQuiz()">Reiniciar Quiz</button>
-                    <button onclick="showRankingScreen()">Ver Ranking</button> <!-- NOVO BOTÃO -->
-                </div>
+                    <button onclick="showRankingScreen()">Ver Ranking</button> </div>
             `;
             
             elements.levelUpMessage.innerHTML = messageHtml;
@@ -3503,7 +3552,7 @@
         async function showRankingScreen() {
             console.log("showRankingScreen: Exibindo tela de ranking.");
             quizState.quizPaused = true;
-            elements.mainOverlay.style.display = 'block';
+            showMainOverlay(); // Mostra a overlay principal
             elements.levelUpMessage.classList.remove('show'); // Esconde a mensagem de level up/fim de jogo
             elements.levelUpMessage.style.display = 'none'; // Garante que não está visível
             elements.achievementsScreen.classList.remove('show'); // Esconde conquistas
@@ -3549,6 +3598,8 @@
             elements.rankingScreen.classList.remove('show'); // Garante que o ranking está escondido
             elements.achievementDetailPopup.classList.remove('show'); // Esconde o pop-up de detalhes da conquista
 
+            hideMainOverlay(); // Esconde a overlay principal
+
             setTimeout(() => {
                 Object.assign(quizState, {
                     currentLevel: 0,
@@ -3582,7 +3633,6 @@
                 elements.restartBtn.style.display = 'none';
                 elements.levelUpMessage.style.display = 'none';
                 elements.pointsPopup.style.display = 'none';
-                elements.mainOverlay.style.display = 'none';
                 elements.quiz.style.pointerEvents = 'all';
                 elements.quiz.style.display = 'none'; 
 
