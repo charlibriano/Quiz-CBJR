@@ -689,7 +689,7 @@
             background-color: var(--cor-preto-principal);
             color: var(--cor-texto-claro);
             border: none;
-            border-radius: 8px; /* Ajuste */
+            border-radius: 8px;
             cursor: pointer;
             transition: transform 0.2s ease, background-color 0.3s ease;
             text-shadow: 0 0 8px rgba(255,255,255,0.8);
@@ -749,11 +749,47 @@
             text-shadow: none;
             margin-bottom: 2px; /* Reduzido */
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-            text-align: center;
+            overflow: hidden; /* Importante para esconder o que excede */
+            width: 100%; /* Ocupa 100% da largura do pai para definir a "janela" de rolagem */
+            text-align: center; /* Padrão, mas será sobrescrito se houver rolagem */
+            
+            /* Resetando animação por padrão. Será setada dinamicamente via JS */
+            animation: none; 
+            animation-play-state: paused; 
+            
+            /* O span interno será posicionado relativamente e animado */
+            position: relative; /* Contexto para o span interno */
+            display: block; /* Para que width: 100% funcione corretamente e overflow hidden */
+            height: 1.2em; /* Altura fixa para evitar pulos quando a rolagem for aplicada/removida */
+            line-height: 1.2em; /* Garante que o texto fique centralizado verticalmente */
         }
+
+        /* O elemento real que vai rolar DENTRO de #current-song */
+        #current-song span {
+            display: inline-block; /* Crucial para o transform funcionar em textos longos */
+            white-space: nowrap;
+            animation: none; /* Animação será aplicada via JS diretamente aqui */
+            animation-play-state: paused;
+            position: absolute; /* Posiciona o span dentro do #current-song */
+            left: 0; /* Começa alinhado à esquerda do contêiner */
+            top: 0; /* Alinhado ao topo */
+            will-change: transform; /* Otimização de performance */
+        }
+        
+        /* Keyframes para a animação de letreiro do SPAN INTERNO */
+        /* Move o texto para a esquerda o suficiente para uma cópia inteira sair de vista */
+        @keyframes marquee-text {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(var(--marquee-distance)); }
+        }
+
+        /* Classe que ativa a animação e ajusta o span interno */
+        #current-song.should-marquee span {
+            animation-play-state: running; /* Ativa a animação */
+            text-align: left; /* Garante alinhamento esquerdo para a rolagem */
+            /* A duração será definida via JS */
+        }
+
 
         #audio {
             display: none;
@@ -1097,8 +1133,8 @@
         /* Media query para telas médias (tablets e smartphones maiores) */
         @media (max-width: 768px) {
             #level-up-message {
-                padding: 18px 25px; /* Más ajuste para telas médias */
-                font-size: 1.6em; /* Más ajuste */
+                padding: 18px 25px;
+                font-size: 1.6em;
                 max-width: 90%;
                 min-width: unset;
                 gap: 12px;
@@ -1122,27 +1158,27 @@
         /* Media query para telas pequenas (smartphones menores) */
         @media (max-width: 480px) {
             #level-up-message {
-                padding: 15px 20px; /* Ajuste final para telas pequenas */
-                font-size: 1.1em; /* Menor ainda para caber */
+                padding: 15px 20px;
+                font-size: 1.1em;
                 border-radius: 10px;
                 width: 90%;
-                max-width: 280px; /* Limite máximo para não ficar gigante */
+                max-width: 280px;
                 gap: 10px;
             }
             #level-up-message h3 {
-                font-size: 0.85em; /* Ajustado */
+                font-size: 0.85em;
             }
             #level-up-message p {
                 font-size: 0.7em;
             }
             #level-up-message ul {
-                font-size: 0.6em; /* Ajustado */
+                font-size: 0.6em;
                 max-width: 98%;
-                padding-left: 8px; /* Reduzido padding */
+                padding-left: 8px;
             }
             #level-up-message .message-buttons {
                 flex-direction: column;
-                gap: 6px; /* Reduzido o gap */
+                gap: 6px;
             }
         }
 
@@ -1164,47 +1200,11 @@
             background-color: #4a4a4a;
         }
 
-        /* Estilo para cobrir o quiz e desabilitar cliques */
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 1500;
-            display: none;
-            pointer-events: all;
-        }
-
-        /* Responsividade para header e container principal (já estavam boas, más mantidas para contexto) */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8em;
-                padding: 15px 20px;
-            }
-
-            .container {
-                padding: 20px;
-                margin: 0 10px 40px 10px;
-            }
-
-            .question h3 {
-                font-size: 1.4em;
-            }
-
-            .question button {
-                height: auto;
-                padding: 12px 10px;
-                font-size: 0.9em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 1.5em;
-                padding: 10px 15px;
-            }
+        /* REMOVENDO POP-UP DE PONTUAÇÃO VISUAL */
+        #points-popup {
+            display: none !important; /* Força a remoção do display */
+            visibility: hidden !important; /* Garantia que não é visível */
+            opacity: 0 !important; /* Garante que não é visível */
         }
 
         /* --- NOVO: Estilo para a tela de conclusão/nível secreto --- */
@@ -1849,7 +1849,6 @@
                 return;
             }
             const song = playerState.playlist[playerState.currentIndex];
-            elements.currentSongText.textContent = `${song.title}`;
             elements.audio.src = song.url;
 
             elements.playPauseBtn.disabled = false;
@@ -1875,7 +1874,62 @@
                 if (elements.audio.paused) {
                     elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
                 }
-                elements.currentSongText.textContent = `${song.title}`;
+                
+                // Limpar conteúdo e resetar estilos para medição
+                elements.currentSongText.innerHTML = ''; // Limpa qualquer span anterior
+                elements.currentSongText.classList.remove('should-marquee');
+                elements.currentSongText.style.animation = 'none'; // Remove animação do P
+                elements.currentSongText.style.textAlign = 'center'; // Alinhamento padrão
+
+                // Criar um span temporário para medir a largura real do texto
+                const tempSpan = document.createElement('span');
+                tempSpan.style.visibility = 'hidden';
+                tempSpan.style.position = 'absolute'; // Para não afetar o layout
+                tempSpan.style.whiteSpace = 'nowrap';
+                tempSpan.textContent = song.title;
+                document.body.appendChild(tempSpan); // Adiciona ao body para medir
+
+                const textWidth = tempSpan.offsetWidth; // Largura real do texto
+                document.body.removeChild(tempSpan); // Remove o span temporário
+
+                const containerWidth = elements.currentSongText.offsetWidth; // Largura visível do elemento P#current-song
+
+                if (textWidth > containerWidth) {
+                    // Texto é longo, configurar marquee
+                    const marqueeSpan = document.createElement('span');
+                    // Duplica o texto para o loop contínuo. Adiciona um espaço extra entre as cópias
+                    marqueeSpan.textContent = song.title + ' \u00A0\u00A0\u00A0\u00A0 ' + song.title; // Adiciona 4 espaços não quebráveis
+                    elements.currentSongText.appendChild(marqueeSpan);
+
+                    // Força um reflow após adicionar o texto duplicado para medir corretamente
+                    void marqueeSpan.offsetWidth; 
+
+                    // A distância que o texto precisa percorrer para que uma cópia inteira seja vista e saia
+                    // É a largura de UMA cópia do texto (sem o espaço extra entre elas).
+                    const singleTextWidth = textWidth; // Medimos o textWidth original, que é o de uma cópia
+                    
+                    // Definir a variável CSS para a distância de rolagem.
+                    // Para um loop perfeito, o translateX(100%) deve ser a largura de UMA cópia do texto.
+                    // Adiciona um pequeno buffer para garantir que o texto não corte.
+                    const scrollDistance = singleTextWidth; // Ajuste se precisar de buffer no CSS
+                    marqueeSpan.style.setProperty('--marquee-distance', `-${scrollDistance}px`);
+
+                    // Calcular a duração da animação: proporcional à largura do texto que está rolando
+                    // Ajuste a velocidade (pixels por segundo) para controlar o quão rápido o texto se move
+                    const speed = 25; // pixels por segundo
+                    const duration = (singleTextWidth + 10) / speed; // Adiciona um pequeno buffer para a suavidade do loop
+                    
+                    marqueeSpan.style.animation = `marquee-text ${duration}s linear infinite`;
+                    elements.currentSongText.classList.add('should-marquee');
+                    elements.currentSongText.style.textAlign = 'left'; // Alinha o container à esquerda para a rolagem
+                    // Reset a posição para o início da animação
+                    marqueeSpan.style.transform = 'translateX(0)';
+
+                } else {
+                    // Texto é curto, apenas exibe centralizado
+                    elements.currentSongText.textContent = song.title;
+                    elements.currentSongText.style.textAlign = 'center';
+                }
             };
             elements.audio.onerror = (e) => {
                 console.error("Erro ao carregar áudio:", e);
@@ -2227,9 +2281,9 @@
             
             // Verifica se não há mais níveis para carregar (caso tenha chegado ao fim do quiz completamente)
             if (quizState.currentLevel >= quizState.totalLevels) {
-                   console.log("loadLevel: Todos os níveis (incluindo secreto) completados. Finalizando jogo (vitória final).");
-                   endGame(true); // Se passou por todos os níveis e o secreto
-                   return;
+                    console.log("loadLevel: Todos os níveis (incluindo secreto) completados. Finalizando jogo (vitória final).");
+                    endGame(true); // Se passou por todos os níveis e o secreto
+                    return;
             }
 
             // --- Lógica de Recuperação de Vida ---
@@ -2860,13 +2914,13 @@
 
                 setTimeout(() => {
                     console.log(`checkAnswer: Vidas restantes: ${quizState.lives}.`);
-                    quizState.isProcessingAnswer = false; // Resetar para permitir novas interações
+                    quizState.isProcessingAnswer = false; // Permite novas interações
                     if (quizState.lives <= 0) { // Game Over se vidas acabarem
                         console.log("checkAnswer: Vidas esgotadas. Chamando endGame (derrota).");
-                        endGame(false); // Game Over definitivo
+                        endGame(false); 
                     } else {
-                        quizState.currentQuestionIndexInLevel++;
-                        showQuestion();
+                        quizState.currentQuestionIndexInLevel++; // Avança para a próxima pergunta
+                        showQuestion(); // Carrega a próxima pergunta
                     }
                 }, 4000);
             }
@@ -3014,7 +3068,7 @@
                     handleTimerEnd(); // Chamar a função de tratamento de fim de tempo
                 }
             }, 1000);
-        }
+        };
 
         function handleTimerEnd() {
             console.log("handleTimerEnd: Tempo da pergunta esgotado.");
