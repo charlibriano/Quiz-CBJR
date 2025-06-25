@@ -566,29 +566,67 @@
             text-shadow: 3px 3px 15px var(--cor-preto-principal);
         }
         #achievements-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            width: 100%;
+            list-style: none; /* Remove marcadores padrão */
+            padding: 0;
+            width: 90%;
             max-width: 800px;
             margin-bottom: 30px;
+            /* Alterado para 2 colunas fixas em telas maiores, e 1 em mobile */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Padrão flexível */
+            gap: 20px;
+            text-align: left;
         }
+        /* Media Query para forçar 2 colunas em telas maiores que 600px */
+        @media (min-width: 601px) {
+            #achievements-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        /* Media Query para 1 coluna em telas muito pequenas */
+        @media (max-width: 480px) {
+            #achievements-list {
+                grid-template-columns: 1fr; /* Força 1 coluna em mobile */
+                gap: 15px; /* Reduz o gap para caber melhor */
+            }
+        }
+
+
         .achievement-card {
             background-color: var(--cor-fundo-transparente);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: left;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            margin-bottom: 10px; /* Reduzi a margem para 10px entre os cards */
+            padding: 15px 20px;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             min-height: 120px; /* Garante altura mínima para alinhamento */
-            transition: transform 0.2s ease, background-color 0.3s ease;
+            transition: transform 0.2s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+            
+            /* Estilos padrão para cards bloqueados */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            filter: grayscale(80%); /* Más desaturado */
+            opacity: 0.7; /* Más transparente */
+            cursor: default; /* Cursor padrão para bloqueado */
         }
+        .achievement-card:hover {
+            transform: none; /* Remove o hover padrão */
+        }
+
         .achievement-card.unlocked {
             border: 2px solid var(--cor-verde-vibrante);
             background-color: rgba(30, 215, 96, 0.2); /* Verde más suave */
+            filter: grayscale(0%); /* Remove o grayscale */
+            opacity: 1; /* Opacidade total */
+            cursor: pointer; /* Volta o cursor de pointer */
+            box-shadow: 0 0 10px var(--cor-verde-vibrante); /* Brilho más visível */
         }
+        .achievement-card.unlocked:hover {
+            transform: translateY(-5px); /* Efeito de lift no hover */
+            box-shadow: 0 5px 15px var(--cor-verde-vibrante); /* Sombra más proeminente no hover */
+        }
+
+
         .achievement-card h3 {
             font-family: 'Elektrix', sans-serif;
             color: var(--cor-texto-claro);
@@ -596,7 +634,16 @@
             margin-top: 0;
             margin-bottom: 10px;
             text-shadow: none; /* Remove brilho padrão */
+            display: flex; /* Para alinhar o texto e o ícone */
+            align-items: center;
+            justify-content: space-between; /* Espaçamento entre título e ícone */
         }
+        .achievement-card h3 .achievement-icon {
+            font-size: 1.2em; /* Tamanho do ícone */
+            margin-left: 10px;
+            line-height: 1; /* Alinha verticalmente */
+        }
+
         .achievement-card p {
             font-size: 0.9em;
             color: rgba(255, 255, 255, 0.8);
@@ -639,12 +686,6 @@
             #achievements-screen h2 {
                 font-size: 1.5em; /* Fonte ainda menor para o título */
                 margin-bottom: 15px; /* Margem reduzida */
-            }
-            #achievements-list {
-                grid-template-columns: repeat(2, 1fr); /* DUAS COLUNAS para celulares */
-                width: 100%;
-                gap: 8px; /* Espaçamento menor entre os cards */
-                padding: 0 5px; /* Pequeno padding lateral para não colar nas bordas */
             }
             .achievement-card {
                 padding: 10px; /* Reduz padding do card ainda más */
@@ -750,504 +791,7 @@
             white-space: nowrap;
             overflow: hidden; /* Importante para esconder o que excede */
             width: 100%; /* Ocupa 100% da largura do pai para definir a "janela" de rolagem */
-            text-align: center; /* Padrão, mas será sobrescrito se houver rolagem */
-            
-            animation: none; /* A animação será aplicada e ajustada via JS */
-            animation-play-state: paused; 
-            
-            /* Esta altura é crucial para evitar pulos quando a rolagem é aplicada/removida */
-            height: 1.2em; 
-            line-height: 1.2em; /* Garante que o texto fique centralizado verticalmente */
-            position: relative; /* Contexto para o span interno */
-        }
-
-        /* O elemento real que vai rolar DENTRO de #current-song */
-        #current-song span {
-            display: inline-block; /* Crucial para o transform funcionar em textos longos */
-            white-space: nowrap;
-            animation: none; /* Animação será aplicada via JS diretamente aqui */
-            animation-play-state: paused;
-            position: absolute; /* Posiciona o span dentro do #current-song */
-            left: 0; /* Começa alinhado à esquerda do contêiner */
-            top: 0; /* Alinhado ao topo */
-            will-change: transform; /* Otimização de performance */
-        }
-        
-        /* Keyframes para a animação de letreiro do SPAN INTERNO */
-        /* Move o texto para a esquerda o suficiente para uma cópia inteira sair de vista */
-        @keyframes marquee-text {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(var(--marquee-distance)); }
-        }
-
-        /* Classe que ativa a animação e ajusta o span interno */
-        #current-song.should-marquee span {
-            animation-play-state: running; /* Ativa a animação */
-            text-align: left; /* Garante alinhamento esquerdo para a rolagem */
-            /* A duração será definida via JS */
-        }
-
-
-        #audio {
-            display: none;
-        }
-
-        .progress-bar-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            gap: 2px; /* Reduzido */
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 3px; /* Reduzido */
-            background-color: #535353;
-            border-radius: 2px;
-            outline: none;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: var(--cor-verde-vibrante);
-            border-radius: 2px;
-            transition: width 0.1s linear;
-        }
-
-        .time-display {
-            color: var(--cor-verde-vibrante);
-            font-size: 0.75em; /* Reduzido */
-            width: 100%;
-            margin-top: 0;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .audio-main-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px; /* Reduzido */
-            width: 100%;
-            margin-top: 5px;
-        }
-
-        .audio-control-btn {
-            background-color: transparent;
-            border: none;
-            border-radius: 0;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-
-            cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.3s ease;
-            box-shadow: none;
-
-            width: 30px; /* Reduzido */
-            height: 30px; /* Reduzido */
-            flex-shrink: 0;
-        }
-
-        /* Esconde o SVG não ativo dentro do botão de repeat e mute */
-        /* Controlado via JS agora */
-        #repeat-btn #repeat-all-svg { display: block; }
-        #repeat-btn #repeat-one-svg { display: none; }
-        #mute-btn #volume-svg { display: block; }
-        #mute-btn #mute-svg { display: none; }
-
-
-        .audio-control-btn svg {
-            /* Estilo para os SVGs DENTRO dos botões */
-            width: 100%;
-            height: 100%;
-            fill: #b3b3b3;
-            transition: fill 0.3s ease, transform 0.2s ease;
-        }
-        /* Cor padrão para os elementos internos dos SVGs complexos (repeat e shuffle) */
-        /* Estos são os defaults baseados nos SVGs que você fornecido */
-        #repeat-btn svg .repeat-outer-circle { fill: #344E5D; }
-        #repeat-btn svg .repeat-arrow-1, #repeat-btn svg .repeat-arrow-2 { fill: white; }
-        #repeat-btn #repeat-one-svg .repeat-one-circle { fill: #b3b3b3; }
-        #repeat-btn #repeat-one-svg .repeat-one-number, #repeat-btn #repeat-one-svg .repeat-one-arrows { fill: white; }
-
-        /* SHUFFLE: Cores quando INATIVO (o estado padrão) */
-        #shuffle-btn svg .shuffle-main-circle { fill: #b3b3b3; }
-        #shuffle-btn svg path:not(.shuffle-main-circle), #shuffle-btn svg polyline {
-            stroke: #535353;
-            fill: none;
-        }
-
-
-        .audio-control-btn:hover {
-            background-color: transparent;
-            transform: none;
-        }
-
-        .audio-control-btn:hover svg {
-            fill: #ffffff;
-            transform: scale(1.15);
-        }
-        #repeat-btn:not(.active):hover svg .repeat-outer-circle {
-            fill: #ffffff;
-        }
-        #repeat-btn:not(.active):hover svg .repeat-arrow-1,
-        #repeat-btn:not(.active):hover svg .repeat-arrow-2 {
-            fill: black;
-        }
-        #shuffle-btn:not(.active):hover svg .shuffle-main-circle {
-            fill: #ffffff;
-        }
-        #shuffle-btn:not(.active):hover svg path,
-        #shuffle-btn:not(.active):hover svg polyline {
-            stroke: black;
-        }
-        #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-circle { fill: #ffffff; }
-        #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-number, #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-arrows { fill: black; }
-
-
-        .audio-control-btn:active {
-            transform: none;
-        }
-        .audio-control-btn:active svg {
-            transform: scale(0.95);
-        }
-
-        .audio-control-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .audio-control-btn:disabled svg {
-            fill: #666666;
-            transform: none;
-        }
-
-        /* Estilo EXCLUSIVO para o botão grande (Play/Pause) */
-        .audio-control-btn.large-button {
-            background-color: #ffffff;
-            border-radius: 50%;
-
-            width: 45px; /* Reduzido de 55px */
-            height: 45px; /* Reduzido de 55px */
-
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .audio-control-btn.large-button svg {
-            width: 50%;
-            height: 50%;
-            fill: var(--cor-preto-principal);
-            transform: none;
-        }
-
-        .audio-control-btn.large-button:hover {
-            transform: scale(1.05);
-            background-color: #eeeeee;
-        }
-        .audio-control-btn.large-button:hover svg {
-            fill: var(--cor-preto-principal);
-            transform: none;
-        }
-        .audio-control-btn.large-button:active {
-            transform: scale(0.97);
-        }
-
-        /* Cor verde para ícones ativos (repeat e shuffle) */
-        #repeat-btn.active svg .repeat-outer-circle,
-        #shuffle-btn.active svg .shuffle-main-circle {
-            fill: var(--cor-verde-vibrante) !important;
-        }
-        #repeat-btn.active svg .repeat-arrow-1,
-        #repeat-btn.active svg .repeat-arrow-2 {
-            fill: white !important;
-        }
-        #shuffle-btn.active svg path, #shuffle-btn.active svg polyline {
-            stroke: white !important;
-            fill: none !important;
-        }
-        #repeat-btn.active #repeat-one-svg .repeat-one-circle { fill: var(--cor-verde-vibrante) !important; }
-        #repeat-btn.active #repeat-one-svg .repeat-one-number, #repeat-btn.active #repeat-one-svg .repeat-one-arrows { fill: white !important; }
-
-        /* Ícone de volume (normal ou mudo) sempre verde */
-        #volume-svg path, #mute-svg path {
-            fill: var(--cor-verde-vibrante) !important;
-        }
-
-
-        .audio-volume-controls {
-            display: flex;
-            gap: 8px; /* Reduzido */
-            align-items: center;
-            justify-content: center;
-            width: 90%; /* Ajustado */
-            max-width: 250px; /* Reduzido */
-            margin-top: 5px; /* Reduzido */
-        }
-
-        #volume-slider {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 3px; /* Reduzido */
-            background: #535353;
-            border-radius: 2px;
-            outline: none;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        #volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 14px; /* Reduzido */
-            height: 14px; /* Reduzido */
-            background: var(--cor-verde-vibrante);
-            border-radius: 50%;
-            cursor: grab;
-            box-shadow: 0 0 5px rgba(0,0,0,0.5);
-            margin-top: -5px; /* Ajustado */
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-
-        #volume-slider::-moz-range-thumb {
-            width: 14px; /* Reduzido */
-            height: 14px; /* Reduzido */
-            background: var(--cor-verde-vibrante);
-            border-radius: 50%;
-            cursor: grab;
-            box-shadow: 0 0 5px rgba(0,0,0,0.5);
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-
-        #volume-slider:hover::-webkit-slider-thumb,
-        #volume-slider:hover::-moz-range-thumb {
-            background: var(--cor-verde-vibrante); /* Mantém verde no hover */
-            transform: scale(1.1);
-        }
-        #volume-slider:active::-webkit-slider-thumb,
-        #volume-slider:active::-moz-range-thumb {
-            transform: scale(0.9);
-        }
-
-        #volume-value {
-            color: var(--cor-verde-vibrante);
-            font-size: 0.7em; /* Reduzido */
-            width: 30px; /* Reduzido */
-            text-align: right;
-            flex-shrink: 0;
-        }
-
-        /* Estilo para a mensagem de nível e instruções */
-        #level-up-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            /* AGORA USA a variável centralizada */
-            background-color: var(--cor-fundo-transparente);
-            backdrop-filter: blur(5px); /* Adiciona um blur para a transparência ficar más legal */
-            -webkit-backdrop-filter: blur(5px); /* Suporte para Safari */
-            color: var(--cor-texto-claro);
-            padding: 20px 30px; /* Reduzido o padding */
-            border-radius: 15px;
-            font-family: 'Elektrix', sans-serif;
-            font-size: 1.8em; /* Reduzido o font-size base */
-            text-shadow:
-                0 0 5px rgba(255, 255, 255, 0.7),
-                0 0 10px rgba(255, 255, 255, 0.5),
-                0 0 15px var(--cor-amarelo-cbjr);
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 15px; /* Reduzido o gap entre os elementos */
-            pointer-events: all;
-            width: auto;
-            max-width: 700px; /* Reduzido o max-width */
-            min-width: 280px; /* Ajustado min-width */
-            box-sizing: border-box;
-        }
-        #level-up-message.show {
-            opacity: 1;
-        }
-        #level-up-message h3 {
-            font-size: 1.1em; /* Ajustado em relação ao novo font-size base */
-            margin-bottom: 8px; /* Ajustado */
-            line-height: 1.2;
-            text-shadow:
-                0 0 5px var(--cor-amarelo-cbjr),
-                0 0 10px rgba(241, 196, 15, 0.7);
-        }
-        /* Destaque para a frase do Chorão na passagem de nível */
-        #level-up-message .chorao-quote {
-            font-size: 1.2em; /* Aumenta um pouco más */
-            margin-top: 10px; /* Aumenta a margem */
-            font-family: 'Elektrix', sans-serif; /* Mantém a fonte Elektrix */
-            opacity: 1; /* Garante que não tenha opacidade reduzida */
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.9), /* Brilho branco forte */
-                0 0 20px var(--cor-amarelo-cbjr), /* Brilho amarelo más intenso */
-                0 0 30px rgba(241, 196, 15, 0.5); /* Sombra amarela extra para más destaque */
-        }
-        /* Media Query para responsividade da frase do Chorão no level-up */
-        @media (max-width: 480px) {
-            #level-up-message .chorao-quote {
-                font-size: 0.9em; /* Reduz um pouco em telas muito pequenas */
-                margin-top: 8px;
-            }
-        }
-
-
-        #level-up-message p, #level-up-message ul, #level-up-message li, #level-up-message strong {
-            font-family: Arial, sans-serif;
-            text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.5);
-        }
-
-        #level-up-message p {
-            font-size: 0.85em; /* Ajustado */
-            line-height: 1.4;
-        }
-        #level-up-message ul {
-            font-size: 0.75em; /* Ajustado */
-            padding-left: 15px;
-            text-align: left;
-            margin: 10px auto 15px auto; /* Ajustado margem */
-            max-width: 90%; /* Ajustado max-width */
-        }
-        #level-up-message li {
-            margin-bottom: 4px; /* Ajustado */
-        }
-
-        /* Media query para telas médias (tablets e smartphones maiores) */
-        @media (max-width: 768px) {
-            #level-up-message {
-                padding: 18px 25px;
-                font-size: 1.6em;
-                max-width: 90%;
-                min-width: unset;
-                gap: 12px;
-            }
-            #level-up-message h3 {
-                font-size: 1em;
-            }
-            #level-up-message p {
-                font-size: 0.8em;
-            }
-            #level-up-message ul {
-                font-size: 0.7em;
-                max-width: 95%;
-            }
-            #level-up-message .message-buttons {
-                flex-direction: column;
-                gap: 8px;
-            }
-        }
-
-        /* Media query para telas pequenas (smartphones menores) */
-        @media (max-width: 480px) {
-            #level-up-message {
-                padding: 15px 20px;
-                font-size: 1.1em;
-                border-radius: 10px;
-                width: 90%;
-                max-width: 280px;
-                gap: 10px;
-            }
-            #level-up-message h3 {
-                font-size: 0.85em;
-            }
-            #level-up-message p {
-                font-size: 0.7em;
-            }
-            #level-up-message ul {
-                font-size: 0.6em;
-                max-width: 98%;
-                padding-left: 8px;
-            }
-            #level-up-message .message-buttons {
-                flex-direction: column;
-                gap: 6px;
-            }
-        }
-
-
-        #level-up-message button { /* Revertido para o seletor más genérico para os botões da intro message */
-            padding: 12px 25px;
-            font-size: 1.2em;
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-texto-claro);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.3s ease;
-            text-shadow: 0 0 8px rgba(255,255,255,0.8);
-            margin-top: 20px; /* Adicionado para afastar dos textos */
-        }
-        #level-up-message button:hover {
-            transform: scale(1.05);
-            background-color: #4a4a4a;
-        }
-
-        /* REMOVENDO POP-UP DE PONTUAÇÃO VISUAL */
-        #points-popup {
-            display: none !important; /* Força a remoção do display */
-            visibility: hidden !important; /* Garantia que não é visível */
-            opacity: 0 !important; /* Garante que não é visível */
-        }
-
-        /* --- PLAYER ATUALIZADO E CORRIGIDO --- */
-        #audio-player-wrapper {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            max-width: 250px; /* Reduzido de 500px para 250px (metade) */
-            width: 90%; /* Ajustado para 90% para mobile */
-            padding: 10px 15px; /* Reduzido o padding */
-            background: var(--cor-fundo-audio-player-com-cor);
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.9);
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-sizing: border-box;
-            min-height: 80px; /* Reduzido min-height */
-            flex-wrap: wrap;
-        }
-
-        .player-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            gap: 8px; /* Reduzido o gap */
-        }
-
-        #current-song {
-            color: var(--cor-verde-vibrante);
-            font-size: 0.9em; /* Reduzido */
-            font-weight: bold;
-            text-shadow: none;
-            margin-bottom: 2px; /* Reduzido */
-            white-space: nowrap;
-            overflow: hidden; /* Importante para esconder o que excede */
-            width: 100%; /* Ocupa 100% da largura do pai para definir a "janela" de rolagem */
-            text-align: center; /* Padrão, mas será sobrescrito se houver rolagem */
+            text-align: center; /* Padrão, but será sobrescrito se houver rolagem */
             
             animation: none; /* A animação será aplicada e ajustada via JS */
             animation-play-state: paused; 
@@ -1945,6 +1489,96 @@
             }
         }
 
+        /* NOVO: Estilo para o pop-up de detalhes da conquista */
+        #achievement-detail-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.95);
+            color: var(--cor-texto-claro);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+            z-index: 3500; /* Acima de todas as outras overlays */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+            max-width: 80%;
+            width: 400px; /* Largura fixa para o popup */
+            border: 2px solid var(--cor-amarelo-cbjr);
+        }
+        #achievement-detail-popup.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #achievement-detail-popup h3 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 1.8em;
+            color: var(--cor-amarelo-cbjr);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Espaço entre o título e o ícone */
+        }
+        #achievement-detail-popup p {
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        #achievement-detail-popup .status {
+            font-size: 0.9em;
+            font-weight: bold;
+            color: var(--cor-verde-vibrante); /* Cor para status desbloqueado */
+            margin-bottom: 20px;
+        }
+        #achievement-detail-popup .status.locked {
+            color: var(--cor-vermelho-incorreto); /* Cor para status bloqueado */
+        }
+        #achievement-detail-popup button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            border: 1px solid var(--cor-amarelo-cbjr);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        #achievement-detail-popup button:hover {
+            background-color: var(--cor-amarelo-cbjr);
+            color: var(--cor-preto-principal);
+            transform: scale(1.05);
+        }
+
+        /* Responsividade para o pop-up de detalhes */
+        @media (max-width: 480px) {
+            #achievement-detail-popup {
+                padding: 20px;
+                width: 95%; /* Ocupa mais largura em mobile */
+                max-width: 300px;
+            }
+            #achievement-detail-popup h3 {
+                font-size: 1.5em;
+            }
+            #achievement-detail-popup p {
+                font-size: 0.9em;
+            }
+            #achievement-detail-popup button {
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1985,7 +1619,7 @@
     <div id="overlay" style="display:none;"></div>
 
     <div id="achievements-screen" style="display:none;">
-        <h2>Minhas Conquistas</h2>
+        <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2> <!-- Apliquei o font-family aqui -->
         <div id="achievements-list"></div>
         <button id="close-achievements-btn" onclick="closeAchievementsScreen()">Voltar</button>
     </div>
@@ -2016,6 +1650,14 @@
         <h2>Top 10 Feras do CBJR</h2>
         <ol id="ranking-list"></ol>
         <button id="close-ranking-btn" onclick="closeRankingScreen()">Voltar ao Início</button>
+    </div>
+
+    <!-- NOVO: Pop-up de Detalhes da Conquista -->
+    <div id="achievement-detail-popup" style="display:none;">
+        <h3 id="detail-achievement-name"></h3>
+        <p id="detail-achievement-description"></p>
+        <div id="detail-achievement-status" class="status"></div>
+        <button onclick="closeAchievementDetailPopup()">Fechar</button>
     </div>
 
     <div id="audio-player-wrapper">
@@ -2147,7 +1789,7 @@
             {
                 fraseChorao: "Eles querem que você se sinta mal, pois assim eles se sentem bem.",
                 perguntas: [
-                    { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória", curiosidade: "'Dias de Luta, Dias de Glória' é um hino de superação e uma das músicas mais emblemáticas da banda." },
+                    { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória", curiosidade: "'Dias de Luta, Dias de Glória' é um hino de superação e uma das músicas más emblemáticas da banda." },
                     { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa", curiosidade: "'Ritmo, Ritual e Responsa' (2007) trouxe uma sonoridade más madura e músicas como 'Pontes indestrutíveis'." },
                     { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)", curiosidade: "'Proibida Pra Mim' é um dos maiores sucessos do Charlie Brown Jr., presente no álbum 'Transpiração Contínua Prolongada'." },
                     { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado", curiosidade: "Renato Pelado saiu da banda em 2005." },
@@ -2173,7 +1815,7 @@
                     { pergunta: "Qual dessas músicas é do álbum <br><br> Tamo Aí na Atividade?", respostas: ["Papo Reto", "Céu Azul", "Champanhe e Água Benta", "Hoje Eu Acordei Feliz"], correta: "Champanhe e Água Benta", curiosidade: "'Champanhe e Água Benta' faz parte do álbum 'Tamo Aí na Atividade', lançado em 2004, e é um dos clássicos da banda." },
                     { pergunta: "Qual o nome do DVD ao vivo <br><br> lançado em 2003?", respostas: ["Skate Vibration", "Acústico MTV", "Imunidade Musical", "Ao Vivo em Santos"], correta: "Acústico MTV", curiosidade: "O 'Acústico MTV' do Charlie Brown Jr. é um dos álbuns más aclamados e vendeu más de 2 milhões de cópias." },
                     { pergunta: "Qual dessas músicas tem a <br><br> participação da Negra Li?", respostas: ["Ela Vai Voltar", "Não é Sério", "Proibida pra Mim", "Pontes Indestrutíveis"], correta: "Não é Sério", curiosidade: "'Não é Sério', do álbum 'Nadando com os Tubarões', conta com a participação marcante da cantora Negra Li." },
-                    { pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?", respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"], correta: "Musica Popular Caiçara", curiosidade: "'Céu Azul' é um dos grandes sucessos póstumos da banda, lançada no álbum 'Música Popular Caiçara ao Vivo' em 2012." }
+                    { pergunta: "Em qual desses álbuns está a música <br><br> Céu Azul?", respostas: ["Musica Popular Caiçara", "Camisa 10 Joga Bola Até na Chuva", "La Família 013", "Imunidade Musical"], correta: "Musica Popular Caiçara", curiosidade: "O 'Céu Azul' é um dos grandes sucessos póstumos da banda, lançada no álbum 'Música Popular Caiçara ao Vivo' em 2012." }
                 ]
             },
             // Nível 6
@@ -2197,7 +1839,7 @@
             {
                 fraseChorao: "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
                 perguntas: [
-                    { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
+                    { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skafggter 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
                     { pergunta: "Qual banda internacional teve o Charlie Brown Jr. como banda de abertura em suas turnês no Brasil nos anos de 2004 e 2012?", respostas: ["Limp Bizkit", "Green Day", "Foo Fighters", "Linkin Park"], correta: "Linkin Park", curiosidade: "O Charlie Brown Jr. abriu shows do Linkin Park no Brasil em duas ocasiões: em 2004, durante a turnê do álbum 'Meteora', e novamente em 2012, na turnê de 'Living Things', com uma apresentação marcante na Arena Anhembi, em São Paulo." },
                     { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records", curiosidade: "A Virgin Records foi a gravadora responsável pelos primeiros álbuns da banda, incluindo 'Transpiração Contínua Prolongada'." },
                     { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas más esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
@@ -2386,6 +2028,12 @@
             rankingScreen: document.getElementById('ranking-screen'),
             rankingList: document.getElementById('ranking-list'),
             closeRankingBtn: document.getElementById('close-ranking-btn'),
+
+            // NOVO: Elementos do Pop-up de Detalhes da Conquista
+            achievementDetailPopup: document.getElementById('achievement-detail-popup'),
+            detailAchievementName: document.getElementById('detail-achievement-name'),
+            detailAchievementDescription: document.getElementById('detail-achievement-description'),
+            detailAchievementStatus: document.getElementById('detail-achievement-status'),
         };
 
         // --- Constantes para Pontuação e Tempo ---
@@ -3031,7 +2679,7 @@
                 } else if (errorsInPreviousLevel === 1) {
                     livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Errou 1 heim mané! Pra ser CBJR tem que ficar más esperto.</p>`;
                 } else if (errorsInPreviousLevel > 1) {
-                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Você cometeu ${errorsInPreviousLevel} erros neste nível, mas avançou!</p>`;
+                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Você cometeu ${errorsInPreviousLevel} erros neste nível, but avançou!</p>`;
                 }
             }
             
@@ -3070,7 +2718,7 @@
             let totalDisplayLevels = quizState.totalMainLevels; // Inicia com o total de níveis principais
 
             if (quizState.isSecretLevelActive) {
-                // Se no nível secreto, o display do nível é "Secreto" e o total é a quantidade de níveis principais + 1
+                // Se no nível secreto, o display do nível é "Secreto" e o total é a contagem, e o total é a quantidade de níveis principais + 1
                 displayLevel = "Secreto"; 
                 totalDisplayLevels = quizState.totalMainLevels + 1; // Ajusta o total para incluir o secreto
                 elements.levelText.textContent = `Nível: ${displayLevel}/${totalDisplayLevels}`;
@@ -3262,14 +2910,46 @@
                 if (isUnlocked) {
                     card.classList.add('unlocked');
                 }
+                // Adiciona o data-id para poder buscar a descrição ao clicar
+                card.dataset.achievementId = id; 
+                card.onclick = () => showAchievementDetailPopup(id); // Adiciona o listener de clique
+
                 card.innerHTML = `
-                    <h3>${achievement.name}</h3>
+                    <h3>
+                        <span>${achievement.name}</span>
+                        <span class="achievement-icon">${isUnlocked ? '🏆' : '🔒'}</span>
+                    </h3>
                     <p>${achievement.description}</p>
-                    <div class="status">${isUnlocked ? 'Desbloqueada &#x2705;' : 'Bloqueada &#x1F512;'}</div>
+                    <div class="status">${isUnlocked ? 'Desbloqueada' : 'Bloqueada'}</div>
                 `;
                 elements.achievementsList.appendChild(card);
             }
         }
+        // NOVO: Função para exibir o pop-up de detalhes da conquista
+        function showAchievementDetailPopup(id) {
+            const achievement = achievements[id];
+            if (!achievement) return;
+
+            elements.detailAchievementName.textContent = achievement.name;
+            elements.detailAchievementDescription.textContent = achievement.description;
+            
+            elements.detailAchievementStatus.textContent = achievement.unlocked ? 'Desbloqueada' : 'Bloqueada';
+            elements.detailAchievementStatus.classList.toggle('unlocked', achievement.unlocked);
+            elements.detailAchievementStatus.classList.toggle('locked', !achievement.unlocked);
+
+
+            elements.achievementDetailPopup.classList.add('show');
+            elements.mainOverlay.style.display = 'block'; // Mostra a overlay principal
+            quizState.quizPaused = true; // Pausa o quiz
+        }
+
+        // NOVO: Função para fechar o pop-up de detalhes da conquista
+        function closeAchievementDetailPopup() {
+            elements.achievementDetailPopup.classList.remove('show');
+            elements.mainOverlay.style.display = 'none'; // Esconde a overlay principal
+            quizState.quizPaused = false; // Despausa o quiz
+        }
+
 
         function closeAchievementsScreen() {
             console.log("closeAchievementsScreen: Fechando tela de conquistas.");
@@ -3379,7 +3059,13 @@
             
             // 1. Lidar com cliques em telas de overlay (conquistas, level-up/intro, completion-screen, ranking-screen)
             if (elements.achievementsScreen.classList.contains('show')) {
-                if (event.target.id === 'close-achievements-btn' || event.target.id === 'achievements-screen') {
+                // Se o clique for em um card de conquista, abre o detalhe
+                const clickedCard = event.target.closest('.achievement-card');
+                if (clickedCard) {
+                    const achievementId = clickedCard.dataset.achievementId;
+                    showAchievementDetailPopup(achievementId);
+                    event.stopPropagation(); // Impede que o clique feche a tela de conquistas
+                } else if (event.target.id === 'close-achievements-btn' || event.target.id === 'achievements-screen') {
                     closeAchievementsScreen();
                 }
                 event.stopPropagation();
@@ -3390,6 +3076,13 @@
                     closeRankingScreen();
                 }
                 event.stopPropagation();
+                return;
+            }
+            if (elements.achievementDetailPopup.classList.contains('show')) { // NOVO: Lidar com cliques no pop-up de detalhes
+                if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Fechar') {
+                    closeAchievementDetailPopup();
+                }
+                event.stopPropagation(); // Impede que o clique no popup feche a tela de conquistas
                 return;
             }
             if (elements.completionScreen.classList.contains('show')) {
@@ -3445,6 +3138,10 @@
             }
             if (elements.rankingScreen.classList.contains('show')) { // NOVO: Teclas para ranking
                 if (event.key === 'Escape' || event.key === 'Enter') { closeRankingScreen(); }
+                return;
+            }
+            if (elements.achievementDetailPopup.classList.contains('show')) { // NOVO: Teclas para pop-up de detalhes
+                if (event.key === 'Escape' || event.key === 'Enter') { closeAchievementDetailPopup(); }
                 return;
             }
             if (elements.completionScreen.classList.contains('show')) {
@@ -3508,7 +3205,7 @@
                 return;
             }
 
-            // Teclas para controles do player de áudio
+            // Teclas para controles do player de audio
             switch (event.key.toLowerCase()) {
                 case ' ': event.preventDefault(); togglePlayPause(); break;
                 case 'arrowleft': playPrevSong(); break;
@@ -3689,7 +3386,7 @@
                 console.log(`Pontuação de ${playerName} (${score}) salva com sucesso no Firebase!`);
             } catch (e) {
                 console.error("Erro ao tentar salvar pontuação no Firebase: ", e);
-                alert("Erro ao salvar pontuação no ranking. Verifique o console para mais detalhes ou as regras do Firebase Firestore.");
+                alert("Erro ao salvar pontuação no ranking. Verifique o console para más detalhes ou as regras do Firebase Firestore.");
             }
         }
 
@@ -3712,7 +3409,7 @@
                 return rankingList; // Retorna a lista de objetos {name, score, timestamp}
             } catch (e) {
                 console.error("Erro ao tentar carregar ranking do Firebase: ", e);
-                alert("Erro ao carregar ranking. Verifique o console para mais detalhes ou as regras do Firebase Firestore.");
+                alert("Erro ao carregar ranking. Verifique o console para más detalhes ou as regras do Firebase Firestore.");
                 return [];
             }
         }
@@ -3720,13 +3417,13 @@
         function endGame(isWinner) {
             console.log(`endGame: Finalizando o jogo. Vencedor: ${isWinner}.`);
             quizState.quizPaused = true;
-            quizState.isProcessingAnswer = true; // Bloqueia interações finais
             elements.quiz.style.pointerEvents = 'none';
             elements.mainOverlay.style.display = 'block';
             elements.livesDisplay.style.display = 'none'; // Esconde vidas
             elements.powerUpsContainer.style.display = 'none'; // Esconde power-ups
             elements.completionScreen.classList.remove('show', 'shake-animation'); // Esconde a tela de conclusão se estiver visível
             elements.rankingScreen.classList.remove('show'); // Esconde a tela de ranking se estiver visível
+            elements.achievementDetailPopup.classList.remove('show'); // Esconde pop-up de detalhes da conquista
 
             clearInterval(timerInterval); // Garante que nenhum timer esteja rodando
 
@@ -3813,6 +3510,7 @@
             elements.achievementsScreen.style.display = 'none';
             elements.completionScreen.classList.remove('show', 'shake-animation'); // Esconde a tela de conclusão
             elements.completionScreen.style.display = 'none';
+            elements.achievementDetailPopup.classList.remove('show'); // Esconde o pop-up de detalhes
 
             elements.rankingScreen.style.display = 'flex';
             elements.rankingScreen.classList.add('show');
@@ -3849,7 +3547,8 @@
             elements.achievementsScreen.classList.remove('show');
             elements.completionScreen.classList.remove('show', 'shake-animation'); // Esconde a tela de conclusão também
             elements.rankingScreen.classList.remove('show'); // Garante que o ranking está escondido
-            
+            elements.achievementDetailPopup.classList.remove('show'); // Esconde o pop-up de detalhes da conquista
+
             setTimeout(() => {
                 Object.assign(quizState, {
                     currentLevel: 0,
@@ -3978,7 +3677,7 @@
                     // A lógica de loadLevel() e showQuestion() já trata isso.
                     showQuestion();
                 }
-            }, 4000); // Aguarda para o jogador ver o feedback antes de avançar
+            }, 4000);
         };
 
         // --- Inicialização ao Carregar a Página ---
