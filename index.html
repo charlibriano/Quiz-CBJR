@@ -1138,12 +1138,22 @@
                 0 0 8px rgba(255, 255, 255, 0.9), /* Brilho branco forte */
                 0 0 20px var(--cor-amarelo-cbjr), /* Brilho amarelo más intenso */
                 0 0 30px rgba(241, 196, 15, 0.5); /* Sombra amarela extra para más destaque */
+            /* NOVOS ESTILOS PARA QUEBRA DE LINHA DA FRASE */
+            white-space: normal; /* Permite que a frase quebre normalmente */
+            overflow-wrap: break-word; /* Força a quebra de palavras longas */
+            word-break: break-word; /* Compatibilidade extra para quebra de palavras */
+            line-height: 1.4; /* Ajusta o espaçamento entre as linhas da frase */
+            max-width: 90%; /* Limita a largura da frase para forçar a quebra */
+            margin-left: auto;
+            margin-right: auto;
+            /* FIM DOS NOVOS ESTILOS */
         }
         /* Media Query para responsividade da frase do Chorão no level-up */
         @media (max-width: 480px) {
             #level-up-message .chorao-quote {
-                font-size: 0.9em; /* Reduz um pouco em telas muito pequenas */
+                font-size: 0.95em; /* Aumenta um pouco em telas muito pequenas */
                 margin-top: 8px;
+                line-height: 1.5; /* Garante boa legibilidade */
             }
         }
 
@@ -2510,16 +2520,16 @@
             elements.levelUpMessage.innerHTML = `
                 <div>
                     <h3>Bem-vindo ao Quiz do Charlie Brown Jr!</h3>
-                    <p style="font-family: Arial, sans-serif; font-size: 1em; margin-top: 15px;">Venha testar seus conhecimentos sobre a banda!</p>
-                    <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; font-weight: bold;">A pontuação é distribuída da seguinte forma:</p>
-                    <ul style="font-family: Arial, sans-serif; text-align: left; list-style-type: none; padding: 0;">
-                        <li>&#x2705; Resposta correta: <b>${BASE_SCORE_PER_CORRECT} pontos base</b>.</li>
-                        <li>&#x1F680; Resposta muito rápida (até ${BONUS_MAX_THRESHOLD}s): <b>+${BONUS_MAX} pontos bônus</b>.</li>
-                        <li>&#x26A1; Resposta rápida (até ${BONUS_MEDIUM_THRESHOLD}s): <b>+${BONUS_MEDIUM} pontos bônus</b>.</li>
-                        <li>&#x23F1; Resposta no tempo (até ${TIME_PER_QUESTION}s): <b>+${BONUS_MIN} ponto bônus</b>.</li>
-                        <li>&#x274C; Resposta incorreta ou tempo esgotado: <b>0 pontos e perde 1 vida</b>.</li>
-                        <li>&#x1F499; Você tem <b>${MAX_LIVES} vidas</b>. Ao chegar a 0, o quiz termina.</li>
-                        <li style="margin-top: 8px;">&#x1F3C6; Acertos consecutivos (combo) dão <b>bônus de pontos extras!</b></li>
+                    <p style="font-family: Arial, sans-serif; font-size: 1.0em; margin-top: 15px; line-height: 1.5;">Venha testar seus conhecimentos sobre a banda!</p>
+                    <p style="font-family: Arial, sans-serif; font-size: 0.95em; margin-top: 10px; font-weight: bold; line-height: 1.4;">A pontuação é distribuída da seguinte forma:</p>
+                    <ul style="font-family: Arial, sans-serif; text-align: left; list-style-type: none; padding-left: 20px;">
+                        <li style="margin-bottom: 5px;">&#x2705; Resposta correta: <b>${BASE_SCORE_PER_CORRECT} pontos base</b>.</li>
+                        <li style="margin-bottom: 5px;">&#x1F680; Resposta muito rápida (até ${BONUS_MAX_THRESHOLD}s): <b>+${BONUS_MAX} pontos bônus</b>.</li>
+                        <li style="margin-bottom: 5px;">&#x26A1; Resposta rápida (até ${BONUS_MEDIUM_THRESHOLD}s): <b>+${BONUS_MEDIUM} pontos bônus</b>.</li>
+                        <li style="margin-bottom: 5px;">&#x23F1; Resposta no tempo (até ${TIME_PER_QUESTION}s): <b>+${BONUS_MIN} ponto bônus</b>.</li>
+                        <li style="margin-bottom: 5px;">&#x274C; Resposta incorreta ou tempo esgotado: <b>0 pontos e perde 1 vida</b>.</li>
+                        <li style="margin-bottom: 8px;">&#x1F499; Você tem <b>${MAX_LIVES} vidas</b>. Ao chegar a 0, o quiz termina.</li>
+                        <li>&#x1F3C6; Acertos consecutivos (combo) dão <b>bônus de pontos extras!</b></li>
                     </ul>
                 </div>
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
@@ -2709,29 +2719,28 @@
 
             clearInterval(timerInterval); // Para qualquer timer de pergunta
 
-            const randomFraseIndex = Math.floor(Math.random() * allChoraoPhrases.length);
-            const fraseChorao = allChoraoPhrases[randomFraseIndex];
+            const currentLevelFraseChorao = questionsByLevel[quizState.currentLevel].fraseChorao;
 
             let livesFeedbackMessage = '';
             // Feedback de Vidas no Level Up: Lógica aprimorada
             if (quizState.currentLevel > 0) { // Aplicável apenas após o primeiro nível
                 if (errorsInPreviousLevel === 0) { // Se o jogador não cometeu erros no nível anterior
                     if (hasRecoveredLife) { // Se a lógica de recuperação foi ativada e adicionou vida
-                        livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-verde-vibrante);">Perfeito! Você recuperou ${LIVES_RECOVER_PER_LEVEL} vida(s)! ❤️</p>`;
+                        livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Perfeito! Você recuperou ${LIVES_RECOVER_PER_LEVEL} vida(s)! ❤️</p>`;
                     } else { // Já estava com o máximo de vidas e não errou
                             livesFeedbackMessage = `
-                            <p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
+                            <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
                     }
                 } else if (errorsInPreviousLevel === 1) {
-                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Errou 1 heim mané! Pra ser CBJR tem que ficar más esperto.</p>`;
+                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Errou 1 heim mané! Pra ser CBJR tem que ficar más esperto.</p>`;
                 } else if (errorsInPreviousLevel > 1) {
-                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.8em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Você cometeu ${errorsInPreviousLevel} erros neste nível, but avançou!</p>`;
+                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Você cometeu ${errorsInPreviousLevel} erros neste nível, mas avançou!</p>`;
                 }
             }
             
             elements.levelUpMessage.innerHTML = `
-                <div>Você avançou para o Nível ${quizState.currentLevel + 1}!</div>
-                <div class="chorao-quote">"${fraseChorao}"</div>
+                <div style="font-size: 1.1em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Você avançou para o Nível ${quizState.currentLevel + 1}!</div>
+                <div class="chorao-quote">"${currentLevelFraseChorao}"</div>
                 ${livesFeedbackMessage}
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                     <button onclick="continueQuiz()">Avançar</button>
@@ -3516,24 +3525,24 @@
                 title = "Parabéns, Lenda do CBJR!";
                 bgColor = 'rgba(46, 204, 113, 0.7)'; // Verde de vitória
                 messageHtml = `
-                    <div>${title}</div>
-                    <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Você completou todos os níveis, incluindo o Secreto!</div>
+                    <div style="font-size: 1.1em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Você completou todos os níveis, incluindo o Secreto!</div>
                 `;
+                unlockAchievement("all_levels_completed"); // Adicionado para garantir o desbloqueio da conquista final
             } else { // Game Over por vidas (ou erros no nível)
                 title = "Suas vidas acabaram!";
                 bgColor = 'rgba(231, 76, 60, 0.7)'; // Vermelho um pouco transparente para erro
                 messageHtml = `
-                    <div>${title}</div>
-                    <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">A vida me ensinou a nunca desistir... Tente novamente!</div>
+                    <div style="font-size: 1.1em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Suas vidas acabaram!</div>
+                    <div style="font-size: 0.9em; margin-top: 10px; font-family: Arial, sans-serif; line-height: 1.4;">A vida me ensinou a nunca desistir... Tente novamente!</div>
                 `;
             }
 
             // Estatísticas comuns para ambos os cenários
             messageHtml += `
-                <div style="font-size: 0.8em; margin-top: 10px; font-family: Arial, sans-serif;">Sua Pontuação Total: <b>${quizState.score}</b></div>
-                <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Seu Recorde: <b>${quizState.highScore}</b></div>
-                <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Pontos de Combo: <b>${quizState.comboPointsEarned}</b></div>
-                <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Maior Sequência de Acertos: <b>${quizState.highestCombo}</b></div>
+                <div style="font-size: 0.9em; margin-top: 15px; font-family: Arial, sans-serif; line-height: 1.5;">Sua Pontuação Total: <b>${quizState.score}</b></div>
+                <div style="font-size: 0.9em; margin-top: 5px; font-family: Arial, sans-serif; line-height: 1.5;">Seu Recorde: <b>${quizState.highScore}</b></div>
+                <div style="font-size: 0.9em; margin-top: 5px; font-family: Arial, sans-serif; line-height: 1.5;">Pontos de Combo: <b>${quizState.comboPointsEarned}</b></div>
+                <div style="font-size: 0.9em; margin-top: 5px; font-family: Arial, sans-serif; line-height: 1.5;">Maior Sequência de Acertos: <b>${quizState.highestCombo}</b></div>
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                     <button onclick="restartQuiz()">Reiniciar Quiz</button>
                     <button onclick="showRankingScreen()">Ver Ranking</button> </div>
@@ -3678,7 +3687,6 @@
             if (questionTextElement) {
                 questionTextElement.classList.add('shake');
                 questionTextElement.addEventListener('animationend', () => {
-                    current_time = "Wednesday, June 25, 2025 at 1:56:26 PM -03"
                     questionTextElement.classList.remove('shake');
                 }, { once: true });
             }
