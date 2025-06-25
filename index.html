@@ -1168,74 +1168,55 @@
             margin-bottom: 4px; /* Ajustado */
         }
 
-        /* Media query para telas médias (tablets e smartphones maiores) - Otimizado */
+        /* Media query para telas médias (tablets e smartphones maiores) */
         @media (max-width: 768px) {
             #level-up-message {
-                padding: 25px 30px; /* Aumentado padding para mais espaço */
-                font-size: 1.5em; /* Reduzido um pouco para ser mais responsivo */
-                max-width: 90%; /* Ocupa mais espaço horizontal */
-                min-width: unset; /* Remove min-width para flexibilidade */
-                gap: 15px; /* Mantido ou levemente ajustado o gap */
+                padding: 18px 25px;
+                font-size: 1.6em;
+                max-width: 90%;
+                min-width: unset;
+                gap: 12px;
             }
             #level-up-message h3 {
-                font-size: 1.2em; /* Título principal um pouco maior */
-                margin-bottom: 10px; /* Ajustado */
+                font-size: 1em;
             }
             #level-up-message p {
-                font-size: 0.9em; /* Texto do parágrafo um pouco maior */
-                line-height: 1.5; /* Melhorar legibilidade */
+                font-size: 0.8em;
             }
             #level-up-message ul {
-                font-size: 0.8em; /* Lista maior */
-                padding-left: 20px; /* Aumentado indentação */
-                max-width: 95%; /* Ocupa mais largura */
-                margin: 15px auto; /* Mais margem vertical */
-            }
-            #level-up-message li {
-                margin-bottom: 6px; /* Mais espaço entre itens da lista */
+                font-size: 0.7em;
+                max-width: 95%;
             }
             #level-up-message .message-buttons {
-                flex-direction: row; /* Volta para linha em telas médias */
-                gap: 15px; /* Espaço entre botões */
-            }
-            #level-up-message .message-buttons button {
-                padding: 15px 25px; /* Botões maiores e mais fáceis de tocar */
-                font-size: 1.1em; /* Fonte dos botões mais legível */
+                flex-direction: column;
+                gap: 8px;
             }
         }
 
-        /* Media query para telas pequenas (smartphones menores) - Otimizado */
+        /* Media query para telas pequenas (smartphones menores) */
         @media (max-width: 480px) {
             #level-up-message {
-                padding: 20px; /* Padding ajustado */
-                font-size: 1.3em; /* Reduzido o font-size base novamente */
-                border-radius: 10px; /* Bordas mais suaves */
-                width: 95%; /* Ocupa quase toda a largura */
-                max-width: 350px; /* Limite máximo para evitar que fique muito grande em landscape */
-                gap: 12px; /* Gap ajustado */
+                padding: 15px 20px;
+                font-size: 1.1em;
+                border-radius: 10px;
+                width: 90%;
+                max-width: 280px;
+                gap: 10px;
             }
             #level-up-message h3 {
-                font-size: 1.1em; /* Título principal ainda legível */
+                font-size: 0.85em;
             }
             #level-up-message p {
-                font-size: 0.85em; /* Texto do parágrafo */
+                font-size: 0.7em;
             }
             #level-up-message ul {
-                font-size: 0.75em; /* Lista menor, mas ainda clara */
-                padding-left: 15px; /* Indentação mantida */
-                max-width: 100%; /* Ocupa toda a largura disponível */
-                margin: 10px auto; /* Margem ajustada */
-            }
-            #level-up-message li {
-                margin-bottom: 5px; /* Espaço entre itens da lista */
+                font-size: 0.6em;
+                max-width: 98%;
+                padding-left: 8px;
             }
             #level-up-message .message-buttons {
-                flex-direction: column; /* Força coluna para botões em telas pequenas */
-                gap: 10px; /* Espaço entre botões */
-            }
-            #level-up-message .message-buttons button {
-                padding: 12px 20px; /* Botões menores, mas ainda clicáveis */
-                font-size: 1em; /* Fonte dos botões */
+                flex-direction: column;
+                gap: 6px;
             }
         }
 
@@ -1638,7 +1619,8 @@
     <div id="overlay" style="display:none;"></div>
 
     <div id="achievements-screen" style="display:none;">
-        <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2> <div id="achievements-list"></div>
+        <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2> <!-- Apliquei o font-family aqui -->
+        <div id="achievements-list"></div>
         <button id="close-achievements-btn" onclick="closeAchievementsScreen()">Voltar</button>
     </div>
 
@@ -1663,12 +1645,14 @@
         </div>
     </div>
 
+    <!-- NOVO: Tela de Ranking Online -->
     <div id="ranking-screen" style="display:none;">
         <h2>Top 10 Feras do CBJR</h2>
         <ol id="ranking-list"></ol>
         <button id="close-ranking-btn" onclick="closeRankingScreen()">Voltar ao Início</button>
     </div>
 
+    <!-- NOVO: Pop-up de Detalhes da Conquista -->
     <div id="achievement-detail-popup" style="display:none;">
         <h3 id="detail-achievement-name"></h3>
         <p id="detail-achievement-description"></p>
@@ -2045,7 +2029,7 @@
             rankingList: document.getElementById('ranking-list'),
             closeRankingBtn: document.getElementById('close-ranking-btn'),
 
-            // NOVO: Pop-up de Detalhes da Conquista
+            // NOVO: Elementos do Pop-up de Detalhes da Conquista
             achievementDetailPopup: document.getElementById('achievement-detail-popup'),
             detailAchievementName: document.getElementById('detail-achievement-name'),
             detailAchievementDescription: document.getElementById('detail-achievement-description'),
@@ -2491,7 +2475,8 @@
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                     <button id="start-quiz-button" onclick="startQuiz()">Entendi! Começar!</button>
                     <button id="show-achievements-button" onclick="showAchievementsScreen()">Conquistas</button>
-                    <button id="show-ranking-button-intro" onclick="showRankingScreen()">Ranking Online</button> </div>
+                    <button id="show-ranking-button-intro" onclick="showRankingScreen()">Ranking Online</button> <!-- NOVO BOTÃO -->
+                </div>
             `;
             elements.levelUpMessage.style.display = 'flex'; // Mostra a mensagem
             elements.levelUpMessage.classList.add('show');
@@ -3185,8 +3170,8 @@
                     } else if (showRankingButton === document.activeElement && !showRankingButton.disabled) {
                         showRankingButton.click();
                     } else { // Fallback, se nenhum botão específico está focado, clica no primeiro (geralmente "Entendi! Começar!")
-                           const firstButton = elements.levelUpMessage.querySelector('button');
-                           if (firstButton && !firstButton.disabled) firstButton.click();
+                         const firstButton = elements.levelUpMessage.querySelector('button');
+                         if (firstButton && !firstButton.disabled) firstButton.click();
                     }
                 }
                 return;
@@ -3505,7 +3490,8 @@
                 <div style="font-size: 0.8em; margin-top: 5px; font-family: Arial, sans-serif;">Maior Sequência de Acertos: <b>${quizState.highestCombo}</b></div>
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                     <button onclick="restartQuiz()">Reiniciar Quiz</button>
-                    <button onclick="showRankingScreen()">Ver Ranking</button> </div>
+                    <button onclick="showRankingScreen()">Ver Ranking</button> <!-- NOVO BOTÃO -->
+                </div>
             `;
             
             elements.levelUpMessage.innerHTML = messageHtml;
