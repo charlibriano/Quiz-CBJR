@@ -545,7 +545,7 @@
             /* ALTERADO: Removendo background-color para ver o body através dela */
             background-color: transparent; /* Apenas transparente, para não bloquear o background do body */
             /* NOVO: Adiciona um blur para o efeito "vidro fosco", opcional mas legal */
-            backdrop-filter: blur(8px); /* Um pouco mais forte para destaque */
+            backdrop-filter: blur(8px); /* Um pouco más forte para destaque */
             -webkit-backdrop-filter: blur(8px); /* Suporte para Safari */
             z-index: 2000;
             display: flex;
@@ -683,7 +683,7 @@
                 margin-bottom: 5px;
             }
             .achievement-card p {
-                font-size: 0.65em; /* Reduz fonte do texto do card ainda mais */
+                font-size: 0.65em; /* Reduz fonte do texto do card ainda más */
                 margin-bottom: 8px;
             }
             .achievement-card .status {
@@ -951,6 +951,7 @@
         #shuffle-btn:not(.active):hover svg path,
         #shuffle-btn:not(.active):hover svg polyline {
             stroke: black;
+            fill: none;
         }
         #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-circle { fill: #ffffff; }
         #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-number, #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-arrows { fill: black; }
@@ -1574,6 +1575,26 @@
             justify-content: center;
             gap: 10px; /* Espaço entre o título e o ícone */
         }
+        /* NOVO: Estilo para o nome do CD */
+        #detail-achievement-cd-name {
+            font-family: Arial, sans-serif;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: -5px; /* Para ficar um pouco mais próximo do título */
+            margin-bottom: 10px;
+        }
+        /* ALTERADO: Aumentar o tamanho da capa do CD */
+        #detail-achievement-cover {
+            max-width: 250px !important; /* Aumentado para 250px */
+            max-height: 250px !important; /* Adicionado max-height para manter proporção em altura */
+            width: auto; /* Mantém a proporção */
+            height: auto; /* Mantém a proporção */
+            object-fit: contain; /* Garante que a imagem se ajuste sem cortar */
+            margin: 15px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            display: none;
+        }
         #achievement-detail-popup p {
             font-family: Arial, sans-serif;
             font-size: 1em;
@@ -1619,6 +1640,9 @@
             #achievement-detail-popup p {
                 font-size: 0.9em;
             }
+            #detail-achievement-cover {
+                    max-width: 150px !important; /* Reduz um pouco em telas muito pequenas */
+                }
             #achievement-detail-popup button {
                 font-size: 0.9em;
                 padding: 8px 15px;
@@ -1720,7 +1744,8 @@
 
     <div id="achievement-detail-popup" style="display:none;">
         <h3 id="detail-achievement-name"></h3>
-        <img id="detail-achievement-cover" src="" alt="Capa do CD" style="max-width: 150px; margin: 15px auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: none;">
+        <p id="detail-achievement-cd-name" style="font-family: Arial, sans-serif; font-size: 0.9em; color: rgba(255, 255, 255, 0.7); margin-top: -5px; margin-bottom: 10px;"></p>
+        <img id="detail-achievement-cover" src="" alt="Capa do CD" style="max-width: 250px; max-height: 250px; width: auto; height: auto; object-fit: contain; margin: 15px auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: none;">
         <p id="detail-achievement-description"></p>
         <div id="detail-achievement-status" class="status"></div>
         <button onclick="closeAchievementDetailPopup()">Fechar</button>
@@ -1972,90 +1997,135 @@
         ];
 
         // --- Definição das Conquistas ---
+        // REORGANIZADO PARA A ORDEM DE LANÇAMENTO DOS CDs
         const achievements = {
             "first_level_completed": {
                 name: "Primeiros Acordes",
                 description: "Complete o Nível 1.",
+                cd: "Transpiração Contínua Prolongada",
+                coverFile: "CD%201.jpeg", // Usando o nome do arquivo codificado para URL
                 unlocked: false
             },
-            "level_3_completed": {
-                name: "Fã da Galera",
-                description: "Complete o Nível 3.",
-                unlocked: false
-            },
-            "level_5_completed": {
-                name: "Expert no Rock",
-                description: "Complete o Nível 5.",
-                unlocked: false
-            },
-            "all_main_levels_completed": { 
-                name: "Mestre da Vibe",
-                description: "Complete todos os 7 níveis principais do quiz.",
-                unlocked: false
-            },
-            "secret_level_completed": { 
-                name: "Lenda Secreta do CBJR",
-                description: "Conclua o Nível Secreto Hardcore.",
-                unlocked: false
-            },
-            "all_levels_completed": {
-                name: "Lenda do CBJR",
-                description: "Complete todos os níveis do quiz, incluindo o Secreto.",
-                unlocked: false
-            },
-            "combo_3x": {
-                name: "Vibe Positiva",
-                description: "Acerte 3 perguntas seguidas.",
-                unlocked: false
-            },
-            "combo_5x": {
+            "combo_5x": { // Alterei para corresponder ao seu "Flow continuo" que está associado ao CD 8
                 name: "Flow Contínuo",
                 description: "Acerte 5 perguntas seguidas.",
+                cd: "Imunidade Musical",
+                coverFile: "CD%208.jpeg",
                 unlocked: false
             },
-            "combo_7x": {
+            "combo_7x": { // Alterei para corresponder ao seu "Mestre do ritmo" que está associado ao CD 9
                 name: "Mestre do Ritmo",
                 description: "Acerte 7 perguntas seguidas.",
+                cd: "Ritmo, Ritual e Responsa",
+                coverFile: "CD%209.jpeg",
                 unlocked: false
             },
-            "combo_10x": {
+            "combo_10x": { // Alterei para corresponder ao seu "Inabalável" que está associado ao CD 10
                 name: "Inabalável",
                 description: "Acerte 10 perguntas seguidas.",
+                cd: "Camisa 10 Joga Bola Até na Chuva",
+                coverFile: "CD%2010.jpeg",
                 unlocked: false
             },
             "new_high_score": {
                 name: "Recordista",
                 description: "Alcance um novo recorde de pontuação.",
+                cd: "Música Popular Caiçara",
+                coverFile: "CD%2011.jpeg",
+                unlocked: false
+            },
+            "level_3_completed": {
+                name: "Fã da Galera",
+                description: "Complete o Nível 3.",
+                cd: "Nadando com os Tubarões",
+                coverFile: "CD%203.jpeg",
+                unlocked: false
+            },
+            "level_5_completed": {
+                name: "Expert no Rock",
+                description: "Complete o Nível 5.",
+                cd: "Bocas Ordinárias",
+                coverFile: "CD%205.jpeg",
+                unlocked: false
+            },
+            "all_main_levels_completed": { 
+                name: "Mestre da Vibe",
+                description: "Complete todos os 7 níveis principais do quiz.",
+                cd: "100% Charlie Brown Jr. - Abalando a Sua Fábrica", // Assumi este CD
+                coverFile: "CD%204_.jpeg",
+                unlocked: false
+            },
+            "secret_level_completed": { 
+                name: "Lenda Secreta do CBJR",
+                description: "Conclua o Nível Secreto Hardcore.",
+                cd: "La Familia 013",
+                coverFile: "CD%2012.jpeg",
+                unlocked: false
+            },
+            "all_levels_completed": {
+                name: "Lenda do CBJR",
+                description: "Complete todos os níveis do quiz, incluindo o Secreto.",
+                cd: "Acústico MTV", // Assumi este CD para a conquista final de todos os níveis
+                coverFile: "CD%206_.jpeg",
+                unlocked: false
+            },
+            "combo_3x": {
+                name: "Vibe Positiva",
+                description: "Acerte 3 perguntas seguidas.",
+                cd: "Preço Curto... Prazo Longo", // Mudei para o CD 2
+                coverFile: "CD%202.jpeg",
                 unlocked: false
             },
             "used_50_50": { 
                 name: "Ajuda da Galera",
                 description: "Use o power-up 50/50 pela primeira vez.",
+                cd: "Imunidade Musical", // Mantive este CD, ou poderia ser outro aleatório se não houver um "padrinho"
+                coverFile: "CD%208.jpeg",
                 unlocked: false
             },
             "used_skip": { 
                 name: "Pulei na Frente",
                 description: "Use o power-up Pular Pergunta pela primeira vez.",
+                cd: "Ritmo, Ritual e Responsa", // Mantive este CD, ou poderia ser outro aleatório
+                coverFile: "CD%209.jpeg",
                 unlocked: false
             }
         };
-
-        // ALTERADO: Mapeamento de Capas de CD para Conquistas (Nomes de arquivo corrigidos com espaços e .jpeg)
+        
+        // Mapeamento de Capas de CD para Conquistas (Nomes de arquivos para URL)
         const achievementCdCovers = {
-            "first_level_completed": "CD 1.jpeg", 
-            "level_3_completed": "CD 3.jpeg",     
-            "level_5_completed": "CD 5.jpeg",     
-            "all_main_levels_completed": "CD 11.jpeg", 
-            "secret_level_completed": "CD 12.jpeg", 
-            "all_levels_completed": "CD 12.jpeg", 
-            "combo_3x": "CD 1.jpeg",       
-            "combo_5x": "CD 2.jpeg",       
-            "combo_7x": "CD 3.jpeg",       
-            "combo_10x": "CD 4_.jpeg",     
-            "new_high_score": "CD 7.jpeg", 
-            "used_50_50": "CD 8.jpeg",     
-            "used_skip": "CD 9.jpeg",       
+            "first_level_completed": "CD%201.jpeg", // Transpiração Contínua Prolongada
+            "combo_3x": "CD%202.jpeg", // Preço Curto... Prazo Longo
+            "level_3_completed": "CD%203.jpeg", // Nadando com os Tubarões
+            "all_main_levels_completed": "CD%204_.jpeg", // 100% Charlie Brown Jr. - Abalando a Sua Fábrica
+            "level_5_completed": "CD%205.jpeg", // Bocas Ordinárias
+            "all_levels_completed": "CD%206_.jpeg", // Acústico MTV
+            "combo_7x": "CD%207.jpeg", // Tamo Aí na Atividade
+            "combo_5x": "CD%208.jpeg", // Imunidade Musical
+            "used_50_50": "CD%208.jpeg", // Imunidade Musical
+            "used_skip": "CD%209.jpeg", // Ritmo, Ritual e Responsa
+            "combo_10x": "CD%2010.jpeg", // Camisa 10 Joga Bola Até na Chuva
+            "new_high_score": "CD%2011.jpeg", // Música Popular Caiçara
+            "secret_level_completed": "CD%2012.jpeg" // La Familia 013
         };
+        
+        // NOVO: Mapeamento dos nomes dos CDs para exibir no pop-up de detalhes
+        // ESTES SÃO OS NOMES COMPLETOS E NA ORDEM CRONOLÓGICA QUE VOCÊ PEDIU
+        const cdNames = {
+            "CD%201.jpeg": "Transpiração Contínua Prolongada (1997)",
+            "CD%202.jpeg": "Preço Curto... Prazo Longo (1999)",
+            "CD%203.jpeg": "Nadando com os Tubarões (2000)",
+            "CD%204_.jpeg": "100% Charlie Brown Jr. - Abalando a Sua Fábrica (2001)",
+            "CD%205.jpeg": "Bocas Ordinárias (2002)",
+            "CD%206_.jpeg": "Acústico MTV (2003)",
+            "CD%207.jpeg": "Tamo Aí na Atividade (2004)",
+            "CD%208.jpeg": "Imunidade Musical (2005)",
+            "CD%209.jpeg": "Ritmo, Ritual e Responsa (2007)",
+            "CD%2010.jpeg": "Camisa 10 Joga Bola Até na Chuva (2009)",
+            "CD%2011.jpeg": "Música Popular Caiçara (2012)",
+            "CD%2012.jpeg": "La Familia 013 (2013)"
+        };
+
 
         // --- Referências de Elementos DOM ---
         const elements = {
@@ -2122,6 +2192,8 @@
             detailAchievementCover: document.getElementById('detail-achievement-cover'), 
             detailAchievementDescription: document.getElementById('detail-achievement-description'),
             detailAchievementStatus: document.getElementById('detail-achievement-status'),
+            // NOVO: Elemento para o nome do CD
+            detailAchievementCdName: document.getElementById('detail-achievement-cd-name'),
         };
 
         // --- Constantes para Pontuação e Tempo ---
@@ -2577,7 +2649,7 @@
                     <button id="start-quiz-button" onclick="startQuiz()">Entendi! Começar!</button>
                     <button id="show-achievements-button" onclick="showAchievementsScreen()">Conquistas</button>
                     <button id="show-ranking-button-intro" onclick="showRankingScreen()">Ranking Online</button> </div>
-            `;
+                `;
             elements.levelUpMessage.style.display = 'flex'; // Mostra a mensagem
             elements.levelUpMessage.classList.add('show');
             // Garante que o quiz e o restart button não apareçam enquanto a intro está ativa
@@ -2996,7 +3068,27 @@
             elements.achievementsScreen.classList.add('show');
             elements.achievementsList.innerHTML = '';
 
-            for (const id in achievements) {
+            // Crie um array temporário das conquistas para ordenar
+            const sortedAchievementIds = Object.keys(achievements).sort((a, b) => {
+                const cdA = achievementCdCovers[a];
+                const cdB = achievementCdCovers[b];
+                const nameA = cdNames[cdA] || "";
+                const nameB = cdNames[cdB] || "";
+
+                // Extrair o ano de lançamento para a ordenação
+                const yearA = parseInt(nameA.match(/\((\d{4})\)/)?.[1] || "9999"); // Padrão se não encontrar ano
+                const yearB = parseInt(nameB.match(/\((\d{4})\)/)?.[1] || "9999");
+
+                // Se os anos são diferentes, ordene por ano
+                if (yearA !== yearB) {
+                    return yearA - yearB;
+                }
+                // Se os anos são iguais, ordene alfabeticamente pelo nome da conquista
+                return achievements[a].name.localeCompare(achievements[b].name);
+            });
+
+
+            sortedAchievementIds.forEach(id => {
                 const achievement = achievements[id];
                 const isUnlocked = achievement.unlocked;
                 const card = document.createElement('div'); // AGORA É UM DIV
@@ -3021,10 +3113,10 @@
                     <div class="status">${isUnlocked ? 'Desbloqueada' : 'Bloqueada'}</div>
                 `;
                 elements.achievementsList.appendChild(card);
-            }
+            });
         }
 
-        // ALTERADO: showAchievementDetailPopup para usar encodeURIComponent
+        // ALTERADO: showAchievementDetailPopup para usar encodeURIComponent e exibir nome do CD
         function showAchievementDetailPopup(id) {
             const achievement = achievements[id];
             if (!achievement) return;
@@ -3032,15 +3124,25 @@
             elements.detailAchievementName.textContent = achievement.name;
             elements.detailAchievementDescription.textContent = achievement.description;
             
-            // Lógica para exibir a capa do CD
-            const coverFileName = achievementCdCovers[id];
+            // Lógica para exibir a capa do CD e o nome do CD
+            const coverFileName = achievementCdCovers[id]; // Obtém o nome do arquivo da capa
+            // Busca o nome completo do CD no cdNames usando o nome do arquivo da capa
+            const cdNameFull = cdNames[coverFileName] || achievement.cd || 'N/A'; // Prioriza cdNames, depois o campo .cd da conquista, senão 'N/A'
+            
             if (coverFileName) {
-                // ALTERADO: Usando encodeURIComponent para tratar espaços e outros caracteres especiais na URL
-                elements.detailAchievementCover.src = `https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/${encodeURIComponent(coverFileName)}`;
+                elements.detailAchievementCover.src = `https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/${coverFileName}`;
                 elements.detailAchievementCover.style.display = 'block'; // Mostra a imagem
             } else {
                 elements.detailAchievementCover.style.display = 'none'; // Esconde se não tiver capa mapeada
                 elements.detailAchievementCover.src = ''; // Limpa a src para evitar quebras
+            }
+
+            if (cdNameFull && cdNameFull !== 'N/A') {
+                elements.detailAchievementCdName.textContent = `CD: ${cdNameFull}`;
+                elements.detailAchievementCdName.style.display = 'block';
+            } else {
+                elements.detailAchievementCdName.textContent = '';
+                elements.detailAchievementCdName.style.display = 'none';
             }
 
             elements.detailAchievementStatus.textContent = achievement.unlocked ? 'Desbloqueada' : 'Bloqueada';
@@ -3095,9 +3197,9 @@
             const oldCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (oldCuriositySidebar) {
                 oldCuriositySidebar.classList.remove('show');
-                setTimeout(() => { 
+                setTimeout(() => { // Garante que a curiosidade suma antes de limpar o HTML
                     oldCuriositySidebar.innerHTML = '';
-                }, 500); 
+                }, 500);
             }
 
             // AQUI A VERIFICAÇÃO DE FIM DE NÍVEL DEVERIA ESTAR.
@@ -3192,7 +3294,7 @@
                 return;
             }
             // ALTERADO: Ajustado para o botão de fechar do detail popup (que está dentro dele)
-            if (elements.achievementDetailPopup.classList.contains('show')) {
+            if (elements.achievementDetailPopup.classList.contains('show')) { 
                 // Procura se o clique foi no botão "Fechar" dentro do pop-up
                 const closeButton = event.target.closest('#achievement-detail-popup button');
                 if (closeButton) {
@@ -3289,8 +3391,8 @@
                     } else if (showRankingButton === document.activeElement && !showRankingButton.disabled) {
                         showRankingButton.click();
                     } else { 
-                               const firstButton = elements.levelUpMessage.querySelector('button');
-                               if (firstButton && !firstButton.disabled) firstButton.click();
+                            const firstButton = elements.levelUpMessage.querySelector('button');
+                            if (firstButton && !firstButton.disabled) firstButton.click();
                     }
                 }
                 return;
