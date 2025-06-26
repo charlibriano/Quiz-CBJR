@@ -104,7 +104,7 @@
             30% { transform: translate(-50%, -50%) rotate(-1deg); }
             40% { transform: translate(-50%, -50%) rotate(1deg); }
             50% { transform: translate(-50%, -50%) rotate(0deg); }
-            /* Repete o tremor mais forte no final para sustentar o efeito */
+            /* Repete o tremor más forte no final para sustentar o efeito */
             60% { transform: translate(-50%, -50%) rotate(-1.5deg); }
             70% { transform: translate(-50%, -50%) rotate(1.5deg); }
             80% { transform: translate(-50%, -50%) rotate(-1.5deg); }
@@ -282,7 +282,7 @@
         }
         @media (max-width: 480px) {
             #power-ups-container {
-                margin-top: 15px; /* Ajusta ainda mais para telas pequenas */
+                margin-top: 15px; /* Ajusta ainda más para telas pequenas */
                 margin-bottom: 15px;
                 gap: 5px;
                 padding: 5px 0;
@@ -542,7 +542,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9); /* Fundo escuro com más opacidade */
+            /* ALTERADO: Removendo background-color para ver o body através dela */
+            background-color: transparent; /* Apenas transparente, para não bloquear o background do body */
+            /* NOVO: Adiciona um blur para o efeito "vidro fosco", opcional mas legal */
+            backdrop-filter: blur(8px); /* Um pouco mais forte para destaque */
+            -webkit-backdrop-filter: blur(8px); /* Suporte para Safari */
             z-index: 2000;
             display: flex;
             flex-direction: column;
@@ -571,145 +575,145 @@
             width: 90%;
             max-width: 800px;
             margin-bottom: 30px;
-            /* Alterado para 2 colunas fixas em telas maiores, e 1 em mobile */
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Padrão flexível */
-            gap: 20px;
             text-align: left;
+            /* PROPRIEDADES DE GRID PARA O LAYOUT DE CAIXAS */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; /* Espaço entre as caixas */
+            justify-content: center; /* Centraliza as caixas na horizontal */
         }
+
+        /* NOVO: Estilo para o CARD de conquista */
+        .achievement-card {
+            background-color: rgba(0, 0, 0, 0.6); /* Fundo escuro semi-transparente */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px; /* Altura mínima para as caixas */
+            border: 2px solid transparent; /* Borda padrão transparente */
+            color: var(--cor-texto-claro); /* Cor do texto padrão */
+            text-align: center;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px); /* Efeito de flutuação */
+            background-color: rgba(0, 0, 0, 0.8); /* Fundo um pouco más escuro ao passar o mouse */
+        }
+
+        .achievement-card.unlocked {
+            border-color: var(--cor-verde-correto); /* Borda verde para desbloqueadas */
+            background-color: rgba(46, 204, 113, 0.2); /* Fundo sutil verde */
+        }
+
+        .achievement-card.unlocked:hover {
+            background-color: rgba(46, 204, 113, 0.4);
+        }
+
+        .achievement-card h3 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 1.2em;
+            color: var(--cor-amarelo-cbjr); /* Título sempre amarelo */
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        }
+
+        .achievement-card .achievement-icon {
+            font-size: 1.3em;
+            line-height: 1; /* Alinha o ícone com o texto */
+            vertical-align: middle;
+        }
+
+        .achievement-card p {
+            font-family: Arial, sans-serif;
+            font-size: 0.9em;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+            flex-grow: 1; /* Permite que o parágrafo ocupe o espaço disponível */
+        }
+
+        .achievement-card .status {
+            font-weight: bold;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .achievement-card .status.unlocked {
+            color: var(--cor-verde-correto);
+        }
+
+        .achievement-card .status.locked {
+            color: var(--cor-vermelho-incorreto);
+        }
+
+
         /* Media Query para forçar 2 colunas em telas maiores que 600px */
         @media (min-width: 601px) {
             #achievements-list {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 20px; /* Mantém o espaçamento */
             }
         }
-        /* Media Query para 1 coluna em telas muito pequenas */
-        @media (max-width: 480px) {
+
+        /* Media Query para telas menores (smartphones) */
+        @media (max-width: 600px) { /* Este é o ponto de quebra para 2 colunas em mobile */
             #achievements-list {
-                grid-template-columns: 1fr; /* Força 1 coluna em mobile */
-                gap: 15px; /* Reduz o gap para caber melhor */
-            }
-        }
-
-
-        .achievement-card {
-            background-color: var(--cor-fundo-transparente);
-            margin-bottom: 10px; /* Reduzi a margem para 10px entre os cards */
-            padding: 15px 20px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 120px; /* Garante altura mínima para alinhamento */
-            transition: transform 0.2s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
-            
-            /* Estilos padrão para cards bloqueados */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            filter: grayscale(80%); /* Más desaturado */
-            opacity: 0.7; /* Más transparente */
-            cursor: default; /* Cursor padrão para bloqueado */
-        }
-        .achievement-card:hover {
-            transform: none; /* Remove o hover padrão */
-        }
-
-        .achievement-card.unlocked {
-            border: 2px solid var(--cor-verde-vibrante);
-            background-color: rgba(30, 215, 96, 0.2); /* Verde más suave */
-            filter: grayscale(0%); /* Remove o grayscale */
-            opacity: 1; /* Opacidade total */
-            cursor: pointer; /* Volta o cursor de pointer */
-            box-shadow: 0 0 10px var(--cor-verde-vibrante); /* Brilho más visível */
-        }
-        .achievement-card.unlocked:hover {
-            transform: translateY(-5px); /* Efeito de lift no hover */
-            box-shadow: 0 5px 15px var(--cor-verde-vibrante); /* Sombra más proeminente no hover */
-        }
-
-
-        .achievement-card h3 {
-            font-family: 'Elektrix', sans-serif;
-            color: var(--cor-texto-claro);
-            font-size: 1.4em;
-            margin-top: 0;
-            margin-bottom: 10px;
-            text-shadow: none; /* Remove brilho padrão */
-            display: flex; /* Para alinhar o texto e o ícone */
-            align-items: center;
-            justify-content: space-between; /* Espaçamento entre título e ícone */
-        }
-        .achievement-card h3 .achievement-icon {
-            font-size: 1.2em; /* Tamanho do ícone */
-            margin-left: 10px;
-            line-height: 1; /* Alinha verticalmente */
-        }
-
-        .achievement-card p {
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 15px;
-            flex-grow: 1; /* Faz o parágrafo ocupar o espaço restante */
-        }
-        .achievement-card .status {
-            font-size: 0.8em;
-            font-weight: bold;
-            color: var(--cor-amarelo-cbjr);
-            text-align: right;
-        }
-        .achievement-card.unlocked .status {
-            color: var(--cor-verde-vibrante);
-        }
-        /* Botão de fechar da tela de conquistas */
-        #close-achievements-btn {
-            padding: 12px 25px;
-            font-size: 1.2em;
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-texto-claro);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.3s ease;
-            text-shadow: 0 0 8px rgba(255,255,255,0.8);
-            margin-top: 20px;
-        }
-        #close-achievements-btn:hover {
-            transform: scale(1.05);
-            background-color: #4a4a4a;
-        }
-
-        /* Responsividade para a tela de conquistas - AJUSTADO PARA EVITAR SCROLL */
-        @media (max-width: 600px) {
-            #achievements-screen {
-                padding: 10px; /* Reduz padding geral para telas muito pequenas */
-                justify-content: flex-start; /* Alinha o conteúdo ao topo */
-            }
-            #achievements-screen h2 {
-                font-size: 1.5em; /* Fonte ainda menor para o título */
-                margin-bottom: 15px; /* Margem reduzida */
+                grid-template-columns: repeat(2, 1fr); /* Tenta 2 colunas aqui */
+                gap: 10px; /* Reduz o gap para caber melhor */
+                width: 95%; /* Ocupa um pouco mais de largura da tela */
             }
             .achievement-card {
-                padding: 10px; /* Reduz padding do card ainda más */
-                min-height: 90px; /* Altura mínima para tentar caber o conteúdo */
+                padding: 10px; /* Reduz padding do card */
+                min-height: 80px; /* Reduz um pouco a altura mínima */
             }
             .achievement-card h3 {
-                font-size: 0.9em; /* Reduz fonte do título do card */
-                margin-bottom: 5px; /* Margem reduzida */
-                line-height: 1.1; /* Ajusta line-height para caber más texto */
+                font-size: 0.8em; /* Reduz fonte do título do card */
+                margin-bottom: 5px;
             }
             .achievement-card p {
-                font-size: 0.7em; /* Reduz fonte do texto do card ainda más */
-                margin-bottom: 8px; /* Margem inferior reduzida */
-                line-height: 1.3;
+                font-size: 0.65em; /* Reduz fonte do texto do card ainda mais */
+                margin-bottom: 8px;
             }
             .achievement-card .status {
                 font-size: 0.6em; /* Reduz fonte do status */
             }
+            /* Ajustes para o botão de fechar na tela de conquistas */
             #close-achievements-btn {
-                font-size: 1em; /* Reduz fonte do botão */
-                padding: 8px 15px; /* Reduz padding do botão */
-                margin-top: 15px; /* Reduz margem superior */
+                font-size: 0.9em;
+                padding: 8px 15px;
             }
         }
+
+        /* Media Query para telas MUITO pequenas (se 2 colunas ainda for demais) */
+        @media (max-width: 380px) { /* Ponto de quebra para voltar a 1 coluna em telas muito estreitas */
+            #achievements-list {
+                grid-template-columns: 1fr; /* Força 1 coluna */
+                gap: 15px; /* Volta o gap para 1 coluna */
+            }
+            .achievement-card {
+                padding: 12px;
+                min-height: 90px;
+            }
+            .achievement-card h3 {
+                font-size: 1em;
+            }
+            .achievement-card p {
+                font-size: 0.8em;
+            }
+        }
+
 
         #restart-btn {
             padding: 15px 30px;
@@ -1250,9 +1254,22 @@
         }
 
 
-        #level-up-message button { /* Revertido para o seletor más genérico para os botões da intro message */
-            padding: 12px 25px;
-            font-size: 1.2em;
+        #restart-btn {
+            padding: 15px 30px;
+            margin-top: 20px;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.5em;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+        /* Os botões start-btn e achievements-btn não estão más no container principal HTML, más sim na overlay da intro message */
+        /* Más podemos manter o estilo base para botões da overlay para consistência, ou criar um estilo específico para eles lá se quiser */
+        #level-up-message .message-buttons button {
+            padding: 12px 25px; /* Ajuste para ter um tamanho más padronizado com outros botões */
+            font-size: 1.2em; /* Ajuste */
             background-color: var(--cor-preto-principal);
             color: var(--cor-texto-claro);
             border: none;
@@ -1669,7 +1686,8 @@
     <div id="main-overlay" style="display:none;"></div>
 
     <div id="achievements-screen" style="display:none;">
-        <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2> <div id="achievements-list"></div>
+        <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2> 
+        <div id="achievements-list"></div>
         <button id="close-achievements-btn" onclick="closeAchievementsScreen()">Voltar</button>
     </div>
 
@@ -1891,7 +1909,7 @@
             {
                 fraseChorao: "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
                 perguntas: [
-                    { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
+                    { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skafater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
                     { pergunta: "Qual banda internacional teve o Charlie Brown Jr. como banda de abertura em suas turnês no Brasil nos anos de 2004 e 2012?", respostas: ["Limp Bizkit", "Green Day", "Foo Fighters", "Linkin Park"], correta: "Linkin Park", curiosidade: "O Charlie Brown Jr. abriu shows do Linkin Park no Brasil em duas ocasiões: em 2004, durante a turnê do álbum 'Meteora', e novamente em 2012, na turnê de 'Living Things', com uma apresentação marcante na Arena Anhembi, em São Paulo." },
                     { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records", curiosidade: "A Virgin Records foi a gravadora responsável pelos primeiros álbuns da banda, incluindo 'Transpiração Contínua Prolongada'." },
                     { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era(muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas más esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
@@ -2030,13 +2048,13 @@
             "all_main_levels_completed": "CD 11.jpeg", 
             "secret_level_completed": "CD 12.jpeg", 
             "all_levels_completed": "CD 12.jpeg", 
-            "combo_3x": "CD 1.jpeg",      
-            "combo_5x": "CD 2.jpeg",      
-            "combo_7x": "CD 3.jpeg",      
+            "combo_3x": "CD 1.jpeg",       
+            "combo_5x": "CD 2.jpeg",       
+            "combo_7x": "CD 3.jpeg",       
             "combo_10x": "CD 4_.jpeg",     
             "new_high_score": "CD 7.jpeg", 
             "used_50_50": "CD 8.jpeg",     
-            "used_skip": "CD 9.jpeg",      
+            "used_skip": "CD 9.jpeg",       
         };
 
         // --- Referências de Elementos DOM ---
@@ -2981,7 +2999,7 @@
             for (const id in achievements) {
                 const achievement = achievements[id];
                 const isUnlocked = achievement.unlocked;
-                const card = document.createElement('div');
+                const card = document.createElement('div'); // AGORA É UM DIV
                 card.classList.add('achievement-card');
                 if (isUnlocked) {
                     card.classList.add('unlocked');
@@ -2989,7 +3007,10 @@
                 card.dataset.achievementId = id; // Adiciona o data-id
                 
                 // NOVO: Adiciona o event listener via JS
-                card.addEventListener('click', () => showAchievementDetailPopup(id)); 
+                card.addEventListener('click', (event) => {
+                    event.stopPropagation(); // Evita que o clique se propague para a overlay
+                    showAchievementDetailPopup(id);
+                }); 
 
                 card.innerHTML = `
                     <h3>
@@ -3384,7 +3405,7 @@
                             unlockAchievement("secret_level_completed");
                             endGame(true); 
                         } else if (quizState.currentLevel === quizState.totalMainLevels - 1) { 
-                               // Se for o último nível principal (o Nível 7) e esta é a última pergunta desse nível
+                                // Se for o último nível principal (o Nível 7) e esta é a última pergunta desse nível
                             console.log("checkAnswer: Última pergunta do último nível principal acertada. Exibindo tela de conclusão dos níveis principais.");
                             unlockAchievement("all_main_levels_completed");
                             showCompletionScreen(); 
