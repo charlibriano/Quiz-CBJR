@@ -1702,6 +1702,7 @@
 
     <div id="achievement-detail-popup" style="display:none;">
         <h3 id="detail-achievement-name"></h3>
+        <img id="detail-achievement-cover" src="" alt="Capa do CD" style="max-width: 150px; margin: 15px auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: none;">
         <p id="detail-achievement-description"></p>
         <div id="detail-achievement-status" class="status"></div>
         <button onclick="closeAchievementDetailPopup()">Fechar</button>
@@ -1893,7 +1894,7 @@
                     { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
                     { pergunta: "Qual banda internacional teve o Charlie Brown Jr. como banda de abertura em suas turnês no Brasil nos anos de 2004 e 2012?", respostas: ["Limp Bizkit", "Green Day", "Foo Fighters", "Linkin Park"], correta: "Linkin Park", curiosidade: "O Charlie Brown Jr. abriu shows do Linkin Park no Brasil em duas ocasiões: em 2004, durante a turnê do álbum 'Meteora', e novamente em 2012, na turnê de 'Living Things', com uma apresentação marcante na Arena Anhembi, em São Paulo." },
                     { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records", curiosidade: "A Virgin Records foi a gravadora responsável pelos primeiros álbuns da banda, incluindo 'Transpiração Contínua Prolongada'." },
-                    { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas más esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
+                    { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era(muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas más esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
                     { pergunta: "Qual o nome do álbum que inclui o hit 'Senhor do Tempo'?", respostas: ["Nadando com os Tubarões", "Bocas Ordinárias", "Imunidade Musical", "Tamo Aí na Atividade"], correta: "Imunidade Musical", curiosidade: "'Senhor do Tempo' é uma das faixas más conhecidas do álbum 'Imunidade Musical', lançado em 2004, e aborda temas de fé e destino." },
                     {
                     "pergunta": "Em qual programa da MTV Chorão abriu as portas de sua casa para o público?",
@@ -1969,12 +1970,12 @@
                 description: "Complete o Nível 5.",
                 unlocked: false
             },
-            "all_main_levels_completed": { // NOVA CONQUISTA para os 7 níveis principais
+            "all_main_levels_completed": { 
                 name: "Mestre da Vibe",
                 description: "Complete todos os 7 níveis principais do quiz.",
                 unlocked: false
             },
-            "secret_level_completed": { // NOVA CONQUISTA para o nível secreto
+            "secret_level_completed": { 
                 name: "Lenda Secreta do CBJR",
                 description: "Conclua o Nível Secreto Hardcore.",
                 unlocked: false
@@ -2009,16 +2010,33 @@
                 description: "Alcance um novo recorde de pontuação.",
                 unlocked: false
             },
-            "used_50_50": { // Conquista para o 50/50
+            "used_50_50": { 
                 name: "Ajuda da Galera",
                 description: "Use o power-up 50/50 pela primeira vez.",
                 unlocked: false
             },
-            "used_skip": { // Conquista para Pular Pergunta - Adicionada aqui para ser desbloqueável
+            "used_skip": { 
                 name: "Pulei na Frente",
                 description: "Use o power-up Pular Pergunta pela primeira vez.",
                 unlocked: false
             }
+        };
+
+        // ALTERADO: Mapeamento de Capas de CD para Conquistas (Nomes de arquivo corrigidos com espaços e .jpeg)
+        const achievementCdCovers = {
+            "first_level_completed": "CD 1.jpeg", 
+            "level_3_completed": "CD 3.jpeg",     
+            "level_5_completed": "CD 5.jpeg",     
+            "all_main_levels_completed": "CD 11.jpeg", 
+            "secret_level_completed": "CD 12.jpeg", 
+            "all_levels_completed": "CD 12.jpeg", 
+            "combo_3x": "CD 1.jpeg",      
+            "combo_5x": "CD 2.jpeg",      
+            "combo_7x": "CD 3.jpeg",      
+            "combo_10x": "CD 4_.jpeg",     
+            "new_high_score": "CD 7.jpeg", 
+            "used_50_50": "CD 8.jpeg",     
+            "used_skip": "CD 9.jpeg",      
         };
 
         // --- Referências de Elementos DOM ---
@@ -2035,7 +2053,7 @@
             pointsPopup: document.getElementById('points-popup'),
             comboMessage: document.getElementById('combo-message'),
             achievementPopup: document.getElementById('achievement-popup'),
-            mainOverlay: document.getElementById('main-overlay'), // Alterado para main-overlay
+            mainOverlay: document.getElementById('main-overlay'), 
             achievementsScreen: document.getElementById('achievements-screen'),
             achievementsList: document.getElementById('achievements-list'),
             curiosityBox: document.createElement('div'), 
@@ -2067,8 +2085,8 @@
             powerUpsContainer: document.getElementById('power-ups-container'), 
             fiftyFiftyBtn: document.getElementById('fifty-fifty-btn'),
             fiftyFiftyCount: document.getElementById('fifty-fifty-count'),
-            skipQuestionBtn: document.getElementById('skip-question-btn'), // Referência ao botão Pular
-            skipQuestionCount: document.getElementById('skip-question-count'), // Referência ao contador Pular
+            skipQuestionBtn: document.getElementById('skip-question-btn'), 
+            skipQuestionCount: document.getElementById('skip-question-count'), 
 
             // NOVO: Elemento para a tela de conclusão
             completionScreen: document.getElementById('completion-screen'),
@@ -2083,6 +2101,7 @@
             // NOVO: Pop-up de Detalhes da Conquista
             achievementDetailPopup: document.getElementById('achievement-detail-popup'),
             detailAchievementName: document.getElementById('detail-achievement-name'),
+            detailAchievementCover: document.getElementById('detail-achievement-cover'), 
             detailAchievementDescription: document.getElementById('detail-achievement-description'),
             detailAchievementStatus: document.getElementById('detail-achievement-status'),
         };
@@ -2241,7 +2260,7 @@
                 }
                 
                 // Limpar conteúdo e resetar estilos para medição e exibição
-                elements.currentSongText.innerHTML = ''; // Remove qualquer span anterior
+                elements.currentSongText.innerHTML = ''; 
                 elements.currentSongText.classList.remove('should-marquee');
                 
                 // Criar um span temporário para medir a largura real do texto
@@ -2401,7 +2420,7 @@
             if (playerState.playlist.length === 0) return;
 
             if (playerState.repeatMode === 2) {
-                elements.audio.currentTime = 0; // Reinicia a música atual
+                elements.audio.currentTime = 0;
                 playSong();
             } else if (playerState.isShuffling) {
                 let nextIndex;
@@ -2946,6 +2965,7 @@
             }
         }
 
+        // ALTERADO: showAchievementsScreen para adicionar listeners de clique aos cards dinamicamente
         function showAchievementsScreen() {
             console.log("showAchievementsScreen: Exibindo tela de conquistas.");
             quizState.quizPaused = true;
@@ -2966,9 +2986,10 @@
                 if (isUnlocked) {
                     card.classList.add('unlocked');
                 }
-                // Adiciona o data-id para poder buscar a descrição ao clicar
-                card.dataset.achievementId = id; 
-                card.onclick = () => showAchievementDetailPopup(id); // Adiciona o listener de clique
+                card.dataset.achievementId = id; // Adiciona o data-id
+                
+                // NOVO: Adiciona o event listener via JS
+                card.addEventListener('click', () => showAchievementDetailPopup(id)); 
 
                 card.innerHTML = `
                     <h3>
@@ -2981,7 +3002,8 @@
                 elements.achievementsList.appendChild(card);
             }
         }
-        // NOVO: Função para exibir o pop-up de detalhes da conquista
+
+        // ALTERADO: showAchievementDetailPopup para usar encodeURIComponent
         function showAchievementDetailPopup(id) {
             const achievement = achievements[id];
             if (!achievement) return;
@@ -2989,21 +3011,36 @@
             elements.detailAchievementName.textContent = achievement.name;
             elements.detailAchievementDescription.textContent = achievement.description;
             
+            // Lógica para exibir a capa do CD
+            const coverFileName = achievementCdCovers[id];
+            if (coverFileName) {
+                // ALTERADO: Usando encodeURIComponent para tratar espaços e outros caracteres especiais na URL
+                elements.detailAchievementCover.src = `https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/${encodeURIComponent(coverFileName)}`;
+                elements.detailAchievementCover.style.display = 'block'; // Mostra a imagem
+            } else {
+                elements.detailAchievementCover.style.display = 'none'; // Esconde se não tiver capa mapeada
+                elements.detailAchievementCover.src = ''; // Limpa a src para evitar quebras
+            }
+
             elements.detailAchievementStatus.textContent = achievement.unlocked ? 'Desbloqueada' : 'Bloqueada';
             elements.detailAchievementStatus.classList.toggle('unlocked', achievement.unlocked);
             elements.detailAchievementStatus.classList.toggle('locked', !achievement.unlocked);
 
-
+            // NOVO: Certifica-se que o pop-up esteja visível (display: flex) antes de adicionar a classe 'show' para transição
+            elements.achievementDetailPopup.style.display = 'flex'; 
             elements.achievementDetailPopup.classList.add('show');
             showMainOverlay(); // Mostra a overlay principal
             quizState.quizPaused = true; // Pausa o quiz
         }
 
-        // NOVO: Função para fechar o pop-up de detalhes da conquista
+        // NOVO: Função para fechar o pop-up de detalhes da conquista (ajustada para display: none)
         function closeAchievementDetailPopup() {
             elements.achievementDetailPopup.classList.remove('show');
-            hideMainOverlay(); // Esconde a overlay principal
-            quizState.quizPaused = false; // Despausa o quiz
+            setTimeout(() => {
+                elements.achievementDetailPopup.style.display = 'none'; // Esconde completamente após a transição
+                hideMainOverlay(); // Esconde a overlay principal
+                quizState.quizPaused = false; // Despausa o quiz
+            }, 300); // Tempo da transição de opacidade
         }
 
 
@@ -3120,26 +3157,30 @@
                 if (clickedCard) {
                     const achievementId = clickedCard.dataset.achievementId;
                     showAchievementDetailPopup(achievementId);
-                } else if (event.target.id === 'close-achievements-btn') { // Apenas o botão de fechar dentro da tela
+                } else if (event.target.id === 'close-achievements-btn') { 
                     closeAchievementsScreen();
                 }
-                event.stopPropagation(); // Sempre parar a propagação se uma tela de overlay está ativa
+                event.stopPropagation(); 
                 return;
             }
             if (elements.rankingScreen.classList.contains('show')) {
-                if (event.target.id === 'close-ranking-btn') { // Apenas o botão de fechar dentro da tela
+                if (event.target.id === 'close-ranking-btn') { 
                     closeRankingScreen();
                 }
                 event.stopPropagation();
                 return;
             }
+            // ALTERADO: Ajustado para o botão de fechar do detail popup (que está dentro dele)
             if (elements.achievementDetailPopup.classList.contains('show')) {
-                if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Fechar') {
+                // Procura se o clique foi no botão "Fechar" dentro do pop-up
+                const closeButton = event.target.closest('#achievement-detail-popup button');
+                if (closeButton) {
                     closeAchievementDetailPopup();
                 }
-                event.stopPropagation();
+                event.stopPropagation(); // Sempre parar a propagação se o detail popup está ativo
                 return;
             }
+
             if (elements.completionScreen.classList.contains('show')) {
                 // Deixa os botões internos da tela de conclusão lidarem com seus próprios cliques
                 // Se o clique não for nos botões internos, ele ainda deve ser consumido pela overlay.
@@ -3194,17 +3235,17 @@
                 if (event.key === 'Escape') { closeAchievementsScreen(); }
                 return;
             }
-            if (elements.rankingScreen.classList.contains('show')) { // NOVO: Teclas para ranking
+            if (elements.rankingScreen.classList.contains('show')) { 
                 if (event.key === 'Escape' || event.key === 'Enter') { closeRankingScreen(); }
                 return;
             }
-            if (elements.achievementDetailPopup.classList.contains('show')) { // NOVO: Teclas para pop-up de detalhes
+            // ALTERADO: Tecla 'Escape' para fechar o detail popup
+            if (elements.achievementDetailPopup.classList.contains('show')) { 
                 if (event.key === 'Escape' || event.key === 'Enter') { closeAchievementDetailPopup(); }
                 return;
             }
             if (elements.completionScreen.classList.contains('show')) {
                 if (event.key === 'Enter') {
-                    // Clica no botão "Nível Secreto" ou "Reiniciar"
                     const secretLevelBtn = elements.completionScreen.querySelector('#start-secret-level-btn');
                     if (secretLevelBtn && !secretLevelBtn.disabled) secretLevelBtn.click();
                     else {
@@ -3215,7 +3256,6 @@
                 return;
             }
             if (elements.levelUpMessage.classList.contains('show')) {
-                // Adicione a lógica para o botão "Ranking Online" na intro se necessário
                 if (event.key === 'Enter') {
                     const startQuizButton = elements.levelUpMessage.querySelector('#start-quiz-button');
                     const showAchievementsButton = elements.levelUpMessage.querySelector('#show-achievements-button');
@@ -3227,7 +3267,7 @@
                         showAchievementsButton.click();
                     } else if (showRankingButton === document.activeElement && !showRankingButton.disabled) {
                         showRankingButton.click();
-                    } else { // Fallback, se nenhum botão específico está focado, clica no primeiro (geralmente "Entendi! Começar!")
+                    } else { 
                                const firstButton = elements.levelUpMessage.querySelector('button');
                                if (firstButton && !firstButton.disabled) firstButton.click();
                     }
@@ -3235,35 +3275,30 @@
                 return;
             }
 
-            // Power-ups via teclado (F1 para 50/50, F2 para Pular)
             if (!quizState.isProcessingAnswer) { 
                 if (event.key === 'F1') { 
-                    event.preventDefault(); // Impede o comportamento padrão do navegador para F1
-                    elements.fiftyFiftyBtn.click(); // Simula o clique no botão
+                    event.preventDefault(); 
+                    elements.fiftyFiftyBtn.click(); 
                     return; 
                 }
                 if (event.key === 'F2') { 
-                    event.preventDefault(); // Impede o comportamento padrão do navegador para F2
-                    elements.skipQuestionBtn.click(); // Simula o clique no botão
+                    event.preventDefault(); 
+                    elements.skipQuestionBtn.click(); 
                     return; 
                 }
             }
 
-            // Se o quiz está pausado ou processando resposta, ignora outras teclas de jogo
             if (quizState.quizPaused || quizState.isProcessingAnswer) return;
 
-            // Teclas para respostas (1, 2, 3, 4)
             const numberKey = parseInt(event.key);
             if (!isNaN(numberKey) && numberKey >= 1 && numberKey <= 4) {
                 const answerButtons = elements.quiz.querySelectorAll('.answer-button');
-                // Clica no botão correspondente se ele existir e NÃO estiver desabilitado
                 if (answerButtons[numberKey - 1] && !answerButtons[numberKey - 1].disabled) {
-                    answerButtons[numberKey - 1].click(); // Simula um clique no botão de resposta
+                    answerButtons[numberKey - 1].click(); 
                 }
                 return;
             }
 
-            // Teclas para controles do player de audio
             switch (event.key.toLowerCase()) {
                 case ' ': event.preventDefault(); togglePlayPause(); break;
                 case 'arrowleft': playPrevSong(); break;
@@ -3289,12 +3324,12 @@
         function showCuriosity(curiosity) {
             const curiositySidebarBox = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (curiositySidebarBox) {
-                curiositySidebarBox.classList.remove('show'); // Esconde para a transição de saída
-                setTimeout(() => { // Aguarda a transição de saída antes de mudar o conteúdo e reexibir
+                curiositySidebarBox.classList.remove('show'); 
+                setTimeout(() => { 
                     curiositySidebarBox.innerHTML = `<strong>Você Sabia?:</strong> ${curiosity}`;
                     curiositySidebarBox.style.backgroundColor = 'var(--cor-fundo-transparente)';
-                    curiositySidebarBox.classList.add('show'); // Reexibe com o novo conteúdo
-                }, 500); // Tempo da transição de opacidade no CSS para .curiosity-sidebar-box
+                    curiositySidebarBox.classList.add('show'); 
+                }, 500); 
             } else {
                 console.warn("Elemento .curiosity-sidebar-box não encontrado para exibir a curiosidade.");
             }
@@ -3302,13 +3337,13 @@
 
         function checkAnswer(clickedButton, answer, correta) {
             console.log("checkAnswer: Verificando resposta...");
-            clearInterval(timerInterval); // Para o timer da pergunta
+            clearInterval(timerInterval); 
 
             const timeTaken = (Date.now() - questionStartTime) / 1000;
 
             const buttons = elements.quiz.querySelectorAll('.answer-button');
             buttons.forEach(button => {
-                button.disabled = true; // Desabilita todos os botões para evitar más cliques
+                button.disabled = true; 
             });
 
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
@@ -3338,35 +3373,31 @@
 
                 setTimeout(() => {
                     console.log("checkAnswer: Preparando para a próxima pergunta após acerto.");
-                    quizState.isProcessingAnswer = false; // Resetar para permitir novas interações na próxima pergunta
+                    quizState.isProcessingAnswer = false; 
                     clickedButton.classList.remove('glow-correct');
                     
-                    // --- NOVA LÓGICA PARA FIM DO NÍVEL SECRETO OU FIM DO QUIZ ---
                     const isLastQuestionOfCurrentLevel = (quizState.currentQuestionIndexInLevel + 1) === quizState.currentLevelQuestions.length;
                     
                     if (isLastQuestionOfCurrentLevel) {
                         if (quizState.isSecretLevelActive) {
                             console.log("checkAnswer: Última pergunta do Nível Secreto acertada. Chamando endGame (vitória final).");
                             unlockAchievement("secret_level_completed");
-                            endGame(true); // Vitória final
-                        } else if (quizState.currentLevel === quizState.totalMainLevels - 1) { // -1 porque totalMainLevels é a contagem, e currentLevel é índice
+                            endGame(true); 
+                        } else if (quizState.currentLevel === quizState.totalMainLevels - 1) { 
                                // Se for o último nível principal (o Nível 7) e esta é a última pergunta desse nível
                             console.log("checkAnswer: Última pergunta do último nível principal acertada. Exibindo tela de conclusão dos níveis principais.");
                             unlockAchievement("all_main_levels_completed");
-                            showCompletionScreen(); // Chama a tela de "Parabéns, Fera!" com opção do Nível Secreto
+                            showCompletionScreen(); 
                         } else {
-                            // Última pergunta de um nível intermediário acertada, avança para o próximo nível
                             quizState.currentLevel++;
-                            loadLevel(); // Carrega o próximo nível (que chamará showLevelUpMessage)
+                            loadLevel(); 
                         }
                     } else {
-                        // Não é a última pergunta do nível, apenas avança para a próxima pergunta no nível atual
                         quizState.currentQuestionIndexInLevel++; 
                         showQuestion();
                     }
-                    // --- FIM DA NOVA LÓGICA ---
 
-                }, 4000); // Aguarda o feedback visual
+                }, 4000); 
             } else {
                 console.log("checkAnswer: Resposta INCORRETA!");
                 clickedButton.classList.add('incorrect', 'glow-incorrect');
@@ -3380,44 +3411,31 @@
                     }, { once: true });
                 }
 
-                quizState.lives--; // **AQUI DECREMENTA A VIDA!**
-                quizState.errorsInCurrentLevel++; // Incrementa erro no nível atual
-                quizState.consecutiveCorrectAnswers = 0; // Reseta o combo
-                updateLivesDisplay(); // Atualiza o display de vidas para refletir a perda
+                quizState.lives--; 
+                quizState.errorsInCurrentLevel++; 
+                quizState.consecutiveCorrectAnswers = 0; 
+                updateLivesDisplay(); 
 
-                updateQuizInfo(); // Atualiza a info (pontos, progresso, vidas)
+                updateQuizInfo(); 
                 
                 const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
-                // REMOVIDO: Linhas que mostravam a resposta correta e o feedback visual de ✅
-                // const correctButton = Array.from(elements.quiz.querySelectorAll('.answer-button'))
-                //      .find(button => button.dataset.answer === questionData.correta);
-                // if (correctButton) {
-                //      correctButton.classList.add('correct', 'glow-correct');
-                //      correctButton.innerHTML += ' <span class="feedback-icon">✅</span>';
-                // }
                 
                 let lostLifeMsg = `Você vacilou e perdeu 1 vida! Vidas restantes: ${quizState.lives}.`;
-                // Ajustado a chamada showCuriosity para não incluir a resposta correta
                 showCuriosity(`${lostLifeMsg} ${questionData.curiosidade}`);
 
                 const buttons = elements.quiz.querySelectorAll('.answer-button');
                 buttons.forEach(button => {
-                    button.disabled = true; // Desabilita todos os botões
+                    button.disabled = true; 
                 });
 
                 setTimeout(() => {
                     console.log(`handleTimerEnd: Vidas restantes: ${quizState.lives}.`);
-                    quizState.isProcessingAnswer = false; // Permite novas interações na próxima tela/pergunta
+                    quizState.isProcessingAnswer = false; 
                     if (quizState.lives <= 0) { 
                         console.log("handleTimerEnd: Vidas esgotadas. Chamando endGame (derrota).");
-                        endGame(false); // Game Over definitivo
+                        endGame(false); 
                     } else {
-                        // Se perdeu vida mas ainda tem vidas, avança para a próxima pergunta
                         quizState.currentQuestionIndexInLevel++; 
-                        // Verifica se após perder a vida, ainda há perguntas no nível.
-                        // Se não houver, ou seja, era a última pergunta e errou,
-                        // ele deve avançar de nível ou ir para a tela de conclusão/game over por vidas.
-                        // A lógica de loadLevel() e showQuestion() já trata isso.
                         showQuestion();
                     }
                 }, 4000);
@@ -3425,20 +3443,17 @@
         }
 
         async function saveScore(playerName, score) {
-            // Verifica se 'db' está disponível (carregado pelo módulo type="module")
             if (!window.db || !window.firebase_collection || !window.firebase_addDoc) {
                 console.error("Firebase Firestore SDK não está totalmente carregado. Verifique os imports e a inicialização.");
                 return;
             }
             try {
-                // Referência à coleção 'ranking' no Firestore
                 const rankingRef = window.firebase_collection(window.db, "ranking");
                 
-                // Adiciona um novo documento à coleção
                 await window.firebase_addDoc(rankingRef, {
                     name: playerName,
                     score: score,
-                    timestamp: Date.now() // Para ordenar por más recente
+                    timestamp: Date.now() 
                 });
                 console.log(`Pontuação de ${playerName} (${score}) salva com sucesso no Firebase!`);
             } catch (e) {
@@ -3455,7 +3470,6 @@
             const rankingList = [];
             try {
                 const rankingRef = window.firebase_collection(window.db, "ranking");
-                // Consulta para pegar os top 10, ordenados por score (descendente)
                 const q = window.firebase_query(rankingRef, window.firebase_orderBy("score", "desc"), window.firebase_limit(10));
                 
                 const querySnapshot = await window.firebase_getDocs(q);
@@ -3463,7 +3477,7 @@
                     rankingList.push(doc.data());
                 });
                 console.log("Ranking carregado do Firebase:", rankingList);
-                return rankingList; // Retorna a lista de objetos {name, score, timestamp}
+                return rankingList; 
             } catch (e) {
                 console.error("Erro ao tentar carregar ranking do Firebase: ", e);
                 alert("Erro ao carregar ranking. Verifique o console para más detalhes ou as regras do Firebase Firestore.");
@@ -3475,26 +3489,24 @@
             console.log(`endGame: Finalizando o jogo. Vencedor: ${isWinner}.`);
             quizState.quizPaused = true;
             elements.quiz.style.pointerEvents = 'none';
-            showMainOverlay(); // Mostra a overlay principal
-            elements.livesDisplay.style.display = 'none'; // Esconde vidas
-            elements.powerUpsContainer.style.display = 'none'; // Esconde power-ups
-            elements.completionScreen.classList.remove('show', 'shake-animation'); // Esconde a tela de conclusão se estiver visível
-            elements.rankingScreen.classList.remove('show'); // Esconde a tela de ranking se estiver visível
-            elements.achievementDetailPopup.classList.remove('show'); // Esconde pop-up de detalhes da conquista
+            showMainOverlay(); 
+            elements.livesDisplay.style.display = 'none'; 
+            elements.powerUpsContainer.style.display = 'none'; 
+            elements.completionScreen.classList.remove('show', 'shake-animation'); 
+            elements.rankingScreen.classList.remove('show'); 
+            elements.achievementDetailPopup.classList.remove('show'); 
 
-            clearInterval(timerInterval); // Garante que nenhum timer esteja rodando
+            clearInterval(timerInterval); 
 
-            elements.quiz.innerHTML = ''; // Limpar o quiz para não ter elementos visíveis
+            elements.quiz.innerHTML = ''; 
             const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (currentCuriositySidebar) {
                 currentCuriositySidebar.classList.remove('show');
                 currentCuriositySidebar.innerHTML = '';
             }
 
-            // Recalcula o total de perguntas para a mensagem final (se necessário)
             quizState.totalQuestions = questionsByLevel.reduce((acc, levelData) => acc + levelData.perguntas.length, 0);
 
-            // Verifica e atualiza o recorde LOCAL no localStorage
             const oldHighScore = parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0');
             if (quizState.score > oldHighScore) {
                 quizState.highScore = quizState.score;
@@ -3502,14 +3514,11 @@
                 unlockAchievement("new_high_score");
             }
 
-            // === MODIFICADO: LÓGICA PARA PEDIR NOME E SALVAR NO RANKING ONLINE ===
-            // Esta lógica agora se aplica independentemente de ser um novo recorde local,
-            // ou se o jogo terminou por vidas.
             let playerName = prompt("Fim de jogo! Sua pontuação final: " + quizState.score + " pontos. Gostaria de enviar sua pontuação para o ranking online? Digite seu nome (ou clique em Cancelar para não enviar):");
-            if (playerName !== null) { // Verifica se o usuário clicou em Cancelar
+            if (playerName !== null) { 
               playerName = playerName.trim();
-              if (playerName !== "") { // Verifica se o nome não é uma string vazia
-                playerName = playerName.substring(0, 20); // Limita o tamanho do nome
+              if (playerName !== "") { 
+                playerName = playerName.substring(0, 20); 
                 saveScore(playerName, quizState.score);
               } else {
                 console.log("Nome em branco, pontuação não enviada para o ranking.");
@@ -3517,7 +3526,6 @@
             } else {
               console.log("Envio de pontuação para o ranking cancelado pelo usuário.");
             }
-            // =================================================
 
             let messageHtml = '';
             let bgColor = 'var(--cor-fundo-transparente)';
@@ -3525,21 +3533,20 @@
 
             if (isWinner) {
                 title = "Parabéns, Lenda do CBJR!";
-                bgColor = 'rgba(46, 204, 113, 0.7)'; // Verde de vitória
+                bgColor = 'rgba(46, 204, 113, 0.7)'; 
                 messageHtml = `
                     <div style="font-size: 1.5em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Você completou todos os níveis, incluindo o Secreto!</div>
                 `;
-                unlockAchievement("all_levels_completed"); // Adicionado para garantir o desbloqueio da conquista final
-            } else { // Game Over por vidas (ou erros no nível)
+                unlockAchievement("all_levels_completed"); 
+            } else { 
                 title = "Suas vidas acabaram!";
-                bgColor = 'rgba(231, 76, 60, 0.7)'; // Vermelho um pouco transparente para erro
+                bgColor = 'rgba(231, 76, 60, 0.7)'; 
                 messageHtml = `
                     <div style="font-size: 1.5em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Suas vidas acabaram!</div>
                     <div style="font-size: 1.1em; margin-top: 10px; font-family: Arial, sans-serif; line-height: 1.4;">A vida me ensinou a nunca desistir... Tente novamente!</div>
                 `;
             }
 
-            // Estatísticas comuns para ambos os cenários
             messageHtml += `
                 <div style="font-size: 0.9em; margin-top: 15px; font-family: Arial, sans-serif; line-height: 1.5;">Sua Pontuação Total: <b>${quizState.score}</b></div>
                 <div style="font-size: 0.9em; margin-top: 5px; font-family: Arial, sans-serif; line-height: 1.5;">Seu Recorde: <b>${quizState.highScore}</b></div>
@@ -3559,26 +3566,25 @@
         async function showRankingScreen() {
             console.log("showRankingScreen: Exibindo tela de ranking.");
             quizState.quizPaused = true;
-            showMainOverlay(); // Mostra a overlay principal
-            elements.levelUpMessage.classList.remove('show'); // Esconde a mensagem de level up/fim de jogo
-            elements.levelUpMessage.style.display = 'none'; // Garante que não está visível
-            elements.achievementsScreen.classList.remove('show'); // Esconde conquistas
+            showMainOverlay(); 
+            elements.levelUpMessage.classList.remove('show'); 
+            elements.levelUpMessage.style.display = 'none'; 
+            elements.achievementsScreen.classList.remove('show'); 
             elements.achievementsScreen.style.display = 'none';
-            elements.completionScreen.classList.remove('show', 'shake-animation'); // Esconde a tela de conclusão
+            elements.completionScreen.classList.remove('show', 'shake-animation'); 
             elements.completionScreen.style.display = 'none';
-            elements.achievementDetailPopup.classList.remove('show'); // Esconde o pop-up de detalhes
+            elements.achievementDetailPopup.classList.remove('show'); 
 
             elements.rankingScreen.style.display = 'flex';
             elements.rankingScreen.classList.add('show');
-            elements.rankingList.innerHTML = '<li>Carregando ranking...</li>'; // Mensagem de carregamento
+            elements.rankingList.innerHTML = '<li>Carregando ranking...</li>'; 
 
-            const rankingData = await loadRanking(); // Carrega os dados do Firebase
+            const rankingData = await loadRanking(); 
 
-            elements.rankingList.innerHTML = ''; // Limpa a lista antes de preencher
+            elements.rankingList.innerHTML = ''; 
             if (rankingData.length > 0) {
                 rankingData.forEach((entry, index) => {
                     const listItem = document.createElement('li');
-                    // Verifica se o score é numérico antes de usar toFixed ou formatar
                     const scoreDisplay = typeof entry.score === 'number' ? entry.score : 'N/A';
                     listItem.innerHTML = `<span>${index + 1}. ${entry.name}</span> <span style="color: var(--cor-amarelo-cbjr); font-weight: bold;">${scoreDisplay} pts</span>`;
                     elements.rankingList.appendChild(listItem);
@@ -3593,7 +3599,7 @@
             elements.rankingScreen.classList.remove('show');
             setTimeout(() => {
                 elements.rankingScreen.style.display = 'none';
-                showIntroMessage(); // Volta para a tela de introdução
+                showIntroMessage(); 
             }, 500);
         }
 
@@ -3601,36 +3607,36 @@
             console.log("restartQuiz: Reiniciando o quiz.");
             elements.levelUpMessage.classList.remove('show');
             elements.achievementsScreen.classList.remove('show');
-            elements.completionScreen.classList.remove('show', 'shake-animation'); // Esconde a tela de conclusão também
-            elements.rankingScreen.classList.remove('show'); // Garante que o ranking está escondido
-            elements.achievementDetailPopup.classList.remove('show'); // Esconde o pop-up de detalhes da conquista
+            elements.completionScreen.classList.remove('show', 'shake-animation'); 
+            elements.rankingScreen.classList.remove('show'); 
+            elements.achievementDetailPopup.classList.remove('show'); 
 
-            hideMainOverlay(); // Esconde a overlay principal
+            hideMainOverlay(); 
 
             setTimeout(() => {
                 Object.assign(quizState, {
                     currentLevel: 0,
                     currentQuestionIndexInLevel: 0,
                     score: 0,
-                    lives: MAX_LIVES, // Reinicia vidas para o máximo
+                    lives: MAX_LIVES, 
                     errorsInCurrentLevel: 0,
                     quizPaused: false,
                     isProcessingAnswer: false, 
                     currentLevelQuestions: [],
                     totalLevels: questionsByLevel.length, 
                     totalMainLevels: questionsByLevel.length - 1,
-                    isSecretLevelActive: false, // Resetar a flag do nível secreto
+                    isSecretLevelActive: false, 
                     totalQuestions: 0, 
-                    highScore: parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0'), // Recarrega high score
+                    highScore: parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0'), 
                     scoreAtLevelStart: 0,
                     consecutiveCorrectAnswers: 0,
                     highestCombo: 0,
                     comboPointsEarned: 0,
-                    unlockedAchievements: {}, // Será carregado em loadAchievements
-                    fiftyFiftyCount: INITIAL_FIFTY_FIFTY, // Reinicia o contador 50/50
-                    skipQuestionCount: INITIAL_SKIP_QUESTION // Reinicia o contador Pular Pergunta
+                    unlockedAchievements: {}, 
+                    fiftyFiftyCount: INITIAL_FIFTY_FIFTY, 
+                    skipQuestionCount: INITIAL_SKIP_QUESTION 
                 });
-                loadAchievements(); // Recarrega conquistas salvas
+                loadAchievements(); 
 
                 clearInterval(timerInterval);
                 elements.scoreText.textContent = `Pontos: ${quizState.score}`;
@@ -3643,8 +3649,8 @@
                 elements.quiz.style.pointerEvents = 'all';
                 elements.quiz.style.display = 'none'; 
 
-                elements.livesDisplay.style.display = 'none'; // Esconde display de vidas
-                elements.powerUpsContainer.style.display = 'none'; // Esconde power-ups
+                elements.livesDisplay.style.display = 'none'; 
+                elements.powerUpsContainer.style.display = 'none'; 
 
                 elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
 
@@ -3654,7 +3660,7 @@
                     currentCuriositySidebar.classList.remove('show');
                     currentCuriositySidebar.innerHTML = '';
                 }
-                showIntroMessage(); // Volta para a mensagem de introdução
+                showIntroMessage(); 
             }, 500);
         }
 
@@ -3668,22 +3674,22 @@
                 if (timeLeft <= 0) {
                     console.log("startTimer: Tempo esgotado.");
                     clearInterval(timerInterval);
-                    handleTimerEnd(); // Chamar a função de tratamento de fim de tempo
+                    handleTimerEnd(); 
                 }
             }, 1000);
         };
 
         function handleTimerEnd() {
             console.log("handleTimerEnd: Tempo da pergunta esgotado.");
-            if (quizState.isProcessingAnswer) { // Evita duplicação de processamento
+            if (quizState.isProcessingAnswer) { 
                 console.log("handleTimerEnd: Já processando resposta/fim. Saindo.");
                 return;
             }
             
-            quizState.isProcessingAnswer = true; // Bloqueia interações
+            quizState.isProcessingAnswer = true; 
             elements.quiz.style.pointerEvents = 'none';
 
-            clearInterval(timerInterval); // Garante que o timer pare
+            clearInterval(timerInterval); 
 
             const questionTextElement = document.getElementById('current-question-text');
             if (questionTextElement) {
@@ -3693,45 +3699,31 @@
                 }, { once: true });
             }
 
-            // Lógica de perda de vida e reset de combo
             quizState.lives--; 
             quizState.errorsInCurrentLevel++; 
-            quizState.consecutiveCorrectAnswers = 0; // Reseta o combo
-            updateLivesDisplay(); // Atualiza o display de vidas para refletir a perda
+            quizState.consecutiveCorrectAnswers = 0; 
+            updateLivesDisplay(); 
 
-            updateQuizInfo(); // Atualiza a info (pontos, progresso, vidas)
+            updateQuizInfo(); 
             
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
-            // REMOVIDO: Linhas que mostravam a resposta correta e o feedback visual de ✅
-            // const correctButton = Array.from(elements.quiz.querySelectorAll('.answer-button'))
-            //      .find(button => button.dataset.answer === questionData.correta);
-            // if (correctButton) {
-            //      correctButton.classList.add('correct', 'glow-correct');
-            //      correctButton.innerHTML += ' <span class="feedback-icon">✅</span>';
-            // }
             
             let lostLifeMsg = `Você não respondeu a tempo e perdeu 1 vida! Vidas restantes: ${quizState.lives}.`;
-            // Ajustado a chamada showCuriosity para não incluir a resposta correta
             showCuriosity(`${lostLifeMsg} ${questionData.curiosidade}`);
 
             const buttons = elements.quiz.querySelectorAll('.answer-button');
             buttons.forEach(button => {
-                button.disabled = true; // Desabilita todos os botões
+                button.disabled = true; 
             });
 
             setTimeout(() => {
                 console.log(`handleTimerEnd: Vidas restantes: ${quizState.lives}.`);
-                quizState.isProcessingAnswer = false; // Permite novas interações na próxima tela/pergunta
+                quizState.isProcessingAnswer = false; 
                 if (quizState.lives <= 0) { 
                     console.log("handleTimerEnd: Vidas esgotadas. Chamando endGame (derrota).");
-                    endGame(false); // Game Over definitivo
+                    endGame(false); 
                 } else {
-                    // Se perdeu vida mas ainda tem vidas, avança para a próxima pergunta
                     quizState.currentQuestionIndexInLevel++; 
-                    // Verifica se após perder a vida, ainda há perguntas no nível.
-                    // Se não houver, ou seja, era a última pergunta e errou,
-                    // ele deve avançar de nível ou ir para a tela de conclusão/game over por vidas.
-                    // A lógica de loadLevel() e showQuestion() já trata isso.
                     showQuestion();
                 }
             }, 4000);
@@ -3755,21 +3747,19 @@
             quizState.highScore = parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0');
             elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
 
-            // Initialize totalMainLevels based on the actual number of main levels
-            quizState.totalMainLevels = questionsByLevel.length - 1; // All levels minus the secret one
+            quizState.totalMainLevels = questionsByLevel.length - 1; 
 
             preloadImages(backgroundImages, () => {
                 document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
                 changeBackgroundImageInterval();
             });
 
-            elements.quiz.addEventListener('click', handleQuizClick); // Este listener gerencia os cliques nas respostas
+            elements.quiz.addEventListener('click', handleQuizClick); 
             
-            // Listeners diretos para os botões de power-up (estes devem sempre ser clicáveis, a menos que isProcessingAnswer seja true na sua própria lógica)
             elements.fiftyFiftyBtn.addEventListener('click', useFiftyFifty); 
-            elements.skipQuestionBtn.addEventListener('click', skipQuestion); // Listener para o botão Pular
+            elements.skipQuestionBtn.addEventListener('click', skipQuestion); 
             
-            document.addEventListener('keydown', handleKeyboardInput); // Listener para atalhos de teclado
+            document.addEventListener('keydown', handleKeyboardInput); 
             
             setupPlayerEventListeners();
 
@@ -3805,7 +3795,7 @@
                         console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
                         elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
                     }
-                    showIntroMessage(); // CHAMA A MENSAGEM DE BOAS-VINDAS AQUI AO CARREGAR
+                    showIntroMessage(); 
                 })
                 .catch(error => {
                     console.error('Erro ao carregar playlist:', error);
@@ -3817,10 +3807,9 @@
                     elements.shuffleBtn.disabled = true;
                     elements.muteBtn.disabled = true;
                     elements.volumeSlider.disabled = true;
-                    showIntroMessage(); // Ainda mostra a intro message mesmo que a playlist falhe
+                    showIntroMessage(); 
                 });
 
-            // Adiciona listeners para os botões da tela de conclusão
             elements.startSecretLevelBtn.addEventListener('click', startSecretLevel);
             elements.restartFromCompletionBtn.addEventListener('click', restartQuiz);
         };
