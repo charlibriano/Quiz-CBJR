@@ -1879,7 +1879,11 @@
                     { pergunta: "Qual integrante do Charlie Brown Jr. também formou a banda Revolucionnários após sair do grupo?", respostas: ["Marcão Britto", "Graveto", "Heitor Gomes", "Champignon"], correta: "Champignon", curiosidade: "Após sair do Charlie Brown Jr., Champignon criou a banda Revolucionnários, onde foi vocalista e baixista, explorando novas sonoridades." },
                     { pergunta: "No projeto Estúdio Coca-Cola Zero, qual cantora da MPB dividiu o palco com o Charlie Brown Jr.?", respostas: ["Vanessa da Mata", "Maria Gadú", "Ana Carolina", "Ivete Sangalo"], correta: "Vanessa da Mata", curiosidade: "Em 2008, no projeto Estúdio Coca-Cola Zero, o Charlie Brown Jr. fez uma apresentação especial ao lado da cantora Vanessa da Mata, misturando rock e MPB em versões inéditas de seus sucessos." },
                     { pergunta: "Qual roqueiro brasileiro fez participações com Chorão nas músicas 'Hoje' e 'Coração Satânico' e era considerado por ele como um padrinho musical?", respostas: ["Marcelo Nova", "Raimundo Fagner", "Herbert Vianna", "Supla"], correta: "Marcelo Nova", curiosidade: "Marcelo Nova, conhecido por seu trabalho com o Camisa de Vênus, participou das músicas 'Hoje' e 'Coração Satânico'. Chorão o considerava um padrinho musical e uma referência no rock nacional." },
-                    { pergunta: "Em qual programa da MTV Chorão participou ao lado da cantora Pitty?", respostas: ["Acústico MTV", "MTV na Estrada", "Covernation", "Supernova"], correta: "Covernation", curiosidade: "Chorão participou do programa 'Covernation' da MTV Brasil junto com Pitty. No episódio, Charlie Brown Jr. interpretou músicas do Red Hot Chili Peppers e a Pitty, o Queens of the Stone Age ao vivo." }
+                    {
+                    "pergunta": "Em qual programa da MTV Chorão participou ao lado da cantora Pitty?",
+                    "respostas": ["Acústico MTV", "MTV na Estrada", "Covernation", "Supernova"],
+                    "correta": "Covernation",
+                    "curiosidade": "Chorão participou do programa 'Covernation' da MTV Brasil junto com Pitty. No episódio, Charlie Brown Jr. interpretou músicas do Red Hot Chili Peppers e a Pitty, o Queens of the Stone Age ao vivo." }
                 ]
             },
             // Nível 7
@@ -2728,8 +2732,8 @@
                     if (hasRecoveredLife) { // Se a lógica de recuperação foi ativada e adicionou vida
                         livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Perfeito! Você recuperou ${LIVES_RECOVER_PER_LEVEL} vida(s)! ❤️</p>`;
                     } else { // Já estava com o máximo de vidas e não errou
-                            livesFeedbackMessage = `
-                            <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
+                                livesFeedbackMessage = `
+                                <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
                     }
                 } else if (errorsInPreviousLevel === 1) {
                     livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Errou 1 heim mané! Pra ser CBJR tem que ficar más esperto.</p>`;
@@ -2739,8 +2743,7 @@
             }
             
             elements.levelUpMessage.innerHTML = `
-                <div style="font-size: 1.1em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Você avançou para o Nível ${quizState.currentLevel + 1}!</div>
-                <div class="chorao-quote">"${currentLevelFraseChorao}"</div>
+                <div class="chorao-quote" style="margin-top: 0px; margin-bottom: 20px;">"${currentLevelFraseChorao}"</div>
                 ${livesFeedbackMessage}
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                     <button onclick="continueQuiz()">Avançar</button>
@@ -3225,8 +3228,8 @@
                     } else if (showRankingButton === document.activeElement && !showRankingButton.disabled) {
                         showRankingButton.click();
                     } else { // Fallback, se nenhum botão específico está focado, clica no primeiro (geralmente "Entendi! Começar!")
-                           const firstButton = elements.levelUpMessage.querySelector('button');
-                           if (firstButton && !firstButton.disabled) firstButton.click();
+                               const firstButton = elements.levelUpMessage.querySelector('button');
+                               if (firstButton && !firstButton.disabled) firstButton.click();
                     }
                 }
                 return;
@@ -3286,13 +3289,12 @@
         function showCuriosity(curiosity) {
             const curiositySidebarBox = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (curiositySidebarBox) {
-                curiositySidebarBox.innerHTML = `<strong>Você Sabia?:</strong> ${curiosity}`;
-                curiositySidebarBox.style.backgroundColor = 'var(--cor-fundo-transparente)';
-                curiositySidebarBox.style.opacity = 0;
-                setTimeout(() => {
-                    curiositySidebarBox.classList.add('show');
-                    curiositySidebarBox.style.opacity = 1;
-                }, 50);
+                curiositySidebarBox.classList.remove('show'); // Esconde para a transição de saída
+                setTimeout(() => { // Aguarda a transição de saída antes de mudar o conteúdo e reexibir
+                    curiositySidebarBox.innerHTML = `<strong>Você Sabia?:</strong> ${curiosity}`;
+                    curiositySidebarBox.style.backgroundColor = 'var(--cor-fundo-transparente)';
+                    curiositySidebarBox.classList.add('show'); // Reexibe com o novo conteúdo
+                }, 500); // Tempo da transição de opacidade no CSS para .curiosity-sidebar-box
             } else {
                 console.warn("Elemento .curiosity-sidebar-box não encontrado para exibir a curiosidade.");
             }
@@ -3348,7 +3350,7 @@
                             unlockAchievement("secret_level_completed");
                             endGame(true); // Vitória final
                         } else if (quizState.currentLevel === quizState.totalMainLevels - 1) { // -1 porque totalMainLevels é a contagem, e currentLevel é índice
-                             // Se for o último nível principal (o Nível 7) e esta é a última pergunta desse nível
+                               // Se for o último nível principal (o Nível 7) e esta é a última pergunta desse nível
                             console.log("checkAnswer: Última pergunta do último nível principal acertada. Exibindo tela de conclusão dos níveis principais.");
                             unlockAchievement("all_main_levels_completed");
                             showCompletionScreen(); // Chama a tela de "Parabéns, Fera!" com opção do Nível Secreto
@@ -3388,10 +3390,10 @@
                 const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
                 // REMOVIDO: Linhas que mostravam a resposta correta e o feedback visual de ✅
                 // const correctButton = Array.from(elements.quiz.querySelectorAll('.answer-button'))
-                //     .find(button => button.dataset.answer === questionData.correta);
+                //      .find(button => button.dataset.answer === questionData.correta);
                 // if (correctButton) {
-                //     correctButton.classList.add('correct', 'glow-correct');
-                //     correctButton.innerHTML += ' <span class="feedback-icon">✅</span>';
+                //      correctButton.classList.add('correct', 'glow-correct');
+                //      correctButton.innerHTML += ' <span class="feedback-icon">✅</span>';
                 // }
                 
                 let lostLifeMsg = `Você vacilou e perdeu 1 vida! Vidas restantes: ${quizState.lives}.`;
@@ -3525,15 +3527,15 @@
                 title = "Parabéns, Lenda do CBJR!";
                 bgColor = 'rgba(46, 204, 113, 0.7)'; // Verde de vitória
                 messageHtml = `
-                    <div style="font-size: 1.1em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Você completou todos os níveis, incluindo o Secreto!</div>
+                    <div style="font-size: 1.5em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Você completou todos os níveis, incluindo o Secreto!</div>
                 `;
                 unlockAchievement("all_levels_completed"); // Adicionado para garantir o desbloqueio da conquista final
             } else { // Game Over por vidas (ou erros no nível)
                 title = "Suas vidas acabaram!";
                 bgColor = 'rgba(231, 76, 60, 0.7)'; // Vermelho um pouco transparente para erro
                 messageHtml = `
-                    <div style="font-size: 1.1em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Suas vidas acabaram!</div>
-                    <div style="font-size: 0.9em; margin-top: 10px; font-family: Arial, sans-serif; line-height: 1.4;">A vida me ensinou a nunca desistir... Tente novamente!</div>
+                    <div style="font-size: 1.5em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Suas vidas acabaram!</div>
+                    <div style="font-size: 1.1em; margin-top: 10px; font-family: Arial, sans-serif; line-height: 1.4;">A vida me ensinou a nunca desistir... Tente novamente!</div>
                 `;
             }
 
@@ -3702,10 +3704,10 @@
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
             // REMOVIDO: Linhas que mostravam a resposta correta e o feedback visual de ✅
             // const correctButton = Array.from(elements.quiz.querySelectorAll('.answer-button'))
-            //     .find(button => button.dataset.answer === questionData.correta);
+            //      .find(button => button.dataset.answer === questionData.correta);
             // if (correctButton) {
-            //     correctButton.classList.add('correct', 'glow-correct');
-            //     correctButton.innerHTML += ' <span class="feedback-icon">✅</span>';
+            //      correctButton.classList.add('correct', 'glow-correct');
+            //      correctButton.innerHTML += ' <span class="feedback-icon">✅</span>';
             // }
             
             let lostLifeMsg = `Você não respondeu a tempo e perdeu 1 vida! Vidas restantes: ${quizState.lives}.`;
