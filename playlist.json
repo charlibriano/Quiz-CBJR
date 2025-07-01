@@ -10,7 +10,7 @@
   },
   {
     "title": "Amor Pelas Ruas",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Amor Pelas Ruas.mp3",
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Amor%20Pelas%20Ruas.mp3",
     "album": "Nadando com os Tubarões",
     "artist": "Charlie Brown Jr.",
     "questionType": "audio_song_title",
