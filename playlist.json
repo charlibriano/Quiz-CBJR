@@ -1,704 +1,324 @@
 [
   {
     "title": "12+1 (Doze Mais Um)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/12+1 (Doze Mais Um).mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["12+1 (Doze Mais Um)", "13 (treze)", "Cruzei uma doida", "O Legado"],
-    "curiosity": "A canção combina elementos de rock, hip-hop e skate punk, que eram marcas registradas da banda."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/12+1 (Doze Mais Um).mp3"
   },
   {
     "title": "Amor Pelas Ruas",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Amor Pelas Ruas.mp3",
-    "album": "Nadando com os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Molengol's Groove", "Escalas Tropicais", "Amor Pelas Ruas", "Do Surf"],
-    "curiosity": "A música foi composta por Champignon, o baixista da banda, o que demonstra o talento de todos os membros na criação das obras."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Amor Pelas Ruas.mp3"
   },
   {
     "title": "Aquela Paz",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Aquela Paz.mp3",
-    "album": "Transpiração Contínua Prolongada",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Ouvi dizer", "Uma paz", "Aquela Paz", "Cidade Grande"],
-    "curiosity": "A frase 'A vida é feita de atitudes nem sempre decentes / Não lhe julgam pela razão, mas pelos seus antecedentes' é um dos versos mais marcantes, criticando como as pessoas são muitas vezes julgadas pelo passado e não pelas suas intenções ou verdades."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Aquela Paz.mp3"
   },
   {
     "title": "Aquele Velho Carteado E Algumas Manobrinhas",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Aquele Velho Carteado E Algumas Manobrinhas.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Seu perfume é sua maresia", "Aquele Velho Carteado E Algumas Manobrinhas", "Cruzei uma doida", "Não se desespere não"],
-    "curiosity": "Além de descrever a cena do skate, a letra também aborda a ideia de autenticidade e autoaceitação. Versos como 'Não sou o melhor nem pior em se aproximar de alguém / Faço o que quero, quando quero e até que vivo bem' mostram uma atitude de confiança e de não se importar com o julgamento alheio."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Aquele Velho Carteado E Algumas Manobrinhas.mp3"
   },
   {
     "title": "Be Myself",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Be Myself.mp3",
-    "album": "Ritmo, Ritual e Responsa",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Be Myself", "Tudo mudar", "Talvez na metade do caminho", "te levar"],
-    "curiosity": "Apesar da dureza das críticas, a música também carrega uma mensagem de resiliência. O refrão 'Todo o mal que é dirigido a nós / Nos fortalece e eu não vou desistir' é um poderoso lembrete de que as adversidades podem nos fortalecer."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Be Myself.mp3"
   },
   {
-    "title": "Charlie Brown JR. - Beco Sem Saída",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown JR. - Beco Sem Saída.mp3",
-    "album": "Ritmo, Ritual e Responsa",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Rua Sem saída", "Beco Sem Saída", "Conta Mão", "Inabalavelmente"],
-    "curiosity": "A música fala sobre aceitar os "dias difíceis" como parte do processo de crescimento e valorizar as coisas simples da vida. Ela reforça a ideia de que o amor e a autenticidade são os pilares para viver em paz. O refrão "Viver, viver e ser livre / Saber dar valor para as coisas mais simples / Só o amor constrói pontes indestrutíveis" é um dos lemas mais fortes da filosofia de vida de Chorão."
+    "title": "Beco Sem Saída",
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Beco Sem Saída.mp3"
   },
+  
   {
     "title": "Bons Aliados",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Bons Aliados.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Qualquer Viagem pro Além", "Bons Aliados", "Rubão", "Magnata"],
-    "curiosity": "Rodolfo Abrantes contribui com vocais na música, adicionando uma camada extra de agressividade e intensidade que se encaixa perfeitamente na temática da canção e na sonoridade do Charlie Brown Jr. Sua voz característica complementa a de Chorão de forma marcante."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Bons Aliados.mp3"
   },
   {
     "title": "Cedo ou Tarde",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Cedo ou Tarde.mp3",
-    "album": "Projeto Paralelo",
-    "artist": "NX Zero",
-    "questionType": "audio_song_title",
-    "options": ["Tarde demais", "Um dia a gente se encontra", "Cedo ou Tarde", "Não estou sozinho"],
-    "curiosity": "A escolha de Chorão para participar de 'Cedo ou Tarde' foi particularmente tocante, pois a letra da música ressoava com a própria experiência de Chorão, que havia perdido seu pai."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Cedo ou Tarde.mp3"
   },
   {
     "title": "Charlie Brown Jr- Só por uma Noite.",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr- Só por uma Noite..mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Só por uma Noite", "Um Dia a Gente Se Encontra", "Todas as Noites", "Vem ser Minha"],
-    "curiosity": "'Só por uma noite' evidencia esse desejo por um alívio passageiro para a solidão e a saudade, sabendo que a fuga é passageira."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr- Só por uma Noite..mp3"
+  },
+  {
+    "title": "Charlie Brown JR. - Beco Sem Saída",
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown JR. - Beco Sem Saída.mp3"
   },
   {
     "title": "Charlie Brown Jr. - Camisa 10 Joga Bola Até Na Chuva (Lyric Video)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Camisa 10 Joga Bola Até Na Chuva (Lyric Video).mp3",
-    "album": "Camisa 10 Joga Bola Até Na Chuva",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Artilheiro", "Camisa 10 Joga Bola Até Na Chuva", "Tarja Preta", "Fundão"],
-    "curiosity": "O álbum 'Camisa 10 Joga Bola Até Na Chuva' foi um grande sucesso de crítica e público. Em 2010, ele ganhou o prestigioso Grammy Latino na categoria de Melhor Álbum de Rock Brasileiro em Língua Portuguesa."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Camisa 10 Joga Bola Até Na Chuva (Lyric Video).mp3"
   },
   {
     "title": "Charlie Brown Jr. - Cheia de Vida (Ao Vivo - Chegou Quem Faltava)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Cheia de Vida (Ao Vivo - Chegou Quem Faltava).mp3",
-    "album": "La Familia 013",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Dona do Sorriso", "Vem Ser Minha", "Cheia de Vida", "Lugar ao Sol"],
-    "curiosity": "A letra de 'Cheia de Vida' é uma celebração à figura feminina, descrevendo uma mulher que irradia energia, beleza e personalidade única."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Cheia de Vida (Ao Vivo - Chegou Quem Faltava).mp3"
   },
+
   {
     "title": "Charlie Brown Jr. - Gimme O Anel",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Gimme O Anel.mp3",
-    "album": "Transpiração Contínua Prolongada",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Gimme O Anel", "Ela riu de mim", "Perito em anatomia", "Sino Dourado"],
-    "curiosity": "Sendo um dos singles do Transpiração Contínua Prolongada, 'Gimme o Anel' ajudou a definir a identidade do Charlie Brown Jr. para o público, com letras que abordavam o cotidiano, a juventude e uma atitude 'sem filtro'."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Gimme O Anel.mp3"
   },
   {
     "title": "Charlie Brown JR. - No Passo A Passo",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown JR. - No Passo A Passo.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["No Passo A Passo", "A Cada Passo", "Skate Virabtion", "Chegou Quem Faltava"],
-    "curiosity": "Chorão canta sobre seguir seu próprio caminho, sem se importar com as críticas ou o que 'sai da boca' de outras pessoas. A frase 'No passo a passo eu chego lá' expressa a convicção de que o sucesso e a paz são alcançados com persistência e autoconfiança."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown JR. - No Passo A Passo.mp3"
   },
   {
     "title": "Charlie Brown Jr. - Não Deixe O Mar Te Engolir (Ao Vivo Em São Paulo ⧸ 2004)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Não Deixe O Mar Te Engolir (Ao Vivo Em São Paulo ⧸ 2004).mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Não Deixe O Mar Te Engolir", "Rubão", "Tamo Aí Na Atividade", "Hoje de Noite"],
-    "curiosity": "O videoclipe de 'Não Deixe O Mar Te Engolir' é bastante memorável por sua técnica de animação em massinha (claymation), alternando com cenas da banda tocando."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Não Deixe O Mar Te Engolir (Ao Vivo Em São Paulo ⧸ 2004).mp3"
   },
   {
     "title": "Charlie Brown Jr. - Pra Mais Tarde Fazermos A Cabeca",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Pra Mais Tarde Fazermos A Cabeca.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Pra Mais Tarde Fazermos A Cabeça", "Gimme O Anel", "O Coro Vai Comê!", "Confira A Banca!"],
-    "curiosity": "A canção reflete bem a atmosfera do início da banda, com letras que falam sobre curtir a vida, a liberdade e a camaradagem, muitas vezes associada à cultura do skate e da rua."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Pra Mais Tarde Fazermos A Cabeca.mp3"
   },
   {
     "title": "Charlie Brown Jr. - Sino Dourado",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Sino Dourado.mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Sino Dourado", "O Coro Vai Comê!", "Confira A Banca!", "Tudo que ela Gosta de Escutar"],
-    "curiosity": "A música 'Sino Dourado' faz parte do álbum '100% Charlie Brown Jr. - Abalando a Sua Fábrica', lançado em 2001. Este álbum marcou uma fase importante para a banda, sendo o primeiro sem o guitarrista Thiago Castanho, mas ainda assim produziu grandes sucessos."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Sino Dourado.mp3"
   },
   {
     "title": "Charlie Brown Jr. - T.F.D.P.",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - T.F.D.P..mp3",
-    "album": "100% Charlie Brown Jr (Abalando a sua Fábrica)",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["T.F.D.P.", "O Coro Vai Comê!", "Confira A Banca!", "Pra Mais Tarde Fazermos A Cabeça"],
-    "curiosity": "A canção expressa um sentimento de descontentamento e revolta, abordando a vaidade, a superficialidade e a corrupção no mundo. É um grito de desilusão, mas também de resiliência e força interior."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - T.F.D.P..mp3"
   },
   {
     "title": "Charlie Brown Jr. - Viver Dias de Sol (Lyric Video)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Viver Dias de Sol (Lyric Video).mp3",
-    "album": "Camisa 10 Joga Bola Até Na Chuva",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Viver Dias de Sol", "Me Encontra", "Só os Loucos Sabem", "Hoje Eu Só Procuro A Minha Paz"],
-    "curiosity": "A música 'Viver Dias de Sol' está no álbum 'Camisa 10 Joga Bola Até Na Chuva', lançado em 2009, que inclusive ganhou um Grammy Latino."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. - Viver Dias de Sol (Lyric Video).mp3"
   },
   {
     "title": "Charlie Brown Jr. Vanessa da Mata- Uma criança com seu olhar",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. Vanessa da Mata- Uma criança com seu olhar.mp3",
-    "album": "Estúdio Coca-Cola Zero - Charlie Brown Jr. e Vanessa da Mata",
-    "artist": "Charlie Brown Jr. & Vanessa da Mata",
-    "questionType": "audio_song_title",
-    "options": ["Uma Criança Com Seu Olhar", "Não Me Deixe Só", "Pontes Indestrutíveis", "Céu Azul"],
-    "curiosity": "A versão de 'Uma Criança Com Seu Olhar' com Vanessa da Mata faz parte do álbum 'Multishow Ao Vivo - Charlie Brown Jr. (20 Anos)', gravado em 2011 e lançado em 2012. Essa colaboração foi um dos pontos altos do DVD, que celebrou as duas décadas de carreira da banda. A presença de Vanessa da Mata trouxe uma nova sonoridade à música, adicionando sua voz doce e marcante, que contrastou e complementou a rouquidão de Chorão, criando um dueto emocionante e inesquecível para os fãs."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr. Vanessa da Mata- Uma criança com seu olhar.mp3"
   },
   {
     "title": "Charlie Brown Jr.",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr..mp3",
-    "album": "Transpiração Contínua Prolongada",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Charlie Brown Jr", "Transpiração Contínua Prolongada", "Confira A Banca!", "O Coro Vai Comê!"],
-    "curiosity": "Alguns interpretam a faixa como uma representação da longa jornada e das dificuldades que a banda enfrentou até conseguir gravar seu primeiro álbum. O título, sendo o próprio nome da banda, simboliza a concretização de um sonho e a chegada de um novo capítulo."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Charlie Brown Jr..mp3"
   },
   {
     "title": "Cidade Grande",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Cidade Grande.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Cidade Grande", "Beco Sem Saída", "Be Myself", "Não Deixe O Mar Te Engolir"],
-    "curiosity": "Chorão canta sobre como as coisas acontecem rapidamente, a sensação de ser esquecido em meio à multidão e a dificuldade de manter a própria essência em um ambiente onde muitas vezes as pessoas 'não escutam', apenas 'gesticulam'."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Cidade Grande.mp3"
   },
   {
     "title": "Com A Boca Amargando",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Com A Boca Amargando.mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Com A Boca Amargando", "No Passo a Passo", "Pra Não Dizer Que Não Falei Das Flores", "Lutar Pelo Que É Meu"],
-    "curiosity": "Versos como 'Sem neurose, cada um sabe o dom / E o dom é o tamanho da dose' sugerem a aceitação das próprias limitações e do caminho individual de cada um. A música convida a não se fechar para o mundo por medo de se machucar, pois a vida é feita de riscos e aprendizados."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Com A Boca Amargando.mp3"
   },
   {
     "title": "Contrastes da Vida",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Contrastes da Vida.mp3",
-    "album": "La Familia 013",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Contrastes da Vida", "No Passo a Passo", "Lutar Pelo Que É Meu", "Samba Makossa"],
-    "curiosity": "A música sugere que a vida é um constante aprendizado. A frase 'Vivendo e aprendendo a viver / Com os contrastes da vida' é um resumo da mensagem, que incentiva a aceitar as contradições e a usar as experiências, boas ou ruins, para evoluir."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Contrastes da Vida.mp3"
   },
   {
     "title": "Do Surf",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Do Surf.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Do Surf", "Papo Reto", "Só Por Uma Noite", "Vício Inerente"],
-    "curiosity": "Esta música é um excelente exemplo do talento de Marcão Britto na guitarra. Seus riffs, melodias e solos se tornam o foco principal, mostrando sua técnica e sua contribuição vital para a sonoridade da banda. É uma oportunidade para ele brilhar instrumentalmente."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Do Surf.mp3"
   },
   {
     "title": "Essa É Por Quem Ficou Pra Trás",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Essa É Por Quem Ficou Pra Trás.mp3",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Essa É Por Quem Ficou Pra Trás", "Me Encontra", "Só os Loucos Sabem", "Viver Dias de Sol"],
-    "curiosity": "Versos como 'Ser um daqui é ser bem diferente' reforçam a identidade do Charlie Brown Jr. e sua ligação com a cultura de rua e do skate, onde a autenticidade e a individualidade são valorizadas. A ideia de que 'só quem é de miliano' (de muita experiência) entende, destaca a vivência real."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Essa É Por Quem Ficou Pra Trás.mp3"
   },
   {
     "title": "Estória Mal Escrita",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Estória Mal Escrita.mp3",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Estória Mal Escrita", "Não Deixe O Mar Te Engolir", "O Coro Vai Comê!", "A Grande Volta"],
-    "curiosity": "A letra aborda a complexidade das relações humanas, os erros e acertos que marcam nossa trajetória ('estória mal escrita'), e a dificuldade de compreender certas situações. A canção também pode ser interpretada como uma crítica àqueles que julgam sem conhecer a fundo as histórias alheias."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Estória Mal Escrita.mp3"
   },
   {
     "title": "Estúdio Coca-Cola Zero： Lutar Pelo o Que é Meu",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Estúdio Coca-Cola Zero： Lutar Pelo o Que é Meu.mp3",
-    "album": "Estúdio Coca-Cola Zero - Charlie Brown Jr. e Vanessa da Mata",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Lutar Pelo o Que é Meu", "Pontes Indestrutíveis", "Não Me Deixe Só", "O Que Ela Gosta É De Barriga"],
-    "curiosity": "Essa versão de 'Lutar Pelo o Que é Meu' faz parte do projeto 'Estúdio Coca-Cola Zero', uma iniciativa que promoveu encontros musicais entre grandes artistas. Embora a música original seja do álbum 'Imunidade Musical' (2005), as gravações do 'Estúdio Coca-Cola Zero' trouxeram novas roupagens e a energia de performances ao vivo. A faixa mantém a mensagem de garra e de defesa dos próprios ideais, características marcantes da obra do Charlie Brown Jr. e do próprio Chorão."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Estúdio Coca-Cola Zero： Lutar Pelo o Que é Meu.mp3"
   },
   {
     "title": "Estúdio Coca-Cola Zero： Não Me Deixe Só",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Estúdio Coca-Cola Zero： Não Me Deixe Só.mp3",
-    "album": "Estúdio Coca-Cola Zero - Charlie Brown Jr. e Vanessa da Mata",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Não Me Deixe Só", "Pontes Indestrutíveis", "Lutar Pelo o Que é Meu", "O Que Ela Gosta É De Barriga"],
-    "curiosity": "A versão de 'Não Me Deixe Só' do 'Estúdio Coca-Cola Zero' é um registro de uma das performances ao vivo do projeto, onde o Charlie Brown Jr. se apresentou ao lado de Vanessa da Mata."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Estúdio Coca-Cola Zero： Não Me Deixe Só.mp3"
   },
   {
     "title": "Estúdio Coca-Cola Zero： O Que Ela Gosta É De Barriga",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Estúdio Coca-Cola Zero： O Que Ela Gosta É De Barriga.mp3",
-    "album": "Estúdio Coca-Cola Zero - Charlie Brown Jr. e Vanessa da Mata",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Que Ela Gosta É De Barriga", "Não Me Deixe Só", "Lutar Pelo o Que É Meu", "Pontes Indestrutíveis"],
-    "curiosity": "A gravação de 'O Que Ela Gosta É De Barriga' para o 'Estúdio Coca-Cola' representa a energia do Charlie Brown Jr. ao vivo. A música, originalmente do álbum 'Ritmo, Ritual e Responsa' (2007), é conhecida pela sua letra que aborda de forma direta e bem-humorada a atração física e a sensualidade."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Estúdio Coca-Cola Zero： O Que Ela Gosta É De Barriga.mp3"
   },
   {
     "title": "Estúdio Coca-Cola Zero： Pontes Indestrutíveis",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Estúdio Coca-Cola Zero： Pontes Indestrutíveis.mp3",
-    "album": "Estúdio Coca-Cola Zero - Charlie Brown Jr. e Vanessa da Mata",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Pontes Indestrutíveis", "Não Me Deixe Só", "Lutar Pelo o Que é Meu", "O Que Ela Gosta É De Barriga"],
-    "curiosity": "A versão de 'Pontes Indestrutíveis' gravada para o 'Estúdio Coca-Cola' é um destaque, mostrando a força da banda ao vivo em um formato especial. A letra é um hino à união, à força da amizade e à capacidade de superar obstáculos, reforçando a ideia de que o amor e a lealdade constroem laços que nada pode quebrar."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Estúdio Coca-Cola Zero： Pontes Indestrutíveis.mp3"
   },
   {
     "title": "Eu Protesto",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Eu Protesto.mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Eu Protesto", "Não Deixe O Mar Te Engolir", "Estória Mal Escrita", "Vícios e Virtudes"],
-    "curiosity": "'Eu Protesto' é um manifesto contundente de Chorão e do Charlie Brown Jr. contra as injustiças sociais, a corrupção e a hipocrisia política no Brasil. A letra aborda temas como a desigualdade, a impunidade e a frustração com um sistema que, na visão da banda, não atende às necessidades do povo."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Eu Protesto.mp3"
   },
   {
     "title": "Festa",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Festa.mp3",
-    "album": "Transpiração Contínua Prolongada",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Festa", "No Passo a Passo", "Lutar Pelo o Que É Meu", "Samba Makossa"],
-    "curiosity": "Ao contrário de muitas músicas do Charlie Brown Jr. que abordam críticas sociais ou questões existenciais profundas, 'Festa' tem uma sonoridade mais descontraída, otimista e dançante. A letra é um convite direto à celebração da vida e dos bons momentos."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Festa.mp3"
   },
   {
     "title": "Green Goes",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Green Goes.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Green Goes", "Papo Reto", "Só Por Uma Noite", "Vício e Virtudes"],
-    "curiosity": "A letra de 'Green Goes' é uma crítica contundente ao sistema, à busca desenfreada por dinheiro (o 'green' pode remeter à cor do dólar) e às desigualdades sociais. Chorão e os Sacramento MC's abordam a luta diária nas ruas, a sobrevivência e a importância de manter a identidade e a dignidade em um mundo corrupto e superficial."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Green Goes.mp3"
   },
   {
     "title": "Hoje De Noite",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Hoje De Noite.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Hoje De Noite", "Beco Sem Saída", "Be Myself", "Cidade Grande"],
-    "curiosity": "A música foi composta por Chorão e Marcão Britto, mostrando a parceria criativa que era fundamental para a banda desde seus primeiros álbuns."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Hoje De Noite.mp3"
   },
   {
     "title": "Hoje Eu Só Procuro A Minha Paz",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Hoje Eu Só Procuro A Minha Paz.mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Hoje Eu Só Procuro A Minha Paz", "Só Por Uma Noite", "Papo Reto", "Inabalavelmente"],
-    "curiosity": "Chorão, em um momento de reflexão, canta sobre a importância de encontrar a serenidade interior, mesmo reconhecendo os erros do passado. A música transmite a ideia de que, apesar das falhas e da 'loucura', a vida deve ser vivida com valor e buscando a paz."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Hoje Eu Só Procuro A Minha Paz.mp3"
   },
   {
     "title": "I Feel So Good Today",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/I Feel So Good Today.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["I Feel So Good Today", "Só Por Uma Noite", "Papo Reto", "Inabalavelmente"],
-    "curiosity": "Como o título em inglês sugere ('Eu Me Sinto Tão Bem Hoje'), a música é um verdadeiro hino de otimismo e bem-estar. A letra de Chorão fala sobre a sensação de leveza e alegria após superar momentos difíceis. É uma canção que celebra a vida e a capacidade de encontrar a felicidade nas coisas simples e na própria jornada, independentemente das adversidades."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/I Feel So Good Today.mp3"
   },
   {
     "title": "Inabalavelmente",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Inabalavelmente.mp3",
-    "album": "Ritmo, Ritual e Responsa",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Inabalavelmente", "Pontes Indestrutíveis", "Beco Sem Saída", "Be Myself"],
-    "curiosity": "A repetição da frase 'Inabalavelmente eu sigo em frente' reforça a ideia de perseverança inabalável diante das adversidades da vida. Chorão canta sobre a importância de ter fé, de acreditar em si mesmo e de não desistir, mesmo quando outros duvidam."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Inabalavelmente.mp3"
   },
   {
     "title": "Indicados Para O Prêmio Nobel Da Paz",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Indicados Para O Prêmio Nobel Da Paz.mp3",
-    "album": "Tamo Aí Na Atividade",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Indicados Para O Prêmio Nobel Da Paz", "Cheia de Vida", "Essa É Por Quem Ficou Pra Trás", "Viver Dias de Sol"],
-    "curiosity": "Como era característico do Charlie Brown Jr., a letra usa uma linguagem direta, gírias e frases impactantes para chocar e provocar a reflexão. O refrão 'Cuidado com os indicados para o Prêmio Nobel da Paz!' é um alerta sarcástico."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Indicados Para O Prêmio Nobel Da Paz.mp3"
   },
   {
     "title": "Intro – Cedo ou Tarde",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Intro – Cedo ou Tarde.mp3",
-    "album": "Projeto Paralelo",
-    "artist": "NX Zero",
-    "questionType": "audio_song_title",
-    "options": ["Intro – Cedo ou Tarde", "Cedo ou Tarde", "Só os Loucos Sabem", "Me Encontra"],
-    "curiosity": "Chorão, que também havia perdido o pai, se identificou profundamente com a melodia e o tema. Ele não só auxiliou na finalização da letra da versão original do NX Zero, como também gravou vocais para uma versão remixada ou expandida dentro do álbum 'Projeto Paralelo'. Essa colaboração é um testemunho da amizade e da admiração mútua entre os dois artistas e o reconhecimento de Chorão como uma figura paterna e mentora para muitos músicos da geração seguinte."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Intro – Cedo ou Tarde.mp3"
   },
   {
     "title": "Liberdade Acima De Tudo",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Liberdade Acima De Tudo.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Liberdade Acima De Tudo", "Cheia de Vida", "Essa É Por Quem Ficou Pra Trás", "Indicados Para O Prêmio Nobel Da Paz"],
-    "curiosity": "A canção critica as tentativas de padronizar comportamentos e pensamentos, valorizando a 'loucura' individual como uma forma de resistência e originalidade. É um convite para abraçar a própria essência, mesmo que ela não se encaixe nos moldes sociais."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Liberdade Acima De Tudo.mp3"
   },
   {
     "title": "Lixo E O Luxo",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Lixo E O Luxo.mp3",
-    "album": "Tamo Aí Na Atividade",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Lixo E O Luxo", "Estória Mal Escrita", "Eu Protesto", "Vícios e Virtudes"],
-    "curiosity": "A letra de 'Lixo E O Luxo' é uma das mais emblemáticas de Chorão, que aborda a dualidade da vida e os contrastes sociais. Ele fala sobre conhecer tanto a realidade marginal ('o lixo') quanto a realidade privilegiada ('o luxo'), e sobre como ambas as experiências moldam o indivíduo. A canção explora a ideia de que a verdadeira sabedoria vem de vivenciar diferentes facetas da existência."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Lixo E O Luxo.mp3"
   },
   {
     "title": "Longe De Você",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Longe De Você.mp3",
-    "album": "Tamo Aí Na Atividade",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Longe De Você", "Cheia de Vida", "Essa É Por Quem Ficou Pra Trás", "Indicados Para O Prêmio Nobel Da Paz"],
-    "curiosity": "Embora talvez não seja um dos maiores hits de rádio como "Zóio de Lula" ou "Só os Loucos Sabem", "Longe de Você" é muito querida pelos fãs e é frequentemente citada por sua letra emocionante e sua melodia marcante, que ressoa com quem já sentiu a dor da distância de alguém importante. Ela é um exemplo do lado mais romântico e sensível da banda."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Longe De Você.mp3"
   },
   {
     "title": "Lugar ao Sol - Chorão e Champignon (Charlie Brown Jr)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Lugar ao Sol - Chorão e Champignon (Charlie Brown Jr).mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Lugar ao Sol", "Sino Dourado", "Hoje Eu Acordei Feliz", "Como Tudo Deve Ser"],
-    "curiosity": "A música 'Lugar ao Sol' é um dos grandes sucessos do álbum '100% Charlie Brown Jr. - Abalando a Sua Fábrica', lançado em 2001. A letra é um hino à perseverança e à busca por um espaço no mundo, apesar das dificuldades e do preconceito. Ela inspira a sonhar e a lutar pelos próprios objetivos, sem se abater pelas críticas. A canção se tornou um dos maiores hits da banda e é muito querida pelos fãs por sua mensagem de esperança e resiliência."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Lugar ao Sol - Chorão e Champignon (Charlie Brown Jr).mp3"
   },
   {
     "title": "Me Deixa (Ao Vivo)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Me Deixa (Ao Vivo).mp3",
-    "album": "Música Popular Caiçara.",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Me Deixa (Ao Vivo)", "Só Por Uma Noite (Ao Vivo)", "Vícios e Virtudes (Ao Vivo)", "Não É Sério (Ao Vivo)"],
-    "curiosity": "A amizade entre Chorão e Falcão era notória e ia além da rivalidade saudável que existia entre as duas bandas no cenário musical. Falcão chegou a comentar sobre a importância de Chorão e do legado do Charlie Brown Jr., mostrando o respeito e a admiração que tinha pelo amigo e colega de profissão."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Me Deixa (Ao Vivo).mp3"
   },
   {
     "title": "My Mini Ramp",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/My Mini Ramp.mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["My Mini Ramp", "Do Surf", "Papo Reto (Prazer É Sexo, o Resto É Negócio)", "Só Por Uma Noite"],
-    "curiosity": ""My Mini Ramp" é uma música altamente autobiográfica. Chorão tinha uma paixão genuína pelo skate e, inclusive, possuía uma mini rampa em sua casa em Santos, que era um ponto de encontro para skatistas e amigos. A música reflete diretamente essa parte de sua vida e identidade."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/My Mini Ramp.mp3"
   },
+ 
   {
     "title": "NX Zero - Cedo ou Tarde Feat. Chorão (Tour Cedo ou Tarde Ao Vivo)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/NX Zero - Cedo ou Tarde Feat. Chorão (Tour Cedo ou Tarde Ao Vivo).mp3",
-    "album": "Tour Cedo ou Tarde (Ao Vivo)",
-    "artist": "NX Zero Feat. Chorão",
-    "questionType": "audio_song_title",
-    "options": ["Cedo ou Tarde Feat. Chorão", "Só os Loucos Sabem", "Me Encontra", "Pontes Indestrutíveis"],
-    "curiosity": "Essa versão de 'Cedo ou Tarde' com a participação póstuma de Chorão é um dos momentos mais emocionantes dos shows e do álbum 'Tour Cedo ou Tarde (Ao Vivo)' do NX Zero, lançado em 2024. A colaboração original de Chorão foi para o álbum 'Projeto Paralelo' do NX Zero, em 2012. Após o falecimento de Chorão em 2013, essa música ganhou um significado ainda mais profundo para os fãs, tornando-se um hino de saudade e esperança de um reencontro, com a voz de Chorão ecoando a mensagem da letra de forma tocante. É um tributo emocionante ao legado do artista."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/NX Zero - Cedo ou Tarde Feat. Chorão (Tour Cedo ou Tarde Ao Vivo).mp3"
   },
   {
     "title": "Não Deixe O Mar Te Engolir",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Não Deixe O Mar Te Engolir.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Não Deixe O Mar Te Engolir", "Rubão", "Tamo Aí Na Atividade", "Hoje de Noite"],
-    "curiosity": "O videoclipe de 'Não Deixe O Mar Te Engolir' é bastante memorável por sua técnica de animação em massinha (claymation), alternando com cenas da banda tocando."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Não Deixe O Mar Te Engolir.mp3"
   },
   {
     "title": "Não Fure Os Olhos Da Verdade",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Não Fure Os Olhos Da Verdade.mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Não Fure Os Olhos Da Verdade", "No Passo a Passo", "Lutar Pelo o Que É Meu", "Samba Makossa"],
-    "curiosity": "A frase que dá título à música é uma metáfora forte para a importância de manter a consciência clara e de não fechar os olhos para o que é real, mesmo que seja doloroso ou impopular."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Não Fure Os Olhos Da Verdade.mp3"
   },
   {
     "title": "Não É Sério (Ao Vivo)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Não É Sério (Ao Vivo).mp3",
-    "album": "Acústico MTV: Charlie Brown Jr.",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Não É Sério (Ao Vivo)", "Me Deixa (Ao Vivo)", "Só Por Uma Noite (Ao Vivo)", "Vícios e Virtudes (Ao Vivo)"],
-    "curiosity": "A versão ao vivo de 'Não É Sério' está presente no 'Acústico MTV: Charlie Brown Jr.', de 2003. A música original é do álbum 'Nadando Com Os Tubarões' (2000) e é uma das mais emblemáticas da banda, com uma letra que aborda o desprezo pelas convenções sociais e a busca por liberdade e autenticidade. A versão acústica trouxe uma nova perspectiva para a canção, mostrando a força da letra e da melodia mesmo em um formato mais despojado."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Não É Sério (Ao Vivo).mp3"
   },
+ 
   {
     "title": "O Errado Que Deu Certo",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Errado Que Deu Certo.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Errado Que Deu Certo", "Com A Boca Amargando", "Contrastes da Vida", "Festa"],
-    "curiosity": "A música 'O Errado Que Deu Certo' faz parte do álbum 'Imunidade Musical', de 2005. A letra reflete sobre as reviravoltas da vida, onde situações que inicialmente parecem ser um erro acabam levando a um resultado positivo ou a um aprendizado valioso. Chorão canta sobre a imprevisibilidade do destino e a capacidade de transformar experiências negativas em oportunidades de crescimento. É uma canção que inspira otimismo e resiliência."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Errado Que Deu Certo.mp3"
   },
   {
     "title": "O Mundo Explodiu La Fora",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Mundo Explodiu La Fora.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Mundo Explodiu La Fora", "Eu Protesto", "Lixo E O Luxo", "Vícios e Virtudes"],
-    "curiosity": "A letra da música, escrita por Chorão, é bastante introspectiva e reflexiva. Ela aborda a percepção de um ambiente externo caótico e problemático ("o mundo explodiu lá fora"), contrastando com uma busca por paz interior e refúgio pessoal."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Mundo Explodiu La Fora.mp3"
   },
   {
     "title": "O Nosso Blues",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Nosso Blues.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Nosso Blues", "Cheia de Vida", "Essa É Por Quem Ficou Pra Trás", "Longe De Você"],
-    "curiosity": "A canção "O Nosso Blues" é um exemplo da diversidade musical presente na obra do Charlie Brown Jr., incorporando elementos do blues em sua sonoridade característica. Lançada no álbum "Imunidade Musical" (2005)."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Nosso Blues.mp3"
   },
   {
     "title": "O Penetra",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Penetra.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Penetra", "No Passo a Passo", "Festa", "Com A Boca Amargando"],
-    "curiosity": "Esta canção é um exemplo clássico da capacidade do Chorão de criar letras que, de forma direta e coloquial, descrevem e criticam tipos de pessoas ou situações do cotidiano. A letra de "O Penetra" é uma crítica contundente àqueles que se aproveitam da boa-fé alheia, que "colam" sem ser convidados."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Penetra.mp3"
   },
   {
     "title": "O Preço",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Preço.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Preço", "Gimme O Anel", "Pra Mais Tarde Fazermos A Cabeça", "Aquela Paz"],
-    "curiosity": "Chorão, como de costume, usa uma linguagem direta para refletir sobre a realidade, alertando que "tudo tem um preço". A música aborda a ideia de que cada ação, seja ela boa ou ruim, terá uma repercussão no futuro. É uma reflexão sobre a justiça poética da vida, onde o que se planta é o que se colhe."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Preço.mp3"
   },
   {
-    "title": "Senhor Do Tempo",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Senhor Do Tempo.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Senhor Do Tempo", "Pontes Indestrutíveis", "Be Myself", "Beco Sem Saída"],
-    "curiosity": "Chorão, com sua sensibilidade e estilo característico, reflete sobre a importância de ter paciência e de acreditar que tudo acontece no momento certo, sob a regência de uma força maior — o "Senhor do Tempo"."
+    "title": "O Senhor Do Tempo",
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Senhor Do Tempo.mp3"
   },
   {
     "title": "O Universo A Nosso Favor",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Universo A Nosso Favor.mp3",
-    "album": "Ritmo Ritual e Responsa",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Universo A Nosso Favor", "Não Fure Os Olhos Da Verdade", "No Passo a Passo", "Samba Makossa"],
-    "curiosity": "Essa música é notável por contar com a participação especial da banda Forfun. Essa colaboração é um excelente exemplo de como o Charlie Brown Jr. explorava parcerias com bandas de diferentes estilos dentro do cenário musical brasileiro, mas que compartilhavam uma energia e uma mensagem positiva, ou se conectavam com a cultura jovem."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/O Universo A Nosso Favor.mp3"
   },
   {
     "title": "Ouviu-Se Falar (Extra - Turne Internacional)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Ouviu-Se Falar (Extra - Turne Internacional).mp3",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Ouviu-Se Falar", "Rock Star", "Samba Triste", "So Far Away"],
-    "curiosity": " A letra aborda temas como a disseminação de informações (nem sempre verdadeiras) por meio de boatos ou "boca a boca", e a forma como as pessoas reagem a essas informações."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Ouviu-Se Falar (Extra - Turne Internacional).mp3"
   },
   {
-    "title": "Pra Mais Tarde Fazermos A Cabeca",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Pra Mais Tarde Fazermos A Cabeca.mpus",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Pra Mais Tarde Fazermos A Cabeça", "Gimme O Anel", "O Coro Vai Comê!", "Confira A Banca!"],
-    "curiosity": "A canção reflete bem a atmosfera do início da banda, com letras que falam sobre curtir a vida, a liberdade e a camaradagem, muitas vezes associada à cultura do skate e da rua."
+    "title": "Pra Mais Tarde Fazermos A Cabeça",
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Pra Mais Tarde Fazermos A Cabeça.mp3"
   },
   {
     "title": "Puro Sangue",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Puro Sangue.mp3",
-    "album": "Camisa 10 Joga Bola Até na Chuva",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Puro Sangue", "Do Surf", "Green Goes", "Vício Inerente"],
-    "curiosity": "Chorão canta sobre a experiência de vida, as dificuldades enfrentadas ("não foi fácil"), e a capacidade de se reerguer e "fazer a própria". É um hino de empoderamento e de valorização da trajetória individual, com a mensagem de que a força vem de dentro, da "pureza" da essência de cada um."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Puro Sangue.mp3"
   },
   {
     "title": "Rale",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Rale.mp3",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Rale", "Eu Protesto", "Lixo E O Luxo", "Vícios e Virtudes"],
-    "curiosity": "É uma canção que reforça a mensagem de autenticidade e atitude "faça você mesmo", valores muito presentes na cultura do skate e que eram pilares da filosofia da banda. A música mantém a pegada agressiva do rock com influências do hardcore e do rap, o que a torna um destaque sonoro do álbum."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Rale.mp3"
   },
   {
     "title": "Resolve o Meu Problema Aí (Ao Vivo)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Resolve o Meu Problema Aí (Ao Vivo).mp3",
-    "album": "Música Popular Caiçara",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Resolve o Meu Problema Aí (Ao Vivo)", "Só Por Uma Noite (Ao Vivo)", "Me Deixa (Ao Vivo)", "Não É Sério (Ao Vivo)"],
-    "curiosity": "A versão ao vivo de 'Resolve o Meu Problema Aí' faz parte do álbum 'Multishow Ao Vivo - Charlie Brown Jr. (20 Anos)', gravado em 2011 e lançado em 2012. A música original é do álbum 'Preço Curto Prazo Longo' (1999). A performance ao vivo capta a energia contagiante da banda nos palcos, com a interação de Chorão com o público. A letra, com seu tom de humor e ironia, fala sobre as situações cotidianas e a busca por soluções para os problemas da vida, sem perder a autenticidade."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Resolve o Meu Problema Aí (Ao Vivo).mp3"
   },
   {
     "title": "Rock Star",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Rock Star.mp3",
-    "album": "La Familia 013",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Rock Star", "Camisa 10 Joga Bola Até Na Chuva", "Me Encontra", "Só os Loucos Sabem"],
-    "curiosity": "A música "Rock Star" é uma das faixas do último álbum de estúdio do Charlie Brown Jr., "La Familia 013", lançado em 2013. Este álbum carrega um significado especial por ter sido lançado postumamente, após o falecimento de Chorão, o que adiciona uma camada de emoção e despedida às suas letras."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Rock Star.mp3"
   },
   {
     "title": "Samba Triste",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Samba Triste.mp3",
-    "album": "La Familia 013",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Samba Triste", "Estória Mal Escrita", "Eu Protesto", "Vícios e Virtudes"],
-    "curiosity": "Apesar do título sugestivo, que remete a uma melancolia característica do samba-canção, a música traz uma fusão de ritmos e a energia habitual do Charlie Brown Jr. A letra de Chorão, como em muitas de suas últimas composições, pode ser interpretada como uma reflexão profunda sobre a vida, a dor e a solidão, mas também sobre a resiliência e a busca por superação."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Samba Triste.mp3"
   },
   {
     "title": "So Far Away",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/So Far Away.mp3",
-    "album": "Tamo Aí na Atividade",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["So Far Away", "Longe De Você", "O Nosso Blues", "Cheia de Vida"],
-    "curiosity": "Esta faixa se destaca por ser uma das poucas músicas do Charlie Brown Jr. totalmente cantadas em inglês. Ela reflete o lado mais experimental e a amplitude de influências da banda."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/So Far Away.mp3"
   },
   {
     "title": "Somos Poucos Mas Somos Loucos",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Somos Poucos Mas Somos Loucos.mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Somos Poucos Mas Somos Loucos", "Liberdade Acima De Tudo", "Indicados Para O Prêmio Nobel Da Paz", "Cheia de Vida"],
-    "curiosity": "A letra, de autoria de Chorão, funciona como um manifesto e um lema para a banda e seus fãs. Ela celebra a autenticidade, a liberdade de pensamento e a recusa em se conformar com as normas sociais. A frase "Somos poucos, mas somos loucos" encapsula a ideia de que, mesmo sendo um grupo que nem sempre se encaixa nos padrões, há uma força e uma paixão que os tornam inabaláveis e únicos."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Somos Poucos Mas Somos Loucos.mp3"
   },
   {
     "title": "Sou Quem Eu Sou (O Que É Seu Também É Meu E O Que É Meu Não É Nosso)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Sou Quem Eu Sou (O Que É Seu Também É Meu E O Que É Meu Não É Nosso).mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Sou Quem Eu Sou (O Que É Seu Também É Meu E O Que É Meu Não É Nosso)", "No Passo a Passo", "Lutar Pelo o Que É Meu", "O Universo A Nosso Favor"],
-    "curiosity": "É uma música que se aprofunda na complexidade das relações humanas e na busca por um lugar de individualidade e respeito mútuo. A faixa se destaca no álbum por sua letra introspectiva, que convida o ouvinte a refletir sobre sua própria identidade e seu espaço no mundo."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Sou Quem Eu Sou (O Que É Seu Também É Meu E O Que É Meu Não É Nosso).mp3"
   },
   {
     "title": "Só Lazer",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Só Lazer.mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Só Lazer", "Do Surf", "My Mini Ramp", "Green Goes"],
-    "curiosity": "Esta canção reflete a veia crítica e contestadora da banda, usando o termo "só lazer" de forma irônica para questionar a superficialidade e a alienação presentes na sociedade."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Só Lazer.mp3"
   },
   {
     "title": "T.F.D.P.",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/T.F.D.P..mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["T.F.D.P.", "O Coro Vai Comê!", "Confira A Banca!", "Pra Mais Tarde Fazermos A Cabeça"],
-    "curiosity": "A música é um retrato da visão do Charlie Brown Jr. sobre a sociedade, o show business e as relações humanas. Ela aborda a vaidade, a falsidade e a luta por sobrevivência em um mundo que muitas vezes parece hostil."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/T.F.D.P..mp3"
   },
   {
     "title": "Talvez A Metade Do Caminho",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Talvez A Metade Do Caminho.mp3",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Talvez A Metade Do Caminho", "Longe De Você", "O Nosso Blues", "Cheia de Vida"],
-    "curiosity": "A música foi composta por Chorão. A letra é bastante introspectiva e, para muitos fãs, carrega um tom melancólico e reflexivo sobre perdas e a jornada da vida. Há quem interprete a letra como uma reflexão de Chorão sobre a relação com o pai, especialmente após o falecimento dele. A frase "O dom que Deus te deu entrou pra história do tempo" ressoa bastante nesse contexto."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Talvez A Metade Do Caminho.mp3"
   },
   {
     "title": "Three Little Birds (Ao Vivo - Chegou Quem Faltava)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Three Little Birds (Ao Vivo - Chegou Quem Faltava).mp3",
-    "album": "Chegou Quem Faltava (Ao Vivo)",
-    "artist": "Charlie Brown Jr. (Cover de Bob Marley)",
-    "questionType": "audio_song_title",
-    "options": ["Three Little Birds (Ao Vivo)", "Não É Sério (Ao Vivo)", "Me Deixa (Ao Vivo)", "Resolve o Meu Problema Aí (Ao Vivo)"],
-    "curiosity": "Essa versão ao vivo de 'Three Little Birds' é um cover da clássica canção de Bob Marley. O Charlie Brown Jr. sempre foi influenciado pelo reggae, e essa performance ao vivo, provavelmente de um álbum como 'Chegou Quem Faltava', mostra a habilidade da banda em interpretar sucessos de outros artistas. A música de Bob Marley, com sua mensagem de paz e otimismo ('Every little thing gonna be alright'), combinava perfeitamente com a energia positiva que Chorão e a banda transmitiam em seus shows."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Three Little Birds (Ao Vivo - Chegou Quem Faltava).mp3"
   },
   {
     "title": "Todos Iguais",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Todos Iguais.mp3",
-    "album": "Tamo Aí na Atividade",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Todos Iguais", "Não Fure Os Olhos Da Verdade", "O Universo A Nosso Favor", "Samba Makossa"],
-    "curiosity": "A música defende a autenticidade e o estilo de vida "livre" do indivíduo, contrastando com aqueles que se consideram superiores ou elitizados. Frases como "Meu estilo de vida liberta minha mente / Completamente louco, mas um louco consciente" resumem bem essa filosofia."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Todos Iguais.mp3"
   },
   {
     "title": "Tudo Pro Alto",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Tudo Pro Alto.mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Tudo Pro Alto", "Somos Poucos Mas Somos Loucos", "Longe De Você", "Talvez A Metade Do Caminho"],
-    "curiosity": ""Tudo Pro Alto" foi composta por Chorão e Renato Pelado. A letra reflete a filosofia de vida do Chorão e da banda: a busca por liberdade, a superação das dificuldades e a valorização do que realmente importa na vida."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Tudo Pro Alto.mp3"
   },
   {
     "title": "Uma Criança Com Seu Olhar (Versão Acústica)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Uma Criança Com Seu Olhar (Versão Acústica).mp3",
-    "album": "Ritmo Ritual e Responsa",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Uma Criança Com Seu Olhar (Versão Acústica)", "Me Deixa (Ao Vivo)", "Não É Sério (Ao Vivo)", "Só Por Uma Noite (Ao Vivo)"],
-    "curiosity": "Para muitos fãs, a música carrega um significado de renovação e esperança. A "criança com seu olhar" pode ser interpretada como a pureza e a inocência que se deve preservar, ou até mesmo o desejo de Chorão de ter um filho (ele era pai de um filho, mas a letra reflete uma visão mais ampla). É uma canção que convida à reflexão sobre amadurecimento e a manutenção da essência."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Uma Criança Com Seu Olhar (Versão Acústica).mp3"
   },
+ 
   {
     "title": "Vanessa da Mata - Ai Ai Ai (Part. Charlie Brown Jr)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Vanessa da Mata - Ai Ai Ai (Part. Charlie Brown Jr).mp3",
-    "album": "Estúdio Coca-Cola Zero",
-    "artist": "Vanessa da Mata (Part. Charlie Brown Jr)",
-    "questionType": "audio_song_title",
-    "options": ["Ai Ai Ai (Part. Charlie Brown Jr)", "Senhor do Tempo ⧸ Não Me Deixe Só (Part. Charlie Brown Jr)", "Uma Criança Com Seu Olhar (Part. Vanessa da Mata)", "O Que Ela Gosta É De Barriga"],
-    "curiosity": "A maior curiosidade dessa parceria é, sem dúvida, a mistura de gêneros. Vanessa da Mata, conhecida por sua voz suave e músicas com influências de MPB, samba e reggae, se uniu à energia visceral e às letras diretas do Charlie Brown Jr. Essa fusão resultou em releituras das canções que surpreenderam o público e mostraram a versatilidade de ambos os artistas."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Vanessa da Mata - Ai Ai Ai (Part. Charlie Brown Jr).mp3"
   },
   {
     "title": "Vanessa da Mata - Senhor do Tempo ⧸ Não Me Deixe Só (Part. Charlie Brown Jr)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Vanessa da Mata - Senhor do Tempo ⧸ Não Me Deixe Só (Part. Charlie Brown Jr).mp3",
-    "album": "Estúdio Coca-Cola Zero",
-    "artist": "Vanessa da Mata (Part. Charlie Brown Jr)",
-    "questionType": "audio_song_title",
-    "options": ["Senhor do Tempo ⧸ Não Me Deixe Só (Part. Charlie Brown Jr)", "Ai Ai Ai (Part. Charlie Brown Jr)", "Uma Criança Com Seu Olhar (Part. Vanessa da Mata)", "O Que Ela Gosta É De Barriga"],
-    "curiosity": "Essa medley de 'Senhor do Tempo' e 'Não Me Deixe Só' com a participação de Vanessa da Mata é um momento especial de um show ou projeto ao vivo, onde as canções do Charlie Brown Jr. ganham uma nova interpretação. A união das vozes de Chorão e Vanessa, junto com a melodia marcante das músicas, cria uma atmosfera única. 'Senhor do Tempo' é um clássico sobre a passagem do tempo e as memórias, enquanto 'Não Me Deixe Só' aborda a busca por companhia e apoio, e juntas elas formam um momento emocionante no palco."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Vanessa da Mata - Senhor do Tempo ⧸ Não Me Deixe Só (Part. Charlie Brown Jr).mp3"
   },
   {
     "title": "Vinheta： União",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Vinheta： União.mp3",
-    "album": "Preço Curto... Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Vinheta： União", "Intro – Cedo ou Tarde", "Charlie Brown Jr. (Vinheta)", "Amor Pelas Ruas"],
-    "curiosity": ""União" é a faixa de número 11 do disco, e é frequentemente listada como "Vinheta: União / Fogo na Bomba", pois a faixa inclui trechos de "Fogo na Bomba", uma música do grupo De Menos Crime."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Vinheta： União.mp3"
   },
+ 
   {
     "title": "Vícios E Virtudes (Ao Vivo)",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Vícios E Virtudes (Ao Vivo).mp3",
-    "album": "Acústico MTV: Charlie Brown Jr.",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Vícios E Virtudes (Ao Vivo)", "Me Deixa (Ao Vivo)", "Não É Sério (Ao Vivo)", "Só Por Uma Noite (Ao Vivo)"],
-    "curiosity": "Vícios e Virtudes" foi o primeiro single lançado do álbum "Acústico MTV", ajudando a impulsionar o sucesso do projeto e a mostrar ao público a nova roupagem acústica da banda."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/Vícios E Virtudes (Ao Vivo).mp3"
   },
   {
     "title": "É Quente",
-    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/É Quente.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["É Quente", "Do Surf", "Puro Sangue", "Só Lazer"],
-    "curiosity": "É Quente" aborda o tema do confronto direto com adversidades e pessoas mal-intencionadas. A letra fala sobre a cobra venenosa que se engasga com seu próprio veneno, uma metáfora para aqueles que tentam prejudicar, mas acabam se dando mal. A música também destaca a importância do trabalho e da resiliência: "Trabalho, corro atrás, o que Deus traz eu digo amém"."
+    "url": "https://github.com/charlibriano/Quiz-CBJR/raw/main/musicas/É Quente.mp3"
   }
 ]
