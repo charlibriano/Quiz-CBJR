@@ -1816,7 +1816,7 @@
             <button id="fifty-fifty-btn" class="power-up-btn" title="Remove 2 respostas incorretas (F1)">
                 50/50 <span id="fifty-fifty-count" class="power-up-count">0</span>
             </button>
-            <button id="skip-question-btn" class="power-up-btn" title="Pula a pergunta atual (F2)"> Pular <span id="skip-question-count" class="power-up-count">0</span>
+            <button id="skip-question-btn" class="power-up-btn" title="Pula a pergunta atual (F2)"> Pular <span id="fifty-fifty-count" class="power-up-count">0</span>
             </button>
         </div>
 
@@ -2398,9 +2398,11 @@
             currentBonusSongIndex: 0,
             bonusCorrectCount: 0,
             bonusErrorsCount: 0,
-            maxBonusErrors: 3, // Limite de erros no modo bônus
+            maxBonusErrors: 5, // Limite de erros no modo bônus (AUMENTADO!)
             isBonusActive: false, // Flag para saber se estamos no modo bônus
-            lastQuizState: null // Para guardar o estado do quiz principal ao entrar no bônus
+            lastQuizState: null, // Para guardar o estado do quiz principal ao entrar no bônus
+            startTime: 0, // NOVO: Tempo de início do desafio em milissegundos
+            endTime: 0    // NOVO: Tempo de fim do desafio em milissegundos
         };
 
         // Variáveis de controle de tempo
@@ -2469,59 +2471,45 @@
 
         // NOVO: Função para normalizar texto (agora bem mais robusta para títulos de músicas)
         function normalizeText(text) {
-            if (!text) return ''; // Garante que a função não falhe com entradas nulas ou vazias
+            if (!text) return '';
 
             let normalized = text.normalize("NFD")
                 .replace(/[\u0300-\u036f]/g, "") // Remove diacríticos (acentos)
                 .toLowerCase()
                 .trim();
 
-            // --- Regras específicas para TÍTULOS DE MÚSICA (Adicionadas/Aprimoradas) ---
+            // 1. Remover tudo entre parênteses ou colchetes, incluindo eles mesmos.
+            // Ex: (Doze Mais Um), (Part. Charlie Brown Jr), (Tour Cedo ou Tarde Ao Vivo)
+            normalized = normalized.replace(/[\(\[].*?[\)\]]/g, ' ');
 
-            // 1. Remover o nome da banda e variações comuns no início ou em qualquer lugar
-            // `\b` para word boundary (limite de palavra), `\s*` para zero ou mais espaços, `[-–.]?` para separadores opcionais
-            normalized = normalized.replace(/\bcharlie brown jr\b\s*[-–.]?/g, '');
-            normalized = normalized.replace(/\bcbjr\b\s*[-–.]?/g, '');
+            // 2. Remover termos de colaboração e nomes de artistas/bandas conhecidas no contexto CBJR.
+            // Use \b para limites de palavra e \s* para espaços opcionais.
+            normalized = normalized.replace(/\b(feat|ft|part)\.?\s*[\w\s.]+/g, ''); // Remove "feat.", "ft.", "part." e o que vier depois (artista)
+            // Adicionado "e" e "com" para nomes específicos de artistas para evitar remoção incorreta de "e" em títulos (ex: "Sol e Chuva")
+            normalized = normalized.replace(/\b(e|com)\s+(vanessa da mata|negrali|nx zero|marcelo nova|chorao)\b/g, ''); 
             
-            // 2. Remover prefixos de projetos/eventos comuns no início do título, seguidos por separador
-            // Adicione outros nomes de projetos/séries/álbuns que possam aparecer no início do título
-            // Ex: "Estúdio Coca-Cola Zero", "Acústico MTV", "Ao Vivo", "Unplugged"
-            normalized = normalized.replace(/\s*(estudio coca-cola zero|acustico mtv|ao vivo|unplugged)\s*[:–—\s]?/g, '');
-            
-            // 3. Remover termos de colaboração e participações
-            // Ex: "feat. artista", "part. artista", "ft. artista", "com artista", "e artista"
-            // A ordem aqui importa! Remova "com" ANTES de outros termos que possam conter "com".
-            normalized = normalized.replace(/\s*(feat|ft|part)\.?\s*[\w\s.]+/g, ''); // Remove "feat.", "ft.", "part." e o que vier depois
-            normalized = normalized.replace(/\s*(e|com)\s+[\w\s.]+/g, ''); // Remove "e artista", "com artista"
-            
-            // 4. Remover descrições de versão/formato e palavras comuns não essenciais ao título
-            // Ex: (Lyric Video), (Ao Vivo), remix, instrumental
-            // Ordem importa: remover parênteses/colchetes ANTES de remover seu conteúdo como palavras soltas.
-            normalized = normalized.replace(/[\(\[].*?[\)\]]/g, ''); // Remove qualquer coisa entre () ou [] (ex: " (Lyric Video)")
-            
-            normalized = normalized.replace(/\s*(lyric video|official video|video oficial|versao|version)\s*/g, '');
-            normalized = normalized.replace(/\s*remix\s*/g, '');
-            normalized = normalized.replace(/\s*instrumental\s*/g, '');
+            // 3. Remover o nome da banda e variações comuns.
+            normalized = normalized.replace(/\b(charlie brown jr|cbjr)\b\s*[-–.]?/g, '');
 
-            // 5. Substituir travessões, dois pontos e outros separadores comuns por um espaço simples
-            // Isso evita "colar" palavras como "Música - Tema" virando "músicatema"
+            // 4. Remover prefixos de projetos/eventos comuns no início ou em qualquer lugar.
+            normalized = normalized.replace(/\s*(estudio coca-cola zero|acustico mtv|ao vivo|unplugged|oficial)\s*[:–—\s]?/g, '');
+            
+            // 5. Substituir travessões, dois pontos e outros separadores comuns por um espaço simples.
             normalized = normalized.replace(/[-–—:]/g, ' ');
 
-            // 6. Remover qualquer pontuação restante que não seja letra, número ou espaço
-            // Este deve ser um dos últimos passos para evitar remover caracteres úteis antes.
+            // 6. Remover símbolos específicos ou convertê-los, e tratar números por extenso.
+            normalized = normalized.replace(/\+/g, ' mais '); // Converte '+' para ' mais '
+            normalized = normalized.replace(/\bdoze\b/g, '12'); // Converte 'doze' para '12'
+            normalized = normalized.replace(/\buma\b/g, '1'); // Converte 'uma' para '1' (caso "Uma Criança...")
+            normalized = normalized.replace(/\bai ai ai\b/g, 'ai ai ai'); // Para garantir que "ai ai ai" não seja afetado por outras regras se houver ambiguidade
+
+            // 7. Remover qualquer pontuação restante que não seja letra, número ou espaço.
             normalized = normalized.replace(/[^a-z0-9\s]/g, '');
 
-            // 7. Tratamento para números por extenso ou símbolos comuns em títulos de música
-            normalized = normalized.replace(/(\d)\s*[\+\-\s]?(mais|plus|e)\s*(\d)/g, '$1 $2 $3'); // Ex: "12 + 1" -> "12 mais 1" (para "12+1" ou "12 mais 1")
-            normalized = normalized.replace(/doze/g, '12');
-            normalized = normalized.replace(/um/g, '1');
-            normalized = normalized.replace(/vinte e cinco/g, '25');
-            // Adicione mais mapeamentos se você encontrar outras variações comuns (ex: "tres" -> "3", "quatro" -> "4")
-
-            // 8. Substituir múltiplos espaços por um único espaço
+            // 8. Substituir múltiplos espaços por um único espaço.
             normalized = normalized.replace(/\s+/g, ' ');
 
-            // Remover espaços extras no início e fim após todas as substituições
+            // Remover espaços extras no início e fim após todas as substituições.
             normalized = normalized.trim();
 
             return normalized;
@@ -2644,6 +2632,9 @@
                 console.error("Erro ao carregar áudio:", e);
                 elements.currentSongText.textContent = `Erro ao carregar ${currentSongData.title}`;
                 elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
+                if (bonusGameState.isBonusActive) { // Se estiver no modo bônus, esconde o título mesmo com erro de autoplay
+                    elements.currentSongText.textContent = 'Erro ao carregar (Tente novamente)';
+                }
             };
         }
 
@@ -4163,7 +4154,9 @@
                 bonusCorrectCount: 0,
                 bonusErrorsCount: 0,
                 isBonusActive: false,
-                lastQuizState: null
+                lastQuizState: null,
+                startTime: 0, // Resetar o tempo de início
+                endTime: 0    // Resetar o tempo de fim
             });
 
             clearInterval(timerInterval);
@@ -4354,6 +4347,7 @@
             bonusGameState.currentBonusSongIndex = 0;
             bonusGameState.bonusCorrectCount = 0;
             bonusGameState.bonusErrorsCount = 0;
+            bonusGameState.startTime = Date.now(); // NOVO: Registra o tempo de início aqui!
             
             // Garante que o conteúdo da tela de bônus é resetado para o formulário de adivinhação
             elements.bonusMusicScreen.innerHTML = `
@@ -4482,7 +4476,16 @@
 
         function endBonusMusicGame(completedAllSongs) {
             console.log("endBonusMusicGame: Finalizando jogo de Bônus Fã.");
-            elements.audio.pause(); // Garante que a música pare
+            elements.audio.pause();
+            
+            bonusGameState.endTime = Date.now(); // NOVO: Registra o tempo de fim
+            const durationMs = bonusGameState.endTime - bonusGameState.startTime;
+            const durationSeconds = Math.floor(durationMs / 1000); // Converte para segundos
+
+            // Formatar a duração para exibir (ex: 2:35 para 2 minutos e 35 segundos)
+            const minutes = Math.floor(durationSeconds / 60);
+            const seconds = durationSeconds % 60;
+            const formattedDuration = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
             
             let message = '';
             let title = '';
@@ -4509,7 +4512,7 @@
                 <p style="font-family: Arial, sans-serif; font-weight: bold; margin-bottom: 20px;">Seus resultados:</p>
                 <p style="font-family: Arial, sans-serif;">Acertos: <span style="color: var(--cor-verde-correto);">${bonusGameState.bonusCorrectCount}</span></p>
                 <p style="font-family: Arial, sans-serif;">Erros: <span style="color: var(--cor-vermelho-incorreto);">${bonusGameState.bonusErrorsCount}</span></p>
-                <div class="bonus-controls" style="margin-top: 30px;">
+                <p style="font-family: Arial, sans-serif;">Tempo Total: <span style="color: var(--cor-bonus-texto);">${formattedDuration}</span></p> <div class="bonus-controls" style="margin-top: 30px;">
                     <button id="bonus-play-again-btn">Jogar Novamente</button>
                     <button id="bonus-exit-game-btn">Voltar ao Menu Principal</button>
                 </div>
