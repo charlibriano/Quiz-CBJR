@@ -36,6 +36,12 @@
             --cor-secreto-texto: var(--cor-amarelo-cbjr);
             --cor-secreto-borda: #fff; /* Borda branca para o efeito */
             --cor-secreto-sombra: rgba(241, 196, 15, 0.7); /* Amarelo com transparência */
+
+            /* NOVO: Cores para o Nível Bônus Fã */
+            --cor-bonus-fundo: rgba(0, 50, 0, 0.8); /* Um verde escuro, para diferenciar */
+            --cor-bonus-texto: var(--cor-verde-vibrante);
+            --cor-bonus-input-fundo: rgba(255, 255, 255, 0.1);
+            --cor-bonus-input-borda: var(--cor-verde-vibrante);
         }
 
         @font-face {
@@ -144,7 +150,7 @@
             font-family: 'Elektrix', sans-serif;
             font-size: 2.5em;
             color: var(--cor-amarelo-cbjr);
-            text-shadow: 3px 3px 15px var(--cor-preto-principal);
+            text-shadow: 3px 33px 15px var(--cor-preto-principal);
             padding: 25px 40px;
             border-radius: 20px;
             display: inline-block;
@@ -690,7 +696,7 @@
                 font-size: 0.6em; /* Reduz fonte do status */
             }
             /* Ajustes para o botão de fechar na tela de conquistas */
-            #close-achievements-btn {
+            #close-achievements-btn, #start-bonus-music-btn {
                 font-size: 0.9em;
                 padding: 8px 15px;
             }
@@ -798,10 +804,10 @@
             text-align: center; /* Padrão, but será sobrescrito se houver rolagem */
             
             animation: none; /* A animação será aplicada e ajustada via JS */
-            animation-play-state: paused; 
+            animation-play-state: paused;
             
             /* Esta altura é crucial para evitar pulos quando a rolagem é aplicada/removida */
-            height: 1.2em; 
+            height: 1.2em;
             line-height: 1.2em; /* Garante que o texto fique centralizado verticalmente */
             position: relative; /* Contexto para o span interno */
         }
@@ -1254,44 +1260,6 @@
             }
         }
 
-
-        #restart-btn {
-            padding: 15px 30px;
-            margin-top: 20px;
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-texto-claro);
-            cursor: pointer;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.5em;
-            transition: transform 0.2s ease, background-color 0.3s ease;
-        }
-        /* Os botões start-btn e achievements-btn não estão más no container principal HTML, más sim na overlay da intro message */
-        /* Más podemos manter o estilo base para botões da overlay para consistência, ou criar um estilo específico para eles lá se quiser */
-        #level-up-message .message-buttons button {
-            padding: 12px 25px; /* Ajuste para ter um tamanho más padronizado com outros botões */
-            font-size: 1.2em; /* Ajuste */
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-texto-claro);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.3s ease;
-            text-shadow: 0 0 8px rgba(255,255,255,0.8);
-            margin-top: 20px; /* Adicionado para afastar dos textos */
-        }
-        #level-up-message button:hover {
-            transform: scale(1.05);
-            background-color: #4a4a4a;
-        }
-
-        /* REMOVENDO POP-UP DE PONTUAÇÃO VISUAL */
-        #points-popup {
-            display: none !important; /* Força a remoção do display */
-            visibility: hidden !important; /* Garantia que não é visível */
-            opacity: 0 !important; /* Garante que não é visível */
-        }
-
         /* --- NOVO: Estilo para a tela de conclusão/nível secreto --- */
         #completion-screen {
             position: fixed;
@@ -1406,6 +1374,10 @@
             #completion-screen .message-buttons {
                 flex-direction: column;
                 gap: 10px;
+            }
+            #completion-screen button {
+                font-size: 0.9em;
+                padding: 8px 15px;
             }
         }
 
@@ -1580,7 +1552,7 @@
             font-family: Arial, sans-serif;
             font-size: 0.9em;
             color: rgba(255, 255, 255, 0.7);
-            margin-top: -5px; /* Para ficar um pouco mais próximo do título */
+            margin-top: -5px; /* Para ficar um pouco más próximo do título */
             margin-bottom: 10px;
         }
         /* ALTERADO: Aumentar o tamanho da capa do CD */
@@ -1669,6 +1641,165 @@
             opacity: 1;
             pointer-events: all; /* Ativa os ponteiros quando a overlay está ativa e cobrindo algo */
         }
+
+        /* NOVO: Estilos para o Nível Bônus Fã */
+        #bonus-music-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px; /* Um pouco menor que as outras telas grandes */
+            background-color: var(--cor-bonus-fundo);
+            color: var(--cor-bonus-texto);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.7);
+            text-align: center;
+            z-index: 2000; /* Acima do quiz, igual ao level-up-message */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+            border: 2px solid var(--cor-verde-vibrante); /* Borda verde */
+            box-sizing: border-box;
+        }
+
+        #bonus-music-screen.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #bonus-music-screen h2 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2.5em;
+            color: var(--cor-bonus-texto);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Brilho verde */
+        }
+
+        #bonus-music-screen p {
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            color: var(--cor-texto-claro);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        #bonus-music-screen #bonus-current-song-title {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 1.8em;
+            color: var(--cor-amarelo-cbjr);
+            margin: 15px 0;
+            text-shadow: 0 0 10px rgba(241, 196, 15, 0.7);
+        }
+
+        #bonus-music-screen #bonus-answer-input {
+            width: 80%;
+            max-width: 300px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 2px solid var(--cor-bonus-input-borda);
+            background-color: var(--cor-bonus-input-fundo);
+            color: var(--cor-texto-claro);
+            font-size: 1.1em;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        #bonus-music-screen #bonus-answer-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        #bonus-music-screen .bonus-controls button {
+            padding: 12px 25px;
+            font-size: 1em;
+            font-family: 'Elektrix', sans-serif;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-bonus-texto);
+            border: 2px solid var(--cor-bonus-texto);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, transform 0.2s;
+            margin: 0 10px 10px 10px; /* Ajuste para espaçamento entre botões */
+        }
+
+        #bonus-music-screen .bonus-controls button:hover:not(:disabled) {
+            background-color: var(--cor-bonus-texto);
+            color: var(--cor-preto-principal);
+            transform: scale(1.05);
+        }
+
+        #bonus-music-screen .bonus-controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: rgba(0, 255, 0, 0.3);
+            color: rgba(0, 255, 0, 0.3);
+        }
+
+        #bonus-feedback-message {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: var(--cor-texto-claro); /* Padrão, será alterado via JS */
+            min-height: 1.5em; /* Garante altura para evitar pulos */
+        }
+
+        #bonus-score-info {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsividade para o Nível Bônus Fã */
+        @media (max-width: 768px) {
+            #bonus-music-screen {
+                padding: 25px 20px;
+                width: 90%;
+            }
+            #bonus-music-screen h2 {
+                font-size: 2em;
+            }
+            #bonus-music-screen p {
+                font-size: 0.9em;
+            }
+            #bonus-music-screen #bonus-current-song-title {
+                font-size: 1.5em;
+            }
+            #bonus-music-screen .bonus-controls button {
+                font-size: 0.9em;
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #bonus-music-screen {
+                padding: 20px 15px;
+            }
+            #bonus-music-screen h2 {
+                font-size: 1.8em;
+            }
+            #bonus-music-screen p {
+                font-size: 0.8em;
+            }
+            #bonus-music-screen #bonus-current-song-title {
+                font-size: 1.2em;
+            }
+            #bonus-music-screen #bonus-answer-input {
+                font-size: 1em;
+            }
+            #bonus-music-screen .bonus-controls button {
+                font-size: 0.8em;
+                padding: 8px 15px;
+                margin: 0 5px 8px 5px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1681,11 +1812,11 @@
             <span>❤️</span><span id="lives-count"></span>
         </div>
 
-        <div id="power-ups-container" style="display: flex;"> 
+        <div id="power-ups-container" style="display: flex;">
             <button id="fifty-fifty-btn" class="power-up-btn" title="Remove 2 respostas incorretas (F1)">
                 50/50 <span id="fifty-fifty-count" class="power-up-count">0</span>
             </button>
-            <button id="skip-question-btn" class="power-up-btn" title="Pula a pergunta atual (F2)" disabled> Pular <span id="skip-question-count" class="power-up-count">0</span>
+            <button id="skip-question-btn" class="power-up-btn" title="Pula a pergunta atual (F2)"> Pular <span id="skip-question-count" class="power-up-count">0</span>
             </button>
         </div>
 
@@ -1699,7 +1830,7 @@
         </div>
 
         <p id="medal"></p>
-        <button id="restart-btn" onclick="restartQuiz()" style="display:none;">Reiniciar Quiz</button>
+        <button id="restart-btn" style="display:none;">Reiniciar Quiz</button>
     </div>
 
     <div id="level-up-message" style="display:none;"></div>
@@ -1710,9 +1841,11 @@
     <div id="main-overlay" style="display:none;"></div>
 
     <div id="achievements-screen" style="display:none;">
-        <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2> 
+        <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2>
         <div id="achievements-list"></div>
-        <button id="close-achievements-btn" onclick="closeAchievementsScreen()">Voltar</button>
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+            <button id="close-achievements-btn">Voltar</button>
+        </div>
     </div>
 
     <div id="statistics-screen" style="display:none;">
@@ -1721,8 +1854,8 @@
             <p>Conteúdo de estatísticas aqui...</p>
         </div>
         <div class="statistics-buttons">
-            <button onclick="restartQuiz()">Jogar novamente</button>
-            <button onclick="closeStatisticsScreen()">Voltar ao Início</button>
+            <button id="statistics-restart-btn">Jogar novamente</button>
+            <button id="statistics-close-btn">Voltar ao Início</button>
         </div>
     </div>
 
@@ -1731,15 +1864,16 @@
         <p>Você dominou o Quiz Charlie Brown Jr! <br> Sua paixão pela banda é inabalável.</p>
         <p>Mas, se você é um verdadeiro "marginal alado", temos um desafio final!</p>
         <div class="message-buttons">
-            <button id="start-secret-level-btn" onclick="startSecretLevel()">Nível Secreto: Hardcore!</button>
-            <button id="restart-from-completion-btn" onclick="restartQuiz()">Reiniciar Quiz</button>
+            <button id="start-secret-level-btn">Nível Secreto: Hardcore!</button>
+            <button id="restart-from-completion-btn">Reiniciar Quiz</button>
         </div>
     </div>
+
 
     <div id="ranking-screen" style="display:none;">
         <h2>Top 10 Feras do CBJR</h2>
         <ol id="ranking-list"></ol>
-        <button id="close-ranking-btn" onclick="closeRankingScreen()">Voltar ao Início</button>
+        <button id="close-ranking-btn">Voltar ao Início</button>
     </div>
 
     <div id="achievement-detail-popup" style="display:none;">
@@ -1748,8 +1882,22 @@
         <img id="detail-achievement-cover" src="" alt="Capa do CD" style="max-width: 250px; max-height: 250px; width: auto; height: auto; object-fit: contain; margin: 15px auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: none;">
         <p id="detail-achievement-description"></p>
         <div id="detail-achievement-status" class="status"></div>
-        <button onclick="closeAchievementDetailPopup()">Fechar</button>
+        <button id="close-achievement-detail-popup-btn">Fechar</button>
     </div>
+
+    <div id="bonus-music-screen" style="display: none;">
+        <h2>Bônus Fã: Adivinhe a Música!</h2>
+        <p style="font-family: Arial, sans-serif;">Ouça o trecho e digite o nome da música do Charlie Brown Jr.</p>
+        <p id="bonus-current-song-title" style="font-family: 'Elektrix', sans-serif; display: none;"></p> <input type="text" id="bonus-answer-input" placeholder="Qual é a música?">
+        <p id="bonus-feedback-message"></p>
+        <p id="bonus-score-info">Acertos: 0 | Erros: 0</p>
+        <div class="bonus-controls">
+            <button id="bonus-submit-btn">Enviar Resposta</button>
+            <button id="bonus-skip-btn">Pular Música</button>
+            <button id="bonus-exit-btn">Sair do Bônus</button>
+        </div>
+    </div>
+
 
     <div id="audio-player-wrapper">
         <audio id="audio"></audio>
@@ -1780,13 +1928,13 @@
                         <path class="repeat-one-arrows" d="M17.053 23.951c1.969-2.02 4.586-3.133 7.369-3.133h11.539V17l11.369 6.736l-11.369 6.734v-3.82H24.422c-2.611 0-4.736 2.18-4.736 4.861c0 .043 0 .088.002.129a7.746 7.746 0 0 0-1.779.533a8.016 8.016 0 0 0-2.555 1.768c-.299.305-.57.631-.814.977a10.957 10.957 0 0 1-.54-3.406c0-2.856 1.084-5.541 3.053-7.561m29.896 15.123c-1.969 2.02-4.586 3.131-7.371 3.131H27.67C26.697 45.002 24.098 47 21.039 47C17.152 47 14 43.766 14 39.777s3.152-7.223 7.039-7.223c2.689 0 5.025 1.545 6.211 3.818h12.328c2.613 0 4.738-2.18 4.738-4.861c0-.125-.006-.25-.014-.371l5.154-3.053c.358 1.089.544 2.243.544 3.425c0 2.855-1.084 5.543-3.051 7.562"></path>
                     </svg>
                 </button>
-                <button id="prev-btn" class="audio-control-btn">
+                <button id="prev-btn" class="audio-control-btn" aria-label="Música Anterior">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg>
                 </button>
-                <button id="play-pause-btn" class="audio-control-btn large-button">
+                <button id="play-pause-btn" class="audio-control-btn large-button" aria-label="Reproduzir ou Pausar">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
                 </button>
-                <button id="next-btn" class="audio-control-btn">
+                <button id="next-btn" class="audio-control-btn" aria-label="Próxima Música">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 18h2V6h-2zM6 18l8.5-6L6 6z"></path></svg>
                 </button>
                 <button id="shuffle-btn" class="audio-control-btn" title="Ordem Aleatória">
@@ -1805,7 +1953,7 @@
             </div>
 
             <div class="audio-volume-controls">
-                <button id="mute-btn" class="audio-control-btn" title="Mudo">
+                <button id="mute-btn" class="audio-control-btn" title="Mudo" aria-label="Ativar ou Desativar Som">
                     <svg id="volume-svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 4L8 8H4v8h4l4 4V4z"></path>
                     </svg>
@@ -1813,20 +1961,15 @@
                         <path d="M7 9v6h4l5 5V4L11 9H7zm11 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
                     </svg>
                 </button>
-                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.4">
+                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.4" aria-label="Volume do Áudio">
                 <span id="volume-value">70%</span>
             </div>
         </div>
     </div>
-
-    <script type="module">
-        // Import the functions you need from the SDKs you need
+<script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
 
-        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCT1btbLIMehCj3xldw5LOB-snjyF4SKhw",
             authDomain: "ranking-cbjr.firebaseapp.com",
@@ -1837,21 +1980,9 @@
             measurementId: "G-QK5QE2Y1CC"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app); // Inicializa o Firestore
+        const db = getFirestore(app);
 
-        // Variáveis globais para os módulos Firebase (para que o script principal possa usá-los)
-        window.db = db; 
-        window.firebase_collection = collection;
-        window.firebase_addDoc = addDoc;
-        window.firebase_query = query;
-        window.firebase_orderBy = orderBy;
-        window.firebase_limit = limit;
-        window.firebase_getDocs = getDocs;
-
-    </script>
-    <script>
         // --- Dados do Quiz ---
         const questionsByLevel = [
             // Nível 1
@@ -1880,7 +2011,7 @@
             {
                 fraseChorao: "Eles querem que você se sinta mal, pois assim eles se sentem bem.",
                 perguntas: [
-                    { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória", curiosidade: "'Dias de Luta, Dias de Glória' é um hino de superação e uma das músicas más emblemáticas da banda." },
+                    { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória", curiosidade: "F 'Dias de Luta, Dias de Glória' é um hino de superação e uma das músicas más emblemáticas da banda." },
                     { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa", curiosidade: "'Ritmo, Ritual e Responsa' (2007) trouxe uma sonoridade más madura e músicas como 'Pontes indestrutíveis'." },
                     { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)", curiosidade: "'Proibida Pra Mim' é um dos maiores sucessos do Charlie Brown Jr., presente no álbum 'Transpiração Contínua Prolongada'." },
                     { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado", curiosidade: "Renato Pelado saiu da banda em 2005." },
@@ -1922,7 +2053,7 @@
                     { pergunta: "Qual dessas músicas foi tema de abertura de uma novela da Globo?", respostas: ["Te Levar", "Só os Loucos Sabem", "Senhor do Tempo", "Longe de Você"], correta: "Te Levar", curiosidade: "'Te Levar' foi tema de abertura da série 'Malhação', exibida pela TV Globo entre 1999 e 2006." },
                     { pergunta: "Qual integrante do Charlie Brown Jr. também formou a banda Revolucionnários após sair do grupo?", respostas: ["Marcão Britto", "Graveto", "Heitor Gomes", "Champignon"], correta: "Champignon", curiosidade: "Após sair do Charlie Brown Jr., Champignon criou a banda Revolucionnários, onde foi vocalista e baixista, explorando novas sonoridades." },
                     { pergunta: "No projeto Estúdio Coca-Cola Zero, qual cantora da MPB dividiu o palco com o Charlie Brown Jr.?", respostas: ["Vanessa da Mata", "Maria Gadú", "Ana Carolina", "Ivete Sangalo"], correta: "Vanessa da Mata", curiosidade: "Em 2008, no projeto Estúdio Coca-Cola Zero, o Charlie Brown Jr. fez uma apresentação especial ao lado da cantora Vanessa da Mata, misturando rock e MPB em versões inéditas de seus sucessos." },
-                    { pergunta: "Qual roqueiro brasileiro fez participações com Chorão nas músicas 'Hoje' e 'Coração Satânico' e era considerado por ele como um padrinho musical?", respostas: ["Marcelo Nova", "Raimundo Fagner", "Herbert Vianna", "Supla"], correta: "Marcelo Nova", curiosidade: "Marcelo Nova, conhecido por seu trabalho com o Camisa de Vênus, participou das músicas 'Hoje' e 'Coração Satânico'. Chorão o considerava um padrinho musical e uma referência no rock nacional." },
+                    { pergunta: "Qual roqueiro brasileiro fez participações com Chorão nas músicas 'Hoje' e 'Coração Satânico' e era considerado por ele como um padrinho musical?", respostas: ["Marcelo Nova", "Raimundo Fagner", "Herbert Vianna", "Supla"], correta: "Marcelo Nova", curiosidade: "Marcelo Nova, conhecido por seu trabalho com o Camisa de Vênus, participou das músicas 'Hoje' e 'Coração Satânica'. Chorão o considerava um padrinho musical e uma referência no rock nacional." },
                     {
                     "pergunta": "Em qual programa da MTV Chorão participou ao lado da cantora Pitty?",
                     "respostas": ["Acústico MTV", "MTV na Estrada", "Covernation", "Supernova"],
@@ -1934,7 +2065,7 @@
             {
                 fraseChorao: "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
                 perguntas: [
-                    { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skafater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
+                    { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
                     { pergunta: "Qual banda internacional teve o Charlie Brown Jr. como banda de abertura em suas turnês no Brasil nos anos de 2004 e 2012?", respostas: ["Limp Bizkit", "Green Day", "Foo Fighters", "Linkin Park"], correta: "Linkin Park", curiosidade: "O Charlie Brown Jr. abriu shows do Linkin Park no Brasil em duas ocasiões: em 2004, durante a turnê do álbum 'Meteora', e novamente em 2012, na turnê de 'Living Things', com uma apresentação marcante na Arena Anhembi, em São Paulo." },
                     { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records", curiosidade: "A Virgin Records foi a gravadora responsável pelos primeiros álbuns da banda, incluindo 'Transpiração Contínua Prolongada'." },
                     { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era(muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas más esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
@@ -1997,12 +2128,11 @@
         ];
 
         // --- Definição das Conquistas ---
-        // NOME DA CONQUISTA AGORA É O NOME DO CD + O ANO DE LANÇAMENTO
         const achievements = {
             "first_level_completed": {
                 name: "Transpiração Contínua Prolongada (1997)",
                 description: "Complete o Nível 1.",
-                coverFile: "CD%201.jpeg", 
+                coverFile: "CD%201.jpeg",
                 unlocked: false
             },
             "combo_3x": {
@@ -2017,7 +2147,7 @@
                 coverFile: "CD%203.jpeg",
                 unlocked: false
             },
-            "all_main_levels_completed": { 
+            "all_main_levels_completed": {
                 name: "100% Charlie Brown Jr. - Abalando a Sua Fábrica (2001)",
                 description: "Complete todos os 7 níveis principais do quiz.",
                 coverFile: "CD%204_.jpeg",
@@ -2035,25 +2165,25 @@
                 coverFile: "CD%206_.jpeg",
                 unlocked: false
             },
-            "combo_7x": { 
+            "combo_7x": {
                 name: "Tamo Aí na Atividade (2004)",
                 description: "Acerte 7 perguntas seguidas.",
                 coverFile: "CD%207.jpeg",
                 unlocked: false
             },
-            "combo_5x": { 
+            "combo_5x": {
                 name: "Imunidade Musical (2005)",
                 description: "Acerte 5 perguntas seguidas.",
                 coverFile: "CD%208.jpeg",
                 unlocked: false
             },
-            "used_50_50": { 
-                name: "Ritmo, Ritual e Responsa (2007)", // Mudei para o CD 9
+            "used_50_50": {
+                name: "Ritmo, Ritual e Responsa (2007)",
                 description: "Use o power-up 50/50 pela primeira vez.",
                 coverFile: "CD%209.jpeg",
                 unlocked: false
             },
-            "combo_10x": { 
+            "combo_10x": {
                 name: "Camisa 10 Joga Bola Até na Chuva (2009)",
                 description: "Acerte 10 perguntas seguidas.",
                 coverFile: "CD%2010.jpeg",
@@ -2065,41 +2195,46 @@
                 coverFile: "CD%2011.jpeg",
                 unlocked: false
             },
-            "secret_level_completed": { 
+            "secret_level_completed": {
                 name: "La Familia 013 (2013)",
                 description: "Conclua o Nível Secreto Hardcore.",
                 coverFile: "CD%2012.jpeg",
                 unlocked: false
             },
-            "used_skip": { 
-                name: "Fera no Skate", // Um nome genérico já que não está atrelado a um CD específico, mas é uma conquista.
+            "used_skip": {
+                name: "Fera no Skate",
                 description: "Use o power-up Pular Pergunta pela primeira vez.",
-                coverFile: "CD%2012.jpeg", // Pode ser qualquer um, já que não tem um CD específico para este power-up
+                coverFile: "CD%2012.jpeg", // Pode ser qualquer uno, já que não tem um CD específico para este power-up
+                unlocked: false
+            },
+            // NOVA CONQUISTA PARA O BÔNUS FÃ
+            "bonus_music_master": {
+                name: "Rei da Rádio (Bônus Fã)",
+                description: "Acerte 5 músicas seguidas no Nível Bônus Fã.",
+                coverFile: "CD%20bonus.jpeg", // Adicione uma imagem para esta capa
                 unlocked: false
             }
         };
         
         // Mapeamento de Capas de CD para Conquistas (Nomes de arquivos para URL)
-        // Note que o nome da conquista já é o nome do CD. Este mapeamento é para pegar o NOME DO ARQUIVO da capa.
         const achievementCdCovers = {
-            "first_level_completed": "CD%201.jpeg", 
-            "combo_3x": "CD%202.jpeg", 
-            "level_3_completed": "CD%203.jpeg", 
-            "all_main_levels_completed": "CD%204_.jpeg", 
-            "level_5_completed": "CD%205.jpeg", 
-            "all_levels_completed": "CD%206_.jpeg", 
-            "combo_7x": "CD%207.jpeg", 
-            "combo_5x": "CD%208.jpeg", 
-            "used_50_50": "CD%209.jpeg", 
-            "combo_10x": "CD%2010.jpeg", 
-            "new_high_score": "CD%2011.jpeg", 
+            "first_level_completed": "CD%201.jpeg",
+            "combo_3x": "CD%202.jpeg",
+            "level_3_completed": "CD%203.jpeg",
+            "all_main_levels_completed": "CD%204_.jpeg",
+            "level_5_completed": "CD%205.jpeg",
+            "all_levels_completed": "CD%206_.jpeg",
+            "combo_7x": "CD%207.jpeg",
+            "combo_5x": "CD%208.jpeg",
+            "used_50_50": "CD%209.jpeg",
+            "combo_10x": "CD%2010.jpeg",
+            "new_high_score": "CD%2011.jpeg",
             "secret_level_completed": "CD%2012.jpeg",
-            "used_skip": "CD%2012.jpeg" // Mantido como um CD genérico para este power-up
+            "used_skip": "CD%2012.jpeg", // Mantido como um CD genérico para este power-up
+            "bonus_music_master": "CD%20bonus.jpeg" // Nova capa para o bônus
         };
         
         // NOVO: Mapeamento dos nomes dos CDs para exibir no pop-up de detalhes
-        // Esta lista é apenas para referência dos nomes completos + anos para as descrições.
-        // O `name` da conquista JÁ É O NOME DO CD.
         const cdNames = {
             "CD%201.jpeg": "Transpiração Contínua Prolongada (1997)",
             "CD%202.jpeg": "Preço Curto... Prazo Longo (1999)",
@@ -2112,7 +2247,8 @@
             "CD%209.jpeg": "Ritmo, Ritual e Responsa (2007)",
             "CD%2010.jpeg": "Camisa 10 Joga Bola Até na Chuva (2009)",
             "CD%2011.jpeg": "Música Popular Caiçara (2012)",
-            "CD%2012.jpeg": "La Familia 013 (2013)"
+            "CD%2012.jpeg": "La Familia 013 (2013)",
+            "CD%20bonus.jpeg": "Bônus Fã: Adivinhe a Música" // Nome para a capa do bônus
         };
 
 
@@ -2130,10 +2266,10 @@
             pointsPopup: document.getElementById('points-popup'),
             comboMessage: document.getElementById('combo-message'),
             achievementPopup: document.getElementById('achievement-popup'),
-            mainOverlay: document.getElementById('main-overlay'), 
+            mainOverlay: document.getElementById('main-overlay'),
             achievementsScreen: document.getElementById('achievements-screen'),
             achievementsList: document.getElementById('achievements-list'),
-            curiosityBox: document.createElement('div'), 
+            curiosityBox: document.createElement('div'), // Este é um elemento criado dinamicamente, não referenciado pelo ID diretamente
             highScoreText: document.getElementById('high-score-text'),
 
             playPauseBtn: document.getElementById('play-pause-btn'),
@@ -2159,13 +2295,13 @@
             livesCount: document.getElementById('lives-count'),
             
             // Elementos para o botão 50/50 e Pular
-            powerUpsContainer: document.getElementById('power-ups-container'), 
+            powerUpsContainer: document.getElementById('power-ups-container'),
             fiftyFiftyBtn: document.getElementById('fifty-fifty-btn'),
             fiftyFiftyCount: document.getElementById('fifty-fifty-count'),
-            skipQuestionBtn: document.getElementById('skip-question-btn'), 
-            skipQuestionCount: document.getElementById('skip-question-count'), 
+            skipQuestionBtn: document.getElementById('skip-question-btn'),
+            skipQuestionCount: document.getElementById('skip-question-count'),
 
-            // NOVO: Elemento para a tela de conclusão
+            // NOVO: Elementos para a tela de conclusão
             completionScreen: document.getElementById('completion-screen'),
             startSecretLevelBtn: document.getElementById('start-secret-level-btn'),
             restartFromCompletionBtn: document.getElementById('restart-from-completion-btn'),
@@ -2178,11 +2314,32 @@
             // NOVO: Pop-up de Detalhes da Conquista
             achievementDetailPopup: document.getElementById('achievement-detail-popup'),
             detailAchievementName: document.getElementById('detail-achievement-name'),
-            detailAchievementCover: document.getElementById('detail-achievement-cover'), 
+            detailAchievementCover: document.getElementById('detail-achievement-cover'),
             detailAchievementDescription: document.getElementById('detail-achievement-description'),
             detailAchievementStatus: document.getElementById('detail-achievement-status'),
             // NOVO: Elemento para o nome do CD
             detailAchievementCdName: document.getElementById('detail-achievement-cd-name'),
+            closeAchievementDetailPopupBtn: document.getElementById('close-achievement-detail-popup-btn'),
+
+            // NOVO: Elementos para o Nível Bônus Fã
+            bonusMusicScreen: document.getElementById('bonus-music-screen'),
+            startBonusMusicBtn: null, // Será atribuído dinamicamente na showIntroMessage
+            bonusAnswerInput: document.getElementById('bonus-answer-input'),
+            bonusSubmitBtn: document.getElementById('bonus-submit-btn'),
+            bonusSkipBtn: document.getElementById('bonus-skip-btn'),
+            bonusExitBtn: document.getElementById('bonus-exit-btn'),
+            bonusFeedbackMessage: document.getElementById('bonus-feedback-message'),
+            bonusScoreInfo: document.getElementById('bonus-score-info'),
+            bonusCurrentSongTitle: document.getElementById('bonus-current-song-title'),
+
+            // Botões da tela de introdução (agora referenciados via ID)
+            startQuizButton: null, // Será atribuído dinamicamente
+            showAchievementsButton: null, // Será atribuído dinamicamente
+            showRankingButtonIntro: null, // Será atribuído dinamicamente
+
+            // Botões da tela de estatísticas (apenas referenciados, mas não implementados para o quiz principal)
+            statisticsRestartBtn: document.getElementById('statistics-restart-btn'),
+            statisticsCloseBtn: document.getElementById('statistics-close-btn')
         };
 
         // --- Constantes para Pontuação e Tempo ---
@@ -2215,28 +2372,40 @@
             currentLevel: 0,
             currentQuestionIndexInLevel: 0,
             score: 0,
-            lives: MAX_LIVES, 
-            errorsInCurrentLevel: 0, 
+            lives: MAX_LIVES,
+            errorsInCurrentLevel: 0,
             quizPaused: false,
-            isProcessingAnswer: false, 
+            isProcessingAnswer: false,
             currentLevelQuestions: [],
             totalLevels: questionsByLevel.length, // Agora inclui o nível secreto no total
             totalMainLevels: questionsByLevel.length - 1, // Total de níveis principais (sem o secreto)
             isSecretLevelActive: false, // NOVO: Flag para identificar se o nível secreto está ativo
-            totalQuestions: 0, 
+            totalQuestions: 0,
             highScore: 0,
             scoreAtLevelStart: 0,
             consecutiveCorrectAnswers: 0,
             highestCombo: 0,
             comboPointsEarned: 0,
             unlockedAchievements: {},
-            fiftyFiftyCount: INITIAL_FIFTY_FIFTY, 
-            skipQuestionCount: INITIAL_SKIP_QUESTION 
+            fiftyFiftyCount: INITIAL_FIFTY_FIFTY,
+            skipQuestionCount: INITIAL_SKIP_QUESTION
+        };
+
+        // --- NOVO: Estado do Jogo Bônus Fã (Musical) ---
+        const bonusGameState = {
+            songsToGuess: [], // Cópia embaralhada das músicas da playlist
+            currentBonusSong: null, // A música que está tocando agora
+            currentBonusSongIndex: 0,
+            bonusCorrectCount: 0,
+            bonusErrorsCount: 0,
+            maxBonusErrors: 3, // Limite de erros no modo bônus
+            isBonusActive: false, // Flag para saber se estamos no modo bônus
+            lastQuizState: null // Para guardar o estado do quiz principal ao entrar no bônus
         };
 
         // Variáveis de controle de tempo
         let timerInterval = null;
-        let questionStartTime = 0; 
+        let questionStartTime = 0;
 
         // Estado do Player de áudio
         let playerState = {
@@ -2244,8 +2413,8 @@
             originalPlaylist: [],
             currentIndex: 0,
             isShuffling: false,
-            repeatMode: 0, 
-            previousVolume: 0.4 
+            repeatMode: 0, // 0: no repeat, 1: repeat all, 2: repeat one
+            previousVolume: 0.4
         };
 
         // --- Funções Auxiliares (Preload, Shuffle, Format Time) ---
@@ -2298,9 +2467,77 @@
             return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
+        // NOVO: Função para normalizar texto (agora bem mais robusta para títulos de músicas)
+        function normalizeText(text) {
+            if (!text) return ''; // Garante que a função não falhe com entradas nulas ou vazias
+
+            let normalized = text.normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "") // Remove diacríticos (acentos)
+                .toLowerCase()
+                .trim();
+
+            // --- Regras específicas para TÍTULOS DE MÚSICA (Adicionadas/Aprimoradas) ---
+
+            // 1. Remover o nome da banda e variações comuns no início ou em qualquer lugar
+            // `\b` para word boundary (limite de palavra), `\s*` para zero ou mais espaços, `[-–.]?` para separadores opcionais
+            normalized = normalized.replace(/\bcharlie brown jr\b\s*[-–.]?/g, '');
+            normalized = normalized.replace(/\bcbjr\b\s*[-–.]?/g, '');
+            
+            // 2. Remover prefixos de projetos/eventos comuns no início do título, seguidos por separador
+            // Adicione outros nomes de projetos/séries/álbuns que possam aparecer no início do título
+            // Ex: "Estúdio Coca-Cola Zero", "Acústico MTV", "Ao Vivo", "Unplugged"
+            normalized = normalized.replace(/\s*(estudio coca-cola zero|acustico mtv|ao vivo|unplugged)\s*[:–—\s]?/g, '');
+            
+            // 3. Remover termos de colaboração e participações
+            // Ex: "feat. artista", "part. artista", "ft. artista", "com artista", "e artista"
+            // A ordem aqui importa! Remova "com" ANTES de outros termos que possam conter "com".
+            normalized = normalized.replace(/\s*(feat|ft|part)\.?\s*[\w\s.]+/g, ''); // Remove "feat.", "ft.", "part." e o que vier depois
+            normalized = normalized.replace(/\s*(e|com)\s+[\w\s.]+/g, ''); // Remove "e artista", "com artista"
+            
+            // 4. Remover descrições de versão/formato e palavras comuns não essenciais ao título
+            // Ex: (Lyric Video), (Ao Vivo), remix, instrumental
+            // Ordem importa: remover parênteses/colchetes ANTES de remover seu conteúdo como palavras soltas.
+            normalized = normalized.replace(/[\(\[].*?[\)\]]/g, ''); // Remove qualquer coisa entre () ou [] (ex: " (Lyric Video)")
+            
+            normalized = normalized.replace(/\s*(lyric video|official video|video oficial|versao|version)\s*/g, '');
+            normalized = normalized.replace(/\s*remix\s*/g, '');
+            normalized = normalized.replace(/\s*instrumental\s*/g, '');
+
+            // 5. Substituir travessões, dois pontos e outros separadores comuns por um espaço simples
+            // Isso evita "colar" palavras como "Música - Tema" virando "músicatema"
+            normalized = normalized.replace(/[-–—:]/g, ' ');
+
+            // 6. Remover qualquer pontuação restante que não seja letra, número ou espaço
+            // Este deve ser um dos últimos passos para evitar remover caracteres úteis antes.
+            normalized = normalized.replace(/[^a-z0-9\s]/g, '');
+
+            // 7. Tratamento para números por extenso ou símbolos comuns em títulos de música
+            normalized = normalized.replace(/(\d)\s*[\+\-\s]?(mais|plus|e)\s*(\d)/g, '$1 $2 $3'); // Ex: "12 + 1" -> "12 mais 1" (para "12+1" ou "12 mais 1")
+            normalized = normalized.replace(/doze/g, '12');
+            normalized = normalized.replace(/um/g, '1');
+            normalized = normalized.replace(/vinte e cinco/g, '25');
+            // Adicione mais mapeamentos se você encontrar outras variações comuns (ex: "tres" -> "3", "quatro" -> "4")
+
+            // 8. Substituir múltiplos espaços por um único espaço
+            normalized = normalized.replace(/\s+/g, ' ');
+
+            // Remover espaços extras no início e fim após todas as substituições
+            normalized = normalized.trim();
+
+            return normalized;
+        }
+
         // --- Funções do Player de Áudio ---
-        function loadSong() {
-            if (!playerState.playlist.length) {
+        function loadSong(song = null) {
+            let currentSongData;
+
+            if (song) {
+                // Se uma música específica foi passada (usada no modo bônus)
+                currentSongData = song;
+            } else if (playerState.playlist.length > 0) {
+                // Caso contrário, carrega da playlist normal
+                currentSongData = playerState.playlist[playerState.currentIndex];
+            } else {
                 elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
                 elements.playPauseBtn.disabled = true;
                 elements.prevBtn.disabled = true;
@@ -2311,8 +2548,8 @@
                 elements.volumeSlider.disabled = true;
                 return;
             }
-            const song = playerState.playlist[playerState.currentIndex];
-            elements.audio.src = song.url;
+
+            elements.audio.src = currentSongData.url;
 
             elements.playPauseBtn.disabled = false;
             elements.prevBtn.disabled = false;
@@ -2324,13 +2561,23 @@
 
             elements.audio.volume = playerState.previousVolume;
             elements.volumeSlider.value = playerState.previousVolume;
-            elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
+            elements.volumeValueSpan.textContent = `${Math.round(elements.audio.volume * 100)}%`;
 
-            elements.currentTimeSpan.textContent = '0:00';
-            elements.totalDurationSpan.textContent = '0:00';
+            // NOVO: Controla a visibilidade do tempo da música no modo bônus
+            if (bonusGameState.isBonusActive) {
+                elements.currentTimeSpan.textContent = '0:00';
+                elements.totalDurationSpan.textContent = ''; // Esconde duração total
+            } else {
+                elements.currentTimeSpan.textContent = '0:00';
+                elements.totalDurationSpan.textContent = '0:00';
+            }
+
+
             elements.audio.onloadedmetadata = () => {
                 if (!isNaN(elements.audio.duration) && elements.audio.duration > 0) {
-                    elements.totalDurationSpan.textContent = formatTime(elements.audio.duration);
+                    if (!bonusGameState.isBonusActive) { // Só mostra duração total se não estiver no bônus
+                        elements.totalDurationSpan.textContent = formatTime(elements.audio.duration);
+                    }
                 }
             };
             elements.audio.oncanplaythrough = () => {
@@ -2339,65 +2586,63 @@
                 }
                 
                 // Limpar conteúdo e resetar estilos para medição e exibição
-                elements.currentSongText.innerHTML = ''; 
+                elements.currentSongText.innerHTML = '';
                 elements.currentSongText.classList.remove('should-marquee');
-                
+
+                let displayText = currentSongData.title;
+                // NOVO: Se o modo bônus está ativo, não mostra o título da música no player
+                if (bonusGameState.isBonusActive) {
+                    displayText = 'Adivinhe a Música...'; // Ou algo como '???', 'Nome Secreto'
+                }
+
                 // Criar um span temporário para medir a largura real do texto
                 const tempSpan = document.createElement('span');
                 tempSpan.style.visibility = 'hidden';
-                tempSpan.style.position = 'absolute'; 
+                tempSpan.style.position = 'absolute';
                 tempSpan.style.whiteSpace = 'nowrap';
                 // Para garantir que a medição seja com o mesmo estilo
                 tempSpan.style.fontSize = window.getComputedStyle(elements.currentSongText).fontSize;
                 tempSpan.style.fontWeight = window.getComputedStyle(elements.currentSongText).fontWeight;
-                tempSpan.textContent = song.title;
+                tempSpan.textContent = displayText; // Usar o displayText
                 document.body.appendChild(tempSpan); // Adiciona ao body para medir
 
                 const textWidth = tempSpan.offsetWidth; // Largura real do texto
                 document.body.removeChild(tempSpan); // Remove o span temporário
 
                 // Largura visível do elemento P#current-song (o container)
-                const containerWidth = elements.currentSongText.offsetWidth; 
+                const containerWidth = elements.currentSongText.offsetWidth;
 
                 if (textWidth > containerWidth) {
                     // Texto é longo, configurar marquee
                     const marqueeSpan = document.createElement('span');
                     // Duplica o texto para o loop contínuo. Adiciona um espaço extra entre as cópias
-                    // Aumentei o número de espaços para ficar más visível a separação
-                    marqueeSpan.textContent = song.title + ' \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ' + song.title; 
+                    marqueeSpan.textContent = displayText + ' \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ' + displayText;
                     elements.currentSongText.appendChild(marqueeSpan);
 
                     // Força um reflow após adicionar o texto duplicado para medir corretamente o marqueeSpan
-                    void marqueeSpan.offsetWidth; 
+                    void marqueeSpan.offsetWidth;
 
                     // A distância que o texto precisa percorrer é a largura de uma única cópia do texto
-                    // (medido anteriormente como `textWidth`).
-                    // O valor deve ser negativo para rolar para a esquerda.
-                    const scrollDistance = -textWidth; 
+                    const scrollDistance = -textWidth;
                     marqueeSpan.style.setProperty('--marquee-distance', `${scrollDistance}px`);
 
-                    // Calcular a duração da animação: proporcional à largura do texto que está rolando
-                    // Ajuste a velocidade (pixels por segundo) para controlar o quão rápido o texto se move
                     const speed = 25; // pixels por segundo
                     const duration = textWidth / speed; // Tempo em segundos para rolar uma cópia inteira
 
-                    // Aplicar a animação ao span interno
                     marqueeSpan.style.animation = `marquee-text ${duration}s linear infinite`;
                     
-                    // Adicionar a classe ao P#current-song para garantir overflow e alinhamento
                     elements.currentSongText.classList.add('should-marquee');
-                    // O text-align do #current-song será sobrescrito se for marquee
-                    elements.currentSongText.style.textAlign = 'left'; 
+                    elements.currentSongText.style.textAlign = 'left';
 
                 } else {
                     // Texto é curto, apenas exibe centralizado
-                    elements.currentSongText.textContent = song.title;
+                    elements.currentSongText.textContent = displayText; // Usar o displayText
                     elements.currentSongText.style.textAlign = 'center';
                 }
             };
             elements.audio.onerror = (e) => {
                 console.error("Erro ao carregar áudio:", e);
-                elements.currentSongText.textContent = `Erro ao carregar ${song.title}`;
+                elements.currentSongText.textContent = `Erro ao carregar ${currentSongData.title}`;
                 elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
             };
         }
@@ -2412,9 +2657,15 @@
                     if (e.name === "NotAllowedError" && elements.audio.paused) {
                         elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
                         elements.currentSongText.textContent = `${playerState.playlist[playerState.currentIndex] ? playerState.playlist[playerState.currentIndex].title : 'N/A'} (Clique ▶️ para tocar)`;
+                        if (bonusGameState.isBonusActive) { // Se estiver no modo bônus, esconde o título mesmo com erro de autoplay
+                            elements.currentSongText.textContent = 'Aguardando interação para tocar...';
+                        }
                     } else {
                         console.error('Erro de reprodução inesperado:', e);
                         elements.currentSongText.textContent = `${playerState.playlist[playerState.currentIndex] ? playerState.playlist[playerState.currentIndex].title : 'Erro ao tocar'}`;
+                        if (bonusGameState.isBonusActive) { // Se estiver no modo bônus, esconde o título mesmo com erro de autoplay
+                            elements.currentSongText.textContent = 'Erro ao carregar (Tente novamente)';
+                        }
                         elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
                     }
                 });
@@ -2477,7 +2728,10 @@
                 elements.progressBar.style.width = `${progressPercent}%`;
 
                 elements.currentTimeSpan.textContent = formatTime(currentTime);
-                elements.totalDurationSpan.textContent = formatTime(duration);
+                // NOVO: Esconde a duração total se estiver no modo bônus
+                if (!bonusGameState.isBonusActive) {
+                    elements.totalDurationSpan.textContent = formatTime(duration);
+                }
             } else {
                 elements.progressBar.style.width = '0%';
                 elements.currentTimeSpan.textContent = '0:00';
@@ -2497,6 +2751,14 @@
 
         function handleSongEnd() {
             if (playerState.playlist.length === 0) return;
+
+            // NOVO: Se estiver no modo bônus e a música terminar, carrega a próxima
+            if (bonusGameState.isBonusActive) {
+                // A música deve tocar em loop no modo bônus, não ir para a próxima automaticamente
+                elements.audio.currentTime = 0;
+                playSong();
+                return;
+            }
 
             if (playerState.repeatMode === 2) {
                 elements.audio.currentTime = 0;
@@ -2602,22 +2864,26 @@
         // Funções para controlar a visibilidade da overlay principal
         function showMainOverlay() {
             elements.mainOverlay.style.display = 'block';
-            elements.mainOverlay.classList.add('active');
+            // Usa setTimeout para garantir que o display:block seja aplicado antes da transição
+            setTimeout(() => {
+                elements.mainOverlay.classList.add('active');
+            }, 10);
         }
 
         function hideMainOverlay() {
             elements.mainOverlay.classList.remove('active');
-            setTimeout(() => {
+            elements.mainOverlay.addEventListener('transitionend', function handler() {
                 elements.mainOverlay.style.display = 'none';
-            }, 500); // Tempo da transição CSS
+                elements.mainOverlay.removeEventListener('transitionend', handler);
+            }, { once: true });
         }
 
         function showIntroMessage() {
             console.log("showIntroMessage: Exibindo tela de introdução.");
-            quizState.quizPaused = true; // Pausa o quiz
-            showMainOverlay(); // Mostra a overlay principal
+            quizState.quizPaused = true;
+            showMainOverlay();
             
-            elements.quiz.innerHTML = ''; // Limpa qualquer conteúdo anterior do quiz
+            elements.quiz.innerHTML = '';
 
             elements.levelUpMessage.innerHTML = `
                 <div>
@@ -2635,26 +2901,40 @@
                     </ul>
                 </div>
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                    <button id="start-quiz-button" onclick="startQuiz()">Entendi! Começar!</button>
-                    <button id="show-achievements-button" onclick="showAchievementsScreen()">Conquistas</button>
-                    <button id="show-ranking-button-intro" onclick="showRankingScreen()">Ranking Online</button> </div>
+                    <button id="start-quiz-button-intro">Entendi! Começar!</button>
+                    <button id="show-achievements-button-intro">Conquistas</button>
+                    <button id="show-ranking-button-intro">Ranking Online</button>
+                    <button id="start-bonus-music-btn">Bônus Fã: Adivinhe a Música!</button> </div>
                 `;
-            elements.levelUpMessage.style.display = 'flex'; // Mostra a mensagem
+            elements.levelUpMessage.style.display = 'flex';
             elements.levelUpMessage.classList.add('show');
             // Garante que o quiz e o restart button não apareçam enquanto a intro está ativa
             elements.quiz.style.display = 'none';
             elements.restartBtn.style.display = 'none';
-            elements.livesDisplay.style.display = 'none'; // Garante que vidas estejam escondidas
-            elements.powerUpsContainer.style.display = 'none'; // Garante que power-ups estejam escondidos
+            elements.livesDisplay.style.display = 'none';
+            elements.powerUpsContainer.style.display = 'none';
+
+            // ATUALIZA AS REFERÊNCIAS DOS BOTÕES PARA OS NOVOS ELEMENTOS CRIADOS
+            // Usar onclick para sobrescrever listeners antigos e evitar duplicação.
+            elements.startQuizButton = document.getElementById('start-quiz-button-intro');
+            elements.showAchievementsButton = document.getElementById('show-achievements-button-intro');
+            elements.showRankingButtonIntro = document.getElementById('show-ranking-button-intro');
+            elements.startBonusMusicBtn = document.getElementById('start-bonus-music-btn');
+
+            elements.startQuizButton.onclick = startQuiz;
+            elements.showAchievementsButton.onclick = showAchievementsScreen;
+            elements.showRankingButtonIntro.onclick = showRankingScreen;
+            elements.startBonusMusicBtn.onclick = showBonusMusicScreen;
         }
 
         function startQuiz() {
             console.log("startQuiz: Iniciando o quiz.");
-            elements.levelUpMessage.classList.remove('show'); 
-            hideMainOverlay(); // Esconde a overlay principal
-            
-            setTimeout(() => {
-                elements.levelUpMessage.style.display = 'none'; // Esconde display da mensagem
+            elements.levelUpMessage.classList.remove('show');
+            elements.levelUpMessage.addEventListener('transitionend', function handler() {
+                elements.levelUpMessage.style.display = 'none';
+                elements.levelUpMessage.removeEventListener('transitionend', handler);
+                hideMainOverlay(); // Esconde a overlay principal após a transição
+                
                 elements.quiz.style.display = 'flex'; // Torna o quiz visível
 
                 // Resetar o quizState completamente para um novo jogo
@@ -2672,13 +2952,12 @@
                     isSecretLevelActive: false, // Garante que não está no nível secreto
                     totalQuestions: 0, // Recalcular em loadLevel se necessário
                     highScore: quizState.highScore, // Manter o high score carregado
-                    scoreAtLevelStart: 0,
                     consecutiveCorrectAnswers: 0,
                     highestCombo: 0,
                     comboPointsEarned: 0,
                     unlockedAchievements: quizState.unlockedAchievements, // Manter conquistas desbloqueadas
-                    fiftyFiftyCount: INITIAL_FIFTY_FIFTY, // Inicializa o contador 50/50
-                    skipQuestionCount: INITIAL_SKIP_QUESTION // Inicializa o contador Pular Pergunta
+                    fiftyFiftyCount: INITIAL_FIFTY_FIFTY,
+                    skipQuestionCount: INITIAL_SKIP_QUESTION
                 });
                 
                 elements.quiz.style.pointerEvents = 'all'; // Habilita o quiz para interação
@@ -2699,18 +2978,27 @@
                 } else {
                     console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
                     elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
+                    elements.playPauseBtn.disabled = true;
+                    elements.prevBtn.disabled = true;
+                    elements.nextBtn.disabled = true;
+                    elements.repeatBtn.disabled = true;
+                    elements.shuffleBtn.disabled = true;
+                    elements.muteBtn.disabled = true;
+                    elements.volumeSlider.disabled = true;
                 }
                 loadLevel(true); // Inicia o primeiro nível do quiz
-            }, 500); // Aguarda a transição de saída da mensagem
+            }, { once: true }); // Garante que a transição de opacidade do levelUpMessage termine
         }
 
         // NOVO: Função para iniciar o nível secreto
         function startSecretLevel() {
             console.log("startSecretLevel: Iniciando o Nível Secreto.");
             elements.completionScreen.classList.remove('show', 'shake-animation');
-            hideMainOverlay(); // Esconde a overlay principal
-            setTimeout(() => {
+            elements.completionScreen.addEventListener('transitionend', function handler() {
                 elements.completionScreen.style.display = 'none';
+                elements.completionScreen.removeEventListener('transitionend', handler);
+                hideMainOverlay();
+                
                 elements.quiz.style.display = 'flex';
                 quizState.quizPaused = false;
                 quizState.isProcessingAnswer = false;
@@ -2724,7 +3012,7 @@
                 quizState.consecutiveCorrectAnswers = 0; // Reseta combo para o nível secreto
 
                 loadLevel(true); // Carrega o nível secreto
-            }, 500);
+            }, { once: true });
         }
 
         function loadLevel(isStartOfQuiz = false) {
@@ -2733,13 +3021,13 @@
             const oldCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (oldCuriositySidebar) {
                 oldCuriositySidebar.classList.remove('show');
-                setTimeout(() => { // Garante que a curiosidade suma antes de limpar o HTML
+                oldCuriositySidebar.addEventListener('transitionend', function handler() {
                     oldCuriositySidebar.innerHTML = '';
-                }, 500);
+                    oldCuriositySidebar.removeEventListener('transitionend', handler);
+                }, { once: true });
             }
 
             // Lógica para quando o jogador completa os N níveis principais (antes do nível secreto)
-            // Se o nível atual é o último dos níveis "principais" (totalMainLevels-1) e não estamos no nível secreto
             if (!quizState.isSecretLevelActive && quizState.currentLevel === quizState.totalMainLevels) {
                 console.log("loadLevel: Todos os níveis principais completados. Desbloqueando conquista 'Mestre da Vibe' e exibindo tela de conclusão.");
                 unlockAchievement("all_main_levels_completed");
@@ -2748,7 +3036,6 @@
             }
 
             // Lógica para quando o jogador completa o Nível Secreto (se ele estiver ativo)
-            // currentLevel agora pode ser igual a questionsByLevel.length, que é o último índice
             if (quizState.isSecretLevelActive && quizState.currentQuestionIndexInLevel >= questionsByLevel[quizState.currentLevel].perguntas.length) {
                 console.log("loadLevel: Nível Secreto completado. Finalizando jogo (vitória final).");
                 unlockAchievement("secret_level_completed"); // Conquista para o nível secreto
@@ -2766,7 +3053,7 @@
             // --- Lógica de Recuperação de Vida ---
             // Recupera vida: APENAS SE Nível > 0 (não é o primeiro nível) E ZEROU ERROS NO NÍVEL ANTERIOR E NÃO ESTÁ COM VIDAS NO MÁXIMO
             const hasRecoveredLife = (quizState.currentLevel > 0 && quizState.errorsInCurrentLevel === 0 && quizState.lives < MAX_LIVES);
-            if (hasRecoveredLife) { 
+            if (hasRecoveredLife) {
                 quizState.lives = Math.min(MAX_LIVES, quizState.lives + LIVES_RECOVER_PER_LEVEL);
                 updateLivesDisplay();
                 console.log(`loadLevel: Vidas recuperadas por ter acertado tudo no nível anterior! Novas vidas: ${quizState.lives}`);
@@ -2781,18 +3068,17 @@
             quizState.currentLevelQuestions = [...questionsByLevel[quizState.currentLevel].perguntas];
             shuffleArray(quizState.currentLevelQuestions);
 
-            if (!isStartOfQuiz && quizState.currentLevel > 0 && !quizState.isSecretLevelActive) { // Não mostra LevelUpMessage para o nível secreto
-                // Se não é a primeira vez que o quiz carrega e o nível atual é > 0, significa que avançou de nível.
+            // Chamada original para mostrar a mensagem de level-up
+            if (!isStartOfQuiz && quizState.currentLevel > 0 && !quizState.isSecretLevelActive) {
                 console.log("loadLevel: Avançou para um novo nível. Mostrando mensagem de level-up.");
-                // Passar o número de erros do NÍVEL ANTERIOR E se a vida foi recuperada para a mensagem
-                showLevelUpMessage(errorsInPreviousLevel, hasRecoveredLife); 
+                showLevelUpMessage(errorsInPreviousLevel, hasRecoveredLife);
             } else if (isStartOfQuiz || quizState.isSecretLevelActive) {
-                // Se é o início do quiz ou está começando o nível secreto, vai direto para a pergunta
                 console.log("loadLevel: Carregando primeira pergunta do nível atual (início do quiz ou nível secreto).");
-                showQuestion(); 
+                showQuestion();
                 updateQuizInfo();
             }
         }
+
 
         // NOVO: Função para mostrar a tela de conclusão dos níveis principais
         function showCompletionScreen() {
@@ -2810,8 +3096,18 @@
             elements.completionScreen.style.display = 'flex';
             elements.completionScreen.classList.add('show');
             elements.completionScreen.classList.add('shake-animation'); // Aplica o tremor
+
+            // Re-atribuir listeners para os botões da tela de conclusão AQUI
+            elements.startSecretLevelBtn.onclick = startSecretLevel;
+            elements.restartFromCompletionBtn.onclick = restartQuiz;
+
+            // Opcional: focar no primeiro botão para permitir navegação com TAB/Enter
+            setTimeout(() => {
+                elements.startSecretLevelBtn.focus();
+            }, 100);
         }
 
+        // Função original de showLevelUpMessage, reativada para sua funcionalidade inicial
         function showLevelUpMessage(errorsInPreviousLevel = 0, hasRecoveredLife = false) {
             console.log(`showLevelUpMessage: Exibindo mensagem de avanço de nível. Erros no nível anterior: ${errorsInPreviousLevel}. Recuperou vida: ${hasRecoveredLife}`);
             quizState.quizPaused = true; // Pausa o quiz
@@ -2844,28 +3140,35 @@
                 <div class="chorao-quote" style="margin-top: 0px; margin-bottom: 20px;">"${currentLevelFraseChorao}"</div>
                 ${livesFeedbackMessage}
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                    <button onclick="continueQuiz()">Avançar</button>
+                    <button id="continue-quiz-btn">Avançar</button>
                 </div>
-            `;
+                `;
 
             elements.levelUpMessage.style.display = 'flex';
             elements.levelUpMessage.classList.add('show');
+
+            // Adiciona listener para o botão "Avançar"
+            document.getElementById('continue-quiz-btn').onclick = continueQuiz;
         }
 
+        // A função continueQuiz() agora volta a carregar a pergunta diretamente
         function continueQuiz() {
-            console.log("continueQuiz: Continuando o quiz após mensagem de level-up.");
+            console.log("continueQuiz: Continuando o quiz após mensagem de level-up (frase do Chorão).");
             elements.levelUpMessage.classList.remove('show');
-            hideMainOverlay(); // Esconde a overlay principal
-            setTimeout(() => {
+            elements.levelUpMessage.addEventListener('transitionend', function handler() {
                 elements.levelUpMessage.style.display = 'none';
+                elements.levelUpMessage.removeEventListener('transitionend', handler);
+                hideMainOverlay(); // Esconde a overlay principal
+                
                 quizState.quizPaused = false; // Despausa o quiz
-                // isProcessingAnswer será setado em showQuestion como false
+                quizState.isProcessingAnswer = false; // Garante que não está processando
                 elements.quiz.style.pointerEvents = 'all';
 
-                showQuestion();
+                showQuestion(); // Exibe a primeira pergunta do novo nível
                 updateQuizInfo();
-            }, 500); // Tempo para a transição de saída da mensagem
+            }, { once: true }); // Executa o handler apenas uma vez ao final da transição
         }
+
 
         function updateQuizInfo() {
             elements.scoreText.textContent = `Pontos: ${quizState.score}`;
@@ -2873,7 +3176,7 @@
             let totalDisplayLevels = quizState.totalMainLevels; // Inicia com o total de níveis principais
 
             if (quizState.isSecretLevelActive) {
-                displayLevel = "Secreto"; 
+                displayLevel = "Secreto";
                 totalDisplayLevels = quizState.totalMainLevels + 1; // Ajusta o total para incluir o secreto
                 elements.levelText.textContent = `Nível: ${displayLevel}/${totalDisplayLevels}`;
             } else {
@@ -2900,11 +3203,11 @@
         function updatePowerUpCounts() {
             if (elements.fiftyFiftyCount) { // Verifica se o elemento existe
                 elements.fiftyFiftyCount.textContent = quizState.fiftyFiftyCount;
-                elements.fiftyFiftyBtn.disabled = quizState.fiftyFiftyCount === 0;
+                elements.fiftyFiftyBtn.disabled = quizState.fiftyFiftyCount === 0 || quizState.isProcessingAnswer || quizState.quizPaused;
             }
             if (elements.skipQuestionCount) { // Verifica se o elemento existe para o botão "Pular"
                 elements.skipQuestionCount.textContent = quizState.skipQuestionCount;
-                elements.skipQuestionBtn.disabled = quizState.skipQuestionCount === 0;
+                elements.skipQuestionBtn.disabled = quizState.skipQuestionCount === 0 || quizState.isProcessingAnswer || quizState.quizPaused;
             }
         }
 
@@ -2912,7 +3215,7 @@
         function useFiftyFifty() {
             console.log("useFiftyFifty: Tentando usar 50/50.");
             // Só permite usar se não estiver processando uma resposta ou se já foi clicado.
-            if (quizState.isProcessingAnswer || quizState.fiftyFiftyCount <= 0) {
+            if (quizState.isProcessingAnswer || quizState.fiftyFiftyCount <= 0 || quizState.quizPaused) {
                 console.log("Não é possível usar 50/50 agora. isProcessingAnswer:", quizState.isProcessingAnswer, "fiftyFiftyCount:", quizState.fiftyFiftyCount);
                 return;
             }
@@ -2926,7 +3229,7 @@
 
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
             const buttons = Array.from(elements.quiz.querySelectorAll('.answer-button'));
-            const incorrectButtons = buttons.filter(btn => btn.dataset.answer !== questionData.correta);
+            const incorrectButtons = buttons.filter(btn => normalizeText(btn.dataset.answer) !== normalizeText(questionData.correta)); // Usar normalizeText
 
             shuffleArray(incorrectButtons);
             // Desabilita as duas primeiras respostas incorretas encontradas
@@ -2941,7 +3244,7 @@
         // NOVO: Função para pular pergunta
         function skipQuestion() {
             console.log("skipQuestion: Tentando usar Pular Pergunta.");
-            if (quizState.isProcessingAnswer || quizState.skipQuestionCount <= 0) {
+            if (quizState.isProcessingAnswer || quizState.skipQuestionCount <= 0 || quizState.quizPaused) {
                 console.log("Não é possível pular pergunta agora. isProcessingAnswer:", quizState.isProcessingAnswer, "skipQuestionCount:", quizState.skipQuestionCount);
                 return;
             }
@@ -2979,7 +3282,7 @@
 
             if (COMBO_BONUS.hasOwnProperty(combo)) {
                 // Aqui o nome da conquista já é o nome do CD.
-                message = `${achievements[`combo_${combo}x`].name} - ${combo} acertos seguidos!`; 
+                message = `${achievements[`combo_${combo}x`].name} - ${combo} acertos seguidos!`;
                 bonusPoints = COMBO_BONUS[combo];
                 unlockAchievement(`combo_${combo}x`);
             } else if (combo > 10 && combo % 5 === 0) {
@@ -3006,12 +3309,14 @@
         function showAchievementPopup(achievementName) {
             elements.achievementPopup.textContent = `Conquista: ${achievementName} Desbloqueada!`;
             elements.achievementPopup.classList.add('show');
-            elements.achievementPopup.style.zIndex = Math.max(2500, elements.mainOverlay.style.zIndex + 1);
+            elements.achievementPopup.style.zIndex = Math.max(2500, elements.mainOverlay.style.zIndex + 1); // Garante que esteja acima da overlay
 
-            setTimeout(() => {
+            elements.achievementPopup.addEventListener('animationend', function handler() {
                 elements.achievementPopup.classList.remove('show');
                 elements.achievementPopup.style.display = 'none';
-            }, 3000);
+                elements.achievementPopup.removeEventListener('animationend', handler);
+            }, { once: true });
+            elements.achievementPopup.style.display = 'block'; // Ativa o display para a animação começar
         }
 
         function unlockAchievement(achievementId) {
@@ -3048,11 +3353,25 @@
         // ALTERADO: showAchievementsScreen para adicionar listeners de clique aos cards dinamicamente
         function showAchievementsScreen() {
             console.log("showAchievementsScreen: Exibindo tela de conquistas.");
+            // NOVO: Salva o local de onde a tela de conquistas foi aberta
+            quizState.originScreen = 'intro'; // Define a origem padrão
+            if (elements.quiz.style.display === 'flex') { // Se o quiz principal está visível
+                quizState.originScreen = 'quiz';
+            }
+
+
             quizState.quizPaused = true;
+            elements.quiz.style.pointerEvents = 'none'; // Desabilita o quiz
             showMainOverlay(); // Mostra a overlay principal
             elements.levelUpMessage.classList.remove('show');
             elements.levelUpMessage.style.display = 'none';
             elements.rankingScreen.classList.remove('show'); // Garante que o ranking está escondido
+            elements.rankingScreen.style.display = 'none';
+            elements.completionScreen.classList.remove('show', 'shake-animation');
+            elements.completionScreen.style.display = 'none';
+            elements.bonusMusicScreen.classList.remove('show'); // Garante que o bônus musical está escondido
+            elements.bonusMusicScreen.style.display = 'none';
+
 
             elements.achievementsScreen.style.display = 'flex';
             elements.achievementsScreen.classList.add('show');
@@ -3064,15 +3383,15 @@
                 const cdB = achievementCdCovers[b];
                 
                 // Trata caso onde coverFile não existe ou cdNames não tem o mapeamento
-                const nameA = cdNames[cdA] || achievements[a].name; 
+                const nameA = cdNames[cdA] || achievements[a].name;
                 const nameB = cdNames[cdB] || achievements[b].name;
 
                 // Extrair o ano de lançamento para a ordenação
                 const yearMatchA = nameA.match(/\((\d{4})\)/);
-                const yearA = yearMatchA ? parseInt(yearMatchA[1]) : 9999; 
+                const yearA = yearMatchA ? parseInt(yearMatchA[1]) : 9999;
                 
                 const yearMatchB = nameB.match(/\((\d{4})\)/);
-                const yearB = yearMatchB ? parseInt(yearMatchB[1]) : 9999; 
+                const yearB = yearMatchB ? parseInt(yearMatchB[1]) : 9999;
 
                 // Se os anos são diferentes, ordene por ano
                 if (yearA !== yearB) {
@@ -3097,7 +3416,7 @@
                 card.addEventListener('click', (event) => {
                     event.stopPropagation(); // Evita que o clique se propague para a overlay
                     showAchievementDetailPopup(id);
-                }); 
+                });
 
                 card.innerHTML = `
                     <h3>
@@ -3108,9 +3427,12 @@
                 `;
                 elements.achievementsList.appendChild(card);
             });
+
+            // Re-atribuir listener para o botão de fechar a tela de conquistas
+            elements.closeAchievementsBtn.onclick = closeAchievementsScreen;
         }
 
-        // ALTERADO: showAchievementDetailPopup para controlar a exibição da capa
+        // RESTAURADO: showAchievementDetailPopup para controlar a exibição da capa
         function showAchievementDetailPopup(id) {
             const achievement = achievements[id];
             if (!achievement) return;
@@ -3126,9 +3448,9 @@
             if (achievement.unlocked && coverFileName) { // AQUI: Verifica se está desbloqueada E se tem nome de arquivo de capa
                 elements.detailAchievementCover.src = coverUrl;
                 elements.detailAchievementCover.alt = `Capa do CD ${achievement.name}`; // Melhorar alt text
-                elements.detailAchievementCover.style.display = 'block'; // Mostra a imagem
-                elements.detailAchievementCdName.textContent = `CD: ${achievement.name}`; // Usa o nome da conquista como nome do CD
+                elements.detailAchievementCdName.textContent = `CD: ${cdNames[coverFileName] || achievement.name}`; // Usa o nome da conquista como nome do CD
                 elements.detailAchievementCdName.style.display = 'block';
+                elements.detailAchievementCover.style.display = 'block';
             } else {
                 elements.detailAchievementCover.style.display = 'none'; // Esconde a imagem
                 elements.detailAchievementCover.src = ''; // Limpa a src para evitar quebras
@@ -3141,41 +3463,58 @@
             elements.detailAchievementStatus.classList.toggle('locked', !achievement.unlocked);
 
             // NOVO: Certifica-se que o pop-up esteja visível (display: flex) antes de adicionar a classe 'show' para transição
-            elements.achievementDetailPopup.style.display = 'flex'; 
+            elements.achievementDetailPopup.style.display = 'flex';
             elements.achievementDetailPopup.classList.add('show');
             showMainOverlay(); // Mostra a overlay principal
             quizState.quizPaused = true; // Pausa o quiz
+
+            elements.closeAchievementDetailPopupBtn.onclick = closeAchievementDetailPopup;
         }
 
         // NOVO: Função para fechar o pop-up de detalhes da conquista (ajustada para display: none)
         function closeAchievementDetailPopup() {
             elements.achievementDetailPopup.classList.remove('show');
-            setTimeout(() => {
+            elements.achievementDetailPopup.addEventListener('transitionend', function handler() {
                 elements.achievementDetailPopup.style.display = 'none'; // Esconde completamente após a transição
-                hideMainOverlay(); // Esconde a overlay principal
-                quizState.quizPaused = false; // Despausa o quiz
-            }, 300); // Tempo da transição de opacidade
+                elements.achievementDetailPopup.removeEventListener('transitionend', handler);
+                // Não esconde a main-overlay aqui, pois a tela de conquistas ainda está ativa por baixo.
+                // Não despausa o quiz, pois a tela de conquistas/introdução ainda está ativa.
+            }, { once: true });
         }
 
 
         function closeAchievementsScreen() {
-            console.log("closeAchievementsScreen: Fechando tela de conquistas.");
+            console.log("closeAchievementsScreen: Fechando tela de conquistas e voltando para a introdução.");
             elements.achievementsScreen.classList.remove('show');
-            setTimeout(() => {
+            // Adiciona um listener para a transição terminar antes de esconder completamente
+            elements.achievementsScreen.addEventListener('transitionend', function handler() {
                 elements.achievementsScreen.style.display = 'none';
-                showIntroMessage(); // Volta para a tela de introdução
-            }, 500);
+                elements.achievementsScreen.removeEventListener('transitionend', handler); // Remove o listener para evitar execuções múltiplas
+
+                hideMainOverlay(); // Esconde a overlay principal
+
+                // Sempre volta para a tela de introdução (menu principal)
+                showIntroMessage(); 
+
+                // Garante que o áudio não está pausado se não deveria estar (ex: se player estava ativo na intro)
+                // (O showIntroMessage() já cuida de redefinir o estado do quiz/player para a intro,
+                // mas é bom garantir que o áudio continue se não foi pausado intencionalmente)
+                if (!elements.audio.paused && !bonusGameState.isBonusActive) { // Certifica-se que não estamos no bonus
+                    playSong(); 
+                }
+
+            }, { once: true }); // Garante que este listener seja executado apenas uma vez
         }
 
         // Funções de Estatísticas (NÃO implementadas nesta versão para simplificar)
         function showStatisticsScreen() {
             console.log("showStatisticsScreen: Tela de Estatísticas não implementada nesta versão. Redirecionando para o reinício do quiz.");
-            restartQuiz(); 
+            restartQuiz();
         }
 
         function closeStatisticsScreen() {
             console.log("closeStatisticsScreen: Fechando tela de estatísticas (não implementada).");
-            showIntroMessage(); 
+            showIntroMessage();
         }
 
         function showQuestion() {
@@ -3188,9 +3527,10 @@
             const oldCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (oldCuriositySidebar) {
                 oldCuriositySidebar.classList.remove('show');
-                setTimeout(() => { // Garante que a curiosidade suma antes de limpar o HTML
+                oldCuriositySidebar.addEventListener('transitionend', function handler() {
                     oldCuriositySidebar.innerHTML = '';
-                }, 500);
+                    oldCuriositySidebar.removeEventListener('transitionend', handler);
+                }, { once: true });
             }
 
             // AQUI A VERIFICAÇÃO DE FIM DE NÍVEL DEVERIA ESTAR.
@@ -3202,13 +3542,13 @@
             // que se certifique que ainda há perguntas no nível atual.
             if (quizState.currentQuestionIndexInLevel >= quizState.currentLevelQuestions.length) {
                 console.log(`showQuestion: Todas as perguntas do Nível ${quizState.currentLevel + 1} foram respondidas.`);
-                quizState.currentLevel++; 
+                quizState.currentLevel++;
                 loadLevel(); // Tenta carregar o próximo nível ou chama endGame
-                return; 
+                return;
             }
 
 
-            quizState.isProcessingAnswer = false; 
+            quizState.isProcessingAnswer = false;
             elements.quiz.style.pointerEvents = 'all'; // Reabilitar cliques no quiz container
 
             const questionElement = document.createElement('div');
@@ -3236,7 +3576,7 @@
             const currentQuizContent = elements.quiz.querySelector('.question');
             if (currentQuizContent) {
                 currentQuizContent.classList.add('fade-out');
-                setTimeout(() => {
+                currentQuizContent.addEventListener('transitionend', function handler() {
                     elements.quiz.innerHTML = '';
                     elements.quiz.appendChild(questionElement);
                     
@@ -3247,7 +3587,8 @@
                     });
                     updateQuizInfo();
                     startTimer();
-                }, 500);
+                    currentQuizContent.removeEventListener('transitionend', handler);
+                }, { once: true });
             } else {
                 elements.quiz.innerHTML = '';
                 elements.quiz.appendChild(questionElement);
@@ -3264,54 +3605,46 @@
         function handleQuizClick(event) {
             // Ordem de prioridade: overlays > botões de power-up > botões de resposta
             
-            // 1. Lidar com cliques em telas de overlay (conquistas, level-up/intro, completion-screen, ranking-screen)
-            // Se qualquer uma dessas telas está ativa, ela deve consumir o clique.
+            // 1. Lidar com cliques em telas de overlay (conquistas, level-up/intro, completion-screen, ranking-screen, bonus-music-screen)
             if (elements.achievementsScreen.classList.contains('show')) {
                 const clickedCard = event.target.closest('.achievement-card');
                 if (clickedCard) {
                     const achievementId = clickedCard.dataset.achievementId;
                     showAchievementDetailPopup(achievementId);
-                } else if (event.target.id === 'close-achievements-btn') { 
-                    closeAchievementsScreen();
                 }
-                event.stopPropagation(); 
+                // Os botões de fechar (closeAchievementsBtn) já têm listeners atribuídos com `.onclick`.
+                event.stopPropagation();
                 return;
             }
             if (elements.rankingScreen.classList.contains('show')) {
-                if (event.target.id === 'close-ranking-btn') { 
-                    closeRankingScreen();
-                }
+                // Os botões de fechar (closeRankingBtn) já têm listeners atribuídos com `.onclick`.
                 event.stopPropagation();
                 return;
             }
             // ALTERADO: Ajustado para o botão de fechar do detail popup (que está dentro dele)
-            if (elements.achievementDetailPopup.classList.contains('show')) { 
-                // Procura se o clique foi no botão "Fechar" dentro do pop-up
-                const closeButton = event.target.closest('#achievement-detail-popup button');
-                if (closeButton) {
-                    closeAchievementDetailPopup();
-                }
+            if (elements.achievementDetailPopup.classList.contains('show')) {
+                // Botão de fechar já tem listener direto.
                 event.stopPropagation(); // Sempre parar a propagação se o detail popup está ativo
                 return;
             }
-
             if (elements.completionScreen.classList.contains('show')) {
-                // Deixa os botões internos da tela de conclusão lidarem com seus próprios cliques
-                // Se o clique não for nos botões internos, ele ainda deve ser consumido pela overlay.
-                const clickedButtonInCompletion = event.target.closest('#completion-screen button');
-                if (!clickedButtonInCompletion) {
-                    event.stopPropagation();
-                }
+                // Botões já têm listeners diretos, então não precisam ser checados aqui.
+                event.stopPropagation();
                 return;
             }
+            // ALTERADO: Ações específicas para botões na level-up-message (frase do Chorão)
             if (elements.levelUpMessage.classList.contains('show')) {
-                // Deixa os botões internos da tela de level-up/intro lidarem com seus próprios cliques
-                const clickedButtonInMessage = event.target.closest('.message-buttons button');
-                if (!clickedButtonInMessage) {
-                    event.stopPropagation();
-                }
+                // Os botões já têm listeners diretos adicionados em `showIntroMessage` ou `showLevelUpMessage`
+                event.stopPropagation(); // Sempre para a propagação
                 return;
             }
+            // NOVO: Lidar com cliques na tela do Bônus Fã
+            if (elements.bonusMusicScreen.classList.contains('show')) {
+                // Os botões já têm listeners diretos adicionados em `showBonusMusicScreen` ou `endBonusMusicGame`
+                event.stopPropagation();
+                return;
+            }
+
 
             // Se chegamos aqui, nenhuma tela de overlay está consumindo o clique.
             // Agora, verificar os power-ups.
@@ -3346,59 +3679,91 @@
         function handleKeyboardInput(event) {
             // Lógica similar a handleQuizClick para prioridade de eventos de teclado
             if (elements.achievementsScreen.classList.contains('show')) {
-                if (event.key === 'Escape') { closeAchievementsScreen(); }
+                if (event.key === 'Escape') { elements.closeAchievementsBtn.click(); }
                 return;
             }
-            if (elements.rankingScreen.classList.contains('show')) { 
-                if (event.key === 'Escape' || event.key === 'Enter') { closeRankingScreen(); }
+            if (elements.rankingScreen.classList.contains('show')) {
+                if (event.key === 'Escape' || event.key === 'Enter') { elements.closeRankingBtn.click(); }
                 return;
             }
             // ALTERADO: Tecla 'Escape' para fechar o detail popup
-            if (elements.achievementDetailPopup.classList.contains('show')) { 
-                if (event.key === 'Escape' || event.key === 'Enter') { closeAchievementDetailPopup(); }
+            if (elements.achievementDetailPopup.classList.contains('show')) {
+                if (event.key === 'Escape' || event.key === 'Enter') { elements.closeAchievementDetailPopupBtn.click(); }
                 return;
             }
             if (elements.completionScreen.classList.contains('show')) {
                 if (event.key === 'Enter') {
-                    const secretLevelBtn = elements.completionScreen.querySelector('#start-secret-level-btn');
+                    const secretLevelBtn = elements.startSecretLevelBtn;
                     if (secretLevelBtn && !secretLevelBtn.disabled) secretLevelBtn.click();
                     else {
-                        const restartBtn = elements.completionScreen.querySelector('#restart-from-completion-btn');
+                        const restartBtn = elements.restartFromCompletionBtn; // Corrigido ID do botão
                         if (restartBtn && !restartBtn.disabled) restartBtn.click();
                     }
                 }
                 return;
             }
+
+            // ALTERADO: Teclas na tela de level-up-message
             if (elements.levelUpMessage.classList.contains('show')) {
                 if (event.key === 'Enter') {
-                    const startQuizButton = elements.levelUpMessage.querySelector('#start-quiz-button');
-                    const showAchievementsButton = elements.levelUpMessage.querySelector('#show-achievements-button');
-                    const showRankingButton = elements.levelUpMessage.querySelector('#show-ranking-button-intro');
+                    // Cuidado: As referências a `startQuizButton`, `showAchievementsButton`, etc.
+                    // são atualizadas dentro de `showIntroMessage` cada vez que a intro é exibida.
+                    // Para acessar os botões corretos aqui, precisamos pegá-los diretamente do DOM.
+                    const continueButton = document.getElementById('continue-quiz-btn');
+                    const startQuizButton = document.getElementById('start-quiz-button-intro');
+                    const showAchievementsButton = document.getElementById('show-achievements-button-intro');
+                    const showRankingButton = document.getElementById('show-ranking-button-intro');
+                    const startBonusMusicButton = document.getElementById('start-bonus-music-btn'); // Novo botão
 
-                    if (startQuizButton === document.activeElement && !startQuizButton.disabled) {
+                    if (continueButton && continueButton === document.activeElement && !continueButton.disabled) {
+                        continueButton.click();
+                    } else if (startQuizButton && startQuizButton === document.activeElement && !startQuizButton.disabled) {
                         startQuizButton.click();
-                    } else if (showAchievementsButton === document.activeElement && !showAchievementsButton.disabled) {
+                    } else if (showAchievementsButton && showAchievementsButton === document.activeElement && !showAchievementsButton.disabled) {
                         showAchievementsButton.click();
-                    } else if (showRankingButton === document.activeElement && !showRankingButton.disabled) {
+                    } else if (showRankingButton && showRankingButton === document.activeElement && !showRankingButton.disabled) {
                         showRankingButton.click();
-                    } else { 
-                            const firstButton = elements.levelUpMessage.querySelector('button');
-                            if (firstButton && !firstButton.disabled) firstButton.click();
+                    } else if (startBonusMusicButton && startBonusMusicButton === document.activeElement && !startBonusMusicButton.disabled) { // Novo
+                        startBonusMusicButton.click();
+                    } else { // Se nenhum botão específico focado, tenta clicar no primeiro botão disponível (geralmente "Avançar" ou "Entendi")
+                        const firstButton = elements.levelUpMessage.querySelector('button');
+                        if (firstButton && !firstButton.disabled) firstButton.click();
                     }
                 }
                 return;
             }
 
-            if (!quizState.isProcessingAnswer) { 
-                if (event.key === 'F1') { 
-                    event.preventDefault(); 
-                    elements.fiftyFiftyBtn.click(); 
-                    return; 
+            // NOVO: Atalhos de teclado para a tela de bônus musical
+            if (elements.bonusMusicScreen.classList.contains('show')) {
+                // Verifica qual botão está focado ou se o input está focado
+                if (document.activeElement === elements.bonusAnswerInput) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault(); // Impede o envio de formulário padrão
+                        elements.bonusSubmitBtn.click();
+                    }
+                } else if (event.key === 'Enter') {
+                    // Se nenhum input focado, e enter é pressionado, tenta acionar o submit (se não desabilitado)
+                    if (elements.bonusSubmitBtn && !elements.bonusSubmitBtn.disabled) {
+                        elements.bonusSubmitBtn.click();
+                    }
+                } else if (event.key === 'Escape') {
+                    if (elements.bonusExitBtn && !elements.bonusExitBtn.disabled) {
+                        elements.bonusExitBtn.click();
+                    }
                 }
-                if (event.key === 'F2') { 
-                    event.preventDefault(); 
-                    elements.skipQuestionBtn.click(); 
-                    return; 
+                return;
+            }
+
+            if (!quizState.isProcessingAnswer) {
+                if (event.key === 'F1') {
+                    event.preventDefault();
+                    elements.fiftyFiftyBtn.click();
+                    return;
+                }
+                if (event.key === 'F2') {
+                    event.preventDefault();
+                    elements.skipQuestionBtn.click();
+                    return;
                 }
             }
 
@@ -3408,7 +3773,7 @@
             if (!isNaN(numberKey) && numberKey >= 1 && numberKey <= 4) {
                 const answerButtons = elements.quiz.querySelectorAll('.answer-button');
                 if (answerButtons[numberKey - 1] && !answerButtons[numberKey - 1].disabled) {
-                    answerButtons[numberKey - 1].click(); 
+                    answerButtons[numberKey - 1].click();
                 }
                 return;
             }
@@ -3438,12 +3803,22 @@
         function showCuriosity(curiosity) {
             const curiositySidebarBox = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (curiositySidebarBox) {
-                curiositySidebarBox.classList.remove('show'); 
-                setTimeout(() => { 
+                // Remove a classe 'show' para iniciar a transição de saída, se já estiver visível
+                if (curiositySidebarBox.classList.contains('show')) {
+                    curiositySidebarBox.classList.remove('show');
+                    // Aguarda a transição de saída terminar antes de atualizar o conteúdo e mostrar novamente
+                    curiositySidebarBox.addEventListener('transitionend', function handler() {
+                        curiositySidebarBox.innerHTML = `<strong>Você Sabia?:</strong> ${curiosity}`;
+                        curiositySidebarBox.style.backgroundColor = 'var(--cor-fundo-transparente)';
+                        curiositySidebarBox.classList.add('show'); // Adiciona 'show' para a transição de entrada
+                        curiositySidebarBox.removeEventListener('transitionend', handler); // Remove o listener para evitar múltiplas chamadas
+                    }, { once: true });
+                } else {
+                    // Se não estava visível, apenas atualiza o conteúdo e mostra
                     curiositySidebarBox.innerHTML = `<strong>Você Sabia?:</strong> ${curiosity}`;
                     curiositySidebarBox.style.backgroundColor = 'var(--cor-fundo-transparente)';
-                    curiositySidebarBox.classList.add('show'); 
-                }, 500); 
+                    curiositySidebarBox.classList.add('show');
+                }
             } else {
                 console.warn("Elemento .curiosity-sidebar-box não encontrado para exibir a curiosidade.");
             }
@@ -3451,19 +3826,19 @@
 
         function checkAnswer(clickedButton, answer, correta) {
             console.log("checkAnswer: Verificando resposta...");
-            clearInterval(timerInterval); 
+            clearInterval(timerInterval);
 
             const timeTaken = (Date.now() - questionStartTime) / 1000;
 
             const buttons = elements.quiz.querySelectorAll('.answer-button');
             buttons.forEach(button => {
-                button.disabled = true; 
+                button.disabled = true;
             });
 
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
             let pointsEarned = 0;
 
-            if (answer.toLowerCase() === correta.toLowerCase()) {
+            if (normalizeText(answer) === normalizeText(correta)) { // Usa normalizeText
                 console.log("checkAnswer: Resposta CORRETA!");
                 clickedButton.classList.add('correct', 'glow-correct');
                 clickedButton.innerHTML += ' <span class="feedback-icon">✅</span>';
@@ -3483,11 +3858,11 @@
                 showComboMessage(quizState.consecutiveCorrectAnswers);
                 
                 updateQuizInfo();
-                showCuriosity(questionData.curiosidade);
+                showCuriosity(questionData.curiosidade); // Chama showCuriosity AQUI
 
                 setTimeout(() => {
                     console.log("checkAnswer: Preparando para a próxima pergunta após acerto.");
-                    quizState.isProcessingAnswer = false; 
+                    quizState.isProcessingAnswer = false;
                     clickedButton.classList.remove('glow-correct');
                     
                     const isLastQuestionOfCurrentLevel = (quizState.currentQuestionIndexInLevel + 1) === quizState.currentLevelQuestions.length;
@@ -3496,22 +3871,28 @@
                         if (quizState.isSecretLevelActive) {
                             console.log("checkAnswer: Última pergunta do Nível Secreto acertada. Chamando endGame (vitória final).");
                             unlockAchievement("secret_level_completed");
-                            endGame(true); 
-                        } else if (quizState.currentLevel === quizState.totalMainLevels - 1) { 
+                            endGame(true);
+                        } else if (quizState.currentLevel === quizState.totalMainLevels - 1) {
                                 // Se for o último nível principal (o Nível 7) e esta é a última pergunta desse nível
                             console.log("checkAnswer: Última pergunta do último nível principal acertada. Exibindo tela de conclusão dos níveis principais.");
                             unlockAchievement("all_main_levels_completed");
-                            showCompletionScreen(); 
+                            showCompletionScreen();
                         } else {
+                            // Desbloqueia a conquista de nível para os níveis 1, 3 e 5.
+                            // Nota: Os IDs das conquistas precisam estar configurados para cada nível específico.
+                            if (quizState.currentLevel === 0) unlockAchievement("first_level_completed");
+                            if (quizState.currentLevel === 2) unlockAchievement("level_3_completed");
+                            if (quizState.currentLevel === 4) unlockAchievement("level_5_completed");
+
                             quizState.currentLevel++;
-                            loadLevel(); 
+                            loadLevel();
                         }
                     } else {
-                        quizState.currentQuestionIndexInLevel++; 
+                        quizState.currentQuestionIndexInLevel++;
                         showQuestion();
                     }
 
-                }, 4000); 
+                }, 4000);
             } else {
                 console.log("checkAnswer: Resposta INCORRETA!");
                 clickedButton.classList.add('incorrect', 'glow-incorrect');
@@ -3525,31 +3906,31 @@
                     }, { once: true });
                 }
 
-                quizState.lives--; 
-                quizState.errorsInCurrentLevel++; 
-                quizState.consecutiveCorrectAnswers = 0; 
-                updateLivesDisplay(); 
+                quizState.lives--;
+                quizState.errorsInCurrentLevel++;
+                quizState.consecutiveCorrectAnswers = 0;
+                updateLivesDisplay();
 
-                updateQuizInfo(); 
+                updateQuizInfo();
                 
                 const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
                 
-                let lostLifeMsg = `Você não respondeu a tempo e perdeu 1 vida! Vidas restantes: ${quizState.lives}.`;
-                showCuriosity(`${lostLifeMsg} ${questionData.curiosidade}`);
+                let lostLifeMsg = `Você não respondeu a tempo e perdeu 1 vida! Vidas restantes: ${quizState.lives}.`; // Mensagem ajustada para erro de resposta
+                showCuriosity(`${lostLifeMsg} ${questionData.curiosidade}`); // Chama showCuriosity AQUI
 
                 const buttons = elements.quiz.querySelectorAll('.answer-button');
                 buttons.forEach(button => {
-                    button.disabled = true; 
+                    button.disabled = true;
                 });
 
                 setTimeout(() => {
                     console.log(`handleTimerEnd: Vidas restantes: ${quizState.lives}.`);
-                    quizState.isProcessingAnswer = false; 
-                    if (quizState.lives <= 0) { 
+                    quizState.isProcessingAnswer = false;
+                    if (quizState.lives <= 0) {
                         console.log("handleTimerEnd: Vidas esgotadas. Chamando endGame (derrota).");
-                        endGame(false); 
+                        endGame(false);
                     } else {
-                        quizState.currentQuestionIndexInLevel++; 
+                        quizState.currentQuestionIndexInLevel++;
                         showQuestion();
                     }
                 }, 4000);
@@ -3557,17 +3938,18 @@
         }
 
         async function saveScore(playerName, score) {
-            if (!window.db || !window.firebase_collection || !window.firebase_addDoc) {
-                console.error("Firebase Firestore SDK não está totalmente carregado. Verifique os imports e a inicialização.");
+            // As referências do Firebase agora estão diretamente disponíveis no escopo do módulo
+            if (!db || !collection || !addDoc) {
+                console.error("Firebase Firestore SDK não está disponível ou foi importado incorretamente.");
                 return;
             }
             try {
-                const rankingRef = window.firebase_collection(window.db, "ranking");
-                
-                await window.firebase_addDoc(rankingRef, {
+                const rankingRef = collection(db, "ranking"); // Usar 'collection' diretamente
+
+                await addDoc(rankingRef, { // Usar 'addDoc' diretamente
                     name: playerName,
                     score: score,
-                    timestamp: Date.now() 
+                    timestamp: Date.now()
                 });
                 console.log(`Pontuação de ${playerName} (${score}) salva com sucesso no Firebase!`);
             } catch (e) {
@@ -3577,21 +3959,22 @@
         }
 
         async function loadRanking() {
-            if (!window.db || !window.firebase_collection || !window.firebase_query || !window.firebase_orderBy || !window.firebase_limit || !window.firebase_getDocs) {
-                console.error("Firebase Firestore SDK não está totalmente carregado. Não foi possível carregar o ranking.");
+            // As referências do Firebase agora estão diretamente disponíveis no escopo do módulo
+            if (!db || !collection || !query || !orderBy || !limit || !getDocs) {
+                console.error("Firebase Firestore SDK não está disponível ou foi importado incorretamente.");
                 return [];
             }
             const rankingList = [];
             try {
-                const rankingRef = window.firebase_collection(window.db, "ranking");
-                const q = window.firebase_query(rankingRef, window.firebase_orderBy("score", "desc"), window.firebase_limit(10));
+                const rankingRef = collection(db, "ranking"); // Usar 'collection' diretamente
+                const q = query(rankingRef, orderBy("score", "desc"), limit(10)); // Usar 'query', 'orderBy', 'limit' diretamente
                 
-                const querySnapshot = await window.firebase_getDocs(q);
+                const querySnapshot = await getDocs(q); // Usar 'getDocs' diretamente
                 querySnapshot.forEach((doc) => {
                     rankingList.push(doc.data());
                 });
                 console.log("Ranking carregado do Firebase:", rankingList);
-                return rankingList; 
+                return rankingList;
             } catch (e) {
                 console.error("Erro ao tentar carregar ranking do Firebase: ", e);
                 alert("Erro ao carregar ranking. Verifique o console para más detalhes ou as regras do Firebase Firestore.");
@@ -3603,16 +3986,19 @@
             console.log(`endGame: Finalizando o jogo. Vencedor: ${isWinner}.`);
             quizState.quizPaused = true;
             elements.quiz.style.pointerEvents = 'none';
-            showMainOverlay(); 
-            elements.livesDisplay.style.display = 'none'; 
-            elements.powerUpsContainer.style.display = 'none'; 
-            elements.completionScreen.classList.remove('show', 'shake-animation'); 
-            elements.rankingScreen.classList.remove('show'); 
-            elements.achievementDetailPopup.classList.remove('show'); 
+            showMainOverlay();
+            elements.livesDisplay.style.display = 'none';
+            elements.powerUpsContainer.style.display = 'none';
+            elements.completionScreen.classList.remove('show', 'shake-animation');
+            elements.rankingScreen.classList.remove('show');
+            elements.achievementDetailPopup.classList.remove('show');
+            elements.bonusMusicScreen.classList.remove('show'); // Esconde o bônus musical
+            elements.bonusMusicScreen.style.display = 'none';
+            // elements.audio.pause(); // Linha removida ou comentada!
 
-            clearInterval(timerInterval); 
+            clearInterval(timerInterval);
 
-            elements.quiz.innerHTML = ''; 
+            elements.quiz.innerHTML = '';
             const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
             if (currentCuriositySidebar) {
                 currentCuriositySidebar.classList.remove('show');
@@ -3628,33 +4014,21 @@
                 unlockAchievement("new_high_score");
             }
 
-            let playerName = prompt("Fim de jogo! Sua pontuação final: " + quizState.score + " pontos. Gostaria de enviar sua pontuação para o ranking online? Digite seu nome (ou clique em Cancelar para não enviar):");
-            if (playerName !== null) { 
-              playerName = playerName.trim();
-              if (playerName !== "") { 
-                playerName = playerName.substring(0, 20); 
-                saveScore(playerName, quizState.score);
-              } else {
-                console.log("Nome em branco, pontuação não enviada para o ranking.");
-              }
-            } else {
-              console.log("Envio de pontuação para o ranking cancelado pelo usuário.");
-            }
-
+            // Exibir a tela final com os resultados e a opção de enviar para o ranking
             let messageHtml = '';
             let bgColor = 'var(--cor-fundo-transparente)';
             let title = '';
 
             if (isWinner) {
                 title = "Parabéns, Lenda do CBJR!";
-                bgColor = 'rgba(46, 204, 113, 0.7)'; 
+                bgColor = 'rgba(46, 204, 113, 0.7)';
                 messageHtml = `
                     <div style="font-size: 1.5em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Você completou todos os níveis, incluindo o Secreto!</div>
                 `;
-                unlockAchievement("all_levels_completed"); 
-            } else { 
+                unlockAchievement("all_levels_completed");
+            } else {
                 title = "Suas vidas acabaram!";
-                bgColor = 'rgba(231, 76, 60, 0.7)'; 
+                bgColor = 'rgba(231, 76, 60, 0.7)';
                 messageHtml = `
                     <div style="font-size: 1.5em; margin-top: 0px; font-family: 'Elektrix', sans-serif; opacity: 0.9; text-shadow: 0 0 5px var(--cor-amarelo-cbjr);">Suas vidas acabaram!</div>
                     <div style="font-size: 1.1em; margin-top: 10px; font-family: Arial, sans-serif; line-height: 1.4;">A vida me ensinou a nunca desistir... Tente novamente!</div>
@@ -3667,115 +4041,154 @@
                 <div style="font-size: 0.9em; margin-top: 5px; font-family: Arial, sans-serif; line-height: 1.5;">Pontos de Combo: <b>${quizState.comboPointsEarned}</b></div>
                 <div style="font-size: 0.9em; margin-top: 5px; font-family: Arial, sans-serif; line-height: 1.5;">Maior Sequência de Acertos: <b>${quizState.highestCombo}</b></div>
                 <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                    <button onclick="restartQuiz()">Reiniciar Quiz</button>
-                    <button onclick="showRankingScreen()">Ver Ranking</button> </div>
-            `;
+                    <button id="restart-from-endgame-btn">Reiniciar Quiz</button>
+                    <button id="show-ranking-from-endgame-btn">Ver Ranking</button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <input type="text" id="player-name-input" placeholder="Seu nome para o ranking (até 20 caracteres)" maxlength="20" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 80%; max-width: 300px; font-size: 1em; text-align: center; background-color: rgba(255,255,255,0.1); color: white;">
+                    <button id="submit-score-btn" style="margin-top: 10px; padding: 10px 20px; font-size: 1em;">Enviar Pontuação</button>
+                </div>
+                `;
             
             elements.levelUpMessage.innerHTML = messageHtml;
             elements.levelUpMessage.style.backgroundColor = bgColor;
             elements.levelUpMessage.style.display = 'flex';
             elements.levelUpMessage.classList.add('show');
+
+            // Adiciona listeners para os botões e input na tela de fim de jogo
+            document.getElementById('restart-from-endgame-btn').onclick = restartQuiz;
+            document.getElementById('show-ranking-from-endgame-btn').onclick = showRankingScreen;
+            document.getElementById('submit-score-btn').onclick = () => { // Use onclick
+                const playerName = document.getElementById('player-name-input').value.trim();
+                if (playerName) {
+                    saveScore(playerName, quizState.score);
+                    document.getElementById('submit-score-btn').disabled = true; // Desabilita o botão após enviar
+                    document.getElementById('player-name-input').disabled = true;
+                    alert("Pontuação enviada com sucesso!");
+                } else {
+                    alert("Por favor, digite seu nome para enviar a pontuação.");
+                }
+            };
         }
 
-        async function showRankingScreen() {
+        function showRankingScreen() {
             console.log("showRankingScreen: Exibindo tela de ranking.");
             quizState.quizPaused = true;
-            showMainOverlay(); 
-            elements.levelUpMessage.classList.remove('show'); 
-            elements.levelUpMessage.style.display = 'none'; 
-            elements.achievementsScreen.classList.remove('show'); 
+            elements.quiz.style.pointerEvents = 'none'; // Desabilita o quiz
+            showMainOverlay();
+            elements.levelUpMessage.classList.remove('show');
+            elements.levelUpMessage.style.display = 'none';
+            elements.achievementsScreen.classList.remove('show');
             elements.achievementsScreen.style.display = 'none';
-            elements.completionScreen.classList.remove('show', 'shake-animation'); 
+            elements.completionScreen.classList.remove('show', 'shake-animation');
             elements.completionScreen.style.display = 'none';
-            elements.achievementDetailPopup.classList.remove('show'); 
+            elements.achievementDetailPopup.classList.remove('show');
+            elements.bonusMusicScreen.classList.remove('show'); // Esconde o bônus musical
+            elements.bonusMusicScreen.style.display = 'none';
 
             elements.rankingScreen.style.display = 'flex';
             elements.rankingScreen.classList.add('show');
-            elements.rankingList.innerHTML = '<li>Carregando ranking...</li>'; 
+            elements.rankingList.innerHTML = '<li>Carregando ranking...</li>';
 
-            const rankingData = await loadRanking(); 
-
-            elements.rankingList.innerHTML = ''; 
-            if (rankingData.length > 0) {
-                rankingData.forEach((entry, index) => {
-                    const listItem = document.createElement('li');
-                    const scoreDisplay = typeof entry.score === 'number' ? entry.score : 'N/A';
-                    listItem.innerHTML = `<span>${index + 1}. ${entry.name}</span> <span style="color: var(--cor-amarelo-cbjr); font-weight: bold;">${scoreDisplay} pts</span>`;
-                    elements.rankingList.appendChild(listItem);
-                });
-            } else {
-                elements.rankingList.innerHTML = '<li>Nenhuma pontuação no ranking ainda! Seja o primeiro!</li>';
-            }
+            loadRanking().then(rankingData => {
+                elements.rankingList.innerHTML = '';
+                if (rankingData.length > 0) {
+                    rankingData.forEach((entry, index) => {
+                        const listItem = document.createElement('li');
+                        const scoreDisplay = typeof entry.score === 'number' ? entry.score : 'N/A';
+                        listItem.innerHTML = `<span>${index + 1}. ${entry.name}</span> <span style="color: var(--cor-amarelo-cbjr); font-weight: bold;">${scoreDisplay} pts</span>`;
+                        elements.rankingList.appendChild(listItem);
+                    });
+                } else {
+                    elements.rankingList.innerHTML = '<li>Nenhuma pontuação no ranking ainda! Seja o primeiro!</li>';
+                }
+            });
+            // Re-atribuir listener para o botão de fechar o ranking
+            elements.closeRankingBtn.onclick = closeRankingScreen;
         }
 
         function closeRankingScreen() {
             console.log("closeRankingScreen: Fechando tela de ranking.");
             elements.rankingScreen.classList.remove('show');
-            setTimeout(() => {
+            elements.rankingScreen.addEventListener('transitionend', function handler() {
                 elements.rankingScreen.style.display = 'none';
-                showIntroMessage(); 
-            }, 500);
+                elements.rankingScreen.removeEventListener('transitionend', handler);
+                showIntroMessage(); // Volta para a tela de introdução
+            }, { once: true });
         }
 
         function restartQuiz() {
             console.log("restartQuiz: Reiniciando o quiz.");
             elements.levelUpMessage.classList.remove('show');
             elements.achievementsScreen.classList.remove('show');
-            elements.completionScreen.classList.remove('show', 'shake-animation'); 
-            elements.rankingScreen.classList.remove('show'); 
-            elements.achievementDetailPopup.classList.remove('show'); 
+            elements.completionScreen.classList.remove('show', 'shake-animation');
+            elements.rankingScreen.classList.remove('show');
+            elements.achievementDetailPopup.classList.remove('show');
+            elements.bonusMusicScreen.classList.remove('show'); // Garante que o bônus musical está oculto
+            elements.bonusMusicScreen.style.display = 'none';
+            elements.audio.pause(); // Pausa a música do player ao reiniciar
 
-            hideMainOverlay(); 
+            hideMainOverlay();
 
-            setTimeout(() => {
-                Object.assign(quizState, {
-                    currentLevel: 0,
-                    currentQuestionIndexInLevel: 0,
-                    score: 0,
-                    lives: MAX_LIVES, 
-                    errorsInCurrentLevel: 0,
-                    quizPaused: false,
-                    isProcessingAnswer: false, 
-                    currentLevelQuestions: [],
-                    totalLevels: questionsByLevel.length, 
-                    totalMainLevels: questionsByLevel.length - 1,
-                    isSecretLevelActive: false, 
-                    totalQuestions: 0, 
-                    highScore: parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0'), 
-                    scoreAtLevelStart: 0,
-                    consecutiveCorrectAnswers: 0,
-                    highestCombo: 0,
-                    comboPointsEarned: 0,
-                    unlockedAchievements: {}, 
-                    fiftyFiftyCount: INITIAL_FIFTY_FIFTY, 
-                    skipQuestionCount: INITIAL_SKIP_QUESTION 
-                });
-                loadAchievements(); 
+            // Reinicia o quizState completamente
+            Object.assign(quizState, {
+                currentLevel: 0,
+                currentQuestionIndexInLevel: 0,
+                score: 0,
+                lives: MAX_LIVES,
+                errorsInCurrentLevel: 0,
+                quizPaused: false,
+                isProcessingAnswer: false,
+                currentLevelQuestions: [],
+                totalLevels: questionsByLevel.length,
+                totalMainLevels: questionsByLevel.length - 1,
+                isSecretLevelActive: false,
+                totalQuestions: 0,
+                highScore: parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0'),
+                scoreAtLevelStart: 0,
+                consecutiveCorrectAnswers: 0,
+                highestCombo: 0,
+                comboPointsEarned: 0,
+                unlockedAchievements: {}, // Será carregado de localStorage em loadAchievements
+                fiftyFiftyCount: INITIAL_FIFTY_FIFTY,
+                skipQuestionCount: INITIAL_SKIP_QUESTION
+            });
+            loadAchievements(); // Recarrega as conquistas do localStorage
 
-                clearInterval(timerInterval);
-                elements.scoreText.textContent = `Pontos: ${quizState.score}`;
-                elements.progressText.textContent = '';
-                elements.levelText.textContent = '';
-                elements.medalText.textContent = '';
-                elements.restartBtn.style.display = 'none';
-                elements.levelUpMessage.style.display = 'none';
-                elements.pointsPopup.style.display = 'none';
-                elements.quiz.style.pointerEvents = 'all';
-                elements.quiz.style.display = 'none'; 
+            // Resetar o estado do bônus musical
+            Object.assign(bonusGameState, {
+                songsToGuess: [],
+                currentBonusSong: null,
+                currentBonusSongIndex: 0,
+                bonusCorrectCount: 0,
+                bonusErrorsCount: 0,
+                isBonusActive: false,
+                lastQuizState: null
+            });
 
-                elements.livesDisplay.style.display = 'none'; 
-                elements.powerUpsContainer.style.display = 'none'; 
+            clearInterval(timerInterval);
+            elements.scoreText.textContent = `Pontos: ${quizState.score}`;
+            elements.progressText.textContent = '';
+            elements.levelText.textContent = '';
+            elements.medalText.textContent = '';
+            elements.restartBtn.style.display = 'none';
+            elements.levelUpMessage.style.display = 'none';
+            elements.pointsPopup.style.display = 'none';
+            elements.quiz.style.pointerEvents = 'all';
+            elements.quiz.style.display = 'none';
 
-                elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
+            elements.livesDisplay.style.display = 'none';
+            elements.powerUpsContainer.style.display = 'none';
 
-                elements.quiz.innerHTML = '';
-                const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
-                if (currentCuriositySidebar) {
-                    currentCuriositySidebar.classList.remove('show');
-                    currentCuriositySidebar.innerHTML = '';
-                }
-                showIntroMessage(); 
-            }, 500);
+            elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
+
+            elements.quiz.innerHTML = '';
+            const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
+            if (currentCuriositySidebar) {
+                currentCuriositySidebar.classList.remove('show');
+                currentCuriositySidebar.innerHTML = '';
+            }
+            showIntroMessage(); // Volta para a tela de introdução
         }
 
         function startTimer() {
@@ -3783,27 +4196,29 @@
             clearInterval(timerInterval);
             questionStartTime = Date.now();
             let timeLeft = TIME_PER_QUESTION;
+            //elements.timerDisplay.textContent = `${timeLeft}s`; // Se você quiser mostrar o timer
             timerInterval = setInterval(() => {
                 timeLeft--;
+                //elements.timerDisplay.textContent = `${timeLeft}s`; // Se você quiser mostrar o timer
                 if (timeLeft <= 0) {
                     console.log("startTimer: Tempo esgotado.");
                     clearInterval(timerInterval);
-                    handleTimerEnd(); 
+                    handleTimerEnd();
                 }
             }, 1000);
-        };
+        }
 
         function handleTimerEnd() {
             console.log("handleTimerEnd: Tempo da pergunta esgotado.");
-            if (quizState.isProcessingAnswer) { 
+            if (quizState.isProcessingAnswer) {
                 console.log("handleTimerEnd: Já processando resposta/fim. Saindo.");
                 return;
             }
             
-            quizState.isProcessingAnswer = true; 
+            quizState.isProcessingAnswer = true;
             elements.quiz.style.pointerEvents = 'none';
 
-            clearInterval(timerInterval); 
+            clearInterval(timerInterval);
 
             const questionTextElement = document.getElementById('current-question-text');
             if (questionTextElement) {
@@ -3813,70 +4228,329 @@
                 }, { once: true });
             }
 
-            quizState.lives--; 
-            quizState.errorsInCurrentLevel++; 
-            quizState.consecutiveCorrectAnswers = 0; 
-            updateLivesDisplay(); 
+            quizState.lives--;
+            quizState.errorsInCurrentLevel++;
+            quizState.consecutiveCorrectAnswers = 0;
+            updateLivesDisplay();
 
-            updateQuizInfo(); 
+            updateQuizInfo();
             
             const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
             
-            let lostLifeMsg = `Você não respondeu a tempo e perdeu 1 vida! Vidas restantes: ${quizState.lives}.`;
-            showCuriosity(`${lostLifeMsg} ${questionData.curiosidade}`);
+            let lostLifeMsg = `Você não respondeu a tempo e perdeu 1 vida! Vidas restantes: ${quizState.lives}.`; // Mensagem ajustada para erro de resposta
+            showCuriosity(`${lostLifeMsg} ${questionData.curiosidade}`); // Chama showCuriosity AQUI
 
             const buttons = elements.quiz.querySelectorAll('.answer-button');
             buttons.forEach(button => {
-                button.disabled = true; 
+                button.disabled = true;
             });
 
             setTimeout(() => {
                 console.log(`handleTimerEnd: Vidas restantes: ${quizState.lives}.`);
-                quizState.isProcessingAnswer = false; 
-                if (quizState.lives <= 0) { 
+                quizState.isProcessingAnswer = false;
+                if (quizState.lives <= 0) {
                     console.log("handleTimerEnd: Vidas esgotadas. Chamando endGame (derrota).");
-                    endGame(false); 
+                    endGame(false);
                 } else {
-                    quizState.currentQuestionIndexInLevel++; 
+                    quizState.currentQuestionIndexInLevel++;
                     showQuestion();
                 }
             }, 4000);
-        };
+        }
+
+        // --- NOVO: Funções para o Nível Bônus Fã ---
+        function showBonusMusicScreen() {
+            console.log("showBonusMusicScreen: Exibindo tela de Bônus Fã.");
+            // Salva o estado atual do quiz para restaurar depois
+            bonusGameState.lastQuizState = { ...quizState };
+            
+            quizState.quizPaused = true; // Pausa o quiz principal
+            
+            // Esconde todas as outras overlays e o quiz principal antes de mostrar a tela de bônus
+            elements.quiz.style.display = 'none';
+            elements.livesDisplay.style.display = 'none';
+            elements.powerUpsContainer.style.display = 'none';
+            elements.levelUpMessage.classList.remove('show');
+            elements.levelUpMessage.style.display = 'none';
+            elements.achievementsScreen.classList.remove('show');
+            elements.achievementsScreen.style.display = 'none';
+            elements.rankingScreen.classList.remove('show');
+            elements.rankingScreen.style.display = 'none';
+            elements.completionScreen.classList.remove('show', 'shake-animation');
+            elements.completionScreen.style.display = 'none';
+            elements.achievementDetailPopup.classList.remove('show');
+            elements.achievementDetailPopup.style.display = 'none';
+
+            showMainOverlay(); // Mostra a overlay principal
+            
+            elements.bonusMusicScreen.style.display = 'flex';
+            elements.bonusMusicScreen.classList.add('show');
+            
+            // Atribuição de listeners para os botões do Bônus Fã
+            // Esses listeners devem ser atribuídos aqui para os elementos que já existem no HTML
+            // quando a tela de bônus é exibida PELA PRIMEIRA VEZ ou quando o conteúdo é recriado.
+            elements.bonusSubmitBtn.onclick = checkBonusAnswer;
+            elements.bonusSkipBtn.onclick = () => {
+                bonusGameState.currentBonusSongIndex++;
+                loadBonusSongForBonus(true);
+            };
+            elements.bonusExitBtn.onclick = hideBonusMusicScreen; // Listener para o botão 'Sair do Bônus' no modo jogo
+
+            // Adiciona o listener para o "Enter" no input
+            elements.bonusAnswerInput.onkeydown = (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Impede o envio de formulário padrão
+                    elements.bonusSubmitBtn.click();
+                }
+            };
+
+            bonusGameState.isBonusActive = true;
+            startBonusMusicGame(); // Inicia o jogo bônus
+            elements.bonusAnswerInput.focus(); // Foca no input para digitar
+        }
+
+        function hideBonusMusicScreen() {
+            console.log("hideBonusMusicScreen: Escondendo tela de Bônus Fã e restaurando quiz.");
+            elements.bonusMusicScreen.classList.remove('show');
+            elements.bonusMusicScreen.addEventListener('transitionend', function handler() {
+                elements.bonusMusicScreen.style.display = 'none';
+                elements.bonusMusicScreen.removeEventListener('transitionend', handler);
+                hideMainOverlay(); // Esconde a overlay principal
+                
+                // Restaura o estado anterior do quiz (se existia)
+                if (bonusGameState.lastQuizState) {
+                    // Restaurar o quizState, mas manter o unlockedAchievements atualizado
+                    const currentUnlockedAchievements = { ...quizState.unlockedAchievements };
+                    Object.assign(quizState, bonusGameState.lastQuizState);
+                    quizState.unlockedAchievements = currentUnlockedAchievements; // Mantém o estado más recente de conquistas
+                    
+                    quizState.quizPaused = false; // Garante que o quiz não está pausado
+                    elements.quiz.style.display = 'flex'; // Mostra o quiz principal
+                    elements.livesDisplay.style.display = 'flex';
+                    elements.powerUpsContainer.style.display = 'flex';
+                    updateQuizInfo(); // Atualiza infos do quiz principal
+                    // Se o quiz estava em uma pergunta, reativa o timer e listeners
+                    const currentQuestionElement = elements.quiz.querySelector('.question');
+                    if (currentQuestionElement) {
+                        currentQuestionElement.style.pointerEvents = 'all';
+                        startTimer(); // Reinicia o timer para a pergunta atual
+                    }
+                } else {
+                    // Se não havia estado anterior (ex: abriu da intro), volta para a tela inicial
+                    showIntroMessage();
+                }
+                elements.quiz.style.pointerEvents = 'all'; // Reabilita interações no quiz principal
+                bonusGameState.isBonusActive = false; // Garante que o flag do bônus está desligado
+                // Garante que a música pare ao sair do modo bônus
+                elements.audio.pause();
+                elements.audio.currentTime = 0;
+            }, { once: true });
+        }
+
+        function startBonusMusicGame() {
+            console.log("startBonusMusicGame: Iniciando novo jogo de Bônus Fã.");
+            bonusGameState.songsToGuess = [...playerState.originalPlaylist]; // Usa a playlist original
+            shuffleArray(bonusGameState.songsToGuess);
+            bonusGameState.currentBonusSongIndex = 0;
+            bonusGameState.bonusCorrectCount = 0;
+            bonusGameState.bonusErrorsCount = 0;
+            
+            // Garante que o conteúdo da tela de bônus é resetado para o formulário de adivinhação
+            elements.bonusMusicScreen.innerHTML = `
+                <h2>Bônus Fã: Adivinhe a Música!</h2>
+                <p style="font-family: Arial, sans-serif;">Ouça o trecho e digite o nome da música do Charlie Brown Jr.</p>
+                <p id="bonus-current-song-title" style="font-family: 'Elektrix', sans-serif; display: none;"></p> <input type="text" id="bonus-answer-input" placeholder="Qual é a música?">
+                <p id="bonus-feedback-message"></p>
+                <p id="bonus-score-info">Acertos: 0 | Erros: 0</p>
+                <div class="bonus-controls">
+                    <button id="bonus-submit-btn">Enviar Resposta</button>
+                    <button id="bonus-skip-btn">Pular Música</button>
+                    <button id="bonus-exit-btn">Sair do Bônus</button>
+                </div>
+                `;
+            // Re-obter referências aos elementos recém-criados
+            elements.bonusAnswerInput = document.getElementById('bonus-answer-input');
+            elements.bonusSubmitBtn = document.getElementById('bonus-submit-btn');
+            elements.bonusSkipBtn = document.getElementById('bonus-skip-btn');
+            elements.bonusExitBtn = document.getElementById('bonus-exit-btn');
+            elements.bonusFeedbackMessage = document.getElementById('bonus-feedback-message');
+            elements.bonusScoreInfo = document.getElementById('bonus-score-info');
+            elements.bonusCurrentSongTitle = document.getElementById('bonus-current-song-title');
+
+            // Re-atribuir listeners para os botões da tela de input do bônus
+            elements.bonusSubmitBtn.onclick = checkBonusAnswer;
+            elements.bonusSkipBtn.onclick = () => {
+                bonusGameState.currentBonusSongIndex++;
+                loadBonusSongForBonus(true);
+            };
+            elements.bonusExitBtn.onclick = hideBonusMusicScreen;
+
+            // Adiciona o listener para o "Enter" no input
+            elements.bonusAnswerInput.onkeydown = (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Impede o envio de formulário padrão
+                    elements.bonusSubmitBtn.click();
+                }
+            };
+            
+            // ATUALIZAÇÃO AQUI para incluir o total de músicas
+            updateBonusScoreInfo(); 
+            loadBonusSongForBonus();
+            elements.bonusAnswerInput.focus(); // Foca no input para digitar
+        }
+
+        function loadBonusSongForBonus(skipped = false) {
+            // Se todas as músicas já foram jogadas, encerra o bônus
+            if (bonusGameState.currentBonusSongIndex >= bonusGameState.songsToGuess.length) {
+                endBonusMusicGame(true); // Todas as músicas foram jogadas
+                return;
+            }
+
+            elements.bonusAnswerInput.value = '';
+            elements.bonusAnswerInput.disabled = false;
+            elements.bonusSubmitBtn.disabled = false;
+            elements.bonusSkipBtn.disabled = false;
+            elements.bonusFeedbackMessage.textContent = skipped ? "Música pulada!" : "";
+            elements.bonusFeedbackMessage.style.color = 'var(--cor-texto-claro)';
+            elements.bonusCurrentSongTitle.style.display = 'none';
+
+            bonusGameState.currentBonusSong = bonusGameState.songsToGuess[bonusGameState.currentBonusSongIndex];
+            loadSong(bonusGameState.currentBonusSong); // Carrega a música no player principal
+            elements.audio.currentTime = 0; // Começa do início
+            playSong(); // Inicia a reprodução
+
+            elements.bonusAnswerInput.focus();
+            console.log(`Bônus Fã: Música carregada: ${bonusGameState.currentBonusSong.title}`);
+        }
+
+        function checkBonusAnswer() {
+            const userAnswer = normalizeText(elements.bonusAnswerInput.value);
+            const correctAnswer = normalizeText(bonusGameState.currentBonusSong.title);
+
+            elements.bonusAnswerInput.disabled = true; // Desabilita input após enviar
+            elements.bonusSubmitBtn.disabled = true;
+            elements.bonusSkipBtn.disabled = true;
+            elements.audio.pause(); // Pausa a música após a tentativa
+
+            if (userAnswer === correctAnswer) {
+                bonusGameState.bonusCorrectCount++;
+                elements.bonusFeedbackMessage.textContent = "CORRETO! ✅";
+                elements.bonusFeedbackMessage.style.color = 'var(--cor-verde-correto)';
+                // Verifica a conquista do bônus musical: acerte 5 seguidas
+                if (bonusGameState.bonusCorrectCount >= 5) {
+                    unlockAchievement("bonus_music_master");
+                }
+                elements.bonusCurrentSongTitle.style.display = 'block';
+                elements.bonusCurrentSongTitle.textContent = bonusGameState.currentBonusSong.title; // Mostra o título completo
+                console.log(`Bônus Fã: Acertou! Músicas corretas: ${bonusGameState.bonusCorrectCount}`);
+
+            } else {
+                bonusGameState.bonusErrorsCount++;
+                elements.bonusFeedbackMessage.textContent = "INCORRETO! ❌";
+                elements.bonusFeedbackMessage.style.color = 'var(--cor-vermelho-incorreto)';
+                elements.bonusCurrentSongTitle.style.display = 'block';
+                elements.bonusCurrentSongTitle.textContent = `A música era: ${bonusGameState.currentBonusSong.title}`;
+                console.log(`Bônus Fã: Errou! Erros: ${bonusGameState.bonusErrorsCount}`);
+            }
+            updateBonusScoreInfo();
+
+            setTimeout(() => {
+                if (bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors) {
+                    endBonusMusicGame(false); // Fim do jogo por excesso de erros
+                } else {
+                    bonusGameState.currentBonusSongIndex++;
+                    loadBonusSongForBonus();
+                }
+            }, 3000); // Tempo para feedback visual
+        }
+
+        function updateBonusScoreInfo() {
+            // Alterado para mostrar a progressão atual e o total de músicas
+            const totalSongs = bonusGameState.songsToGuess.length;
+            const currentSongNumber = bonusGameState.currentBonusSongIndex + 1; // +1 para ser 1-indexed
+
+            elements.bonusScoreInfo.textContent = `Acertos: ${bonusGameState.bonusCorrectCount} | Erros: ${bonusGameState.bonusErrorsCount}/${bonusGameState.maxBonusErrors} | Música: ${currentSongNumber}/${totalSongs}`;
+            
+            // Lógica para desabilitar o botão de pular se for a última música e não houver mais músicas para pular
+            if (bonusGameState.currentBonusSongIndex === totalSongs - 1) {
+                elements.bonusSkipBtn.disabled = true;
+            } else {
+                elements.bonusSkipBtn.disabled = false;
+            }
+        }
+
+
+        function endBonusMusicGame(completedAllSongs) {
+            console.log("endBonusMusicGame: Finalizando jogo de Bônus Fã.");
+            elements.audio.pause(); // Garante que a música pare
+            
+            let message = '';
+            let title = '';
+            let textColor = 'var(--cor-texto-claro)';
+
+            if (completedAllSongs) {
+                title = "Parabéns, Maestro Musical!";
+                message = `Você adivinhou todas as ${bonusGameState.songsToGuess.length} músicas! Que ouvido afiado!`;
+                textColor = 'var(--cor-verde-correto)';
+                unlockAchievement("bonus_music_master"); // Conquista se acertar todas
+            } else if (bonusGameState.bonusCorrectCount > 0) {
+                title = "Mandou Bem no Som!";
+                message = `Você acertou ${bonusGameState.bonusCorrectCount} música(s)! Continue treinando o ouvido!`;
+                textColor = 'var(--cor-amarelo-cbjr)';
+            } else {
+                title = "Tente Novamente!";
+                message = `Você não acertou nenhuma música desta vez. Mas a próxima rodada pode ser a sua!`;
+                textColor = 'var(--cor-vermelho-incorreto)';
+            }
+
+            elements.bonusMusicScreen.innerHTML = `
+                <h2>${title}</h2>
+                <p style="font-family: Arial, sans-serif;">${message}</p>
+                <p style="font-family: Arial, sans-serif; font-weight: bold; margin-bottom: 20px;">Seus resultados:</p>
+                <p style="font-family: Arial, sans-serif;">Acertos: <span style="color: var(--cor-verde-correto);">${bonusGameState.bonusCorrectCount}</span></p>
+                <p style="font-family: Arial, sans-serif;">Erros: <span style="color: var(--cor-vermelho-incorreto);">${bonusGameState.bonusErrorsCount}</span></p>
+                <div class="bonus-controls" style="margin-top: 30px;">
+                    <button id="bonus-play-again-btn">Jogar Novamente</button>
+                    <button id="bonus-exit-game-btn">Voltar ao Menu Principal</button>
+                </div>
+                `;
+            elements.bonusMusicScreen.style.backgroundColor = `rgba(0, 0, 0, 0.9)`; // Fundo ligeiramente diferente para o resultado
+            elements.bonusMusicScreen.style.color = textColor; // Define a cor principal do texto da mensagem final
+
+            // Re-adiciona os listeners aos botões recém-criados
+            document.getElementById('bonus-play-again-btn').onclick = startBonusMusicGame;
+            document.getElementById('bonus-exit-game-btn').onclick = hideBonusMusicScreen;
+        }
+
 
         // --- Inicialização ao Carregar a Página ---
-        const allChoraoPhrases = [
-            "Não busco a perfeição em ninguém, não quero que busquem isso em mim.",
-            "Quem é de verdade sabe quem é de mentira.",
-            "Eles querem que você se sinta mal, pois assim eles se sentem bem.",
-            "Eu me flagrei pensando em você em você em tudo o que eu queria te dizer...",
-            "Não tão complicado demais, mas nem tão simples assim.",
-            "Se eu não puder fazer você ser a pessoa más feliz, eu chego más perto disso possível.",
-            "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum."
-        ];
-
-
         window.onload = () => {
             console.log("window.onload: Página carregada. Iniciando setup.");
             loadAchievements();
             quizState.highScore = parseInt(localStorage.getItem('cobjr_quiz_highscore') || '0');
             elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
 
-            quizState.totalMainLevels = questionsByLevel.length - 1; 
+            quizState.totalMainLevels = questionsByLevel.length - 1;
 
             preloadImages(backgroundImages, () => {
                 document.body.style.backgroundImage = `url("${backgroundImages[0]}")`;
                 changeBackgroundImageInterval();
             });
 
-            elements.quiz.addEventListener('click', handleQuizClick); 
+            // Adiciona um listener global para cliques no body (delegação de eventos)
+            document.body.addEventListener('click', handleQuizClick);
             
-            elements.fiftyFiftyBtn.addEventListener('click', useFiftyFifty); 
-            elements.skipQuestionBtn.addEventListener('click', skipQuestion); 
+            // Adiciona listeners para os botões de power-up (já estão no HTML, só ligar)
+            elements.fiftyFiftyBtn.addEventListener('click', useFiftyFifty);
+            elements.skipQuestionBtn.addEventListener('click', skipQuestion);
             
-            document.addEventListener('keydown', handleKeyboardInput); 
+            // Adiciona listener global para eventos de teclado
+            document.addEventListener('keydown', handleKeyboardInput);
             
+            // Configura os listeners do player de áudio
             setupPlayerEventListeners();
 
+            // Configura o estado inicial do volume do player de áudio
             elements.audio.volume = playerState.previousVolume;
             elements.volumeSlider.value = playerState.previousVolume;
             elements.volumeValueSpan.textContent = `${Math.round(elements.audio.volume * 100)}%`;
@@ -3891,6 +4565,7 @@
                 elements.audio.muted = false;
             }
 
+            // Carrega a playlist de músicas
             fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
                 .then(res => {
                     if (!res.ok) {
@@ -3908,8 +4583,15 @@
                     } else {
                         console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
                         elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
+                        elements.playPauseBtn.disabled = true;
+                        elements.prevBtn.disabled = true;
+                        elements.nextBtn.disabled = true;
+                        elements.repeatBtn.disabled = true;
+                        elements.shuffleBtn.disabled = true;
+                        elements.muteBtn.disabled = true;
+                        elements.volumeSlider.disabled = true;
                     }
-                    showIntroMessage(); 
+                    showIntroMessage(); // Mostra a tela de introdução após carregar a playlist
                 })
                 .catch(error => {
                     console.error('Erro ao carregar playlist:', error);
@@ -3921,11 +4603,12 @@
                     elements.shuffleBtn.disabled = true;
                     elements.muteBtn.disabled = true;
                     elements.volumeSlider.disabled = true;
-                    showIntroMessage(); 
+                    showIntroMessage(); // Ainda mostra a intro mesmo com erro na playlist
                 });
 
-            elements.startSecretLevelBtn.addEventListener('click', startSecretLevel);
-            elements.restartFromCompletionBtn.addEventListener('click', restartQuiz);
+            // Adiciona listeners para botões que não são do quiz principal e que não estão na intro
+            elements.restartBtn.onclick = restartQuiz; // Botão "Reiniciar Quiz"
+            elements.closeAchievementDetailPopupBtn.onclick = closeAchievementDetailPopup; // Botão "Fechar" do detalhe da conquista
         };
     </script>
 </body>
