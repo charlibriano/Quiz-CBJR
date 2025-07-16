@@ -19,7 +19,7 @@
             --cor-preto-principal: #343434;
             --cor-verde-correto: #2ecc71;
             --cor-vermelho-incorreto: #e74c3c;
-            /* Mais transparência para a caixa de mensagem principal */
+            /* Más transparência para a caixa de mensagem principal */
             --cor-fundo-transparente: rgba(0, 0, 0, 0.3);
             --cor-texto-claro: white;
             --cor-texto-escuro: black;
@@ -123,7 +123,6 @@
             90% { transform: translate(-50%, -50%) rotate(1.5deg); }
         }
 
-
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -151,7 +150,6 @@
             }
         }
 
-
         header h1 {
             font-family: 'Elektrix', sans-serif;
             font-size: 2.5em;
@@ -166,11 +164,11 @@
         }
 
         .container {
-            max-width: 900px;
-            width: 100%;
-            /* AGORA USA a variável centralizada */
+            /* Ajustes para responsividade */
+            max-width: 960px; /* Aumentado um pouco para telas maiores */
+            width: 95%; /* Ocupa mais da largura em telas menores */
             background-color: var(--cor-fundo-transparente);
-            padding: 40px;
+            padding: 30px; /* Reduzido o padding para caber mais conteúdo */
             border-radius: 16px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
             margin-bottom: 40px;
@@ -178,6 +176,7 @@
             flex-direction: column;
             align-items: center;
             position: relative;
+            box-sizing: border-box; /* Garante que padding não adicione largura */
         }
 
         .quiz-info-bottom {
@@ -187,7 +186,7 @@
             gap: 10px;
             color: rgba(255, 255, 255, 0.9);
             text-align: center;
-            margin-top: 20px; /* Ajustado para compensar a remoção da barra de progresso */
+            margin-top: 20px;
             padding-top: 10px;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             width: 100%;
@@ -227,15 +226,14 @@
 
         /* Power-ups: NOVO POSICIONAMENTO AQUI DENTRO DO CONTAINER */
         #power-ups-container {
-            /* Removido `position: fixed;` e `bottom: ...` para que fique dentro do fluxo normal */
-            width: 90%; /* Ajuste a largura conforme o necessário para ficar bom no lugar da barra */
-            margin-top: 25px; /* Para dar um espaçamento em relação à pergunta ou elementos acima */
-            margin-bottom: 25px; /* Para dar um espaçamento em relação ao quiz-info-bottom */
+            width: 90%;
+            margin-top: 25px;
+            margin-bottom: 25px;
             display: flex;
-            justify-content: center; /* Centraliza os botões dentro do container */
+            justify-content: center;
             gap: 10px;
-            z-index: 10; /* Pode manter ou ajustar se houver sobreposição */
-            flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas pequenas */
+            z-index: 10;
+            flex-wrap: wrap;
         }
 
         .power-up-btn {
@@ -277,14 +275,14 @@
         /* Media queries para power-ups ajustadas para o novo posicionamento */
         @media (max-width: 768px) {
             #power-ups-container {
-                position: relative; /* Volta para relative */
-                top: auto; /* Remove top */
-                left: auto; /* Remove left */
-                transform: none; /* Remove transform */
-                width: 90%; /* Ajuste a largura para ocupar o espaço necessário */
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                width: 90%;
                 justify-content: center;
                 flex-wrap: wrap;
-                margin-top: 20px; /* Ajuste para espaçamento */
+                margin-top: 20px;
                 margin-bottom: 20px;
             }
             .power-up-btn {
@@ -294,7 +292,7 @@
         }
         @media (max-width: 480px) {
             #power-ups-container {
-                margin-top: 15px; /* Ajusta ainda más para telas pequenas */
+                margin-top: 15px;
                 margin-bottom: 15px;
                 gap: 5px;
                 padding: 5px 0;
@@ -304,7 +302,6 @@
                 font-size: 0.7em;
             }
         }
-
 
         .question {
             opacity: 1;
@@ -317,22 +314,24 @@
         }
 
         .question h3 {
-            font-size: 1.8em;
+            /* Ajustes para responsividade */
+            font-size: 2em; /* Reduzido ligeiramente para caber melhor em telas menores */
             font-family: 'Elektrix', sans-serif;
             margin-bottom: 25px;
             line-height: 1.4;
-            /* NOVO: Brilho na fonte para destaque */
             text-shadow:
                 0 0 5px rgba(255, 255, 255, 0.7),
                 0 0 10px rgba(255, 255, 255, 0.5),
                 0 0 15px var(--cor-amarelo-cbjr);
+            /* Garante que o texto quebre linhas se for muito longo */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         /* NOVO: Classe para aplicar o efeito de tremor */
         .question h3.shake {
             animation: shake 0.2s 3; /* Dura 0.2s e repete 3 vezes */
         }
-
 
         /* REMOVENDO CRONÔMETRO VISUAL */
         .timer-display {
@@ -426,7 +425,6 @@
         .answer-button.glow-incorrect {
             animation: glow-incorrect 1.5s ease-out forwards;
         }
-
 
         .question button .feedback-icon {
             margin-left: 8px;
@@ -670,7 +668,6 @@
             color: var(--cor-vermelho-incorreto);
         }
 
-
         /* Media Query para forçar 2 colunas em telas maiores que 600px */
         @media (min-width: 601px) {
             #achievements-list {
@@ -702,7 +699,12 @@
                 font-size: 0.6em; /* Reduz fonte do status */
             }
             /* Ajustes para o botão de fechar na tela de conquistas */
-            #close-achievements-btn, #start-bonus-music-btn {
+            /* NOVO: Estilo para o botão "Voltar à Página Inicial" */
+            #close-achievements-btn {
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+            #start-bonus-music-btn {
                 font-size: 0.9em;
                 padding: 8px 15px;
             }
@@ -725,7 +727,6 @@
                 font-size: 0.8em;
             }
         }
-
 
         #restart-btn {
             padding: 15px 30px;
@@ -844,7 +845,6 @@
             /* A duração será definida via JS */
         }
 
-
         #audio {
             display: none;
         }
@@ -918,7 +918,6 @@
         #mute-btn #volume-svg { display: block; }
         #mute-btn #mute-svg { display: none; }
 
-
         .audio-control-btn svg {
             /* Estilo para os SVGs DENTRO dos botões */
             width: 100%;
@@ -927,7 +926,7 @@
             transition: fill 0.3s ease, transform 0.2s ease;
         }
         /* Cor padrão para os elementos internos dos SVGs complexos (repeat e shuffle) */
-        /* Estos são os defaults baseados nos SVGs que você fornecido */
+        /* Estes são os defaults baseados nos SVGs que você fornecido */
         #repeat-btn svg .repeat-outer-circle { fill: #344E5D; }
         #repeat-btn svg .repeat-arrow-1, #repeat-btn svg .repeat-arrow-2 { fill: white; }
         #repeat-btn #repeat-one-svg .repeat-one-circle { fill: #b3b3b3; }
@@ -939,7 +938,6 @@
             stroke: #535353;
             fill: none;
         }
-
 
         .audio-control-btn:hover {
             background-color: transparent;
@@ -967,7 +965,6 @@
         }
         #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-circle { fill: #ffffff; }
         #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-number, #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-arrows { fill: black; }
-
 
         .audio-control-btn:active {
             transform: none;
@@ -1036,7 +1033,6 @@
         #volume-svg path, #mute-svg path {
             fill: var(--cor-verde-vibrante) !important;
         }
-
 
         .audio-volume-controls {
             display: flex;
@@ -1173,7 +1169,6 @@
                 line-height: 1.5; /* Garante boa legibilidade */
             }
         }
-
 
         #level-up-message p, #level-up-message ul, #level-up-message li, #level-up-message strong {
             font-family: Arial, sans-serif;
@@ -1727,7 +1722,6 @@
             box-shadow: 0 0 10px var(--cor-vermelho-incorreto);
         }
 
-
         #bonus-music-screen #bonus-answer-input::placeholder {
             color: rgba(255, 255, 255, 0.7);
         }
@@ -1839,7 +1833,7 @@
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.7s ease-in-out; /* Transição mais lenta para impacto */
+            transition: opacity 0.7s ease-in-out; /* Transição más lenta para impacto */
             border: 3px solid var(--cor-bonus-conquista-borda);
             box-sizing: border-box;
         }
@@ -1996,7 +1990,7 @@
         <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2>
         <div id="achievements-list"></div>
         <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-            <button id="close-achievements-btn">Voltar</button>
+            <button id="close-achievements-btn">Voltar à Página Inicial</button>
         </div>
     </div>
 
@@ -2020,7 +2014,6 @@
             <button id="restart-from-completion-btn">Reiniciar Quiz</button>
         </div>
     </div>
-
 
     <div id="ranking-screen" style="display:none;">
         <h2>Top 10 Feras do CBJR</h2>
@@ -2125,7 +2118,7 @@
             </div>
         </div>
     </div>
-<script type="module">
+	<script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -2410,7 +2403,6 @@
         "CD%20bonus.jpeg": "Bônus Fã: Adivinhe a Música" // Nome para a capa do bônus
     };
 
-
     // --- Referências de Elementos DOM ---
     const elements = {
         quiz: document.getElementById('quiz'),
@@ -2497,7 +2489,6 @@
         bonusAchievementMessage: document.getElementById('bonus-achievement-message'),
         bonusAchievementCover: document.getElementById('bonus-achievement-cover'),
         bonusAchievementCloseBtn: document.getElementById('bonus-achievement-close-btn'),
-
 
         // Botões da tela de introdução (agora referenciados via ID)
         startQuizButton: null, // Será atribuído dinamicamente
@@ -2730,7 +2721,6 @@
             elements.currentTimeSpan.textContent = '0:00';
             elements.totalDurationSpan.textContent = '0:00';
         }
-
 
         elements.audio.onloadedmetadata = () => {
             if (!isNaN(elements.audio.duration) && elements.audio.duration > 0) {
@@ -3241,7 +3231,6 @@
         }
     }
 
-
     // NOVO: Função para mostrar a tela de conclusão dos níveis principais
     function showCompletionScreen() {
         console.log("showCompletionScreen: Exibindo tela de conclusão dos níveis principais.");
@@ -3288,8 +3277,8 @@
                 if (hasRecoveredLife) { // Se a lógica de recuperação foi ativada e adicionou vida
                     livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Perfeito! Você recuperou ${LIVES_RECOVER_PER_LEVEL} vida(s)! ❤️</p>`;
                 } else { // Já estava com o máximo de vidas e não errou
-                                livesFeedbackMessage = `
-                                <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
+                                        livesFeedbackMessage = `
+                                        <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
                 }
             } else if (errorsInPreviousLevel === 1) {
                 livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Errou 1 heim mané! Pra ser CBJR tem que ficar más esperto.</p>`;
@@ -3330,7 +3319,6 @@
             updateQuizInfo();
         }, { once: true }); // Executa o handler apenas uma vez ao final da transição
     }
-
 
     function updateQuizInfo() {
         elements.scoreText.textContent = `Pontos: ${quizState.score}`;
@@ -3437,7 +3425,6 @@
         }, 1000); // Curto delay para feedback visual
     }
 
-
     function showComboMessage(combo) {
         let message = '';
         let bonusPoints = 0;
@@ -3521,7 +3508,6 @@
             quizState.originScreen = 'quiz';
         }
 
-
         quizState.quizPaused = true;
         elements.quiz.style.pointerEvents = 'none'; // Desabilita o quiz
         showMainOverlay(); // Mostra a overlay principal
@@ -3536,7 +3522,6 @@
         // NOVO: Esconde a tela de conquista do bônus
         elements.bonusAchievementScreen.classList.remove('show');
         elements.bonusAchievementScreen.style.display = 'none';
-
 
         elements.achievementsScreen.style.display = 'flex';
         elements.achievementsScreen.classList.add('show');
@@ -3566,7 +3551,6 @@
             return achievements[a].name.localeCompare(achievements[b].name);
         });
 
-
         sortedAchievementIds.forEach(id => {
             const achievement = achievements[id];
             const isUnlocked = achievement.unlocked;
@@ -3593,7 +3577,7 @@
             elements.achievementsList.appendChild(card);
         });
 
-        // Re-atribuir listener para o botão de fechar a tela de conquistas
+        // Re-atribuir listener para o botão "Voltar à Página Inicial"
         elements.closeAchievementsBtn.onclick = closeAchievementsScreen;
     }
 
@@ -3647,7 +3631,7 @@
         }, { once: true });
     }
 
-
+    // ALTERADO: closeAchievementsScreen agora será chamada pelo clique na overlay principal.
     function closeAchievementsScreen() {
         console.log("closeAchievementsScreen: Fechando tela de conquistas e voltando para a introdução.");
         elements.achievementsScreen.classList.remove('show');
@@ -3712,7 +3696,6 @@
             return;
         }
 
-
         quizState.isProcessingAnswer = false;
         elements.quiz.style.pointerEvents = 'all'; // Reabilitar cliques no quiz container
 
@@ -3773,49 +3756,82 @@
         // 1. Lidar com cliques em telas de overlay (conquistas, level-up/intro, completion-screen, ranking-screen, bonus-music-screen)
         if (elements.achievementsScreen.classList.contains('show')) {
             const clickedCard = event.target.closest('.achievement-card');
+            const clickedCloseBtn = event.target.closest('#close-achievements-btn'); // Captura o clique no botão "Voltar"
+            
+            // Se clicou em um card de conquista, mostra o detalhe.
             if (clickedCard) {
                 const achievementId = clickedCard.dataset.achievementId;
                 showAchievementDetailPopup(achievementId);
+            } 
+            // Se clicou no botão "Voltar à Página Inicial", chama a função para fechar a tela.
+            else if (clickedCloseBtn) {
+                closeAchievementsScreen();
             }
-            // Os botões de fechar (closeAchievementsBtn) já têm listeners atribuídos com `.onclick`.
-            event.stopPropagation();
+            // Se clicou em qualquer outra parte da overlay (exceto os cards que já foram tratados), fecha a tela.
+            // Removemos a verificação específica de `event.target === elements.achievementsScreen`
+            // porque o `event.target.closest()` já cobre o clique dentro da tela,
+            // e o `stopPropagation` abaixo garante que não afete elementos fora da overlay.
+            // Para fechar ao clicar no background:
+            else if (event.target === elements.mainOverlay) { 
+                closeAchievementsScreen();
+            }
+
+            event.stopPropagation(); // Sempre parar a propagação se a tela de conquistas está aberta
             return;
         }
         if (elements.rankingScreen.classList.contains('show')) {
             // Os botões de fechar (closeRankingBtn) já têm listeners atribuídos com `.onclick`.
+            if (event.target === elements.rankingScreen || event.target.tagName === 'H2') {
+                closeRankingScreen();
+            }
             event.stopPropagation();
             return;
         }
         // ALTERADO: Ajustado para o botão de fechar do detail popup (que está dentro dele)
         if (elements.achievementDetailPopup.classList.contains('show')) {
             // Botão de fechar já tem listener direto.
+            if (event.target === elements.achievementDetailPopup || event.target.tagName === 'H3') {
+                closeAchievementDetailPopup();
+            }
             event.stopPropagation(); // Sempre parar a propagação se o detail popup está ativo
             return;
         }
         if (elements.completionScreen.classList.contains('show')) {
             // Botões já têm listeners diretos, então não precisam ser checados aqui.
+            if (event.target === elements.completionScreen || event.target.tagName === 'H2') {
+                // Se clicou na própria overlay da tela de conclusão ou no H2, não faz nada ou fecha?
+                // Por agora, não faremos nada, já que tem botões específicos para ação.
+            }
             event.stopPropagation();
             return;
         }
         // ALTERADO: Ações específicas para botões na level-up-message (frase do Chorão)
         if (elements.levelUpMessage.classList.contains('show')) {
             // Os botões já têm listeners diretos adicionados em `showIntroMessage` ou `showLevelUpMessage`
+            if (event.target === elements.levelUpMessage || event.target.tagName === 'H3') {
+                 // Não faz nada ou fecha, se houver um botão de fechar implícito
+            }
             event.stopPropagation(); // Sempre para a propagação
             return;
         }
         // NOVO: Lidar com cliques na tela do Bônus Fã
         if (elements.bonusMusicScreen.classList.contains('show')) {
             // Os botões já têm listeners diretos adicionados em `showBonusMusicScreen` ou `endBonusMusicGame`
+            if (event.target === elements.bonusMusicScreen || event.target.tagName === 'H2') {
+                // Não faz nada
+            }
             event.stopPropagation();
             return;
         }
         // NOVO: Lidar com cliques na tela de Conquista do Bônus
         if (elements.bonusAchievementScreen.classList.contains('show')) {
             // O botão de fechar já tem listener direto.
+            if (event.target === elements.bonusAchievementScreen || event.target.tagName === 'H2') {
+                // Não faz nada
+            }
             event.stopPropagation();
             return;
         }
-
 
         // Se chegamos aqui, nenhuma tela de overlay está consumindo o clique.
         // Agora, verificar os power-ups.
@@ -3850,7 +3866,7 @@
     function handleKeyboardInput(event) {
         // Lógica similar a handleQuizClick para prioridade de eventos de teclado
         if (elements.achievementsScreen.classList.contains('show')) {
-            if (event.key === 'Escape') { elements.closeAchievementsBtn.click(); }
+            if (event.key === 'Escape') { closeAchievementsScreen(); } // Chama a função diretamente
             return;
         }
         if (elements.rankingScreen.classList.contains('show')) {
@@ -4051,19 +4067,19 @@
                         unlockAchievement("secret_level_completed");
                         endGame(true);
                     } else if (quizState.currentLevel === quizState.totalMainLevels - 1) {
-                                // Se for o último nível principal (o Nível 7) e esta é a última pergunta desse nível
-                                console.log("checkAnswer: Última pergunta do último nível principal acertada. Exibindo tela de conclusão dos níveis principais.");
-                                unlockAchievement("all_main_levels_completed");
-                                showCompletionScreen();
+                                                // Se for o último nível principal (o Nível 7) e esta é a última pergunta desse nível
+                                                console.log("checkAnswer: Última pergunta do último nível principal acertada. Exibindo tela de conclusão dos níveis principais.");
+                                                unlockAchievement("all_main_levels_completed");
+                                                showCompletionScreen();
                     } else {
-                                // Desbloqueia a conquista de nível para os níveis 1, 3 e 5.
-                                // Nota: Os IDs das conquistas precisam estar configurados para cada nível específico.
-                                if (quizState.currentLevel === 0) unlockAchievement("first_level_completed");
-                                if (quizState.currentLevel === 2) unlockAchievement("level_3_completed");
-                                if (quizState.currentLevel === 4) unlockAchievement("level_5_completed");
+                                                // Desbloqueia a conquista de nível para os níveis 1, 3 e 5.
+                                                // Nota: Os IDs das conquistas precisam estar configurados para cada nível específico.
+                                                if (quizState.currentLevel === 0) unlockAchievement("first_level_completed");
+                                                if (quizState.currentLevel === 2) unlockAchievement("level_3_completed");
+                                                if (quizState.currentLevel === 4) unlockAchievement("level_5_completed");
 
-                                quizState.currentLevel++;
-                                loadLevel();
+                        quizState.currentLevel++;
+                        loadLevel();
                     }
                 } else {
                     quizState.currentQuestionIndexInLevel++;
@@ -4137,7 +4153,7 @@
     }
 
     async function loadRanking() {
-        // As referências do Firebase agora estão diretamente disponíveis no escopo do módulo
+        // As referências do Firebase agora estão directamente disponíveis no escopo do módulo
         if (!db || !collection || !query || !orderBy || !limit || !getDocs) {
             console.error("Firebase Firestore SDK não está disponível ou foi importado incorretamente.");
             return [];
@@ -4675,7 +4691,6 @@
             elements.bonusSkipBtn.disabled = false;
         }
     }
-
 
     function endBonusMusicGame(completedAllSongs) {
         console.log("endBonusMusicGame: Finalizando jogo de Bônus Fã.");
