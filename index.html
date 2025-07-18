@@ -741,7 +741,8 @@
         }
         /* Os botões start-btn e achievements-btn não estão más no container principal HTML, más sim na overlay da intro message */
         /* Más podemos manter o estilo base para botões da overlay para consistência, ou criar um estilo específico para eles lá se quiser */
-        #level-up-message .message-buttons button {
+        #level-up-message .message-buttons button,
+        #welcome-screen .message-buttons button { /* ADICIONADO: Seleciona botões da nova tela de boas-vindas */
             padding: 12px 25px; /* Ajuste para ter um tamanho más padronizado com outros botões */
             font-size: 1.2em; /* Ajuste */
             background-color: var(--cor-preto-principal);
@@ -753,7 +754,8 @@
             text-shadow: 0 0 8px rgba(255,255,255,0.8);
             margin-top: 20px; /* Adicionado para afastar dos textos */
         }
-        #level-up-message button:hover {
+        #level-up-message button:hover,
+        #welcome-screen button:hover { /* ADICIONADO: Seleciona botões da nova tela de boas-vindas */
             transform: scale(1.05);
             background-color: #4a4a4a;
         }
@@ -1098,7 +1100,8 @@
         }
 
         /* Estilo para a mensagem de nível e instruções */
-        #level-up-message {
+        #level-up-message,
+        #welcome-screen { /* ADICIONADO: Estilo também para a nova tela de boas-vindas */
             position: fixed;
             top: 50%;
             left: 50%;
@@ -1130,10 +1133,12 @@
             min-width: 280px; /* Ajustado min-width */
             box-sizing: border-box;
         }
-        #level-up-message.show {
+        #level-up-message.show,
+        #welcome-screen.show { /* ADICIONADO: Exibir também a nova tela de boas-vindas */
             opacity: 1;
         }
-        #level-up-message h3 {
+        #level-up-message h3,
+        #welcome-screen h3 { /* ADICIONADO: Estilo para o título da nova tela de boas-vindas */
             font-size: 1.1em; /* Ajustado em relação ao novo font-size base */
             margin-bottom: 8px; /* Ajustado */
             line-height: 1.2;
@@ -1170,57 +1175,68 @@
             }
         }
 
-        #level-up-message p, #level-up-message ul, #level-up-message li, #level-up-message strong {
+        #level-up-message p, #level-up-message ul, #level-up-message li, #level-up-message strong,
+        #welcome-screen p, #welcome-screen ul, #welcome-screen li, #welcome-screen strong { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
             font-family: Arial, sans-serif;
             text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.5);
         }
 
-        #level-up-message p {
+        #level-up-message p,
+        #welcome-screen p { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
             font-size: 0.85em; /* Ajustado */
             line-height: 1.4;
         }
-        #level-up-message ul {
+        #level-up-message ul,
+        #welcome-screen ul { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
             font-size: 0.75em; /* Ajustado */
             padding-left: 15px;
             text-align: left;
             margin: 10px auto 15px auto; /* Ajustado margem */
             max-width: 90%; /* Ajustado max-width */
         }
-        #level-up-message li {
+        #level-up-message li,
+        #welcome-screen li { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
             margin-bottom: 4px; /* Ajustado */
         }
 
         /* Media query para telas médias (tablets e smartphones maiores) - Otimizado */
         @media (max-width: 768px) {
-            #level-up-message {
+            #level-up-message,
+            #welcome-screen { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 padding: 25px 30px; /* Aumentado padding para más espaço */
                 font-size: 1.5em; /* Reduzido um pouco para ser más responsivo */
                 max-width: 90%; /* Ocupa más espaço horizontal */
                 min-width: unset; /* Remove min-width para flexibilidade */
                 gap: 15px; /* Mantido ou levemente ajustado o gap */
             }
-            #level-up-message h3 {
+            #level-up-message h3,
+            #welcome-screen h3 { /* ADICIONADO: Estilo para o título da nova tela de boas-vindas */
                 font-size: 1.3em; /* Título principal um pouco maior */
                 margin-bottom: 12px; /* Ajustado */
             }
-            #level-up-message p {
+            #level-up-message p,
+            #welcome-screen p { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 font-size: 1em; /* Texto do parágrafo um pouco maior */
                 line-height: 1.6; /* Melhorar legibilidade */
             }
-            #level-up-message ul {
+            #level-up-message ul,
+            #welcome-screen ul { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 font-size: 0.9em; /* Lista maior */
                 padding-left: 25px; /* Aumentado indentação */
                 max-width: 95%; /* Ocupa más largura */
                 margin: 18px auto; /* Más margem vertical */
             }
-            #level-up-message li {
+            #level-up-message li,
+            #welcome-screen li { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 margin-bottom: 8px; /* Más espaço entre itens da lista */
             }
-            #level-up-message .message-buttons {
+            #level-up-message .message-buttons,
+            #welcome-screen .message-buttons { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 flex-direction: row; /* Volta para linha em telas médias */
                 gap: 15px; /* Espaço entre botões */
             }
-            #level-up-message .message-buttons button {
+            #level-up-message .message-buttons button,
+            #welcome-screen .message-buttons button { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 padding: 15px 25px; /* Botões maiores e más fáceis de tocar */
                 font-size: 1.1em; /* Fonte dos botões más legível */
             }
@@ -1228,7 +1244,8 @@
 
         /* Media query para telas pequenas (smartphones menores) - Otimizado */
         @media (max-width: 480px) {
-            #level-up-message {
+            #level-up-message,
+            #welcome-screen { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 padding: 20px; /* Padding ajustado */
                 font-size: 1.2em; /* Reduzido o font-size base novamente */
                 border-radius: 10px; /* Bordas más suaves */
@@ -1236,26 +1253,32 @@
                 max-width: 350px; /* Limite máximo para evitar que fique muito grande em landscape */
                 gap: 12px; /* Gap ajustado */
             }
-            #level-up-message h3 {
+            #level-up-message h3,
+            #welcome-screen h3 { /* ADICIONADO: Estilo para o título da nova tela de boas-vindas */
                 font-size: 1.1em;
             }
-            #level-up-message p {
+            #level-up-message p,
+            #welcome-screen p { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 font-size: 0.95em;
             }
-            #level-up-message ul {
+            #level-up-message ul,
+            #welcome-screen ul { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 font-size: 0.85em; /* Lista menor, but ainda clara */
                 padding-left: 20px; /* Indentação mantida */
                 max-width: 100%; /* Ocupa toda a largura disponível */
                 margin: 12px auto; /* Margem ajustada */
             }
-            #level-up-message li {
+            #level-up-message li,
+            #welcome-screen li { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 margin-bottom: 6px; /* Espaço entre itens da lista */
             }
-            #level-up-message .message-buttons {
+            #level-up-message .message-buttons,
+            #welcome-screen .message-buttons { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 flex-direction: column; /* Força coluna para botões em telas pequenas */
                 gap: 10px; /* Espaço entre botões */
             }
-            #level-up-message .message-buttons button {
+            #level-up-message .message-buttons button,
+            #welcome-screen .message-buttons button { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 padding: 12px 20px; /* Botões menores, but ainda clicáveis */
                 font-size: 1em; /* Fonte dos botões */
             }
@@ -1946,6 +1969,62 @@
                 padding: 8px 15px;
             }
         }
+
+        /* NOVO: Estilo para a NOVA TELA DE BOAS-VINDAS (após a introdução inicial) */
+        #welcome-screen {
+            /* Basicamente os mesmos estilos de #level-up-message, mas pode ser ajustado para ser mais simples */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--cor-fundo-transparente);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: var(--cor-texto-claro);
+            padding: 40px 30px; /* Aumentado um pouco o padding para esta tela */
+            border-radius: 15px;
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2em; /* Um pouco maior */
+            text-shadow:
+                0 0 5px rgba(255, 255, 255, 0.7),
+                0 0 10px rgba(255, 255, 255, 0.5),
+                0 0 15px var(--cor-amarelo-cbjr);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: all;
+            width: auto;
+            max-width: 600px;
+            min-height: 200px; /* Garante uma altura mínima */
+            box-sizing: border-box;
+        }
+
+        #welcome-screen.show {
+            opacity: 1;
+        }
+
+        #welcome-screen h3 {
+            font-size: 1.5em; /* Título grande */
+            margin-bottom: 25px;
+            color: var(--cor-amarelo-cbjr);
+            text-shadow:
+                0 0 8px rgba(255, 255, 255, 0.9),
+                0 0 20px var(--cor-amarelo-cbjr);
+        }
+
+        #welcome-screen .message-buttons {
+            margin-top: 30px;
+        }
+
+        #welcome-screen button {
+            /* Manterá os estilos de .message-buttons button */
+        }
     </style>
 </head>
 <body>
@@ -1986,7 +2065,7 @@
     
     <div id="main-overlay" style="display:none;"></div>
 
-    <div id="achievements-screen" style="display:none;">
+    <div id="welcome-screen" style="display:none;"></div> <div id="achievements-screen" style="display:none;">
         <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2>
         <div id="achievements-list"></div>
         <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
@@ -2118,7 +2197,7 @@
             </div>
         </div>
     </div>
-	<script type="module">
+<script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -2490,8 +2569,12 @@
         bonusAchievementCover: document.getElementById('bonus-achievement-cover'),
         bonusAchievementCloseBtn: document.getElementById('bonus-achievement-close-btn'),
 
+        // NOVO: Elementos para a NOVA TELA DE BOAS-VINDAS
+        welcomeScreen: document.getElementById('welcome-screen'),
+        startQuizButtonWelcome: null, // Será atribuído dinamicamente
+        
         // Botões da tela de introdução (agora referenciados via ID)
-        startQuizButton: null, // Será atribuído dinamicamente
+        startQuizButtonIntro: null, // Será atribuído dinamicamente (antigo "Entendi! Começar!")
         showAchievementsButton: null, // Será atribuído dinamicamente
         showRankingButtonIntro: null, // Será atribuído dinamicamente
 
@@ -2943,7 +3026,7 @@
                 elements.muteSvg.style.display = 'none';
                 elements.audio.volume = playerState.previousVolume;
                 elements.volumeSlider.value = playerState.previousVolume;
-                elements.volumeValueSpan.textContent = `${Math.round(elements.volumeSlider.value * 100)}%`;
+                elements.volumeValueSpan.textContent = `${Math.round(elements.audio.volume * 100)}%`;
             } else {
                 playerState.previousVolume = elements.audio.volume;
                 elements.audio.muted = true;
@@ -3030,36 +3113,27 @@
         }, { once: true });
     }
 
+    // ALTERADO: showIntroMessage agora mostra a tela inicial simplificada
     function showIntroMessage() {
-        console.log("showIntroMessage: Exibindo tela de introdução.");
+        console.log("showIntroMessage: Exibindo tela de introdução simplificada.");
         quizState.quizPaused = true;
         showMainOverlay();
         
-        elements.quiz.innerHTML = '';
+        elements.quiz.innerHTML = ''; // Limpa o quiz
+        elements.levelUpMessage.style.display = 'none'; // Garante que a level-up-message está oculta
 
-        elements.levelUpMessage.innerHTML = `
-            <div>
-                <h3>Bem-vindo ao Quiz do Charlie Brown Jr!</h3>
-                <p style="font-family: Arial, sans-serif; font-size: 1.0em; margin-top: 15px; line-height: 1.5;">Venha testar seus conhecimentos sobre a banda!</p>
-                <p style="font-family: Arial, sans-serif; font-size: 0.95em; margin-top: 10px; font-weight: bold; line-height: 1.4;">A pontuação é distribuída da seguinte forma:</p>
-                <ul style="font-family: Arial, sans-serif; text-align: left; list-style-type: none; padding-left: 20px;">
-                    <li style="margin-bottom: 5px;">&#x2705; Resposta correta: <b>${BASE_SCORE_PER_CORRECT} pontos base</b>.</li>
-                    <li style="margin-bottom: 5px;">&#x1F680; Resposta muito rápida (até ${BONUS_MAX_THRESHOLD}s): <b>+${BONUS_MAX} pontos bônus</b>.</li>
-                    <li style="margin-bottom: 5px;">&#x26A1; Resposta rápida (até ${BONUS_MEDIUM_THRESHOLD}s): <b>+${BONUS_MEDIUM} pontos bônus</b>.</li>
-                    <li style="margin-bottom: 5px;">&#x23F1; Resposta no tempo (até ${TIME_PER_QUESTION}s): <b>+${BONUS_MIN} ponto bônus</b>.</li>
-                    <li style="margin-bottom: 5px;">&#x274C; Resposta incorreta ou tempo esgotado: <b>0 pontos e perde 1 vida</b>.</li>
-                    <li style="margin-bottom: 8px;">&#x1F499; Você tem <b>${MAX_LIVES} vidas</b>. Ao chegar a 0, o quiz termina.</li>
-                    <li>&#x1F3C6; Acertos consecutivos (combo) dão <b>bônus de pontos extras!</b></li>
-                </ul>
-            </div>
+        elements.welcomeScreen.innerHTML = `
+            <h3>Bem-vindo ao Quiz do Charlie Brown Jr!</h3>
             <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                <button id="start-quiz-button-intro">Entendi! Começar!</button>
+                <button id="start-quiz-button-welcome">Entrar no Quiz</button>
                 <button id="show-achievements-button-intro">Conquistas</button>
                 <button id="show-ranking-button-intro">Ranking Online</button>
-                <button id="start-bonus-music-btn">Bônus Fã: Adivinhe a Música!</button> </div>
-            `;
-        elements.levelUpMessage.style.display = 'flex';
-        elements.levelUpMessage.classList.add('show');
+                <button id="start-bonus-music-btn">Bônus Fã: Adivinhe a Música!</button>
+            </div>
+        `;
+        elements.welcomeScreen.style.display = 'flex';
+        elements.welcomeScreen.classList.add('show');
+        
         // Garante que o quiz e o restart button não apareçam enquanto a intro está ativa
         elements.quiz.style.display = 'none';
         elements.restartBtn.style.display = 'none';
@@ -3067,18 +3141,59 @@
         elements.powerUpsContainer.style.display = 'none';
 
         // ATUALIZA AS REFERÊNCIAS DOS BOTÕES PARA OS NOVOS ELEMENTOS CRIADOS
-        // Usar onclick para sobrescrever listeners antigos e evitar duplicação.
-        elements.startQuizButton = document.getElementById('start-quiz-button-intro');
+        elements.startQuizButtonWelcome = document.getElementById('start-quiz-button-welcome');
         elements.showAchievementsButton = document.getElementById('show-achievements-button-intro');
         elements.showRankingButtonIntro = document.getElementById('show-ranking-button-intro');
         elements.startBonusMusicBtn = document.getElementById('start-bonus-music-btn');
 
-        elements.startQuizButton.onclick = startQuiz;
+        elements.startQuizButtonWelcome.onclick = showQuizInstructions; // NOVO: Leva para a tela de instruções
         elements.showAchievementsButton.onclick = showAchievementsScreen;
         elements.showRankingButtonIntro.onclick = showRankingScreen;
         elements.startBonusMusicBtn.onclick = showBonusMusicScreen;
     }
 
+    // NOVO: Função para exibir a tela de instruções (que era a antiga intro)
+    function showQuizInstructions() {
+        console.log("showQuizInstructions: Exibindo instruções do quiz.");
+        elements.welcomeScreen.classList.remove('show');
+        elements.welcomeScreen.addEventListener('transitionend', function handler() {
+            elements.welcomeScreen.style.display = 'none';
+            elements.welcomeScreen.removeEventListener('transitionend', handler);
+
+            // Conteúdo original da intro, agora como instruções
+            elements.levelUpMessage.innerHTML = `
+                <div>
+                    <h3>Regras do Quiz:</h3>
+                    <p style="font-family: Arial, sans-serif; font-size: 1.0em; margin-top: 15px; line-height: 1.5;">Prepare-se para o desafio! A pontuação é assim:</p>
+                    <ul style="font-family: Arial, sans-serif; text-align: left; list-style-type: none; padding-left: 20px;">
+                        <li style="margin-bottom: 5px;">&#x2705; Resposta correta: <b>${BASE_SCORE_PER_CORRECT} pontos base</b>.</li>
+                        <li style="margin-bottom: 5px;">&#x1F680; Resposta muito rápida (até ${BONUS_MAX_THRESHOLD}s): <b>+${BONUS_MAX} pontos bônus</b>.</li>
+                        <li style="margin-bottom: 5px;">&#x26A1; Resposta rápida (até ${BONUS_MEDIUM_THRESHOLD}s): <b>+${BONUS_MEDIUM} pontos bônus</b>.</li>
+                        <li style="margin-bottom: 5px;">&#x23F1; Resposta no tempo (até ${TIME_PER_QUESTION}s): <b>+${BONUS_MIN} ponto bônus</b>.</li>
+                        <li style="margin-bottom: 5px;">&#x274C; Resposta incorreta ou tempo esgotado: <b>0 pontos e perde 1 vida</b>.</li>
+                        <li style="margin-bottom: 8px;">&#x1F499; Você tem <b>${MAX_LIVES} vidas</b>. Ao chegar a 0, o quiz termina.</li>
+                        <li>&#x1F3C6; Acertos consecutivos (combo) dão <b>bônus de pontos extras!</b></li>
+                    </ul>
+                </div>
+                <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <button id="start-quiz-button-final">Começar Quiz</button>
+                    <button id="back-to-main-menu-btn">Voltar ao Menu</button>
+                </div>
+            `;
+            elements.levelUpMessage.style.display = 'flex';
+            elements.levelUpMessage.classList.add('show');
+
+            // Atribui listeners para os novos botões
+            document.getElementById('start-quiz-button-final').onclick = startQuiz;
+            document.getElementById('back-to-main-menu-btn').onclick = showIntroMessage; // Volta para a tela inicial simplificada
+            
+            // Reabilita a overlay se necessário (já que showMainOverlay foi chamado na showIntroMessage)
+            showMainOverlay(); 
+
+        }, { once: true });
+    }
+
+    // ALTERADO: startQuiz agora esconde a tela de instruções (level-up-message)
     function startQuiz() {
         console.log("startQuiz: Iniciando o quiz.");
         elements.levelUpMessage.classList.remove('show');
@@ -3513,6 +3628,8 @@
         showMainOverlay(); // Mostra a overlay principal
         elements.levelUpMessage.classList.remove('show');
         elements.levelUpMessage.style.display = 'none';
+        elements.welcomeScreen.classList.remove('show'); // Garante que a welcomeScreen está escondida
+        elements.welcomeScreen.style.display = 'none';
         elements.rankingScreen.classList.remove('show'); // Garante que o ranking está escondido
         elements.rankingScreen.style.display = 'none';
         elements.completionScreen.classList.remove('show', 'shake-animation');
@@ -3809,9 +3926,23 @@
         if (elements.levelUpMessage.classList.contains('show')) {
             // Os botões já têm listeners diretos adicionados em `showIntroMessage` ou `showLevelUpMessage`
             if (event.target === elements.levelUpMessage || event.target.tagName === 'H3') {
-                 // Não faz nada ou fecha, se houver um botão de fechar implícito
+                   // Não faz nada ou fecha, se houver um botão de fechar implícito
             }
             event.stopPropagation(); // Sempre para a propagação
+            return;
+        }
+        // NOVO: Lidar com cliques na tela de boas-vindas simplificada
+        if (elements.welcomeScreen.classList.contains('show')) {
+            // Os botões já têm listeners diretos.
+            // Se o clique não foi em um botão dentro da welcomeScreen, e foi na overlay principal,
+            // podemos considerar fechar a welcomeScreen, ou deixá-la como está para forçar interação com botões.
+            // Por enquanto, os cliques nos botões são tratados individualmente pelos seus 'onclick'.
+            // Clicar na própria overlay principal enquanto a welcomeScreen está ativa:
+            if (event.target === elements.mainOverlay) {
+                // Não faz nada por enquanto, para forçar o uso dos botões.
+                // Se quiser que clique no overlay feche a welcome, chame hideMainOverlay() e showIntroMessage()
+            }
+            event.stopPropagation(); // Sempre parar a propagação se a welcome screen está aberta
             return;
         }
         // NOVO: Lidar com cliques na tela do Bônus Fã
@@ -3890,31 +4021,27 @@
             return;
         }
 
-        // ALTERADO: Teclas na tela de level-up-message
-        if (elements.levelUpMessage.classList.contains('show')) {
+        // ALTERADO: Teclas na tela de level-up-message E welcome-screen
+        if (elements.levelUpMessage.classList.contains('show') || elements.welcomeScreen.classList.contains('show')) {
             if (event.key === 'Enter') {
-                // Cuidado: As referências a `startQuizButton`, `showAchievementsButton`, etc.
-                // são atualizadas dentro de `showIntroMessage` cada vez que a intro é exibida.
-                // Para acessar os botões corretos aqui, precisamos pegá-los diretamente do DOM.
-                const continueButton = document.getElementById('continue-quiz-btn');
-                const startQuizButton = document.getElementById('start-quiz-button-intro');
-                const showAchievementsButton = document.getElementById('show-achievements-button-intro');
-                const showRankingButton = document.getElementById('show-ranking-button-intro');
-                const startBonusMusicButton = document.getElementById('start-bonus-music-btn'); // Novo botão
-
-                if (continueButton && continueButton === document.activeElement && !continueButton.disabled) {
-                    continueButton.click();
-                } else if (startQuizButton && startQuizButton === document.activeElement && !startQuizButton.disabled) {
-                    startQuizButton.click();
-                } else if (showAchievementsButton && showAchievementsButton === document.activeElement && !showAchievementsButton.disabled) {
-                    showAchievementsButton.click();
-                } else if (showRankingButton && showRankingButton === document.activeElement && !showRankingButton.disabled) {
-                    showRankingButton.click();
-                } else if (startBonusMusicButton && startBonusMusicButton === document.activeElement && !startBonusMusicButton.disabled) { // Novo
-                    startBonusMusicButton.click();
-                } else { // Se nenhum botão específico focado, tenta clicar no primeiro botão disponível (geralmente "Avançar" ou "Entendi")
-                    const firstButton = elements.levelUpMessage.querySelector('button');
-                    if (firstButton && !firstButton.disabled) firstButton.click();
+                event.preventDefault(); // Evita rolagem da página com Enter
+                const activeElement = document.activeElement;
+                
+                // Prioriza o botão focado
+                if (activeElement && activeElement.tagName === 'BUTTON' && !activeElement.disabled) {
+                    activeElement.click();
+                } else {
+                    // Se nenhum botão específico focado, tenta clicar no primeiro botão disponível
+                    // (Ex: "Entrar no Quiz" na welcome-screen, ou "Começar Quiz" / "Avançar" na level-up-message)
+                    let firstButton;
+                    if (elements.welcomeScreen.classList.contains('show')) {
+                        firstButton = document.getElementById('start-quiz-button-welcome');
+                    } else if (elements.levelUpMessage.classList.contains('show')) {
+                        firstButton = document.getElementById('start-quiz-button-final') || document.getElementById('continue-quiz-btn');
+                    }
+                    if (firstButton && !firstButton.disabled) {
+                        firstButton.click();
+                    }
                 }
             }
             return;
@@ -4274,6 +4401,8 @@
         showMainOverlay();
         elements.levelUpMessage.classList.remove('show');
         elements.levelUpMessage.style.display = 'none';
+        elements.welcomeScreen.classList.remove('show'); // Garante que a welcomeScreen está escondida
+        elements.welcomeScreen.style.display = 'none';
         elements.achievementsScreen.classList.remove('show');
         elements.achievementsScreen.style.display = 'none';
         elements.completionScreen.classList.remove('show', 'shake-animation');
@@ -4327,6 +4456,8 @@
         elements.bonusMusicScreen.style.display = 'none';
         elements.bonusAchievementScreen.classList.remove('show'); // Garante que a tela de conquista do bônus está oculta
         elements.bonusAchievementScreen.style.display = 'none';
+        elements.welcomeScreen.classList.remove('show'); // Garante que a welcomeScreen está oculta
+        elements.welcomeScreen.style.display = 'none';
         elements.audio.pause(); // Pausa a música do player ao reiniciar
 
         hideMainOverlay();
@@ -4475,6 +4606,8 @@
         elements.powerUpsContainer.style.display = 'none';
         elements.levelUpMessage.classList.remove('show');
         elements.levelUpMessage.style.display = 'none';
+        elements.welcomeScreen.classList.remove('show'); // Garante que a welcomeScreen está escondida
+        elements.welcomeScreen.style.display = 'none';
         elements.achievementsScreen.classList.remove('show');
         elements.achievementsScreen.style.display = 'none';
         elements.rankingScreen.classList.remove('show');
