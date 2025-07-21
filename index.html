@@ -12,6 +12,7 @@
         gtag('js', new Date());
         gtag('config', 'G-1JCN94Y3P0');
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         /* Variáveis CSS para facilitar a manutenção */
         :root {
@@ -62,7 +63,7 @@
         @keyframes pulse {
             0% {
                 transform: scale(1);
-                text-shadow: 3px 33px 15px var(--cor-preto-principal);
+                text-shadow: 3px 3px 15px var(--cor-preto-principal);
             }
             50% {
                 transform: scale(1.08);
@@ -154,7 +155,7 @@
             font-family: 'Elektrix', sans-serif;
             font-size: 2.5em;
             color: var(--cor-amarelo-cbjr);
-            text-shadow: 3px 33px 15px var(--cor-preto-principal);
+            text-shadow: 3px 3px 15px var(--cor-preto-principal);
             padding: 25px 40px;
             border-radius: 20px;
             display: inline-block;
@@ -753,12 +754,31 @@
             transition: transform 0.2s ease, background-color 0.3s ease;
             text-shadow: 0 0 8px rgba(255,255,255,0.8);
             margin-top: 20px; /* Adicionado para afastar dos textos */
+            /* NOVO: Estilos para botões do menu principal */
+            border: 2px solid var(--cor-amarelo-cbjr); /* Borda amarela */
+            box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Sombra suave */
+            gap: 10px; /* Espaçamento entre texto e ícone */
+            display: flex; /* Para alinhar texto e ícone */
+            align-items: center; /* Alinha verticalmente */
+            justify-content: center; /* Centraliza conteúdo */
         }
         #level-up-message button:hover,
         #welcome-screen button:hover { /* ADICIONADO: Seleciona botões da nova tela de boas-vindas */
             transform: scale(1.05);
-            background-color: #4a4a4a;
+            background-color: var(--cor-amarelo-cbjr); /* Fundo amarelo no hover */
+            color: var(--cor-preto-principal); /* Texto preto no hover */
+            text-shadow: none; /* Remove text-shadow no hover para contraste */
+            box-shadow: 0 0 15px var(--cor-amarelo-cbjr); /* Brilho amarelo no hover */
         }
+        /* Cor dos ícones nos botões do menu principal */
+        #welcome-screen button i {
+            color: var(--cor-amarelo-cbjr); /* Ícone amarelo por padrão */
+            transition: color 0.3s ease;
+        }
+        #welcome-screen button:hover i {
+            color: var(--cor-preto-principal); /* Ícone preto no hover */
+        }
+
 
         /* REMOVENDO POP-UP DE PONTUAÇÃO VISUAL */
         #points-popup {
@@ -2020,11 +2040,49 @@
 
         #welcome-screen .message-buttons {
             margin-top: 30px;
+            display: grid; /* Usar grid para layout dos botões */
+            grid-template-columns: 1fr; /* Padrão de 1 coluna para mobile */
+            gap: 15px; /* Espaçamento entre os botões */
+            width: 100%; /* Ocupa a largura total do container */
+            max-width: 400px; /* Limita a largura do grid */
+            justify-content: center; /* Centraliza o grid */
+        }
+        /* Ajuste para 2 colunas em telas maiores para os botões do menu principal */
+        @media (min-width: 500px) {
+            #welcome-screen .message-buttons {
+                grid-template-columns: 1fr 1fr; /* 2 colunas */
+            }
+        }
+        /* Garantir que os botões dentro de message-buttons no welcome-screen ocupem o espaço corretamente */
+        #welcome-screen .message-buttons button {
+            width: 100%; /* Ocupa 100% da coluna do grid */
+            min-height: 60px; /* Altura mínima para melhor toque */
         }
 
-        #welcome-screen button {
-            /* Manterá os estilos de .message-buttons button */
+        #welcome-screen p.intro-text { /* Estilo para o texto de introdução */
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            max-width: 90%;
         }
+
+        /* Animação para a intro ao carregar (opcional) */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        #welcome-screen.show.initial-load { /* Aplica apenas na carga inicial */
+            animation: fadeInScale 0.8s ease-out forwards;
+        }
+
     </style>
 </head>
 <body>
@@ -2041,7 +2099,7 @@
             <button id="fifty-fifty-btn" class="power-up-btn" title="Remove 2 respostas incorretas (F1)">
                 50/50 <span id="fifty-fifty-count" class="power-up-count">0</span>
             </button>
-            <button id="skip-question-btn" class="power-up-btn" title="Pula a pergunta atual (F2)"> Pular <span id="fifty-fifty-count" class="power-up-count">0</span>
+            <button id="skip-question-btn" class="power-up-btn" title="Pula a pergunta atual (F2)"> Pular <span id="skip-question-count" class="power-up-count">0</span>
             </button>
         </div>
 
@@ -2065,7 +2123,20 @@
     
     <div id="main-overlay" style="display:none;"></div>
 
-    <div id="welcome-screen" style="display:none;"></div> <div id="achievements-screen" style="display:none;">
+    <div id="welcome-screen" style="display:none;">
+        <h3>Bem-vindo(a) ao Quiz do Charlie Brown Jr!</h3>
+        <p class="intro-text">
+            Mostre que você é um verdadeiro **Marginal Alado** e teste seus conhecimentos sobre a banda que marcou gerações!
+        </p>
+        <div class="message-buttons">
+            <button id="start-quiz-button-welcome"><i class="fas fa-play"></i> Entrar no Quiz</button>
+            <button id="show-achievements-button-intro"><i class="fas fa-trophy"></i> Conquistas</button>
+            <button id="show-ranking-button-intro"><i class="fas fa-ranking-star"></i> Ranking Online</button>
+            <button id="start-bonus-music-btn"><i class="fas fa-headphones-simple"></i> Bônus Fã: Adivinhe a Música!</button>
+        </div>
+    </div>
+
+    <div id="achievements-screen" style="display:none;">
         <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2>
         <div id="achievements-list"></div>
         <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
@@ -2197,7 +2268,7 @@
             </div>
         </div>
     </div>
-<script type="module">
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -2411,7 +2482,7 @@
         "used_50_50": {
             name: "Ritmo, Ritual e Responsa (2007)",
             description: "Use o power-up 50/50 pela primeira vez.",
-            coverFile: "CD%209.jpeg",
+            coverFile: "CD%209.jpeg", // Pode ser qualquer uno, já que não tem um CD específico para este power-up
             unlocked: false
         },
         "combo_10x": {
@@ -2435,7 +2506,7 @@
         "used_skip": {
             name: "Fera no Skate",
             description: "Use o power-up Pular Pergunta pela primeira vez.",
-            coverFile: "CD%2012.jpeg", // Pode ser qualquer uno, já que não tem um CD específico para este power-up
+            coverFile: "CD%2012.jpeg", // Mantido como um CD genérico para este power-up
             unlocked: false
         },
         // NOVA CONQUISTA PARA O BÔNUS FÃ
@@ -2529,7 +2600,7 @@
         fiftyFiftyBtn: document.getElementById('fifty-fifty-btn'),
         fiftyFiftyCount: document.getElementById('fifty-fifty-count'),
         skipQuestionBtn: document.getElementById('skip-question-btn'),
-        skipQuestionCount: document.getElementById('skip-question-count'),
+        skipQuestionCount: document.getElementById('skip-question-count'), // CORRIGIDO ID AQUI
 
         // NOVO: Elementos para a tela de conclusão
         completionScreen: document.getElementById('completion-screen'),
@@ -2553,7 +2624,7 @@
 
         // NOVO: Elementos para o Nível Bônus Fã
         bonusMusicScreen: document.getElementById('bonus-music-screen'),
-        startBonusMusicBtn: null, // Será atribuído dinamicamente na showIntroMessage
+        startBonusMusicBtn: document.getElementById('start-bonus-music-btn'), // Agora é um elemento fixo no HTML
         bonusAnswerInput: document.getElementById('bonus-answer-input'),
         bonusSubmitBtn: document.getElementById('bonus-submit-btn'),
         bonusSkipBtn: document.getElementById('bonus-skip-btn'),
@@ -2571,12 +2642,10 @@
 
         // NOVO: Elementos para a NOVA TELA DE BOAS-VINDAS
         welcomeScreen: document.getElementById('welcome-screen'),
-        startQuizButtonWelcome: null, // Será atribuído dinamicamente
-        
-        // Botões da tela de introdução (agora referenciados via ID)
-        startQuizButtonIntro: null, // Será atribuído dinamicamente (antigo "Entendi! Começar!")
-        showAchievementsButton: null, // Será atribuído dinamicamente
-        showRankingButtonIntro: null, // Será atribuído dinamicamente
+        // Botões da tela de introdução (agora referenciados diretamente do HTML)
+        startQuizButtonWelcome: document.getElementById('start-quiz-button-welcome'),
+        showAchievementsButton: document.getElementById('show-achievements-button-intro'),
+        showRankingButtonIntro: document.getElementById('show-ranking-button-intro'),
 
         // Botões da tela de estatísticas (apenas referenciados, mas não implementados para o quiz principal)
         statisticsRestartBtn: document.getElementById('statistics-restart-btn'),
@@ -3122,17 +3191,16 @@
         elements.quiz.innerHTML = ''; // Limpa o quiz
         elements.levelUpMessage.style.display = 'none'; // Garante que a level-up-message está oculta
 
-        elements.welcomeScreen.innerHTML = `
-            <h3>Bem-vindo ao Quiz do Charlie Brown Jr!</h3>
-            <div class="message-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                <button id="start-quiz-button-welcome">Entrar no Quiz</button>
-                <button id="show-achievements-button-intro">Conquistas</button>
-                <button id="show-ranking-button-intro">Ranking Online</button>
-                <button id="start-bonus-music-btn">Bônus Fã: Adivinhe a Música!</button>
-            </div>
-        `;
+        // A welcome-screen já está no HTML, só precisamos mostrá-la
         elements.welcomeScreen.style.display = 'flex';
         elements.welcomeScreen.classList.add('show');
+        // Adiciona a classe initial-load para a animação de entrada na primeira vez
+        if (!elements.welcomeScreen.dataset.loaded) {
+            elements.welcomeScreen.classList.add('initial-load');
+            elements.welcomeScreen.dataset.loaded = 'true';
+        } else {
+            elements.welcomeScreen.classList.remove('initial-load');
+        }
         
         // Garante que o quiz e o restart button não apareçam enquanto a intro está ativa
         elements.quiz.style.display = 'none';
@@ -3140,16 +3208,8 @@
         elements.livesDisplay.style.display = 'none';
         elements.powerUpsContainer.style.display = 'none';
 
-        // ATUALIZA AS REFERÊNCIAS DOS BOTÕES PARA OS NOVOS ELEMENTOS CRIADOS
-        elements.startQuizButtonWelcome = document.getElementById('start-quiz-button-welcome');
-        elements.showAchievementsButton = document.getElementById('show-achievements-button-intro');
-        elements.showRankingButtonIntro = document.getElementById('show-ranking-button-intro');
-        elements.startBonusMusicBtn = document.getElementById('start-bonus-music-btn');
-
-        elements.startQuizButtonWelcome.onclick = showQuizInstructions; // NOVO: Leva para a tela de instruções
-        elements.showAchievementsButton.onclick = showAchievementsScreen;
-        elements.showRankingButtonIntro.onclick = showRankingScreen;
-        elements.startBonusMusicBtn.onclick = showBonusMusicScreen;
+        // Os listeners para os botões da welcome-screen agora são atribuídos em window.onload
+        // para evitar múltiplos listeners em cada chamada de showIntroMessage.
     }
 
     // NOVO: Função para exibir a tela de instruções (que era a antiga intro)
@@ -3188,7 +3248,7 @@
             document.getElementById('back-to-main-menu-btn').onclick = showIntroMessage; // Volta para a tela inicial simplificada
             
             // Reabilita a overlay se necessário (já que showMainOverlay foi chamado na showIntroMessage)
-            showMainOverlay(); 
+            showMainOverlay();  
 
         }, { once: true });
     }
@@ -3760,13 +3820,13 @@
             hideMainOverlay(); // Esconde a overlay principal
 
             // Sempre volta para a tela de introdução (menu principal)
-            showIntroMessage(); 
+            showIntroMessage();  
 
             // Garante que o áudio não está pausado se não deveria estar (ex: se player estava ativo na intro)
             // (O showIntroMessage() já cuida de redefinir o estado do quiz/player para a intro,
             // mas é bom garantir que o áudio continue se não foi pausado intencionalmente)
             if (!elements.audio.paused && !bonusGameState.isBonusActive) { // Certifica-se que não estamos no bonus
-                playSong(); 
+                playSong();  
             }
 
         }, { once: true }); // Garante que este listener seja executado apenas uma vez
@@ -3904,7 +3964,7 @@
             event.stopPropagation();
             return;
         }
-        // ALTERADO: Ajustado para o botão de fechar do detail popup (que está dentro dele)
+        // ALTERADO: Tecla 'Escape' para fechar o detail popup
         if (elements.achievementDetailPopup.classList.contains('show')) {
             // Botão de fechar já tem listener direto.
             if (event.target === elements.achievementDetailPopup || event.target.tagName === 'H3') {
@@ -3916,8 +3976,8 @@
         if (elements.completionScreen.classList.contains('show')) {
             // Botões já têm listeners diretos, então não precisam ser checados aqui.
             if (event.target === elements.completionScreen || event.target.tagName === 'H2') {
-                // Se clicou na própria overlay da tela de conclusão ou no H2, não faz nada ou fecha?
-                // Por agora, não faremos nada, já que tem botões específicos para ação.
+                    // Se clicou na própria overlay da tela de conclusão ou no H2, não faz nada ou fecha?
+                    // Por agora, não faremos nada, já que tem botões específicos para ação.
             }
             event.stopPropagation();
             return;
@@ -3926,7 +3986,7 @@
         if (elements.levelUpMessage.classList.contains('show')) {
             // Os botões já têm listeners diretos adicionados em `showIntroMessage` ou `showLevelUpMessage`
             if (event.target === elements.levelUpMessage || event.target.tagName === 'H3') {
-                   // Não faz nada ou fecha, se houver um botão de fechar implícito
+                    // Não faz nada ou fecha, se houver um botão de fechar implícito
             }
             event.stopPropagation(); // Sempre para a propagação
             return;
@@ -4194,16 +4254,16 @@
                         unlockAchievement("secret_level_completed");
                         endGame(true);
                     } else if (quizState.currentLevel === quizState.totalMainLevels - 1) {
-                                                // Se for o último nível principal (o Nível 7) e esta é a última pergunta desse nível
-                                                console.log("checkAnswer: Última pergunta do último nível principal acertada. Exibindo tela de conclusão dos níveis principais.");
-                                                unlockAchievement("all_main_levels_completed");
-                                                showCompletionScreen();
+                                            // Se for o último nível principal (o Nível 7) e esta é a última pergunta desse nível
+                                            console.log("checkAnswer: Última pergunta do último nível principal acertada. Exibindo tela de conclusão dos níveis principais.");
+                                            unlockAchievement("all_main_levels_completed");
+                                            showCompletionScreen();
                     } else {
-                                                // Desbloqueia a conquista de nível para os níveis 1, 3 e 5.
-                                                // Nota: Os IDs das conquistas precisam estar configurados para cada nível específico.
-                                                if (quizState.currentLevel === 0) unlockAchievement("first_level_completed");
-                                                if (quizState.currentLevel === 2) unlockAchievement("level_3_completed");
-                                                if (quizState.currentLevel === 4) unlockAchievement("level_5_completed");
+                                            // Desbloqueia a conquista de nível para os níveis 1, 3 e 5.
+                                            // Nota: Os IDs das conquistas precisam estar configurados para cada nível específico.
+                                            if (quizState.currentLevel === 0) unlockAchievement("first_level_completed");
+                                            if (quizState.currentLevel === 2) unlockAchievement("level_3_completed");
+                                            if (quizState.currentLevel === 4) unlockAchievement("level_5_completed");
 
                         quizState.currentLevel++;
                         loadLevel();
@@ -4734,7 +4794,7 @@
         };
         
         // ATUALIZAÇÃO AQUI para incluir o total de músicas
-        updateBonusScoreInfo();    
+        updateBonusScoreInfo();     
         loadBonusSongForBonus();
         elements.bonusAnswerInput.focus(); // Foca no input para digitar
     }
@@ -4992,6 +5052,13 @@
                     elements.muteBtn.disabled = true;
                     elements.volumeSlider.disabled = true;
                 }
+                // ATRIBUIÇÃO DOS LISTENERS DOS BOTÕES DA WELCOME-SCREEN AQUI!
+                // Eles já estão no HTML, então só pegamos a referência e atribuímos o evento.
+                elements.startQuizButtonWelcome.onclick = showQuizInstructions;
+                elements.showAchievementsButton.onclick = showAchievementsScreen;
+                elements.showRankingButtonIntro.onclick = showRankingScreen;
+                elements.startBonusMusicBtn.onclick = showBonusMusicScreen;
+
                 showIntroMessage(); // Mostra a tela de introdução após carregar a playlist
             })
             .catch(error => {
