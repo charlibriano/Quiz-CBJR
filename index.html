@@ -20,13 +20,13 @@
             --cor-preto-principal: #343434;
             --cor-verde-correto: #2ecc71;
             --cor-vermelho-incorreto: #e74c3c;
-            /* Más transparência para a caixa de mensagem principal */
+            /* Mais transparência para a caixa de mensagem principal */
             --cor-fundo-transparente: rgba(0, 0, 0, 0.3);
             --cor-texto-claro: white;
             --cor-texto-escuro: black;
 
             --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.3); /* Já é 0.3 */
-            --cor-verde-vibrante: #1ed760; /* Usado no Spotify, más vibrante */
+            --cor-verde-vibrante: #1ed760; /* Usado no Spotify, mais vibrante */
 
             /* NOVO: Cor para a barra de vida */
             --cor-vida: #e74c3c; /* Vermelho vibrante */
@@ -92,7 +92,7 @@
         @keyframes fadeInSlideUp {
             from {
                 opacity: 0;
-                transform: translateY(30px); /* Levemente más para baixo */
+                transform: translateY(30px); /* Levemente mais para baixo */
             }
             to {
                 opacity: 1;
@@ -154,7 +154,7 @@
             30% { transform: translate(-50%, -50%) rotate(-1deg); }
             40% { transform: translate(-50%, -50%) rotate(1deg); }
             50% { transform: translate(-50%, -50%) rotate(0deg); }
-            /* Repete o tremor más forte no final para sustentar o efeito */
+            /* Repete o tremor mais forte no final para sustentar o efeito */
             60% { transform: translate(-50%, -50%) rotate(-1.5deg); }
             70% { transform: translate(-50%, -50%) rotate(1.5deg); }
             80% { transform: translate(-50%, -50%) rotate(-1.5deg); }
@@ -206,7 +206,7 @@
             max-width: 960px; /* Aumentado um pouco para telas maiores */
             width: 95%; /* Ocupa mais da largura em telas menores */
             background-color: var(--cor-fundo-transparente);
-            padding: 30px; /* Reduzido o padding para caber más conteúdo */
+            padding: 30px; /* Reduzido o padding para caber mais conteúdo */
             border-radius: 16px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
             margin-bottom: 40px;
@@ -575,7 +575,7 @@
         }
         @keyframes fadeInOut {
             0% { opacity: 0; transform: translate(-50%, -30px); } /* Começa acima e transparente */
-            20% { opacity: 1; transform: translate(-50%, 0); } /* Sube e aparece */
+            20% { opacity: 1; transform: translate(-50%, 0); } /* Sobe e aparece */
             80% { opacity: 1; transform: translate(-50%, 0); } /* Permanece */
             100% { opacity: 0; transform: translate(-50%, -30px); } /* Desce e desaparece */
         }
@@ -593,7 +593,7 @@
             /* ALTERADO: Removendo background-color para ver o body através dela */
             background-color: transparent; /* Apenas transparente, para não bloquear o background do body */
             /* NOVO: Adiciona um blur para o efeito "vidro fosco", opcional mas legal */
-            backdrop-filter: blur(8px); /* Um pouco más forte para destaque */
+            backdrop-filter: blur(8px); /* Um pouco mais forte para destaque */
             -webkit-backdrop-filter: blur(8px); /* Suporte para Safari */
             z-index: 2000;
             display: flex;
@@ -650,7 +650,7 @@
 
         .achievement-card:hover {
             transform: translateY(-5px); /* Efeito de flutuação */
-            background-color: rgba(0, 0, 0, 0.8); /* Fundo um pouco más escuro ao passar o mouse */
+            background-color: rgba(0, 0, 0, 0.8); /* Fundo um pouco mais escuro ao passar o mouse */
         }
 
         .achievement-card.unlocked {
@@ -719,7 +719,7 @@
             #achievements-list {
                 grid-template-columns: repeat(2, 1fr); /* Tenta 2 colunas aqui */
                 gap: 10px; /* Reduz o gap para caber melhor */
-                width: 95%; /* Ocupa um pouco más de largura da tela */
+                width: 95%; /* Ocupa um pouco mais de largura da tela */
             }
             .achievement-card {
                 padding: 10px; /* Reduz padding do card */
@@ -730,7 +730,7 @@
                 margin-bottom: 5px;
             }
             .achievement-card p {
-                font-size: 0.65em; /* Reduz fonte do texto do card ainda más */
+                font-size: 0.65em; /* Reduz fonte do texto do card ainda mais */
                 margin-bottom: 8px;
             }
             .achievement-card .status {
@@ -777,11 +777,11 @@
             font-size: 1.5em;
             transition: transform 0.2s ease, background-color 0.3s ease;
         }
-        /* Os botões start-btn e achievements-btn não estão más no container principal HTML, más sim na overlay da intro message */
-        /* Más podemos manter o estilo base para botões da overlay para consistência, ou criar um estilo específico para eles lá se quiser */
+        /* Os botões start-btn e achievements-btn não estão mais no container principal HTML, mas sim na overlay da intro message */
+        /* Mas podemos manter o estilo base para botões da overlay para consistência, ou criar um estilo específico para eles lá se quiser */
         #level-up-message .message-buttons button,
         #welcome-screen .message-buttons button { /* ADICIONADO: Seleciona botões da nova tela de boas-vindas */
-            padding: 12px 25px; /* Ajuste para ter um tamanho más padronizado com outros botões */
+            padding: 12px 25px; /* Ajuste para ter um tamanho mais padronizado com outros botões */
             font-size: 1.2em; /* Ajuste */
             background-color: var(--cor-preto-principal);
             color: var(--cor-texto-claro);
@@ -876,7 +876,7 @@
             white-space: nowrap;
             overflow: hidden; /* Importante para esconder o que excede */
             width: 100%; /* Ocupa 100% da largura do pai para definir a "janela" de rolagem */
-            text-align: center; /* Padrão, but será sobrescrito se houver rolagem */
+            text-align: center; /* Padrão, mas será sobrescrito se houver rolagem */
             
             animation: none; /* A animação será aplicada e ajustada via JS */
             animation-play-state: paused;
@@ -1174,7 +1174,7 @@
             transform: translate(-50%, -50%);
             /* AGORA USA a variável centralizada */
             background-color: var(--cor-fundo-transparente);
-            backdrop-filter: blur(5px); /* Adiciona um blur para a transparência ficar más legal */
+            backdrop-filter: blur(5px); /* Adiciona um blur para a transparência ficar mais legal */
             -webkit-backdrop-filter: blur(5px); /* Suporte para Safari */
             color: var(--cor-texto-claro);
             padding: 20px 30px; /* Reduzido o padding */
@@ -1214,14 +1214,14 @@
         }
         /* Destaque para a frase do Chorão na passagem de nível */
         #level-up-message .chorao-quote {
-            font-size: 1.2em; /* Aumenta um pouco más */
+            font-size: 1.2em; /* Aumenta um pouco mais */
             margin-top: 10px; /* Aumenta a margem */
             font-family: 'Elektrix', sans-serif; /* Mantém a fonte Elektrix */
             opacity: 1; /* Garante que não tenha opacidade reduzida */
             text-shadow:
                 0 0 8px rgba(255, 255, 255, 0.9), /* Brilho branco forte */
-                0 0 20px var(--cor-amarelo-cbjr), /* Brilho amarelo más intenso */
-                0 0 30px rgba(241, 196, 15, 0.5); /* Sombra amarela extra para más destaque */
+                0 0 20px var(--cor-amarelo-cbjr), /* Brilho amarelo mais intenso */
+                0 0 30px rgba(241, 196, 15, 0.5); /* Sombra amarela extra para mais destaque */
             /* NOVOS ESTILOS PARA QUEBRA DE LINHA DA FRASE */
             white-space: normal; /* Permite que a frase quebre normalmente */
             overflow-wrap: break-word; /* Força a quebra de palavras longas */
@@ -1269,9 +1269,9 @@
         @media (max-width: 768px) {
             #level-up-message,
             #welcome-screen { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
-                padding: 25px 30px; /* Aumentado padding para más espaço */
-                font-size: 1.5em; /* Reduzido um pouco para ser más responsivo */
-                max-width: 90%; /* Ocupa más espaço horizontal */
+                padding: 25px 30px; /* Aumentado padding para mais espaço */
+                font-size: 1.5em; /* Reduzido um pouco para ser mais responsivo */
+                max-width: 90%; /* Ocupa mais espaço horizontal */
                 min-width: unset; /* Remove min-width para flexibilidade */
                 gap: 15px; /* Mantido ou levemente ajustado o gap */
             }
@@ -1289,12 +1289,12 @@
             #welcome-screen ul { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 font-size: 0.9em; /* Lista maior */
                 padding-left: 25px; /* Aumentado indentação */
-                max-width: 95%; /* Ocupa más largura */
-                margin: 18px auto; /* Más margem vertical */
+                max-width: 95%; /* Ocupa mais largura */
+                margin: 18px auto; /* Mais margem vertical */
             }
             #level-up-message li,
             #welcome-screen li { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
-                margin-bottom: 8px; /* Más espaço entre itens da lista */
+                margin-bottom: 8px; /* Mais espaço entre itens da lista */
             }
             #level-up-message .message-buttons,
             #welcome-screen .message-buttons { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
@@ -1303,8 +1303,8 @@
             }
             #level-up-message .message-buttons button,
             #welcome-screen .message-buttons button { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
-                padding: 15px 25px; /* Botões maiores e más fáceis de tocar */
-                font-size: 1.1em; /* Fonte dos botões más legível */
+                padding: 15px 25px; /* Botões maiores e mais fáceis de tocar */
+                font-size: 1.1em; /* Fonte dos botões mais legível */
             }
         }
 
@@ -1314,7 +1314,7 @@
             #welcome-screen { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
                 padding: 20px; /* Padding ajustado */
                 font-size: 1.2em; /* Reduzido o font-size base novamente */
-                border-radius: 10px; /* Bordas más suaves */
+                border-radius: 10px; /* Bordas mais suaves */
                 width: 95%; /* Ocupa quase toda a largura */
                 max-width: 350px; /* Limite máximo para evitar que fique muito grande em landscape */
                 gap: 12px; /* Gap ajustado */
@@ -1325,11 +1325,11 @@
             }
             #level-up-message p,
             #welcome-screen p { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
-                font-size: 0.95em;
+                font-size: 0.9em;
             }
             #level-up-message ul,
             #welcome-screen ul { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
-                font-size: 0.85em; /* Lista menor, but ainda clara */
+                font-size: 0.85em; /* Lista menor, mas ainda clara */
                 padding-left: 20px; /* Indentação mantida */
                 max-width: 100%; /* Ocupa toda a largura disponível */
                 margin: 12px auto; /* Margem ajustada */
@@ -1345,7 +1345,7 @@
             }
             #level-up-message .message-buttons button,
             #welcome-screen .message-buttons button { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
-                padding: 12px 20px; /* Botões menores, but ainda clicáveis */
+                padding: 12px 20px; /* Botões menores, mas ainda clicáveis */
                 font-size: 1em; /* Fonte dos botões */
             }
         }
@@ -1642,7 +1642,7 @@
             font-family: Arial, sans-serif;
             font-size: 0.9em;
             color: rgba(255, 255, 255, 0.7);
-            margin-top: -5px; /* Para ficar um pouco más próximo do título */
+            margin-top: -5px; /* Para ficar um pouco mais próximo do título */
             margin-bottom: 10px;
         }
         /* ALTERADO: Aumentar o tamanho da capa do CD */
@@ -1693,7 +1693,7 @@
         @media (max-width: 480px) {
             #achievement-detail-popup {
                 padding: 20px;
-                width: 95%; /* Ocupa más largura em mobile */
+                width: 95%; /* Ocupa mais largura em mobile */
                 max-width: 300px;
             }
             #achievement-detail-popup h3 {
@@ -1811,6 +1811,22 @@
             text-shadow: 0 0 10px rgba(241, 196, 15, 0.7);
             min-height: 1.2em; /* Garante que o espaço esteja reservado */
         }
+        /* Adicionando estilo para a curiosidade dentro da bonus-player-area */
+        #bonus-curiosity-message {
+            font-family: Arial, sans-serif;
+            font-size: 1em; /* Um pouco maior para melhor leitura */
+            margin-top: 15px; /* Mais espaço do elemento acima */
+            color: var(--cor-amarelo-cbjr); /* Cor amarela do CBJR para destaque */
+            line-height: 1.5;
+            text-align: center; /* Centraliza o texto */
+            display: none; /* Inicia oculto */
+            font-weight: bold; /* Deixa o texto em negrito */
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7), 0 0 10px var(--cor-amarelo-cbjr); /* Sombra para brilho */
+            padding: 8px 15px; /* Um pouco de padding para dar "ar" */
+            border-radius: 8px; /* Bordas arredondadas */
+            background-color: rgba(0, 0, 0, 0.4); /* Fundo sutilmente mais escuro */
+            transition: opacity 0.5s ease-in-out; /* Transição para o fade in/out */
+        }
 
         #bonus-music-screen #bonus-answer-input {
             width: 90%;
@@ -1832,17 +1848,17 @@
             outline: none;
             border-color: var(--cor-amarelo-cbjr); /* Borda amarela no foco */
             box-shadow: 0 0 20px var(--cor-amarelo-cbjr), inset 0 0 10px rgba(241,196,15,0.4); /* Brilho mais intenso */
-            background-color: rgba(255, 255, 255, 0.15); /* Fundo levemente más claro no foco */
+            background-color: rgba(255, 255, 255, 0.15); /* Fundo levemente mais claro no foco */
         }
         /* NOVO: Classes para cores de feedback do input no Bônus Fã */
         #bonus-answer-input.correct-feedback {
             border-color: var(--cor-verde-correto) !important;
-            box-shadow: 0 0 15px var(--cor-verde-correto); /* Brilho más forte */
+            box-shadow: 0 0 15px var(--cor-verde-correto); /* Brilho mais forte */
             animation: pulse-input 0.3s ease-out; /* Animação de pulso */
         }
         #bonus-answer-input.incorrect-feedback {
             border-color: var(--cor-vermelho-incorreto) !important;
-            box-shadow: 0 0 15px var(--cor-vermelho-incorreto); /* Brilho más forte */
+            box-shadow: 0 0 15px var(--cor-vermelho-incorreto); /* Brilho mais forte */
             animation: shake-input 0.3s 2; /* Animação de tremor */
         }
 
@@ -1887,7 +1903,7 @@
 
         #bonus-feedback-message {
             font-size: 1.4em; /* Aumentado fonte para impacto */
-            font-family: 'Elektrix', sans-serif; /* Usar Elektrix para más impacto */
+            font-family: 'Elektrix', sans-serif; /* Usar Elektrix para mais impacto */
             font-weight: bold;
             margin-top: 0px; /* Controlado pelo gap do flexbox */
             margin-bottom: 0px; /* Controlado pelo gap do flexbox */
@@ -1915,25 +1931,24 @@
         }
 
         #bonus-music-screen .bonus-controls button {
-            padding: 15px 30px; /* Aumentado o padding para serem mais proeminentes */
-            font-size: 1.1em; /* Aumentado fonte */
+            padding: 15px 30px;
+            font-size: 1.1em;
             font-family: 'Elektrix', sans-serif;
             background-color: var(--cor-preto-principal);
             color: var(--cor-bonus-texto);
             border: 2px solid var(--cor-bonus-texto);
-            border-radius: 10px; /* Más arredondado */
+            border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s; /* Adicionado box-shadow na transição */
-            display: flex; /* Para alinhar ícone e texto */
+            transition: background-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px; /* Espaçamento entre ícone e texto */
-            text-shadow: 0 0 5px rgba(255,255,255,0.5); /* Sombra para o texto */
+            gap: 10px;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
-        /* Estilo para ícones nos botões do bônus */
         #bonus-music-screen .bonus-controls button i {
-            font-size: 1.3em; /* Tamanho do ícone */
-            color: var(--cor-bonus-texto); /* Cor do ícone padrão */
+            font-size: 1.3em;
+            color: var(--cor-bonus-texto);
             transition: color 0.2s ease;
         }
 
@@ -1941,10 +1956,10 @@
             background-color: var(--cor-bonus-texto);
             color: var(--cor-preto-principal);
             transform: scale(1.05);
-            box-shadow: 0 0 15px var(--cor-bonus-texto); /* Brilho no hover */
+            box-shadow: 0 0 15px var(--cor-bonus-texto);
         }
         #bonus-music-screen .bonus-controls button:hover:not(:disabled) i {
-            color: var(--cor-preto-principal); /* Cor do ícone no hover */
+            color: var(--cor-preto-principal);
         }
 
         #bonus-music-screen .bonus-controls button:disabled {
@@ -1952,14 +1967,13 @@
             cursor: not-allowed;
             border-color: rgba(0, 255, 0, 0.3);
             color: rgba(0, 255, 0, 0.3);
-            box-shadow: none; /* Sem brilho quando desabilitado */
+            box-shadow: none;
         }
         #bonus-music-screen .bonus-controls button:disabled i {
-            color: rgba(0, 255, 0, 0.3); /* Cor do ícone quando desabilitado */
+            color: rgba(0, 255, 0, 0.3);
         }
-        /* Estilo específico para o botão de sair do bônus */
         #bonus-music-screen .bonus-controls .exit-button {
-            border-color: var(--cor-vermelho-incorreto); /* Borda vermelha para o botão de sair */
+            border-color: var(--cor-vermelho-incorreto);
             color: var(--cor-vermelho-incorreto);
         }
         #bonus-music-screen .bonus-controls .exit-button i {
@@ -1999,7 +2013,7 @@
             .score-item {
                 font-size: 0.9em;
                 padding: 8px 12px;
-                min-width: unset; /* Permite que a largura se ajuste melhor */
+                min-width: unset;
             }
         }
 
@@ -2025,22 +2039,22 @@
                 font-size: 1.1em;
             }
             .bonus-score-display {
-                flex-direction: column; /* Força empilhamento em telas muito pequenas */
+                flex-direction: column;
                 gap: 10px;
                 margin: 15px auto;
                 max-width: 90%;
             }
             .score-item {
-                width: 100%; /* Ocupa a largura total quando empilhado */
+                width: 100%;
             }
             .bonus-controls {
-                flex-direction: column; /* Empilha os botões em telas pequenas */
+                flex-direction: column;
                 gap: 10px;
             }
             #bonus-music-screen .bonus-controls button {
                 font-size: 0.9em;
                 padding: 12px 20px;
-                width: 100%; /* Ocupa a largura total */
+                width: 100%;
             }
         }
 
@@ -2066,7 +2080,7 @@
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.7s ease-in-out; /* Transição más lenta para impacto */
+            transition: opacity 0.7s ease-in-out;
             border: 3px solid var(--cor-bonus-conquista-borda);
             box-sizing: border-box;
         }
@@ -2103,7 +2117,7 @@
         }
 
         #bonus-achievement-screen img {
-            max-width: 280px; /* Um pouco maior que a capa do detalhe da conquista */
+            max-width: 280px;
             max-height: 280px;
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.7);
@@ -2378,7 +2392,7 @@
             <p id="bonus-current-song-title" style="display: none;"></p>
             <input type="text" id="bonus-answer-input" placeholder="Qual é a música?">
             <p id="bonus-feedback-message"></p>
-        </div>
+            <p id="bonus-curiosity-message" style="display: none;"></p> </div>
 
         <div class="bonus-score-display">
             <div class="score-item correct-count"><i class="fas fa-check-circle"></i> Acertos: <span id="bonus-correct-count-display">0</span></div>
@@ -2468,7 +2482,7 @@
             </div>
         </div>
     </div>
-    <script type="module">
+<script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -2682,7 +2696,7 @@
             "used_50_50": {
                 name: "Ritmo, Ritual e Responsa (2007)",
                 description: "Use o power-up 50/50 pela primeira vez.",
-                coverFile: "CD%209.jpeg", // Pode ser qualquer uno, já que não tem um CD específico para este power-up
+                coverFile: "CD%209.jpeg", // Pode ser qualquer um, já que não tem um CD específico para este power-up
                 unlocked: false
             },
             "combo_10x": {
@@ -2712,7 +2726,7 @@
             // NOVA CONQUISTA PARA O BÔNUS FÃ
             "bonus_music_master": {
                 name: "Rei da Rádio (Bônus Fã)",
-                description: "Acerte TODAS as músicas no Nível Bônus Fã.", // Alterado para "TODAS"
+                description: "Acerte TODAS as músicas no Nível Bônus Fã.",
                 coverFile: "CD%20bonus.jpeg", // Adicione uma imagem para esta capa
                 unlocked: false
             }
@@ -2795,7 +2809,7 @@
             livesDisplay: document.getElementById('lives-display'),
             livesCount: document.getElementById('lives-count'),
             
-            // Elementos para o botão 50/50 e Pular
+            // Elementos para o botão 50/50
             powerUpsContainer: document.getElementById('power-ups-container'),
             fiftyFiftyBtn: document.getElementById('fifty-fifty-btn'),
             fiftyFiftyCount: document.getElementById('fifty-fifty-count'),
@@ -2838,6 +2852,7 @@
             bonusTotalSongs: document.getElementById('bonus-total-songs'),
 
             bonusCurrentSongTitle: document.getElementById('bonus-current-song-title'),
+            bonusCuriosityMessage: document.getElementById('bonus-curiosity-message'), // NOVO: Referência para a mensagem de curiosidade do bônus
 
             // NOVO: Elementos para a Tela de Conquista do Bônus
             bonusAchievementScreen: document.getElementById('bonus-achievement-screen'),
@@ -2992,7 +3007,7 @@
             return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        // NOVO: Função para normalizar texto (agora bem más robusta para títulos de músicas)
+        // NOVO: Função para normalizar texto (agora bem mais robusta para títulos de músicas)
         function normalizeText(text) {
             if (!text) return '';
 
@@ -3002,7 +3017,7 @@
                 .trim();
 
             // 1. Remover tudo entre parênteses ou colchetes, incluindo eles mesmos.
-            // Ex: (Doze Más Um), (Part. Charlie Brown Jr), (Tour Cedo ou Tarde Ao Vivo)
+            // Ex: (Doze Mais Um), (Part. Charlie Brown Jr), (Tour Cedo ou Tarde Ao Vivo)
             normalized = normalized.replace(/[\(\[].*?[\)\]]/g, ' ');
 
             // 2. Remover termos de colaboração e nomes de artistas/bandas conhecidas no contexto CBJR.
@@ -3021,7 +3036,7 @@
             normalized = normalized.replace(/[-–—:]/g, ' ');
 
             // 6. Remover símbolos específicos ou convertê-los, e tratar números por extenso.
-            normalized = normalized.replace(/\+/g, ' mais '); // Converte '+' para ' más '
+            normalized = normalized.replace(/\+/g, ' mais '); // Converte '+' para ' mais '
             normalized = normalized.replace(/\bdoze\b/g, '12'); // Converte 'doze' para '12'
             normalized = normalized.replace(/\buma\b/g, '1'); // Converte 'uma' para '1' (caso "Uma Criança...")
             normalized = normalized.replace(/\bai ai ai\b/g, 'ai ai ai'); // Para garantir que "ai ai ai" não seja afetado por outras regras se houver ambiguidade
@@ -3495,7 +3510,7 @@
                     score: 0,
                     lives: MAX_LIVES, // Define as vidas para o máximo
                     errorsInCurrentLevel: 0, // Resetar
-                    quizPaused: false, // O quiz não está más pausado
+                    quizPaused: false, // O quiz não está mais pausado
                     isProcessingAnswer: false, // Nenhuma resposta está sendo processada no início
                     currentLevelQuestions: [], // Será preenchido em loadLevel
                     totalLevels: questionsByLevel.length, // Agora inclui o nível secreto
@@ -3597,7 +3612,7 @@
                 return;
             }
             
-            // Verifica se não há más níveis para carregar (caso tenha chegado ao fim do quiz completamente)
+            // Verifica se não há mais níveis para carregar (caso tenha chegado ao fim do quiz completamente)
             if (quizState.currentLevel >= quizState.totalLevels) {
                     console.log("loadLevel: Todos os níveis (incluindo secreto) completados. Finalizando jogo (vitória final).");
                     endGame(true); // Se passou por todos os níveis e o secreto
@@ -3683,11 +3698,11 @@
                     if (hasRecoveredLife) { // Se a lógica de recuperação foi ativada e adicionou vida
                         livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Perfeito! Você recuperou ${LIVES_RECOVER_PER_LEVEL} vida(s)! ❤️</p>`;
                     } else { // Já estava com o máximo de vidas e não errou
-                            livesFeedbackMessage = `
-                                <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
+                                livesFeedbackMessage = `
+                                    <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
                     }
                 } else if (errorsInPreviousLevel === 1) {
-                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Errou 1 heim mané! Pra ser CBJR tem que ficar más esperto.</p>`;
+                    livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Errou 1 heim mané! Pra ser CBJR tem que ficar mais esperto.</p>`;
                 } else if (errorsInPreviousLevel > 1) {
                     livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Você cometeu ${errorsInPreviousLevel} erros neste nível, mas avançou!</p>`;
                 }
@@ -4530,6 +4545,7 @@
                 updateQuizInfo();
                 
                 const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
+                
                 let lostLifeMsg = `Você não respondeu a tempo e perdeu 1 vida! Vidas restantes: ${quizState.lives}.`; // Mensagem ajustada para erro de resposta
                 showCuriosity(`${lostLifeMsg} ${questionData.curiosidade}`); // Chama showCuriosity AQUI
 
@@ -4569,12 +4585,12 @@
                 console.log(`Pontuação de ${playerName} (${score}) salva com sucesso no Firebase!`);
             } catch (e) {
                 console.error("Erro ao tentar salvar pontuação no Firebase: ", e);
-                alert("Erro ao salvar pontuação no ranking. Verifique o console para más detalhes ou as regras do Firebase Firestore.");
+                alert("Erro ao salvar pontuação no ranking. Verifique o console para mais detalhes ou as regras do Firebase Firestore.");
             }
         }
 
         async function loadRanking() {
-            // As referências do Firebase agora estão directamente disponíveis no escopo do módulo
+            // As referências do Firebase agora estão diretamente disponíveis no escopo do módulo
             if (!db || !collection || !query || !orderBy || !limit || !getDocs) {
                 console.error("Firebase Firestore SDK não está disponível ou foi importado incorretamente.");
                 return [];
@@ -4592,7 +4608,7 @@
                 return rankingList;
             } catch (e) {
                 console.error("Erro ao tentar carregar ranking do Firebase: ", e);
-                alert("Erro ao carregar ranking. Verifique o console para más detalhes ou as regras do Firebase Firestore.");
+                alert("Erro ao carregar ranking. Verifique o console para mais detalhes ou as regras do Firebase Firestore.");
                 return [];
             }
         }
@@ -4700,6 +4716,8 @@
             elements.welcomeScreen.style.display = 'none';
             elements.achievementsScreen.classList.remove('show');
             elements.achievementsScreen.style.display = 'none';
+            elements.rankingScreen.classList.remove('show');
+            elements.rankingScreen.style.display = 'none';
             elements.completionScreen.classList.remove('show', 'shake-animation');
             elements.completionScreen.style.display = 'none';
             elements.achievementDetailPopup.classList.remove('show');
@@ -4965,7 +4983,7 @@
                     // Restaurar o quizState, mas manter o unlockedAchievements atualizado
                     const currentUnlockedAchievements = { ...quizState.unlockedAchievements };
                     Object.assign(quizState, bonusGameState.lastQuizState);
-                    quizState.unlockedAchievements = currentUnlockedAchievements; // Mantém o estado más recente de conquistas
+                    quizState.unlockedAchievements = currentUnlockedAchievements; // Mantém o estado mais recente de conquistas
                     
                     quizState.quizPaused = false; // Garante que o quiz não está pausado
                     elements.quiz.style.display = 'flex'; // Mostra o quiz principal
@@ -5017,6 +5035,7 @@
                     <p id="bonus-current-song-title" style="display: none;"></p>
                     <input type="text" id="bonus-answer-input" placeholder="Qual é a música?">
                     <p id="bonus-feedback-message"></p>
+                    <p id="bonus-curiosity-message" style="display: none;"></p>
                 </div>
 
                 <div class="bonus-score-display">
@@ -5045,7 +5064,8 @@
             elements.bonusTotalSongs = document.getElementById('bonus-total-songs');
 
             elements.bonusCurrentSongTitle = document.getElementById('bonus-current-song-title');
-
+            elements.bonusCuriosityMessage = document.getElementById('bonus-curiosity-message'); // **NOVO: RE-OBTÉM A REFERÊNCIA**
+            
             // Re-atribuir listeners para os botões da tela de input do bônus
             elements.bonusSubmitBtn.onclick = checkBonusAnswer;
             elements.bonusSkipBtn.onclick = () => {
@@ -5072,6 +5092,10 @@
             // Remove quaisquer classes de feedback do input
             elements.bonusAnswerInput.classList.remove('correct-feedback', 'incorrect-feedback');
             elements.bonusFeedbackMessage.classList.remove('show'); // Esconde feedback anterior
+            elements.bonusCuriosityMessage.style.opacity = '0'; // Garante que começa transparente
+            elements.bonusCuriosityMessage.textContent = ''; // Limpa o conteúdo da curiosidade
+            elements.bonusCuriosityMessage.style.display = 'none'; // **NOVO: Esconde a curiosidade ao carregar nova música**
+
 
             // Se todas as músicas já foram jogadas, encerra o bônus
             if (bonusGameState.currentBonusSongIndex >= bonusGameState.songsToGuess.length) {
@@ -5099,11 +5123,17 @@
         function checkBonusAnswer() {
             const userAnswer = normalizeText(elements.bonusAnswerInput.value);
             const correctAnswer = normalizeText(bonusGameState.currentBonusSong.title);
+            const musicCuriosity = bonusGameState.currentBonusSong.curiosity; // Pega a curiosidade da música atual
 
             elements.bonusAnswerInput.disabled = true; // Desabilita input após enviar
             elements.bonusSubmitBtn.disabled = true;
             elements.bonusSkipBtn.disabled = true;
             elements.audio.pause(); // Pausa a música após a tentativa
+
+            // Resetando a visibilidade da curiosidade antes do feedback
+            elements.bonusCuriosityMessage.style.display = 'none';
+            elements.bonusCuriosityMessage.textContent = '';
+            elements.bonusCuriosityMessage.style.opacity = '0'; // Garante que começa transparente para a transição
 
             if (userAnswer === correctAnswer) {
                 bonusGameState.bonusCorrectCount++;
@@ -5112,36 +5142,64 @@
                 elements.bonusAnswerInput.classList.add('correct-feedback'); // Adiciona classe de feedback correto
                 elements.bonusFeedbackMessage.classList.add('show'); // Mostra a mensagem de feedback
                 
+                // Exibe o título da música
+                elements.bonusCurrentSongTitle.style.display = 'block';
+                elements.bonusCurrentSongTitle.textContent = bonusGameState.currentBonusSong.title;
+
+                // **AQUI: Exibir a curiosidade se a resposta estiver correta**
+                if (musicCuriosity) {
+                    elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`; // Adiciona o strong
+                    elements.bonusCuriosityMessage.style.display = 'block'; // Mostra o elemento
+                    elements.bonusCuriosityMessage.style.opacity = '1'; // Torna visível com transição
+                }
+                
                 // Verifica a conquista do bônus musical: acerte TODAS
                 if (bonusGameState.bonusCorrectCount === bonusGameState.songsToGuess.length) { // Condição para acertar todas
                     // A conquista será desbloqueada em endBonusMusicGame(true)
                 }
-                elements.bonusCurrentSongTitle.style.display = 'block';
-                elements.bonusCurrentSongTitle.textContent = bonusGameState.currentBonusSong.title; // Mostra o título completo
                 console.log(`Bônus Fã: Acertou! Músicas corretas: ${bonusGameState.bonusCorrectCount}`);
 
             } else {
                 bonusGameState.bonusErrorsCount++;
                 elements.bonusFeedbackMessage.textContent = "INCORRETO! ❌";
                 elements.bonusFeedbackMessage.style.color = 'var(--cor-vermelho-incorreto)';
-                elements.bonusAnswerInput.classList.add('incorrect-feedback'); // Adiciona classe de feedback incorreto
-                elements.bonusFeedbackMessage.classList.add('show'); // Mostra a mensagem de feedback
+                elements.bonusAnswerInput.classList.add('incorrect-feedback');
+                elements.bonusFeedbackMessage.classList.add('show');
                 elements.bonusCurrentSongTitle.style.display = 'block';
                 elements.bonusCurrentSongTitle.textContent = `A música era: ${bonusGameState.currentBonusSong.title}`;
+                
+                // Exibe a curiosidade mesmo se errou, para aprendizado
+                if (musicCuriosity) {
+                    elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`; // Adiciona o strong
+                    elements.bonusCuriosityMessage.style.display = 'block';
+                    elements.bonusCuriosityMessage.style.opacity = '1';
+                }
                 console.log(`Bônus Fã: Errou! Erros: ${bonusGameState.bonusErrorsCount}`);
             }
             updateBonusScoreInfo();
 
+            // AUMENTANDO O TEMPO DE EXIBIÇÃO DA MENSAGEM E CURIOSIDADE
+            const displayDuration = 6000; // 6 segundos
+            const fadeOutDuration = 500; // 0.5 segundos para o fade-out
+
             setTimeout(() => {
-                // Esconde a mensagem de feedback antes de carregar a próxima música
                 elements.bonusFeedbackMessage.classList.remove('show');
-                if (bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors) {
-                    endBonusMusicGame(false); // Fim do jogo por excesso de erros
-                } else {
-                    bonusGameState.currentBonusSongIndex++;
-                    loadBonusSongForBonus();
-                }
-            }, 3000); // Tempo para feedback visual
+                elements.bonusCuriosityMessage.style.opacity = '0'; // Inicia o fade out da curiosidade
+
+                // Espera a transição de opacidade da curiosidade terminar para esconder o display e avançar
+                elements.bonusCuriosityMessage.addEventListener('transitionend', function handler() {
+                    elements.bonusCuriosityMessage.style.display = 'none';
+                    elements.bonusCuriosityMessage.removeEventListener('transitionend', handler);
+                    
+                    if (bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors) {
+                        endBonusMusicGame(false);
+                    } else {
+                        bonusGameState.currentBonusSongIndex++;
+                        loadBonusSongForBonus();
+                    }
+                }, { once: true });
+
+            }, displayDuration - fadeOutDuration); // Começa o fade-out antes do tempo total para ser suave
         }
 
         function updateBonusScoreInfo() {
@@ -5246,7 +5304,7 @@
             // Toca a música de conquista
             elements.audio.src = achievementMusicUrl;
             elements.audio.loop = true; // Loop infinito para a música de conquista
-            elements.audio.volume = 0.5; // Um pouco más baixo
+            elements.audio.volume = 0.5; // Um pouco mais baixo
             elements.audio.play().catch(e => console.warn('Erro ao tocar música de conquista:', e));
 
             elements.bonusAchievementCloseBtn.onclick = () => {
@@ -5344,7 +5402,7 @@
                 })
                 .catch(error => {
                     console.error('Erro ao carregar playlist:', error);
-                    elements.currentSongText.textContent = `Erro ao carregar a playlist. Tente novamente más tarde.`;
+                    elements.currentSongText.textContent = `Erro ao carregar a playlist. Tente novamente mais tarde.`;
                     elements.playPauseBtn.disabled = true;
                     elements.prevBtn.disabled = true;
                     elements.nextBtn.disabled = true;
