@@ -25,7 +25,7 @@
             --cor-texto-claro: white;
             --cor-texto-escuro: black;
 
-            --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.3); /* Já é 0.3 */
+            --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.3);
             --cor-verde-vibrante: #1ed760; /* Usado no Spotify, mais vibrante */
 
             /* NOVO: Cor para a barra de vida */
@@ -1325,7 +1325,7 @@
             }
             #level-up-message p,
             #welcome-screen p { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
-                font-size: 0.9em;
+                font-size: 0.95em;
             }
             #level-up-message ul,
             #welcome-screen ul { /* ADICIONADO: Estilo para a nova tela de boas-vindas */
@@ -1814,18 +1814,21 @@
         /* Adicionando estilo para a curiosidade dentro da bonus-player-area */
         #bonus-curiosity-message {
             font-family: Arial, sans-serif;
-            font-size: 1em; /* Um pouco maior para melhor leitura */
-            margin-top: 15px; /* Mais espaço do elemento acima */
+            font-size: 1.2em; /* MAIOR para melhor leitura em celular */
+            margin-top: 18px; /* Mais espaço do elemento acima */
             color: var(--cor-amarelo-cbjr); /* Cor amarela do CBJR para destaque */
-            line-height: 1.5;
+            line-height: 1.6; /* Melhor espaçamento entre linhas */
             text-align: center; /* Centraliza o texto */
             display: none; /* Inicia oculto */
             font-weight: bold; /* Deixa o texto em negrito */
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7), 0 0 10px var(--cor-amarelo-cbjr); /* Sombra para brilho */
-            padding: 8px 15px; /* Um pouco de padding para dar "ar" */
-            border-radius: 8px; /* Bordas arredondadas */
-            background-color: rgba(0, 0, 0, 0.4); /* Fundo sutilmente mais escuro */
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.9), 0 0 15px var(--cor-amarelo-cbjr); /* Sombra para super brilho */
+            padding: 12px 20px; /* Mais padding para dar "ar" */
+            border-radius: 10px; /* Bordas arredondadas */
+            background-color: rgba(0, 0, 0, 0.6); /* Fundo mais escuro para contraste */
+            border: 2px solid var(--cor-amarelo-cbjr); /* Borda amarela mais visível */
+            box-shadow: 0 0 20px rgba(241, 196, 15, 0.5); /* Sombra externa amarela */
             transition: opacity 0.5s ease-in-out; /* Transição para o fade in/out */
+            box-sizing: border-box; /* Garante que padding e border não aumentem a largura total */
         }
 
         #bonus-music-screen #bonus-answer-input {
@@ -2055,6 +2058,26 @@
                 font-size: 0.9em;
                 padding: 12px 20px;
                 width: 100%;
+            }
+            /* Ajustes para a curiosidade em telas muito pequenas (mobile) */
+            #bonus-curiosity-message {
+                position: fixed; /* Fixa no viewport */
+                top: 10px; /* 10px do topo */
+                left: 50%;
+                transform: translateX(-50%); /* Centraliza horizontalmente */
+                width: 95%; /* Quase a largura total */
+                max-width: unset; /* Remove o limite de largura */
+                padding: 15px; /* Mais padding para o card */
+                font-size: 1em; /* Ajusta o tamanho da fonte */
+                line-height: 1.5; /* Mantém boa legibilidade */
+                z-index: 2001; /* Acima de outras coisas no bônus, mas abaixo do player de música */
+                box-sizing: border-box; /* Inclui padding e borda na largura */
+                animation: fadeInOutCuriosity 0.5s ease-out forwards; /* Uma pequena animação de entrada */
+            }
+            /* Keyframe para a animação da curiosidade em mobile */
+            @keyframes fadeInOutCuriosity {
+                from { opacity: 0; transform: translate(-50%, -20px); }
+                to { opacity: 1; transform: translate(-50%, 0); }
             }
         }
 
