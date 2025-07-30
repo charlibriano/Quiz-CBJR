@@ -191,8 +191,8 @@
             font-size: 3em;
             color: var(--cor-amarelo-cbjr);
             text-shadow: 0 0 12px var(--cor-amarelo-cbjr),
-                         0 0 25px rgba(241, 196, 15, 0.7),
-                         0 0 40px rgba(241, 196, 15, 0.5);
+                                 0 0 25px rgba(241, 196, 15, 0.7),
+                                 0 0 40px rgba(241, 196, 15, 0.5);
             padding: 30px 50px;
             border-radius: 25px;
             display: inline-block;
@@ -362,8 +362,8 @@
             margin-bottom: 30px;
             line-height: 1.4;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-                         0 0 20px var(--cor-amarelo-cbjr),
-                         0 0 30px rgba(241, 196, 15, 0.6);
+                                 0 0 20px var(--cor-amarelo-cbjr),
+                                 0 0 30px rgba(241, 196, 15, 0.6);
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -825,6 +825,8 @@
             align-items: center;
             justify-content: center;
             font-family: 'Elektrix', sans-serif;
+            width: 100%; /* Adicionado para que ocupe a largura total */
+            min-height: 65px; /* Adicionado para garantir um tamanho mínimo */
         }
         #level-up-message button:hover,
         #welcome-screen button:hover {
@@ -1184,8 +1186,7 @@
         }
 
         /* Estilo para a mensagem de nível e instruções */
-        #level-up-message,
-        #welcome-screen {
+        #level-up-message {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -1237,17 +1238,7 @@
                 font-size: 1em; /* Smaller paragraph font */
                 line-height: 1.5; /* Adjusted line-height */
             }
-            #welcome-screen .message-buttons,
-            #level-up-message .message-buttons {
-                flex-direction: column; /* Stack buttons vertically */
-                gap: 10px; /* Adjusted gap */
-            }
-            #welcome-screen .message-buttons button,
-            #level-up-message .message-buttons button {
-                font-size: 1em; /* Smaller button font */
-                padding: 12px 20px; /* Adjusted padding */
-                min-height: unset; /* Remove min-height */
-            }
+            /* Removido o estilo específico para .message-buttons aqui, pois foi movido para o #welcome-screen .message-buttons diretamente abaixo */
             #level-up-message ul,
             #welcome-screen ul {
                 font-size: 0.8em; /* Smaller list font */
@@ -1265,8 +1256,7 @@
         #welcome-screen.show {
             opacity: 1;
         }
-        #level-up-message h3,
-        #welcome-screen h3 {
+        #level-up-message h3 {
             font-size: 1.5em;
             margin-bottom: 10px;
             line-height: 1.2;
@@ -1328,42 +1318,36 @@
 
         /* Media query para telas médias (tablets e smartphones maiores) - Otimizado */
         @media (max-width: 768px) {
-            #level-up-message,
-            #welcome-screen {
+            #level-up-message {
                 padding: 30px;
                 font-size: 1.8em;
                 max-width: 95%;
                 gap: 18px;
             }
-            #level-up-message h3,
-            #welcome-screen h3 {
+            #level-up-message h3 {
                 font-size: 1.4em;
                 margin-bottom: 15px;
             }
-            #level-up-message p,
-            #welcome-screen p {
+            #level-up-message p {
                 font-size: 1.05em;
                 line-height: 1.7;
             }
-            #level-up-message ul,
-            #welcome-screen ul {
+            #level-up-message ul {
                 font-size: 0.95em;
                 padding-left: 25px;
                 margin: 20px auto;
             }
-            #level-up-message li,
-            #welcome-screen li {
+            #level-up-message li {
                 margin-bottom: 10px;
             }
-            #level-up-message .message-buttons,
-            #welcome-screen .message-buttons {
-                flex-direction: row;
+            #level-up-message .message-buttons {
+                flex-direction: row; /* Volta a ser row para tablets */
                 gap: 20px;
             }
-            #level-up-message .message-buttons button,
-            #welcome-screen .message-buttons button {
+            #level-up-message .message-buttons button {
                 padding: 18px 30px;
                 font-size: 1.2em;
+                width: auto; /* Permite que o botão se ajuste */
             }
         }
 
@@ -2295,26 +2279,38 @@
                 0 0 25px var(--cor-amarelo-cbjr);
         }
 
+        /* Corrigido para garantir que os botões se ajustem em telas pequenas */
         #welcome-screen .message-buttons {
             margin-top: 35px;
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr; /* Padrão para uma coluna em mobile */
             gap: 18px;
-            width: 100%;
-            max-width: 450px;
+            width: 100%; /* Ocupa a largura total do pai */
+            max-width: 450px; /* Limita a largura para botões em telas maiores */
             justify-content: center;
+            box-sizing: border-box; /* Garante que padding/border são incluídos na largura */
         }
+
         /* Ajuste para 2 colunas em telas maiores para os botões do menu principal */
         @media (min-width: 500px) {
             #welcome-screen .message-buttons {
                 grid-template-columns: 1fr 1fr;
             }
         }
-        /* Garantir que os botões dentro de message-buttons no welcome-screen ocupem o espaço corretamente */
-        #welcome-screen .message-buttons button {
-            width: 100%;
-            min-height: 65px;
+        
+        /* Ajustes específicos para os botões dentro de welcome-screen .message-buttons
+           para garantir que se ajustem e não 'estourem' */
+        @media (max-width: 480px) {
+            #welcome-screen .message-buttons {
+                gap: 10px; /* Reduz o espaço entre os botões */
+            }
+            #welcome-screen .message-buttons button {
+                font-size: 1em; /* Reduz a fonte dos botões */
+                padding: 12px 20px; /* Reduz o padding dos botões */
+                min-height: unset; /* Permite que o botão seja menor se o conteúdo for pequeno */
+            }
         }
+
 
         #welcome-screen p.intro-text {
             font-family: Arial, sans-serif;
@@ -2535,9 +2531,6 @@
             </div>
         </div>
     </div>
-</script>
-</body>
-</html>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -4339,7 +4332,7 @@
         }
         
         // 3. Lógica para cliques nos botões de resposta do quiz
-        // Sólo permitir clics en los botones de respuesta si el quiz NO está pausado Y NO está procesando una respuesta.
+        // Sólo permitir clics en los botones de resposta se el quiz NO está pausado Y NO está procesando una respuesta.
         if (quizState.quizPaused || quizState.isProcessingAnswer) {
             event.stopPropagation();
             return;
@@ -4380,7 +4373,7 @@
                 if (secretLevelBtn && !secretLevelBtn.disabled) secretLevelBtn.click();
                 else {
                     const restartBtn = elements.restartFromCompletionBtn; // Corrigido ID do botão
-                    if (restartBtn && !restartBtn.disabled) restartBtn.click();
+                    if (restartBtn && !restartBtn.disabled) restartBtn.Cick();
                 }
             }
             return;
