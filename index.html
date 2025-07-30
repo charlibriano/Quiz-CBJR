@@ -2040,6 +2040,7 @@
             }
             #bonus-music-screen h2 {
                 font-size: 2em;
+                margin-bottom: 20px;
             }
             .bonus-instruction {
                 font-size: 0.95em;
@@ -2279,7 +2280,7 @@
                 0 0 25px var(--cor-amarelo-cbjr);
         }
 
-        /* Corrigido para garantir que os botões se ajustem em telas pequenas */
+        /* CORREÇÃO AQUI: Ajustado para garantir que os botões se ajustem em telas pequenas */
         #welcome-screen .message-buttons {
             margin-top: 35px;
             display: grid;
@@ -2299,7 +2300,7 @@
         }
         
         /* Ajustes específicos para os botões dentro de welcome-screen .message-buttons
-           para garantir que se ajustem e não 'estourem' */
+            para garantir que se ajustem e não 'estourem' */
         @media (max-width: 480px) {
             #welcome-screen .message-buttons {
                 gap: 10px; /* Reduz o espaço entre os botões */
@@ -3482,7 +3483,7 @@
         
         // >>> CORREÇÃO AQUI: Garante que o player principal está visível ao retornar para a intro <<<
         elements.audioPlayerWrapper.classList.remove('hidden-player');
-        // Sólo toca una música aleatoria si el player no está tocando NADA o si estaba tocando la música de conquista.
+        // Sólo toca una música aleatória si el player no está tocando NADA ou se estava tocando a música de conquista.
         // Isso evita que a música do quiz principal seja interrompida se o usuário apenas fechou um modal.
         if (elements.audio.paused || elements.audio.src.includes(achievementMusicUrl)) { // Check if paused or playing achievement music
             if (playerState.originalPlaylist.length > 0) {
@@ -3745,8 +3746,8 @@
                 if (hasRecoveredLife) { // Se a lógica de recuperação foi ativada e adicionou vida
                     livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Perfeito! Você recuperou ${LIVES_RECOVER_PER_LEVEL} vida(s)! ❤️</p>`;
                 } else { // Já estava com o máximo de vidas e não errou
-                            livesFeedbackMessage = `
-                                <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
+                                livesFeedbackMessage = `
+                                    <p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-verde-vibrante);">Vidas no máximo! Mandou bem demais! ❤️</p>`;
                 }
             } else if (errorsInPreviousLevel === 1) {
                 livesFeedbackMessage = `<p style="font-family: Arial, sans-serif; font-size: 0.9em; margin-top: 10px; color: var(--cor-amarelo-cbjr);">Errou 1 heim mané! Pra ser CBJR tem que ficar más esperto.</p>`;
@@ -3832,7 +3833,7 @@
     // Função para usar o 50/50
     function useFiftyFifty() {
         console.log("useFiftyFifty: Tentando usar 50/50.");
-        // Só permite usar se não estiver processando uma resposta ou se já foi clicado.
+        // Sólo permite usar se não estiver processando uma resposta ou se já foi clicado.
         if (quizState.isProcessingAnswer || quizState.fiftyFiftyCount <= 0 || quizState.quizPaused) {
             console.log("Não é possível usar 50/50 agora. isProcessingAnswer:", quizState.isProcessingAnswer, "fiftyFiftyCount:", quizState.fiftyFiftyCount);
             return;
@@ -5395,7 +5396,7 @@
         // Configura os listeners do player de áudio
         setupPlayerEventListeners();
 
-        // Referência para o wrapper do player de áudio (IMPORTANTE: agora obtido no onload)
+        // Referência para o wrapper do player de audio (IMPORTANTE: agora obtido no onload)
         elements.audioPlayerWrapper = document.getElementById('audio-player-wrapper');
 
         // Configura o estado inicial do volume do player de áudio
