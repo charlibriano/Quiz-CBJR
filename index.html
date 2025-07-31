@@ -2578,7 +2578,7 @@
             fraseChorao: "Eles querem que você se sinta mal, pois assim eles se sentem bem.",
             perguntas: [
                 { pergunta: "Qual música da banda tem a frase <br><br> A vida me ensinou a nunca desistir...?", respostas: ["Só os Loucos Sabem", "Proibida Pra Mim", "Dias de Luta, Dias de Glória", "Lugar ao Sol"], correta: "Dias de Luta, Dias de Glória", curiosidade: "F 'Dias de Luta, Dias de Glória' é um hino de superação e uma das músicas más emblemáticas da banda." },
-                { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa", curiosidade: "'Ritmo, Ritual e Responsa' (2007) trouxe uma sonoridade más madura e músicas como 'Pontes indestrutíveis'." },
+                { pergunta: "Qual é o nome do álbum <br><br> lançado em 2007?", respostas: ["Ritmo, Ritual e Responsa", "Nadando com os Tubarões", "Tâmo Aí na Atividade", "Imunidade Musical"], correta: "Ritmo, Ritual e Responsa", curiosidade: "'Ritmo, Ritual e e Responsa' (2007) trouxe uma sonoridade más madura e músicas como 'Pontes indestrutíveis'." },
                 { pergunta: "Qual música da banda tem a frase <br><br> Eu vou roubar essa mulher pra mim?", respostas: ["Proibida Pra Mim (Grazon)", "Dias de Luta, Dias de Glória", "Só os Loucos Sabem", "Lugar ao Sol"], correta: "Proibida Pra Mim (Grazon)", curiosidade: "'Proibida Pra Mim' é um dos maiores sucessos do Charlie Brown Jr., presente no álbum 'Transpiração Contínua Prolongada'." },
                 { pergunta: "Qual é o nome do baterista <br><br> que tocou na banda até 2005?", respostas: ["Pinguim", "Japinha", "Marcão", "Pelado"], correta: "Pelado", curiosidade: "Renato Pelado saiu da banda em 2005." },
                 { pergunta: "Chorão também era conhecido <br><br> por praticar qual esporte:", respostas: ["Surfe", "Futebol", "Skate", "Capoeira"], correta: "Skate", curiosidade: "Chorão era um apaixonado por skate e um grande incentivador do esporte no Brasil, tendo sua própria pista em Santos." }
@@ -2631,7 +2631,7 @@
         {
             fraseChorao: "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
             perguntas: [
-                { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
+                { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skafater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
                 { pergunta: "Qual banda internacional teve o Charlie Brown Jr. como banda de abertura em suas turnês no Brasil nos anos de 2004 e 2012?", respostas: ["Limp Bizkit", "Green Day", "Foo Fighters", "Linkin Park"], correta: "Linkin Park", curiosidade: "O Charlie Brown Jr. abriu shows do Linkin Park no Brasil em duas ocasiões: em 2004, durante a turnê do álbum 'Meteora', e novamente em 2012, na turnê de 'Living Things', com uma apresentação marcante na Arena Anhembi, em São Paulo." },
                 { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records", curiosidade: "A Virgin Records foi a gravadora responsável pelos primeiros álbuns da banda, incluindo 'Transpiração Contínua Prolongada'." },
                 { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era(muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas más esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
@@ -3057,7 +3057,7 @@
         return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    // NOVO: Função para normalizar texto (agora bem mais robusta para títulos de músicas)
+    // NOVO: Função para normalizar texto (agora bem más robusta para títulos de músicas)
     function normalizeText(text) {
         if (!text) return '';
 
@@ -3067,7 +3067,7 @@
             .trim();
 
         // 1. Remover tudo entre parênteses ou colchetes, incluindo eles mesmos.
-        // Ex: (Doze Mais Um), (Part. Charlie Brown Jr), (Tour Cedo ou Tarde Ao Vivo)
+        // Ex: (Doze Más Um), (Part. Charlie Brown Jr), (Tour Cedo ou Tarde Ao Vivo)
         normalized = normalized.replace(/[\(\[].*?[\)\]]/g, ' ');
 
         // 2. Remover termos de colaboração e nomes de artistas/bandas conhecidas no contexto CBJR.
@@ -3085,7 +3085,7 @@
         normalized = normalized.replace(/[-–—:]/g, ' ');
 
         // 6. Remover símbolos específicos ou convertê-los, e tratar números por extenso.
-        normalized = normalized.replace(/\+/g, ' mais '); // Converte '+' para ' mais '
+        normalized = normalized.replace(/\+/g, ' más '); // Converte '+' para ' más '
         normalized = normalized.replace(/\bdoze\b/g, '12'); // Converte 'doze' para '12'
         normalized = normalized.replace(/\buma\b/g, '1'); // Converte 'uma' para '1' (caso "Uma Criança...")
         normalized = normalized.replace(/\bai ai ai\b/g, 'ai ai ai'); // Para garantir que "ai ai ai" não seja afetado por outras regras se houver ambiguidade
@@ -3217,10 +3217,10 @@
         elements.audio.onerror = (e) => {
             console.error("Erro ao carregar áudio:", e);
             elements.currentSongText.textContent = `Erro ao carregar ${currentSongData.title}`;
-            elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
             if (bonusGameState.isBonusActive) { // Se estiver no modo bônus, esconde o título mesmo com erro de autoplay
                 elements.currentSongText.textContent = 'Erro ao carregar (Tente novamente)';
             }
+            elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
         };
     }
 
@@ -3558,7 +3558,6 @@
                 score: 0,
                 lives: MAX_LIVES, // Define as vidas para o máximo
                 errorsInCurrentLevel: 0, // Resetar
-                quizPaused: false, // O quiz não está más pausado
                 isProcessingAnswer: false, // Nenhuma resposta está sendo processada no início
                 currentLevelQuestions: [], // Será preenchido em loadLevel
                 totalLevels: questionsByLevel.length, // Agora inclui o nível secreto
@@ -4314,7 +4313,6 @@
         }
         // NOVO: Lidar com cliques na tela de Conquista do Bônus
         if (elements.bonusAchievementScreen.classList.contains('show')) {
-            // O botão de fechar já tem listener direto.
             if (event.target === elements.bonusAchievementScreen || event.target.tagName === 'H2') {
                 // Não faz nada
             }
@@ -4333,7 +4331,7 @@
         }
         
         // 3. Lógica para cliques nos botões de resposta do quiz
-        // Sólo permitir clics en los botones de resposta se el quiz NO está pausado Y NO está procesando una respuesta.
+        // Sólo permitir clics en los botones de resposta se el quiz NO está pausado Y NO está procesando una resposta.
         if (quizState.quizPaused || quizState.isProcessingAnswer) {
             event.stopPropagation();
             return;
@@ -5006,8 +5004,46 @@
         // quando a tela de bônus é exibida PELA PRIMEIRA VEZ ou quando o conteúdo é recriado.
         elements.bonusSubmitBtn.onclick = checkBonusAnswer;
         elements.bonusSkipBtn.onclick = () => {
-            bonusGameState.currentBonusSongIndex++;
-            loadBonusSongForBonus(true);
+            // A lógica de pular agora é mais robusta, passando pelo fluxo de feedback
+            bonusGameState.bonusErrorsCount++; // Pular conta como erro para controle de maxErrors
+            updateBonusScoreInfo();
+            
+            elements.bonusFeedbackMessage.textContent = "Música pulada! ⏩";
+            elements.bonusFeedbackMessage.style.color = 'var(--cor-amarelo-cbjr)'; // Cor neutra para pulada
+            elements.bonusAnswerInput.classList.add('incorrect-feedback'); // Dá um feedback visual suave
+            elements.bonusFeedbackMessage.classList.add('show');
+            elements.bonusCurrentSongTitle.style.display = 'block';
+            elements.bonusCurrentSongTitle.textContent = `A música era: ${bonusGameState.currentBonusSong.title}`;
+            if (bonusGameState.currentBonusSong.curiosidade) {
+                elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${bonusGameState.currentBonusSong.curiosidade}`;
+                elements.bonusCuriosityMessage.classList.add('show');
+            }
+            elements.bonusAnswerInput.disabled = true;
+            elements.bonusSubmitBtn.disabled = true;
+            elements.bonusSkipBtn.disabled = true;
+            elements.audio.pause(); // Pausa ao pular
+
+            const totalFeedbackDuration = 4000; // Tempo para exibir a mensagem de "pulado"
+
+            setTimeout(() => {
+                elements.bonusFeedbackMessage.classList.remove('show');
+                elements.bonusCuriosityMessage.classList.remove('show');
+
+                setTimeout(() => {
+                    elements.bonusAnswerInput.classList.remove('correct-feedback', 'incorrect-feedback');
+
+                    // Lógica para avançar a música ou terminar o jogo
+                    if (bonusGameState.currentBonusSongIndex + 1 >= bonusGameState.songsToGuess.length) {
+                        endBonusMusicGame(true); // Termina o jogo (considerando que todas as músicas foram jogadas)
+                    } else if (bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors) {
+                        endBonusMusicGame(false); // Termina o jogo por erros
+                    } else {
+                        // Caso contrário, avança para a próxima música
+                        bonusGameState.currentBonusSongIndex++;
+                        loadBonusSongForBonus();
+                    }
+                }, 600); // Pequeno atraso para a transição de opacidade (0.6s da sua CSS)
+            }, totalFeedbackDuration);
         };
         elements.bonusExitBtn.onclick = hideBonusMusicScreen; // Listener para o botão 'Sair do Bônus' no modo jogo
 
@@ -5118,8 +5154,44 @@
         // Re-atribuir listeners para os botões da tela de input do bônus
         elements.bonusSubmitBtn.onclick = checkBonusAnswer;
         elements.bonusSkipBtn.onclick = () => {
-            bonusGameState.currentBonusSongIndex++;
-            loadBonusSongForBonus(true);
+            // A lógica de pular agora é mais robusta, passando pelo fluxo de feedback
+            bonusGameState.bonusErrorsCount++; // Pular conta como erro para controle de maxErrors
+            updateBonusScoreInfo();
+            
+            elements.bonusFeedbackMessage.textContent = "Música pulada! ⏩";
+            elements.bonusFeedbackMessage.style.color = 'var(--cor-amarelo-cbjr)'; // Cor neutra para pulada
+            elements.bonusAnswerInput.classList.add('incorrect-feedback'); // Dá um feedback visual suave
+            elements.bonusFeedbackMessage.classList.add('show');
+            elements.bonusCurrentSongTitle.style.display = 'block';
+            elements.bonusCurrentSongTitle.textContent = `A música era: ${bonusGameState.currentBonusSong.title}`;
+            if (bonusGameState.currentBonusSong.curiosidade) {
+                elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${bonusGameState.currentBonusSong.curiosidade}`;
+                elements.bonusCuriosityMessage.classList.add('show');
+            }
+            elements.bonusAnswerInput.disabled = true;
+            elements.bonusSubmitBtn.disabled = true;
+            elements.bonusSkipBtn.disabled = true;
+            elements.audio.pause(); // Pausa ao pular
+
+            const totalFeedbackDuration = 4000; // Tempo para exibir a mensagem de "pulado"
+
+            setTimeout(() => {
+                elements.bonusFeedbackMessage.classList.remove('show');
+                elements.bonusCuriosityMessage.classList.remove('show');
+
+                setTimeout(() => {
+                    elements.bonusAnswerInput.classList.remove('correct-feedback', 'incorrect-feedback');
+
+                    if (bonusGameState.currentBonusSongIndex + 1 >= bonusGameState.songsToGuess.length) {
+                        endBonusMusicGame(true); 
+                    } else if (bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors) {
+                        endBonusMusicGame(false);
+                    } else {
+                        bonusGameState.currentBonusSongIndex++;
+                        loadBonusSongForBonus();
+                    }
+                }, 600);
+            }, totalFeedbackDuration);
         };
         elements.bonusExitBtn.onclick = hideBonusMusicScreen;
 
@@ -5140,10 +5212,9 @@
     function loadBonusSongForBonus(skipped = false) {
         // Remove quaisquer classes de feedback do input
         elements.bonusAnswerInput.classList.remove('correct-feedback', 'incorrect-feedback');
-        elements.bonusFeedbackMessage.classList.remove('show'); // Esconde feedback anterior
-        elements.bonusCuriosityMessage.style.opacity = '0'; // Garante que começa transparente
+        elements.bonusFeedbackMessage.classList.remove('show'); // Garante que a mensagem de feedback não esteja visível
+        elements.bonusCuriosityMessage.classList.remove('show'); // Garante que a curiosidade não esteja visível
         elements.bonusCuriosityMessage.textContent = ''; // Limpa o conteúdo da curiosidade
-        elements.bonusCuriosityMessage.style.display = 'none'; // **NOVO: Esconde a curiosidade ao carregar nova música**
 
 
         // Se todas as músicas já foram jogadas, encerra o bônus
@@ -5156,9 +5227,19 @@
         elements.bonusAnswerInput.disabled = false;
         elements.bonusSubmitBtn.disabled = false;
         elements.bonusSkipBtn.disabled = false;
-        elements.bonusFeedbackMessage.textContent = skipped ? "Música pulada!" : "";
-        elements.bonusFeedbackMessage.style.color = 'var(--cor-texto-claro)';
-        elements.bonusCurrentSongTitle.style.display = 'none';
+        
+        // Se foi pulada, exibe uma mensagem de "Música pulada!"
+        if (skipped) {
+            elements.bonusFeedbackMessage.textContent = "Música pulada! ⏩";
+            elements.bonusFeedbackMessage.style.color = 'var(--cor-amarelo-cbjr)'; // Cor neutra para pulada
+            elements.bonusAnswerInput.classList.add('incorrect-feedback'); // Dá um feedback visual suave no input
+            elements.bonusFeedbackMessage.classList.add('show'); // Mostra a mensagem de "pulado"
+        } else {
+            elements.bonusFeedbackMessage.textContent = ''; // Limpa qualquer mensagem de feedback anterior
+            elements.bonusFeedbackMessage.style.color = 'var(--cor-texto-claro)';
+        }
+        
+        elements.bonusCurrentSongTitle.style.display = 'none'; // Esconde o título da música
 
         bonusGameState.currentBonusSong = bonusGameState.songsToGuess[bonusGameState.currentBonusSongIndex];
         loadSong(bonusGameState.currentBonusSong); // Carrega a música no player principal
@@ -5179,10 +5260,10 @@
         elements.bonusSkipBtn.disabled = true;
         elements.audio.pause(); // Pausa a música após a tentativa
 
-        // Resetando a visibilidade da curiosidade antes do feedback
-        elements.bonusCuriosityMessage.style.display = 'none';
-        elements.bonusCuriosityMessage.textContent = '';
-        elements.bonusCuriosityMessage.style.opacity = '0'; // Garante que começa transparente para a transição
+        // Limpa e esconde as mensagens de feedback e curiosidade para o próximo ciclo
+        elements.bonusFeedbackMessage.classList.remove('show'); // Garante que ela não está 'ativa'
+        elements.bonusCuriosityMessage.classList.remove('show'); // Garante que ela não está 'ativa'
+        elements.bonusCuriosityMessage.textContent = ''; // Limpa conteúdo
 
         if (userAnswer === correctAnswer) {
             bonusGameState.bonusCorrectCount++;
@@ -5195,16 +5276,10 @@
             elements.bonusCurrentSongTitle.style.display = 'block';
             elements.bonusCurrentSongTitle.textContent = bonusGameState.currentBonusSong.title;
 
-            // **AQUI: Exibir a curiosidade se a resposta estiver correta**
+            // Exibir a curiosidade se a resposta estiver correta
             if (musicCuriosity) {
                 elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`; // Adiciona o strong
-                elements.bonusCuriosityMessage.style.display = 'block';
-                elements.bonusCuriosityMessage.style.opacity = '1';
-            }
-            
-            // Verifica a conquista do bônus musical: acerte TODAS
-            if (bonusGameState.bonusCorrectCount === bonusGameState.songsToGuess.length) { // Condição para acertar todas
-                // A conquista será desbloqueada em endBonusMusicGame(true)
+                elements.bonusCuriosityMessage.classList.add('show'); // Mostra a curiosidade
             }
             console.log(`Bônus Fã: Acertou! Músicas corretas: ${bonusGameState.bonusCorrectCount}`);
 
@@ -5220,35 +5295,41 @@
             // Exibe a curiosidade mesmo se errou, para aprendizado
             if (musicCuriosity) {
                 elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`; // Adiciona o strong
-                elements.bonusCuriosityMessage.style.display = 'block';
-                elements.bonusCuriosityMessage.style.opacity = '1';
+                elements.bonusCuriosityMessage.classList.add('show'); // Mostra a curiosidade
             }
             console.log(`Bônus Fã: Errou! Erros: ${bonusGameState.bonusErrorsCount}`);
         }
         updateBonusScoreInfo();
 
-        // AUMENTANDO O TEMPO DE EXIBIÇÃO DA MENSAGEM E CURIOSIDADE
-        const displayDuration = 6000; // 6 segundos
-        const fadeOutDuration = 500; // 0.5 segundos para o fade-out
+        // Tempo total para o feedback (incluindo transições de opacidade de 0.6s)
+        const totalFeedbackDuration = 4000; // 4 segundos
 
         setTimeout(() => {
+            // Remove as classes 'show' para iniciar as transições de saída
             elements.bonusFeedbackMessage.classList.remove('show');
-            elements.bonusCuriosityMessage.style.opacity = '0'; // Inicia o fade out da curiosidade
+            elements.bonusCuriosityMessage.classList.remove('show');
 
-            // Espera a transição de opacidade da curiosidade terminar para esconder o display e avançar
-            elements.bonusCuriosityMessage.addEventListener('transitionend', function handler() {
-                elements.bonusCuriosityMessage.style.display = 'none';
-                elements.bonusCuriosityMessage.removeEventListener('transitionend', handler);
-                
-                if (bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors) {
-                    endBonusMusicGame(false);
+            // Um pequeno atraso extra para garantir que as transições de opacidade terminem.
+            // O CSS de .show tem 0.4s (feedback) e 0.6s (curiosidade). Usar 600ms aqui é seguro.
+            setTimeout(() => {
+                // Remove as classes de feedback do input para a próxima música
+                elements.bonusAnswerInput.classList.remove('correct-feedback', 'incorrect-feedback');
+
+                // Lógica para avançar a música ou terminar o jogo
+                if (bonusGameState.currentBonusSongIndex + 1 >= bonusGameState.songsToGuess.length) {
+                    // Se esta foi a última música da lista (acertou ou errou)
+                    endBonusMusicGame(true); // Termina o jogo (considerando que todas as músicas foram jogadas)
+                } else if (bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors) {
+                    // Se excedeu o número máximo de erros
+                    endBonusMusicGame(false); // Termina o jogo por erros
                 } else {
+                    // Caso contrário, avança para a próxima música
                     bonusGameState.currentBonusSongIndex++;
                     loadBonusSongForBonus();
                 }
-            }, { once: true });
-
-        }, displayDuration - fadeOutDuration); // Começa o fade-out antes do tempo total para ser suave
+            }, 600); 
+            
+        }, totalFeedbackDuration); 
     }
 
     function updateBonusScoreInfo() {
