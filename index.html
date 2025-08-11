@@ -38,7 +38,7 @@
             --cor-secreto-borda: #fff;
             --cor-secreto-sombra: rgba(241, 196, 15, 0.8);
 
-            /* NOVO: Cores para o Nível Bônus Fã */
+            /* NOVO: Cores para o Nível Rádio CBJR */
             --cor-bonus-fundo: rgba(0, 50, 0, 0.9);
             --cor-bonus-texto: #1ed760;
             --cor-bonus-input-fundo: rgba(255, 255, 255, 0.15);
@@ -54,8 +54,8 @@
         @font-face {
             font-family: 'Elektrix';
             src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff2') format('woff2'),
-                url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff') format('woff'),
-                url('https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR/Elektrix%20Bold.ttf') format('truetype');
+                 url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff') format('woff'),
+                 url('https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR/Elektrix%20Bold.ttf') format('truetype');
             font-weight: bold;
             font-display: swap;
         }
@@ -191,8 +191,8 @@
             font-size: 3em;
             color: var(--cor-amarelo-cbjr);
             text-shadow: 0 0 12px var(--cor-amarelo-cbjr),
-                                 0 0 25px rgba(241, 196, 15, 0.7),
-                                 0 0 40px rgba(241, 196, 15, 0.5);
+                         0 0 25px rgba(241, 196, 15, 0.7),
+                         0 0 40px rgba(241, 196, 15, 0.5);
             padding: 30px 50px;
             border-radius: 25px;
             display: inline-block;
@@ -362,8 +362,8 @@
             margin-bottom: 30px;
             line-height: 1.4;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-                                 0 0 20px var(--cor-amarelo-cbjr),
-                                 0 0 30px rgba(241, 196, 15, 0.6);
+                         0 0 20px var(--cor-amarelo-cbjr),
+                         0 0 30px rgba(241, 196, 15, 0.6);
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -807,8 +807,10 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.8), 0 0 15px var(--cor-amarelo-cbjr);
         }
 
+        /* --- ALTERADO: Adicionado o seletor para os botões da tela de bônus --- */
         #level-up-message .message-buttons button,
-        #welcome-screen .message-buttons button {
+        #welcome-screen .message-buttons button,
+        #bonus-music-screen .message-buttons button {
             padding: 15px 30px;
             font-size: 1.3em;
             background-color: var(--cor-preto-principal);
@@ -828,20 +830,26 @@
             width: 100%; /* Adicionado para que ocupe a largura total */
             min-height: 65px; /* Adicionado para garantir um tamanho mínimo */
         }
+        /* --- ALTERADO: Adicionado o seletor para o hover dos botões da tela de bônus --- */
         #level-up-message button:hover,
-        #welcome-screen button:hover {
+        #welcome-screen button:hover,
+        #bonus-music-screen .message-buttons button:hover {
             transform: scale(1.08);
             background-color: var(--cor-amarelo-cbjr);
             color: var(--cor-preto-principal);
             text-shadow: none;
             box-shadow: 0 0 20px var(--cor-amarelo-cbjr);
         }
-        #welcome-screen button i {
+        /* --- ALTERADO: Adicionado o seletor para os ícones dos botões da tela de bônus --- */
+        #welcome-screen button i,
+        #bonus-music-screen .message-buttons button i {
             color: var(--cor-amarelo-cbjr);
             font-size: 1.5em;
             transition: color 0.3s ease;
         }
-        #welcome-screen button:hover i {
+        /* --- ALTERADO: Adicionado o seletor para o hover dos ícones da tela de bônus --- */
+        #welcome-screen button:hover i,
+        #bonus-music-screen .message-buttons button:hover i {
             color: var(--cor-preto-principal);
         }
 
@@ -1748,7 +1756,7 @@
             pointer-events: all;
         }
 
-        /* NOVO: Estilos para o Nível Bônus Fã */
+        /* NOVO: Estilos para o Nível Rádio CBJR */
         #bonus-music-screen {
             position: fixed;
             top: 50%;
@@ -1866,7 +1874,7 @@
             box-shadow: 0 0 25px var(--cor-amarelo-cbjr), inset 0 0 12px rgba(241,196,15,0.5);
             background-color: rgba(255, 255, 255, 0.2);
         }
-        /* Classes para cores de feedback do input no Bônus Fã */
+        /* Classes para cores de feedback do input no Rádio CBJR */
         #bonus-answer-input.correct-feedback {
             border-color: var(--cor-verde-correto) !important;
             box-shadow: 0 0 20px var(--cor-verde-correto);
@@ -2005,7 +2013,7 @@
             color: var(--cor-texto-claro);
         }
 
-        /* Responsividade para o Nível Bônus Fã */
+        /* Responsividade para o Nível Rádio CBJR */
         @media (max-width: 768px) {
             #bonus-music-screen {
                 padding: 30px 25px;
@@ -2281,7 +2289,8 @@
         }
 
         /* CORREÇÃO AQUI: Ajustado para garantir que os botões se ajustem em telas pequenas */
-        #welcome-screen .message-buttons {
+        #welcome-screen .message-buttons,
+        #bonus-music-screen .message-buttons {
             margin-top: 35px;
             display: grid;
             grid-template-columns: 1fr; /* Padrão para uma coluna em mobile */
@@ -2294,18 +2303,21 @@
 
         /* Ajuste para 2 colunas em telas maiores para os botões do menu principal */
         @media (min-width: 500px) {
-            #welcome-screen .message-buttons {
+            #welcome-screen .message-buttons,
+            #bonus-music-screen .message-buttons {
                 grid-template-columns: 1fr 1fr;
             }
         }
         
         /* Ajustes específicos para os botões dentro de welcome-screen .message-buttons
-            para garantir que se ajustem e não 'estourem' */
+           para garantir que se ajustem e não 'estourem' */
         @media (max-width: 480px) {
-            #welcome-screen .message-buttons {
+            #welcome-screen .message-buttons,
+            #bonus-music-screen .message-buttons {
                 gap: 10px; /* Reduz o espaço entre os botões */
             }
-            #welcome-screen .message-buttons button {
+            #welcome-screen .message-buttons button,
+            #bonus-music-screen .message-buttons button {
                 font-size: 1em; /* Reduz a fonte dos botões */
                 padding: 12px 20px; /* Reduz o padding dos botões */
                 min-height: unset; /* Permite que o botão seja menor se o conteúdo for pequeno */
@@ -2336,6 +2348,54 @@
         #welcome-screen.show.initial-load {
             animation: fadeInScale 0.9s ease-out forwards;
         }
+
+/* --- Estilos para a lista de feedback de erros no Bônus --- */
+.erros-lista {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    width: 95%;
+    max-width: 500px;
+    text-align: left;
+}
+.erros-lista h4 {
+    font-family: 'Elektrix', sans-serif;
+    color: var(--cor-amarelo-cbjr);
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.erros-lista ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+.erros-lista li {
+    font-family: Arial, sans-serif;
+    background-color: rgba(0,0,0,0.3);
+    border-left: 4px solid var(--cor-vermelho-incorreto);
+    padding: 10px 15px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+}
+.erros-lista .correct-answer,
+.erros-lista .user-answer {
+    display: block;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+.erros-lista .correct-answer {
+    color: var(--cor-verde-correto); /* Resposta correta em verde */
+    margin-bottom: 4px;
+}
+.erros-lista .user-answer {
+    color: #ffdddd; /* Resposta do usuário em um vermelho claro */
+    font-style: italic;
+}
+.erros-lista b {
+    color: var(--cor-texto-claro);
+    font-style: normal;
+}
 
     </style>
 </head>
@@ -2386,7 +2446,7 @@
             <button id="start-quiz-button-welcome"><i class="fas fa-play"></i> Entrar no Quiz</button>
             <button id="show-achievements-button-intro"><i class="fas fa-trophy"></i> Conquistas</button>
             <button id="show-ranking-button-intro"><i class="fas fa-ranking-star"></i> Ranking Online</button>
-            <button id="start-bonus-music-btn"><i class="fas fa-headphones-simple"></i> Bônus Fã: Adivinhe a Música!</button>
+            <button id="start-bonus-music-btn"><i class="fas fa-headphones-simple"></i> Rádio CBJR</button>
         </div>
     </div>
 
@@ -2435,7 +2495,7 @@
     </div>
 
     <div id="bonus-music-screen" style="display: none;">
-        <h2>Bônus Fã: Adivinhe a Música!</h2>
+        <h2>Rádio CBJR</h2>
         <p class="bonus-instruction">Ouça o trecho e digite o nome da música do Charlie Brown Jr.</p>
 
         <div class="bonus-player-area">
@@ -2567,6 +2627,15 @@ const gameSettings = {
         pointsPerCorrect: 20
     }
 };
+
+// NOVO: Configurações de dificuldade para o Rádio CBJR
+const bonusSettings = {
+    easy: { time: 30 },
+    normal: { time: 20 },
+    hard: { time: 15 },
+    free: { time: null } // O modo livre não tem tempo limite
+};
+
 
 // --- Frases do Chorão para o final de jogo ---
 const choraoQuotes = [
@@ -2704,7 +2773,7 @@ const questionsByLevel = [
                 curiosidade: "O nome surgiu depois que Chorão atropelou, sem querer, uma barraca na praia com o desenho do Charlie Brown; o 'Jr.' veio porque se viam como 'filhos do rock'."
             },
             {
-                pergunta: "Qual foi o produtor musical responsável por grande parte dos álbuns de sucesso do Charlie Brown Jr.?",
+                "pergunta": "Qual foi o produtor musical responsável por grande parte dos álbuns de sucesso do Charlie Brown Jr.?",
                 "respostas": ["Rick Bonadio", "Liminha", "Dudu Marote", "Marcelo Sussekind"],
                 "correta": "Rick Bonadio",
                 "curiosidade": "Rick Bonadio foi um parceiro fundamental na carreira da banda, produzindo vários de seus álbuns más aclamados, moldando o som que conquistou o Brasil."
@@ -2805,10 +2874,10 @@ const achievements = {
         coverFile: "CD%2012.jpeg", // Mantido como um CD genérico para este power-up
         unlocked: false
     },
-    // NOVA CONQUISTA PARA O BÔNUS FÃ
+    // NOVA CONQUISTA PARA A Rádio CBJR
     "bonus_music_master": {
-        name: "Rei da Rádio (Bônus Fã)",
-        description: "Acerte TODAS as músicas no Nível Bônus Fã.",
+        name: "Rei da Rádio (Rádio CBJR)",
+        description: "Acerte TODAS as músicas no Nível Rádio CBJR.",
         coverFile: "CD%20bonus.jpeg", // Adicione uma imagem para esta capa
         unlocked: false
     }
@@ -2846,7 +2915,7 @@ const cdNames = {
     "CD%2010.jpeg": "Camisa 10 Joga Bola Até na Chuva (2009)",
     "CD%2011.jpeg": "Música Popular Caiçara (2012)",
     "CD%2012.jpeg": "La Familia 013 (2013)",
-    "CD%20bonus.jpeg": "Bônus Fã: Adivinhe a Música" // Nome para a capa do bônus
+    "CD%20bonus.jpeg": "Rádio CBJR" // Nome para a capa do bônus
 };
 
 // --- Referências de Elementos DOM ---
@@ -2920,7 +2989,7 @@ const elements = {
     detailAchievementCdName: document.getElementById('detail-achievement-cd-name'),
     closeAchievementDetailPopupBtn: document.getElementById('close-achievement-detail-popup-btn'),
 
-    // NOVO: Elementos para o Nível Bônus Fã (ATUALIZADOS)
+    // NOVO: Elementos para o Nível Rádio CBJR (ATUALIZADOS)
     bonusMusicScreen: document.getElementById('bonus-music-screen'),
     startBonusMusicBtn: document.getElementById('start-bonus-music-btn'), // Agora é um elemento fixo no HTML
     bonusAnswerInput: document.getElementById('bonus-answer-input'),
@@ -3015,7 +3084,7 @@ const quizState = {
     currentDifficulty: 'normal' // Dificuldade padrão
 };
 
-// --- NOVO: Estado do Jogo Bônus Fã (Musical) ---
+// --- NOVO: Estado do Jogo Rádio CBJR (Musical) ---
 const bonusGameState = {
     songsToGuess: [], // Cópia embaralhada das músicas da playlist
     currentBonusSong: null, // A música que está tocando agora
@@ -3026,7 +3095,9 @@ const bonusGameState = {
     isBonusActive: false, // Flag para saber se estamos no modo bônus
     lastQuizState: null, // Para guardar o estado do quiz principal ao entrar no bônus
     startTime: 0, // NOVO: Tempo de início do desafio em milissegundos
-    endTime: 0    // NOVO: Tempo de fim do desafio em milissegundos
+    endTime: 0,
+    currentDifficulty: 'normal', // NOVO: Dificuldade atual do modo bônus
+    missedSongs: []
 };
 
 // Variáveis de controle de tempo
@@ -3097,47 +3168,45 @@ function formatTime(seconds) {
     return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
-// NOVO: Função para normalizar texto (agora bem más robusta para títulos de músicas)
+// --- FUNÇÃO DE NORMALIZAÇÃO ATUALIZADA ---
 function normalizeText(text) {
     if (!text) return '';
 
-    let normalized = text.normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") // Remove diacríticos (acentos)
+    let normalized = text
         .toLowerCase()
-        .trim();
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, ""); // Remove acentos primeiro
 
-    // 1. Remover tudo entre parênteses ou colchetes, incluindo eles mesmos.
-    // Ex: (Doze Más Um), (Part. Charlie Brown Jr), (Tour Cedo ou Tarde Ao Vivo)
+    // 1. Remove qualquer conteúdo dentro de parênteses ou colchetes. Ex: (Ao Vivo), [Oficial]
     normalized = normalized.replace(/[\(\[].*?[\)\]]/g, ' ');
 
-    // 2. Remover termos de colaboração e nomes de artistas/bandas conhecidas no contexto CBJR.
-    // Use \b para limites de palavra e \s* para espaços opcionais.
-    normalized = normalized.replace(/\b(feat|ft|part)\.?\s*[\w\s.]+/g, ''); // Remove "feat.", "ft.", "part." e o que vier depois (artista)
-    normalized = normalized.replace(/\b(e|com)\s+(vanessa da mata|negrali|nx zero|marcelo nova|chorao)\b/g, ''); // Specific artist names
+    // 2. Remove prefixos comuns de artistas e projetos, seguidos por separadores.
+    // Isso resolve "NX Zero - ...", "Vanessa da Mata - ...", "Estúdio Coca-Cola Zero: ..."
+    const prefixesToRemove = [
+        "charlie brown jr", "cbjr", "nx zero", "vanessa da mata", 
+        "estudio coca-cola zero", "chorao e champignon"
+    ];
+    prefixesToRemove.forEach(prefix => {
+        // Cria uma regex para encontrar o prefixo no início do texto, seguido por : ou -
+        const regex = new RegExp(`^\\s*${prefix}\\s*[-:：]?\\s*`, 'g');
+        normalized = normalized.replace(regex, '');
+    });
+
+    // 3. Remove termos de colaboração e o que vem depois. Ex: "feat. chorão", "part. negra li"
+    normalized = normalized.replace(/\b(feat|ft|part)\.?\s*[\w\s.&]+/g, '');
+
+    // 4. Tratamento de caracteres especiais e pontuação
+    normalized = normalized.replace(/\+/g, ' mais '); // Converte '+' para ' mais ', para "12+1"
+    normalized = normalized.replace(/\./g, '');       // Remove todos os pontos. Ex: "T.F.D.P." vira "tfdp"
     
-    // 3. Remover o nome da banda e variações comuns.
-    normalized = normalized.replace(/\b(charlie brown jr|cbjr)\b\s*[-–.]?/g, '');
+    // 5. Substitui todos os outros separadores comuns por espaço
+    normalized = normalized.replace(/[-–—:：]/g, ' ');
 
-    // 4. Remover prefixos de projetos/eventos comuns no início ou em qualquer lugar.
-    normalized = normalized.replace(/\s*(estudio coca-cola zero|acustico mtv|ao vivo|unplugged|oficial)\s*[:–—\s]?/g, '');
-    
-    // 5. Substituir travessões, dois pontos e outros separadores comuns por um espaço simples.
-    normalized = normalized.replace(/[-–—:]/g, ' ');
-
-    // 6. Remover símbolos específicos ou convertê-los, e tratar números por extenso.
-    normalized = normalized.replace(/\+/g, ' más '); // Converte '+' para ' más '
-    normalized = normalized.replace(/\bdoze\b/g, '12'); // Converte 'doze' para '12'
-    normalized = normalized.replace(/\buma\b/g, '1'); // Converte 'uma' para '1' (caso "Uma Criança...")
-    normalized = normalized.replace(/\bai ai ai\b/g, 'ai ai ai'); // Para garantir que "ai ai ai" não seja afetado por outras regras se houver ambiguidade
-
-    // 7. Remover qualquer pontuação restante que não seja letra, número ou espaço.
+    // 6. Remove qualquer caractere que não seja letra, número ou espaço em branco
     normalized = normalized.replace(/[^a-z0-9\s]/g, '');
 
-    // 8. Substituir múltiplos espaços por um único espaço.
-    normalized = normalized.replace(/\s+/g, ' ');
-
-    // Remover espaços extras no início e fim após todas as substituições.
-    normalized = normalized.trim();
+    // 7. Limpa espaços duplicados e no início/fim da string
+    normalized = normalized.replace(/\s+/g, ' ').trim();
 
     return normalized;
 }
@@ -3580,6 +3649,7 @@ function startQuiz(difficulty) {
             currentLevel: 0,
             currentQuestionIndexInLevel: 0,
             score: 0,
+            lives: gameSettings[difficulty].lives, // Corrigido para a nova dificuldade
             errorsInCurrentLevel: 0,
             quizPaused: false,
             isProcessingAnswer: false,
@@ -3795,7 +3865,6 @@ function continueQuiz() {
         elements.quiz.style.pointerEvents = 'all';
 
         showQuestion();
-        updateQuizInfo();
     }, { once: true });
 }
 
@@ -4223,15 +4292,23 @@ function handleQuizClick(event) {
         return;
     }
     if (elements.bonusMusicScreen.classList.contains('show')) {
-        if (event.target === elements.bonusMusicScreen || event.target.tagName === 'H2') {
+        // Redireciona os cliques dentro da tela de bônus para suas respectivas funções
+        const clickedButton = event.target.closest('button');
+        if (clickedButton) {
+            if (clickedButton.id === 'bonus-easy-btn' || clickedButton.id === 'bonus-normal-btn' || clickedButton.id === 'bonus-hard-btn' || clickedButton.id === 'bonus-free-btn') {
+                const difficulty = clickedButton.id.split('-')[1];
+                startBonusMusicGame(difficulty);
+            } else if (clickedButton.id === 'back-to-main-menu-from-bonus-btn') {
+                showIntroMessage();
+            }
         }
         event.stopPropagation();
         return;
     }
     if (elements.bonusAchievementScreen.classList.contains('show')) {
-        if (event.target === elements.bonusAchievementScreen || event.target.tagName === 'H2') {
+        if (event.key === 'Enter' || event.key === 'Escape') {
+            elements.bonusAchievementCloseBtn.click();
         }
-        event.stopPropagation();
         return;
     }
 
@@ -4277,7 +4354,7 @@ function handleKeyboardInput(event) {
             if (secretLevelBtn && !secretLevelBtn.disabled) secretLevelBtn.click();
             else {
                 const restartBtn = elements.restartFromCompletionBtn;
-                if (restartBtn && !restartBtn.disabled) restartBtn.Cick();
+                if (restartBtn && !restartBtn.disabled) restartBtn.click();
             }
         }
         return;
@@ -4502,7 +4579,10 @@ function checkAnswer(clickedButton, answer, correta) {
     }
 }
 
-// CORREÇÃO AQUI: Adicionado o parâmetro 'gameMode'
+// ===================================================================
+// FUNÇÕES DO RANKING 
+// ===================================================================
+
 async function saveScore(playerName, score, gameMode) {
     if (!db || !collection || !addDoc) {
         console.error("Firebase Firestore SDK não está disponível ou foi importado incorretamente.");
@@ -4515,7 +4595,7 @@ async function saveScore(playerName, score, gameMode) {
             name: playerName,
             score: score,
             timestamp: Date.now(),
-            gameMode: gameMode // Adicionando o modo de jogo
+            gameMode: gameMode 
         });
         console.log(`Pontuação de ${playerName} (${score}) salva com sucesso no Firebase!`);
     } catch (e) {
@@ -4524,7 +4604,6 @@ async function saveScore(playerName, score, gameMode) {
     }
 }
 
-// CORREÇÃO AQUI: Adicionado o parâmetro 'mode' para filtrar o ranking
 async function loadRanking(mode) {
     if (!db || !collection || !query || !orderBy || !limit || !getDocs || !where) {
         console.error("Firebase Firestore SDK não está disponível ou foi importado incorretamente.");
@@ -4533,7 +4612,6 @@ async function loadRanking(mode) {
     const rankingList = [];
     try {
         const rankingRef = collection(db, "ranking");
-        // AQUI ESTÁ A CORREÇÃO PRINCIPAL: Usar `where` para filtrar por `gameMode`
         const q = query(rankingRef, where("gameMode", "==", mode), orderBy("score", "desc"), limit(10));
         
         const querySnapshot = await getDocs(q);
@@ -4679,7 +4757,7 @@ function showRankingScreen(defaultMode = 'quiz') {
         <h2>Top 10 Feras do CBJR</h2>
         <div style="display: flex; gap: 15px; margin-bottom: 20px;">
             <button id="ranking-mode-quiz-btn" style="padding: 10px 20px;">Quiz Principal</button>
-            <button id="ranking-mode-bonus-btn" style="padding: 10px 20px;">Bônus Fã</button>
+            <button id="ranking-mode-bonus-btn" style="padding: 10px 20px;">Rádio CBJR</button>
         </div>
         <ol id="ranking-list"></ol>
         <button id="close-ranking-btn" style="margin-top: 20px;">Voltar ao Início</button>
@@ -4773,10 +4851,13 @@ function restartQuiz() {
         currentBonusSongIndex: 0,
         bonusCorrectCount: 0,
         bonusErrorsCount: 0,
+        maxBonusErrors: 5,
         isBonusActive: false,
         lastQuizState: null,
         startTime: 0,
-        endTime: 0
+        endTime: 0,
+        currentDifficulty: 'normal',
+        missedSongs: []
     });
 
     clearInterval(timerInterval);
@@ -4871,38 +4952,121 @@ function handleTimerEnd() {
 }
 
 let bonusTimer = null;
+let bonusCountdownTimer = null; // MOVENDO para o escopo global
 
-function showBonusMusicScreen() {
-    console.log("showBonusMusicScreen: Exibindo tela de Bônus Fã.");
+// NOVO: Função para mostrar a tela de seleção de dificuldade do Bônus
+function showBonusDifficultyScreen() {
+    console.log("showBonusDifficultyScreen: Exibindo tela de seleção de dificuldade do Bônus.");
     bonusGameState.lastQuizState = { ...quizState };
     quizState.quizPaused = true;
-
-    elements.quiz.style.display = 'none';
-    elements.livesDisplay.style.display = 'none';
-    elements.powerUpsContainer.style.display = 'none';
-    elements.levelUpMessage.classList.remove('show');
-    elements.levelUpMessage.style.display = 'none';
+    
     elements.welcomeScreen.classList.remove('show');
-    elements.welcomeScreen.style.display = 'none';
-    elements.rankingScreen.classList.remove('show');
-    elements.rankingScreen.style.display = 'none';
-    elements.completionScreen.classList.remove('show', 'shake-animation');
-    elements.completionScreen.style.display = 'none';
-    elements.bonusAchievementScreen.style.display = 'none';
-    elements.bonusAchievementScreen.classList.remove('show');
+    elements.welcomeScreen.addEventListener('transitionend', function handler() {
+        elements.welcomeScreen.style.display = 'none';
+        elements.welcomeScreen.removeEventListener('transitionend', handler);
+
+        showMainOverlay();
+        elements.bonusMusicScreen.style.display = 'flex';
+        elements.bonusMusicScreen.classList.add('show');
+        
+        // CORRIGIDO: Recriando a estrutura da nova tela para ficar IGUAL à do quiz principal
+        elements.bonusMusicScreen.innerHTML = `
+            <h2>Rádio CBJR: Sintonize</h2>
+            <p class="bonus-instruction">Escolha a dificuldade e mostre que você sabe o nome de todas as músicas!</p>
+            <div class="message-buttons">
+                <button id="bonus-easy-btn"><i class="fas fa-hand-rock"></i> Fácil (30s)</button>
+                <button id="bonus-normal-btn"><i class="fas fa-hand-peace"></i> Normal (20s)</button>
+                <button id="bonus-hard-btn"><i class="fas fa-hand-fist"></i> Difícil (15s)</button>
+                <button id="bonus-free-btn"><i class="fas fa-star"></i> Livre (Sem tempo)</button>
+            </div>
+            <button id="back-to-main-menu-from-bonus-btn" style="margin-top: 20px;">Voltar ao Menu</button>
+        `;
+        
+        document.getElementById('bonus-easy-btn').onclick = () => startBonusMusicGame('easy');
+        document.getElementById('bonus-normal-btn').onclick = () => startBonusMusicGame('normal');
+        document.getElementById('bonus-hard-btn').onclick = () => startBonusMusicGame('hard');
+        document.getElementById('bonus-free-btn').onclick = () => startBonusMusicGame('free');
+        document.getElementById('back-to-main-menu-from-bonus-btn').onclick = () => {
+            elements.bonusMusicScreen.classList.remove('show');
+            elements.bonusMusicScreen.addEventListener('transitionend', function handler() {
+                elements.bonusMusicScreen.style.display = 'none';
+                elements.bonusMusicScreen.removeEventListener('transitionend', handler);
+                showIntroMessage();
+            }, { once: true });
+        };
+        
+        elements.audioPlayerWrapper.classList.add('hidden-player');
+    }, { once: true });
+}
+
+// CORRIGIDO: showBonusMusicScreen agora é chamado pela tela de seleção de dificuldade
+function showBonusMusicScreen() {
+    showBonusDifficultyScreen();
+}
+
+// CORRIGIDO: startBonusMusicGame agora aceita a dificuldade como parâmetro e o conteúdo é mais simples
+function startBonusMusicGame(difficulty) {
+    console.log(`startBonusMusicGame: Iniciando novo jogo de Rádio CBJR na dificuldade ${difficulty}.`);
+    bonusGameState.currentDifficulty = difficulty;
+    bonusGameState.missedSongs = []; // Limpa a lista de erros da partida anterior
     
-    elements.audio.pause();
-    elements.audio.currentTime = 0;
-    elements.audioPlayerWrapper.classList.add('hidden-player');
-    showMainOverlay();
-    
-    elements.bonusMusicScreen.style.display = 'flex';
-    elements.bonusMusicScreen.classList.add('show');
+    // Apenas redefine o HTML para a tela de jogo, já que a seleção foi feita na função anterior
+    elements.bonusMusicScreen.innerHTML = `
+        <h2>Rádio CBJR</h2>
+        <p class="bonus-instruction">Ouça o trecho e digite o nome da música do Charlie Brown Jr.</p>
+
+        <div class="bonus-player-area">
+            <p id="bonus-current-song-title" style="display: none;"></p>
+            <input type="text" id="bonus-answer-input" placeholder="Qual é a música?">
+            <p id="bonus-feedback-message"></p>
+            <p id="bonus-curiosity-message" style="display: none;"></p>
+        </div>
+
+        <div class="bonus-score-display">
+            <div class="score-item correct-count"><i class="fas fa-check-circle"></i> Acertos: <span id="bonus-correct-count-display">0</span></div>
+            <div class="score-item error-count"><i class="fas fa-times-circle"></i> Erros: <span id="bonus-errors-count-display">0</span>/<span id="bonus-max-errors-display">5</span></div>
+            <div class="score-item music-progress"><i class="fas fa-music"></i> Música: <span id="bonus-current-song-number">1</span>/<span id="bonus-total-songs">75</span></div>
+        </div>
+        
+        <div class="bonus-controls">
+            <button id="bonus-submit-btn"><i class="fas fa-paper-plane"></i> Enviar Resposta</button>
+            <button id="bonus-skip-btn"><i class="fas fa-forward-step"></i> Pular Música</button>
+            <button id="bonus-exit-btn" class="exit-button"><i class="fas fa-door-open"></i> Sair do Bônus</button>
+        </div>
+        `;
+
+    // Redefinição das referências DOM após a alteração do innerHTML
+    elements.bonusAnswerInput = document.getElementById('bonus-answer-input');
+    elements.bonusSubmitBtn = document.getElementById('bonus-submit-btn');
+    elements.bonusSkipBtn = document.getElementById('bonus-skip-btn');
+    elements.bonusExitBtn = document.getElementById('bonus-exit-btn');
+    elements.bonusFeedbackMessage = document.getElementById('bonus-feedback-message');
+    elements.bonusCorrectCountDisplay = document.getElementById('bonus-correct-count-display');
+    elements.bonusErrorsCountDisplay = document.getElementById('bonus-errors-count-display');
+    elements.bonusMaxErrorsDisplay = document.getElementById('bonus-max-errors-display');
+    elements.bonusCurrentSongNumber = document.getElementById('bonus-current-song-number');
+    elements.bonusTotalSongs = document.getElementById('bonus-total-songs');
+    elements.bonusCurrentSongTitle = document.getElementById('bonus-current-song-title');
+    elements.bonusCuriosityMessage = document.getElementById('bonus-curiosity-message');
     
     elements.bonusSubmitBtn.onclick = checkBonusAnswer;
     elements.bonusSkipBtn.onclick = () => {
-        bonusGameState.currentBonusSongIndex++;
-        loadBonusSongForBonus(true);
+        if (elements.bonusAnswerInput.disabled) return;
+        bonusGameState.bonusErrorsCount++;
+        bonusGameState.missedSongs.push({ userAnswer: '-- PULO --', correctAnswer: bonusGameState.currentBonusSong.title }); // Registra o pulo
+        elements.audio.pause();
+        if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
+        elements.bonusFeedbackMessage.textContent = "Música pulada! ⏩";
+        elements.bonusFeedbackMessage.style.color = 'var(--cor-amarelo-cbjr)';
+        elements.bonusFeedbackMessage.classList.add('show');
+        elements.bonusAnswerInput.disabled = true;
+        elements.bonusSubmitBtn.disabled = true;
+        elements.bonusSkipBtn.disabled = true;
+        updateBonusScoreInfo();
+        if (bonusTimer) clearTimeout(bonusTimer);
+        bonusTimer = setTimeout(() => {
+            handleBonusEndTurn();
+        }, 1500);
     };
     elements.bonusExitBtn.onclick = hideBonusMusicScreen;
 
@@ -4912,19 +5076,128 @@ function showBonusMusicScreen() {
             elements.bonusSubmitBtn.click();
         }
     };
-
+    
     bonusGameState.isBonusActive = true;
-    startBonusMusicGame();
+    bonusGameState.songsToGuess = [...playerState.originalPlaylist];
+    shuffleArray(bonusGameState.songsToGuess);
+    bonusGameState.currentBonusSongIndex = 0;
+    bonusGameState.bonusCorrectCount = 0;
+    bonusGameState.bonusErrorsCount = 0;
+    bonusGameState.startTime = Date.now();
+    
+    updateBonusScoreInfo();
+    loadBonusSongForBonus();
     elements.bonusAnswerInput.focus();
 }
 
+function loadBonusSongForBonus(skipped = false) {
+    elements.bonusAnswerInput.classList.remove('correct-feedback', 'incorrect-feedback');
+    elements.bonusFeedbackMessage.classList.remove('show');
+    elements.bonusCuriosityMessage.style.opacity = '0';
+    elements.bonusCuriosityMessage.textContent = '';
+    elements.bonusCuriosityMessage.style.display = 'none';
+
+    if (bonusTimer) {
+        clearTimeout(bonusTimer);
+        bonusTimer = null;
+    }
+    // CORRIGIDO: Para o contador visual se existir
+    if (bonusCountdownTimer) {
+        clearInterval(bonusCountdownTimer);
+        bonusCountdownTimer = null;
+    }
+
+    if (bonusGameState.currentBonusSongIndex >= bonusGameState.songsToGuess.length) {
+        // --- INÍCIO DA CORREÇÃO 2: VERIFICAÇÃO DE VITÓRIA REAL ---
+        // A conquista só é ganha se o jogador terminar todas as músicas COM ZERO ERROS.
+        const wonTheChallenge = (bonusGameState.bonusErrorsCount === 0);
+        endBonusMusicGame(wonTheChallenge);
+        // --- FIM DA CORREÇÃO 2 ---
+        return;
+    }
+    
+    // NOVO: Adiciona o elemento de contagem de tempo apenas nos modos com tempo
+    if (bonusGameState.currentDifficulty !== 'free') {
+        let timeDisplay = document.getElementById('bonus-time-display');
+        if (!timeDisplay) {
+            timeDisplay = document.createElement('span');
+            timeDisplay.id = 'bonus-time-display';
+            timeDisplay.style.cssText = `
+                font-family: 'Elektrix', sans-serif;
+                font-size: 1.8em;
+                color: var(--cor-amarelo-cbjr);
+                text-shadow: 0 0 8px rgba(241, 196, 15, 0.7);
+                margin-top: -10px; /* Ajuste para espaçamento */
+                margin-bottom: 10px;
+                display: block;
+            `;
+            const bonusPlayerArea = document.querySelector('.bonus-player-area');
+            const bonusAnswerInput = document.getElementById('bonus-answer-input');
+            bonusPlayerArea.insertBefore(timeDisplay, bonusAnswerInput);
+        }
+        
+        let timeLeft = bonusSettings[bonusGameState.currentDifficulty].time;
+        timeDisplay.textContent = `Tempo: ${timeLeft}s`;
+        timeDisplay.style.color = 'var(--cor-amarelo-cbjr)';
+
+        bonusCountdownTimer = setInterval(() => {
+            timeLeft--;
+            timeDisplay.textContent = `Tempo: ${timeLeft}s`;
+            if (timeLeft <= 5) {
+                timeDisplay.style.color = 'var(--cor-vermelho-incorreto)';
+                timeDisplay.style.animation = 'shake 0.3s infinite';
+            }
+            if (timeLeft <= 0) {
+                clearInterval(bonusCountdownTimer);
+                elements.bonusAnswerInput.disabled = true;
+                elements.bonusSubmitBtn.disabled = true;
+                elements.bonusSkipBtn.disabled = true;
+                elements.bonusFeedbackMessage.textContent = "Tempo esgotado! ⏳";
+                elements.bonusFeedbackMessage.style.color = 'var(--cor-vermelho-incorreto)';
+                elements.bonusFeedbackMessage.classList.add('show');
+                timeDisplay.style.animation = 'none';
+                
+                bonusGameState.missedSongs.push({ userAnswer: '-- TEMPO ESGOTADO --', correctAnswer: bonusGameState.currentBonusSong.title }); // Registra erro por tempo
+
+                setTimeout(() => {
+                    bonusGameState.bonusErrorsCount++;
+                    updateBonusScoreInfo();
+                    handleBonusEndTurn();
+                }, 2000);
+            }
+        }, 1000);
+    } else {
+        const timeDisplay = document.getElementById('bonus-time-display');
+        if (timeDisplay) { timeDisplay.remove(); }
+    }
+
+
+    elements.bonusAnswerInput.value = '';
+    elements.bonusAnswerInput.disabled = false;
+    elements.bonusSubmitBtn.disabled = false;
+    elements.bonusSkipBtn.disabled = false;
+    elements.bonusFeedbackMessage.textContent = skipped ? "Música pulada! ⏩" : "";
+    elements.bonusFeedbackMessage.style.color = 'var(--cor-texto-claro)';
+    elements.bonusCurrentSongTitle.style.display = 'none';
+
+    bonusGameState.currentBonusSong = bonusGameState.songsToGuess[bonusGameState.currentBonusSongIndex];
+    loadSong(bonusGameState.currentBonusSong);
+    elements.audio.currentTime = 0;
+    playSong();
+    elements.bonusAnswerInput.focus();
+    console.log(`Rádio CBJR: Música carregada: ${bonusGameState.currentBonusSong.title}`);
+}
+
 function hideBonusMusicScreen() {
-    console.log("hideBonusMusicScreen: Escondendo tela de Bônus Fã e restaurando quiz.");
+    console.log("hideBonusMusicScreen: Escondendo tela de Rádio CBJR e restaurando quiz.");
     elements.bonusMusicScreen.classList.remove('show');
     elements.bonusMusicScreen.addEventListener('transitionend', function handler() {
         elements.bonusMusicScreen.style.display = 'none';
         elements.bonusMusicScreen.removeEventListener('transitionend', handler);
         hideMainOverlay();
+        
+        if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
+        if (bonusTimer) clearTimeout(bonusTimer);
         
         if (bonusGameState.lastQuizState) {
             const currentUnlockedAchievements = { ...quizState.unlockedAchievements };
@@ -4954,113 +5227,20 @@ function hideBonusMusicScreen() {
     }, { once: true });
 }
 
-function startBonusMusicGame() {
-    console.log("startBonusMusicGame: Iniciando novo jogo de Bônus Fã.");
-    bonusGameState.songsToGuess = [...playerState.originalPlaylist];
-    shuffleArray(bonusGameState.songsToGuess);
-    bonusGameState.currentBonusSongIndex = 0;
-    bonusGameState.bonusCorrectCount = 0;
-    bonusGameState.bonusErrorsCount = 0;
-    bonusGameState.startTime = Date.now();
-    
-    elements.bonusMusicScreen.innerHTML = `
-        <h2>Bônus Fã: Adivinhe a Música!</h2>
-        <p class="bonus-instruction">Ouça o trecho e digite o nome da música do Charlie Brown Jr.</p>
-
-        <div class="bonus-player-area">
-            <p id="bonus-current-song-title" style="display: none;"></p>
-            <input type="text" id="bonus-answer-input" placeholder="Qual é a música?">
-            <p id="bonus-feedback-message"></p>
-            <p id="bonus-curiosity-message" style="display: none;"></p>
-        </div>
-
-        <div class="bonus-score-display">
-            <div class="score-item correct-count"><i class="fas fa-check-circle"></i> Acertos: <span id="bonus-correct-count-display">0</span></div>
-            <div class="score-item error-count"><i class="fas fa-times-circle"></i> Erros: <span id="bonus-errors-count-display">0</span>/<span id="bonus-max-errors-display">5</span></div>
-            <div class="score-item music-progress"><i class="fas fa-music"></i> Música: <span id="bonus-current-song-number">1</span>/<span id="bonus-total-songs">75</span></div>
-        </div>
-        
-        <div class="bonus-controls">
-            <button id="bonus-submit-btn"><i class="fas fa-paper-plane"></i> Enviar Resposta</button>
-            <button id="bonus-skip-btn"><i class="fas fa-forward-step"></i> Pular Música</button>
-            <button id="bonus-exit-btn" class="exit-button"><i class="fas fa-door-open"></i> Sair do Bônus</button>
-        </div>
-        `;
-    elements.bonusAnswerInput = document.getElementById('bonus-answer-input');
-    elements.bonusSubmitBtn = document.getElementById('bonus-submit-btn');
-    elements.bonusSkipBtn = document.getElementById('bonus-skip-btn');
-    elements.bonusExitBtn = document.getElementById('bonus-exit-btn');
-    elements.bonusFeedbackMessage = document.getElementById('bonus-feedback-message');
-    elements.bonusCorrectCountDisplay = document.getElementById('bonus-correct-count-display');
-    elements.bonusErrorsCountDisplay = document.getElementById('bonus-errors-count-display');
-    elements.bonusMaxErrorsDisplay = document.getElementById('bonus-max-errors-display');
-    elements.bonusCurrentSongNumber = document.getElementById('bonus-current-song-number');
-    elements.bonusTotalSongs = document.getElementById('bonus-total-songs');
-    elements.bonusCurrentSongTitle = document.getElementById('bonus-current-song-title');
-    elements.bonusCuriosityMessage = document.getElementById('bonus-curiosity-message');
-    
-    elements.bonusSubmitBtn.onclick = checkBonusAnswer;
-    elements.bonusSkipBtn.onclick = () => {
-        bonusGameState.currentBonusSongIndex++;
-        loadBonusSongForBonus(true);
-    };
-    elements.bonusExitBtn.onclick = hideBonusMusicScreen;
-
-    elements.bonusAnswerInput.onkeydown = (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            elements.bonusSubmitBtn.click();
-        }
-    };
-    
-    updateBonusScoreInfo();
-    loadBonusSongForBonus();
-    elements.bonusAnswerInput.focus();
-}
-
-function loadBonusSongForBonus(skipped = false) {
-    elements.bonusAnswerInput.classList.remove('correct-feedback', 'incorrect-feedback');
-    elements.bonusFeedbackMessage.classList.remove('show');
-    elements.bonusCuriosityMessage.style.opacity = '0';
-    elements.bonusCuriosityMessage.textContent = '';
-    elements.bonusCuriosityMessage.style.display = 'none';
-
-    if (bonusTimer) {
-        clearTimeout(bonusTimer);
-        bonusTimer = null;
-    }
-
-    if (bonusGameState.currentBonusSongIndex >= bonusGameState.songsToGuess.length) {
-        endBonusMusicGame(true);
-        return;
-    }
-
-    elements.bonusAnswerInput.value = '';
-    elements.bonusAnswerInput.disabled = false;
-    elements.bonusSubmitBtn.disabled = false;
-    elements.bonusSkipBtn.disabled = false;
-    elements.bonusFeedbackMessage.textContent = skipped ? "Música pulada! ⏩" : "";
-    elements.bonusFeedbackMessage.style.color = 'var(--cor-texto-claro)';
-    elements.bonusCurrentSongTitle.style.display = 'none';
-
-    bonusGameState.currentBonusSong = bonusGameState.songsToGuess[bonusGameState.currentBonusSongIndex];
-    loadSong(bonusGameState.currentBonusSong);
-    elements.audio.currentTime = 0;
-    playSong();
-    elements.bonusAnswerInput.focus();
-    console.log(`Bônus Fã: Música carregada: ${bonusGameState.currentBonusSong.title}`);
-}
 
 function handleBonusEndTurn() {
     elements.bonusFeedbackMessage.classList.remove('show');
     elements.bonusCuriosityMessage.style.opacity = '0';
     elements.bonusCuriosityMessage.style.display = 'none';
+    
+    const timeDisplay = document.getElementById('bonus-time-display');
+    if (timeDisplay) timeDisplay.style.animation = 'none';
 
     const isLastSong = bonusGameState.currentBonusSongIndex + 1 >= bonusGameState.songsToGuess.length;
     const reachedMaxErrors = bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors;
 
     if (reachedMaxErrors || isLastSong) {
-        const completedAll = isLastSong && !reachedMaxErrors;
+        const completedAll = isLastSong && bonusGameState.bonusErrorsCount === 0;
         endBonusMusicGame(completedAll);
     } else {
         bonusGameState.currentBonusSongIndex++;
@@ -5072,17 +5252,33 @@ function checkBonusAnswer() {
     const userAnswer = normalizeText(elements.bonusAnswerInput.value);
     const correctAnswer = normalizeText(bonusGameState.currentBonusSong.title);
     const musicCuriosity = bonusGameState.currentBonusSong.curiosidade;
+    
+    // --- INÍCIO DA CORREÇÃO 1: RESPOSTAS ALTERNATIVAS ---
+    let isCorrect = (userAnswer === correctAnswer);
+
+    const alternativeAnswers = {
+        "lugar ao sol chorao e champignon": ["lugar ao sol"],
+        "vanessa da mata uma crianca com seu olhar": ["uma crianca com seu olhar"]
+    };
+
+    if (!isCorrect && alternativeAnswers[correctAnswer]) {
+        if (alternativeAnswers[correctAnswer].includes(userAnswer)) {
+            isCorrect = true;
+        }
+    }
+    // --- FIM DA CORREÇÃO 1 ---
 
     elements.bonusAnswerInput.disabled = true;
     elements.bonusSubmitBtn.disabled = true;
     elements.bonusSkipBtn.disabled = true;
     elements.audio.pause();
+    if (bonusCountdownTimer) clearInterval(bonusCountdownTimer); // Para o contador quando a resposta é enviada
 
     elements.bonusCuriosityMessage.style.display = 'none';
     elements.bonusCuriosityMessage.textContent = '';
     elements.bonusCuriosityMessage.style.opacity = '0';
 
-    if (userAnswer === correctAnswer) {
+    if (isCorrect) {
         bonusGameState.bonusCorrectCount++;
         elements.bonusFeedbackMessage.textContent = "CORRETO! ✅";
         elements.bonusFeedbackMessage.style.color = 'var(--cor-verde-correto)';
@@ -5098,9 +5294,10 @@ function checkBonusAnswer() {
             elements.bonusCuriosityMessage.style.opacity = '1';
         }
         
-        console.log(`Bônus Fã: Acertou! Músicas corretas: ${bonusGameState.bonusCorrectCount}`);
+        console.log(`Rádio CBJR: Acertou! Músicas corretas: ${bonusGameState.bonusCorrectCount}`);
     } else {
         bonusGameState.bonusErrorsCount++;
+        bonusGameState.missedSongs.push({ userAnswer: elements.bonusAnswerInput.value, correctAnswer: bonusGameState.currentBonusSong.title }); // Registra o erro
         elements.bonusFeedbackMessage.textContent = "INCORRETO! ❌";
         elements.bonusFeedbackMessage.style.color = 'var(--cor-vermelho-incorreto)';
         elements.bonusAnswerInput.classList.add('incorrect-feedback');
@@ -5113,7 +5310,7 @@ function checkBonusAnswer() {
             elements.bonusCuriosityMessage.style.display = 'block';
             elements.bonusCuriosityMessage.style.opacity = '1';
         }
-        console.log(`Bônus Fã: Errou! Erros: ${bonusGameState.bonusErrorsCount}`);
+        console.log(`Rádio CBJR: Errou! Erros: ${bonusGameState.bonusErrorsCount}`);
     }
 
     updateBonusScoreInfo();
@@ -5126,24 +5323,6 @@ function checkBonusAnswer() {
     }, displayDuration);
 }
 
-elements.bonusSkipBtn.onclick = () => {
-    if(elements.bonusAnswerInput.disabled) return;
-    
-    bonusGameState.bonusErrorsCount++;
-    elements.audio.pause();
-    elements.bonusFeedbackMessage.textContent = "Música pulada! ⏩";
-    elements.bonusFeedbackMessage.style.color = 'var(--cor-amarelo-cbjr)';
-    elements.bonusFeedbackMessage.classList.add('show');
-    elements.bonusAnswerInput.disabled = true;
-    elements.bonusSubmitBtn.disabled = true;
-    elements.bonusSkipBtn.disabled = true;
-    updateBonusScoreInfo();
-    
-    if (bonusTimer) clearTimeout(bonusTimer);
-    bonusTimer = setTimeout(() => {
-        handleBonusEndTurn();
-    }, 1500);
-};
 
 function updateBonusScoreInfo() {
     const totalSongs = bonusGameState.songsToGuess.length;
@@ -5163,7 +5342,7 @@ function updateBonusScoreInfo() {
 }
 
 function endBonusMusicGame(completedAllSongs) {
-    console.log("endBonusMusicGame: Finalizando jogo de Bônus Fã.");
+    console.log("endBonusMusicGame: Finalizando jogo de Rádio CBJR.");
     elements.audio.pause();
     
     bonusGameState.endTime = Date.now();
@@ -5187,12 +5366,29 @@ function endBonusMusicGame(completedAllSongs) {
 
     if (bonusGameState.bonusCorrectCount > 0) {
         title = "Mandou Bem no Som!";
-        message = `Você acertou ${bonusGameState.bonusCorrectCount} música(s)! Continue treinando o ouvido!`;
+        message = `Você acertou ${bonusGameState.bonusCorrectCount} música(s)!`;
         textColor = 'var(--cor-amarelo-cbjr)';
     } else {
         title = "Tente Novamente!";
         message = `Você não acertou nenhuma música desta vez. Mas a próxima rodada pode ser a sua!`;
         textColor = 'var(--cor-vermelho-incorreto)';
+    }
+
+    let errosHtml = '';
+    if (bonusGameState.missedSongs.length > 0) {
+        errosHtml = `
+            <div class="erros-lista">
+                <h4>Confira seus erros para aprender:</h4>
+                <ul>
+                    ${bonusGameState.missedSongs.map(missed => `
+                        <li>
+                            <span class="correct-answer"><b>Correta:</b> ${missed.correctAnswer}</span>
+                            <span class="user-answer"><b>Sua resposta:</b> ${missed.userAnswer}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        `;
     }
 
     elements.bonusMusicScreen.innerHTML = `
@@ -5201,7 +5397,10 @@ function endBonusMusicGame(completedAllSongs) {
         <p style="font-family: Arial, sans-serif; font-weight: bold; margin-bottom: 20px;">Seus resultados:</p>
         <p style="font-family: Arial, sans-serif;">Acertos: <span style="color: var(--cor-verde-correto);">${bonusGameState.bonusCorrectCount}</span></p>
         <p style="font-family: Arial, sans-serif;">Erros: <span style="color: var(--cor-vermelho-incorreto);">${bonusGameState.bonusErrorsCount}</span></p>
-        <p style="font-family: Arial, sans-serif;">Tempo Total: <span style="color: var(--cor-bonus-texto);">${formattedDuration}</span></p> <div class="bonus-controls" style="margin-top: 30px;">
+        
+        ${errosHtml}
+
+        <div class="bonus-controls" style="margin-top: 30px;">
             <button id="bonus-play-again-btn">Jogar Novamente</button>
             <button id="bonus-exit-game-btn">Voltar ao Menu Principal</button>
         </div>
@@ -5209,12 +5408,12 @@ function endBonusMusicGame(completedAllSongs) {
     elements.bonusMusicScreen.style.backgroundColor = `rgba(0, 0, 0, 0.9)`;
     elements.bonusMusicScreen.style.color = textColor;
 
-    document.getElementById('bonus-play-again-btn').onclick = startBonusMusicGame;
+    document.getElementById('bonus-play-again-btn').onclick = showBonusDifficultyScreen;
     document.getElementById('bonus-exit-game-btn').onclick = hideBonusMusicScreen;
 }
 
 function showBonusAchievementScreen(timeTaken, totalSongs) {
-    console.log("showBonusAchievementScreen: Exibindo tela de conquista do Bônus Fã.");
+    console.log("showBonusAchievementScreen: Exibindo tela de conquista do Rádio CBJR.");
     quizState.quizPaused = true;
     elements.bonusMusicScreen.classList.remove('show');
     elements.bonusMusicScreen.style.display = 'none';
