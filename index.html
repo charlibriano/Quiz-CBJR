@@ -2349,53 +2349,141 @@
             animation: fadeInScale 0.9s ease-out forwards;
         }
 
-/* --- Estilos para a lista de feedback de erros no Bônus --- */
-.erros-lista {
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    width: 95%;
-    max-width: 500px;
-    text-align: left;
-}
-.erros-lista h4 {
-    font-family: 'Elektrix', sans-serif;
-    color: var(--cor-amarelo-cbjr);
-    font-size: 1.2em;
-    margin-bottom: 15px;
-    text-align: center;
-}
-.erros-lista ul {
-    list-style-type: none;
-    padding-left: 0;
-    margin: 0;
-}
-.erros-lista li {
-    font-family: Arial, sans-serif;
-    background-color: rgba(0,0,0,0.3);
-    border-left: 4px solid var(--cor-vermelho-incorreto);
-    padding: 10px 15px;
-    margin-bottom: 12px;
-    border-radius: 4px;
-}
-.erros-lista .correct-answer,
-.erros-lista .user-answer {
-    display: block;
-    font-size: 0.9em;
-    line-height: 1.4;
-}
-.erros-lista .correct-answer {
-    color: var(--cor-verde-correto); /* Resposta correta em verde */
-    margin-bottom: 4px;
-}
-.erros-lista .user-answer {
-    color: #ffdddd; /* Resposta do usuário em um vermelho claro */
-    font-style: italic;
-}
-.erros-lista b {
-    color: var(--cor-texto-claro);
-    font-style: normal;
-}
+        /* --- Estilos para a lista de feedback de erros no Bônus --- */
+        .erros-lista {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            width: 95%;
+            max-width: 500px;
+            text-align: left;
+        }
+        .erros-lista h4 {
+            font-family: 'Elektrix', sans-serif;
+            color: var(--cor-amarelo-cbjr);
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .erros-lista ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .erros-lista li {
+            font-family: Arial, sans-serif;
+            background-color: rgba(0,0,0,0.3);
+            border-left: 4px solid var(--cor-vermelho-incorreto);
+            padding: 10px 15px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        .erros-lista .correct-answer,
+        .erros-lista .user-answer {
+            display: block;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        .erros-lista .correct-answer {
+            color: var(--cor-verde-correto); /* Resposta correta em verde */
+            margin-bottom: 4px;
+        }
+        .erros-lista .user-answer {
+            color: #ffdddd; /* Resposta do usuário em um vermelho claro */
+            font-style: italic;
+        }
+        .erros-lista b {
+            color: var(--cor-texto-claro);
+            font-style: normal;
+        }
+
+        /* --- NOVO: Estilos para a Tela de Seleção de Discos --- */
+        #bonus-disco-selection-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            max-width: 800px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: var(--cor-texto-claro);
+            padding: 35px;
+            border-radius: 18px;
+            border: 3px solid var(--cor-amarelo-cbjr);
+            box-shadow: 0 0 30px var(--cor-amarelo-cbjr);
+            text-align: center;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease-in-out;
+            box-sizing: border-box;
+        }
+        #bonus-disco-selection-screen.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #bonus-disco-selection-screen h2 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2.8em;
+            color: var(--cor-amarelo-cbjr);
+            margin-bottom: 15px;
+        }
+        #bonus-disco-selection-screen p {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        .disco-list-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .disco-btn {
+            padding: 20px;
+            font-size: 1.2em;
+            font-family: 'Elektrix', sans-serif;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .disco-btn:not(:disabled):hover {
+            transform: scale(1.05);
+            background-color: var(--cor-amarelo-cbjr);
+            color: var(--cor-preto-principal);
+            box-shadow: 0 0 15px var(--cor-amarelo-cbjr);
+        }
+        .disco-btn:disabled {
+            background-color: rgba(0,0,0,0.5);
+            border-color: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.4);
+            cursor: not-allowed;
+        }
+        .disco-btn .disco-title {
+            font-size: 1.2em;
+        }
+        .disco-btn .disco-status {
+            font-size: 0.8em;
+            font-family: Arial, sans-serif;
+        }
+        .disco-btn .disco-status i {
+            margin-right: 5px;
+        }
+        .disco-btn:disabled .disco-status {
+            color: var(--cor-vermelho-incorreto);
+        }
 
     </style>
 </head>
@@ -2406,7 +2494,7 @@
 
     <div class="container">
         <div id="lives-display" style="display: none;">
-            <span>❤️</span><span id="lives-count"></span>
+            <span❤️</span><span id="lives-count"></span>
         </div>
 
         <div id="power-ups-container" style="display: flex;">
@@ -2495,27 +2583,7 @@
     </div>
 
     <div id="bonus-music-screen" style="display: none;">
-        <h2>Rádio CBJR</h2>
-        <p class="bonus-instruction">Ouça o trecho e digite o nome da música do Charlie Brown Jr.</p>
-
-        <div class="bonus-player-area">
-            <p id="bonus-current-song-title" style="display: none;"></p>
-            <input type="text" id="bonus-answer-input" placeholder="Qual é a música?">
-            <p id="bonus-feedback-message"></p>
-            <p id="bonus-curiosity-message" style="display: none;"></p> </div>
-
-        <div class="bonus-score-display">
-            <div class="score-item correct-count"><i class="fas fa-check-circle"></i> Acertos: <span id="bonus-correct-count-display">0</span></div>
-            <div class="score-item error-count"><i class="fas fa-times-circle"></i> Erros: <span id="bonus-errors-count-display">0</span>/<span id="bonus-max-errors-display">5</span></div>
-            <div class="score-item music-progress"><i class="fas fa-music"></i> Música: <span id="bonus-current-song-number">1</span>/<span id="bonus-total-songs">75</span></div>
         </div>
-        
-        <div class="bonus-controls">
-            <button id="bonus-submit-btn"><i class="fas fa-paper-plane"></i> Enviar Resposta</button>
-            <button id="bonus-skip-btn"><i class="fas fa-forward-step"></i> Pular Música</button>
-            <button id="bonus-exit-btn" class="exit-button"><i class="fas fa-door-open"></i> Sair do Bônus</button>
-        </div>
-    </div>
 
     <div id="bonus-achievement-screen" style="display: none;">
         <h2 id="bonus-achievement-title"></h2>
@@ -2524,6 +2592,8 @@
         <button id="bonus-achievement-close-btn">Voltar ao Menu Principal</button>
     </div>
 
+    <div id="bonus-disco-selection-screen" style="display: none;">
+        </div>
 
     <div id="audio-player-wrapper">
         <audio id="audio"></audio>
@@ -2593,6 +2663,11 @@
         </div>
     </div>
 <script type="module">
+// O CÓDIGO JS ATUALIZADO VIRÁ NA PARTE 2
+</script>
+</body>
+</html>
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -2628,12 +2703,10 @@ const gameSettings = {
     }
 };
 
-// NOVO: Configurações de dificuldade para o Rádio CBJR
+// ALTERADO: Configurações do Rádio CBJR simplificadas
 const bonusSettings = {
-    easy: { time: 30 },
-    normal: { time: 20 },
-    hard: { time: 15 },
-    free: { time: null } // O modo livre não tem tempo limite
+    time: 20, // Tempo padrão por música no modo Rádio
+    unlockThreshold: 7 // Músicas corretas para desbloquear o próximo disco
 };
 
 
@@ -2991,6 +3064,8 @@ const elements = {
 
     // NOVO: Elementos para o Nível Rádio CBJR (ATUALIZADOS)
     bonusMusicScreen: document.getElementById('bonus-music-screen'),
+    // NOVO: Tela de seleção de discos
+    bonusDiscoSelectionScreen: document.getElementById('bonus-disco-selection-screen'),
     startBonusMusicBtn: document.getElementById('start-bonus-music-btn'), // Agora é um elemento fixo no HTML
     bonusAnswerInput: document.getElementById('bonus-answer-input'),
     bonusSubmitBtn: document.getElementById('bonus-submit-btn'),
@@ -3084,19 +3159,22 @@ const quizState = {
     currentDifficulty: 'normal' // Dificuldade padrão
 };
 
+// NOVO: Estrutura de dados para os discos do modo bônus
+let bonusDiscos = [];
+
 // --- NOVO: Estado do Jogo Rádio CBJR (Musical) ---
 const bonusGameState = {
     songsToGuess: [], // Cópia embaralhada das músicas da playlist
     currentBonusSong: null, // A música que está tocando agora
     currentBonusSongIndex: 0,
+    currentDiscoIndex: 0, // NOVO: Índice do disco atual
     bonusCorrectCount: 0,
     bonusErrorsCount: 0,
-    maxBonusErrors: 5, // Limite de erros no modo bônus (AUMENTADO!)
+    maxBonusErrors: 5, 
     isBonusActive: false, // Flag para saber se estamos no modo bônus
-    lastQuizState: null, // Para guardar o estado do quiz principal ao entrar no bônus
-    startTime: 0, // NOVO: Tempo de início do desafio em milissegundos
+    lastQuizState: null,
+    startTime: 0,
     endTime: 0,
-    currentDifficulty: 'normal', // NOVO: Dificuldade atual do modo bônus
     missedSongs: []
 };
 
@@ -3342,7 +3420,7 @@ function playSong() {
             console.warn('Erro ao tentar tocar música:', e.name, e.message);
             if (e.name === "NotAllowedError" && elements.audio.paused) {
                 elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
-                elements.currentSongText.textContent = `${playerState.playlist[playerState.currentIndex] ? playerState.playlist[playerState.currentIndex].title : 'N/A'} (Clique ▶️ para tocar)`;
+                elements.currentSongText.textContent = `${playerState.playlist[playerState.currentIndex] ? playerState.playlist[playerState.currentIndex].title : 'N/A'} (Clique▶️ para tocar)`;
                 if (bonusGameState.isBonusActive) { // Se estiver no modo bônus, esconde o título mesmo com erro de autoplay
                     elements.currentSongText.textContent = 'Aguardando interação para tocar...';
                 }
@@ -4856,7 +4934,6 @@ function restartQuiz() {
         lastQuizState: null,
         startTime: 0,
         endTime: 0,
-        currentDifficulty: 'normal',
         missedSongs: []
     });
 
@@ -4952,90 +5029,146 @@ function handleTimerEnd() {
 }
 
 let bonusTimer = null;
-let bonusCountdownTimer = null; // MOVENDO para o escopo global
+let bonusCountdownTimer = null;
 
 // NOVO: Função para mostrar a tela de seleção de dificuldade do Bônus
-function showBonusDifficultyScreen() {
-    console.log("showBonusDifficultyScreen: Exibindo tela de seleção de dificuldade do Bônus.");
-    bonusGameState.lastQuizState = { ...quizState };
+function showDiscoSelectionScreen() {
+    console.log("showDiscoSelectionScreen: Exibindo tela de seleção de discos.");
     quizState.quizPaused = true;
-    
-    elements.welcomeScreen.classList.remove('show');
-    elements.welcomeScreen.addEventListener('transitionend', function handler() {
-        elements.welcomeScreen.style.display = 'none';
-        elements.welcomeScreen.removeEventListener('transitionend', handler);
 
-        showMainOverlay();
-        elements.bonusMusicScreen.style.display = 'flex';
-        elements.bonusMusicScreen.classList.add('show');
-        
-        // CORRIGIDO: Recriando a estrutura da nova tela para ficar IGUAL à do quiz principal
-        elements.bonusMusicScreen.innerHTML = `
-            <h2>Rádio CBJR: Sintonize</h2>
-            <p class="bonus-instruction">Escolha a dificuldade e mostre que você sabe o nome de todas as músicas!</p>
-            <div class="message-buttons">
-                <button id="bonus-easy-btn"><i class="fas fa-hand-rock"></i> Fácil (30s)</button>
-                <button id="bonus-normal-btn"><i class="fas fa-hand-peace"></i> Normal (20s)</button>
-                <button id="bonus-hard-btn"><i class="fas fa-hand-fist"></i> Difícil (15s)</button>
-                <button id="bonus-free-btn"><i class="fas fa-star"></i> Livre (Sem tempo)</button>
-            </div>
-            <button id="back-to-main-menu-from-bonus-btn" style="margin-top: 20px;">Voltar ao Menu</button>
-        `;
-        
-        document.getElementById('bonus-easy-btn').onclick = () => startBonusMusicGame('easy');
-        document.getElementById('bonus-normal-btn').onclick = () => startBonusMusicGame('normal');
-        document.getElementById('bonus-hard-btn').onclick = () => startBonusMusicGame('hard');
-        document.getElementById('bonus-free-btn').onclick = () => startBonusMusicGame('free');
-        document.getElementById('back-to-main-menu-from-bonus-btn').onclick = () => {
-            elements.bonusMusicScreen.classList.remove('show');
-            elements.bonusMusicScreen.addEventListener('transitionend', function handler() {
-                elements.bonusMusicScreen.style.display = 'none';
-                elements.bonusMusicScreen.removeEventListener('transitionend', handler);
-                showIntroMessage();
-            }, { once: true });
-        };
-        
-        elements.audioPlayerWrapper.classList.add('hidden-player');
-    }, { once: true });
+    // Esconde todas as outras telas
+    Object.values(elements).forEach(el => {
+        if (el && el.classList && el.id !== 'bonus-disco-selection-screen' && el.id !== 'main-overlay' && el.id !== 'audio-player-wrapper') {
+            el.classList.remove('show');
+            if (el.style) el.style.display = 'none';
+        }
+    });
+    
+    showMainOverlay();
+    elements.bonusDiscoSelectionScreen.style.display = 'flex'; // Usando flex para centralizar
+    elements.bonusDiscoSelectionScreen.classList.add('show');
+    
+    // Estilos para a tela de seleção de discos (adicionados via JS para não precisar alterar o CSS)
+    Object.assign(elements.bonusDiscoSelectionScreen.style, {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        padding: '20px',
+        color: 'white'
+    });
+    
+    // Carrega o progresso do jogador
+    let bonusProgress = JSON.parse(localStorage.getItem('cobjr_bonus_progress')) || { unlocked: [true], totalScore: 0 };
+    if (!bonusProgress.totalScore) bonusProgress.totalScore = 0; // Garante que a pontuação total exista
+
+    let discosHTML = bonusDiscos.map((disco, index) => {
+        const isUnlocked = bonusProgress.unlocked[index] === true;
+        const buttonClass = isUnlocked ? 'disco-btn' : 'disco-btn locked';
+        const buttonText = isUnlocked ? `Disco ${index + 1}` : `Disco ${index + 1} 🔒`;
+        const songsText = disco.length === 1 ? 'música' : 'músicas';
+        return `<button class="${buttonClass}" data-disco-index="${index}" ${!isUnlocked ? 'disabled' : ''}>${buttonText} (${disco.length} ${songsText})</button>`;
+    }).join('');
+
+    elements.bonusDiscoSelectionScreen.innerHTML = `
+        <h2 style="font-family: 'Elektrix', sans-serif; color: var(--cor-amarelo-cbjr);">Rádio CBJR: A Turnê</h2>
+        <p style="margin-bottom: 25px;">Complete um disco acertando pelo menos ${bonusSettings.unlockThreshold} músicas para desbloquear o próximo.</p>
+        <p style="font-size: 1.2em; margin-bottom: 25px;">Sua Pontuação Total: <b style="color: var(--cor-amarelo-cbjr);">${bonusProgress.totalScore}</b></p>
+        <div id="disco-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 90%; max-width: 800px;">
+            ${discosHTML}
+        </div>
+        <button id="back-to-main-menu-from-bonus-btn" style="margin-top: 30px; padding: 12px 25px; font-size: 1.1em;">Voltar ao Menu Principal</button>
+    `;
+
+    // Adiciona estilos para os botões dos discos via JS
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = `
+        .disco-btn { 
+            padding: 20px; 
+            font-size: 1.2em; 
+            background-color: var(--cor-preto-principal); 
+            color: var(--cor-amarelo-cbjr); 
+            border: 2px solid var(--cor-amarelo-cbjr); 
+            border-radius: 10px; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+        }
+        .disco-btn:hover:not(:disabled) { 
+            background-color: var(--cor-amarelo-cbjr); 
+            color: var(--cor-preto-principal);
+            transform: scale(1.05);
+        }
+        .disco-btn.locked { 
+            opacity: 0.5; 
+            cursor: not-allowed;
+            border-color: #888;
+            color: #888;
+        }
+    `;
+    document.head.appendChild(styleSheet);
+
+
+    elements.bonusDiscoSelectionScreen.querySelectorAll('.disco-btn').forEach(button => {
+        if (!button.disabled) {
+            button.onclick = () => {
+                const discoIndex = parseInt(button.dataset.discoIndex);
+                startBonusMusicGame(discoIndex);
+            };
+        }
+    });
+
+    document.getElementById('back-to-main-menu-from-bonus-btn').onclick = () => {
+        elements.bonusDiscoSelectionScreen.classList.remove('show');
+        elements.bonusDiscoSelectionScreen.addEventListener('transitionend', function handler() {
+            elements.bonusDiscoSelectionScreen.style.display = 'none';
+            elements.bonusDiscoSelectionScreen.removeEventListener('transitionend', handler);
+            hideMainOverlay();
+            showIntroMessage();
+        }, { once: true });
+    };
+
+    elements.audioPlayerWrapper.classList.add('hidden-player');
 }
 
-// CORRIGIDO: showBonusMusicScreen agora é chamado pela tela de seleção de dificuldade
-function showBonusMusicScreen() {
-    showBonusDifficultyScreen();
-}
 
-// CORRIGIDO: startBonusMusicGame agora aceita a dificuldade como parâmetro e o conteúdo é mais simples
-function startBonusMusicGame(difficulty) {
-    console.log(`startBonusMusicGame: Iniciando novo jogo de Rádio CBJR na dificuldade ${difficulty}.`);
-    bonusGameState.currentDifficulty = difficulty;
-    bonusGameState.missedSongs = []; // Limpa a lista de erros da partida anterior
+// ALTERADO: A função agora recebe o índice do disco
+function startBonusMusicGame(discoIndex) {
+    console.log(`startBonusMusicGame: Iniciando Disco ${discoIndex + 1}.`);
     
-    // Apenas redefine o HTML para a tela de jogo, já que a seleção foi feita na função anterior
+    // CORREÇÃO: Esconde a camada de overlay para tornar a tela interativa
+    hideMainOverlay();
+
+    // Esconde a tela de seleção e mostra a tela de jogo
+    elements.bonusDiscoSelectionScreen.classList.remove('show');
+    elements.bonusDiscoSelectionScreen.style.display = 'none';
+    elements.bonusMusicScreen.style.display = 'flex';
+    elements.bonusMusicScreen.classList.add('show');
+    
+    const songsInDisco = bonusDiscos[discoIndex].length;
+
+    // Monta o HTML da tela de jogo
     elements.bonusMusicScreen.innerHTML = `
-        <h2>Rádio CBJR</h2>
-        <p class="bonus-instruction">Ouça o trecho e digite o nome da música do Charlie Brown Jr.</p>
-
+        <h2>Rádio CBJR - Disco ${discoIndex + 1}</h2>
+        <p class="bonus-instruction">Ouça o trecho e digite o nome da música.</p>
         <div class="bonus-player-area">
             <p id="bonus-current-song-title" style="display: none;"></p>
             <input type="text" id="bonus-answer-input" placeholder="Qual é a música?">
             <p id="bonus-feedback-message"></p>
             <p id="bonus-curiosity-message" style="display: none;"></p>
         </div>
-
         <div class="bonus-score-display">
             <div class="score-item correct-count"><i class="fas fa-check-circle"></i> Acertos: <span id="bonus-correct-count-display">0</span></div>
             <div class="score-item error-count"><i class="fas fa-times-circle"></i> Erros: <span id="bonus-errors-count-display">0</span>/<span id="bonus-max-errors-display">5</span></div>
-            <div class="score-item music-progress"><i class="fas fa-music"></i> Música: <span id="bonus-current-song-number">1</span>/<span id="bonus-total-songs">75</span></div>
+            <div class="score-item music-progress"><i class="fas fa-music"></i> Música: <span id="bonus-current-song-number">1</span>/<span id="bonus-total-songs">${songsInDisco}</span></div>
         </div>
-        
         <div class="bonus-controls">
-            <button id="bonus-submit-btn"><i class="fas fa-paper-plane"></i> Enviar Resposta</button>
-            <button id="bonus-skip-btn"><i class="fas fa-forward-step"></i> Pular Música</button>
-            <button id="bonus-exit-btn" class="exit-button"><i class="fas fa-door-open"></i> Sair do Bônus</button>
+            <button id="bonus-submit-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
+            <button id="bonus-skip-btn"><i class="fas fa-forward-step"></i> Pular</button>
+            <button id="bonus-exit-btn" class="exit-button"><i class="fas fa-door-open"></i> Sair</button>
         </div>
         `;
 
-    // Redefinição das referências DOM após a alteração do innerHTML
+    // Re-atribui referências DOM
     elements.bonusAnswerInput = document.getElementById('bonus-answer-input');
     elements.bonusSubmitBtn = document.getElementById('bonus-submit-btn');
     elements.bonusSkipBtn = document.getElementById('bonus-skip-btn');
@@ -5049,11 +5182,12 @@ function startBonusMusicGame(difficulty) {
     elements.bonusCurrentSongTitle = document.getElementById('bonus-current-song-title');
     elements.bonusCuriosityMessage = document.getElementById('bonus-curiosity-message');
     
+    // Adiciona listeners aos botões
     elements.bonusSubmitBtn.onclick = checkBonusAnswer;
     elements.bonusSkipBtn.onclick = () => {
         if (elements.bonusAnswerInput.disabled) return;
         bonusGameState.bonusErrorsCount++;
-        bonusGameState.missedSongs.push({ userAnswer: '-- PULO --', correctAnswer: bonusGameState.currentBonusSong.title }); // Registra o pulo
+        bonusGameState.missedSongs.push({ userAnswer: '-- PULO --', correctAnswer: bonusGameState.currentBonusSong.title });
         elements.audio.pause();
         if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
         elements.bonusFeedbackMessage.textContent = "Música pulada! ⏩";
@@ -5077,13 +5211,15 @@ function startBonusMusicGame(difficulty) {
         }
     };
     
+    // Configura o estado do jogo para o disco selecionado
     bonusGameState.isBonusActive = true;
-    bonusGameState.songsToGuess = [...playerState.originalPlaylist];
+    bonusGameState.currentDiscoIndex = discoIndex;
+    bonusGameState.songsToGuess = [...bonusDiscos[discoIndex]];
     shuffleArray(bonusGameState.songsToGuess);
     bonusGameState.currentBonusSongIndex = 0;
     bonusGameState.bonusCorrectCount = 0;
     bonusGameState.bonusErrorsCount = 0;
-    bonusGameState.startTime = Date.now();
+    bonusGameState.missedSongs = [];
     
     updateBonusScoreInfo();
     loadBonusSongForBonus();
@@ -5101,42 +5237,29 @@ function loadBonusSongForBonus(skipped = false) {
         clearTimeout(bonusTimer);
         bonusTimer = null;
     }
-    // CORRIGIDO: Para o contador visual se existir
     if (bonusCountdownTimer) {
         clearInterval(bonusCountdownTimer);
         bonusCountdownTimer = null;
     }
 
     if (bonusGameState.currentBonusSongIndex >= bonusGameState.songsToGuess.length) {
-        // --- INÍCIO DA CORREÇÃO 2: VERIFICAÇÃO DE VITÓRIA REAL ---
-        // A conquista só é ganha se o jogador terminar todas as músicas COM ZERO ERROS.
-        const wonTheChallenge = (bonusGameState.bonusErrorsCount === 0);
-        endBonusMusicGame(wonTheChallenge);
-        // --- FIM DA CORREÇÃO 2 ---
+        endBonusMusicGame();
         return;
     }
     
-    // NOVO: Adiciona o elemento de contagem de tempo apenas nos modos com tempo
-    if (bonusGameState.currentDifficulty !== 'free') {
+    const timeForRound = bonusSettings.time;
+    if (timeForRound) {
         let timeDisplay = document.getElementById('bonus-time-display');
         if (!timeDisplay) {
             timeDisplay = document.createElement('span');
             timeDisplay.id = 'bonus-time-display';
-            timeDisplay.style.cssText = `
-                font-family: 'Elektrix', sans-serif;
-                font-size: 1.8em;
-                color: var(--cor-amarelo-cbjr);
-                text-shadow: 0 0 8px rgba(241, 196, 15, 0.7);
-                margin-top: -10px; /* Ajuste para espaçamento */
-                margin-bottom: 10px;
-                display: block;
-            `;
+            timeDisplay.style.cssText = `font-family: 'Elektrix', sans-serif; font-size: 1.8em; color: var(--cor-amarelo-cbjr); text-shadow: 0 0 8px rgba(241, 196, 15, 0.7); margin-top: -10px; margin-bottom: 10px; display: block;`;
             const bonusPlayerArea = document.querySelector('.bonus-player-area');
             const bonusAnswerInput = document.getElementById('bonus-answer-input');
             bonusPlayerArea.insertBefore(timeDisplay, bonusAnswerInput);
         }
         
-        let timeLeft = bonusSettings[bonusGameState.currentDifficulty].time;
+        let timeLeft = timeForRound;
         timeDisplay.textContent = `Tempo: ${timeLeft}s`;
         timeDisplay.style.color = 'var(--cor-amarelo-cbjr)';
 
@@ -5157,7 +5280,7 @@ function loadBonusSongForBonus(skipped = false) {
                 elements.bonusFeedbackMessage.classList.add('show');
                 timeDisplay.style.animation = 'none';
                 
-                bonusGameState.missedSongs.push({ userAnswer: '-- TEMPO ESGOTADO --', correctAnswer: bonusGameState.currentBonusSong.title }); // Registra erro por tempo
+                bonusGameState.missedSongs.push({ userAnswer: '-- TEMPO ESGOTADO --', correctAnswer: bonusGameState.currentBonusSong.title });
 
                 setTimeout(() => {
                     bonusGameState.bonusErrorsCount++;
@@ -5189,44 +5312,22 @@ function loadBonusSongForBonus(skipped = false) {
 }
 
 function hideBonusMusicScreen() {
-    console.log("hideBonusMusicScreen: Escondendo tela de Rádio CBJR e restaurando quiz.");
+    console.log("hideBonusMusicScreen: Escondendo tela de Rádio CBJR e voltando para seleção de discos.");
     elements.bonusMusicScreen.classList.remove('show');
     elements.bonusMusicScreen.addEventListener('transitionend', function handler() {
         elements.bonusMusicScreen.style.display = 'none';
         elements.bonusMusicScreen.removeEventListener('transitionend', handler);
-        hideMainOverlay();
         
         if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
         if (bonusTimer) clearTimeout(bonusTimer);
         
-        if (bonusGameState.lastQuizState) {
-            const currentUnlockedAchievements = { ...quizState.unlockedAchievements };
-            Object.assign(quizState, bonusGameState.lastQuizState);
-            quizState.unlockedAchievements = currentUnlockedAchievements;
-            
-            quizState.quizPaused = false;
-            elements.quiz.style.display = 'flex';
-            elements.livesDisplay.style.display = 'flex';
-            elements.powerUpsContainer.style.display = 'flex';
-            updateQuizInfo();
-            const currentQuestionElement = elements.quiz.querySelector('.question');
-            if (currentQuestionElement) {
-                currentQuestionElement.style.pointerEvents = 'all';
-                startTimer();
-            }
-        } else {
-            showIntroMessage();
-        }
-        elements.quiz.style.pointerEvents = 'all';
         bonusGameState.isBonusActive = false;
-        elements.audioPlayerWrapper.classList.remove('hidden-player');
-        if (playerState.playlist.length > 0) {
-            loadSong();
-            playSong();
-        }
+        
+        // Em vez de voltar ao quiz ou menu, volta para a seleção de discos
+        showDiscoSelectionScreen();
+
     }, { once: true });
 }
-
 
 function handleBonusEndTurn() {
     elements.bonusFeedbackMessage.classList.remove('show');
@@ -5240,8 +5341,7 @@ function handleBonusEndTurn() {
     const reachedMaxErrors = bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors;
 
     if (reachedMaxErrors || isLastSong) {
-        const completedAll = isLastSong && bonusGameState.bonusErrorsCount === 0;
-        endBonusMusicGame(completedAll);
+        endBonusMusicGame();
     } else {
         bonusGameState.currentBonusSongIndex++;
         loadBonusSongForBonus();
@@ -5253,7 +5353,6 @@ function checkBonusAnswer() {
     const correctAnswer = normalizeText(bonusGameState.currentBonusSong.title);
     const musicCuriosity = bonusGameState.currentBonusSong.curiosidade;
     
-    // --- INÍCIO DA CORREÇÃO 1: RESPOSTAS ALTERNATIVAS ---
     let isCorrect = (userAnswer === correctAnswer);
 
     const alternativeAnswers = {
@@ -5266,13 +5365,12 @@ function checkBonusAnswer() {
             isCorrect = true;
         }
     }
-    // --- FIM DA CORREÇÃO 1 ---
 
     elements.bonusAnswerInput.disabled = true;
     elements.bonusSubmitBtn.disabled = true;
     elements.bonusSkipBtn.disabled = true;
     elements.audio.pause();
-    if (bonusCountdownTimer) clearInterval(bonusCountdownTimer); // Para o contador quando a resposta é enviada
+    if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
 
     elements.bonusCuriosityMessage.style.display = 'none';
     elements.bonusCuriosityMessage.textContent = '';
@@ -5297,7 +5395,7 @@ function checkBonusAnswer() {
         console.log(`Rádio CBJR: Acertou! Músicas corretas: ${bonusGameState.bonusCorrectCount}`);
     } else {
         bonusGameState.bonusErrorsCount++;
-        bonusGameState.missedSongs.push({ userAnswer: elements.bonusAnswerInput.value, correctAnswer: bonusGameState.currentBonusSong.title }); // Registra o erro
+        bonusGameState.missedSongs.push({ userAnswer: elements.bonusAnswerInput.value, correctAnswer: bonusGameState.currentBonusSong.title });
         elements.bonusFeedbackMessage.textContent = "INCORRETO! ❌";
         elements.bonusFeedbackMessage.style.color = 'var(--cor-vermelho-incorreto)';
         elements.bonusAnswerInput.classList.add('incorrect-feedback');
@@ -5341,119 +5439,80 @@ function updateBonusScoreInfo() {
     }
 }
 
-function endBonusMusicGame(completedAllSongs) {
-    console.log("endBonusMusicGame: Finalizando jogo de Rádio CBJR.");
+function endBonusMusicGame() {
+    console.log("endBonusMusicGame: Finalizando disco.");
     elements.audio.pause();
     
-    bonusGameState.endTime = Date.now();
-    const durationMs = bonusGameState.endTime - bonusGameState.startTime;
-    const durationSeconds = Math.floor(durationMs / 1000);
+    if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
+    if (bonusTimer) clearTimeout(bonusTimer);
 
-    const minutes = Math.floor(durationSeconds / 60);
-    const seconds = durationSeconds % 60;
-    const formattedDuration = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    // Salva o progresso
+    let bonusProgress = JSON.parse(localStorage.getItem('cobjr_bonus_progress')) || { unlocked: [true], totalScore: 0, scorePerDisco: {} };
+    const correctAnswersInRound = bonusGameState.bonusCorrectCount;
     
-    if (completedAllSongs && bonusGameState.songsToGuess.length > 0) {
-        unlockAchievement("bonus_music_master");
-        showBonusAchievementScreen(formattedDuration, bonusGameState.songsToGuess.length);
-        saveScore('Jogador Bônus', bonusGameState.bonusCorrectCount, 'bonus');
-        return;
+    // Atualiza a pontuação total
+    let scoreHistory = bonusProgress.scorePerDisco || {};
+    let previousScoreForThisDisco = scoreHistory[bonusGameState.currentDiscoIndex] || 0;
+    if (correctAnswersInRound > previousScoreForThisDisco) {
+        bonusProgress.totalScore = (bonusProgress.totalScore || 0) - previousScoreForThisDisco + correctAnswersInRound;
+        scoreHistory[bonusGameState.currentDiscoIndex] = correctAnswersInRound;
     }
+    bonusProgress.scorePerDisco = scoreHistory;
 
-    let message = '';
-    let title = '';
-    let textColor = 'var(--cor-texto-claro)';
-
-    if (bonusGameState.bonusCorrectCount > 0) {
-        title = "Mandou Bem no Som!";
-        message = `Você acertou ${bonusGameState.bonusCorrectCount} música(s)!`;
-        textColor = 'var(--cor-amarelo-cbjr)';
-    } else {
-        title = "Tente Novamente!";
-        message = `Você não acertou nenhuma música desta vez. Mas a próxima rodada pode ser a sua!`;
-        textColor = 'var(--cor-vermelho-incorreto)';
+    let unlockedNewDisco = false;
+    // Verifica se desbloqueou o próximo disco
+    if (correctAnswersInRound >= bonusSettings.unlockThreshold && (bonusGameState.currentDiscoIndex + 1 < bonusDiscos.length)) {
+        if (!bonusProgress.unlocked[bonusGameState.currentDiscoIndex + 1]) {
+            bonusProgress.unlocked[bonusGameState.currentDiscoIndex + 1] = true;
+            unlockedNewDisco = true;
+        }
+    }
+    localStorage.setItem('cobjr_bonus_progress', JSON.stringify(bonusProgress));
+    
+    let title = "Fim do Disco!";
+    let message = `Você acertou ${correctAnswersInRound} de ${bonusGameState.songsToGuess.length} músicas.`;
+    if (unlockedNewDisco) {
+        message += `<br><br><span style="color: var(--cor-verde-vibrante); font-weight: bold;">Disco ${bonusGameState.currentDiscoIndex + 2} desbloqueado!</span>`;
     }
 
     let errosHtml = '';
     if (bonusGameState.missedSongs.length > 0) {
-        errosHtml = `
-            <div class="erros-lista">
-                <h4>Confira seus erros para aprender:</h4>
-                <ul>
-                    ${bonusGameState.missedSongs.map(missed => `
-                        <li>
-                            <span class="correct-answer"><b>Correta:</b> ${missed.correctAnswer}</span>
-                            <span class="user-answer"><b>Sua resposta:</b> ${missed.userAnswer}</span>
-                        </li>
-                    `).join('')}
-                </ul>
-            </div>
-        `;
+        errosHtml = `<div class="erros-lista"><h4>Seus erros neste disco:</h4><ul>${bonusGameState.missedSongs.map(missed => `<li><span class="correct-answer"><b>Correta:</b> ${missed.correctAnswer}</span><span class="user-answer"><b>Sua resposta:</b> ${missed.userAnswer}</span></li>`).join('')}</ul></div>`;
     }
 
     elements.bonusMusicScreen.innerHTML = `
         <h2>${title}</h2>
         <p style="font-family: Arial, sans-serif;">${message}</p>
-        <p style="font-family: Arial, sans-serif; font-weight: bold; margin-bottom: 20px;">Seus resultados:</p>
-        <p style="font-family: Arial, sans-serif;">Acertos: <span style="color: var(--cor-verde-correto);">${bonusGameState.bonusCorrectCount}</span></p>
-        <p style="font-family: Arial, sans-serif;">Erros: <span style="color: var(--cor-vermelho-incorreto);">${bonusGameState.bonusErrorsCount}</span></p>
-        
+        <p style="font-family: Arial, sans-serif;">Sua pontuação total na Rádio é: <b style="color: var(--cor-amarelo-cbjr);">${bonusProgress.totalScore}</b></p>
         ${errosHtml}
-
-        <div class="bonus-controls" style="margin-top: 30px;">
-            <button id="bonus-play-again-btn">Jogar Novamente</button>
-            <button id="bonus-exit-game-btn">Voltar ao Menu Principal</button>
+        <div style="margin-top: 20px; width: 90%; max-width: 400px;">
+             <input type="text" id="bonus-player-name-input" placeholder="Seu nome para o ranking" maxlength="20" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 100%; font-size: 1em; text-align: center; background-color: rgba(255,255,255,0.1); color: white;">
+             <button id="bonus-submit-score-btn" style="margin-top: 10px; padding: 10px 20px; font-size: 1em;">Enviar Pontuação Total</button>
         </div>
-        `;
-    elements.bonusMusicScreen.style.backgroundColor = `rgba(0, 0, 0, 0.9)`;
-    elements.bonusMusicScreen.style.color = textColor;
+        <div class="bonus-controls" style="margin-top: 30px;">
+            <button id="bonus-back-to-discos-btn">Voltar para os Discos</button>
+        </div>
+    `;
 
-    document.getElementById('bonus-play-again-btn').onclick = showBonusDifficultyScreen;
-    document.getElementById('bonus-exit-game-btn').onclick = hideBonusMusicScreen;
+    document.getElementById('bonus-back-to-discos-btn').onclick = showDiscoSelectionScreen;
+    document.getElementById('bonus-submit-score-btn').onclick = () => {
+        const playerName = document.getElementById('bonus-player-name-input').value.trim();
+        if (playerName) {
+            saveScore(playerName, bonusProgress.totalScore, 'bonus');
+            document.getElementById('bonus-submit-score-btn').disabled = true;
+            document.getElementById('bonus-player-name-input').disabled = true;
+            alert("Pontuação enviada com sucesso!");
+        } else {
+            alert("Por favor, digite seu nome para enviar a pontuação.");
+        }
+    };
 }
 
 function showBonusAchievementScreen(timeTaken, totalSongs) {
     console.log("showBonusAchievementScreen: Exibindo tela de conquista do Rádio CBJR.");
-    quizState.quizPaused = true;
-    elements.bonusMusicScreen.classList.remove('show');
-    elements.bonusMusicScreen.style.display = 'none';
-    showMainOverlay();
-
-    const bonusAchievement = achievements["bonus_music_master"];
-    const coverUrl = `https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/${bonusAchievement.coverFile}`;
-
-    elements.bonusAchievementTitle.textContent = "CONQUISTA DESBLOQUEADA!";
-    elements.bonusAchievementMessage.innerHTML = `
-        <span style="font-family: 'Elektrix', sans-serif; font-size: 1.5em; color: var(--cor-verde-vibrante);">${bonusAchievement.name}</span><br><br>
-        <span style="font-family: Arial, sans-serif; font-size: 1em; line-height: 1.4;">
-            Parabéns! Você é um verdadeiro **Mestre da Rádio**! Acertou TODAS as ${totalSongs} músicas em <br> <b>${timeTaken}</b>!
-            Sua conexão com o som do Charlie Brown Jr. é surreal!
-        </span>
-    `;
-    elements.bonusAchievementCover.src = coverUrl;
-    elements.bonusAchievementCover.alt = `Capa do CD ${bonusAchievement.name}`;
-    elements.bonusAchievementCover.style.display = 'block';
-
-    elements.bonusAchievementScreen.style.display = 'flex';
-    elements.bonusAchievementScreen.classList.add('show');
-
-    elements.audio.src = achievementMusicUrl;
-    elements.audio.loop = true;
-    elements.audio.volume = 0.5;
-    elements.audio.play().catch(e => console.warn('Erro ao tocar música de conquista:', e));
-
-    elements.bonusAchievementCloseBtn.onclick = () => {
-        elements.audio.pause();
-        elements.audio.loop = false;
-        elements.bonusAchievementScreen.classList.remove('show');
-        elements.bonusAchievementScreen.addEventListener('transitionend', function handler() {
-            elements.bonusAchievementScreen.style.display = 'none';
-            elements.bonusAchievementScreen.removeEventListener('transitionend', handler);
-            hideMainOverlay();
-            showIntroMessage();
-        }, { once: true });
-    };
+    // Esta função pode ser adaptada ou removida se a conquista for baseada em completar todos os discos
 }
+
 
 window.onload = () => {
     console.log("window.onload: Página carregada. Iniciando setup.");
@@ -5503,6 +5562,13 @@ window.onload = () => {
         .then(data => {
             playerState.playlist = data;
             playerState.originalPlaylist = [...data];
+
+            // NOVO: Divide a playlist em discos
+            const chunkSize = 10;
+            for (let i = 0; i < data.length; i += chunkSize) {
+                bonusDiscos.push(data.slice(i, i + chunkSize));
+            }
+            
             if (playerState.playlist.length > 0) {
                 playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
                 loadSong();
@@ -5510,38 +5576,23 @@ window.onload = () => {
             } else {
                 console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
                 elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
-                elements.playPauseBtn.disabled = true;
-                elements.prevBtn.disabled = true;
-                elements.nextBtn.disabled = true;
-                elements.repeatBtn.disabled = true;
-                elements.shuffleBtn.disabled = true;
-                elements.muteBtn.disabled = true;
-                elements.volumeSlider.disabled = true;
             }
 
-            elements.startQuizButtonWelcome.onclick = showDifficultyScreen; // CORREÇÃO: Chama a tela de dificuldade
+            elements.startQuizButtonWelcome.onclick = showDifficultyScreen;
             elements.showAchievementsButton.onclick = showAchievementsScreen;
             elements.showRankingButtonIntro.onclick = () => showRankingScreen('quiz');
-            elements.startBonusMusicBtn.onclick = showBonusMusicScreen;
+            elements.startBonusMusicBtn.onclick = showDiscoSelectionScreen;
 
             showIntroMessage();
         })
         .catch(error => {
             console.error('Erro ao carregar playlist:', error);
-            elements.currentSongText.textContent = `Erro ao carregar a playlist. Tente novamente más tarde.`;
-            elements.playPauseBtn.disabled = true;
-            elements.prevBtn.disabled = true;
-            elements.nextBtn.disabled = true;
-            elements.repeatBtn.disabled = true;
-            elements.shuffleBtn.disabled = true;
-            elements.muteBtn.disabled = true;
-            elements.volumeSlider.disabled = true;
+            elements.currentSongText.textContent = `Erro ao carregar a playlist.`;
             showIntroMessage();
         });
 
     elements.restartBtn.onclick = restartQuiz;
     elements.closeAchievementDetailPopupBtn.onclick = closeAchievementDetailPopup;
-};
-</script>
+};</script>
 </body>
 </html>
