@@ -861,28 +861,31 @@
         }
 
         /* --- PLAYER ATUALIZADO E CORRIGIDO --- */
-        #audio-player-wrapper {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            max-width: 250px; /* Reduced max-width to fit better on small screens */
-            width: 95%; /* Adjust width for better fit on small screens */
-            padding: 10px 12px; /* Reduced padding for more compact design */
-            background: rgba(0, 0, 0, 0.5);
-            box-shadow: 0 -8px 30px rgba(0,0,0,0.98);
-            z-index: 2200; /* High z-index to stay on top */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-sizing: border-box;
-            min-height: 80px; /* Reduced min-height */
-            flex-wrap: wrap;
-            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-        }
+       /* --- PLAYER ATUALIZADO E CORRIGIDO (MOVIDO PARA O TOPO DIREITO) --- */
+#audio-player-wrapper {
+    position: fixed;
+    top: 20px;                      /* ALTERADO: Distância do topo */
+    right: 20px;                     /* ALTERADO: Distância da direita */
+    /* REMOVIDO: bottom, left, e transform */
+    max-width: 280px;                /* AJUSTADO: Um pouco mais de largura para o novo formato */
+    width: auto;                     /* AJUSTADO: Largura automática */
+    padding: 15px;                   /* AJUSTADO: Um pouco mais de respiro interno */
+    background: rgba(0, 0, 0, 0.6);  /* AJUSTADO: Um pouco mais de opacidade */
+    backdrop-filter: blur(8px);      /* NOVO: Efeito de desfoque para um visual moderno */
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.7); /* ALTERADO: Sombra para baixo */
+    z-index: 2200;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-sizing: border-box;
+    min-height: 80px;
+    flex-wrap: wrap;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
         /* Classe para ocultar o player */
         #audio-player-wrapper.hidden-player {
             opacity: 0;
@@ -2484,7 +2487,21 @@
         .disco-btn:disabled .disco-status {
             color: var(--cor-vermelho-incorreto);
         }
-
+       /* NOVO: Media Query para reposicionar o player em telas pequenas (celulares) */
+        @media (max-width: 768px) {
+        #audio-player-wrapper {
+        top: auto;              /* Reseta a posição do topo */
+        right: auto;            /* Reseta a posição da direita */
+        bottom: 15px;           /* Volta para a base da tela */
+        left: 50%;              /* Centraliza horizontalmente */
+        transform: translateX(-50%); /* Ajusta a centralização */
+        width: 95%;             /* Ocupa quase toda a largura */
+        max-width: 300px;       /* Limita a largura máxima */
+        padding: 10px 12px;
+        backdrop-filter: none;  /* Remove o blur para performance */
+        -webkit-backdrop-filter: none;
+    }
+}
     </style>
 </head>
 <body>
@@ -2663,7 +2680,6 @@
         </div>
     </div>
 <script type="module">
-// O CÓDIGO JS ATUALIZADO VIRÁ NA PARTE 2
 </script>
 </body>
 </html>
@@ -3170,7 +3186,7 @@ const bonusGameState = {
     currentDiscoIndex: 0, // NOVO: Índice do disco atual
     bonusCorrectCount: 0,
     bonusErrorsCount: 0,
-    maxBonusErrors: 5, 
+    maxBonusErrors: 5,
     isBonusActive: false, // Flag para saber se estamos no modo bônus
     lastQuizState: null,
     startTime: 0,
@@ -3261,7 +3277,7 @@ function normalizeText(text) {
     // 2. Remove prefixos comuns de artistas e projetos, seguidos por separadores.
     // Isso resolve "NX Zero - ...", "Vanessa da Mata - ...", "Estúdio Coca-Cola Zero: ..."
     const prefixesToRemove = [
-        "charlie brown jr", "cbjr", "nx zero", "vanessa da mata", 
+        "charlie brown jr", "cbjr", "nx zero", "vanessa da mata",
         "estudio coca-cola zero", "chorao e champignon"
     ];
     prefixesToRemove.forEach(prefix => {
@@ -3642,36 +3658,74 @@ function hideMainOverlay() {
     }, { once: true });
 }
 
-// ALTERADO: showIntroMessage agora mostra a tela inicial com as opções de jogo
 function showIntroMessage() {
-    console.log("showIntroMessage: Exibindo tela de introdução.");
+    console.log("showIntroMessage: Exibindo tela de introdução e GARANTINDO que o player esteja visível.");
     quizState.quizPaused = true;
     showMainOverlay();
-    
-    elements.quiz.innerHTML = '';
-    elements.levelUpMessage.style.display = 'none';
-    elements.welcomeScreen.style.display = 'flex';
-    elements.welcomeScreen.classList.add('show');
-    
-    // Adiciona a classe initial-load apenas na primeira vez
-    if (!elements.welcomeScreen.dataset.loaded) {
-        elements.welcomeScreen.classList.add('initial-load');
-        elements.welcomeScreen.dataset.loaded = 'true';
-    } else {
-        elements.welcomeScreen.classList.remove('initial-load');
+
+    // Recria o HTML da tela de boas-vindas para garantir que ela esteja sempre completa
+    elements.welcomeScreen.innerHTML = `
+        <h3>Bem-vindo(a) ao Quiz do Charlie Brown Jr!</h3>
+        <p class="intro-text">
+            Mostre que você é um verdadeiro **Marginal Alado** e teste seus conhecimentos sobre a banda que marcou gerações!
+        </p>
+        <div class="message-buttons">
+            <button id="start-quiz-button-welcome"><i class="fas fa-play"></i> Entrar no Quiz</button>
+            <button id="show-achievements-button-intro"><i class="fas fa-trophy"></i> Conquistas</button>
+            <button id="show-ranking-button-intro"><i class="fas fa-ranking-star"></i> Ranking Online</button>
+            <button id="start-bonus-music-btn"><i class="fas fa-headphones-simple"></i> Rádio CBJR</button>
+        </div>
+    `;
+
+    // Busca os botões e adiciona os eventos
+    const startBtn = elements.welcomeScreen.querySelector('#start-quiz-button-welcome');
+    if (startBtn) {
+        startBtn.onclick = showDifficultyScreen;
     }
-    
+    const achievementsBtn = elements.welcomeScreen.querySelector('#show-achievements-button-intro');
+    if (achievementsBtn) {
+        achievementsBtn.onclick = showAchievementsScreen;
+    }
+    const rankingBtn = elements.welcomeScreen.querySelector('#show-ranking-button-intro');
+    if (rankingBtn) {
+        rankingBtn.onclick = () => showRankingScreen('quiz');
+    }
+    const bonusBtn = elements.welcomeScreen.querySelector('#start-bonus-music-btn');
+    if (bonusBtn) {
+        bonusBtn.onclick = showDiscoSelectionScreen;
+    }
+
+    // Esconde as outras telas do quiz
     elements.quiz.style.display = 'none';
+    elements.levelUpMessage.style.display = 'none';
     elements.restartBtn.style.display = 'none';
     elements.livesDisplay.style.display = 'none';
     elements.powerUpsContainer.style.display = 'none';
     
-    elements.audioPlayerWrapper.classList.remove('hidden-player');
+    // Mostra a tela de boas-vindas
+    elements.welcomeScreen.style.display = 'flex';
+    elements.welcomeScreen.classList.add('show');
     
+    // ==================================================================
+    // INÍCIO DA CORREÇÃO APLICADA
+    // ==================================================================
+    // Esta parte garante que o player seja exibido corretamente ao voltar
+    // de qualquer outra tela. Ele redefine os estilos inline que podem 
+    // ter sido aplicados para escondê-lo.
+    elements.audioPlayerWrapper.classList.remove('hidden-player');
+    elements.audioPlayerWrapper.style.opacity = '1';
+    elements.audioPlayerWrapper.style.visibility = 'visible';
+    elements.audioPlayerWrapper.style.pointerEvents = 'auto';
+    elements.audioPlayerWrapper.style.display = 'flex'; // Garante que o layout flexbox seja restaurado.
+    // ==================================================================
+    // FIM DA CORREÇÃO
+    // ==================================================================
+
+    // Lógica para tocar a música de fundo
     if (elements.audio.paused || elements.audio.src.includes(achievementMusicUrl)) {
         if (playerState.originalPlaylist.length > 0) {
             playerState.playlist = [...playerState.originalPlaylist];
-            playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
+            playerState.currentIndex = Math.floor(Math.random() * playerState.originalPlaylist.length);
             loadSong();
             playSong();
         }
@@ -3679,7 +3733,6 @@ function showIntroMessage() {
     elements.audio.loop = false;
 }
 
-// ADICIONADO: Nova função para mostrar a tela de seleção de dificuldade
 function showDifficultyScreen() {
     console.log("showDifficultyScreen: Exibindo tela de seleção de dificuldade.");
     elements.welcomeScreen.innerHTML = `
@@ -3705,11 +3758,9 @@ function showDifficultyScreen() {
     document.getElementById('back-to-main-menu-from-difficulty-btn').onclick = showIntroMessage;
 }
 
-// ALTERADO: startQuiz agora aceita a dificuldade como parâmetro
 function startQuiz(difficulty) {
     console.log(`startQuiz: Iniciando o quiz na dificuldade ${difficulty}.`);
     
-    // Adicionado: Aplica as configurações de dificuldade
     quizState.lives = gameSettings[difficulty].lives;
     quizState.timePerQuestion = gameSettings[difficulty].time;
     quizState.baseScorePerCorrect = gameSettings[difficulty].pointsPerCorrect;
@@ -3727,7 +3778,7 @@ function startQuiz(difficulty) {
             currentLevel: 0,
             currentQuestionIndexInLevel: 0,
             score: 0,
-            lives: gameSettings[difficulty].lives, // Corrigido para a nova dificuldade
+            lives: gameSettings[difficulty].lives,
             errorsInCurrentLevel: 0,
             quizPaused: false,
             isProcessingAnswer: false,
@@ -3756,7 +3807,11 @@ function startQuiz(difficulty) {
         elements.powerUpsContainer.style.display = 'flex';
 
         elements.audioPlayerWrapper.classList.remove('hidden-player');
-        
+        elements.audioPlayerWrapper.style.opacity = '1';
+        elements.audioPlayerWrapper.style.visibility = 'visible';
+        elements.audioPlayerWrapper.style.pointerEvents = 'auto';
+        elements.audioPlayerWrapper.style.display = 'flex';
+
         if (playerState.playlist.length > 0) {
             if (elements.audio.paused || elements.audio.src.includes(achievementMusicUrl)) {
                 playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
@@ -3778,7 +3833,6 @@ function startQuiz(difficulty) {
     }, { once: true });
 }
 
-// NOVO: Função para iniciar o nível secreto
 function startSecretLevel() {
     console.log("startSecretLevel: Iniciando o Nível Secreto.");
     elements.completionScreen.classList.remove('show', 'shake-animation');
@@ -3860,7 +3914,6 @@ function loadLevel(isStartOfQuiz = false) {
     }
 }
 
-// NOVO: Função para mostrar a tela de conclusão dos níveis principais
 function showCompletionScreen() {
     console.log("showCompletionScreen: Exibindo tela de conclusão dos níveis principais.");
     quizState.quizPaused = true;
@@ -3871,7 +3924,10 @@ function showCompletionScreen() {
     elements.powerUpsContainer.style.display = 'none';
     clearInterval(timerInterval);
     elements.audioPlayerWrapper.classList.remove('hidden-player');
-
+    elements.audioPlayerWrapper.style.opacity = '1';
+    elements.audioPlayerWrapper.style.visibility = 'visible';
+    elements.audioPlayerWrapper.style.pointerEvents = 'auto';
+    elements.audioPlayerWrapper.style.display = 'flex';
     elements.quiz.innerHTML = '';
 
     elements.completionScreen.style.display = 'flex';
@@ -3886,7 +3942,6 @@ function showCompletionScreen() {
     }, 100);
 }
 
-// Função original de showLevelUpMessage, reativada para sua funcionalidade inicial
 function showLevelUpMessage(errorsInPreviousLevel = 0, hasRecoveredLife = false) {
     console.log(`showLevelUpMessage: Exibindo mensagem de avanço de nível. Erros no nível anterior: ${errorsInPreviousLevel}. Recuperou vida: ${hasRecoveredLife}`);
     quizState.quizPaused = true;
@@ -3896,6 +3951,10 @@ function showLevelUpMessage(errorsInPreviousLevel = 0, hasRecoveredLife = false)
 
     clearInterval(timerInterval);
     elements.audioPlayerWrapper.classList.remove('hidden-player');
+    elements.audioPlayerWrapper.style.opacity = '1';
+    elements.audioPlayerWrapper.style.visibility = 'visible';
+    elements.audioPlayerWrapper.style.pointerEvents = 'auto';
+    elements.audioPlayerWrapper.style.display = 'flex';
 
     const currentLevelFraseChorao = questionsByLevel[quizState.currentLevel].fraseChorao;
 
@@ -3929,7 +3988,6 @@ function showLevelUpMessage(errorsInPreviousLevel = 0, hasRecoveredLife = false)
     document.getElementById('continue-quiz-btn').onclick = continueQuiz;
 }
 
-// A função continueQuiz() agora volta a carregar a pergunta diretamente
 function continueQuiz() {
     console.log("continueQuiz: Continuando o quiz após mensagem de level-up (frase do Chorão).");
     elements.levelUpMessage.classList.remove('show');
@@ -4116,35 +4174,45 @@ function loadAchievements() {
     }
 }
 
+// ==================================================================
+// INÍCIO DA CORREÇÃO DA TELA DE CONQUISTAS
+// ==================================================================
 function showAchievementsScreen() {
     console.log("showAchievementsScreen: Exibindo tela de conquistas.");
-    quizState.originScreen = 'intro';
-    if (elements.quiz.style.display === 'flex') {
-        quizState.originScreen = 'quiz';
-    }
-
     quizState.quizPaused = true;
-    elements.quiz.style.pointerEvents = 'none';
     showMainOverlay();
-    elements.levelUpMessage.style.display = 'none';
-    elements.levelUpMessage.classList.remove('show');
-    elements.welcomeScreen.style.display = 'none';
-    elements.welcomeScreen.classList.remove('show');
-    elements.rankingScreen.style.display = 'none';
-    elements.rankingScreen.classList.remove('show');
-    elements.completionScreen.style.display = 'none';
-    elements.completionScreen.classList.remove('show', 'shake-animation');
-    elements.bonusMusicScreen.style.display = 'none';
-    elements.bonusMusicScreen.classList.remove('show');
-    elements.bonusAchievementScreen.style.display = 'none';
-    elements.bonusAchievementScreen.classList.remove('show');
-    
+
+    // Esconde as outras telas de forma mais suave, usando as transições de CSS
+    const screensToHide = [
+        elements.welcomeScreen, elements.levelUpMessage, elements.rankingScreen,
+        elements.completionScreen, elements.bonusMusicScreen, elements.bonusAchievementScreen,
+        elements.quiz
+    ];
+    screensToHide.forEach(screen => {
+        if (screen) {
+            screen.classList.remove('show');
+            // Adiciona um listener para realmente esconder o elemento após a transição
+            screen.addEventListener('transitionend', (e) => {
+                if (e.propertyName === 'opacity') {
+                    screen.style.display = 'none';
+                }
+            }, { once: true });
+        }
+    });
+
+    // Garante que o player esteja visível e com layout correto
     elements.audioPlayerWrapper.classList.remove('hidden-player');
-
+    elements.audioPlayerWrapper.style.opacity = '1';
+    elements.audioPlayerWrapper.style.visibility = 'visible';
+    elements.audioPlayerWrapper.style.pointerEvents = 'auto';
+    elements.audioPlayerWrapper.style.display = 'flex';
+    
+    // Mostra a tela de conquistas
     elements.achievementsScreen.style.display = 'flex';
-    elements.achievementsScreen.classList.add('show');
-    elements.achievementsList.innerHTML = '';
+    setTimeout(() => elements.achievementsScreen.classList.add('show'), 10); // Pequeno delay para a transição funcionar
 
+    // Limpa e popula a lista
+    elements.achievementsList.innerHTML = '';
     const sortedAchievementIds = Object.keys(achievements).sort((a, b) => {
         const cdA = achievementCdCovers[a];
         const cdB = achievementCdCovers[b];
@@ -4154,9 +4222,7 @@ function showAchievementsScreen() {
         const yearA = yearMatchA ? parseInt(yearMatchA[1]) : 9999;
         const yearMatchB = nameB.match(/\((\d{4})\)/);
         const yearB = yearMatchB ? parseInt(yearMatchB[1]) : 9999;
-        if (yearA !== yearB) {
-            return yearA - yearB;
-        }
+        if (yearA !== yearB) return yearA - yearB;
         return achievements[a].name.localeCompare(achievements[b].name);
     });
 
@@ -4164,29 +4230,27 @@ function showAchievementsScreen() {
         const achievement = achievements[id];
         const isUnlocked = achievement.unlocked;
         const card = document.createElement('div');
-        card.classList.add('achievement-card');
-        if (isUnlocked) {
-            card.classList.add('unlocked');
-        }
+        card.className = `achievement-card ${isUnlocked ? 'unlocked' : ''}`;
         card.dataset.achievementId = id;
         
-        card.addEventListener('click', (event) => {
-            event.stopPropagation();
-            showAchievementDetailPopup(id);
-        });
+        card.addEventListener('click', () => showAchievementDetailPopup(id));
 
         card.innerHTML = `
             <h3>
                 <span>${achievement.name}</span> <span class="achievement-icon">${isUnlocked ? '🏆' : '🔒'}</span>
             </h3>
             <p>${achievement.description}</p>
-            <div class="status">${isUnlocked ? 'Desbloqueada' : 'Bloqueada'}</div>
+            <div class="status ${isUnlocked ? 'unlocked' : 'locked'}">${isUnlocked ? 'Desbloqueada' : 'Bloqueada'}</div>
         `;
         elements.achievementsList.appendChild(card);
     });
 
-    elements.closeAchievementsBtn.onclick = closeAchievementsScreen;
+    document.getElementById('close-achievements-btn').onclick = closeAchievementsScreen;
 }
+// ==================================================================
+// FIM DA CORREÇÃO DA TELA DE CONQUISTAS
+// ==================================================================
+
 
 function showAchievementDetailPopup(id) {
     const achievement = achievements[id];
@@ -4673,7 +4737,7 @@ async function saveScore(playerName, score, gameMode) {
             name: playerName,
             score: score,
             timestamp: Date.now(),
-            gameMode: gameMode 
+            gameMode: gameMode
         });
         console.log(`Pontuação de ${playerName} (${score}) salva com sucesso no Firebase!`);
     } catch (e) {
@@ -4723,7 +4787,11 @@ function endGame(isWinner) {
         elements.audio.pause();
     }
     elements.audioPlayerWrapper.classList.remove('hidden-player');
-
+    elements.audioPlayerWrapper.style.opacity = '1';
+    elements.audioPlayerWrapper.style.visibility = 'visible';
+    elements.audioPlayerWrapper.style.pointerEvents = 'auto';
+    elements.audioPlayerWrapper.style.display = 'flex';
+    
     clearInterval(timerInterval);
 
     elements.quiz.innerHTML = '';
@@ -4826,6 +4894,10 @@ function showRankingScreen(defaultMode = 'quiz') {
     elements.bonusAchievementScreen.style.display = 'none';
     
     elements.audioPlayerWrapper.classList.remove('hidden-player');
+    elements.audioPlayerWrapper.style.opacity = '1';
+    elements.audioPlayerWrapper.style.visibility = 'visible';
+    elements.audioPlayerWrapper.style.pointerEvents = 'auto';
+    elements.audioPlayerWrapper.style.display = 'flex';
 
     elements.rankingScreen.style.display = 'flex';
     elements.rankingScreen.classList.add('show');
@@ -4951,6 +5023,10 @@ function restartQuiz() {
     elements.livesDisplay.style.display = 'none';
     elements.powerUpsContainer.style.display = 'none';
     elements.audioPlayerWrapper.classList.remove('hidden-player');
+    elements.audioPlayerWrapper.style.opacity = '1';
+    elements.audioPlayerWrapper.style.visibility = 'visible';
+    elements.audioPlayerWrapper.style.pointerEvents = 'auto';
+    elements.audioPlayerWrapper.style.display = 'flex';
 
     elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
 
@@ -5031,7 +5107,6 @@ function handleTimerEnd() {
 let bonusTimer = null;
 let bonusCountdownTimer = null;
 
-// NOVO: Função para mostrar a tela de seleção de dificuldade do Bônus
 function showDiscoSelectionScreen() {
     console.log("showDiscoSelectionScreen: Exibindo tela de seleção de discos.");
     quizState.quizPaused = true;
@@ -5048,7 +5123,6 @@ function showDiscoSelectionScreen() {
     elements.bonusDiscoSelectionScreen.style.display = 'flex'; // Usando flex para centralizar
     elements.bonusDiscoSelectionScreen.classList.add('show');
     
-    // Estilos para a tela de seleção de discos (adicionados via JS para não precisar alterar o CSS)
     Object.assign(elements.bonusDiscoSelectionScreen.style, {
         flexDirection: 'column',
         alignItems: 'center',
@@ -5058,9 +5132,8 @@ function showDiscoSelectionScreen() {
         color: 'white'
     });
     
-    // Carrega o progresso do jogador
     let bonusProgress = JSON.parse(localStorage.getItem('cobjr_bonus_progress')) || { unlocked: [true], totalScore: 0 };
-    if (!bonusProgress.totalScore) bonusProgress.totalScore = 0; // Garante que a pontuação total exista
+    if (!bonusProgress.totalScore) bonusProgress.totalScore = 0;
 
     let discosHTML = bonusDiscos.map((disco, index) => {
         const isUnlocked = bonusProgress.unlocked[index] === true;
@@ -5080,7 +5153,6 @@ function showDiscoSelectionScreen() {
         <button id="back-to-main-menu-from-bonus-btn" style="margin-top: 30px; padding: 12px 25px; font-size: 1.1em;">Voltar ao Menu Principal</button>
     `;
 
-    // Adiciona estilos para os botões dos discos via JS
     const styleSheet = document.createElement("style");
     styleSheet.innerText = `
         .disco-btn { 
@@ -5127,18 +5199,17 @@ function showDiscoSelectionScreen() {
         }, { once: true });
     };
 
-    elements.audioPlayerWrapper.classList.add('hidden-player');
+    elements.audioPlayerWrapper.style.opacity = '0';
+    elements.audioPlayerWrapper.style.visibility = 'hidden';
+    elements.audioPlayerWrapper.style.pointerEvents = 'none';
 }
 
 
-// ALTERADO: A função agora recebe o índice do disco
 function startBonusMusicGame(discoIndex) {
     console.log(`startBonusMusicGame: Iniciando Disco ${discoIndex + 1}.`);
     
-    // CORREÇÃO: Esconde a camada de overlay para tornar a tela interativa
     hideMainOverlay();
 
-    // Esconde a tela de seleção e mostra a tela de jogo
     elements.bonusDiscoSelectionScreen.classList.remove('show');
     elements.bonusDiscoSelectionScreen.style.display = 'none';
     elements.bonusMusicScreen.style.display = 'flex';
@@ -5146,7 +5217,6 @@ function startBonusMusicGame(discoIndex) {
     
     const songsInDisco = bonusDiscos[discoIndex].length;
 
-    // Monta o HTML da tela de jogo
     elements.bonusMusicScreen.innerHTML = `
         <h2>Rádio CBJR - Disco ${discoIndex + 1}</h2>
         <p class="bonus-instruction">Ouça o trecho e digite o nome da música.</p>
@@ -5168,7 +5238,6 @@ function startBonusMusicGame(discoIndex) {
         </div>
         `;
 
-    // Re-atribui referências DOM
     elements.bonusAnswerInput = document.getElementById('bonus-answer-input');
     elements.bonusSubmitBtn = document.getElementById('bonus-submit-btn');
     elements.bonusSkipBtn = document.getElementById('bonus-skip-btn');
@@ -5182,7 +5251,6 @@ function startBonusMusicGame(discoIndex) {
     elements.bonusCurrentSongTitle = document.getElementById('bonus-current-song-title');
     elements.bonusCuriosityMessage = document.getElementById('bonus-curiosity-message');
     
-    // Adiciona listeners aos botões
     elements.bonusSubmitBtn.onclick = checkBonusAnswer;
     elements.bonusSkipBtn.onclick = () => {
         if (elements.bonusAnswerInput.disabled) return;
@@ -5211,7 +5279,6 @@ function startBonusMusicGame(discoIndex) {
         }
     };
     
-    // Configura o estado do jogo para o disco selecionado
     bonusGameState.isBonusActive = true;
     bonusGameState.currentDiscoIndex = discoIndex;
     bonusGameState.songsToGuess = [...bonusDiscos[discoIndex]];
@@ -5323,7 +5390,6 @@ function hideBonusMusicScreen() {
         
         bonusGameState.isBonusActive = false;
         
-        // Em vez de voltar ao quiz ou menu, volta para a seleção de discos
         showDiscoSelectionScreen();
 
     }, { once: true });
@@ -5487,7 +5553,7 @@ function endBonusMusicGame() {
         ${errosHtml}
         <div style="margin-top: 20px; width: 90%; max-width: 400px;">
              <input type="text" id="bonus-player-name-input" placeholder="Seu nome para o ranking" maxlength="20" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 100%; font-size: 1em; text-align: center; background-color: rgba(255,255,255,0.1); color: white;">
-             <button id="bonus-submit-score-btn" style="margin-top: 10px; padding: 10px 20px; font-size: 1em;">Enviar Pontuação Total</button>
+              <button id="bonus-submit-score-btn" style="margin-top: 10px; padding: 10px 20px; font-size: 1em;">Enviar Pontuação Total</button>
         </div>
         <div class="bonus-controls" style="margin-top: 30px;">
             <button id="bonus-back-to-discos-btn">Voltar para os Discos</button>
@@ -5593,6 +5659,7 @@ window.onload = () => {
 
     elements.restartBtn.onclick = restartQuiz;
     elements.closeAchievementDetailPopupBtn.onclick = closeAchievementDetailPopup;
-};</script>
+       };
+</script>
 </body>
 </html>
