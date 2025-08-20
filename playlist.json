@@ -1,680 +1,1578 @@
-[
-  {
-    "title": "12+1 (Doze Mais Um)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/12%2B1%20(Doze%20Mais%20Um).mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["12+1 (Doze Mais Um)", "13 (treze)", "Cruzei uma doida", "O Legado"],
-    "curiosity": "A canção combina elementos de rock, hip-hop e skate punk, que eram marcas registradas da banda."
-  },
-  {
-    "title": "Amor Pelas Ruas",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Amor%20Pelas%20Ruas.mp3",
-    "album": "Nadando com os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Molengol's Groove", "Escalas Tropicais", "Amor Pelas Ruas", "Do Surf"],
-    "curiosity": "A música foi composta por Champignon, o baixista da banda, o que demonstra o talento de todos os membros na criação das obras."
-  },
-  {
-    "title": "Aquela Paz",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Aquela%20Paz.mp3",
-    "album": "Transpiração Contínua Prolongada",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Ouvi dizer", "Uma paz", "Aquela Paz", "Cidade Grande"],
-    "curiosity": "A frase 'A vida é feita de atitudes nem sempre decentes / Não lhe julgam pela razão, mas pelos seus antecedentes' é um dos versos mais marcantes, criticando como as pessoas são muitas vezes julgadas pelo passado e não pelos seus antecedentes."
-  },
-  {
-    "title": "Aquele Velho Carteado E Algumas Manobrinhas",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Aquele%20Velho%20Carteado%20E%20Algumas%20Manobrinhas.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Seu perfume é sua maresia", "Aquele Velho Carteado E Algumas Manobrinhas", "Cruzei uma doida", "Não se desespere não"],
-    "curiosity": "Além de descrever a cena do skate, a letra também aborda a ideia de autenticidade e autoaceitação. Versos como 'Não sou o melhor nem pior em se aproximar de alguém / Faço o que quero, quando quero e até que vivo bem' mostram uma atitude de confiança e de não se importar com o julgamento alheio."
-  },
-  {
-    "title": "Be Myself",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Be%20Myself.mp3",
-    "album": "Ritmo, Ritual e Responsa",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Be Myself", "Tudo mudar", "Talvez na metade do caminho", "te levar"],
-    "curiosity": "Apesar da dureza das críticas, a música também carrega uma mensagem de resiliência. O refrão 'Todo o mal que é dirigido a nós / Nos fortalece e eu não vou desistir' é um poderoso lembrete de que as adversidades podem nos fortalecer."
-  },
-  {
-    "title": "Charlie Brown JR. - Beco Sem Saída",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20JR.%20-%20Beco%20Sem%20Saída.mp3",
-    "album": "Ritmo, Ritual e Responsa",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Rua Sem saída", "Beco Sem Saída", "Conta Mão", "Inabalavelmente"],
-    "curiosity": "A música fala sobre aceitar os 'dias difíceis' como parte do processo de crescimento e valorizar as coisas simples da vida. Ela reforça a ideia de que o amor e a autenticidade são os pilares para viver em paz. O refrão 'Viver, viver e ser livre / Saber dar valor para as coisas mais simples / Só o amor constrói pontes indestrutíveis' é um dos lemas mais fortes da filosofia de vida de Chorão."
-  },
-  {
-    "title": "Bons Aliados",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Bons%20Aliados.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Qualquer Viagem pro Além", "Bons Aliados", "Rubão", "Magnata"],
-    "curiosity": "Rodolfo Abrantes contribui com vocais na música, adicionando uma camada extra de agressividade e intensidade que se encaixa perfeitamente na temática da canção e na sonoridade do Charlie Brown Jr. Sua voz característica complementa a de Chorão de forma marcante."
-  },
-  {
-    "title": "Cedo ou Tarde",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Cedo%20ou%20Tarde.mp3",
-    "album": "Projeto Paralelo",
-    "artist": "NX Zero",
-    "questionType": "audio_song_title",
-    "options": ["Tarde demais", "Um dia a gente se encontra", "Cedo ou Tarde", "Não estou sozinho"],
-    "curiosity": "A escolha de Chorão para participar de 'Cedo ou Tarde' foi particularmente tocante, pois a letra da música ressoava com a própria experiência de Chorão, que havia perdido seu pai."
-  },
-  {
-    "title": "Charlie Brown Jr- Só por uma Noite.",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20Jr-%20Só%20por%20uma%20Noite..mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Só por uma Noite", "Um Dia a Gente Se Encontra", "Todas as Noites", "Vem ser Minha"],
-    "curiosity": "'Só por uma noite' evidencia esse desejo por um alívio passageiro para a solidão e a saudade, sabendo que a fuga é passageira."
-  },
-  {
-    "title": "Charlie Brown Jr. - Camisa 10 Joga Bola Até Na Chuva (Lyric Video)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20Jr.%20-%20Camisa%2010%20Joga%20Bola%20Até%20Na%20Chuva%20(Lyric%20Video).mp3",
-    "album": "Camisa 10 Joga Bola Até Na Chuva",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Artilheiro", "Camisa 10 Joga Bola Até Na Chuva", "Tarja Preta", "Fundão"],
-    "curiosity": "O álbum 'Camisa 10 Joga Bola Até Na Chuva' foi um grande sucesso de crítica e público. Em 2010, ele ganhou o prestigioso Grammy Latino na categoria de Melhor Álbum de Rock Brasileiro em Língua Portuguesa."
-  },
-  {
-    "title": "Charlie Brown Jr. - Cheia de Vida (Ao Vivo - Chegou Quem Faltava)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20Jr.%20-%20Cheia%20de%20Vida%20(Ao%20Vivo%20-%20Chegou%20Quem%20Faltava).mp3",
-    "album": "La Familia 013",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Dona do Sorriso", "Vem Ser Minha", "Cheia de Vida", "Lugar ao Sol"],
-    "curiosity": "A letra de 'Cheia de Vida' é uma celebração à figura feminina, descrevendo uma mulher que irradia energia, beleza e personalidade única."
-  },
-  {
-    "title": "Charlie Brown Jr. - Gimme O Anel",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20Jr.%20-%20Gimme%20O%20Anel.mp3",
-    "album": "Transpiração Contínua Prolongada",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Gimme O Anel", "Ela riu de mim", "Perito em anatomia", "Sino Dourado"],
-    "curiosity": "Sendo um dos singles do Transpiração Contínua Prolongada, 'Gimme o Anel' ajudou a definir a identidade do Charlie Brown Jr. para o público, com letras que abordavam o cotidiano, a juventude e uma atitude 'sem filtro'."
-  },
-  {
-    "title": "Charlie Brown JR. - No Passo A Passo",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20JR.%20-%20No%20Passo%20A%20Passo.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["No Passo A Passo", "A Cada Passo", "Skate Virabtion", "Chegou Quem Faltava"],
-    "curiosity": "Chorão canta sobre seguir seu próprio caminho, sem se importar com as críticas ou o que 'sai da boca' de outras pessoas. A frase 'No passo a passo eu chego lá' expressa a convicção de que o sucesso e a paz são alcançados com persistência e autoconfiança."
-  },
+[ 
   
-  {
-    "title": "Charlie Brown Jr. - Pra Mais Tarde Fazermos A Cabeca",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20Jr.%20-%20Pra%20Mais%20Tarde%20Fazermos%20A%20Cabeca.mp3",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Pra Mais Tarde Fazermos A Cabeça", "Gimme O Anel", "O Coro Vai Comê!", "Confira A Banca!"],
-    "curiosity": "A canção reflete bem a atmosfera do início da banda, com letras que falam sobre curtir a vida, a liberdade e a camaradagem, muitas vezes associada à cultura do skate e da rua."
-  },
-  {
-    "title": "Charlie Brown Jr. - Sino Dourado",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20Jr.%20-%20Sino%20Dourado.mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Sino Dourado", "O Coro Vai Comê!", "Confira A Banca!", "Tudo que ela Gosta de Escutar"],
-    "curiosity": "A música 'Sino Dourado' faz parte do álbum '100% Charlie Brown Jr. - Abalando a Sua Fábrica', lançado em 2001. Este álbum marcou uma fase importante para a banda, sendo o primeiro sem o guitarrista Thiago Castanho, mas ainda assim produziu grandes sucessos."
-  },
-  {
-    "title": "Charlie Brown Jr. - T.F.D.P.",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20Jr.%20-%20T.F.D.P..mp3",
-    "album": "100% Charlie Brown Jr (Abalando a sua Fábrica)",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["T.F.D.P.", "O Coro Vai Comê!", "Confira A Banca!", "Pra Mais Tarde Fazermos A Cabeça"],
-    "curiosity": "A canção expressa um sentimento de descontentamento e revolta, abordando a vaidade, a superficialidade e a corrupção no mundo. É um grito de desilusão, mas também de resiliência e força interior."
-  },
-  {
-    "title": "Charlie Brown Jr. - Viver Dias de Sol (Lyric Video)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20Jr.%20-%20Viver%20Dias%20de%20Sol%20(Lyric%20Video).mp3",
-    "album": "Camisa 10 Joga Bola Até Na Chuva",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Viver Dias de Sol", "Me Encontra", "Só os Loucos Sabem", "Hoje Eu Só Procuro A Minha Paz"],
-    "curiosity": "A música 'Viver Dias de Sol' está no álbum 'Camisa 10 Joga Bola Até Na Chuva', lançado em 2009, que inclusive ganhou um Grammy Latino."
-  },
-  {
-    "title": "Charlie Brown Jr. Vanessa da Mata- Uma criança com seu olhar",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20Jr.%20Vanessa%20da%20Mata-%20Uma%20criança%20com%20seu%20olhar.mp3",
-    "album": "Estúdio Coca-Cola Zero - Charlie Brown Jr. e Vanessa da Mata",
-    "artist": "Charlie Brown Jr. & Vanessa da Mata",
-    "questionType": "audio_song_title",
-    "options": ["Uma Criança Com Seu Olhar", "Não Me Deixe Só", "Pontes Indestrutíveis", "Céu Azul"],
-    "curiosity": "A versão de 'Uma Criança Com Seu Olhar' com Vanessa da Mata faz parte do álbum 'Multishow Ao Vivo - Charlie Brown Jr. (20 Anos)', gravado em 2011 e lançado em 2012. Essa colaboração foi um dos pontos altos do DVD, que celebrou as duas décadas de carreira da banda. A presença de Vanessa da Mata trouxe uma nova sonoridade à música, adicionando sua voz doce e marcante, que contrastou e complementou a rouquidão de Chorão, criando um dueto emocionante e inesquecível para os fãs."
-  },
-  {
-    "title": "Charlie Brown Jr.",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Charlie%20Brown%20Jr..mp3",
-    "album": "Transpiração Contínua Prolongada",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Charlie Brown Jr", "Transpiração Contínua Prolongada", "Confira A Banca!", "O Coro Vai Comê!"],
-    "curiosity": "Alguns interpretam a faixa como uma representação da longa jornada e das dificuldades que a banda enfrentou até conseguir gravar seu primeiro álbum. O título, sendo o próprio nome da banda, simboliza a concretização de um sonho e a chegada de um novo capítulo."
-  },
-  {
-    "title": "Cidade Grande",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Cidade%20Grande.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Cidade Grande", "Beco Sem Saída", "Be Myself", "Não Deixe O Mar Te Engolir"],
-    "curiosity": "Chorão canta sobre como as coisas acontecem rapidamente, a sensação de ser esquecido em meio à multidão e a dificuldade de manter a própria essência em um ambiente onde muitas vezes as pessoas 'não escutam', apenas 'gesticulam'."
-  },
-  {
-    "title": "Com A Boca Amargando",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Com%20A%20Boca%20Amargando.mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Com A Boca Amargando", "No Passo a Passo", "Pra Não Dizer Que Não Falei Das Flores", "Lutar Pelo Que É Meu"],
-    "curiosity": "Versos como 'Sem neurose, cada um sabe o dom / E o dom é o tamanho da dose' sugerem a aceitação das próprias limitações e do caminho individual de cada um. A música convida a não se fechar para o mundo por medo de se machucar, pois a vida é feita de riscos e aprendizados."
-  },
-  {
-    "title": "Contrastes da Vida",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Contrastes%20da%20Vida.mp3",
-    "album": "La Familia 013",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Contrastes da Vida", "No Passo a Passo", "Lutar Pelo Que É Meu", "Samba Makossa"],
-    "curiosity": "A música sugere que a vida é um constante aprendizado. A frase 'Vivendo e aprendendo a viver / Com os contrastes da vida' é um resumo da mensagem, que incentiva a aceitar as contradições e a usar as experiências, boas ou ruins, para evoluir."
-  },
-  {
-    "title": "Do Surf",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Do%20Surf.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Do Surf", "Papo Reto", "Só Por Uma Noite", "Vício Inerente"],
-    "curiosity": "Esta música é um excelente exemplo do talento de Marcão Britto na guitarra. Seus riffs, melodias e solos se tornam o foco principal, mostrando sua técnica e sua contribuição vital para a sonoridade da banda. É uma oportunidade para ele brilhar instrumentalmente."
-  },
-  {
-    "title": "Essa É Por Quem Ficou Pra Trás",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Essa%20É%20Por%20Quem%20Ficou%20Pra%20Trás.mp3",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Essa É Por Quem Ficou Pra Trás", "Me Encontra", "Só os Loucos Sabem", "Viver Dias de Sol"],
-    "curiosity": "Versos como 'Ser um daqui é ser bem diferente' reforçam a identidade do Charlie Brown Jr. e sua ligação com a cultura de rua e do skate, onde a autenticidade e a individualidade são valorizadas. A ideia de que 'só quem é de miliano' (de muita experiência) entende, destaca a vivência real."
-  },
-  {
-    "title": "Estória Mal Escrita",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Estória%20Mal%20Escrita.mp3",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Estória Mal Escrita", "Não Deixe O Mar Te Engolir", "O Coro Vai Comê!", "A Grande Volta"],
-    "curiosity": "A letra aborda a complexidade das relações humanas, os erros e acertos que marcam nossa trajetória ('estória mal escrita'), e a dificuldade de compreender certas situações. A canção também pode ser interpretada como uma crítica àqueles que julgam sem conhecer a fundo as histórias alheias."
-  },
-  {
-    "title": "Estúdio Coca-Cola Zero： Lutar Pelo Que é Meu",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Estúdio%20Coca-Cola%20Zero%EF%BC%9A%20Lutar%20Pelo%20o%20Que%20é%20Meu.mp3",
-    "album": "Estúdio Coca-Cola Zero - Charlie Brown Jr. e Vanessa da Mata",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Lutar Pelo Que é Meu", "Pontes Indestrutíveis", "Não Me Deixe Só", "O Que Ela Gosta É De Barriga"],
-    "curiosity": "Essa versão de 'Lutar Pelo Que é Meu' faz parte do projeto 'Estúdio Coca-Cola Zero', uma iniciativa que promoveu encontros musicais entre grandes artistas. Embora a música original seja do álbum 'Imunidade Musical' (2005), as gravações do 'Estúdio Coca-Cola Zero' trouxeram novas roupagens e a energia de performances ao vivo. A faixa mantém a mensagem de garra e de defesa dos próprios ideais, características marcantes da obra do Charlie Brown Jr. e do próprio Chorão."
-  },
-  {
-    "title": "Estúdio Coca-Cola Zero： Não Me Deixe Só",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Estúdio%20Coca-Cola%20Zero%EF%BC%9A%20Não%20Me%20Deixe%20Só.mp3",
-    "album": "Estúdio Coca-Cola Zero - Charlie Brown Jr. e Vanessa da Mata",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Não Me Deixe Só", "Pontes Indestrutíveis", "Lutar Pelo Que é Meu", "O Que Ela Gosta É De Barriga"],
-    "curiosity": "A versão de 'Não Me Deixe Só' do 'Estúdio Coca-Cola Zero' é um registro de uma das performances ao vivo do projeto, onde o Charlie Brown Jr. se apresentou ao lado de Vanessa da Mata."
-  },
-  {
-    "title": "Estúdio Coca-Cola Zero： O Que Ela Gosta É De Barriga",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Estúdio%20Coca-Cola%20Zero%EF%BC%9A%20O%20Que%20Ela%20Gosta%20É%20De%20Barriga.mp3",
-    "album": "Estúdio Coca-Cola Zero - Charlie Brown Jr. e Vanessa da Mata",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Que Ela Gosta É De Barriga", "Não Me Deixe Só", "Lutar Pelo Que É Meu", "Pontes Indestrutíveis"],
-    "curiosity": "A gravação de 'O Que Ela Gosta É De Barriga' para o 'Estúdio Coca-Cola' representa a energia do Charlie Brown Jr. ao vivo. A música, originalmente do álbum 'Ritmo, Ritual e Responsa' (2007), é conhecida pela sua letra que aborda de forma direta e bem-humorada a atração física e a sensualidade."
-  },
-  {
-    "title": "Estúdio Coca-Cola Zero： Pontes Indestrutíveis",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Estúdio%20Coca-Cola%20Zero%EF%BC%9A%20Pontes%20Indestrutíveis.mp3",
-    "album": "Estúdio Coca-Cola Zero - Charlie Brown Jr. e Vanessa da Mata",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Pontes Indestrutíveis", "Não Me Deixe Só", "Lutar Pelo o Que é Meu", "O Que Ela Gosta É De Barriga"],
-    "curiosity": "A versão de 'Pontes Indestrutíveis' gravada para o 'Estúdio Coca-Cola' é um destaque, mostrando a força da banda ao vivo em um formato especial. A letra é um hino à união, à força da amizade e à capacidade de superar obstáculos, reforçando a ideia de que o amor e a lealdade constroem laços que nada pode quebrar."
-  },
-  {
-    "title": "Eu Protesto",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Eu%20Protesto.mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Eu Protesto", "Não Deixe O Mar Te Engolir", "Estória Mal Escrita", "Vícios e Virtudes"],
-    "curiosity": "'Eu Protesto' é um manifesto contundente de Chorão e do Charlie Brown Jr. contra as injustiças sociais, a corrupção e a hipocrisia política no Brasil. A letra aborda temas como a desigualdade, a impunidade e a frustração com um sistema que, na visão da banda, não atende às necessidades do povo."
-  },
-  {
-    "title": "Festa",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Festa.mp3",
-    "album": "Transpiração Contínua Prolongada",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Festa", "No Passo a Passo", "Lutar Pelo Que É Meu", "Samba Makossa"],
-    "curiosity": "Ao contrário de muitas músicas do Charlie Brown Jr. que abordam críticas sociais ou questões existenciais profundas, 'Festa' tem uma sonoridade mais descontraída, otimista e dançante. A letra é um convite direto à celebração da vida e dos bons momentos."
-  },
-  {
-    "title": "Green Goes",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Green%20Goes.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Green Goes", "Papo Reto", "Só Por Uma Noite", "Vício e Virtudes"],
-    "curiosity": "A letra de 'Green Goes' é uma crítica contundente ao sistema, à busca desenfreada por dinheiro (o 'green' pode remeter à cor do dólar) e às desigualdades sociais. Chorão e os Sacramento MC's abordam a luta diária nas ruas, a sobrevivência e a importância de manter a identidade e a dignidade em um mundo corrupto e superficial."
-  },
-  {
-    "title": "Hoje De Noite",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Hoje%20De%20Noite.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Hoje De Noite", "Beco Sem Saída", "Be Myself", "Cidade Grande"],
-    "curiosity": "A música foi composta por Chorão e Marcão Britto, mostrando a parceria criativa que era fundamental para a banda desde seus primeiros álbuns."
-  },
-  {
-    "title": "Hoje Eu Só Procuro A Minha Paz",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Hoje%20Eu%20Só%20Procuro%20A%20Minha%20Paz.mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Hoje Eu Só Procuro A Minha Paz", "Só Por Uma Noite", "Papo Reto", "Inabalavelmente"],
-    "curiosity": "Chorão, em um momento de reflexão, canta sobre a importância de encontrar a serenidade interior, mesmo reconhecendo os erros do passado. A música transmite a ideia de que, apesar das falhas e da 'loucura', a vida deve ser vivida com valor e buscando a paz."
-  },
-  {
-    "title": "I Feel So Good Today",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/I%20Feel%20So%20Good%20Today.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["I Feel So Good Today", "Só Por Uma Noite", "Papo Reto", "Inabalavelmente"],
-    "curiosity": "Como o título em inglês sugere ('Eu Me Sinto Tão Bem Hoje'), a música é um verdadeiro hino de otimismo e bem-estar. A letra de Chorão fala sobre a sensação de leveza e alegria após superar momentos difíceis. É uma canção que celebra a vida e a capacidade de encontrar a felicidade nas coisas simples e na própria jornada, independentemente das adversidades."
-  },
-  {
-    "title": "Inabalavelmente",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Inabalavelmente.mp3",
-    "album": "Ritmo, Ritual e Responsa",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Inabalavelmente", "Pontes Indestrutíveis", "Beco Sem Saída", "Be Myself"],
-    "curiosity": "A repetição da frase 'Inabalavelmente eu sigo em frente' reforça a ideia de perseverança inabalável diante das adversidades da vida. Chorão canta sobre a importância de ter fé, de acreditar em si mesmo e de não desistir, mesmo quando outros duvidam."
-  },
-  {
-    "title": "Indicados Para O Prêmio Nobel Da Paz",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Indicados%20Para%20O%20Prêmio%20Nobel%20Da%20Paz.mp3",
-    "album": "Tamo Aí Na Atividade",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Indicados Para O Prêmio Nobel Da Paz", "Cheia de Vida", "Essa É Por Quem Ficou Pra Trás", "Viver Dias de Sol"],
-    "curiosity": "Como era característico do Charlie Brown Jr., a letra usa uma linguagem direta, gírias e frases impactantes para chocar e provocar a reflexão. O refrão 'Cuidado com os indicados para o Prêmio Nobel da Paz!' é um alerta sarcástico."
-  },
-  {
-    "title": "Intro – Cedo ou Tarde",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Intro%20–%20Cedo%20ou%20Tarde.mp3",
-    "album": "Projeto Paralelo",
-    "artist": "NX Zero",
-    "questionType": "audio_song_title",
-    "options": ["Intro – Cedo ou Tarde", "Cedo ou Tarde", "Só os Loucos Sabem", "Me Encontra"],
-    "curiosity": "Chorão, que também havia perdido o pai, se identificou profundamente com a melodia e o tema. Ele não só auxiliou na finalização da letra da versão original do NX Zero, como também gravou vocais para uma versão remixada ou expandida dentro do álbum 'Projeto Paralelo'. Essa colaboração é um testemunho da amizade e da admiração mútua entre os dois artistas e o reconhecimento de Chorão como uma figura paterna e mentora para muitos músicos da geração seguinte."
-  },
-  {
-    "title": "Liberdade Acima De Tudo",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Liberdade%20Acima%20De%20Tudo.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Liberdade Acima De Tudo", "Cheia de Vida", "Essa É Por Quem Ficou Pra Trás", "Indicados Para O Prêmio Nobel Da Paz"],
-    "curiosity": "A canção critica as tentativas de padronizar comportamentos e pensamentos, valorizando a 'loucura' individual como uma forma de resistência e originalidade. É um convite para abraçar a própria essência, mesmo que ela não se encaixe nos moldes sociais."
-  },
-  {
-    "title": "Lixo E O Luxo",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Lixo%20E%20O%20Luxo.mp3",
-    "album": "Tamo Aí Na Atividade",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Lixo E O Luxo", "Estória Mal Escrita", "Eu Protesto", "Vícios e Virtudes"],
-    "curiosity": "A letra de 'Lixo E O Luxo' é uma das mais emblemáticas de Chorão, que aborda a dualidade da vida e os contrastes sociais. Ele fala sobre conhecer tanto a realidade marginal ('o lixo') quanto a realidade privilegiada ('o luxo'), e sobre como ambas as experiências moldam o indivíduo. A canção explora a ideia de que a verdadeira sabedoria vem de vivenciar diferentes facetas da existência."
-  },
-  {
-    "title": "Longe De Você",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Longe%20De%20Você.mp3",
-    "album": "Tamo Aí Na Atividade",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Longe De Você", "Cheia de Vida", "Essa É Por Quem Ficou Pra Trás", "Indicados Para O Prêmio Nobel Da Paz"],
-    "curiosity": "Embora talvez não seja um dos maiores hits de rádio como 'Zóio de Lula' ou 'Só os Loucos Sabem', 'Longe de Você' é muito querida pelos fãs e é frequentemente citada por sua letra emocionante e sua melodia marcante, que ressoa com quem já sentiu a dor da distância de alguém importante. Ela é um exemplo do lado mais romântico e sensível da banda."
-  },
-  {
-    "title": "Lugar ao Sol - Chorão e Champignon (Charlie Brown Jr)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Lugar%20ao%20Sol%20-%20Chorão%20e%20Champignon%20(Charlie%20Brown%20Jr).mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Lugar ao Sol", "Sino Dourado", "Hoje Eu Acordei Feliz", "Como Tudo Deve Ser"],
-    "curiosity": "A música 'Lugar ao Sol' é um dos grandes sucessos do álbum '100% Charlie Brown Jr. - Abalando a Sua Fábrica', lançado em 2001. A letra é um hino à perseverança e à busca por um espaço no mundo, apesar das dificuldades e do preconceito. Ela inspira a sonhar e a lutar pelos próprios objetivos, sem se abater pelas críticas. A canção se tornou um dos maiores hits da banda e é muito querida pelos fãs por sua mensagem de esperança e resiliência."
-  },
-  {
-    "title": "Me Deixa (Ao Vivo)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Me%20Deixa%20(Ao%20Vivo).mp3",
-    "album": "Música Popular Caiçara.",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Me Deixa (Ao Vivo)", "Só Por Uma Noite (Ao Vivo)", "Vícios e Virtudes (Ao Vivo)", "Não É Sério (Ao Vivo)"],
-    "curiosity": "A amizade entre Chorão e Falcão era notória e ia além da rivalidade saudável que existia entre as duas bandas no cenário musical. Falcão chegou a comentar sobre a importância de Chorão e do legado do Charlie Brown Jr., mostrando o respeito e a admiração que tinha pelo amigo e colega de profissão."
-  },
-  {
-    "title": "My Mini Ramp",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/My%20Mini%20Ramp.mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["My Mini Ramp", "Do Surf", "Papo Reto (Prazer É Sexo, o Resto É Negócio)", "Só Por Uma Noite"],
-    "curiosity": "\"My Mini Ramp\" é uma música altamente autobiográfica. Chorão tinha uma paixão genuína pelo skate e, inclusive, possuía uma mini rampa em sua casa em Santos, que era um ponto de encontro para skatistas e amigos. A música reflete diretamente essa parte de sua vida e identidade."
-  },
-  {
-    "title": "NX Zero - Cedo ou Tarde Feat. Chorão (Tour Cedo ou Tarde Ao Vivo)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/NX%20Zero%20-%20Cedo%20ou%20Tarde%20Feat.%20Chorão%20(Tour%20Cedo%20ou%20Tarde%20Ao%20Vivo).mp3",
-    "album": "Tour Cedo ou Tarde (Ao Vivo)",
-    "artist": "NX Zero Feat. Chorão",
-    "questionType": "audio_song_title",
-    "options": ["Cedo ou Tarde Feat. Chorão", "Só os Loucos Sabem", "Me Encontra", "Pontes Indestrutíveis"],
-    "curiosity": "Essa versão de 'Cedo ou Tarde' com a participação póstuma de Chorão é um dos momentos mais emocionantes dos shows e do álbum 'Tour Cedo ou Tarde (Ao Vivo)' do NX Zero, lançado em 2024. A colaboração original de Chorão foi para o álbum 'Projeto Paralelo' do NX Zero, em 2012. Após o falecimento de Chorão em 2013, essa música ganhou um significado ainda mais profundo para os fãs, tornando-se um hino de saudade e esperança de um reencontro, com a voz de Chorão ecoando a mensagem da letra de forma tocante. É um tributo emocionante ao legado do artista."
-  },
-  {
-    "title": "Não Deixe O Mar Te Engolir",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Não%20Deixe%20O%20Mar%20Te%20Engolir.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Não Deixe O Mar Te Engolir", "Rubão", "Tamo Aí Na Atividade", "Hoje de Noite"],
-    "curiosity": "O videoclipe de 'Não Deixe O Mar Te Engolir' é bastante memorável por sua técnica de animação em massinha (claymation), alternando com cenas da banda tocando."
-  },
-  {
-    "title": "Não Fure Os Olhos Da Verdade",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Não%20Fure%20Os%20Olhos%20Da%20Verdade.mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Não Fure Os Olhos Da Verdade", "No Passo a Passo", "Lutar Pelo Que É Meu", "Samba Makossa"],
-    "curiosity": "A frase que dá título à música é uma metáfora forte para a importância de manter a consciência clara e de não fechar os olhos para o que é real, mesmo que seja doloroso ou impopular."
-  },
-  {
-    "title": "Não É Sério (Ao Vivo)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Não%20É%20Sério%20(Ao%20Vivo).mp3",
-    "album": "Acústico MTV: Charlie Brown Jr.",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Não É Sério (Ao Vivo)", "Me Deixa (Ao Vivo)", "Só Por Uma Noite (Ao Vivo)", "Vícios e Virtudes (Ao Vivo)"],
-    "curiosity": "A versão ao vivo de 'Não É Sério' está presente no 'Acústico MTV: Charlie Brown Jr.', de 2003. A música original é do álbum 'Nadando Com Os Tubarões' (2000) e é uma das mais emblemáticas da banda, com uma letra que aborda o desprezo pelas convenções sociais e a busca por liberdade e autenticidade. A versão acústica trouxe uma nova perspectiva para a canção, mostrando a força da letra e da melodia mesmo em um formato mais despojado."
-  },
-  {
-    "title": "O Errado Que Deu Certo",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/O%20Errado%20Que%20Deu%20Certo.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Errado Que Deu Certo", "Com A Boca Amargando", "Contrastes da Vida", "Festa"],
-    "curiosity": "A música 'O Errado Que Deu Certo' faz parte do álbum 'Imunidade Musical', de 2005. A letra reflete sobre as reviravoltas da vida, onde situações que inicialmente parecem ser um erro acabam levando a um resultado positivo ou a um aprendizado valioso. Chorão canta sobre a imprevisibilidade do destino e a capacidade de transformar experiências negativas em oportunidades de crescimento. É uma canção que inspira otimismo e resiliência."
-  },
-  {
-    "title": "O Mundo Explodiu La Fora",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/O%20Mundo%20Explodiu%20La%20Fora.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Mundo Explodiu La Fora", "Eu Protesto", "Lixo E O Luxo", "Vícios e Virtudes"],
-    "curiosity": "A letra da música, escrita por Chorão, é bastante introspectiva e reflexiva. Ela aborda a percepção de um ambiente externo caótico e problemático ('o mundo explodiu lá fora'), contrastando com uma busca por paz interior e refúgio pessoal."
-  },
-  {
-    "title": "O Nosso Blues",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/O%20Nosso%20Blues.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Nosso Blues", "Cheia de Vida", "Essa É Por Quem Ficou Pra Trás", "Longe De Você"],
-    "curiosity": "A canção 'O Nosso Blues' é um exemplo da diversidade musical presente na obra do Charlie Brown Jr., incorporando elementos do blues em sua sonoridade característica. Lançada no álbum 'Imunidade Musical' (2005)."
-  },
-  {
-    "title": "O Penetra",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/O%20Penetra.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Penetra", "No Passo a Passo", "Festa", "Com A Boca Amargando"],
-    "curiosity": "Esta canção é um exemplo clássico da capacidade do Chorão de criar letras que, de forma direta e coloquial, descrevem e criticam tipos de pessoas ou situações do cotidiano. A letra de 'O Penetra' é uma crítica contundente àqueles que se aproveitam da boa-fé alheia, que 'colam' sem ser convidados."
-  },
-  {
-    "title": "O Preço",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/O%20Preço.mp3",
-    "album": "Preço Curto Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Preço", "Gimme O Anel", "Pra Mais Tarde Fazermos A Cabeça", "Aquela Paz"],
-    "curiosity": "Chorão, como de costume, usa uma linguagem direta para refletir sobre a realidade, alertando que 'tudo tem um preço'. A música aborda a ideia de que cada ação, seja ela boa ou ruim, terá uma repercussão no futuro. É uma reflexão sobre a justiça poética da vida, onde o que se planta é o que se colhe."
-  },
-  {
-    "title": "Senhor Do Tempo",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/O%20Senhor%20Do%20Tempo.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Senhor Do Tempo", "Pontes Indestrutíveis", "Be Myself", "Beco Sem Saída"],
-    "curiosity": "Chorão, com sua sensibilidade e estilo característico, reflete sobre a importância de ter paciência e de acreditar que tudo acontece no momento certo, sob a regência de uma força maior — o 'Senhor do Tempo'."
-  },
-  {
-    "title": "O Universo A Nosso Favor",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/O%20Universo%20A%20Nosso%20Favor.mp3",
-    "album": "Ritmo Ritual e Responsa",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["O Universo A Nosso Favor", "Não Fure Os Olhos Da Verdade", "No Passo a Passo", "Samba Makossa"],
-    "curiosity": "Essa música é notável por contar com a participação especial da banda Forfun. Essa colaboração é um excelente exemplo de como o Charlie Brown Jr. explorava parcerias com bandas de diferentes estilos dentro do cenário musical brasileiro, mas que compartilhavam uma energia e uma mensagem positiva, ou se conectavam com a cultura jovem."
-  },
-  {
-    "title": "Ouviu-Se Falar (Extra - Turne Internacional)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Ouviu-Se%20Falar%20(Extra%20-%20Turne%20Internacional).mp3",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Ouviu-Se Falar", "Rock Star", "Samba Triste", "So Far Away"],
-    "curiosity": "A letra aborda temas como a disseminação de informações (nem sempre verdadeiras) por meio de boatos ou 'boca a boca', e a forma como as pessoas reagem a essas informações."
-  },
-  
-  {
-    "title": "Puro Sangue",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Puro%20Sangue.mp3",
-    "album": "Camisa 10 Joga Bola Até na Chuva",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Puro Sangue", "Do Surf", "Green Goes", "Vício Inerente"],
-    "curiosity": "Chorão canta sobre a experiência de vida, as dificuldades enfrentadas ('não foi fácil'), e a capacidade de se reerguer e 'fazer a própria'. É um hino de empoderamento e de valorização da trajetória individual, com a mensagem de que a força vem de dentro, da 'pureza' da essência de cada um."
-  },
-  {
-    "title": "Rale",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Rale.mp3",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Rale", "Eu Protesto", "Lixo E O Luxo", "Vícios e Virtudes"],
-    "curiosity": "É uma canção que reforça a mensagem de autenticidade e atitude 'faça você mesmo', valores muito presentes na cultura do skate e que eram pilares da filosofia da banda. A música mantém a pegada agressiva do rock com influências do hardcore e do rap, o que a torna um destaque sonoro do álbum."
-  },
-  {
-    "title": "Resolve o Meu Problema Aí (Ao Vivo)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Resolve%20o%20Meu%20Problema%20Aí%20(Ao%20Vivo).mp3",
-    "album": "Música Popular Caiçara",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Resolve o Meu Problema Aí (Ao Vivo)", "Só Por Uma Noite (Ao Vivo)", "Me Deixa (Ao Vivo)", "Não É Sério (Ao Vivo)"],
-    "curiosity": "A versão ao vivo de 'Resolve o Meu Problema Aí' faz parte do álbum 'Multishow Ao Vivo - Charlie Brown Jr. (20 Anos)', gravado em 2011 e lançado em 2012. A música original é do álbum 'Preço Curto Prazo Longo' (1999). A performance ao vivo capta a energia contagiante da banda nos palcos, com a interação de Chorão com o público. A letra, com seu tom de humor e ironia, fala sobre as situações cotidianas e a busca por soluções para os problemas da vida, sem perder a autenticidade."
-  },
-  {
-    "title": "Rock Star",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Rock%20Star.mp3",
-    "album": "La Familia 013",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Rock Star", "Camisa 10 Joga Bola Até Na Chuva", "Me Encontra", "Só os Loucos Sabem"],
-    "curiosity": "A música 'Rock Star' é uma das faixas do último álbum de estúdio do Charlie Brown Jr., 'La Familia 013', lançado em 2013. Este álbum carrega um significado especial por ter sido lançado postumamente, após o falecimento de Chorão, o que adiciona uma camada de emoção e despedida às suas letras."
-  },
-  {
-    "title": "Samba Triste",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Samba%20Triste.mp3",
-    "album": "La Familia 013",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Samba Triste", "Estória Mal Escrita", "Eu Protesto", "Vícios e Virtudes"],
-    "curiosity": "Apesar do título sugestivo, que remete a uma melancolia característica do samba-canção, a música traz uma fusão de ritmos e a energia habitual do Charlie Brown Jr. A letra de Chorão, como em muitas de suas últimas composições, pode ser interpretada como uma reflexão profunda sobre a vida, a dor e a solidão, mas também sobre a resiliência e a busca por superação."
-  },
-  {
-    "title": "So Far Away",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/So%20Far%20Away.mp3",
-    "album": "Tamo Aí na Atividade",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["So Far Away", "Longe De Você", "O Nosso Blues", "Cheia de Vida"],
-    "curiosity": "Esta faixa se destaca por ser uma das poucas músicas do Charlie Brown Jr. totalmente cantadas em inglês. Ela reflete o lado mais experimental e a amplitude de influências da banda."
-  },
-  {
-    "title": "Somos Poucos Mas Somos Loucos",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Somos%20Poucos%20Mas%20Somos%20Loucos.mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Somos Poucos Mas Somos Loucos", "Liberdade Acima De Tudo", "Indicados Para O Prêmio Nobel Da Paz", "Cheia de Vida"],
-    "curiosity": "A letra, de autoria de Chorão, funciona como um manifesto e um lema para a banda e seus fãs. Ela celebra a autenticidade, a liberdade de pensamento e a recusa em se conformar com as normas sociais. A frase 'Somos poucos, mas somos loucos' encapsula a ideia de que, mesmo sendo um grupo que nem sempre se encaixa nos padrões, há uma força e uma paixão que os tornam inabaláveis e únicos."
-  },
-  {
-    "title": "Sou Quem Eu Sou (O Que É Seu Também É Meu E O Que É Meu Não É Nosso)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Sou%20Quem%20Eu%20Sou%20(O%20Que%20É%20Seu%20Também%20É%20Meu%20E%20O%20Que%20É%20Meu%20Não%20É%20Nosso).mp3",
-    "album": "Bocas Ordinárias",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Sou Quem Eu Sou (O Que É Seu Também É Meu E O Que É Meu Não É Nosso)", "No Passo a Passo", "Lutar Pelo Que É Meu", "O Universo A Nosso Favor"],
-    "curiosity": "É uma música que se aprofunda na complexidade das relações humanas e na busca por um lugar de individualidade e respeito mútuo. A faixa se destaca no álbum por sua letra introspectiva, que convida o ouvinte a refletir sobre sua própria identidade e seu espaço no mundo."
-  },
-  {
-    "title": "Só Lazer",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Só%20Lazer.mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Só Lazer", "Do Surf", "My Mini Ramp", "Green Goes"],
-    "curiosity": "Esta canção reflete a veia crítica e contestadora da banda, usando o termo 'só lazer' de forma irônica para questionar a superficialidade e a alienação presentes na sociedade."
-  },
-  {
-    "title": "T.F.D.P.",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/T.F.D.P..mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["T.F.D.P.", "O Coro Vai Comê!", "Confira A Banca!", "Pra Mais Tarde Fazermos A Cabeça"],
-    "curiosity": "A música é um retrato da visão do Charlie Brown Jr. sobre a sociedade, o show business e as relações humanas. Ela aborda a vaidade, a falsidade e a luta por sobrevivência em um mundo que muitas vezes parece hostil."
-  },
-  {
-    "title": "Talvez A Metade Do Caminho",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Talvez%20A%20Metade%20Do%20Caminho.mp3",
-    "album": "Nadando Com Os Tubarões",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Talvez A Metade Do Caminho", "Longe De Você", "O Nosso Blues", "Cheia de Vida"],
-    "curiosity": "A música foi composta por Chorão. A letra é bastante introspectiva e, para muitos fãs, carrega um tom melancólico e reflexivo sobre perdas e a jornada da vida. Há quem interprete a letra como uma reflexão de Chorão sobre a relação com o pai, especialmente após o falecimento dele. A frase 'O dom que Deus te deu entrou pra história do tempo' ressoa bastante nesse contexto."
-  },
-  {
-    "title": "Three Little Birds (Ao Vivo - Chegou Quem Faltava)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Three%20Little%20Birds%20(Ao%20Vivo%20-%20Chegou%20Quem%20Faltava).mp3",
-    "album": "Chegou Quem Faltava (Ao Vivo)",
-    "artist": "Charlie Brown Jr. (Cover de Bob Marley)",
-    "questionType": "audio_song_title",
-    "options": ["Three Little Birds (Ao Vivo)", "Não É Sério (Ao Vivo)", "Me Deixa (Ao Vivo)", "Resolve o Meu Problema Aí (Ao Vivo)"],
-    "curiosity": "Essa versão ao vivo de 'Three Little Birds' é um cover da clássica canção de Bob Marley. O Charlie Brown Jr. sempre foi influenciado pelo reggae, e essa performance ao vivo, provavelmente de um álbum como 'Chegou Quem Faltava', mostra a habilidade da banda em interpretar sucessos de outros artistas. A música de Bob Marley, com sua mensagem de paz e otimismo ('Every little thing gonna be alright'), combinava perfeitamente com a energia positiva que Chorão e a banda transmitiam em seus shows."
-  },
-  {
-    "title": "Todos Iguais",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Todos%20Iguais.mp3",
-    "album": "Tamo Aí na Atividade",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Todos Iguais", "Não Fure Os Olhos Da Verdade", "O Universo A Nosso Favor", "Samba Makossa"],
-    "curiosity": "A música defende a autenticidade e o estilo de vida 'livre' do indivíduo, contrastando com aqueles que se consideram superiores ou elitizados. Frases como 'Meu estilo de vida liberta minha mente / Completamente louco, mas um louco consciente' resumem bem essa filosofia."
-  },
-  {
-    "title": "Tudo Pro Alto",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Tudo%20Pro%20Alto.mp3",
-    "album": "100% Charlie Brown Jr. - Abalando a Sua Fábrica",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Tudo Pro Alto", "Somos Poucos Mas Somos Loucos", "Longe De Você", "Talvez A Metade Do Caminho"],
-    "curiosity": "'Tudo Pro Alto' foi composta por Chorão e Renato Pelado. A letra reflete a filosofia de vida do Chorão e da banda: a busca por liberdade, a superação das dificuldades e a valorização do que realmente importa na vida."
-  },
-  {
-    "title": "Uma Criança Com Seu Olhar (Versão Acústica)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Uma%20Criança%20Com%20Seu%20Olhar%20(Versão%20Acústica).mp3",
-    "album": "Ritmo Ritual e Responsa",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Uma Criança Com Seu Olhar (Versão Acústica)", "Me Deixa (Ao Vivo)", "Não É Sério (Ao Vivo)", "Só Por Uma Noite (Ao Vivo)"],
-    "curiosity": "Para muitos fãs, a música carrega um significado de renovação e esperança. A 'criança com seu olhar' pode ser interpretada como a pureza e a inocência que se deve preservar, ou até mesmo o desejo de Chorão de ter um filho (ele era pai de um filho, mas a letra reflete uma visão mais ampla). É uma canção que convida à reflexão sobre amadurecimento e a manutenção da essência."
-  },
-  {
-    "title": "Vanessa da Mata - Ai Ai Ai (Part. Charlie Brown Jr)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Vanessa%20da%20Mata%20-%20Ai%20Ai%20Ai%20(Part.%20Charlie%20Brown%20Jr).mp3",
-    "album": "Estúdio Coca-Cola Zero",
-    "artist": "Vanessa da Mata (Part. Charlie Brown Jr)",
-    "questionType": "audio_song_title",
-    "options": ["Ai Ai Ai (Part. Charlie Brown Jr)", "Senhor do Tempo ⧸ Não Me Deixe Só (Part. Charlie Brown Jr)", "Uma Criança Com Seu Olhar (Part. Vanessa da Mata)", "O Que Ela Gosta É De Barriga"],
-    "curiosity": "A maior curiosidade dessa parceria é, sem dúvida, a mistura de gêneros. Vanessa da Mata, conhecida por sua voz suave e músicas com influências de MPB, samba e reggae, se uniu à energia visceral e às letras diretas do Charlie Brown Jr. Essa fusão resultou em releituras das canções que surpreenderam o público e mostraram a versatilidade de ambos os artistas."
-  },
-  
-  {
-    "title": "Vinheta： União",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Vinheta%EF%BC%9A%20União.mp3",
-    "album": "Preço Curto... Prazo Longo",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Vinheta： União", "Intro – Cedo ou Tarde", "Charlie Brown Jr. (Vinheta)", "Amor Pelas Ruas"],
-    "curiosity": "'União' é a faixa de número 11 do disco, e é frequentemente listada como 'Vinheta: União / Fogo na Bomba', pois a faixa inclui trechos de 'Fogo na Bomba', uma música do grupo De Menos Crime."
-  },
-  {
-    "title": "Vícios E Virtudes (Ao Vivo)",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/Vícios%20E%20Virtudes%20(Ao%20Vivo).mp3",
-    "album": "Acústico MTV: Charlie Brown Jr.",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["Vícios E Virtudes (Ao Vivo)", "Me Deixa (Ao Vivo)", "Não É Sério (Ao Vivo)", "Só Por Uma Noite (Ao Vivo)"],
-    "curiosity": "'Vícios e Virtudes' foi o primeiro single lançado do álbum 'Acústico MTV', ajudando a impulsionar o sucesso do projeto e a mostrar ao público a nova roupagem acústica da banda."
-  },
-  {
-    "title": "É Quente",
-    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicas/É%20Quente.mp3",
-    "album": "Imunidade Musical",
-    "artist": "Charlie Brown Jr.",
-    "questionType": "audio_song_title",
-    "options": ["É Quente", "Do Surf", "Puro Sangue", "Só Lazer"],
-    "curiosity": "'É Quente' aborda o tema do confronto direto com adversidades e pessoas mal-intencionadas. A letra fala sobre a cobra venenosa que se engasga com seu próprio veneno, uma metáfora para aqueles que tentam prejudicar, mas acabam se dando mal. A música também destaca a importância do trabalho e da resiliência: 'Trabalho, corro atrás, o que Deus traz eu digo amém'."
-  }
-]
+  { 
+    "title": "Charlie Brown Jr - 100% Charlie Brown Jr.  Abalando Sua F brica - 02-Hoje Eu Acordei Feliz [2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr%20-%20100%%20Charlie%20Brown%20Jr.%20%20Abalando%20Sua%20F brica%20-%2002-Hoje%20Eu%20Acordei%20Feliz%20[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - 100% Charlie Brown Jr. Abalando Sua F brica - 01-Eu Protesto [2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr%20-%20100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica%20-%2001-Eu%20Protesto%20[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - 100% Charlie Brown Jr. Abalando Sua F brica - 03-Sino Dourado [2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr%20-%20100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica%20-%2003-Sino%20Dourado%20[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - 100% Charlie Brown Jr. Abalando Sua F brica - 04-Quebra Mar [2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr%20-%20100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica%20-%2004-Quebra%20Mar%20[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - 100% Charlie Brown Jr. Abalando Sua F brica - 05-Lugar Ao Sol [2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr%20-%20100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica%20-%2005-Lugar%20Ao%20Sol%20[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - 100% Charlie Brown Jr. Abalando Sua F brica - 07-S¢ Lazer [2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr%20-%20100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica%20-%2007-S¢%20Lazer%20[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - 100% Charlie Brown Jr. Abalando Sua F brica - 10-T F D [2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr%20-%20100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica%20-%2010-T%20F%20D%20[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - 100% Charlie Brown Jr. Abalando Sua F brica - 11-Tudo Pro Alto [2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr%20-%20100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica%20-%2011-Tudo%20Pro%20Alto%20[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - 100% Charlie Brown Jr. Abalando Sua F brica - 12-Como Tudo Deve Ser [2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr%20-%20100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica%20-%2012-Como%20Tudo%20Deve%20Ser%20[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - 100%Charlie Brown Jr.Abalando Sua F brica - 09-O Lado Certo Da Vida Errada [2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr%20-%20100%Charlie%20Brown%20Jr.Abalando%20Sua%20F brica%20-%2009-O%20Lado%20Certo%20Da%20Vida%20Errada%20[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr-100%Charlie Brown Jr. Abalando Sua F brica - 06-Descubra O Que H  De Errado [2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr-100%Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica%20-%2006-Descubra%20O%20Que%20H %20De%20Errado%20[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr-100%Charlie Brown Jr.Abalando Sua F brica-08-Vocˆ De Limusine,Vou De Trem[2001]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicas100%%20Charlie%20Brown%20Jr.%20Abalando%20Sua%20F brica/Charlie%20Brown%20Jr-100%Charlie%20Brown%20Jr.Abalando%20Sua%20F brica-08-Vocˆ%20De%20Limusine,Vou%20De%20Trem[2001].mp3", 
+    "album": "musicas_quizmusicas100% Charlie Brown Jr. Abalando Sua F brica", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Camisa 10 joga bola at‚ na chuva", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20Camisa%2010%20joga%20bola%20at‚%20na%20chuva.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Comigo ningu‚m tira onda", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20Comigo%20ningu‚m%20tira%20onda.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Dona do meu pensamento", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20Dona%20do%20meu%20pensamento.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Inabalavelmente", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20Inabalavelmente.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Me encontra", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20Me%20encontra.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - O dom, a inteligˆncia e a voz", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20O%20dom,%20a%20inteligˆncia%20e%20a%20voz.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Os cortes", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20Os%20cortes.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Puro sangue", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20Puro%20sangue.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - S¢ existe o agora", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20S¢%20existe%20o%20agora.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - S¢ os loucos sabem", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20S¢%20os%20loucos%20sabem.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - S¢ pra vadiar", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20S¢%20pra%20vadiar.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Uma s¢ vida pra viver, Tenho sede nela eu vou", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20Uma%20s¢%20vida%20pra%20viver,%20Tenho%20sede%20nela%20eu%20vou.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Viver dias de sol", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCamisa%2010%20Joga%20Bola%20At‚%20Na%20Chuva/Charlie%20Brown%20Jr%20-%20Viver%20dias%20de%20sol.mp3", 
+    "album": "musicas_quizmusicasCamisa 10 Joga Bola At‚ Na Chuva", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr & Marcelo D2- Samba Makosa.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr%20&%20Marcelo%20D2-%20Samba%20Makosa..mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr & Negra Li- Nao ‚ S‚rio", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr%20&%20Negra%20Li-%20Nao%20‚%20S‚rio.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr & RZO - A Banca (Ratat   Bicho Solto)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr%20&%20RZO%20-%20A%20Banca%20(Ratat %20%20Bicho%20Solto).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie brown jr - Charlie brown(Ac£stico Mtv - HD)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20brown%20jr%20-%20Charlie%20brown(Ac£stico%20Mtv%20-%20HD).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr Zo'io de Lula Ac£stico - Letra", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr%20Zo'io%20de%20Lula%20Ac£stico%20-%20Letra.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- O coro vai Comˆ.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr-%20O%20coro%20vai%20Comˆ..mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- O Pre‡o.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr-%20O%20Pre‡o..mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- O que ‚ da Cada ‚ da Casa ? Papo Reto", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr-%20O%20que%20‚%20da%20Cada%20‚%20da%20Casa%20?%20Papo%20Reto.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- Proibida pra mim.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr-%20Proibida%20pra%20mim..mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- Quinta- Feira.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr-%20Quinta-%20Feira..mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- S¢ por uma Noite.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr-%20S¢%20por%20uma%20Noite..mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- Tudo Mudar.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr-%20Tudo%20Mudar..mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- Tudo Pro Alto.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr-%20Tudo%20Pro%20Alto..mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- Tudo que Ela Gosta de Escutar.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr-%20Tudo%20que%20Ela%20Gosta%20de%20Escutar..mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- Vinheta Beat Box II ? Como Tudo Deve Ser.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr-%20Vinheta%20Beat%20Box%20II%20?%20Como%20Tudo%20Deve%20Ser..mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- V¡cios e Virtudes.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr-%20V¡cios%20e%20Virtudes..mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr. - Nao Uso Sapato", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Charlie%20Brown%20Jr.%20-%20Nao%20Uso%20Sapato.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Hoje - Charlie Brown Jr. e Marcelo Nova", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20(%20Ac£stico%20MTV%20)/Hoje%20-%20Charlie%20Brown%20Jr.%20e%20Marcelo%20Nova.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr ( Ac£stico MTV )", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Cora‡ao Satƒnico", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Cora‡ao%20Satƒnico.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Cr‚ditos do DVD M£sica Popular Cai‡ara", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Cr‚ditos%20do%20DVD%20M£sica%20Popular%20Cai‡ara.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Descubra O Que H  De Errado Com Vocˆ", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Descubra%20O%20Que%20H %20De%20Errado%20Com%20Vocˆ.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Dias De Luta, Dias De Gl¢ria", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Dias%20De%20Luta,%20Dias%20De%20Gl¢ria.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Ela Vai Voltar (Todos Os Defeitos De Uma Mulher Perfeita)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Ela%20Vai%20Voltar%20(Todos%20Os%20Defeitos%20De%20Uma%20Mulher%20Perfeita).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Hoje Eu Acordei Feliz", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Hoje%20Eu%20Acordei%20Feliz.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Hoje Eu S¢ Procuro Minha Paz ? Lutar Pelo Que ‚ Meu", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Hoje%20Eu%20S¢%20Procuro%20Minha%20Paz%20?%20Lutar%20Pelo%20Que%20‚%20Meu.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Longe De Vocˆ", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Longe%20De%20Vocˆ.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Lugar Ao Sol", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Lugar%20Ao%20Sol.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Mantenha a D£vida e Espere At‚ Ouvir Falar de N¢s", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Mantenha%20a%20D£vida%20e%20Espere%20At‚%20Ouvir%20Falar%20de%20N¢s.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Me Deixa [feat. Marcelo Falcao]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Me%20Deixa%20[feat.%20Marcelo%20Falcao].mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Me Encontra", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Me%20Encontra.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - No Passo a Passo", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20No%20Passo%20a%20Passo.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Nao Deixe o Mar Te Engolir", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Nao%20Deixe%20o%20Mar%20Te%20Engolir.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Nao ‚ S‚rio [feat. Marcelo Falcao]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Nao%20‚%20S‚rio%20[feat.%20Marcelo%20Falcao].mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - O Coro Vai Comˆ", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20O%20Coro%20Vai%20Comˆ.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Papo Reto (Prazer ‚ Sexo, O Resto ‚ Neg¢cio)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Papo%20Reto%20(Prazer%20‚%20Sexo,%20O%20Resto%20‚%20Neg¢cio).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Parta a Mil [feat. Marcelo Mello]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Parta%20a%20Mil%20[feat.%20Marcelo%20Mello].mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Pipeline", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Pipeline.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Pontes Indestrut¡veis", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Pontes%20Indestrut¡veis.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Proibida Pra Mim (Grazon) [feat. Zeca Baleiro]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Proibida%20Pra%20Mim%20(Grazon)%20[feat.%20Zeca%20Baleiro].mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Quinta Feira", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Quinta%20Feira.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Resolve Meu Problema A¡", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Resolve%20Meu%20Problema%20A¡.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Rubao (O Dono Do Mundo)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Rubao%20(O%20Dono%20Do%20Mundo).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - S¢ Os Loucos Sabem", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20S¢%20Os%20Loucos%20Sabem.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Te Levar Daqui", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Te%20Levar%20Daqui.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Tudo Pro Alto", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Tudo%20Pro%20Alto.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Tudo Que Ela Gosta De Escutar", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20M£sica%20Popular%20Cai‡ara%20[DVD%20Completo]/Charlie%20Brown%20Jr%20-%20Tudo%20Que%20Ela%20Gosta%20De%20Escutar.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - M£sica Popular Cai‡ara [DVD Completo]", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "01   Pontes Indestrut¡veis", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/01%20%20%20Pontes%20Indestrut¡veis.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "02   O Que Ela Gosta  De Barriga", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/02%20%20%20O%20Que%20Ela%20Gosta%20%20De%20Barriga.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "03   Nao Viva em Vao", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/03%20%20%20Nao%20Viva%20em%20Vao.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "04   Ritmo, Ritual E Responsa", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/04%20%20%20Ritmo,%20Ritual%20E%20Responsa.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "05   Be Myself", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/05%20%20%20Be%20Myself.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "06   Uma Crianca Com Seu Olhar", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/06%20%20%20Uma%20Crianca%20Com%20Seu%20Olhar.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "07   Liberdade  Tudo Instrumental", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/07%20%20%20Liberdade%20%20Tudo%20Instrumental.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "08   O Universo a Nosso Favor", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/08%20%20%20O%20Universo%20a%20Nosso%20Favor.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "09   Ningu‚m Entende Vocˆ", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/09%20%20%20Ningu‚m%20Entende%20Vocˆ.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "10   Quando Tudo Aconteceu Instrumental", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/10%20%20%20Quando%20Tudo%20Aconteceu%20Instrumental.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "11   Beco Sem Saida", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/11%20%20%20Beco%20Sem%20Saida.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "12   Sem Medo da Escuridao", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/12%20%20%20Sem%20Medo%20da%20Escuridao.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "13   Nua, Linda e Inigual vel", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/13%20%20%20Nua,%20Linda%20e%20Inigual vel.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "14   Vida De Magnata", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/14%20%20%20Vida%20De%20Magnata.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "15   Que Esp‚cie De Vermes Sao Vocˆs Part  Markon Lobotomia", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/15%20%20%20Que%20Esp‚cie%20De%20Vermes%20Sao%20Vocˆs%20Part%20%20Markon%20Lobotomia.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "16   Buscando Um Novo Rumo Instrumental", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/16%20%20%20Buscando%20Um%20Novo%20Rumo%20Instrumental.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "17   Vivendo A Vida Numa Louca Viagem", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/17%20%20%20Vivendo%20A%20Vida%20Numa%20Louca%20Viagem.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "18   Curva De Hill", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/18%20%20%20Curva%20De%20Hill.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "19   Direto E Reto Sempre", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/19%20%20%20Direto%20E%20Reto%20Sempre.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "20   Skateboard Amor Eterno Part  Sacramento MC's", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/20%20%20%20Skateboard%20Amor%20Eterno%20Part%20%20Sacramento%20MC's.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "21   Cafe Fundation Instrumental", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/21%20%20%20Cafe%20Fundation%20Instrumental.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "22   Vao Fazer de Novo Part  Paranormal Attack", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/22%20%20%20Vao%20Fazer%20de%20Novo%20Part%20%20Paranormal%20Attack.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "23   Senhor Do Tempo B“nus Track", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr%20-%20Ritmo%20Ritual%20e%20Responsa-2007/23%20%20%20Senhor%20Do%20Tempo%20B“nus%20Track.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr - Ritmo Ritual e Responsa-2007", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Abrir Seus Olhos", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Abrir%20Seus%20Olhos.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Aquela Paz", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Aquela%20Paz.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown JR. - Liberdade Acima De Tudo", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Charlie%20Brown%20JR.%20-%20Liberdade%20Acima%20De%20Tudo.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown JR. - Onde Esta O Mundo Bom? (Living In L.A.)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Charlie%20Brown%20JR.%20-%20Onde%20Esta%20O%20Mundo%20Bom?%20(Living%20In%20L.A.).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Criando Anticorpos", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Criando%20Anticorpos.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Dias De Luta, Dias De Gloria", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Dias%20De%20Luta,%20Dias%20De%20Gloria.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Ela Vai Voltar (Todos Os Defeitos De Uma Mulher Perfeita)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Ela%20Vai%20Voltar%20(Todos%20Os%20Defeitos%20De%20Uma%20Mulher%20Perfeita).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Green Goes", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Green%20Goes.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "I Feel So Good Today", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/I%20Feel%20So%20Good%20Today.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Lutar Pelo Que E Meu", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Lutar%20Pelo%20Que%20E%20Meu.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Na Palma Da Mao - O Ragga Da Baixada", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Na%20Palma%20Da%20Mao%20-%20O%20Ragga%20Da%20Baixada.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "No Passo A Passo", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/No%20Passo%20A%20Passo.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "O Futuro  Um Labirinto Pra Quem Nao Sabe O Que Quer", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/O%20Futuro%20%20Um%20Labirinto%20Pra%20Quem%20Nao%20Sabe%20O%20Que%20Quer.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "O Mundo Explodiu La Fora", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/O%20Mundo%20Explodiu%20La%20Fora.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "O Nosso Blues", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/O%20Nosso%20Blues.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Onde Nao Existe A Paz Nao Existe O Amor", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Onde%20Nao%20Existe%20A%20Paz%20Nao%20Existe%20O%20Amor.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Peso Da Batida Do Errado Que Deu Certo", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Peso%20Da%20Batida%20Do%20Errado%20Que%20Deu%20Certo.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Pra Nao Dizer Que Nao Falei Das Flores", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Pra%20Nao%20Dizer%20Que%20Nao%20Falei%20Das%20Flores.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Senhor Do Tempo", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Senhor%20Do%20Tempo.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Skate Vibration", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Skate%20Vibration.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Too Fast Live Too Young Too Die", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/Too%20Fast%20Live%20Too%20Young%20Too%20Die.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": " Quente", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Imunidade%20Musical/%20Quente.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Imunidade Musical", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - A Banca Ratat   Bicho Solto", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20A%20Banca%20Ratat %20%20Bicho%20Solto.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Amor Pelas Ruas", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Amor%20Pelas%20Ruas.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Essa  Por Quem Ficou Pra Tr s", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Essa%20%20Por%20Quem%20Ficou%20Pra%20Tr s.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Fichado", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Fichado.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Fundao", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Fundao.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - No Desafino, Ibiraboys", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20No%20Desafino,%20Ibiraboys.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Nao  S‚rio", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Nao%20%20S‚rio.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - O Penetra", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20O%20Penetra.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Ouviu se Falar", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Ouviu%20se%20Falar.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Pra Mais Tarde Fazermos A Cabe‡a", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Pra%20Mais%20Tarde%20Fazermos%20A%20Cabe‡a.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Ral‚", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Ral‚.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Rubao - O Dono Do Mundo", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Rubao%20-%20O%20Dono%20Do%20Mundo.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Somos Extremes no Esporte e Na M£sica", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Somos%20Extremes%20no%20Esporte%20e%20Na%20M£sica.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Talvez a Metade Do Caminho", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Talvez%20a%20Metade%20Do%20Caminho.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Transar No Escuro", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Transar%20No%20Escuro.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Trocando Uma Id‚ia Com Deus", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Trocando%20Uma%20Id‚ia%20Com%20Deus.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "charlie brown jr - Tudo Mudar", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20-%20Nadando%20com%20os%20Tubaroes/charlie%20brown%20jr%20-%20Tudo%20Mudar.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. - Nadando com os Tubaroes", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Baader-Meinhof Blues", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/Baader-Meinhof%20Blues.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Bocas Ordin rias, Guerrilhas (Extra - Turne Internacional)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/Bocas%20Ordin rias,%20Guerrilhas%20(Extra%20-%20Turne%20Internacional).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Com A Boca Amargando", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/Com%20A%20Boca%20Amargando.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Com Minha Loucura Fa‡o Meu Dinheiro, Com Meu Dinheiro Fa‡o Minhas Loucuras", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/Com%20Minha%20Loucura%20Fa‡o%20Meu%20Dinheiro,%20Com%20Meu%20Dinheiro%20Fa‡o%20Minhas%20Loucuras.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Hoje Eu S¢ Procuro A Minha Paz", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/Hoje%20Eu%20S¢%20Procuro%20A%20Minha%20Paz.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "My Mini Ramp", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/My%20Mini%20Ramp.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Nao Fure Os Olhos Da Verdade", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/Nao%20Fure%20Os%20Olhos%20Da%20Verdade.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Papo Reto (Prazer  Sexo O Resto  Neg¢cio)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/Papo%20Reto%20(Prazer%20%20Sexo%20O%20Resto%20%20Neg¢cio).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Somos Poucos Mas Somos Loucos", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/Somos%20Poucos%20Mas%20Somos%20Loucos.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Sou Quem Eu Sou (O Que  Seu Tamb‚m  Meu E O Que  Meu Nao  Nosso)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/Sou%20Quem%20Eu%20Sou%20(O%20Que%20%20Seu%20Tamb‚m%20%20Meu%20E%20O%20Que%20%20Meu%20Nao%20%20Nosso).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "S¢ Por Uma Noite", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/S¢%20Por%20Uma%20Noite.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Tarja Preta", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Bocas%20Ordin rias/Tarja%20Preta.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Bocas Ordin rias", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "12+1 (Doze Mais Um)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/12+1%20(Doze%20Mais%20Um).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "333", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/333.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "A Grande Volta", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/A%20Grande%20Volta.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Aquele Velho Carteado E Algumas Manobrinhas", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Aquele%20Velho%20Carteado%20E%20Algumas%20Manobrinhas.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Bons Aliados", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Bons%20Aliados.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Chicano (Skate Nos Canos)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Chicano%20(Skate%20Nos%20Canos).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Cidade Grande", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Cidade%20Grande.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Confisco", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Confisco.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Cruzei Uma Doida", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Cruzei%20Uma%20Doida.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Do Surf", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Do%20Surf.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Est¢ria Mal Escrita", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Est¢ria%20Mal%20Escrita.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Hoje De Noite", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Hoje%20De%20Noite.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Local", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Local.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Mantenha A D£vida E Espere At‚ Ouvir Falar De N¢s", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Mantenha%20A%20D£vida%20E%20Espere%20At‚%20Ouvir%20Falar%20De%20N¢s.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Muito Antes Que Vocˆ", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Muito%20Antes%20Que%20Vocˆ.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Nao Deixe O Mar Te Engolir", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Nao%20Deixe%20O%20Mar%20Te%20Engolir.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "O Pre‡o", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/O%20Pre‡o.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "O Puxa Carro", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/O%20Puxa%20Carro.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Quem Deu Entrada Pra Subir? (FDP)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Quem%20Deu%20Entrada%20Pra%20Subir?%20(FDP).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Resolve O Meu Problema A¡", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Resolve%20O%20Meu%20Problema%20A¡.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Te Levar Daqui", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Te%20Levar%20Daqui.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Vinheta: Depois De Uma Bela Session, Um Belo Sof , Cerveja, Pizza E Um Videozinho De Skate", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Vinheta:%20Depois%20De%20Uma%20Bela%20Session,%20Um%20Belo%20Sof ,%20Cerveja,%20Pizza%20E%20Um%20Videozinho%20De%20Skate.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Vinheta: O Que  Da Casa,  Da Casa", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Vinheta:%20O%20Que%20%20Da%20Casa,%20%20Da%20Casa.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Vinheta: Uniao", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Vinheta:%20Uniao.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Z¢io De Lula", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Pre‡o%20curto,%20prazo%20longo/Z¢io%20De%20Lula.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Pre‡o curto, prazo longo", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Champanhe E Agua Benta", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Champanhe%20E%20Agua%20Benta.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Cheirando Cola", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Cheirando%20Cola.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Di-Sk8 Eu Vim", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Di-Sk8%20Eu%20Vim.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Di-Sk8 Eu Vou", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Di-Sk8%20Eu%20Vou.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Eu Vim De Santos Sou Charlie Brown", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Eu%20Vim%20De%20Santos%20Sou%20Charlie%20Brown.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Indicados Para O Prˆmio Nobel Da Paz", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Indicados%20Para%20O%20Prˆmio%20Nobel%20Da%20Paz.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Lixo E O Luxo", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Lixo%20E%20O%20Luxo.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Longe De Vocˆ", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Longe%20De%20Vocˆ.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Malabarizando (Quem  De F‚ Continua Com A Gente)", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Malabarizando%20(Quem%20%20De%20F‚%20Continua%20Com%20A%20Gente).mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Malokero Sk8 Board", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Malokero%20Sk8%20Board.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "O Errado Que Deu Certo", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/O%20Errado%20Que%20Deu%20Certo.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "So Far Away", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/So%20Far%20Away.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Tamo Ai Na Atividade", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Tamo%20Ai%20Na%20Atividade.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Todos Iguais", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Todos%20Iguais.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Vivendo Nesse Absurdo", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasCharlie%20Brown%20Jr.%20Tamo%20a¡%20na%20atividade/Vivendo%20Nesse%20Absurdo.mp3", 
+    "album": "musicas_quizmusicasCharlie Brown Jr. Tamo a¡ na atividade", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - A mais linda do bar", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20A%20mais%20linda%20do%20bar.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Camisa Preta", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Camisa%20Preta.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Cheia de vida", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Cheia%20de%20vida.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Contrastes da vida", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Contrastes%20da%20vida.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Do jeito que eu gosto, do jeito que eu quero", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Do%20jeito%20que%20eu%20gosto,%20do%20jeito%20que%20eu%20quero.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Fina Arte", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Fina%20Arte.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Hoje sou eu que nao mais te quero", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Hoje%20sou%20eu%20que%20nao%20mais%20te%20quero.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Meu novo mundo", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Meu%20novo%20mundo.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Rock Star", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Rock%20Star.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Samba Triste", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Samba%20Triste.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Um dia a gente se encontra", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Um%20dia%20a%20gente%20se%20encontra.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Vem ser minha", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Vem%20ser%20minha.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Vou me embriagar de vocˆ", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasLa%20Fam¡lia%20013/Charlie%20Brown%20Jr%20-%20Vou%20me%20embriagar%20de%20vocˆ.mp3", 
+    "album": "musicas_quizmusicasLa Fam¡lia 013", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr   Transpira‡ao Continua Prolongada   12 Corra vagabundo 1997", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20%20%20Transpira‡ao%20Continua%20Prolongada%20%20%2012%20Corra%20vagabundo%201997.mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 01-Tributo ao Frango da Mal sia [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2001-Tributo%20ao%20Frango%20da%20Mal sia%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 02-O coro vai comˆ [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2002-O%20coro%20vai%20comˆ%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 03-Tudo que ela gosta de escutar [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2003-Tudo%20que%20ela%20gosta%20de%20escutar%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 04-Sheik tosado [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2004-Sheik%20tosado%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 05-Hei arreia [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2005-Hei%20arreia%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 06-Guimme o anel [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2006-Guimme%20o%20anel%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 07-Molengol's groove [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2007-Molengol's%20groove%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 08 Aquela Paz [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2008%20Aquela%20Paz%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 09-Quinta Feira [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2009-Quinta%20Feira%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 10-Proibida pra mim [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2010-Proibida%20pra%20mim%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 11-Lombra [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2011-Lombra%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 13-Falar falar [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2013-Falar%20falar%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 14-Festa [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2014-Festa%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 15-Escalas tropicais [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2015-Escalas%20tropicais%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr - Transpira‡ao Continua Prolongada - 16-Charlie Brown Jr  [1997]", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasTranspira‡ao%20Continua%20Prolongada/Charlie%20Brown%20Jr%20-%20Transpira‡ao%20Continua%20Prolongada%20-%2016-Charlie%20Brown%20Jr%20%20[1997].mp3", 
+    "album": "musicas_quizmusicasTranspira‡ao Continua Prolongada", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Charlie Brown Jr- S¢ por uma Noite.", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasVanessa%20da%20Mata%20&%20Chorao/Charlie%20Brown%20Jr-%20S¢%20por%20uma%20Noite..mp3", 
+    "album": "musicas_quizmusicasVanessa da Mata & Chorao", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Est£dio Coca-Cola Zero: Ai Ai Ai", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasVanessa%20da%20Mata%20&%20Chorao/Est£dio%20Coca-Cola%20Zero:%20Ai%20Ai%20Ai.mp3", 
+    "album": "musicas_quizmusicasVanessa da Mata & Chorao", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Est£dio Coca-Cola Zero: Lutar Pelo o Que ‚ Meu", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasVanessa%20da%20Mata%20&%20Chorao/Est£dio%20Coca-Cola%20Zero:%20Lutar%20Pelo%20o%20Que%20‚%20Meu.mp3", 
+    "album": "musicas_quizmusicasVanessa da Mata & Chorao", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Est£dio Coca-Cola Zero: M£sica", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasVanessa%20da%20Mata%20&%20Chorao/Est£dio%20Coca-Cola%20Zero:%20M£sica.mp3", 
+    "album": "musicas_quizmusicasVanessa da Mata & Chorao", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Est£dio Coca-Cola Zero: Nao Me Deixe S¢", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasVanessa%20da%20Mata%20&%20Chorao/Est£dio%20Coca-Cola%20Zero:%20Nao%20Me%20Deixe%20S¢.mp3", 
+    "album": "musicas_quizmusicasVanessa da Mata & Chorao", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Est£dio Coca-Cola Zero: O Que Ela Gosta  De Barriga", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasVanessa%20da%20Mata%20&%20Chorao/Est£dio%20Coca-Cola%20Zero:%20O%20Que%20Ela%20Gosta%20%20De%20Barriga.mp3", 
+    "album": "musicas_quizmusicasVanessa da Mata & Chorao", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Est£dio Coca-Cola Zero: Pontes Indestrut¡veis", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasVanessa%20da%20Mata%20&%20Chorao/Est£dio%20Coca-Cola%20Zero:%20Pontes%20Indestrut¡veis.mp3", 
+    "album": "musicas_quizmusicasVanessa da Mata & Chorao", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Est£dio Coca-Cola Zero: Senhor do Tempo", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasVanessa%20da%20Mata%20&%20Chorao/Est£dio%20Coca-Cola%20Zero:%20Senhor%20do%20Tempo.mp3", 
+    "album": "musicas_quizmusicasVanessa da Mata & Chorao", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Est£dio Coca-Cola Zero: Vermelho", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasVanessa%20da%20Mata%20&%20Chorao/Est£dio%20Coca-Cola%20Zero:%20Vermelho.mp3", 
+    "album": "musicas_quizmusicasVanessa da Mata & Chorao", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "uma crian‡a com o seu olhar-vanessa da mata e charlie brown", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasVanessa%20da%20Mata%20&%20Chorao/uma%20crian‡a%20com%20o%20seu%20olhar-vanessa%20da%20mata%20e%20charlie%20brown.mp3", 
+    "album": "musicas_quizmusicasVanessa da Mata & Chorao", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+  { 
+    "title": "Vanessa da Mata e Charlie Brown Jr -- Pontes Indestrut¡veis", 
+    "url": "https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR@main/musicasmusicas_quizmusicasVanessa%20da%20Mata%20&%20Chorao/Vanessa%20da%20Mata%20e%20Charlie%20Brown%20Jr%20--%20Pontes%20Indestrut¡veis.mp3", 
+    "album": "musicas_quizmusicasVanessa da Mata & Chorao", 
+    "artist": "Charlie Brown Jr.", 
+    "questionType": "audio_song_title" 
+  }, 
+] 
