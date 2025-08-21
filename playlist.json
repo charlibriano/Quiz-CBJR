@@ -1059,11 +1059,11 @@
     "url": "https://charlibriano.github.io/Quiz-CBJR/musicas/Musica%20Popular%20Caicara%20(DVD%20Completo)/Charlie%20Brown%20Jr%20-%20Tudo%20Que%20Ela%20Gosta%20De%20Escutar.mp3",
     "album": "Música Popular Caiçara (DVD Completo)"
   },
-  {
+ {
     "title": "A mais linda do bar",
-    "url": "https://charlibriano.github.io/Quiz-CBJR/musicas/La%20Familia%20013/Charlie%20Brown%20Jr%20-%20A%20mais%20linda%20do%20bar.mp3",
-    "album": "La Familia 013"
-  },
+    "artist": "Charlie Brown Jr",
+    "url": "https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/musicasLa_Familia_013/Charlie%20Brown%20Jr%20-%20A%20mais%20linda%20do%20bar.mp3"
+  }
   {
     "title": "Camisa Preta",
     "url": "https://charlibriano.github.io/Quiz-CBJR/musicas/La%20Familia%20013/Charlie%20Brown%20Jr%20-%20Camisa%20Preta.mp3",
