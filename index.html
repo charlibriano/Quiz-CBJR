@@ -51,6 +51,43 @@
             --cor-bonus-conquista-sombra: rgba(30, 215, 96, 0.8);
         }
 
+        /* Ajustes responsivos para telas menores */
+        @media (max-width: 600px) {
+            /* Expande a área do jogador para a largura total e reduz o padding */
+            .bonus-player-area {
+                width: 100%;
+                padding: 20px 15px;
+            }
+            /* Pontuação em coluna e centralizada */
+            .bonus-score-display {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                max-width: 100%;
+            }
+            .bonus-score-display .score-item {
+                width: 100%;
+                min-width: unset;
+            }
+            /* Botões do controle em coluna */
+            .bonus-controls {
+                flex-direction: column;
+                width: 100%;
+                gap: 15px;
+            }
+            #bonus-music-screen .bonus-controls button {
+                width: 100%;
+            }
+            /* Reduz tamanho do título da música no modo bônus */
+            #bonus-music-screen #bonus-current-song-title {
+                font-size: 1.6em;
+            }
+            /* Ajusta largura do input de resposta para ocupar toda a tela */
+            #bonus-music-screen #bonus-answer-input {
+                max-width: 100%;
+            }
+        }
+
         @font-face {
             font-family: 'Elektrix';
             src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff2') format('woff2'),
@@ -861,31 +898,31 @@
         }
 
         /* --- PLAYER ATUALIZADO E CORRIGIDO --- */
-       /* --- PLAYER ATUALIZADO E CORRIGIDO (MOVIDO PARA O TOPO DIREITO) --- */
-#audio-player-wrapper {
-    position: fixed;
-    top: 20px;                      /* ALTERADO: Distância do topo */
-    right: 20px;                     /* ALTERADO: Distância da direita */
-    /* REMOVIDO: bottom, left, e transform */
-    max-width: 280px;                /* AJUSTADO: Um pouco mais de largura para o novo formato */
-    width: auto;                     /* AJUSTADO: Largura automática */
-    padding: 15px;                   /* AJUSTADO: Um pouco mais de respiro interno */
-    background: rgba(0, 0, 0, 0.6);  /* AJUSTADO: Um pouco mais de opacidade */
-    backdrop-filter: blur(8px);      /* NOVO: Efeito de desfoque para um visual moderno */
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.7); /* ALTERADO: Sombra para baixo */
-    z-index: 2200;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-sizing: border-box;
-    min-height: 80px;
-    flex-wrap: wrap;
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-}
+        /* --- PLAYER ATUALIZADO E CORRIGIDO (MOVIDO PARA O TOPO DIREITO) --- */
+        #audio-player-wrapper {
+            position: fixed;
+            top: 20px;                      /* ALTERADO: Distância do topo */
+            right: 20px;                    /* ALTERADO: Distância da direita */
+            /* REMOVIDO: bottom, left, e transform */
+            max-width: 280px;               /* AJUSTADO: Um pouco mais de largura para o novo formato */
+            width: auto;                    /* AJUSTADO: Largura automática */
+            padding: 15px;                  /* AJUSTADO: Um pouco mais de respiro interno */
+            background: rgba(0, 0, 0, 0.6); /* AJUSTADO: Um pouco mais de opacidade */
+            backdrop-filter: blur(8px);     /* NOVO: Efeito de desfoque para um visual moderno */
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.7); /* ALTERADO: Sombra para baixo */
+            z-index: 2200;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-sizing: border-box;
+            min-height: 80px;
+            flex-wrap: wrap;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+        }
         /* Classe para ocultar o player */
         #audio-player-wrapper.hidden-player {
             opacity: 0;
@@ -1272,8 +1309,9 @@
             margin-bottom: 10px;
             line-height: 1.2;
             text-shadow:
-                0 0 8px var(--cor-amarelo-cbjr),
-                0 0 15px rgba(241, 196, 15, 0.9);
+                0 0 8px rgba(255, 255, 255, 0.8),
+                0 0 15px rgba(255, 255, 255, 0.6),
+                0 0 20px var(--cor-amarelo-cbjr);
         }
         /* Destaque para a frase do Chorão na passagem de nível */
         #level-up-message .chorao-quote {
@@ -1591,7 +1629,7 @@
         /* Responsividade para ranking-screen */
         @media (max-width: 600px) {
             #ranking-screen h2 {
-                font-size: 2.5em;
+                font-fsize: 2.5em;
                 margin-bottom: 25px;
             }
             #ranking-list li {
@@ -2313,7 +2351,7 @@
         }
         
         /* Ajustes específicos para os botões dentro de welcome-screen .message-buttons
-           para garantir que se ajustem e não 'estourem' */
+            para garantir que se ajustem e não 'estourem' */
         @media (max-width: 480px) {
             #welcome-screen .message-buttons,
             #bonus-music-screen .message-buttons {
@@ -2435,24 +2473,22 @@
             color: var(--cor-amarelo-cbjr);
             margin-bottom: 15px;
         }
-        #bonus-disco-selection-screen p {
+        #bonus-disco-selection-screen p.intro-text {
             font-size: 1.1em;
             margin-bottom: 30px;
             max-width: 600px;
         }
         .disco-list-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
             width: 100%;
+            max-width: 800px;
             margin-bottom: 30px;
         }
         .disco-btn {
-            padding: 20px;
-            font-size: 1.2em;
-            font-family: 'Elektrix', sans-serif;
+            padding: 15px;
             background-color: var(--cor-preto-principal);
-            color: var(--cor-texto-claro);
             border: 2px solid var(--cor-amarelo-cbjr);
             border-radius: 12px;
             cursor: pointer;
@@ -2461,47 +2497,107 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
+            text-align: center;
+            color: var(--cor-texto-claro);
+            text-decoration: none;
+            font-family: Arial, sans-serif;
         }
-        .disco-btn:not(:disabled):hover {
+        .disco-btn:hover:not(:disabled) {
             transform: scale(1.05);
             background-color: var(--cor-amarelo-cbjr);
             color: var(--cor-preto-principal);
             box-shadow: 0 0 15px var(--cor-amarelo-cbjr);
         }
-        .disco-btn:disabled {
-            background-color: rgba(0,0,0,0.5);
-            border-color: rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.4);
+        .disco-btn.locked {
+            opacity: 0.5;
             cursor: not-allowed;
+            border-color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.4);
+            box-shadow: none;
         }
-        .disco-btn .disco-title {
+        .disco-card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        .disco-cover {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: all 0.25s ease;
+        }
+        .disco-btn:hover:not(:disabled) .disco-cover {
+            box-shadow: 0 0 15px var(--cor-preto-principal), 0 0 20px var(--cor-amarelo-cbjr);
+        }
+        .disco-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .disco-title {
+            font-family: 'Elektrix', sans-serif;
             font-size: 1.2em;
+            line-height: 1.2;
         }
-        .disco-btn .disco-status {
-            font-size: 0.8em;
-            font-family: Arial, sans-serif;
+        .disco-subtitle {
+            font-size: 0.85em;
+            margin-top: 5px;
+            color: rgba(255, 255, 255, 0.8);
         }
-        .disco-btn .disco-status i {
-            margin-right: 5px;
+
+        /* Adicione esta mídia query para telas pequenas, para o botão de voltar ao menu principal */
+        @media (max-width: 480px) {
+            #bonus-disco-selection-screen h2 {
+                font-size: 2em;
+                margin-bottom: 10px;
+            }
+            #bonus-disco-selection-screen p.intro-text {
+                font-size: 0.9em;
+                margin-bottom: 20px;
+            }
+            .disco-list-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .disco-btn {
+                flex-direction: row;
+                text-align: left;
+                gap: 15px;
+            }
+            .disco-cover {
+                width: 80px;
+                height: 80px;
+                max-width: none;
+            }
+            .disco-info {
+                align-items: flex-start;
+            }
+            .disco-title {
+                font-size: 1em;
+            }
+            .disco-subtitle {
+                font-size: 0.8em;
+            }
         }
-        .disco-btn:disabled .disco-status {
-            color: var(--cor-vermelho-incorreto);
-        }
-       /* NOVO: Media Query para reposicionar o player em telas pequenas (celulares) */
+        /* NOVO: Media Query para reposicionar o player em telas pequenas (celulares) */
         @media (max-width: 768px) {
-        #audio-player-wrapper {
-        top: auto;              /* Reseta a posição do topo */
-        right: auto;            /* Reseta a posição da direita */
-        bottom: 15px;           /* Volta para a base da tela */
-        left: 50%;              /* Centraliza horizontalmente */
-        transform: translateX(-50%); /* Ajusta a centralização */
-        width: 95%;             /* Ocupa quase toda a largura */
-        max-width: 300px;       /* Limita a largura máxima */
-        padding: 10px 12px;
-        backdrop-filter: none;  /* Remove o blur para performance */
-        -webkit-backdrop-filter: none;
-    }
-}
+            #audio-player-wrapper {
+                top: auto;      /* Reseta a posição do topo */
+                right: auto;    /* Reseta a posição da direita */
+                bottom: 15px;   /* Volta para a base da tela */
+                left: 50%;      /* Centraliza horizontalmente */
+                transform: translateX(-50%); /* Ajusta a centralização */
+                width: 95%;     /* Ocupa quase toda a largura */
+                max-width: 300px; /* Limita a largura máxima */
+                padding: 10px 12px;
+                backdrop-filter: none; /* Remove o blur para performance */
+                -webkit-backdrop-filter: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2511,7 +2607,7 @@
 
     <div class="container">
         <div id="lives-display" style="display: none;">
-            <span❤️</span><span id="lives-count"></span>
+            <spa❤️</span><span id="lives-count"></span>
         </div>
 
         <div id="power-ups-container" style="display: flex;">
@@ -2600,7 +2696,7 @@
     </div>
 
     <div id="bonus-music-screen" style="display: none;">
-        </div>
+    </div>
 
     <div id="bonus-achievement-screen" style="display: none;">
         <h2 id="bonus-achievement-title"></h2>
@@ -2610,7 +2706,7 @@
     </div>
 
     <div id="bonus-disco-selection-screen" style="display: none;">
-        </div>
+    </div>
 
     <div id="audio-player-wrapper">
         <audio id="audio"></audio>
@@ -2679,10 +2775,6 @@
             </div>
         </div>
     </div>
-<script type="module">
-</script>
-</body>
-</html>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -2799,10 +2891,10 @@ const questionsByLevel = [
         fraseChorao: "Se eu não puder fazer você ser a pessoa más feliz, eu chego más perto disso possível.",
         perguntas: [
             {
-                pergunta: "Qual álbum do Charlie Brown Jr. foi indicado ao Grammy Latino em 2005?",
-                respostas: ["Imunidade Musical", "Nadando com os Tubarões", "Tamo Aí na Atividade", "Transpiração Contínua Prolongada"],
-                correta: "Tamo Aí na Atividade",
-                curiosidade: "O álbum 'Tamo Aí na Atividade', lançado em 2004, foi indicado ao Grammy Latino em 2005 na categoria Melhor Álbum de Rock Brasileiro e venceu o prêmio."
+                "pergunta": "Qual álbum do Charlie Brown Jr. foi indicado ao Grammy Latino em 2005?",
+                "respostas": ["Imunidade Musical", "Nadando com os Tubarões", "Tamo Aí na Atividade", "Transpiração Contínua Prolongada"],
+                "correta": "Tamo Aí na Atividade",
+                "curiosidade": "O álbum 'Tamo Aí na Atividade', lançado em 2004, foi indicado ao Grammy Latino em 2005 na categoria Melhor Álbum de Rock Brasileiro e venceu o prêmio."
             },
             { pergunta: "Qual dessas músicas foi tema de abertura de uma novela da Globo?", respostas: ["Te Levar", "Só os Loucos Sabem", "Senhor do Tempo", "Longe de Você"], correta: "Te Levar", curiosidade: "'Te Levar' foi tema de abertura da série 'Malhação', exibida pela TV Globo entre 1999 e 2006." },
             { pergunta: "Qual integrante do Charlie Brown Jr. também formou a banda Revolucionnários após sair do grupo?", respostas: ["Marcão Britto", "Graveto", "Heitor Gomes", "Champignon"], correta: "Champignon", curiosidade: "Após sair do Charlie Brown Jr., Champignon criou a banda Revolucionnários, onde foi vocalista e baixista, explorando novas sonoridades." },
@@ -2838,28 +2930,28 @@ const questionsByLevel = [
         fraseChorao: "A vida me ensinou a nunca desistir, nem ganhar, nem perder, mas procurar evoluir...",
         perguntas: [
             {
-                pergunta: "Qual foi a primeira música da banda a atingir o 1º lugar nas rádios brasileiras?",
-                respostas: ["Confisco", "Zóio de Lula", "Te Levar", "Só os Loucos Sabem"],
-                correta: "Zóio de Lula",
-                curiosidade: "'Zóio de Lula' foi o primeiro single da banda a alcançar o topo das rádios no Brasil, marcando um ponto de virada na popularidade do CBJR."
+                "pergunta": "Qual foi a primeira música da banda a atingir o 1º lugar nas rádios brasileiras?",
+                "respostas": ["Confisco", "Zóio de Lula", "Te Levar", "Só os Loucos Sabem"],
+                "correta": "Zóio de Lula",
+                "curiosidade": "'Zóio de Lula' foi o primeiro single da banda a alcançar o topo das rádios no Brasil, marcando um ponto de virada na popularidade do CBJR."
             },
             {
-                pergunta: "Quantas faixas o Charlie Brown Jr. gravou em um único dia durante a produção de 'Preço Curto... Prazo Longo'?",
-                respostas: ["12", "25", "16", "30"],
-                correta: "25",
-                curiosidade: "Durante a produção do álbum 'Preço Curto... Prazo Longo', a banda conseguiu o feito impressionante de gravar 25 faixas em um único dia, mostrando sua intensidade e criatividade."
+                "pergunta": "Quantas faixas o Charlie Brown Jr. gravou em um único dia durante a produção de 'Preço Curto... Prazo Longo'?",
+                "respostas": ["12", "25", "16", "30"],
+                "correta": "25",
+                "curiosidade": "Durante a produção do álbum 'Preço Curto... Prazo Longo', a banda conseguiu o feito impressionante de gravar 25 faixas em um único dia, mostrando sua intensidade e criatividade."
             },
             {
-                pergunta: "Quem precisava de autorização judicial para subir no palco em shows do Charlie Brown Jr. por ser menor de idade?",
-                respostas: ["Champignon", "Marcão", "Pelado", "Thiago"],
-                correta: "Champignon",
-                curiosidade: "No início da carreira, Champignon ainda era menor de idade e precisava de autorização judicial para se apresentar em casas noturnas, um detalhe curioso da história da banda."
+                "pergunta": "Quem precisava de autorização judicial para subir no palco em shows do Charlie Brown Jr. por ser menor de idade?",
+                "respostas": ["Champignon", "Marcão", "Pelado", "Thiago"],
+                "correta": "Champignon",
+                "curiosidade": "No início da carreira, Champignon ainda era menor de idade e precisava de autorização judicial para se apresentar em casas noturnas, um detalhe curioso da história da banda."
             },
             {
-                pergunta: "Como surgiu o nome 'Charlie Brown Jr.'?",
-                respostas: ["Baseado em filme favorito de Chorão", "Por uma barraca de coco com o personagem", "Nome de skate patrocinador", "Homenagem a um amigo"],
-                correta: "Por uma barraca de coco com o personagem",
-                curiosidade: "O nome surgiu depois que Chorão atropelou, sem querer, uma barraca na praia com o desenho do Charlie Brown; o 'Jr.' veio porque se viam como 'filhos do rock'."
+                "pergunta": "Como surgiu o nome 'Charlie Brown Jr.'?",
+                "respostas": ["Baseado em filme favorito de Chorão", "Por uma barraca de coco com o personagem", "Nome de skate patrocinador", "Homenagem a um amigo"],
+                "correta": "Por uma barraca de coco com o personagem",
+                "curiosidade": "O nome surgiu depois que Chorão atropelou, sem querer, uma barraca na praia com o desenho do Charlie Brown; o 'Jr.' veio porque se viam como 'filhos do rock'."
             },
             {
                 "pergunta": "Qual foi o produtor musical responsável por grande parte dos álbuns de sucesso do Charlie Brown Jr.?",
@@ -2939,28 +3031,34 @@ const achievements = {
         coverFile: "CD%209.jpeg", // Pode ser qualquer um, já que não tem um CD específico para este power-up
         unlocked: false
     },
+    "coca_cola_collaboration": {
+        name: "Estúdio Coca-Cola Zero (2008)",
+        description: "Complete o quiz do álbum 'Estúdio Coca-Cola Zero' na Rádio.",
+        coverFile: "CD%2010.jpg", 
+        unlocked: false
+    },
     "combo_10x": {
         name: "Camisa 10 Joga Bola Até na Chuva (2009)",
         description: "Acerte 10 perguntas seguidas.",
-        coverFile: "CD%2010.jpeg",
+        coverFile: "CD%2011.jpeg",
         unlocked: false
     },
     "new_high_score": {
         name: "Música Popular Caiçara (2012)",
         description: "Alcance um novo recorde de pontuação.",
-        coverFile: "CD%2011.jpeg",
+        coverFile: "CD%2012.jpeg",
         unlocked: false
     },
     "secret_level_completed": {
         name: "La Familia 013 (2013)",
         description: "Conclua o Nível Secreto Hardcore.",
-        coverFile: "CD%2012.jpeg",
+        coverFile: "CD%2013.jpeg",
         unlocked: false
     },
     "used_skip": {
         name: "Fera no Skate",
         description: "Use o power-up Pular Pergunta pela primeira vez.",
-        coverFile: "CD%2012.jpeg", // Mantido como um CD genérico para este power-up
+        coverFile: "CD%2013.jpeg", // Mantido como um CD genérico para este power-up
         unlocked: false
     },
     // NOVA CONQUISTA PARA A Rádio CBJR
@@ -2983,10 +3081,11 @@ const achievementCdCovers = {
     "combo_7x": "CD%207.jpeg",
     "combo_5x": "CD%208.jpeg",
     "used_50_50": "CD%209.jpeg",
-    "combo_10x": "CD%2010.jpeg",
-    "new_high_score": "CD%2011.jpeg",
-    "secret_level_completed": "CD%2012.jpeg",
-    "used_skip": "CD%2012.jpeg", // Mantido como um CD genérico para este power-up
+    "coca_cola_collaboration": "CD%2010.jpg",
+    "combo_10x": "CD%2011.jpeg",
+    "new_high_score": "CD%2012.jpeg",
+    "secret_level_completed": "CD%2013.jpeg",
+    "used_skip": "CD%2013.jpeg", // Mantido como um CD genérico para este power-up
     "bonus_music_master": "CD%20bonus.jpeg" // Nova capa para o bônus
 };
 
@@ -3001,9 +3100,10 @@ const cdNames = {
     "CD%207.jpeg": "Tamo Aí na Atividade (2004)",
     "CD%208.jpeg": "Imunidade Musical (2005)",
     "CD%209.jpeg": "Ritmo, Ritual e Responsa (2007)",
-    "CD%2010.jpeg": "Camisa 10 Joga Bola Até na Chuva (2009)",
-    "CD%2011.jpeg": "Música Popular Caiçara (2012)",
-    "CD%2012.jpeg": "La Familia 013 (2013)",
+    "CD%2010.jpg": "Estúdio Coca-Cola Zero: Charlie Brown Jr. e Vanessa da Mata (2008)",
+    "CD%2011.jpeg": "Camisa 10 Joga Bola Até Na Chuva (2009)",
+    "CD%2012.jpeg": "Música Popular Caiçara (2012)",
+    "CD%2013.jpeg": "La Família 013 (2013)",
     "CD%20bonus.jpeg": "Rádio CBJR" // Nome para a capa do bônus
 };
 
@@ -3191,7 +3291,12 @@ const bonusGameState = {
     lastQuizState: null,
     startTime: 0,
     endTime: 0,
-    missedSongs: []
+    missedSongs: [],
+
+    // Armazena o tempo gasto em cada música e o instante de início da música atual.
+    // Cada entrada de timePerSong tem o formato { title: string, time: number }
+    timePerSong: [],
+    songStartTime: null
 };
 
 // Variáveis de controle de tempo
@@ -3281,8 +3386,12 @@ function normalizeText(text) {
         "estudio coca-cola zero", "chorao e champignon"
     ];
     prefixesToRemove.forEach(prefix => {
-        // Cria uma regex para encontrar o prefixo no início do texto, seguido por : ou -
-        const regex = new RegExp(`^\\s*${prefix}\\s*[-:：]?\\s*`, 'g');
+        // Cria uma regex para encontrar o prefixo no início do texto
+        // exigindo um separador (hífen ou dois‑pontos) logo em seguida. Isso
+        // evita que respostas compostas apenas pelo nome do artista sejam
+        // completamente removidas (ex: "charlie brown jr"). Apenas os títulos
+        // completos "Charlie Brown Jr - ..." perdem o prefixo.
+        const regex = new RegExp(`^\\s*${prefix}\\s*[-:：]\\s*`, 'g');
         normalized = normalized.replace(regex, '');
     });
 
@@ -3291,7 +3400,7 @@ function normalizeText(text) {
 
     // 4. Tratamento de caracteres especiais e pontuação
     normalized = normalized.replace(/\+/g, ' mais '); // Converte '+' para ' mais ', para "12+1"
-    normalized = normalized.replace(/\./g, '');       // Remove todos os pontos. Ex: "T.F.D.P." vira "tfdp"
+    normalized = normalized.replace(/\./g, '');      // Remove todos os pontos. Ex: "T.F.D.P." vira "tfdp"
     
     // 5. Substitui todos os outros separadores comuns por espaço
     normalized = normalized.replace(/[-–—:：]/g, ' ');
@@ -3436,7 +3545,7 @@ function playSong() {
             console.warn('Erro ao tentar tocar música:', e.name, e.message);
             if (e.name === "NotAllowedError" && elements.audio.paused) {
                 elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
-                elements.currentSongText.textContent = `${playerState.playlist[playerState.currentIndex] ? playerState.playlist[playerState.currentIndex].title : 'N/A'} (Clique▶️ para tocar)`;
+                elements.currentSongText.textContent = `${playerState.playlist[playerState.currentIndex] ? playerState.playlist[playerState.currentIndex].title : 'N/A'} (Cliqu▶️ para tocar)`;
                 if (bonusGameState.isBonusActive) { // Se estiver no modo bônus, esconde o título mesmo com erro de autoplay
                     elements.currentSongText.textContent = 'Aguardando interação para tocar...';
                 }
@@ -3792,7 +3901,7 @@ function startQuiz(difficulty) {
             consecutiveCorrectAnswers: 0,
             highestCombo: 0,
             comboPointsEarned: 0,
-            unlockedAchievements: quizState.unlockedAchievements,
+            unlockedAchievements: {},
             fiftyFiftyCount: INITIAL_FIFTY_FIFTY,
             skipQuestionCount: INITIAL_SKIP_QUESTION
         });
@@ -4999,6 +5108,7 @@ function restartQuiz() {
         songsToGuess: [],
         currentBonusSong: null,
         currentBonusSongIndex: 0,
+        currentDiscoIndex: 0, // Reinicia o índice do disco
         bonusCorrectCount: 0,
         bonusErrorsCount: 0,
         maxBonusErrors: 5,
@@ -5109,76 +5219,54 @@ let bonusCountdownTimer = null;
 
 function showDiscoSelectionScreen() {
     console.log("showDiscoSelectionScreen: Exibindo tela de seleção de discos.");
+    // Caso estivermos retornando de um resumo de disco, esconda a tela do jogo de música
+    if (elements.bonusMusicScreen) {
+        elements.bonusMusicScreen.classList.remove('show');
+        elements.bonusMusicScreen.style.display = 'none';
+    }
     quizState.quizPaused = true;
-
-    // Esconde todas as outras telas
-    Object.values(elements).forEach(el => {
-        if (el && el.classList && el.id !== 'bonus-disco-selection-screen' && el.id !== 'main-overlay' && el.id !== 'audio-player-wrapper') {
-            el.classList.remove('show');
-            if (el.style) el.style.display = 'none';
-        }
-    });
-    
     showMainOverlay();
-    elements.bonusDiscoSelectionScreen.style.display = 'flex'; // Usando flex para centralizar
-    elements.bonusDiscoSelectionScreen.classList.add('show');
-    
-    Object.assign(elements.bonusDiscoSelectionScreen.style, {
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        padding: '20px',
-        color: 'white'
-    });
-    
+
+    elements.welcomeScreen.classList.remove('show');
+    elements.welcomeScreen.style.display = 'none';
+
     let bonusProgress = JSON.parse(localStorage.getItem('cobjr_bonus_progress')) || { unlocked: [true], totalScore: 0 };
-    if (!bonusProgress.totalScore) bonusProgress.totalScore = 0;
+    if (!bonusProgress.unlocked) { bonusProgress.unlocked = [true]; }
 
     let discosHTML = bonusDiscos.map((disco, index) => {
         const isUnlocked = bonusProgress.unlocked[index] === true;
         const buttonClass = isUnlocked ? 'disco-btn' : 'disco-btn locked';
-        const buttonText = isUnlocked ? `Disco ${index + 1}` : `Disco ${index + 1} 🔒`;
-        const songsText = disco.length === 1 ? 'música' : 'músicas';
-        return `<button class="${buttonClass}" data-disco-index="${index}" ${!isUnlocked ? 'disabled' : ''}>${buttonText} (${disco.length} ${songsText})</button>`;
+        const lockIcon = isUnlocked ? '' : '<i class="fas fa-lock" style="margin-left: 8px;"></i>';
+        const titleText = isUnlocked ? disco.nome : `Disco Bloqueado`;
+        const discoDetails = isUnlocked ? `(${disco.musicas.length} músicas, ${disco.ano})` : `Acerte ${bonusSettings.unlockThreshold} músicas no disco anterior`;
+
+        return `
+            <button class="${buttonClass}" data-disco-index="${index}" ${!isUnlocked ? 'disabled' : ''}>
+                <div class="disco-card-content">
+                    <img src="https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/${disco.capa}" alt="Capa do CD ${disco.nome}" class="disco-cover" style="${!isUnlocked ? 'filter: grayscale(100%); opacity: 0.7;' : ''}">
+                    <div class="disco-info">
+                        <span class="disco-title">${titleText} ${lockIcon}</span>
+                        <span class="disco-subtitle">${discoDetails}</span>
+                    </div>
+                </div>
+            </button>
+        `;
     }).join('');
 
     elements.bonusDiscoSelectionScreen.innerHTML = `
         <h2 style="font-family: 'Elektrix', sans-serif; color: var(--cor-amarelo-cbjr);">Rádio CBJR: A Turnê</h2>
-        <p style="margin-bottom: 25px;">Complete um disco acertando pelo menos ${bonusSettings.unlockThreshold} músicas para desbloquear o próximo.</p>
+        <p class="intro-text">
+            Selecione um álbum para adivinhar os clássicos da banda.
+        </p>
         <p style="font-size: 1.2em; margin-bottom: 25px;">Sua Pontuação Total: <b style="color: var(--cor-amarelo-cbjr);">${bonusProgress.totalScore}</b></p>
-        <div id="disco-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 90%; max-width: 800px;">
+        <div id="disco-list-container" class="disco-list-container">
             ${discosHTML}
         </div>
         <button id="back-to-main-menu-from-bonus-btn" style="margin-top: 30px; padding: 12px 25px; font-size: 1.1em;">Voltar ao Menu Principal</button>
     `;
 
-    const styleSheet = document.createElement("style");
-    styleSheet.innerText = `
-        .disco-btn { 
-            padding: 20px; 
-            font-size: 1.2em; 
-            background-color: var(--cor-preto-principal); 
-            color: var(--cor-amarelo-cbjr); 
-            border: 2px solid var(--cor-amarelo-cbjr); 
-            border-radius: 10px; 
-            cursor: pointer; 
-            transition: all 0.3s ease;
-        }
-        .disco-btn:hover:not(:disabled) { 
-            background-color: var(--cor-amarelo-cbjr); 
-            color: var(--cor-preto-principal);
-            transform: scale(1.05);
-        }
-        .disco-btn.locked { 
-            opacity: 0.5; 
-            cursor: not-allowed;
-            border-color: #888;
-            color: #888;
-        }
-    `;
-    document.head.appendChild(styleSheet);
-
+    elements.bonusDiscoSelectionScreen.style.display = 'flex';
+    elements.bonusDiscoSelectionScreen.classList.add('show');
 
     elements.bonusDiscoSelectionScreen.querySelectorAll('.disco-btn').forEach(button => {
         if (!button.disabled) {
@@ -5199,9 +5287,7 @@ function showDiscoSelectionScreen() {
         }, { once: true });
     };
 
-    elements.audioPlayerWrapper.style.opacity = '0';
-    elements.audioPlayerWrapper.style.visibility = 'hidden';
-    elements.audioPlayerWrapper.style.pointerEvents = 'none';
+    elements.audioPlayerWrapper.classList.add('hidden-player');
 }
 
 
@@ -5209,16 +5295,28 @@ function startBonusMusicGame(discoIndex) {
     console.log(`startBonusMusicGame: Iniciando Disco ${discoIndex + 1}.`);
     
     hideMainOverlay();
-
     elements.bonusDiscoSelectionScreen.classList.remove('show');
     elements.bonusDiscoSelectionScreen.style.display = 'none';
     elements.bonusMusicScreen.style.display = 'flex';
     elements.bonusMusicScreen.classList.add('show');
     
-    const songsInDisco = bonusDiscos[discoIndex].length;
+    let selectedAlbum = bonusDiscos[discoIndex];
+    // Garante que todas as músicas do álbum possuam a propriedade 'title' para evitar 'undefined' na exibição
+    if (selectedAlbum && Array.isArray(selectedAlbum.musicas)) {
+        selectedAlbum = {
+            ...selectedAlbum,
+            musicas: selectedAlbum.musicas.map(m => ({
+                ...m,
+                title: m.title || m.titulo || ''
+            }))
+        };
+        // Atualiza a referência de bonusDiscos com o álbum mapeado
+        bonusDiscos[discoIndex] = selectedAlbum;
+    }
+    const songsInAlbum = selectedAlbum.musicas.length;
 
     elements.bonusMusicScreen.innerHTML = `
-        <h2>Rádio CBJR - Disco ${discoIndex + 1}</h2>
+        <h2>Rádio CBJR: ${selectedAlbum.nome}</h2>
         <p class="bonus-instruction">Ouça o trecho e digite o nome da música.</p>
         <div class="bonus-player-area">
             <p id="bonus-current-song-title" style="display: none;"></p>
@@ -5229,15 +5327,16 @@ function startBonusMusicGame(discoIndex) {
         <div class="bonus-score-display">
             <div class="score-item correct-count"><i class="fas fa-check-circle"></i> Acertos: <span id="bonus-correct-count-display">0</span></div>
             <div class="score-item error-count"><i class="fas fa-times-circle"></i> Erros: <span id="bonus-errors-count-display">0</span>/<span id="bonus-max-errors-display">5</span></div>
-            <div class="score-item music-progress"><i class="fas fa-music"></i> Música: <span id="bonus-current-song-number">1</span>/<span id="bonus-total-songs">${songsInDisco}</span></div>
+            <div class="score-item music-progress"><i class="fas fa-music"></i> Música: <span id="bonus-current-song-number">1</span>/<span id="bonus-total-songs">${songsInAlbum}</span></div>
         </div>
         <div class="bonus-controls">
             <button id="bonus-submit-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
             <button id="bonus-skip-btn"><i class="fas fa-forward-step"></i> Pular</button>
             <button id="bonus-exit-btn" class="exit-button"><i class="fas fa-door-open"></i> Sair</button>
         </div>
-        `;
+    `;
 
+    // Recria as referências aos elementos internos dinamicamente
     elements.bonusAnswerInput = document.getElementById('bonus-answer-input');
     elements.bonusSubmitBtn = document.getElementById('bonus-submit-btn');
     elements.bonusSkipBtn = document.getElementById('bonus-skip-btn');
@@ -5255,7 +5354,10 @@ function startBonusMusicGame(discoIndex) {
     elements.bonusSkipBtn.onclick = () => {
         if (elements.bonusAnswerInput.disabled) return;
         bonusGameState.bonusErrorsCount++;
-        bonusGameState.missedSongs.push({ userAnswer: '-- PULO --', correctAnswer: bonusGameState.currentBonusSong.title });
+        // Ao salvar o erro, garanta que o título da música seja extraído corretamente
+        const songObj = bonusGameState.currentBonusSong || {};
+        const correctName = songObj.title || songObj.titulo || '';
+        bonusGameState.missedSongs.push({ userAnswer: '-- PULO --', correctAnswer: correctName });
         elements.audio.pause();
         if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
         elements.bonusFeedbackMessage.textContent = "Música pulada! ⏩";
@@ -5281,12 +5383,15 @@ function startBonusMusicGame(discoIndex) {
     
     bonusGameState.isBonusActive = true;
     bonusGameState.currentDiscoIndex = discoIndex;
-    bonusGameState.songsToGuess = [...bonusDiscos[discoIndex]];
+    bonusGameState.songsToGuess = [...selectedAlbum.musicas]; // Use as músicas do álbum selecionado
     shuffleArray(bonusGameState.songsToGuess);
     bonusGameState.currentBonusSongIndex = 0;
     bonusGameState.bonusCorrectCount = 0;
     bonusGameState.bonusErrorsCount = 0;
     bonusGameState.missedSongs = [];
+    // Reinicia o controle de tempo para o novo disco
+    bonusGameState.timePerSong = [];
+    bonusGameState.songStartTime = null;
     
     updateBonusScoreInfo();
     loadBonusSongForBonus();
@@ -5347,7 +5452,12 @@ function loadBonusSongForBonus(skipped = false) {
                 elements.bonusFeedbackMessage.classList.add('show');
                 timeDisplay.style.animation = 'none';
                 
-                bonusGameState.missedSongs.push({ userAnswer: '-- TEMPO ESGOTADO --', correctAnswer: bonusGameState.currentBonusSong.title });
+                // Garante que a resposta correta seja extraída com fallback
+                {
+                    const songObj = bonusGameState.currentBonusSong || {};
+                    const correctName = songObj.title || songObj.titulo || '';
+                    bonusGameState.missedSongs.push({ userAnswer: '-- TEMPO ESGOTADO --', correctAnswer: correctName });
+                }
 
                 setTimeout(() => {
                     bonusGameState.bonusErrorsCount++;
@@ -5371,6 +5481,9 @@ function loadBonusSongForBonus(skipped = false) {
     elements.bonusCurrentSongTitle.style.display = 'none';
 
     bonusGameState.currentBonusSong = bonusGameState.songsToGuess[bonusGameState.currentBonusSongIndex];
+    // Registra o início do tempo para a música atual
+    bonusGameState.songStartTime = Date.now();
+
     loadSong(bonusGameState.currentBonusSong);
     elements.audio.currentTime = 0;
     playSong();
@@ -5387,10 +5500,16 @@ function hideBonusMusicScreen() {
         
         if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
         if (bonusTimer) clearTimeout(bonusTimer);
-        
+
+        // AQUI ESTÁ O BUG! O último estado do quiz não é salvo
+        // Corrigido para garantir que o estado é redefinido corretamente ao voltar para o menu
+        if (bonusGameState.lastQuizState) {
+          Object.assign(quizState, bonusGameState.lastQuizState);
+          bonusGameState.lastQuizState = null;
+        }
+
         bonusGameState.isBonusActive = false;
-        
-        showDiscoSelectionScreen();
+        showIntroMessage();
 
     }, { once: true });
 }
@@ -5399,6 +5518,24 @@ function handleBonusEndTurn() {
     elements.bonusFeedbackMessage.classList.remove('show');
     elements.bonusCuriosityMessage.style.opacity = '0';
     elements.bonusCuriosityMessage.style.display = 'none';
+
+    // Registra o tempo gasto na música que acabou de ser tocada. Isso deve ser
+    // feito antes de avançar para a próxima música ou encerrar o jogo. A
+    // diferença em segundos entre o momento atual e songStartTime indica
+    // quanto tempo o jogador levou para responder ou pular. Se o tempo já
+    // foi registrado anteriormente (songStartTime é null), não adiciona
+    // entrada duplicada.
+    if (bonusGameState.songStartTime) {
+        const now = Date.now();
+        const timeTaken = (now - bonusGameState.songStartTime) / 1000;
+        const currentSong = bonusGameState.currentBonusSong || {};
+        const title = currentSong.title || currentSong.titulo || '';
+        if (!Array.isArray(bonusGameState.timePerSong)) {
+            bonusGameState.timePerSong = [];
+        }
+        bonusGameState.timePerSong.push({ title, time: timeTaken });
+        bonusGameState.songStartTime = null;
+    }
     
     const timeDisplay = document.getElementById('bonus-time-display');
     if (timeDisplay) timeDisplay.style.animation = 'none';
@@ -5415,20 +5552,38 @@ function handleBonusEndTurn() {
 }
 
 function checkBonusAnswer() {
-    const userAnswer = normalizeText(elements.bonusAnswerInput.value);
-    const correctAnswer = normalizeText(bonusGameState.currentBonusSong.title);
+    // Normaliza o input do usuário e o título correto (usando fallback para 'titulo' quando 'title' não existir)
+    const userAnswer = normalizeText(elements.bonusAnswerInput.value).trim();
+    const correctAnswer = normalizeText(bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo).trim();
     const musicCuriosity = bonusGameState.currentBonusSong.curiosidade;
-    
-    let isCorrect = (userAnswer === correctAnswer);
 
+    let isCorrect = false;
+    // Considera correto se o usuário digitou exatamente a resposta ou se a resposta correta
+    // contém a resposta do usuário (permitindo digitar apenas o nome da música) ou vice‑versa
+    if (userAnswer && correctAnswer) {
+        if (userAnswer === correctAnswer || correctAnswer.includes(userAnswer) || userAnswer.includes(correctAnswer)) {
+            isCorrect = true;
+        }
+    }
+
+    // Dicionário de respostas alternativas para casos especiais ou ortografia diferente.
+    // As chaves representam trechos presentes no correctAnswer (normalizado) e os valores são
+    // possíveis variações que serão aceitas como resposta.
     const alternativeAnswers = {
         "lugar ao sol chorao e champignon": ["lugar ao sol"],
-        "vanessa da mata uma crianca com seu olhar": ["uma crianca com seu olhar"]
+        "vanessa da mata uma crianca com seu olhar": ["uma crianca com seu olhar"],
+        // Aplica‑se a Molengol's/Molengo's groove (após remover apóstrofo)
+        "molengols groove": ["molengos groove", "molengol groove"]
     };
 
-    if (!isCorrect && alternativeAnswers[correctAnswer]) {
-        if (alternativeAnswers[correctAnswer].includes(userAnswer)) {
-            isCorrect = true;
+    // Verifica as respostas alternativas: se qualquer chave estiver contida em correctAnswer
+    // e userAnswer estiver em uma das variações listadas, considera a resposta correta
+    if (!isCorrect) {
+        for (const key in alternativeAnswers) {
+            if (correctAnswer.includes(key) && alternativeAnswers[key].includes(userAnswer)) {
+                isCorrect = true;
+                break;
+            }
         }
     }
 
@@ -5450,7 +5605,7 @@ function checkBonusAnswer() {
         elements.bonusFeedbackMessage.classList.add('show');
 
         elements.bonusCurrentSongTitle.style.display = 'block';
-        elements.bonusCurrentSongTitle.textContent = bonusGameState.currentBonusSong.title;
+        elements.bonusCurrentSongTitle.textContent = bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo;
 
         if (musicCuriosity) {
             elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`;
@@ -5461,13 +5616,18 @@ function checkBonusAnswer() {
         console.log(`Rádio CBJR: Acertou! Músicas corretas: ${bonusGameState.bonusCorrectCount}`);
     } else {
         bonusGameState.bonusErrorsCount++;
-        bonusGameState.missedSongs.push({ userAnswer: elements.bonusAnswerInput.value, correctAnswer: bonusGameState.currentBonusSong.title });
+        // Salva a resposta correta com fallback para 'titulo' (e vazia se não existir)
+        {
+            const songObj = bonusGameState.currentBonusSong || {};
+            const correctName = songObj.title || songObj.titulo || '';
+            bonusGameState.missedSongs.push({ userAnswer: elements.bonusAnswerInput.value, correctAnswer: correctName });
+        }
         elements.bonusFeedbackMessage.textContent = "INCORRETO! ❌";
         elements.bonusFeedbackMessage.style.color = 'var(--cor-vermelho-incorreto)';
         elements.bonusAnswerInput.classList.add('incorrect-feedback');
         elements.bonusFeedbackMessage.classList.add('show');
         elements.bonusCurrentSongTitle.style.display = 'block';
-        elements.bonusCurrentSongTitle.textContent = `A música era: ${bonusGameState.currentBonusSong.title}`;
+        elements.bonusCurrentSongTitle.textContent = `A música era: ${bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo}`;
 
         if (musicCuriosity) {
             elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`;
@@ -5536,31 +5696,79 @@ function endBonusMusicGame() {
     localStorage.setItem('cobjr_bonus_progress', JSON.stringify(bonusProgress));
     
     let title = "Fim do Disco!";
-    let message = `Você acertou ${correctAnswersInRound} de ${bonusGameState.songsToGuess.length} músicas.`;
-    if (unlockedNewDisco) {
-        message += `<br><br><span style="color: var(--cor-verde-vibrante); font-weight: bold;">Disco ${bonusGameState.currentDiscoIndex + 2} desbloqueado!</span>`;
+    // Calcula estatísticas de tempo (total, mais rápido, mais lento) se disponíveis
+    let totalTime = 0;
+    let fastestSong = null;
+    let slowestSong = null;
+    if (Array.isArray(bonusGameState.timePerSong) && bonusGameState.timePerSong.length > 0) {
+        bonusGameState.timePerSong.forEach(({ title: t, time }) => {
+            totalTime += time;
+            if (!fastestSong || time < fastestSong.time) fastestSong = { title: t, time };
+            if (!slowestSong || time > slowestSong.time) slowestSong = { title: t, time };
+        });
+    }
+    // Função auxiliar para formatar uma duração em minutos e segundos (com décimos)
+    const formatDuration = (secs) => {
+        const minutes = Math.floor(secs / 60);
+        const seconds = (secs - minutes * 60).toFixed(1);
+        const secondsFormatted = seconds.replace('.', ',');
+        if (minutes > 0) {
+            return `${minutes} minutos e ${secondsFormatted} segundos`;
+        } else {
+            return `${secondsFormatted} segundos`;
+        }
+    };
+    const totalDurationText = totalTime > 0 ? formatDuration(totalTime) : '';
+    const fastestDurationText = fastestSong ? formatDuration(fastestSong.time) : '';
+    const slowestDurationText = slowestSong ? formatDuration(slowestSong.time) : '';
+
+    // Mensagens separadas
+    const performanceHtml = `<p style="font-family: Arial, sans-serif;">Você acertou ${correctAnswersInRound} de ${bonusGameState.songsToGuess.length} músicas.</p>`;
+    const unlockHtml = unlockedNewDisco ? `<p style="color: var(--cor-verde-vibrante); font-weight: bold; font-family: Arial, sans-serif;">Disco ${bonusGameState.currentDiscoIndex + 2} desbloqueado!</p>` : '';
+    const scoreHtml = `<p style="font-family: Arial, sans-serif;">Sua pontuação total na Rádio é: <b style="color: var(--cor-amarelo-cbjr);">${bonusProgress.totalScore}</b></p>`;
+
+    const timeHtml = totalDurationText ? `<p style="font-family: Arial, sans-serif;">Você concluiu em ${totalDurationText}.</p>` : '';
+    const fastestHtml = fastestSong ? `<p style="font-family: Arial, sans-serif;">Música mais rápida: ${fastestSong.title} (${fastestDurationText})</p>` : '';
+    const slowestHtml = slowestSong ? `<p style="font-family: Arial, sans-serif;">Música mais lenta: ${slowestSong.title} (${slowestDurationText})</p>` : '';
+
+    // Feedback personalizado destacado
+    let feedbackHtml = '';
+    if (bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors) {
+        feedbackHtml = `<p style="margin-top: 20px; font-size: 1.4em; color: var(--cor-vermelho-incorreto); font-weight: bold; font-family: Arial, sans-serif;">Mano, você arranhou o disco, volte e tente novamente!</p>`;
+    } else if (bonusGameState.bonusErrorsCount === 0) {
+        feedbackHtml = `<p style="margin-top: 20px; font-size: 1.4em; color: var(--cor-verde-vibrante); font-weight: bold; font-family: Arial, sans-serif;">Aê parceiro você foi foda, desbloqueou o próximo CD!</p>`;
     }
 
     let errosHtml = '';
     if (bonusGameState.missedSongs.length > 0) {
-        errosHtml = `<div class="erros-lista"><h4>Seus erros neste disco:</h4><ul>${bonusGameState.missedSongs.map(missed => `<li><span class="correct-answer"><b>Correta:</b> ${missed.correctAnswer}</span><span class="user-answer"><b>Sua resposta:</b> ${missed.userAnswer}</span></li>`).join('')}</ul></div>`;
+        errosHtml = `<div class="erros-lista"><h4 style="margin-top: 20px;">Seus erros neste disco:</h4><ul>${bonusGameState.missedSongs.map(missed => `<li><span class="correct-answer"><b>Correta:</b> ${missed.correctAnswer}</span><span class="user-answer"><b>Sua resposta:</b> ${missed.userAnswer || '-- PULO --'}</span></li>`).join('')}</ul></div>`;
     }
 
     elements.bonusMusicScreen.innerHTML = `
         <h2>${title}</h2>
-        <p style="font-family: Arial, sans-serif;">${message}</p>
-        <p style="font-family: Arial, sans-serif;">Sua pontuação total na Rádio é: <b style="color: var(--cor-amarelo-cbjr);">${bonusProgress.totalScore}</b></p>
+        ${performanceHtml}
+        ${unlockHtml}
+        ${scoreHtml}
+        ${timeHtml}
+        ${fastestHtml}
+        ${slowestHtml}
+        ${feedbackHtml}
         ${errosHtml}
-        <div style="margin-top: 20px; width: 90%; max-width: 400px;">
-             <input type="text" id="bonus-player-name-input" placeholder="Seu nome para o ranking" maxlength="20" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 100%; font-size: 1em; text-align: center; background-color: rgba(255,255,255,0.1); color: white;">
-              <button id="bonus-submit-score-btn" style="margin-top: 10px; padding: 10px 20px; font-size: 1em;">Enviar Pontuação Total</button>
+        <div style="margin-top: 25px; width: 95%; max-width: 400px;">
+            <input type="text" id="bonus-player-name-input" placeholder="Seu nome para o ranking" maxlength="20" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 100%; font-size: 1em; text-align: center; background-color: rgba(255,255,255,0.1); color: white;">
+            <button id="bonus-submit-score-btn" style="margin-top: 12px; padding: 10px 20px; font-size: 1em;">Enviar Pontuação Total</button>
         </div>
         <div class="bonus-controls" style="margin-top: 30px;">
             <button id="bonus-back-to-discos-btn">Voltar para os Discos</button>
         </div>
     `;
 
-    document.getElementById('bonus-back-to-discos-btn').onclick = showDiscoSelectionScreen;
+    document.getElementById('bonus-back-to-discos-btn').onclick = () => {
+        // Esconde a tela de resumo do bônus antes de mostrar a seleção de discos.
+        elements.bonusMusicScreen.classList.remove('show');
+        elements.bonusMusicScreen.style.display = 'none';
+        showDiscoSelectionScreen();
+    };
     document.getElementById('bonus-submit-score-btn').onclick = () => {
         const playerName = document.getElementById('bonus-player-name-input').value.trim();
         if (playerName) {
@@ -5618,7 +5826,17 @@ window.onload = () => {
         elements.audio.muted = false;
     }
 
-    fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/playlist.json')
+    // Definições adicionais para o player de áudio
+    // Define crossOrigin para permitir cache de recursos de outros domínios e acelerar carregamento
+    try {
+        elements.audio.crossOrigin = 'anonymous';
+    } catch (e) {
+        console.warn('Não foi possível definir crossOrigin no elemento de áudio:', e);
+    }
+    // Solicita ao navegador que inicie o carregamento do áudio antecipadamente
+    elements.audio.preload = 'auto';
+
+    fetch('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/radio_albuns.json')
         .then(res => {
             if (!res.ok) {
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -5626,13 +5844,23 @@ window.onload = () => {
             return res.json();
         })
         .then(data => {
-            playerState.playlist = data;
-            playerState.originalPlaylist = [...data];
+            // Converte cada música adicionando a propriedade 'title' com base em 'titulo'
+            bonusDiscos = data.map(album => ({
+                ...album,
+                musicas: album.musicas.map(musica => ({
+                    ...musica,
+                    title: musica.title || musica.titulo || ''
+                }))
+            }));
+            console.log("Dados de álbuns do bônus carregados:", bonusDiscos);
 
-            // NOVO: Divide a playlist em discos
-            const chunkSize = 10;
-            for (let i = 0; i < data.length; i += chunkSize) {
-                bonusDiscos.push(data.slice(i, i + chunkSize));
+            // Constrói a playlist global para o player normal usando todas as músicas de todos os álbuns
+            if (bonusDiscos.length > 0) {
+                // Flatten all albums' songs into a single array so que o modo de reprodução normal
+                // tenha acesso a todas as faixas, não apenas as do primeiro disco. A ordem é
+                // preservada para permitir embaralhamento/restauração.
+                playerState.playlist = bonusDiscos.reduce((acc, album) => acc.concat(album.musicas), []);
+                playerState.originalPlaylist = [...playerState.playlist];
             }
             
             if (playerState.playlist.length > 0) {
@@ -5640,7 +5868,7 @@ window.onload = () => {
                 loadSong();
                 elements.playPauseBtn.querySelector('svg path').setAttribute('d', 'M8 5v14l11-7z');
             } else {
-                console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
+                console.warn('Playlist está vazia! Verifique o arquivo radio_albuns.json.');
                 elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
             }
 
@@ -5659,7 +5887,7 @@ window.onload = () => {
 
     elements.restartBtn.onclick = restartQuiz;
     elements.closeAchievementDetailPopupBtn.onclick = closeAchievementDetailPopup;
-       };
+};
 </script>
 </body>
 </html>
