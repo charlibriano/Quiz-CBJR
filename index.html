@@ -803,33 +803,35 @@
 
         /* Media Query para telas menores (smartphones) */
         @media (max-width: 600px) {
+            /* Em telas pequenas, mantenha o layout de conquistas em duas ou três colunas,
+               usando colunas flexíveis para preservar a estética do desktop. */
             #achievements-list {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
                 gap: 15px;
                 width: 98%;
             }
             .achievement-card {
                 padding: 15px;
-                min-height: 100px;
+                min-height: 90px;
             }
             .achievement-card h3 {
-                font-size: 1.1em;
-                margin-bottom: 8px;
+                font-size: 1em;
+                margin-bottom: 6px;
             }
             .achievement-card p {
-                font-size: 0.85em;
-                margin-bottom: 12px;
+                font-size: 0.8em;
+                margin-bottom: 10px;
             }
             .achievement-card .status {
                 font-size: 0.7em;
             }
             #close-achievements-btn {
-                font-size: 1em;
-                padding: 10px 20px;
+                font-size: 0.9em;
+                padding: 10px 18px;
             }
             #start-bonus-music-btn {
-                font-size: 1em;
-                padding: 10px 20px;
+                font-size: 0.9em;
+                padding: 10px 18px;
             }
         }
         /* Media Query for very small screens to adjust header */
@@ -2591,35 +2593,38 @@
         /* Adicione esta mídia query para telas pequenas, para o botão de voltar ao menu principal */
         @media (max-width: 480px) {
             #bonus-disco-selection-screen h2 {
-                font-size: 2em;
+                font-size: 1.8em;
                 margin-bottom: 10px;
             }
             #bonus-disco-selection-screen p.intro-text {
                 font-size: 0.9em;
                 margin-bottom: 20px;
             }
+            /* Em telas muito pequenas, reduza o tamanho das capas e mantenha a grelha de discos em 3 colunas para
+               replicar a experiência do desktop, com elementos menores. */
             .disco-list-container {
-                grid-template-columns: 1fr;
-                gap: 15px;
+                grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+                gap: 10px;
             }
             .disco-btn {
-                flex-direction: row;
-                text-align: left;
-                gap: 15px;
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+                padding: 10px;
             }
             .disco-cover {
-                width: 80px;
-                height: 80px;
+                width: 100%;
                 max-width: none;
+                height: auto;
             }
             .disco-info {
-                align-items: flex-start;
+                align-items: center;
             }
             .disco-title {
-                font-size: 1em;
+                font-size: 0.9em;
             }
             .disco-subtitle {
-                font-size: 0.8em;
+                font-size: 0.7em;
             }
         }
         /* NOVO: Media Query para telas médias (até 768px)
@@ -2674,6 +2679,16 @@
                 font-size: 0.9em;
                 padding: 10px;
             }
+
+            /* Ajustes para a tela de seleção de discos: posiciona mais próximo ao topo
+               para reduzir a sensação de flutuação em dispositivos menores. */
+            #bonus-disco-selection-screen {
+                top: 15%;
+                transform: translate(-50%, 0);
+                width: 90%;
+                max-width: 600px;
+                padding: 25px;
+            }
         }
 
         /* Ajustes adicionais específicos para telas muito pequenas (até 480px).
@@ -2720,6 +2735,38 @@
             #welcome-screen .message-buttons button {
                 font-size: 0.8em;
                 padding: 8px;
+            }
+        }
+
+        /* Ajustes de player para telas pequenas (até 600px).  Nesta faixa,
+           o player é reposicionado para a parte inferior da tela, com largura ampla
+           e altura reduzida, evitando sobrepor conteúdo crítico. */
+        @media (max-width: 600px) {
+            #audio-player-wrapper {
+                top: auto;
+                right: auto;
+                left: 50%;
+                bottom: 10px;
+                transform: translateX(-50%);
+                width: 92%;
+                max-width: 320px;
+                min-height: 55px;
+                padding: 8px 12px;
+                flex-direction: column;
+                gap: 6px;
+            }
+            #audio-player-wrapper .player-content {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+            }
+            #audio-player-wrapper #current-song {
+                font-size: 0.85em;
+                margin-top: 4px;
+            }
+            #volume-slider {
+                flex: 1;
             }
         }
     </style>
