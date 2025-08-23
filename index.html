@@ -88,6 +88,34 @@
             }
         }
 
+        /* Ajustes adicionais para telas muito pequenas (até 480px de largura) */
+        @media (max-width: 480px) {
+            /* Ajusta ainda mais o player de áudio para não sobrepor os botões de menu */
+            #audio-player-wrapper {
+                top: 10px;
+                right: 10px;
+                max-width: 200px;
+                padding: 8px;
+            }
+            #audio-player-wrapper .player-content {
+                gap: 6px;
+            }
+            #audio-player-wrapper #current-song {
+                font-size: 0.9em;
+            }
+            /* Garante que os botões de boas-vindas fiquem lado a lado mesmo em telas menores */
+            #welcome-screen .message-buttons,
+            #bonus-music-screen .message-buttons {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            #welcome-screen .message-buttons button,
+            #bonus-music-screen .message-buttons button {
+                font-size: 0.9em;
+                padding: 10px 15px;
+            }
+        }
+
         @font-face {
             font-family: 'Elektrix';
             src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff2') format('woff2'),
@@ -2344,7 +2372,8 @@
         #bonus-music-screen .message-buttons {
             margin-top: 35px;
             display: grid;
-            grid-template-columns: 1fr; /* Padrão para uma coluna em mobile */
+            /* Mostra os botões em duas colunas também em dispositivos menores para uma experiência semelhante à do desktop */
+            grid-template-columns: 1fr 1fr;
             gap: 18px;
             width: 100%; /* Ocupa a largura total do pai */
             max-width: 450px; /* Limita a largura para botões em telas maiores */
@@ -2593,19 +2622,104 @@
                 font-size: 0.8em;
             }
         }
-        /* NOVO: Media Query para reposicionar o player em telas pequenas (celulares) */
+        /* NOVO: Media Query para telas médias (até 768px)
+           Ajusta player de áudio e mensagem de boas-vindas para uma melhor experiência
+           em dispositivos móveis e tablets.  */
         @media (max-width: 768px) {
+            /* Player de áudio: mantém-se no topo direito porém com dimensões reduzidas
+               para não sobrepor os botões e permitir melhor leitura do texto. */
             #audio-player-wrapper {
-                top: auto;      /* Reseta a posição do topo */
-                right: auto;    /* Reseta a posição da direita */
-                bottom: 15px;   /* Volta para a base da tela */
-                left: 50%;      /* Centraliza horizontalmente */
-                transform: translateX(-50%); /* Ajusta a centralização */
-                width: 95%;     /* Ocupa quase toda a largura */
-                max-width: 300px; /* Limita a largura máxima */
-                padding: 10px 12px;
-                backdrop-filter: none; /* Remove o blur para performance */
+                top: 15px;
+                right: 15px;
+                bottom: auto;
+                left: auto;
+                transform: none;
+                width: auto;
+                max-width: 230px;
+                padding: 12px;
+                backdrop-filter: none;
                 -webkit-backdrop-filter: none;
+            }
+
+            /* Tela de boas-vindas: reduz tamanho da fonte, largura e posiciona
+               mais próximo ao topo para que o conteúdo caiba melhor e não dê
+               sensação de flutuação. */
+            #welcome-screen {
+                font-size: 1.2em;
+                padding: 25px 20px;
+                width: 90%;
+                max-width: 450px;
+                top: 15%;
+                transform: translate(-50%, 0);
+                gap: 20px;
+            }
+            #welcome-screen h3 {
+                font-size: 1.4em;
+                margin-bottom: 20px;
+            }
+            #welcome-screen p {
+                font-size: 0.9em;
+                line-height: 1.4;
+                margin-bottom: 15px;
+            }
+            /* Organiza os botões em duas colunas para espelhar a experiência
+               do desktop, mesmo em telas menores. */
+            #welcome-screen .message-buttons {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                width: 100%;
+            }
+            #welcome-screen .message-buttons button {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+        }
+
+        /* Ajustes adicionais específicos para telas muito pequenas (até 480px).
+           Estes estilos vêm após as regras de 768px para garantir que
+           tenham precedência em dispositivos menores. */
+        @media (max-width: 480px) {
+            /* Player de áudio ainda menor, preso ao topo direito */
+            #audio-player-wrapper {
+                top: 8px;
+                right: 8px;
+                left: auto;
+                bottom: auto;
+                width: auto;
+                max-width: 180px;
+                padding: 8px;
+            }
+            #audio-player-wrapper .player-content {
+                gap: 5px;
+            }
+            #audio-player-wrapper #current-song {
+                font-size: 0.8em;
+            }
+            /* Boas-vindas mais compactas e próximas ao topo */
+            #welcome-screen {
+                font-size: 1em;
+                padding: 20px 15px;
+                max-width: 360px;
+                top: 12%;
+                gap: 15px;
+            }
+            #welcome-screen h3 {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+            }
+            #welcome-screen p {
+                font-size: 0.8em;
+                margin-bottom: 12px;
+            }
+            /* Garante que os botões fiquem lado a lado com espaçamento mínimo */
+            #welcome-screen .message-buttons {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            #welcome-screen .message-buttons button {
+                font-size: 0.8em;
+                padding: 8px;
             }
         }
     </style>
