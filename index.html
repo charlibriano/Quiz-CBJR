@@ -273,6 +273,13 @@
             }
         }
 
+        /* Remove header animation on smaller screens to evitar o efeito de flutuação */
+        @media (max-width: 768px) {
+            header h1 {
+                animation: none;
+            }
+        }
+
 
         .container {
             max-width: 1000px;
@@ -2503,6 +2510,11 @@
             pointer-events: none;
             transition: opacity 0.6s ease-in-out;
             box-sizing: border-box;
+
+            /* Limita a altura da tela de seleção para permitir rolagem interna
+               caso a lista de discos seja maior que a área disponível. */
+            max-height: 90vh;
+            overflow-y: auto;
         }
         #bonus-disco-selection-screen.show {
             opacity: 1;
@@ -2746,14 +2758,14 @@
                 top: auto;
                 right: auto;
                 left: 50%;
-                bottom: 10px;
+                bottom: 8px;
                 transform: translateX(-50%);
-                width: 92%;
-                max-width: 320px;
-                min-height: 55px;
-                padding: 8px 12px;
+                width: 90%;
+                max-width: 280px;
+                min-height: 50px;
+                padding: 6px 10px;
                 flex-direction: column;
-                gap: 6px;
+                gap: 5px;
             }
             #audio-player-wrapper .player-content {
                 flex-direction: row;
@@ -2767,6 +2779,17 @@
             }
             #volume-slider {
                 flex: 1;
+            }
+        }
+
+        /* Ajuste final do player para telas muito estreitas (até 480px).  Aqui
+           reduzimos um pouco mais a largura e altura do player para que não
+           ultrapasse as bordas da tela. */
+        @media (max-width: 480px) {
+            #audio-player-wrapper {
+                width: 88%;
+                max-width: 250px;
+                min-height: 45px;
             }
         }
     </style>
