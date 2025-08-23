@@ -1270,11 +1270,15 @@
         @media (max-width: 480px) {
             #welcome-screen,
             #level-up-message {
-                padding: 25px 20px; /* Adjusted padding */
-                font-size: 1.5em; /* Adjusted base font size */
-                width: 95%; /* Take more width */
-                max-width: 350px; /* Limit max-width to avoid stretching too wide on small landscape */
-                gap: 15px; /* Adjusted gap */
+                /* Reduzimos drasticamente a fonte e o padding em dispositivos pequenos para caber na tela */
+                font-size: 1em;
+                padding: 20px 15px;
+                width: 90%;
+                max-width: 320px;
+                gap: 15px;
+                /* Posiciona mais próximo do topo e remove a tradução vertical */
+                top: 10%;
+                transform: translate(-50%, 0);
             }
             #welcome-screen h3,
             #level-up-message h3 {
@@ -1284,7 +1288,8 @@
             #welcome-screen p,
             #level-up-message p {
                 font-size: 1em; /* Smaller paragraph font */
-                line-height: 1.5; /* Adjusted line-height */
+                line-height: 1.4; /* Slightly more compact line-height */
+                margin-bottom: 15px; /* Reduce space after paragraphs */
             }
             /* Removido o estilo específico para .message-buttons aqui, pois foi movido para o #welcome-screen .message-buttons diretamente abaixo */
             #level-up-message ul,
@@ -2314,6 +2319,11 @@
             max-width: 650px;
             min-height: 250px;
             box-sizing: border-box;
+
+            /* Limita a altura para caber em telas menores e permite rolagem interna
+               se o conteúdo exceder o espaço disponível. */
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         #welcome-screen.show {
