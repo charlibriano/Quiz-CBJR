@@ -53,10 +53,10 @@
 
         /* Ajustes responsivos para telas menores */
         @media (max-width: 600px) {
-            /* Expande a área do jogador para a largura total e reduz ainda mais o padding em telas pequenas */
+            /* Expande a área do jogador para a largura total e reduz o padding */
             .bonus-player-area {
                 width: 100%;
-                padding: 15px 10px;
+                padding: 20px 15px;
             }
             /* Pontuação em coluna e centralizada */
             .bonus-score-display {
@@ -245,6 +245,13 @@
             overflow-x: hidden;
         }
 
+    /* Impede a rolagem do fundo quando uma modal estiver aberta */
+    body.no-scroll,
+    html.no-scroll {
+        overflow: hidden !important;
+        height: 100vh;
+    }
+
         @media (max-width: 768px) {
             body {
                 background-size: cover;
@@ -282,8 +289,9 @@
 
 
         .container {
-            max-width: 1000px;
-            width: 95%;
+            /* Reduz um pouco a largura máxima para melhorar a experiência em monitores grandes */
+            max-width: 900px;
+            width: 90%;
             background-color: var(--cor-fundo-transparente);
             padding: 35px;
             border-radius: 18px;
@@ -824,7 +832,7 @@
             .achievement-card h3 {
                 font-size: 1em;
                 margin-bottom: 6px;
-                /* Garante que nomes longos quebrem em várias linhas e não se sobreponham. */
+                /* Garante que nomes longos quebrem em várias linhas e não se sobreponham */
                 word-break: break-word;
                 hyphens: auto;
                 line-height: 1.2;
@@ -2145,29 +2153,42 @@
                 font-size: 1.5em;
             }
             #bonus-music-screen #bonus-answer-input {
-                font-size: 1.1em;
-                padding: 12px 20px;
+                font-size: 0.9em;
+                padding: 10px 12px;
             }
             #bonus-feedback-message {
                 font-size: 1.3em;
             }
+            /* Pontuação em três colunas com espaçamento reduzido para economia de espaço em mobile */
             .bonus-score-display {
-                flex-direction: column;
-                gap: 15px;
-                margin: 20px auto;
-                max-width: 90%;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                margin: 15px auto;
+                max-width: 95%;
+                align-items: stretch;
             }
-            .score-item {
-                width: 100%;
+            .bonus-score-display .score-item {
+                width: auto;
+                min-width: unset;
+                font-size: 0.85em;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
             }
+            /* Controles em três colunas */
             .bonus-controls {
-                flex-direction: column;
-                gap: 15px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
             }
             #bonus-music-screen .bonus-controls button {
-                font-size: 1em;
-                padding: 15px 25px;
-                width: 100%;
+                flex: 0 1 calc(33.33% - 10px);
+                font-size: 0.85em;
+                padding: 8px 6px;
+                gap: 6px;
             }
             /* Ajustes para a curiosidade em telas muito pequenas (mobile) */
             #bonus-curiosity-message {
@@ -2493,9 +2514,13 @@
         /* --- NOVO: Estilos para a Tela de Seleção de Discos --- */
         #bonus-disco-selection-screen {
             position: fixed;
-            top: 50%;
+            /* Centraliza horizontalmente e define margens superior/inferior em porcentagens fixas
+               para garantir que o topo e a base da modal fiquem visíveis em telas pequenas.
+               A altura da modal passa a ser determinada pelos valores de top e bottom. */
+            top: 5vh;
+            bottom: 5vh;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             width: 85%;
             max-width: 800px;
             background-color: rgba(0, 0, 0, 0.9);
@@ -2509,15 +2534,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.6s ease-in-out;
             box-sizing: border-box;
 
-            /* Limita a altura da tela de seleção para permitir rolagem interna
-               caso a lista de discos seja maior que a área disponível. */
-            max-height: 90vh;
+            /* Permite rolar a lista de discos dentro da modal quando necessário */
             overflow-y: auto;
         }
         #bonus-disco-selection-screen.show {
@@ -2616,11 +2639,11 @@
                 font-size: 0.9em;
                 margin-bottom: 20px;
             }
-            /* Em telas muito pequenas, reduza o tamanho das capas e mantenha a grelha de discos em 3 colunas para
-               replicar a experiência do desktop, com elementos menores. */
+            /* Em telas muito pequenas, use 2 colunas fixas para evitar corte de capas
+               e deixar os itens mais legíveis. */
             .disco-list-container {
-                grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-                gap: 10px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
             }
             .disco-btn {
                 flex-direction: column;
@@ -2696,11 +2719,13 @@
                 padding: 10px;
             }
 
-            /* Ajustes para a tela de seleção de discos: posiciona mais próximo ao topo
-               para reduzir a sensação de flutuação em dispositivos menores. */
+            /* Ajustes para a tela de seleção de discos em telas médias: mantém margens
+               superior e inferior para ocupar a maior parte da tela sem flutuar. */
             #bonus-disco-selection-screen {
-                top: 15%;
-                transform: translate(-50%, 0);
+                top: 5vh;
+                bottom: 5vh;
+                left: 50%;
+                transform: translateX(-50%);
                 width: 90%;
                 max-width: 600px;
                 padding: 25px;
@@ -2742,50 +2767,6 @@
             #welcome-screen p {
                 font-size: 0.8em;
                 margin-bottom: 12px;
-            }
-
-            /* Ajusta a grade da lista de discos para duas colunas em telas muito pequenas.
-               Isso evita que as capas fiquem cortadas ou esmagadas. */
-            .disco-list-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
-            /* Controles de bônus menores e organizados em três colunas para caber melhor
-               em telas pequenas. */
-            #bonus-music-screen .bonus-controls {
-                justify-content: center;
-                gap: 8px;
-            }
-            #bonus-music-screen .bonus-controls button {
-                flex: 0 1 calc(33.33% - 10px);
-                font-size: 0.8em;
-                padding: 8px 6px;
-                gap: 6px;
-            }
-
-            /* Reduz o tamanho do input de resposta para que não ocupe metade da tela com o teclado aberto */
-            #bonus-answer-input {
-                font-size: 0.9em;
-                padding: 10px 12px;
-            }
-
-            /* Pontuação organizada em três colunas com texto menor para economia de espaço */
-            .bonus-score-display {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-                align-items: stretch;
-            }
-            .bonus-score-display .score-item {
-                width: auto;
-                min-width: unset;
-                font-size: 0.8em;
-                text-align: center;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 4px;
             }
             /* Garante que os botões fiquem lado a lado com espaçamento mínimo */
             #welcome-screen .message-buttons {
@@ -5526,6 +5507,8 @@ function showDiscoSelectionScreen() {
 
     elements.bonusDiscoSelectionScreen.style.display = 'flex';
     elements.bonusDiscoSelectionScreen.classList.add('show');
+    // Impede a rolagem do fundo enquanto a seleção de discos está aberta
+    document.body.classList.add('no-scroll');
 
     elements.bonusDiscoSelectionScreen.querySelectorAll('.disco-btn').forEach(button => {
         if (!button.disabled) {
@@ -5543,6 +5526,8 @@ function showDiscoSelectionScreen() {
             elements.bonusDiscoSelectionScreen.removeEventListener('transitionend', handler);
             hideMainOverlay();
             showIntroMessage();
+            // Reabilita a rolagem do corpo após fechar a seleção de discos
+            document.body.classList.remove('no-scroll');
         }, { once: true });
     };
 
@@ -5556,6 +5541,8 @@ function startBonusMusicGame(discoIndex) {
     hideMainOverlay();
     elements.bonusDiscoSelectionScreen.classList.remove('show');
     elements.bonusDiscoSelectionScreen.style.display = 'none';
+    // Reabilita a rolagem do corpo ao iniciar o jogo de música
+    document.body.classList.remove('no-scroll');
     elements.bonusMusicScreen.style.display = 'flex';
     elements.bonusMusicScreen.classList.add('show');
     
@@ -5789,8 +5776,8 @@ function handleBonusEndTurn() {
     if (bonusGameState.songStartTime) {
         const now = Date.now();
         let timeTaken = (now - bonusGameState.songStartTime) / 1000;
-        // Garante que o tempo registrado nunca ultrapasse o tempo limite configurado
-        if (bonusSettings && typeof bonusSettings.time === 'number') {
+        // Garante que o tempo registrado não ultrapasse o limite configurado no modo Rádio
+        if (typeof bonusSettings !== 'undefined' && typeof bonusSettings.time === 'number') {
             timeTaken = Math.min(timeTaken, bonusSettings.time);
         }
         const currentSong = bonusGameState.currentBonusSong || {};
@@ -5994,8 +5981,7 @@ function endBonusMusicGame() {
     const totalDurationText = totalTime > 0 ? formatDuration(totalTime) : '';
     const fastestDurationText = fastestSong ? formatDuration(fastestSong.time) : '';
     const slowestDurationText = slowestSong ? formatDuration(slowestSong.time) : '';
-
-    // Usa apenas o nome da música para a exibição das mais rápida e mais lenta
+    // Usa apenas o nome da música para as estatísticas de mais rápida e mais lenta
     const fastestName = fastestSong ? getShortTitle(fastestSong.title) : '';
     const slowestName = slowestSong ? getShortTitle(slowestSong.title) : '';
 
