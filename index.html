@@ -53,10 +53,10 @@
 
         /* Ajustes responsivos para telas menores */
         @media (max-width: 600px) {
-            /* Expande a área do jogador para a largura total e reduz o padding */
+            /* Expande a área do jogador para a largura total e reduz ainda mais o padding em telas pequenas */
             .bonus-player-area {
                 width: 100%;
-                padding: 20px 15px;
+                padding: 15px 10px;
             }
             /* Pontuação em coluna e centralizada */
             .bonus-score-display {
@@ -824,6 +824,10 @@
             .achievement-card h3 {
                 font-size: 1em;
                 margin-bottom: 6px;
+                /* Garante que nomes longos quebrem em várias linhas e não se sobreponham. */
+                word-break: break-word;
+                hyphens: auto;
+                line-height: 1.2;
             }
             .achievement-card p {
                 font-size: 0.8em;
@@ -2739,6 +2743,50 @@
                 font-size: 0.8em;
                 margin-bottom: 12px;
             }
+
+            /* Ajusta a grade da lista de discos para duas colunas em telas muito pequenas.
+               Isso evita que as capas fiquem cortadas ou esmagadas. */
+            .disco-list-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            /* Controles de bônus menores e organizados em três colunas para caber melhor
+               em telas pequenas. */
+            #bonus-music-screen .bonus-controls {
+                justify-content: center;
+                gap: 8px;
+            }
+            #bonus-music-screen .bonus-controls button {
+                flex: 0 1 calc(33.33% - 10px);
+                font-size: 0.8em;
+                padding: 8px 6px;
+                gap: 6px;
+            }
+
+            /* Reduz o tamanho do input de resposta para que não ocupe metade da tela com o teclado aberto */
+            #bonus-answer-input {
+                font-size: 0.9em;
+                padding: 10px 12px;
+            }
+
+            /* Pontuação organizada em três colunas com texto menor para economia de espaço */
+            .bonus-score-display {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                align-items: stretch;
+            }
+            .bonus-score-display .score-item {
+                width: auto;
+                min-width: unset;
+                font-size: 0.8em;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+            }
             /* Garante que os botões fiquem lado a lado com espaçamento mínimo */
             #welcome-screen .message-buttons {
                 grid-template-columns: 1fr 1fr;
@@ -3606,6 +3654,23 @@ function normalizeText(text) {
     normalized = normalized.replace(/\s+/g, ' ').trim();
 
     return normalized;
+}
+
+// Função auxiliar para extrair apenas o nome da música a partir de um título completo.
+// Remove prefixos de artista e álbum, números de faixa e textos entre colchetes.
+function getShortTitle(fullTitle) {
+    if (!fullTitle) return '';
+    let title = fullTitle;
+    // Remove tudo antes do primeiro hífen (band/album)
+    if (title.includes(' - ')) {
+        title = title.split(' - ').pop();
+    }
+    // Remove números iniciais e hifens (ex: "12 Corra Vagabundo" ou "15- Escalas Tropicais")
+    title = title.replace(/^\s*\d+\s*-?\s*/g, '');
+    // Remove conteúdo entre colchetes ou parênteses, como [1997]
+    title = title.replace(/\[[^\]]*\]/g, '').replace(/\([^)]*\)/g, '');
+    // Remove espaços extras e retorna
+    return title.trim();
 }
 
 // --- Funções do Player de Áudio ---
@@ -5550,8 +5615,9 @@ function startBonusMusicGame(discoIndex) {
         bonusGameState.bonusErrorsCount++;
         // Ao salvar o erro, garanta que o título da música seja extraído corretamente
         const songObj = bonusGameState.currentBonusSong || {};
-        const correctName = songObj.title || songObj.titulo || '';
-        bonusGameState.missedSongs.push({ userAnswer: '-- PULO --', correctAnswer: correctName });
+        const fullName = songObj.title || songObj.titulo || '';
+        const shortName = getShortTitle(fullName);
+        bonusGameState.missedSongs.push({ userAnswer: '-- PULO --', correctAnswer: shortName });
         elements.audio.pause();
         if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
         elements.bonusFeedbackMessage.textContent = "Música pulada! ⏩";
@@ -5649,8 +5715,9 @@ function loadBonusSongForBonus(skipped = false) {
                 // Garante que a resposta correta seja extraída com fallback
                 {
                     const songObj = bonusGameState.currentBonusSong || {};
-                    const correctName = songObj.title || songObj.titulo || '';
-                    bonusGameState.missedSongs.push({ userAnswer: '-- TEMPO ESGOTADO --', correctAnswer: correctName });
+                    const fullName = songObj.title || songObj.titulo || '';
+                    const shortName = getShortTitle(fullName);
+                    bonusGameState.missedSongs.push({ userAnswer: '-- TEMPO ESGOTADO --', correctAnswer: shortName });
                 }
 
                 setTimeout(() => {
@@ -5721,7 +5788,11 @@ function handleBonusEndTurn() {
     // entrada duplicada.
     if (bonusGameState.songStartTime) {
         const now = Date.now();
-        const timeTaken = (now - bonusGameState.songStartTime) / 1000;
+        let timeTaken = (now - bonusGameState.songStartTime) / 1000;
+        // Garante que o tempo registrado nunca ultrapasse o tempo limite configurado
+        if (bonusSettings && typeof bonusSettings.time === 'number') {
+            timeTaken = Math.min(timeTaken, bonusSettings.time);
+        }
         const currentSong = bonusGameState.currentBonusSong || {};
         const title = currentSong.title || currentSong.titulo || '';
         if (!Array.isArray(bonusGameState.timePerSong)) {
@@ -5799,7 +5870,10 @@ function checkBonusAnswer() {
         elements.bonusFeedbackMessage.classList.add('show');
 
         elements.bonusCurrentSongTitle.style.display = 'block';
-        elements.bonusCurrentSongTitle.textContent = bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo;
+        {
+            const fullName = bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo || '';
+            elements.bonusCurrentSongTitle.textContent = getShortTitle(fullName);
+        }
 
         if (musicCuriosity) {
             elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`;
@@ -5813,15 +5887,20 @@ function checkBonusAnswer() {
         // Salva a resposta correta com fallback para 'titulo' (e vazia se não existir)
         {
             const songObj = bonusGameState.currentBonusSong || {};
-            const correctName = songObj.title || songObj.titulo || '';
-            bonusGameState.missedSongs.push({ userAnswer: elements.bonusAnswerInput.value, correctAnswer: correctName });
+            const fullName = songObj.title || songObj.titulo || '';
+            const shortName = getShortTitle(fullName);
+            bonusGameState.missedSongs.push({ userAnswer: elements.bonusAnswerInput.value, correctAnswer: shortName });
         }
         elements.bonusFeedbackMessage.textContent = "INCORRETO! ❌";
         elements.bonusFeedbackMessage.style.color = 'var(--cor-vermelho-incorreto)';
         elements.bonusAnswerInput.classList.add('incorrect-feedback');
         elements.bonusFeedbackMessage.classList.add('show');
         elements.bonusCurrentSongTitle.style.display = 'block';
-        elements.bonusCurrentSongTitle.textContent = `A música era: ${bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo}`;
+        {
+            const fullName = bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo || '';
+            const shortName = getShortTitle(fullName);
+            elements.bonusCurrentSongTitle.textContent = `A música era: ${shortName}`;
+        }
 
         if (musicCuriosity) {
             elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`;
@@ -5916,14 +5995,18 @@ function endBonusMusicGame() {
     const fastestDurationText = fastestSong ? formatDuration(fastestSong.time) : '';
     const slowestDurationText = slowestSong ? formatDuration(slowestSong.time) : '';
 
+    // Usa apenas o nome da música para a exibição das mais rápida e mais lenta
+    const fastestName = fastestSong ? getShortTitle(fastestSong.title) : '';
+    const slowestName = slowestSong ? getShortTitle(slowestSong.title) : '';
+
     // Mensagens separadas
     const performanceHtml = `<p style="font-family: Arial, sans-serif;">Você acertou ${correctAnswersInRound} de ${bonusGameState.songsToGuess.length} músicas.</p>`;
     const unlockHtml = unlockedNewDisco ? `<p style="color: var(--cor-verde-vibrante); font-weight: bold; font-family: Arial, sans-serif;">Disco ${bonusGameState.currentDiscoIndex + 2} desbloqueado!</p>` : '';
     const scoreHtml = `<p style="font-family: Arial, sans-serif;">Sua pontuação total na Rádio é: <b style="color: var(--cor-amarelo-cbjr);">${bonusProgress.totalScore}</b></p>`;
 
     const timeHtml = totalDurationText ? `<p style="font-family: Arial, sans-serif;">Você concluiu em ${totalDurationText}.</p>` : '';
-    const fastestHtml = fastestSong ? `<p style="font-family: Arial, sans-serif;">Música mais rápida: ${fastestSong.title} (${fastestDurationText})</p>` : '';
-    const slowestHtml = slowestSong ? `<p style="font-family: Arial, sans-serif;">Música mais lenta: ${slowestSong.title} (${slowestDurationText})</p>` : '';
+    const fastestHtml = fastestSong ? `<p style="font-family: Arial, sans-serif;">Música mais rápida: ${fastestName} (${fastestDurationText})</p>` : '';
+    const slowestHtml = slowestSong ? `<p style="font-family: Arial, sans-serif;">Música mais lenta: ${slowestName} (${slowestDurationText})</p>` : '';
 
     // Feedback personalizado destacado
     let feedbackHtml = '';
