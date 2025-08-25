@@ -2792,6 +2792,56 @@
                 min-height: 45px;
             }
         }
+
+/* Custom fixes for small screens */
+@media (max-width: 480px) {
+    /* Wrap long album titles in achievements and reduce their size */
+    .achievement-card h3 {
+        word-break: break-word;
+        line-height: 1.2;
+        font-size: 0.85em;
+    }
+    /* Adjust discos grid to avoid cropped covers */
+    .disco-list-container {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    .disco-cover {
+        max-width: 100px;
+    }
+    /* Compact bonus score display: allow items to wrap into multiple rows */
+    .bonus-score-display {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+    .score-item {
+        flex: 1 1 30%;
+        min-width: 0;
+        font-size: 0.8em;
+        padding: 8px;
+    }
+    /* Compact controls: display three buttons per row */
+    .bonus-controls {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    #bonus-music-screen .bonus-controls button {
+        flex: 1 1 30%;
+        padding: 10px;
+        font-size: 0.9em;
+    }
+    /* Reduce player control button sizes for small screens */
+    #audio-player-wrapper button.audio-control-btn {
+        width: 32px;
+        height: 32px;
+    }
+    #audio-player-wrapper button.audio-control-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+}
     </style>
 </head>
 <body>
@@ -3011,6 +3061,19 @@ const bonusSettings = {
     unlockThreshold: 7 // Músicas corretas para desbloquear o próximo disco
 };
 
+// Helper function to extract only the song name from a full title.
+// It splits the title by dashes, removes any bracketed information (e.g. album/year),
+// strips leading track numbers and trims extra whitespace.
+function getShortTitle(fullTitle) {
+    if (!fullTitle) return '';
+    const parts = fullTitle.split('-').map(p => p.trim());
+    let short = parts[parts.length - 1] || '';
+    // Remove content inside square brackets, such as years
+    short = short.replace(/\[[^\]]*\]/g, '');
+    // Remove leading numbers and spaces (e.g. "12 Corra vagabundo" -> "Corra vagabundo")
+    short = short.replace(/^\d+\s*/, '');
+    return short.trim();
+}
 
 // --- Frases do Chorão para o final de jogo ---
 const choraoQuotes = [
@@ -5550,7 +5613,8 @@ function startBonusMusicGame(discoIndex) {
         bonusGameState.bonusErrorsCount++;
         // Ao salvar o erro, garanta que o título da música seja extraído corretamente
         const songObj = bonusGameState.currentBonusSong || {};
-        const correctName = songObj.title || songObj.titulo || '';
+        const correctNameFull = songObj.title || songObj.titulo || '';
+        const correctName = getShortTitle(correctNameFull);
         bonusGameState.missedSongs.push({ userAnswer: '-- PULO --', correctAnswer: correctName });
         elements.audio.pause();
         if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
@@ -5649,7 +5713,8 @@ function loadBonusSongForBonus(skipped = false) {
                 // Garante que a resposta correta seja extraída com fallback
                 {
                     const songObj = bonusGameState.currentBonusSong || {};
-                    const correctName = songObj.title || songObj.titulo || '';
+                    const correctNameFull = songObj.title || songObj.titulo || '';
+                    const correctName = getShortTitle(correctNameFull);
                     bonusGameState.missedSongs.push({ userAnswer: '-- TEMPO ESGOTADO --', correctAnswer: correctName });
                 }
 
@@ -5799,7 +5864,10 @@ function checkBonusAnswer() {
         elements.bonusFeedbackMessage.classList.add('show');
 
         elements.bonusCurrentSongTitle.style.display = 'block';
-        elements.bonusCurrentSongTitle.textContent = bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo;
+        {
+            const fullTitle = bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo || '';
+            elements.bonusCurrentSongTitle.textContent = getShortTitle(fullTitle);
+        }
 
         if (musicCuriosity) {
             elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`;
@@ -5813,7 +5881,8 @@ function checkBonusAnswer() {
         // Salva a resposta correta com fallback para 'titulo' (e vazia se não existir)
         {
             const songObj = bonusGameState.currentBonusSong || {};
-            const correctName = songObj.title || songObj.titulo || '';
+            const correctNameFull = songObj.title || songObj.titulo || '';
+            const correctName = getShortTitle(correctNameFull);
             bonusGameState.missedSongs.push({ userAnswer: elements.bonusAnswerInput.value, correctAnswer: correctName });
         }
         elements.bonusFeedbackMessage.textContent = "INCORRETO! ❌";
@@ -5821,7 +5890,10 @@ function checkBonusAnswer() {
         elements.bonusAnswerInput.classList.add('incorrect-feedback');
         elements.bonusFeedbackMessage.classList.add('show');
         elements.bonusCurrentSongTitle.style.display = 'block';
-        elements.bonusCurrentSongTitle.textContent = `A música era: ${bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo}`;
+        {
+            const fullTitle = bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo || '';
+            elements.bonusCurrentSongTitle.textContent = `A música era: ${getShortTitle(fullTitle)}`;
+        }
 
         if (musicCuriosity) {
             elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`;
@@ -5916,14 +5988,18 @@ function endBonusMusicGame() {
     const fastestDurationText = fastestSong ? formatDuration(fastestSong.time) : '';
     const slowestDurationText = slowestSong ? formatDuration(slowestSong.time) : '';
 
+    // Extract song names without album/band details for statistics
+    const fastestTitle = fastestSong ? getShortTitle(fastestSong.title) : '';
+    const slowestTitle = slowestSong ? getShortTitle(slowestSong.title) : '';
+
     // Mensagens separadas
     const performanceHtml = `<p style="font-family: Arial, sans-serif;">Você acertou ${correctAnswersInRound} de ${bonusGameState.songsToGuess.length} músicas.</p>`;
     const unlockHtml = unlockedNewDisco ? `<p style="color: var(--cor-verde-vibrante); font-weight: bold; font-family: Arial, sans-serif;">Disco ${bonusGameState.currentDiscoIndex + 2} desbloqueado!</p>` : '';
     const scoreHtml = `<p style="font-family: Arial, sans-serif;">Sua pontuação total na Rádio é: <b style="color: var(--cor-amarelo-cbjr);">${bonusProgress.totalScore}</b></p>`;
 
     const timeHtml = totalDurationText ? `<p style="font-family: Arial, sans-serif;">Você concluiu em ${totalDurationText}.</p>` : '';
-    const fastestHtml = fastestSong ? `<p style="font-family: Arial, sans-serif;">Música mais rápida: ${fastestSong.title} (${fastestDurationText})</p>` : '';
-    const slowestHtml = slowestSong ? `<p style="font-family: Arial, sans-serif;">Música mais lenta: ${slowestSong.title} (${slowestDurationText})</p>` : '';
+    const fastestHtml = fastestSong ? `<p style="font-family: Arial, sans-serif;">Música mais rápida: ${fastestTitle} (${fastestDurationText})</p>` : '';
+    const slowestHtml = slowestSong ? `<p style="font-family: Arial, sans-serif;">Música mais lenta: ${slowestTitle} (${slowestDurationText})</p>` : '';
 
     // Feedback personalizado destacado
     let feedbackHtml = '';
