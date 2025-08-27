@@ -2803,10 +2803,57 @@
                 gap: 15px !important;
             }
 
+            /* Ajusta o tamanho global da fonte para telas pequenas, tornando todos os textos um pouco menores */
+            html, body {
+                font-size: 0.9rem;
+            }
+
+            /* Redefine o layout do player de áudio para uma barra horizontal compacta em telas pequenas */
+            #audio-player-wrapper {
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 6px !important;
+                min-height: 80px !important;
+            }
+            /* Área contendo o título da música e a barra de progresso ocupa o espaço disponível */
+            #audio-player-wrapper .player-content {
+                flex: 1 1 auto !important;
+                width: auto !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 4px !important;
+            }
+            /* Mantém o nome da música em uma linha, ocupando toda a largura restante */
+            #audio-player-wrapper #current-song {
+                width: 100% !important;
+                margin: 0 !important;
+                font-size: 0.95em !important;
+            }
+            /* Exibe controles principais em linha, com ícones menores e espaçamento reduzido */
+            #audio-player-wrapper .audio-main-controls {
+                order: 2 !important;
+                flex: 0 0 auto !important;
+                display: flex !important;
+                gap: 4px !important;
+            }
+            /* Esconde o valor do volume e a barra deslizante, deixando apenas o botão de mute/volume */
+            #audio-player-wrapper .audio-volume-controls {
+                display: flex !important;
+                flex: 0 0 auto !important;
+                align-items: center !important;
+                gap: 4px !important;
+            }
+            #audio-player-wrapper .audio-volume-controls input[type="range"],
+            #audio-player-wrapper .audio-volume-controls span {
+                display: none !important;
+            }
+
             /* Reduz tamanho do título principal para melhor se ajustar à largura da tela */
             header h1 {
-                font-size: 2.2em !important;
-                padding: 20px 30px !important;
+                font-size: 1.8em !important;
+                padding: 15px 20px !important;
             }
 
             /* Controles de bônus menores e organizados em três colunas para caber melhor
