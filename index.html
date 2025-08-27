@@ -2711,21 +2711,27 @@
            Estes estilos vêm após as regras de 768px para garantir que
            tenham precedência em dispositivos menores. */
         @media (max-width: 480px) {
-            /* Player de áudio ainda menor, preso ao topo direito */
+            /* Player de áudio completamente deslocado para o topo e centralizado em telas muito estreitas.
+               Em dispositivos móveis, queremos que o player fique no topo da página, ocupando toda a largura
+               e mantendo um formato mais quadrado que acomode todas as informações de forma legível. */
             #audio-player-wrapper {
-                top: 8px;
-                right: 8px;
-                left: auto;
+                top: 0;
+                right: 0;
+                left: 0;
                 bottom: auto;
-                width: auto;
-                max-width: 180px;
-                padding: 8px;
+                margin: 0 auto;
+                width: 100%;           /* ocupa toda a largura da tela */
+                max-width: none;        /* remove limite de largura */
+                padding: 10px;          /* espaçamento interno reduzido */
+                border-radius: 0;       /* remove cantos arredondados para acompanhar as bordas da tela */
+                min-height: 110px;      /* altura mínima para acomodar controles e título */
+                z-index: 6000;          /* garante que o player fique acima de outros elementos como o equalizador */
             }
             #audio-player-wrapper .player-content {
-                gap: 5px;
+                gap: 6px;
             }
             #audio-player-wrapper #current-song {
-                font-size: 0.8em;
+                font-size: 0.9em;
             }
             /* Boas-vindas mais compactas e próximas ao topo */
             #welcome-screen {
@@ -6335,8 +6341,42 @@ function startEqualizer() {
             const barHeight = equalizerCanvas.height * percent;
             const x = i * barWidth;
             const y = equalizerCanvas.height - barHeight;
-            // Cor vibrante baseada na paleta do site (verde)
-            equalizerCtx.fillStyle = 'rgba(30, 215, 96, 0.8)';
+            /*
+             * Define uma cor individual para cada barra com base em seu índice e
+             * no volume relativo. Usamos o espaço de cor HSL para criar um
+             * degradê ao longo do espectro (de 0 a 360 graus no círculo de matizes)
+             * e variamos a luminosidade em função da intensidade da frequência.
+             * Desta forma, cada frequência possui uma tonalidade única (como em
+             * mesas de som digitais) e barras mais altas aparecem mais brilhantes.
+             */
+            /*
+             * Atribui cores distintas por faixa de frequência inspiradas em mixers profissionais.
+             * As primeiras barras representam frequências graves e são desenhadas em tons
+             * avermelhados/alaranjados. As barras do meio representam frequências médias com tons
+             * esverdeados, e as últimas barras representam frequências agudas com tons azulados.
+             * O brilho de cada barra aumenta conforme a intensidade (percent) para evidenciar
+             * a dinâmica do som.
+             */
+            let baseColor;
+            if (i < barCount * 0.25) {
+                // Graves – vermelho
+                baseColor = { r: 231, g: 76, b: 60 };
+            } else if (i < barCount * 0.5) {
+                // Médios-graves – laranja/amarelo
+                baseColor = { r: 243, g: 156, b: 18 };
+            } else if (i < barCount * 0.75) {
+                // Médios-agudos – verde
+                baseColor = { r: 46, g: 204, b: 113 };
+            } else {
+                // Agudos – azul
+                baseColor = { r: 52, g: 152, b: 219 };
+            }
+            // Ajusta a intensidade de cor de acordo com o volume da barra
+            const intensity = 0.4 + percent * 0.6; // 40% a 100% da cor base
+            const r = Math.min(255, Math.floor(baseColor.r * intensity));
+            const g = Math.min(255, Math.floor(baseColor.g * intensity));
+            const b = Math.min(255, Math.floor(baseColor.b * intensity));
+            equalizerCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
             equalizerCtx.fillRect(x + barWidth * 0.1, y, barWidth * 0.8, barHeight);
         }
     }
