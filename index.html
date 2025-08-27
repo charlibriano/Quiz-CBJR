@@ -2707,10 +2707,11 @@
             }
         }
 
-        /* Ajustes adicionais específicos para telas muito pequenas (até 480px).
+        /* Ajustes adicionais específicos para telas pequenas (até 600px).
            Estes estilos vêm após as regras de 768px para garantir que
-           tenham precedência em dispositivos menores. */
-        @media (max-width: 480px) {
+           tenham precedência em dispositivos menores.  Abrange a maioria
+           dos smartphones modernos para tornar o layout mais compacto. */
+        @media (max-width: 600px) {
             /* Player de áudio reestruturado para telas muito estreitas: ocupa toda a largura no topo,
                organiza o conteúdo em coluna e mantém todos os botões dentro da caixa. */
             #audio-player-wrapper {
@@ -2721,9 +2722,9 @@
                 width: 100% !important;
                 max-width: none !important;
                 margin: 0 !important;
-                padding: 12px !important;
+                padding: 8px !important;      /* Menos espaçamento para um player mais compacto */
                 border-radius: 0 !important;
-                min-height: 140px !important;
+                min-height: 100px !important; /* Reduz altura mínima para não ocupar espaço excessivo */
                 z-index: 6000 !important;
                 display: flex !important;
                 flex-direction: column !important;
@@ -2786,6 +2787,26 @@
             .disco-list-container {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
+            }
+
+            /* Reduz tamanho dos botões de resposta e ajusta a estrutura das perguntas para telas pequenas */
+            .question button {
+                padding: 14px 10px !important;
+                font-size: 1em !important;
+                height: 70px !important;
+            }
+            .answers-container {
+                gap: 12px !important;
+                min-width: 100% !important;
+            }
+            .question-content {
+                gap: 15px !important;
+            }
+
+            /* Reduz tamanho do título principal para melhor se ajustar à largura da tela */
+            header h1 {
+                font-size: 2.2em !important;
+                padding: 20px 30px !important;
             }
 
             /* Controles de bônus menores e organizados em três colunas para caber melhor
