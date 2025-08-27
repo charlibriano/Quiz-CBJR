@@ -2789,6 +2789,11 @@
                 gap: 12px;
             }
 
+            /* Adiciona espaço no topo da lista de discos para acomodar o player fixo em telas pequenas */
+            #bonus-disco-selection-screen {
+                padding-top: 90px !important;
+            }
+
             /* Reduz tamanho dos botões de resposta e ajusta a estrutura das perguntas para telas pequenas */
             .question button {
                 padding: 14px 10px !important;
@@ -2813,8 +2818,8 @@
                 flex-direction: row !important;
                 justify-content: space-between !important;
                 align-items: center !important;
-                padding: 6px !important;
-                min-height: 80px !important;
+                padding: 4px !important;
+                min-height: 70px !important;
             }
             /* Área contendo o título da música e a barra de progresso ocupa o espaço disponível */
             #audio-player-wrapper .player-content {
@@ -2976,6 +2981,106 @@
         .hide-game {
             display: none !important;
         }
+    </style>
+    <!-- Final mobile-specific overrides to ensure a compact player and navigable radio list on small screens -->
+    <style>
+      /* On screens up to 600px wide, make the audio player a compact bar at the top and ensure the album selection list is scrollable. */
+      @media (max-width: 600px) {
+        /* Compact horizontal player bar pinned to the very top */
+        #audio-player-wrapper {
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: auto !important;
+          width: 100% !important;
+          max-width: none !important;
+          height: 80px !important;
+          min-height: 80px !important;
+          margin: 0 !important;
+          padding: 6px !important;
+          border-radius: 0 !important;
+          z-index: 6000 !important;
+          display: flex !important;
+          flex-direction: row !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+          gap: 8px !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+        }
+        /* The area with the song title and progress bar occupies most of the width */
+        #audio-player-wrapper .player-content {
+          flex: 1 !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: flex-start !important;
+          justify-content: center !important;
+          gap: 4px !important;
+        }
+        #audio-player-wrapper #current-song {
+          width: 100% !important;
+          font-size: 0.85em !important;
+          text-align: left !important;
+          overflow: hidden !important;
+          white-space: nowrap !important;
+        }
+        /* Keep progress bar and time display stacked neatly */
+        #audio-player-wrapper .progress-bar-area {
+          width: 100% !important;
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 2px !important;
+        }
+        #audio-player-wrapper .audio-main-controls {
+          flex: 0 0 auto !important;
+          display: flex !important;
+          flex-direction: row !important;
+          align-items: center !important;
+          justify-content: space-around !important;
+          gap: 6px !important;
+          flex-wrap: nowrap !important;
+        }
+        #audio-player-wrapper .audio-volume-controls {
+          flex: 0 0 auto !important;
+          display: flex !important;
+          flex-direction: row !important;
+          align-items: center !important;
+          gap: 6px !important;
+        }
+        /* Hide the volume slider and numeric display to save vertical space */
+        #audio-player-wrapper .audio-volume-controls input[type='range'],
+        #audio-player-wrapper .audio-volume-controls span {
+          display: none !important;
+        }
+        /* Reduce the height of the equalizer on small screens */
+        #equalizer-footer {
+          height: 40px !important;
+        }
+        /* Make sure the radio album selection screen sits below the player and can scroll fully */
+        #bonus-disco-selection-screen {
+          top: calc(80px + 15px) !important;
+          transform: translate(-50%, 0) !important;
+          max-height: calc(100vh - 80px - 30px) !important;
+          overflow-y: auto !important;
+          padding-top: 20px !important;
+        }
+        /* Compact typography and spacing for quiz content */
+        html, body {
+          font-size: 0.85rem !important;
+        }
+        header h1 {
+          font-size: 1.6em !important;
+          padding: 12px 16px !important;
+        }
+        .question button {
+          height: 60px !important;
+          font-size: 0.9em !important;
+          padding: 10px 8px !important;
+        }
+        .answers-container {
+          gap: 10px !important;
+        }
+      }
     </style>
 </head>
 <body>
