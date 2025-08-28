@@ -1002,10 +1002,11 @@
            Reduzimos largura, altura e espaçamentos para melhorar a experiência no quiz principal. */
         @media (max-width: 600px) {
           #audio-player-wrapper:not(.inside-welcome) {
-            width: 200px !important;
-            max-width: 200px !important;
-            min-height: 150px !important;
-            max-height: 150px !important;
+            /* Torne o player ainda mais compacto nas telas pequenas. */
+            width: 180px !important;
+            max-width: 180px !important;
+            min-height: 90px !important;
+            max-height: 90px !important;
             padding: 6px !important;
             gap: 4px !important;
           }
@@ -1024,8 +1025,24 @@
             padding: 4px !important;
           }
           #audio-player-wrapper:not(.inside-welcome) .audio-main-controls button i {
-            font-size: 0.9em !important;
+            font-size: 0.8em !important;
           }
+
+        /* Estilo para o botão de sair do quiz (sutil e discreto) */
+        #exit-quiz-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            color: var(--cor-texto-claro);
+            font-size: 0.9em;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        #exit-quiz-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
 
         /* ===============================================================
            Regras baseadas em classes do <body> para controlar a posição
@@ -1067,8 +1084,9 @@
             bottom: auto !important;
             width: 200px !important;
             max-width: 200px !important;
-            min-height: 150px !important;
-            max-height: 150px !important;
+            /* Reduzimos ainda mais a altura do player para ficar ainda mais discreto no quiz. */
+            min-height: 90px !important;
+            max-height: 90px !important;
             padding: 6px !important;
             gap: 4px !important;
             z-index: 6000 !important;
@@ -3049,9 +3067,11 @@
            ultrapasse as bordas da tela. */
         @media (max-width: 480px) {
             #audio-player-wrapper {
-                width: 88%;
-                max-width: 250px;
-                min-height: 45px;
+                /* Em telas muito estreitas, reduza ainda mais a largura e altura do player. */
+                width: 90% !important;
+                max-width: 180px !important;
+                min-height: 70px !important;
+                max-height: 70px !important;
             }
         }
 
@@ -3256,6 +3276,9 @@
 
         <p id="medal"></p>
         <button id="restart-btn" style="display:none;">Reiniciar Quiz</button>
+
+        <!-- NOVO: Botão para sair do quiz e voltar ao menu principal. Fica oculto até que o quiz seja iniciado -->
+        <button id="exit-quiz-btn" class="exit-quiz-btn" style="display:none; margin-top: 10px;">Sair do Quiz</button>
     </div>
 
     <div id="level-up-message" style="display:none;"></div>
@@ -4514,6 +4537,12 @@ function showIntroMessage() {
     document.body.classList.remove('quiz-active', 'radio-active');
     document.body.classList.add('intro-active');
 
+    // Oculta o botão de sair do quiz, caso estivesse visível
+    const exitBtn = document.getElementById('exit-quiz-btn');
+    if (exitBtn) {
+        exitBtn.style.display = 'none';
+    }
+
     // Recria o HTML da tela de boas-vindas para garantir que ela esteja sempre completa
     elements.welcomeScreen.innerHTML = `
         <h3>Bem-vindo(a) ao Quiz do Charlie Brown Jr!</h3>
@@ -4545,6 +4574,11 @@ function showIntroMessage() {
     if (bonusBtn) {
         bonusBtn.onclick = showDiscoSelectionScreen;
     }
+
+    // Ao exibir a tela de boas‑vindas, mova o player para dentro da caixa de introdução.
+    // Isso garante que o player apareça logo abaixo da mensagem de boas‑vindas e
+    // permaneça visível, permitindo que o usuário escute músicas sem iniciar o quiz.
+    attachPlayerToWelcome();
 
     // Esconde as outras telas do quiz
     elements.quiz.style.display = 'none';
@@ -4587,6 +4621,11 @@ function showIntroMessage() {
 function showDifficultyScreen() {
     console.log("showDifficultyScreen: Exibindo tela de seleção de dificuldade.");
 
+    // Se o player estiver dentro da tela de boas‑vindas, remova‑o antes de
+    // renderizar a seleção de dificuldade. Isso previne que ele continue
+    // dentro da caixa de introdução quando o usuário sair do menu principal.
+    detachPlayerFromWelcome();
+
     elements.welcomeScreen.innerHTML = `
         <h3>Escolha a Dificuldade</h3>
         <p class="intro-text">
@@ -4610,13 +4649,110 @@ function showDifficultyScreen() {
     document.getElementById('back-to-main-menu-from-difficulty-btn').onclick = showIntroMessage;
 }
 
+// ---------------------------------------------------------------------------
+// Funções auxiliares para salvar, limpar e sair do quiz
+// Salva o estado atual do quiz para que o usuário possa retomar mais tarde. O
+// objeto salvo inclui todas as propriedades de quizState e a lista de perguntas
+// restantes do nível atual.
+function saveQuizProgress() {
+    try {
+        const progressData = {
+            quizState: {},
+            currentLevelQuestions: quizState.currentLevelQuestions
+        };
+        Object.keys(quizState).forEach(key => {
+            progressData.quizState[key] = quizState[key];
+        });
+        localStorage.setItem('cobjr_quiz_progress', JSON.stringify(progressData));
+        console.log('saveQuizProgress: Progresso salvo com sucesso.');
+    } catch (e) {
+        console.error('saveQuizProgress: Erro ao salvar progresso.', e);
+    }
+}
+
+// Remove o progresso salvo do localStorage
+function clearQuizProgress() {
+    try {
+        localStorage.removeItem('cobjr_quiz_progress');
+        console.log('clearQuizProgress: Progresso apagado.');
+    } catch (e) {
+        console.error('clearQuizProgress: Erro ao apagar progresso.', e);
+    }
+}
+
+// Função chamada quando o usuário decide sair do quiz. Pausa o quiz, salva o
+// progresso atual e retorna para a tela de boas‑vindas. Também esconde o
+// botão de sair para evitar múltiplos cliques.
+function exitQuiz() {
+    console.log('exitQuiz: Saindo do quiz e salvando progresso.');
+    quizState.quizPaused = true;
+    saveQuizProgress();
+    // Esconde elementos do quiz
+    elements.quiz.style.display = 'none';
+    elements.livesDisplay.style.display = 'none';
+    elements.powerUpsContainer.style.display = 'none';
+    // Volta ao menu principal
+    showIntroMessage();
+    // Oculta o botão de sair
+    const exitBtn = document.getElementById('exit-quiz-btn');
+    if (exitBtn) {
+        exitBtn.style.display = 'none';
+    }
+}
+
 function startQuiz(difficulty) {
     console.log(`startQuiz: Iniciando o quiz na dificuldade ${difficulty}.`);
+
+    // Se o player estiver dentro da tela de boas‑vindas, reposicione‑o de volta
+    // ao seu local original antes de iniciar o quiz. Isto evita que o player
+    // fique preso na caixa de boas‑vindas quando o quiz começar.
+    detachPlayerFromWelcome();
 
     // Ao iniciar o quiz, configure o estado do corpo para modo Quiz. O player
     // assume uma posição fixa compacta no canto superior direito.
     document.body.classList.remove('intro-active', 'radio-active');
     document.body.classList.add('quiz-active');
+
+    // Tentar recuperar progresso salvo no localStorage para esta dificuldade
+    try {
+        const savedProgressJSON = localStorage.getItem('cobjr_quiz_progress');
+        if (savedProgressJSON) {
+            const savedProgress = JSON.parse(savedProgressJSON);
+            if (savedProgress && savedProgress.quizState && savedProgress.quizState.currentDifficulty === difficulty) {
+                console.log('startQuiz: Progresso salvo encontrado. Retomando...');
+                // Restaurar apenas as propriedades existentes em quizState
+                Object.keys(savedProgress.quizState).forEach(key => {
+                    if (quizState.hasOwnProperty(key)) {
+                        quizState[key] = savedProgress.quizState[key];
+                    }
+                });
+                // Restaurar as perguntas atuais do nível
+                if (Array.isArray(savedProgress.currentLevelQuestions)) {
+                    quizState.currentLevelQuestions = savedProgress.currentLevelQuestions;
+                }
+                // Esconder a tela de boas‑vindas e mostrar a área do quiz
+                elements.welcomeScreen.style.display = 'none';
+                elements.quiz.style.display = 'flex';
+                elements.livesDisplay.style.display = '';
+                elements.powerUpsContainer.style.display = '';
+                // Atualizar HUD e mostrar a pergunta atual
+                updateLivesDisplay();
+                updateQuizInfo();
+                quizState.quizPaused = false;
+                quizState.isProcessingAnswer = false;
+                // Mostrar o botão de sair
+                const exitBtn = document.getElementById('exit-quiz-btn');
+                if (exitBtn) {
+                    exitBtn.style.display = 'inline-block';
+                    exitBtn.onclick = exitQuiz;
+                }
+                showQuestion();
+                return;
+            }
+        }
+    } catch (e) {
+        console.error('Erro ao tentar carregar progresso salvo:', e);
+    }
     
     quizState.lives = gameSettings[difficulty].lives;
     quizState.timePerQuestion = gameSettings[difficulty].time;
@@ -4661,13 +4797,26 @@ function startQuiz(difficulty) {
         updateLivesDisplay();
         elements.livesDisplay.style.display = 'flex';
         updatePowerUpCounts();
+
         elements.powerUpsContainer.style.display = 'flex';
+
+        // Mostrar o botão de sair do quiz ao iniciar um novo jogo
+        const exitBtnNewGame = document.getElementById('exit-quiz-btn');
+        if (exitBtnNewGame) {
+            exitBtnNewGame.style.display = 'inline-block';
+            exitBtnNewGame.onclick = exitQuiz;
+        }
 
         elements.audioPlayerWrapper.classList.remove('hidden-player');
         elements.audioPlayerWrapper.style.opacity = '1';
         elements.audioPlayerWrapper.style.visibility = 'visible';
         elements.audioPlayerWrapper.style.pointerEvents = 'auto';
         elements.audioPlayerWrapper.style.display = 'flex';
+
+        // Ao iniciar um novo jogo, limpe qualquer progresso salvo anterior
+        if (typeof clearQuizProgress === 'function') {
+            clearQuizProgress();
+        }
 
         if (playerState.playlist.length > 0) {
             if (elements.audio.paused || elements.audio.src.includes(achievementMusicUrl)) {
@@ -5652,6 +5801,15 @@ function endGame(isWinner) {
     clearInterval(timerInterval);
 
     elements.quiz.innerHTML = '';
+
+    // Remove progresso salvo quando o jogo é finalizado e esconde o botão sair
+    if (typeof clearQuizProgress === 'function') {
+        clearQuizProgress();
+    }
+    const exitBtn = document.getElementById('exit-quiz-btn');
+    if (exitBtn) {
+        exitBtn.style.display = 'none';
+    }
     const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
     if (currentCuriositySidebar) {
         currentCuriositySidebar.classList.remove('show');
@@ -5888,6 +6046,15 @@ function restartQuiz() {
 
     elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
 
+    // Ao reiniciar, remove o progresso salvo e esconde o botão de sair
+    if (typeof clearQuizProgress === 'function') {
+        clearQuizProgress();
+    }
+    const exitBtnRestart = document.getElementById('exit-quiz-btn');
+    if (exitBtnRestart) {
+        exitBtnRestart.style.display = 'none';
+    }
+
     elements.quiz.innerHTML = '';
     const currentCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
     if (currentCuriositySidebar) {
@@ -5968,10 +6135,20 @@ let bonusCountdownTimer = null;
 function showDiscoSelectionScreen() {
     console.log("showDiscoSelectionScreen: Exibindo tela de seleção de discos.");
 
+    // Certifique‑se de remover o player da tela de boas‑vindas ao entrar na Rádio
+    // para que ele volte à sua posição original quando retornar ao menu ou quiz.
+    detachPlayerFromWelcome();
+
     // Defina o estado do corpo para modo Rádio. Isto esconderá o player
     // completamente via CSS, pois o usuário só deve ouvir a música.
     document.body.classList.remove('intro-active', 'quiz-active');
     document.body.classList.add('radio-active');
+
+    // Ocultar o botão de sair do quiz ao entrar no modo Rádio
+    const exitBtn = document.getElementById('exit-quiz-btn');
+    if (exitBtn) {
+        exitBtn.style.display = 'none';
+    }
     // Ao entrar no modo Rádio, esconda o quiz principal
     hideMainGame();
 
@@ -6074,9 +6251,18 @@ function showDiscoSelectionScreen() {
 function startBonusMusicGame(discoIndex) {
     console.log(`startBonusMusicGame: Iniciando Disco ${discoIndex + 1}.`);
 
+    // Certifique‑se de que o player esteja na posição original antes de começar o jogo
+    detachPlayerFromWelcome();
+
     // Garanta que o corpo esteja no modo Rádio para esconder o player via CSS
     document.body.classList.remove('intro-active', 'quiz-active');
     document.body.classList.add('radio-active');
+
+    // Ocultar o botão de sair do quiz ao jogar uma música no Rádio
+    const exitBtn = document.getElementById('exit-quiz-btn');
+    if (exitBtn) {
+        exitBtn.style.display = 'none';
+    }
     
     hideMainOverlay();
     elements.bonusDiscoSelectionScreen.classList.remove('show');
