@@ -971,6 +971,63 @@
             pointer-events: none;
         }
 
+        /* Quando o player é movido para dentro da tela de boas‑vindas, ele deve perder o posicionamento fixo
+           e passar a ocupar toda a largura da caixa de boas‑vindas. Isso evita que o player se sobreponha
+           a outros elementos e garante que fique logo abaixo do texto de introdução. */
+        #audio-player-wrapper.inside-welcome {
+            position: relative !important;
+            top: auto !important;
+            right: auto !important;
+            left: auto !important;
+            bottom: auto !important;
+            width: 100% !important;
+            max-width: none !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            margin-top: 10px !important;
+            padding: 8px !important;
+            z-index: 1 !important;
+            border-radius: 10px !important;
+        }
+
+        /* Ajustes adicionais quando o player está dentro da tela de boas‑vindas. A coluna é mantida,
+           mas os controles e texto são alinhados para caber de forma compacta. */
+        #audio-player-wrapper.inside-welcome .player-content {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        /* Em telas pequenas, fora da tela de boas‑vindas, o player deve ser ainda mais compacto.
+           Reduzimos largura, altura e espaçamentos para melhorar a experiência no quiz principal. */
+        @media (max-width: 600px) {
+          #audio-player-wrapper:not(.inside-welcome) {
+            width: 200px !important;
+            max-width: 200px !important;
+            min-height: 150px !important;
+            max-height: 150px !important;
+            padding: 6px !important;
+            gap: 4px !important;
+          }
+          /* Diminuímos o tamanho dos ícones principais para que o player ocupe menos espaço visual. */
+          #audio-player-wrapper:not(.inside-welcome) .audio-main-controls button i {
+            font-size: 1em !important;
+          }
+          #audio-player-wrapper:not(.inside-welcome) #current-song {
+            font-size: 0.8em !important;
+          }
+
+          /* Ajusta os botões do player para serem menores em telas pequenas */
+          #audio-player-wrapper:not(.inside-welcome) .audio-main-controls button {
+            width: 28px !important;
+            height: 28px !important;
+            padding: 4px !important;
+          }
+          #audio-player-wrapper:not(.inside-welcome) .audio-main-controls button i {
+            font-size: 0.9em !important;
+          }
+        }
+
         .player-content {
             display: flex;
             flex-direction: column;
@@ -3749,6 +3806,41 @@ const elements = {
     audioPlayerWrapper: document.getElementById('audio-player-wrapper')
 };
 
+// --- Variáveis e funções para reposicionar o player de áudio ---
+// Quando o player está na tela de boas‑vindas (playerInWelcome = true), ele será movido
+// dinamicamente para dentro do elemento welcomeScreen. Guardamos o pai original e
+// o próximo irmão para poder restaurar quando sairmos da tela de boas‑vindas.
+let originalPlayerParent = null;
+let originalPlayerNextSibling = null;
+let playerInWelcome = false;
+
+function attachPlayerToWelcome() {
+    // Move o player para dentro da tela de boas‑vindas se ainda não estiver
+    if (!playerInWelcome && elements.welcomeScreen && elements.audioPlayerWrapper) {
+        originalPlayerParent = elements.audioPlayerWrapper.parentElement;
+        originalPlayerNextSibling = elements.audioPlayerWrapper.nextSibling;
+        elements.welcomeScreen.appendChild(elements.audioPlayerWrapper);
+        elements.audioPlayerWrapper.classList.add('inside-welcome');
+        // Garante que o player esteja visível quando colocado na tela de boas‑vindas
+        elements.audioPlayerWrapper.classList.remove('hidden-player');
+        playerInWelcome = true;
+    }
+}
+
+function detachPlayerFromWelcome() {
+    // Restaura o player para sua posição original se estiver na tela de boas‑vindas
+    if (playerInWelcome && elements.audioPlayerWrapper && originalPlayerParent) {
+        elements.audioPlayerWrapper.classList.remove('inside-welcome');
+        // Insere o player de volta ao seu local original antes de qualquer outro irmão
+        if (originalPlayerNextSibling && originalPlayerNextSibling.parentElement === originalPlayerParent) {
+            originalPlayerParent.insertBefore(elements.audioPlayerWrapper, originalPlayerNextSibling);
+        } else {
+            originalPlayerParent.appendChild(elements.audioPlayerWrapper);
+        }
+        playerInWelcome = false;
+    }
+}
+
 // --- Constantes para Pontuação e Tempo ---
 const TIME_PER_QUESTION = 15; // Segundos
 const BASE_SCORE_PER_CORRECT = 10;
@@ -4370,6 +4462,12 @@ function showIntroMessage() {
     quizState.quizPaused = true;
     showMainOverlay();
 
+    // Antes de recriar a tela de boas‑vindas, mova o player de áudio para dentro do
+    // elemento de boas‑vindas. Isso garante que ele fique logo abaixo do texto de
+    // introdução e não interfira no restante da interface. Ao sair desta tela, o
+    // player será restaurado pelo detachPlayerFromWelcome().
+    attachPlayerToWelcome();
+
     // Recria o HTML da tela de boas-vindas para garantir que ela esteja sempre completa
     elements.welcomeScreen.innerHTML = `
         <h3>Bem-vindo(a) ao Quiz do Charlie Brown Jr!</h3>
@@ -4442,6 +4540,10 @@ function showIntroMessage() {
 
 function showDifficultyScreen() {
     console.log("showDifficultyScreen: Exibindo tela de seleção de dificuldade.");
+
+    // Ao entrar na tela de dificuldade, garanta que o player não esteja mais dentro da
+    // tela de boas‑vindas. Isso recoloca o player na posição fixa no topo da página.
+    detachPlayerFromWelcome();
     elements.welcomeScreen.innerHTML = `
         <h3>Escolha a Dificuldade</h3>
         <p class="intro-text">
@@ -4467,6 +4569,9 @@ function showDifficultyScreen() {
 
 function startQuiz(difficulty) {
     console.log(`startQuiz: Iniciando o quiz na dificuldade ${difficulty}.`);
+
+    // Saindo da tela de boas‑vindas: devolve o player para a posição fixa padrão.
+    detachPlayerFromWelcome();
     
     quizState.lives = gameSettings[difficulty].lives;
     quizState.timePerQuestion = gameSettings[difficulty].time;
@@ -5817,6 +5922,10 @@ let bonusCountdownTimer = null;
 
 function showDiscoSelectionScreen() {
     console.log("showDiscoSelectionScreen: Exibindo tela de seleção de discos.");
+
+    // Ao navegar para a lista de discos do Rádio, garanta que o player seja removido
+    // da tela de boas‑vindas (caso ainda esteja lá) e retorne à posição fixa padrão.
+    detachPlayerFromWelcome();
     // Ao entrar no modo Rádio, esconda o quiz principal
     hideMainGame();
 
@@ -5917,6 +6026,9 @@ function showDiscoSelectionScreen() {
 
 function startBonusMusicGame(discoIndex) {
     console.log(`startBonusMusicGame: Iniciando Disco ${discoIndex + 1}.`);
+
+    // Garantir que o player não esteja mais aninhado na tela de boas‑vindas
+    detachPlayerFromWelcome();
     
     hideMainOverlay();
     elements.bonusDiscoSelectionScreen.classList.remove('show');
