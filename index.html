@@ -1026,6 +1026,53 @@
           #audio-player-wrapper:not(.inside-welcome) .audio-main-controls button i {
             font-size: 0.9em !important;
           }
+
+        /* ===============================================================
+           Regras baseadas em classes do <body> para controlar a posição
+           e visibilidade do player em diferentes modos de jogo. As classes
+           intro-active, quiz-active e radio-active são adicionadas/ removidas
+           dinamicamente no script para refletir o estado atual do aplicativo.
+           =============================================================== */
+        /* No modo de boas‑vindas (intro-active), o player fica logo abaixo
+           da caixa de introdução. Ele se expande para a largura completa
+           da caixa e deixa de ser fixo. */
+        body.intro-active #audio-player-wrapper {
+            position: relative !important;
+            top: auto !important;
+            right: auto !important;
+            left: auto !important;
+            bottom: auto !important;
+            width: 100% !important;
+            max-width: none !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            margin-top: 10px !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            z-index: 1 !important;
+        }
+        /* No modo Rádio (radio-active), o player fica completamente oculto,
+           pois o usuário precisa adivinhar a música apenas ouvindo. */
+        body.radio-active #audio-player-wrapper {
+            display: none !important;
+        }
+        /* No modo Quiz (quiz-active), o player permanece fixo no canto
+           superior direito, porém com dimensões compactas para não
+           interferir na experiência. */
+        body.quiz-active #audio-player-wrapper {
+            position: fixed !important;
+            top: 10px !important;
+            right: 10px !important;
+            left: auto !important;
+            bottom: auto !important;
+            width: 200px !important;
+            max-width: 200px !important;
+            min-height: 150px !important;
+            max-height: 150px !important;
+            padding: 6px !important;
+            gap: 4px !important;
+            z-index: 6000 !important;
+        }
         }
 
         .player-content {
@@ -4462,11 +4509,10 @@ function showIntroMessage() {
     quizState.quizPaused = true;
     showMainOverlay();
 
-    // Antes de recriar a tela de boas‑vindas, mova o player de áudio para dentro do
-    // elemento de boas‑vindas. Isso garante que ele fique logo abaixo do texto de
-    // introdução e não interfira no restante da interface. Ao sair desta tela, o
-    // player será restaurado pelo detachPlayerFromWelcome().
-    attachPlayerToWelcome();
+    // Defina o estado do corpo para modo de introdução. Isso fará com que o
+    // player seja posicionado logo abaixo da caixa de boas‑vindas via CSS.
+    document.body.classList.remove('quiz-active', 'radio-active');
+    document.body.classList.add('intro-active');
 
     // Recria o HTML da tela de boas-vindas para garantir que ela esteja sempre completa
     elements.welcomeScreen.innerHTML = `
@@ -4541,9 +4587,6 @@ function showIntroMessage() {
 function showDifficultyScreen() {
     console.log("showDifficultyScreen: Exibindo tela de seleção de dificuldade.");
 
-    // Ao entrar na tela de dificuldade, garanta que o player não esteja mais dentro da
-    // tela de boas‑vindas. Isso recoloca o player na posição fixa no topo da página.
-    detachPlayerFromWelcome();
     elements.welcomeScreen.innerHTML = `
         <h3>Escolha a Dificuldade</h3>
         <p class="intro-text">
@@ -4570,8 +4613,10 @@ function showDifficultyScreen() {
 function startQuiz(difficulty) {
     console.log(`startQuiz: Iniciando o quiz na dificuldade ${difficulty}.`);
 
-    // Saindo da tela de boas‑vindas: devolve o player para a posição fixa padrão.
-    detachPlayerFromWelcome();
+    // Ao iniciar o quiz, configure o estado do corpo para modo Quiz. O player
+    // assume uma posição fixa compacta no canto superior direito.
+    document.body.classList.remove('intro-active', 'radio-active');
+    document.body.classList.add('quiz-active');
     
     quizState.lives = gameSettings[difficulty].lives;
     quizState.timePerQuestion = gameSettings[difficulty].time;
@@ -5923,9 +5968,10 @@ let bonusCountdownTimer = null;
 function showDiscoSelectionScreen() {
     console.log("showDiscoSelectionScreen: Exibindo tela de seleção de discos.");
 
-    // Ao navegar para a lista de discos do Rádio, garanta que o player seja removido
-    // da tela de boas‑vindas (caso ainda esteja lá) e retorne à posição fixa padrão.
-    detachPlayerFromWelcome();
+    // Defina o estado do corpo para modo Rádio. Isto esconderá o player
+    // completamente via CSS, pois o usuário só deve ouvir a música.
+    document.body.classList.remove('intro-active', 'quiz-active');
+    document.body.classList.add('radio-active');
     // Ao entrar no modo Rádio, esconda o quiz principal
     hideMainGame();
 
@@ -6020,15 +6066,17 @@ function showDiscoSelectionScreen() {
         };
     }
 
-    elements.audioPlayerWrapper.classList.add('hidden-player');
+    // Não use mais a classe hidden-player aqui; a visibilidade do player
+    // será controlada via classes no <body> (radio-active).
 }
 
 
 function startBonusMusicGame(discoIndex) {
     console.log(`startBonusMusicGame: Iniciando Disco ${discoIndex + 1}.`);
 
-    // Garantir que o player não esteja mais aninhado na tela de boas‑vindas
-    detachPlayerFromWelcome();
+    // Garanta que o corpo esteja no modo Rádio para esconder o player via CSS
+    document.body.classList.remove('intro-active', 'quiz-active');
+    document.body.classList.add('radio-active');
     
     hideMainOverlay();
     elements.bonusDiscoSelectionScreen.classList.remove('show');
