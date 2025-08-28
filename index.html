@@ -2996,16 +2996,17 @@
           width: 230px !important;
           max-width: 230px !important;
           height: auto !important;
-          min-height: 210px !important;
+          min-height: 180px !important;
+          max-height: 180px !important;
           margin: 0 !important;
-          padding: 10px !important;
-          border-radius: 12px !important;
+          padding: 8px !important;
+          border-radius: 10px !important;
           z-index: 6000 !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
           justify-content: flex-start !important;
-          gap: 8px !important;
+          gap: 6px !important;
           backdrop-filter: blur(4px) !important;
           -webkit-backdrop-filter: blur(4px) !important;
         }
@@ -3067,7 +3068,7 @@
           height: 100% !important;
           max-height: none !important;
           transform: none !important;
-          padding: 210px 20px 20px 20px !important;
+          padding: 190px 20px 20px 20px !important;
           box-sizing: border-box !important;
           overflow-y: auto !important;
         }
@@ -3086,6 +3087,38 @@
         }
         .answers-container {
           gap: 10px !important;
+        }
+
+        /* Adjust the layout of the Rádio CBJR guessing screen on small devices */
+        #bonus-music-screen {
+          padding: 15px 10px !important;
+          width: 95% !important;
+          max-width: none !important;
+        }
+        #bonus-music-screen h2 {
+          font-size: 1.6em !important;
+        }
+        #bonus-music-screen #bonus-current-song-title {
+          font-size: 1.2em !important;
+        }
+        #bonus-music-screen #bonus-answer-input {
+          font-size: 0.95em !important;
+          padding: 8px 12px !important;
+          width: 100% !important;
+          max-width: none !important;
+        }
+        #bonus-music-screen .bonus-controls {
+          flex-direction: row !important;
+          flex-wrap: wrap !important;
+          justify-content: center !important;
+          gap: 8px !important;
+          margin-top: 15px !important;
+        }
+        #bonus-music-screen .bonus-controls button {
+          flex: 0 1 calc(33.33% - 10px) !important;
+          font-size: 0.8em !important;
+          padding: 6px 8px !important;
+          height: 40px !important;
         }
       }
     </style>
