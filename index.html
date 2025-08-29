@@ -1,2587 +1,2589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Charlie Brown Jr</title>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JCN94Y3P0"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-1JCN94Y3P0');
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        /* Variáveis CSS para facilitar a manutenção */
-        :root {
-            --cor-amarelo-cbjr: #f1c40f;
-            --cor-preto-principal: #343434;
-            --cor-verde-correto: #2ecc71;
-            --cor-vermelho-incorreto: #e74c3c;
-            /* Mais transparência para a caixa de mensagem principal */
-            --cor-fundo-transparente: rgba(0, 0, 0, 0.4);
-            --cor-texto-claro: white;
-            --cor-texto-escuro: black;
-
-            --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.4);
-            --cor-verde-vibrante: #1ed760; /* Usado no Spotify, mais vibrante */
-
-            /* NOVO: Cor para a barra de vida */
-            --cor-vida: #e74c3c;
-            --cor-vida-fundo: rgba(231, 76, 60, 0.2);
-
-            /* NOVO: Cores para a tela de conclusão/nível secreto */
-            --cor-secreto-fundo: rgba(0, 0, 0, 0.85);
-            --cor-secreto-texto: var(--cor-amarelo-cbjr);
-            --cor-secreto-borda: #fff;
-            --cor-secreto-sombra: rgba(241, 196, 15, 0.8);
-
-            /* NOVO: Cores para o Nível Rádio CBJR */
-            --cor-bonus-fundo: rgba(0, 50, 0, 0.9);
-            --cor-bonus-texto: #1ed760;
-            --cor-bonus-input-fundo: rgba(255, 255, 255, 0.15);
-            --cor-bonus-input-borda: var(--cor-verde-vibrante);
-
-            /* NOVO: Cores para a tela de Conquista do Bônus */
-            --cor-bonus-conquista-fundo: rgba(0, 0, 0, 0.95);
-            --cor-bonus-conquista-texto: var(--cor-amarelo-cbjr);
-            --cor-bonus-conquista-borda: var(--cor-verde-vibrante);
-            --cor-bonus-conquista-sombra: rgba(30, 215, 96, 0.8);
-        }
-
-        /* Ajustes responsivos para telas menores */
-        @media (max-width: 600px) {
-            /* Expande a área do jogador para a largura total e reduz ainda mais o padding em telas pequenas */
-            .bonus-player-area {
-                width: 100%;
-                padding: 15px 10px;
-            }
-            /* Pontuação em coluna e centralizada */
-            .bonus-score-display {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-                max-width: 100%;
-            }
-            .bonus-score-display .score-item {
-                width: 100%;
-                min-width: unset;
-            }
-            /* Botões do controle em coluna */
-            .bonus-controls {
-                flex-direction: column;
-                width: 100%;
-                gap: 15px;
-            }
-            #bonus-music-screen .bonus-controls button {
-                width: 100%;
-            }
-            /* Reduz tamanho do título da música no modo bônus */
-            #bonus-music-screen #bonus-current-song-title {
-                font-size: 1.6em;
-            }
-            /* Ajusta largura do input de resposta para ocupar toda a tela */
-            #bonus-music-screen #bonus-answer-input {
-                max-width: 100%;
-            }
-        }
-
-        /* Ajustes adicionais para telas muito pequenas (até 480px de largura) */
-        @media (max-width: 480px) {
-            /* Ajusta ainda mais o player de áudio para não sobrepor os botões de menu */
-            #audio-player-wrapper {
-                top: 10px;
-                right: 10px;
-                max-width: 200px;
-                padding: 8px;
-            }
-            #audio-player-wrapper .player-content {
-                gap: 6px;
-            }
-            #audio-player-wrapper #current-song {
-                font-size: 0.9em;
-            }
-            /* Garante que os botões de boas-vindas fiquem lado a lado mesmo em telas menores */
-            #welcome-screen .message-buttons,
-            #bonus-music-screen .message-buttons {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-            #welcome-screen .message-buttons button,
-            #bonus-music-screen .message-buttons button {
-                font-size: 0.9em;
-                padding: 10px 15px;
-            }
-        }
-
-        @font-face {
-            font-family: 'Elektrix';
-            src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff2') format('woff2'),
-                 url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff') format('woff'),
-                 url('https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR/Elektrix%20Bold.ttf') format('truetype');
-            font-weight: bold;
-            font-display: swap;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                text-shadow: 2px 2px 10px var(--cor-preto-principal);
-            }
-            50% {
-                transform: scale(1.08);
-                text-shadow: 4px 4px 20px var(--cor-amarelo-cbjr);
-            }
-            100% {
-                transform: scale(1);
-                text-shadow: 2px 2px 10px var(--cor-preto-principal);
-            }
-        }
-
-        /* Keyframes para o brilho */
-        @keyframes glow-correct {
-            0% { box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
-            50% { box-shadow: 0 0 25px var(--cor-verde-correto); }
-            100% { box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
-        }
-
-        @keyframes glow-incorrect {
-            0% { box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
-            50% { box-shadow: 0 0 25px var(--cor-vermelho-incorreto); }
-            100% { box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
-        }
-
-        /* NOVO: Keyframes para transição de entrada das respostas (DURAÇÃO AUMENTADA) */
-        @keyframes fadeInSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* NOVO: Keyframes para o efeito de tremor */
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            50% { transform: translateX(8px); }
-            75% { transform: translateX(-8px); }
-            100% { transform: translateX(0); }
-        }
-        /* NOVO: Keyframe para o tremor do input (melhorado para bônus) */
-        @keyframes shake-input {
-            0%, 100% { transform: translateX(0); }
-            10% { transform: translateX(-6px); }
-            20% { transform: translateX(6px); }
-            30% { transform: translateX(-6px); }
-            40% { transform: translateX(6px); }
-            50% { transform: translateX(-6px); }
-            60% { transform: translateX(6px); }
-            70% { transform: translateX(-6px); }
-            80% { transform: translateX(6px); }
-            90% { transform: translateX(-6px); }
-        }
-        /* NOVO: Keyframe para o pulso/bounce do input (melhorado para bônus) */
-        @keyframes pulse-input {
-            0% { transform: scale(1); box-shadow: 0 0 15px var(--cor-verde-correto); }
-            50% { transform: scale(1.03); box-shadow: 0 0 30px var(--cor-verde-correto); }
-            100% { transform: scale(1); box-shadow: 0 0 15px var(--cor-verde-correto); }
-        }
-
-        /* NOVO: Keyframes para o brilho neon da tela de bônus */
-        @keyframes neon-pulse {
-            0%, 100% {
-                border-color: var(--cor-verde-vibrante);
-                box-shadow: 0 0 15px var(--cor-verde-vibrante),
-                            0 0 30px var(--cor-verde-vibrante),
-                            0 0 45px var(--cor-verde-vibrante),
-                            inset 0 0 15px var(--cor-verde-vibrante);
-            }
-            50% {
-                border-color: var(--cor-amarelo-cbjr);
-                box-shadow: 0 0 20px var(--cor-amarelo-cbjr),
-                            0 0 40px var(--cor-amarelo-cbjr),
-                            0 0 60px var(--cor-amarelo-cbjr),
-                            inset 0 0 20px var(--cor-amarelo-cbjr);
-            }
-        }
-
-        /* NOVO: Keyframes para o tremor da tela secreta */
-        @keyframes strong-shake {
-            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
-            10% { transform: translate(-50%, -50%) rotate(-2deg); }
-            20% { transform: translate(-50%, -50%) rotate(2deg); }
-            30% { transform: translate(-50%, -50%) rotate(-2deg); }
-            40% { transform: translate(-50%, -50%) rotate(2deg); }
-            50% { transform: translate(-50%, -50%) rotate(0deg); }
-            60% { transform: translate(-50%, -50%) rotate(-2.5deg); }
-            70% { transform: translate(-50%, -50%) rotate(2.5deg); }
-            80% { transform: translate(-50%, -50%) rotate(-2.5deg); }
-            90% { transform: translate(-50%, -50%) rotate(2.5deg); }
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: var(--cor-preto-principal);
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
-            background-attachment: fixed;
-            color: var(--cor-texto-claro);
-            text-align: center;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding-bottom: 180px;
-            transition: background-image 1s ease-in-out;
-            overflow-x: hidden;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                background-size: cover;
-            }
-        }
-
-        header h1 {
-            font-family: 'Elektrix', sans-serif;
-            font-size: 3em;
-            color: var(--cor-amarelo-cbjr);
-            text-shadow: 0 0 12px var(--cor-amarelo-cbjr),
-                         0 0 25px rgba(241, 196, 15, 0.7),
-                         0 0 40px rgba(241, 196, 15, 0.5);
-            padding: 30px 50px;
-            border-radius: 25px;
-            display: inline-block;
-            animation: pulse 2.5s infinite;
-            line-height: 1.2;
-            margin-top: 25px;
-        }
-        /* Mobile adjustment for header H1 */
-        @media (max-width: 400px) {
-            header h1 {
-                font-size: 2.2em;
-                padding: 20px 30px;
-            }
-        }
-
-        /* Remove header animation on smaller screens to evitar o efeito de flutuação */
-        @media (max-width: 768px) {
-            header h1 {
-                animation: none;
-            }
-        }
-
-
-        .container {
-            max-width: 1000px;
-            width: 95%;
-            background-color: var(--cor-fundo-transparente);
-            padding: 35px;
-            border-radius: 18px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 50px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            box-sizing: border-box;
-        }
-
-        .quiz-info-bottom {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            color: rgba(255, 255, 255, 0.9);
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-            width: 100%;
-            font-size: 1.1em;
-        }
-        .quiz-info-bottom p {
-            margin: 0;
-            padding: 0 8px;
-            font-weight: bold;
-        }
-        @media (max-width: 480px) {
-            .quiz-info-bottom {
-                font-size: 0.95em;
-                gap: 8px;
-                margin-top: 20px;
-                padding-top: 10px;
-            }
-        }
-
-        /* Estilo para o display de vidas */
-        #lives-display {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            display: flex;
-            gap: 8px;
-            font-size: 1.3em;
-            color: var(--cor-vida);
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
-        }
-        #lives-display span {
-            font-size: 1.6em;
-            line-height: 1;
-        }
-        #lives-display span:last-child {
-            font-family: 'Elektrix', sans-serif;
-            font-size: 1.3em;
-        }
-
-        /* Power-ups */
-        #power-ups-container {
-            width: 90%;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            z-index: 10;
-            flex-wrap: wrap;
-        }
-
-        .power-up-btn {
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-amarelo-cbjr);
-            border: 2px solid var(--cor-amarelo-cbjr);
-            border-radius: 8px;
-            padding: 8px 15px;
-            font-size: 1em;
-            font-family: 'Elektrix', sans-serif;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .power-up-btn:hover:not(:disabled) {
-            background-color: var(--cor-amarelo-cbjr);
-            color: var(--cor-preto-principal);
-            transform: scale(1.08);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.8), 0 0 15px var(--cor-amarelo-cbjr);
-        }
-
-        .power-up-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            border-color: rgba(241, 196, 15, 0.3);
-            color: rgba(241, 196, 15, 0.3);
-            box-shadow: none;
-        }
-
-        .power-up-btn .power-up-count {
-            background-color: var(--cor-verde-correto);
-            color: var(--cor-texto-claro);
-            font-size: 0.8em;
-            padding: 3px 6px;
-            border-radius: 4px;
-        }
-
-        @media (max-width: 768px) {
-            #power-ups-container {
-                gap: 10px;
-                margin-top: 25px;
-                margin-bottom: 25px;
-            }
-            .power-up-btn {
-                padding: 10px 15px;
-                font-size: 0.9em;
-            }
-        }
-        @media (max-width: 480px) {
-            #power-ups-container {
-                margin-top: 20px;
-                margin-bottom: 20px;
-                gap: 8px;
-            }
-            .power-up-btn {
-                padding: 8px 12px;
-                font-size: 0.8em;
-            }
-        }
-
-        .question {
-            opacity: 1;
-            transition: opacity 0.5s ease-in-out;
-            width: 100%;
-        }
-
-        .question.fade-out {
-            opacity: 0;
-        }
-
-        .question h3 {
-            font-size: 2.2em;
-            font-family: 'Elektrix', sans-serif;
-            margin-bottom: 30px;
-            line-height: 1.4;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-                         0 0 20px var(--cor-amarelo-cbjr),
-                         0 0 30px rgba(241, 196, 15, 0.6);
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        /* Mobile adjustment for question H3 */
-        @media (max-width: 400px) {
-            .question h3 {
-                font-size: 1.8em;
-                margin-bottom: 20px;
-            }
-        }
-
-
-        .question h3.shake {
-            animation: shake 0.25s 3;
-        }
-
-        /* REMOVENDO CRONÔMETRO VISUAL */
-        .timer-display {
-            display: none;
-        }
-
-        /* Container para respostas e curiosidade lado a lado */
-        .question-content {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            width: 100%;
-            align-items: center;
-        }
-
-        @media (min-width: 769px) {
-            .question-content {
-                flex-direction: row;
-                align-items: flex-start;
-            }
-        }
-
-        /* Ajustes para o answers-container para nova estrutura */
-        .answers-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-            flex-grow: 1;
-            min-width: 55%;
-            width: auto;
-        }
-
-        .question button {
-            padding: 18px 15px;
-            font-size: 1.3em;
-            border-radius: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-texto-claro);
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            width: 100%;
-            height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-sizing: border-box;
-            white-space: normal;
-            word-wrap: break-word;
-            position: relative;
-            opacity: 0;
-            transform: translateY(40px);
-        }
-
-        /* DURAÇÃO AUMENTADA AQUI */
-        .question button.show {
-            animation: fadeInSlideUp 0.9s ease-out forwards;
-        }
-
-        /* Estilo para o atalho de teclado */
-        .question button .keyboard-shortcut {
-            position: absolute;
-            top: 7px;
-            left: 10px;
-            font-size: 0.8em;
-            font-weight: bold;
-            color: rgba(255, 255, 255, 0.6);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-        }
-        /* Mobile adjustment for keyboard shortcut text */
-        @media (max-width: 400px) {
-            .question button .keyboard-shortcut {
-                font-size: 0.7em;
-                top: 5px;
-                left: 5px;
-            }
-        }
-
-        .question button:hover:not(:disabled) {
-            transform: scale(1.06);
-            background-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
-            border-color: rgba(255, 255, 255, 0.8);
-        }
-
-        .question button.correct {
-            background-color: var(--cor-verde-correto);
-            border-color: var(--cor-verde-correto);
-            color: var(--cor-texto-claro);
-        }
-
-        .question button.incorrect {
-            background-color: var(--cor-vermelho-incorreto);
-            border-color: var(--cor-vermelho-incorreto);
-            color: var(--cor-texto-claro);
-        }
-
-        /* Estilos de brilho aplicados via JS */
-        .answer-button.glow-correct {
-            animation: glow-correct 1.8s ease-out forwards;
-        }
-
-        .answer-button.glow-incorrect {
-            animation: glow-incorrect 1.8s ease-out forwards;
-        }
-
-        .question button .feedback-icon {
-            margin-left: 10px;
-            color: white;
-            font-size: 1.3em;
-        }
-
-        /* Antiga curiosity-box - agora estará oculta, o conteúdo vai para curiosity-sidebar-box */
-        .curiosity-box {
-            display: none;
-        }
-
-        /* Estilo para a caixa de curiosidade ao lado */
-        .curiosity-sidebar-box {
-            background-color: var(--cor-fundo-transparente);
-            color: var(--cor-texto-claro);
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 1em;
-            line-height: 1.6;
-            text-align: left;
-            flex-basis: 40%;
-            max-width: 45%;
-            min-width: 280px;
-            box-sizing: border-box;
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-            pointer-events: none;
-            align-self: flex-start;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            margin-top: 0;
-            margin-bottom: 0;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-        }
-        /* Mobile adjustment for curiosity box - revert to block flow */
-        @media (max-width: 768px) {
-            .curiosity-sidebar-box {
-                flex-basis: 90%;
-                max-width: 90%;
-                text-align: center;
-                align-self: center;
-                margin-top: 20px;
-            }
-        }
-
-        /* DURAÇÃO RESTAURADA e ANIMAÇÃO REMOVIDA */
-        .curiosity-sidebar-box.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .curiosity-sidebar-box strong {
-            color: var(--cor-amarelo-cbjr);
-            font-family: 'Elektrix', sans-serif;
-            font-size: 1.2em;
-            display: block;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
-        }
-
-        /* NOVO: Estilo para a mensagem de combo */
-        #combo-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(241, 196, 15, 0.9);
-            color: var(--cor-preto-principal);
-            padding: 20px 40px;
-            border-radius: 15px;
-            font-family: 'Elektrix', sans-serif;
-            font-size: 2.8em;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.6);
-            z-index: 2500;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-            box-shadow: 0 0 25px rgba(0,0,0,0.7);
-            white-space: nowrap;
-            display: none;
-        }
-
-        #combo-message.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1.15);
-            display: block;
-        }
-
-        /* NOVO: Estilo para o pop-up de conquista */
-        #achievement-popup {
-            position: fixed;
-            top: 15%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: var(--cor-verde-correto);
-            color: var(--cor-texto-claro);
-            padding: 20px 30px;
-            border-radius: 12px;
-            font-family: 'Elektrix', sans-serif;
-            font-size: 1.8em;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-            z-index: 3000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
-            display: none;
-            animation: fadeInOut 3.5s forwards;
-        }
-        @keyframes fadeInOut {
-            0% { opacity: 0; transform: translate(-50%, -50px); }
-            15% { opacity: 1; transform: translate(-50%, 0); }
-            85% { opacity: 1; transform: translate(-50%, 0); }
-            100% { opacity: 0; transform: translate(-50%, -50px); }
-        }
-        #achievement-popup.show {
-            display: block;
-        }
-
-        /* NOVO: Estilos para a tela de conquistas */
-        #achievements-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: transparent;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px;
-            box-sizing: border-box;
-            overflow-y: auto;
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-            pointer-events: none;
-        }
-        #achievements-screen.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-        #achievements-screen h2 {
-            font-family: 'Elektrix', sans-serif;
-            font-size: 3em;
-            color: var(--cor-amarelo-cbjr);
-            margin-bottom: 35px;
-            text-shadow: 4px 4px 18px var(--cor-preto-principal), 0 0 20px var(--cor-amarelo-cbjr);
-        }
-        #achievements-list {
-            list-style: none;
-            padding: 0;
-            width: 90%;
-            max-width: 900px;
-            margin-bottom: 40px;
-            text-align: left;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            justify-content: center;
-        }
-
-        /* Estilo para o CARD de conquista */
-        .achievement-card {
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8);
-            transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 140px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            color: var(--cor-texto-claro);
-            text-align: center;
-        }
-
-        .achievement-card:hover {
-            transform: translateY(-8px);
-            background-color: rgba(0, 0, 0, 0.9);
-        }
-
-        .achievement-card.unlocked {
-            border-color: var(--cor-verde-correto);
-            background-color: rgba(46, 204, 113, 0.25);
-        }
-
-        .achievement-card.unlocked:hover {
-            background-color: rgba(46, 204, 113, 0.5);
-        }
-
-        .achievement-card h3 {
-            font-family: 'Elektrix', sans-serif;
-            font-size: 1.4em;
-            color: var(--cor-amarelo-cbjr);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
-        }
-
-        .achievement-card .achievement-icon {
-            font-size: 1.5em;
-            line-height: 1;
-            vertical-align: middle;
-        }
-
-        .achievement-card p {
-            font-family: Arial, sans-serif;
-            font-size: 1em;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-
-        .achievement-card .status {
-            font-weight: bold;
-            font-size: 0.9em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .achievement-card .status.unlocked {
-            color: var(--cor-verde-correto);
-        }
-
-        .achievement-card .status.locked {
-            color: var(--cor-vermelho-incorreto);
-        }
-
-        /* Media Query para forçar 2 colunas em telas maiores que 600px */
-        @media (min-width: 601px) {
-            #achievements-list {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 25px;
-            }
-        }
-
-        /* Media Query para telas menores (smartphones) */
-        @media (max-width: 600px) {
-            /* Em telas pequenas, mantenha o layout de conquistas em duas ou três colunas,
-               usando colunas flexíveis para preservar a estética do desktop. */
-            #achievements-list {
-                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-                gap: 15px;
-                width: 98%;
-            }
-            .achievement-card {
-                padding: 15px;
-                min-height: 90px;
-            }
-            .achievement-card h3 {
-                font-size: 1em;
-                margin-bottom: 6px;
-                /* Garante que nomes longos quebrem em várias linhas e não se sobreponham. */
-                word-break: break-word;
-                hyphens: auto;
-                line-height: 1.2;
-            }
-            .achievement-card p {
-                font-size: 0.8em;
-                margin-bottom: 10px;
-            }
-            .achievement-card .status {
-                font-size: 0.7em;
-            }
-            #close-achievements-btn {
-                font-size: 0.9em;
-                padding: 10px 18px;
-            }
-            #start-bonus-music-btn {
-                font-size: 0.9em;
-                padding: 10px 18px;
-            }
-        }
-        /* Media Query for very small screens to adjust header */
-        @media (max-width: 400px) {
-            header h1 {
-                font-size: 2.2em;
-                padding: 20px 30px;
-            }
-            .question h3 {
-                font-size: 1.8em;
-                margin-bottom: 20px;
-            }
-            .question button {
-                font-size: 1.1em;
-                padding: 15px 10px;
-                height: 75px;
-            }
-            .question button .keyboard-shortcut {
-                font-size: 0.7em;
-                top: 5px;
-                left: 5px;
-            }
-        }
-
-
-        #restart-btn {
-            padding: 15px 30px;
-            margin-top: 20px;
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-texto-claro);
-            border: 2px solid var(--cor-amarelo-cbjr);
-            border-radius: 10px;
-            font-size: 1.5em;
-            transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-        }
-        #restart-btn:hover {
-            transform: scale(1.05);
-            background-color: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.8), 0 0 15px var(--cor-amarelo-cbjr);
-        }
-
-        /* --- ALTERADO: Adicionado o seletor para os botões da tela de bônus --- */
-        #level-up-message .message-buttons button,
-        #welcome-screen .message-buttons button,
-        #bonus-music-screen .message-buttons button {
-            padding: 15px 30px;
-            font-size: 1.3em;
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-texto-claro);
-            border: 2px solid var(--cor-amarelo-cbjr);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: transform 0.25s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-            text-shadow: 0 0 10px rgba(255,255,255,0.9);
-            margin-top: 25px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
-            gap: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Elektrix', sans-serif;
-            width: 100%; /* Adicionado para que ocupe a largura total */
-            min-height: 65px; /* Adicionado para garantir um tamanho mínimo */
-        }
-        /* --- ALTERADO: Adicionado o seletor para o hover dos botões da tela de bônus --- */
-        #level-up-message button:hover,
-        #welcome-screen button:hover,
-        #bonus-music-screen .message-buttons button:hover {
-            transform: scale(1.08);
-            background-color: var(--cor-amarelo-cbjr);
-            color: var(--cor-preto-principal);
-            text-shadow: none;
-            box-shadow: 0 0 20px var(--cor-amarelo-cbjr);
-        }
-        /* --- ALTERADO: Adicionado o seletor para os ícones dos botões da tela de bônus --- */
-        #welcome-screen button i,
-        #bonus-music-screen .message-buttons button i {
-            color: var(--cor-amarelo-cbjr);
-            font-size: 1.5em;
-            transition: color 0.3s ease;
-        }
-        /* --- ALTERADO: Adicionado o seletor para o hover dos ícones da tela de bônus --- */
-        #welcome-screen button:hover i,
-        #bonus-music-screen .message-buttons button:hover i {
-            color: var(--cor-preto-principal);
-        }
-
-        /* REMOVENDO POP-UP DE PONTUAÇÃO VISUAL */
-        #points-popup {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-        }
-
-        /* --- PLAYER ATUALIZADO E CORRIGIDO --- */
-        /* --- PLAYER ATUALIZADO E CORRIGIDO (MOVIDO PARA O TOPO DIREITO) --- */
-        #audio-player-wrapper {
-            position: fixed;
-            top: 20px;                      /* ALTERADO: Distância do topo */
-            right: 20px;                    /* ALTERADO: Distância da direita */
-            /* REMOVIDO: bottom, left, e transform */
-            max-width: 280px;               /* AJUSTADO: Um pouco mais de largura para o novo formato */
-            width: auto;                    /* AJUSTADO: Largura automática */
-            padding: 15px;                  /* AJUSTADO: Um pouco mais de respiro interno */
-            background: rgba(0, 0, 0, 0.6); /* AJUSTADO: Um pouco mais de opacidade */
-            backdrop-filter: blur(8px);     /* NOVO: Efeito de desfoque para um visual moderno */
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.7); /* ALTERADO: Sombra para baixo */
-            z-index: 2200;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-sizing: border-box;
-            min-height: 80px;
-            flex-wrap: wrap;
-            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-        }
-        /* Classe para ocultar o player */
-        #audio-player-wrapper.hidden-player {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        /* Quando o player é movido para dentro da tela de boas‑vindas, ele deve perder o posicionamento fixo
-           e passar a ocupar toda a largura da caixa de boas‑vindas. Isso evita que o player se sobreponha
-           a outros elementos e garante que fique logo abaixo do texto de introdução. */
-        #audio-player-wrapper.inside-welcome {
-            position: relative !important;
-            top: auto !important;
-            right: auto !important;
-            left: auto !important;
-            bottom: auto !important;
-            width: 100% !important;
-            max-width: none !important;
-            min-height: 0 !important;
-            max-height: none !important;
-            margin-top: 10px !important;
-            padding: 8px !important;
-            z-index: 1 !important;
-            border-radius: 10px !important;
-        }
-
-        /* Ajustes adicionais quando o player está dentro da tela de boas‑vindas. A coluna é mantida,
-           mas os controles e texto são alinhados para caber de forma compacta. */
-        #audio-player-wrapper.inside-welcome .player-content {
-            flex-direction: column !important;
-            align-items: center !important;
-            gap: 6px !important;
-        }
-
-        /* Em telas pequenas, fora da tela de boas‑vindas, o player deve ser ainda mais compacto.
-           Reduzimos largura, altura e espaçamentos para melhorar a experiência no quiz principal. */
-        @media (max-width: 600px) {
-          #audio-player-wrapper:not(.inside-welcome) {
-            /* Torne o player ainda mais compacto nas telas pequenas. */
-            width: 180px !important;
-            max-width: 180px !important;
-            min-height: 90px !important;
-            max-height: 90px !important;
-            padding: 6px !important;
-            gap: 4px !important;
-          }
-          /* Diminuímos o tamanho dos ícones principais para que o player ocupe menos espaço visual. */
-          #audio-player-wrapper:not(.inside-welcome) .audio-main-controls button i {
-            font-size: 1em !important;
-          }
-          #audio-player-wrapper:not(.inside-welcome) #current-song {
-            font-size: 0.8em !important;
-          }
-
-          /* Ajusta os botões do player para serem menores em telas pequenas */
-          #audio-player-wrapper:not(.inside-welcome) .audio-main-controls button {
-            width: 28px !important;
-            height: 28px !important;
-            padding: 4px !important;
-          }
-          #audio-player-wrapper:not(.inside-welcome) .audio-main-controls button i {
-            font-size: 0.8em !important;
-          }
-
-        /* Estilo para o botão de sair do quiz (sutil e discreto) */
-        #exit-quiz-btn {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 6px;
-            color: var(--cor-texto-claro);
-            font-size: 0.9em;
-            padding: 6px 12px;
-            cursor: pointer;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        #exit-quiz-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* ===============================================================
-           Regras baseadas em classes do <body> para controlar a posição
-           e visibilidade do player em diferentes modos de jogo. As classes
-           intro-active, quiz-active e radio-active são adicionadas/ removidas
-           dinamicamente no script para refletir o estado atual do aplicativo.
-           =============================================================== */
-        /* No modo de boas‑vindas (intro-active), o player fica logo abaixo
-           da caixa de introdução. Ele se expande para a largura completa
-           da caixa e deixa de ser fixo. */
-        body.intro-active #audio-player-wrapper {
-            position: relative !important;
-            top: auto !important;
-            right: auto !important;
-            left: auto !important;
-            bottom: auto !important;
-            width: 100% !important;
-            max-width: none !important;
-            min-height: 0 !important;
-            max-height: none !important;
-            margin-top: 10px !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-            z-index: 1 !important;
-        }
-        /* No modo Rádio (radio-active), o player fica completamente oculto,
-           pois o usuário precisa adivinhar a música apenas ouvindo. */
-        body.radio-active #audio-player-wrapper {
-            display: none !important;
-        }
-        /* No modo Quiz (quiz-active), o player permanece fixo no canto
-           superior direito, porém com dimensões compactas para não
-           interferir na experiência. */
-        body.quiz-active #audio-player-wrapper {
-            position: fixed !important;
-            top: 10px !important;
-            right: 10px !important;
-            left: auto !important;
-            bottom: auto !important;
-            width: 200px !important;
-            max-width: 200px !important;
-            /* Reduzimos ainda mais a altura do player para ficar ainda mais discreto no quiz. */
-            min-height: 90px !important;
-            max-height: 90px !important;
-            padding: 6px !important;
-            gap: 4px !important;
-            z-index: 6000 !important;
-        }
-        }
-
-        .player-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            gap: 8px; /* Reduced gap */
-        }
-
-        #current-song {
-            color: var(--cor-verde-vibrante);
-            font-size: 1.1em; /* Reduced font size */
-            font-weight: bold;
-            text-shadow: none;
-            margin-bottom: 2px; /* Reduced margin */
-            white-space: nowrap;
-            overflow: hidden;
-            width: 100%;
-            text-align: center;
-            animation: none;
-            animation-play-state: paused;
-            height: 1.3em; /* Adjusted height */
-            line-height: 1.3em;
-            position: relative;
-        }
-
-        /* O elemento real que vai rolar DENTRO de #current-song */
-        @keyframes marquee-text {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(var(--marquee-distance)); }
-        }
-        /* Classe que ativa a animação e ajusta o span interno */
-        #current-song.should-marquee span {
-            display: inline-block;
-            white-space: nowrap;
-            animation-play-state: running;
-            text-align: left;
-            position: absolute;
-            left: 0;
-            top: 0;
-            will-change: transform;
-        }
-
-        #audio {
-            display: none;
-        }
-
-        .progress-bar-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            gap: 2px; /* Reduced gap */
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 3px; /* Thinner */
-            background-color: #535353;
-            border-radius: 2px;
-            outline: none;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: var(--cor-verde-vibrante);
-            border-radius: 2px;
-            transition: width 0.1s linear;
-        }
-
-        .time-display {
-            color: var(--cor-verde-vibrante);
-            font-size: 0.75em; /* Reduced font size */
-            width: 100%;
-            margin-top: 0; /* Reduced margin */
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .audio-main-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px; /* Reduced gap significantly */
-            width: 100%;
-            margin-top: 5px; /* Reduced margin */
-        }
-
-        .audio-control-btn {
-            background-color: transparent;
-            border: none;
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            cursor: pointer;
-            transition: transform 0.2s ease, fill 0.3s ease;
-            box-shadow: none;
-            width: 30px; /* Reduced size */
-            height: 30px; /* Reduced size */
-            flex-shrink: 0;
-        }
-
-        /* Esconde o SVG não ativo dentro do botão de repeat e mute */
-        #repeat-btn #repeat-all-svg { display: block; }
-        #repeat-btn #repeat-one-svg { display: none; }
-        #mute-btn #volume-svg { display: block; }
-        #mute-btn #mute-svg { display: none; }
-
-        .audio-control-btn svg {
-            width: 100%;
-            height: 100%;
-            fill: #b3b3b3;
-            transition: fill 0.3s ease, transform 0.2s ease;
-        }
-        /* Cor padrão para os elementos internos dos SVGs complexos (repeat e shuffle) */
-        #repeat-btn svg .repeat-outer-circle { fill: #344E5D; }
-        #repeat-btn svg .repeat-arrow-1, #repeat-btn svg .repeat-arrow-2 { fill: white; }
-        #repeat-btn #repeat-one-svg .repeat-one-circle { fill: #b3b3b3; }
-        #repeat-btn #repeat-one-svg .repeat-one-number, #repeat-btn #repeat-one-svg .repeat-one-arrows { fill: white; }
-
-        /* SHUFFLE: Cores quando INATIVO (o estado padrão) */
-        #shuffle-btn svg .shuffle-main-circle { fill: #b3b3b3; }
-        #shuffle-btn svg path:not(.shuffle-main-circle), #shuffle-btn svg polyline {
-            stroke: #535353;
-            fill: none;
-        }
-
-        .audio-control-btn:hover {
-            background-color: transparent;
-            transform: none;
-        }
-
-        .audio-control-btn:hover svg {
-            fill: #ffffff;
-            transform: scale(1.15);
-        }
-        #repeat-btn:not(.active):hover svg .repeat-outer-circle {
-            fill: #ffffff;
-        }
-        #repeat-btn:not(.active):hover svg .repeat-arrow-1,
-        #repeat-btn:not(.active):hover svg .repeat-arrow-2 {
-            fill: black;
-        }
-        #shuffle-btn:not(.active):hover svg .shuffle-main-circle {
-            fill: #ffffff;
-        }
-        #shuffle-btn:not(.active):hover svg path,
-        #shuffle-btn:not(.active):hover svg polyline {
-            stroke: black;
-            fill: none;
-        }
-        #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-circle { fill: #ffffff; }
-        #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-number, #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-arrows { fill: black; }
-
-        .audio-control-btn:active {
-            transform: none;
-        }
-        .audio-control-btn:active svg {
-            transform: scale(0.9);
-        }
-
-        .audio-control-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            background-color: transparent;
-        }
-
-        .audio-control-btn:disabled svg {
-            fill: #888888;
-            transform: none;
-        }
-        #repeat-btn:disabled svg .repeat-outer-circle,
-        #shuffle-btn:disabled svg .shuffle-main-circle {
-            fill: #888888 !important;
-        }
-        #repeat-btn:disabled svg .repeat-arrow-1,
-        #repeat-btn:disabled svg .repeat-arrow-2,
-        #shuffle-btn:disabled svg path,
-        #shuffle-btn:disabled svg polyline {
-            stroke: #888888 !important;
-            fill: none !important;
-        }
-        #repeat-btn:disabled #repeat-one-svg .repeat-one-circle { fill: #888888 !important; }
-        #repeat-btn:disabled #repeat-one-svg .repeat-one-number, #repeat-btn:disabled #repeat-one-svg .repeat-one-arrows { fill: #888888 !important; }
-        #volume-svg:disabled path, #mute-svg:disabled path {
-            fill: #888888 !important;
-        }
-
-
-        /* Estilo EXCLUSIVO para o botão grande (Play/Pause) */
-        .audio-control-btn.large-button {
-            background-color: #ffffff;
-            border-radius: 50%;
-            width: 45px; /* Reduced size */
-            height: 45px; /* Reduced size */
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 0 15px rgba(0,0,0,0.6);
-        }
-
-        .audio-control-btn.large-button svg {
-            width: 50%; /* Adjusted icon size */
-            height: 50%;
-            fill: var(--cor-preto-principal);
-            transform: none;
-        }
-
-        .audio-control-btn.large-button:hover {
-            transform: scale(1.06);
-            background-color: #f5f5f5;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
-        }
-        .audio-control-btn.large-button:active {
-            transform: scale(0.95);
-        }
-
-        /* Cor verde para ícones ativos (repeat e shuffle) */
-        #repeat-btn.active svg .repeat-outer-circle,
-        #shuffle-btn.active svg .shuffle-main-circle {
-            fill: var(--cor-verde-vibrante) !important;
-        }
-        #repeat-btn.active svg .repeat-arrow-1,
-        #repeat-btn.active svg .repeat-arrow-2 {
-            fill: white !important;
-        }
-        #shuffle-btn.active svg path, #shuffle-btn.active svg polyline {
-            stroke: white !important;
-            fill: none !important;
-        }
-        #repeat-btn.active #repeat-one-svg .repeat-one-circle { fill: var(--cor-verde-vibrante) !important; }
-        #repeat-btn.active #repeat-one-svg .repeat-one-number, #repeat-btn.active #repeat-one-svg .repeat-one-arrows { fill: white !important; }
-
-        /* Ícone de volume (normal ou mudo) sempre verde */
-        #volume-svg path, #mute-svg path {
-            fill: var(--cor-verde-vibrante) !important;
-        }
-
-        .audio-volume-controls {
-            display: flex;
-            gap: 8px; /* Reduced gap */
-            align-items: center;
-            justify-content: center;
-            width: 95%; /* Adjusted width */
-            max-width: 250px; /* Reduced max-width */
-            margin-top: 5px; /* Reduced margin */
-        }
-
-        #volume-slider {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%; /* Ensure it fills available space */
-            height: 3px; /* Thinner */
-            background: #535353;
-            border-radius: 2px;
-            outline: none;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        #volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 14px; /* Reduced size */
-            height: 14px; /* Reduced size */
-            background: var(--cor-verde-vibrante);
-            border-radius: 50%;
-            cursor: grab;
-            box-shadow: 0 0 8px rgba(0,0,0,0.7);
-            margin-top: -5px; /* Adjusted position */
-            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        }
-
-        #volume-slider::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
-            background: var(--cor-verde-vibrante);
-            border-radius: 50%;
-            cursor: grab;
-            box-shadow: 0 0 8px rgba(0,0,0,0.7);
-            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        }
-
-        #volume-slider:hover::-webkit-slider-thumb,
-        #volume-slider:hover::-moz-range-thumb {
-            background: var(--cor-verde-vibrante);
-            transform: scale(1.15);
-            box-shadow: 0 0 12px var(--cor-verde-vibrante), 0 0 8px rgba(0,0,0,0.9);
-        }
-        #volume-slider:active::-webkit-slider-thumb,
-        #volume-slider:active::-moz-range-thumb {
-            transform: scale(0.9);
-        }
-
-        #volume-value {
-            color: var(--cor-verde-vibrante);
-            font-size: 0.7em; /* Reduced font size */
-            width: 30px; /* Reduced width */
-            text-align: right;
-            flex-shrink: 0;
-        }
-
-        /* Estilo para a mensagem de nível e instruções */
-        #level-up-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: var(--cor-fundo-transparente);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: var(--cor-texto-claro);
-            padding: 40px;
-            border-radius: 20px;
-            font-family: 'Elektrix', sans-serif;
-            font-size: 2em;
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.8),
-                0 0 15px rgba(255, 255, 255, 0.6),
-                0 0 20px var(--cor-amarelo-cbjr);
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-            box-shadow: 0 18px 50px rgba(0,0,0,0.8);
-            border: 2px solid var(--cor-amarelo-cbjr);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            pointer-events: all;
-            width: auto;
-            max-width: 750px;
-            min-width: 300px;
-            box-sizing: border-box;
-        }
-        /* Mobile adjustments for welcome/level-up screens */
-        @media (max-width: 480px) {
-            #welcome-screen,
-            #level-up-message {
-                /* Reduzimos drasticamente a fonte e o padding em dispositivos pequenos para caber na tela */
-                font-size: 1em;
-                padding: 20px 15px;
-                width: 90%;
-                max-width: 320px;
-                gap: 15px;
-                /* Posiciona mais próximo do topo e remove a tradução vertical */
-                top: 10%;
-                transform: translate(-50%, 0);
-            }
-            #welcome-screen h3,
-            #level-up-message h3 {
-                font-size: 1.2em; /* Smaller title font */
-                margin-bottom: 15px; /* Adjusted margin */
-            }
-            #welcome-screen p,
-            #level-up-message p {
-                font-size: 1em; /* Smaller paragraph font */
-                line-height: 1.4; /* Slightly more compact line-height */
-                margin-bottom: 15px; /* Reduce space after paragraphs */
-            }
-            /* Removido o estilo específico para .message-buttons aqui, pois foi movido para o #welcome-screen .message-buttons diretamente abaixo */
-            #level-up-message ul,
-            #welcome-screen ul {
-                font-size: 0.8em; /* Smaller list font */
-                padding-left: 15px; /* Adjusted padding */
-                margin: 10px auto; /* Adjusted margin */
-            }
-            #level-up-message .chorao-quote {
-                font-size: 1em; /* Smaller quote font */
-                margin-bottom: 15px; /* Adjusted margin */
-            }
-        }
-
-
-        #level-up-message.show,
-        #welcome-screen.show {
-            opacity: 1;
-        }
-        #level-up-message h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            line-height: 1.2;
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.8),
-                0 0 15px rgba(255, 255, 255, 0.6),
-                0 0 20px var(--cor-amarelo-cbjr);
-        }
-        /* Destaque para a frase do Chorão na passagem de nível */
-        #level-up-message .chorao-quote {
-            font-size: 1.3em;
-            margin-top: 0px;
-            margin-bottom: 25px;
-            font-family: 'Elektrix', sans-serif;
-            opacity: 1;
-            text-shadow:
-                0 0 12px rgba(255, 255, 255, 1),
-                0 0 30px var(--cor-amarelo-cbjr),
-                0 0 50px rgba(241, 196, 15, 0.7);
-            white-space: normal;
-            overflow-wrap: break-word;
-            word-break: break-word;
-            line-height: 1.5;
-            max-width: 95%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        /* Media Query para responsividade da frase do Chorão no level-up */
-        @media (max-width: 480px) {
-            #level-up-message .chorao-quote {
-                font-size: 1.1em;
-                margin-top: 10px;
-                line-height: 1.6;
-            }
-        }
-
-        #level-up-message p, #level-up-message ul, #level-up-message li, #level-up-message strong,
-        #welcome-screen p, #welcome-screen ul, #welcome-screen li, #welcome-screen strong {
-            font-family: Arial, sans-serif;
-            text-shadow: 1px 1px 6px rgba(255, 255, 255, 0.6);
-        }
-
-        #level-up-message p,
-        #welcome-screen p {
-            font-size: 0.9em;
-            line-height: 1.6;
-        }
-        #level-up-message ul,
-        #welcome-screen ul {
-            font-size: 0.85em;
-            padding-left: 20px;
-            text-align: left;
-            margin: 15px auto 20px auto;
-            max-width: 95%;
-        }
-        #level-up-message li,
-        #welcome-screen li {
-            margin-bottom: 6px;
-        }
-
-        /* Media query para telas médias (tablets e smartphones maiores) - Otimizado */
-        @media (max-width: 768px) {
-            #level-up-message {
-                padding: 30px;
-                font-size: 1.8em;
-                max-width: 95%;
-                gap: 18px;
-            }
-            #level-up-message h3 {
-                font-size: 1.4em;
-                margin-bottom: 15px;
-            }
-            #level-up-message p {
-                font-size: 1.05em;
-                line-height: 1.7;
-            }
-            #level-up-message ul {
-                font-size: 0.95em;
-                padding-left: 25px;
-                margin: 20px auto;
-            }
-            #level-up-message li {
-                margin-bottom: 10px;
-            }
-            #level-up-message .message-buttons {
-                flex-direction: row; /* Volta a ser row para tablets */
-                gap: 20px;
-            }
-            #level-up-message .message-buttons button {
-                padding: 18px 30px;
-                font-size: 1.2em;
-                width: auto; /* Permite que o botão se ajuste */
-            }
-        }
-
-        /* --- NOVO: Estilo para a tela de conclusão/nível secreto --- */
-        #completion-screen {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85%;
-            max-width: 750px;
-            background-color: var(--cor-secreto-fundo);
-            color: var(--cor-secreto-texto);
-            padding: 45px 35px;
-            border-radius: 22px;
-            box-shadow: 0 0 35px var(--cor-secreto-sombra), 0 0 70px rgba(241, 196, 15, 0.5);
-            text-align: center;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.6s ease-in-out;
-            border: 4px solid var(--cor-secreto-borda);
-            box-sizing: border-box;
-        }
-
-        #completion-screen.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        #completion-screen.shake-animation {
-            animation: strong-shake 0.6s infinite alternate;
-        }
-
-        #completion-screen h2 {
-            font-family: 'Elektrix', sans-serif;
-            font-size: 3.5em;
-            color: var(--cor-secreto-texto);
-            margin-bottom: 25px;
-            text-shadow: 0 0 15px var(--cor-secreto-sombra), 0 0 25px rgba(241, 196, 15, 0.7);
-            line-height: 1.2;
-        }
-
-        #completion-screen p {
-            font-family: Arial, sans-serif;
-            font-size: 1.2em;
-            color: var(--cor-texto-claro);
-            margin-bottom: 30px;
-            line-height: 1.6;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-        }
-
-        #completion-screen .message-buttons {
-            display: flex;
-            gap: 25px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 25px;
-        }
-
-        #completion-screen button {
-            padding: 18px 35px;
-            font-size: 1.4em;
-            font-family: 'Elektrix', sans-serif;
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-amarelo-cbjr);
-            border: 2px solid var(--cor-amarelo-cbjr);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, transform 0.25s;
-            text-shadow: 0 0 8px rgba(255,255,255,0.7);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
-        }
-
-        #completion-screen button:hover {
-            background-color: var(--cor-amarelo-cbjr);
-            color: var(--cor-preto-principal);
-            transform: scale(1.08);
-            box-shadow: 0 0 20px var(--cor-amarelo-cbjr);
-        }
-
-        /* Responsividade para a tela de conclusão */
-        @media (max-width: 768px) {
-            #completion-screen {
-                padding: 35px 25px;
-                width: 90%;
-            }
-            #completion-screen h2 {
-                font-size: 2.8em;
-            }
-            #completion-screen p {
-                font-size: 1.1em;
-            }
-            #completion-screen button {
-                font-size: 1.2em;
-                padding: 15px 30px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #completion-screen {
-                padding: 25px 20px;
-            }
-            #completion-screen h2 {
-                font-size: 2.2em;
-                margin-bottom: 20px;
-            }
-            #completion-screen p {
-                font-size: 1em;
-                margin-bottom: 25px;
-            }
-            #completion-screen .message-buttons {
-                flex-direction: column;
-                gap: 15px;
-            }
-            #completion-screen button {
-                font-size: 1.1em;
-                padding: 12px 25px;
-            }
-        }
-
-        /* --- ESTILOS DO RANKING ONLINE --- */
-        #ranking-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.98);
-            z-index: 2100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px;
-            box-sizing: border-box;
-            overflow-y: auto;
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-            pointer-events: none;
-        }
-        #ranking-screen.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        #ranking-screen h2 {
-            font-family: 'Elektrix', sans-serif;
-            color: var(--cor-amarelo-cbjr);
-            font-size: 3.5em;
-            margin-bottom: 35px;
-            text-shadow: 4px 4px 18px var(--cor-preto-principal), 0 0 20px var(--cor-amarelo-cbjr);
-            text-align: center;
-        }
-
-        #ranking-list {
-            list-style: none;
-            padding: 0;
-            width: 90%;
-            max-width: 550px;
-            margin-bottom: 40px;
-            text-align: left;
-        }
-
-        #ranking-list li {
-            background-color: var(--cor-fundo-transparente);
-            margin-bottom: 12px;
-            padding: 18px 25px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: var(--cor-texto-claro);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,255,255,0.25);
-        }
-        #ranking-list li:first-child {
-            background-color: rgba(241, 196, 15, 0.6);
-            color: var(--cor-preto-principal);
-            border: 3px solid var(--cor-amarelo-cbjr);
-            transform: scale(1.03);
-            font-size: 1.3em;
-            box-shadow: 0 0 20px var(--cor-amarelo-cbjr), 0 0 30px rgba(241, 196, 15, 0.7);
-        }
-        #ranking-list li:first-child span:first-child {
-            color: var(--cor-preto-principal);
-        }
-        #ranking-list li:first-child span:last-child {
-            color: var(--cor-preto-principal);
-        }
-
-        #ranking-list li span:first-child {
-            flex-grow: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding-right: 15px;
-        }
-
-        #ranking-list li span:last-child {
-            flex-shrink: 0;
-            text-align: right;
-            font-family: 'Elektrix', sans-serif;
-        }
-
-        #ranking-screen button {
-            padding: 15px 30px;
-            font-size: 1.3em;
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-texto-claro);
-            border: 2px solid var(--cor-amarelo-cbjr);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: transform 0.25s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-            text-shadow: 0 0 10px rgba(255,255,255,0.9);
-            margin-top: 25px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
-        }
-        #ranking-screen button:hover {
-            transform: scale(1.08);
-            background-color: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.8), 0 0 15px var(--cor-amarelo-cbjr);
-        }
-
-        /* Responsividade para ranking-screen */
-        @media (max-width: 600px) {
-            #ranking-screen h2 {
-                font-fsize: 2.5em;
-                margin-bottom: 25px;
-            }
-            #ranking-list li {
-                padding: 12px 18px;
-                font-size: 1.1em;
-            }
-            #ranking-list li:first-child {
-                font-size: 1.2em;
-            }
-            #ranking-screen button {
-                font-size: 1.1em;
-                padding: 12px 25px;
-            }
-        }
-        @media (max-width: 400px) {
-            #ranking-screen h2 {
-                font-size: 2em;
-                margin-bottom: 20px;
-            }
-            #ranking-list li {
-                font-size: 1em;
-            }
-            #ranking-list li:first-child {
-                font-size: 1.1em;
-            }
-            #ranking-screen button {
-                font-size: 1em;
-                padding: 10px 20px;
-            }
-        }
-
-        /* NOVO: Estilo para o pop-up de detalhes da conquista */
-        #achievement-detail-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.98);
-            color: var(--cor-texto-claro);
-            padding: 35px;
-            border-radius: 18px;
-            box-shadow: 0 0 40px rgba(0,0,0,0.9);
-            z-index: 3500;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease-in-out;
-            max-width: 85%;
-            width: 450px;
-            border: 3px solid var(--cor-amarelo-cbjr);
-        }
-        #achievement-detail-popup.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-        #achievement-detail-popup h3 {
-            font-family: 'Elektrix', sans-serif;
-            font-size: 2.2em;
-            color: var(--cor-amarelo-cbjr);
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-        /* NOVO: Estilo para o nome do CD */
-        #detail-achievement-cd-name {
-            font-family: Arial, sans-serif;
-            font-size: 1em;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: -8px;
-            margin-bottom: 15px;
-        }
-        /* ALTERADO: Aumentar o tamanho da capa do CD */
-        #detail-achievement-cover {
-            max-width: 280px !important;
-            max-height: 280px !important;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            margin: 20px auto;
-            border-radius: 10px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.7);
-            display: none;
-        }
-        #achievement-detail-popup p {
-            font-family: Arial, sans-serif;
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            color: rgba(255, 255, 255, 0.95);
-        }
-        #achievement-detail-popup .status {
-            font-size: 1em;
-            font-weight: bold;
-            color: var(--cor-verde-vibrante);
-            margin-bottom: 25px;
-        }
-        #achievement-detail-popup .status.locked {
-            color: var(--cor-vermelho-incorreto);
-        }
-        #achievement-detail-popup button {
-            padding: 12px 25px;
-            font-size: 1.1em;
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-texto-claro);
-            border: 2px solid var(--cor-amarelo-cbjr);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.25s, transform 0.25s, box-shadow 0.25s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-        }
-        #achievement-detail-popup button:hover {
-            background-color: var(--cor-amarelo-cbjr);
-            color: var(--cor-preto-principal);
-            transform: scale(1.08);
-            box-shadow: 0 0 15px var(--cor-amarelo-cbjr);
-        }
-
-        /* Responsividade para o pop-up de detalhes */
-        @media (max-width: 480px) {
-            #achievement-detail-popup {
-                padding: 25px;
-                width: 95%;
-                max-width: 350px;
-            }
-            #achievement-detail-popup h3 {
-                font-size: 1.8em;
-            }
-            #achievement-detail-popup p {
-                font-size: 1em;
-            }
-            #detail-achievement-cover {
-                max-width: 180px !important;
-            }
-            #achievement-detail-popup button {
-                font-size: 1em;
-                padding: 10px 20px;
-            }
-        }
-
-        /* Ajustes para a overlay principal */
-        #main-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1500;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            pointer-events: none;
-        }
-
-        /* Adicionar classes para controlar a overlay com JS */
-        #main-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* NOVO: Estilos para o Nível Rádio CBJR */
-        #bonus-music-screen {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85%;
-            max-width: 650px;
-            background-color: var(--cor-bonus-fundo);
-            color: var(--cor-bonus-texto);
-            padding: 35px;
-            border-radius: 18px;
-            border: 4px solid var(--cor-verde-vibrante);
-            animation: neon-pulse 2s infinite alternate;
-            background-image: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/dark-concrete-texture.png');
-            background-size: cover;
-            background-blend-mode: overlay;
-            text-align: center;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.6s ease-in-out;
-            box-sizing: border-box;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
-        }
-
-        #bonus-music-screen.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        #bonus-music-screen h2 {
-            font-family: 'Elektrix', sans-serif;
-            font-size: 3em;
-            color: var(--cor-bonus-texto);
-            margin-bottom: 25px;
-            text-shadow: 0 0 15px rgba(0, 255, 0, 0.7), 0 0 25px rgba(0, 255, 0, 0.5);
-        }
-        /* Nova classe para as instruções do bônus */
-        .bonus-instruction {
-            font-family: Arial, sans-serif;
-            font-size: 1.15em;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 30px;
-            line-height: 1.6;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
-        }
-
-        /* Novo: Área do player de adivinhação */
-        .bonus-player-area {
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            width: 95%;
-            max-width: 450px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            box-shadow: inset 0 0 25px rgba(0,255,0,0.6), 0 0 40px rgba(0,0,0,0.95);
-            border: 2px solid var(--cor-amarelo-cbjr);
-        }
-        /* Título da música no modo bônus (quando revelado) */
-        #bonus-music-screen #bonus-current-song-title {
-            font-family: 'Elektrix', sans-serif;
-            font-size: 2.2em;
-            color: var(--cor-amarelo-cbjr);
-            margin: 0;
-            text-shadow: 0 0 12px rgba(241, 196, 15, 0.8);
-            min-height: 1.3em;
-        }
-        /* Adicionando estilo para a curiosidade dentro da bonus-player-area */
-        #bonus-curiosity-message {
-            font-family: Arial, sans-serif;
-            font-size: 1.3em;
-            margin-top: 20px;
-            color: var(--cor-amarelo-cbjr);
-            line-height: 1.7;
-            text-align: center;
-            display: none;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 1), 0 0 20px var(--cor-amarelo-cbjr);
-            padding: 15px 25px;
-            border-radius: 12px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border: 2px solid var(--cor-amarelo-cbjr);
-            box-shadow: 0 0 25px rgba(241, 196, 15, 0.6);
-            transition: opacity 0.6s ease-in-out;
-            box-sizing: border-box;
-        }
-
-        #bonus-music-screen #bonus-answer-input {
-            width: 95%;
-            max-width: 350px;
-            padding: 15px 25px;
-            margin-bottom: 0;
-            border-radius: 30px;
-            border: 3px solid var(--cor-bonus-input-borda);
-            background-color: var(--cor-bonus-input-fundo);
-            color: var(--cor-texto-claro);
-            font-size: 1.3em;
-            text-align: center;
-            box-sizing: border-box;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-            box-shadow: 0 0 10px rgba(0,255,0,0.3);
-        }
-        /* Efeito de foco no input */
-        #bonus-music-screen #bonus-answer-input:focus {
-            outline: none;
-            border-color: var(--cor-amarelo-cbjr);
-            box-shadow: 0 0 25px var(--cor-amarelo-cbjr), inset 0 0 12px rgba(241,196,15,0.5);
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        /* Classes para cores de feedback do input no Rádio CBJR */
-        #bonus-answer-input.correct-feedback {
-            border-color: var(--cor-verde-correto) !important;
-            box-shadow: 0 0 20px var(--cor-verde-correto);
-            animation: pulse-input 0.35s ease-out;
-        }
-        #bonus-answer-input.incorrect-feedback {
-            border-color: var(--cor-vermelho-incorreto) !important;
-            box-shadow: 0 0 20px var(--cor-vermelho-incorreto);
-            animation: shake-input 0.35s 2;
-        }
-
-        #bonus-music-screen #bonus-answer-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Novo: Estilos para o display de placar em mini-cards */
-        .bonus-score-display {
-            display: flex;
-            justify-content: space-around;
-            width: 95%;
-            max-width: 550px;
-            margin: 25px auto;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .score-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 18px;
-            background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            color: var(--cor-texto-claro);
-            font-size: 1.05em;
-            font-weight: bold;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.7);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            min-width: 140px;
-            justify-content: center;
-            flex-grow: 1;
-        }
-        .score-item i {
-            font-size: 1.4em;
-        }
-        .score-item.correct-count i { color: var(--cor-verde-correto); }
-        .score-item.error-count i { color: var(--cor-vermelho-incorreto); }
-        .score-item.music-progress i { color: var(--cor-amarelo-cbjr); }
-
-
-        #bonus-feedback-message {
-            font-size: 1.6em;
-            font-family: 'Elektrix', sans-serif;
-            font-weight: bold;
-            margin-top: 0px;
-            margin-bottom: 0px;
-            color: var(--cor-texto-claro);
-            min-height: 2em;
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out, transform 0.4s ease-out;
-            text-shadow: 1px 1px 6px rgba(0,0,0,0.8);
-        }
-        #bonus-feedback-message.show {
-            opacity: 1;
-            transform: translateY(-8px);
-        }
-
-        #bonus-score-info {
-            display: none;
-        }
-
-        .bonus-controls {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 35px;
-        }
-
-        #bonus-music-screen .bonus-controls button {
-            padding: 18px 35px;
-            font-size: 1.2em;
-            font-family: 'Elektrix', sans-serif;
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-bonus-texto);
-            border: 2px solid var(--cor-bonus-texto);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            text-shadow: 0 0 8px rgba(255,255,255,0.7);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
-        }
-        #bonus-music-screen .bonus-controls button i {
-            font-size: 1.5em;
-            color: var(--cor-bonus-texto);
-            transition: color 0.25s ease;
-        }
-
-        #bonus-music-screen .bonus-controls button:hover:not(:disabled) {
-            background-color: var(--cor-bonus-texto);
-            color: var(--cor-preto-principal);
-            transform: scale(1.08);
-            box-shadow: 0 0 20px var(--cor-bonus-texto);
-        }
-        #bonus-music-screen .bonus-controls button:hover:not(:disabled) i {
-            color: var(--cor-preto-principal);
-        }
-
-        #bonus-music-screen .bonus-controls button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            border-color: rgba(0, 255, 0, 0.2);
-            color: rgba(0, 255, 0, 0.2);
-            box-shadow: none;
-        }
-        #bonus-music-screen .bonus-controls button:disabled i {
-            color: rgba(0, 255, 0, 0.2);
-        }
-        #bonus-music-screen .bonus-controls .exit-button {
-            border-color: var(--cor-vermelho-incorreto);
-            color: var(--cor-vermelho-incorreto);
-        }
-        #bonus-music-screen .bonus-controls .exit-button i {
-            color: var(--cor-vermelho-incorreto);
-        }
-        #bonus-music-screen .bonus-controls .exit-button:hover:not(:disabled) {
-            background-color: var(--cor-vermelho-incorreto);
-            color: var(--cor-texto-claro);
-            box-shadow: 0 0 20px var(--cor-vermelho-incorreto);
-        }
-        #bonus-music-screen .bonus-controls .exit-button:hover:not(:disabled) i {
-            color: var(--cor-texto-claro);
-        }
-
-        /* Responsividade para o Nível Rádio CBJR */
-        @media (max-width: 768px) {
-            #bonus-music-screen {
-                padding: 30px 25px;
-                width: 90%;
-            }
-            #bonus-music-screen h2 {
-                font-size: 2.5em;
-            }
-            .bonus-instruction {
-                font-size: 1.05em;
-            }
-            #bonus-music-screen #bonus-current-song-title {
-                font-size: 1.8em;
-            }
-            #bonus-music-screen .bonus-controls button {
-                font-size: 1.05em;
-                padding: 15px 25px;
-            }
-            .bonus-player-area {
-                padding: 20px;
-            }
-            .score-item {
-                font-size: 1em;
-                padding: 10px 15px;
-                min-width: unset;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #bonus-music-screen {
-                padding: 25px 20px;
-            }
-            #bonus-music-screen h2 {
-                font-size: 2em;
-                margin-bottom: 20px;
-            }
-            .bonus-instruction {
-                font-size: 0.95em;
-                margin-bottom: 25px;
-            }
-            #bonus-music-screen #bonus-current-song-title {
-                font-size: 1.5em;
-            }
-            #bonus-music-screen #bonus-answer-input {
-                font-size: 1.1em;
-                padding: 12px 20px;
-            }
-            #bonus-feedback-message {
-                font-size: 1.3em;
-            }
-            .bonus-score-display {
-                flex-direction: column;
-                gap: 15px;
-                margin: 20px auto;
-                max-width: 90%;
-            }
-            .score-item {
-                width: 100%;
-            }
-            .bonus-controls {
-                flex-direction: column;
-                gap: 15px;
-            }
-            #bonus-music-screen .bonus-controls button {
-                font-size: 1em;
-                padding: 15px 25px;
-                width: 100%;
-            }
-            /* Ajustes para a curiosidade em telas muito pequenas (mobile) */
-            #bonus-curiosity-message {
-                position: fixed;
-                top: 15px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 95%;
-                max-width: unset;
-                padding: 18px;
-                font-size: 1.05em;
-                line-height: 1.6;
-                z-index: 2001;
-                box-sizing: border-box;
-                animation: fadeInOutCuriosity 0.6s ease-out forwards;
-            }
-            /* Keyframe para a animação da curiosidade em mobile */
-            @keyframes fadeInOutCuriosity {
-                from { opacity: 0; transform: translate(-50%, -30px); }
-                to { opacity: 1; transform: translate(-50%, 0); }
-            }
-        }
-
-
-        /* NOVO: Estilo para a tela de CONQUISTA DO BÔNUS */
-        #bonus-achievement-screen {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85%;
-            max-width: 700px;
-            background-color: var(--cor-bonus-conquista-fundo);
-            color: var(--cor-bonus-conquista-texto);
-            padding: 45px 35px;
-            border-radius: 22px;
-            box-shadow: 0 0 40px var(--cor-bonus-conquista-sombra), 0 0 80px rgba(30, 215, 96, 0.5);
-            text-align: center;
-            z-index: 2100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s ease-in-out;
-            border: 4px solid var(--cor-bonus-conquista-borda);
-            box-sizing: border-box;
-        }
-
-        #bonus-achievement-screen.show {
-            opacity: 1;
-            pointer-events: all;
-            animation: pulse-border 2.5s infinite alternate;
-        }
-
-        @keyframes pulse-border {
-            0% { border-color: var(--cor-bonus-conquista-borda); box-shadow: 0 0 40px var(--cor-bonus-conquista-sombra); }
-            100% { border-color: var(--cor-amarelo-cbjr); box-shadow: 0 0 60px rgba(241, 196, 15, 0.9); }
-        }
-
-
-        #bonus-achievement-screen h2 {
-            font-family: 'Elektrix', sans-serif;
-            font-size: 3.5em;
-            color: var(--cor-bonus-conquista-texto);
-            margin-bottom: 25px;
-            text-shadow: 0 0 20px var(--cor-bonus-conquista-sombra), 0 0 30px rgba(30, 215, 96, 0.7);
-            line-height: 1.2;
-        }
-
-        #bonus-achievement-screen p {
-            font-family: Arial, sans-serif;
-            font-size: 1.2em;
-            color: var(--cor-texto-claro);
-            margin-bottom: 30px;
-            line-height: 1.6;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-        }
-
-        #bonus-achievement-screen img {
-            max-width: 320px;
-            max-height: 320px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.8);
-            margin: 25px 0;
-            transition: transform 0.35s ease;
-        }
-
-        #bonus-achievement-screen img:hover {
-            transform: scale(1.08);
-        }
-
-        #bonus-achievement-screen button {
-            padding: 18px 35px;
-            font-size: 1.4em;
-            font-family: 'Elektrix', sans-serif;
-            background-color: var(--cor-preto-principal);
-            color: var(--cor-bonus-conquista-texto);
-            border: 2px solid var(--cor-bonus-conquista-borda);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, transform 0.25s, border-color 0.3s;
-            text-shadow: 0 0 8px rgba(255,255,255,0.7);
-            margin-top: 35px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
-        }
-
-        #bonus-achievement-screen button:hover {
-            background-color: var(--cor-bonus-conquista-borda);
-            color: var(--cor-preto-principal);
-            transform: scale(1.08);
-            box-shadow: 0 0 20px var(--cor-bonus-conquista-sombra);
-        }
-
-        /* Responsividade para a tela de CONQUISTA DO BÔNUS */
-        @media (max-width: 768px) {
-            #bonus-achievement-screen {
-                padding: 35px 25px;
-                width: 90%;
-            }
-            #bonus-achievement-screen h2 {
-                font-size: 2.8em;
-            }
-            #bonus-achievement-screen p {
-                font-size: 1.1em;
-            }
-            #bonus-achievement-screen img {
-                max-width: 250px;
-                max-height: 250px;
-            }
-            #bonus-achievement-screen button {
-                font-size: 1.2em;
-                padding: 15px 30px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #bonus-achievement-screen {
-                padding: 25px 20px;
-            }
-            #bonus-achievement-screen h2 {
-                font-size: 2.2em;
-                margin-bottom: 20px;
-            }
-            #bonus-achievement-screen p {
-                font-size: 1em;
-                margin-bottom: 25px;
-            }
-            #bonus-achievement-screen img {
-                max-width: 180px;
-                max-height: 180px;
-            }
-            #bonus-achievement-screen button {
-                font-size: 1.1em;
-                padding: 12px 25px;
-            }
-        }
-
-        /* NOVO: Estilos para a NOVA TELA DE BOAS-VINDAS (após a introdução inicial) */
-        #welcome-screen {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: var(--cor-fundo-transparente);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: var(--cor-texto-claro);
-            padding: 40px;
-            border-radius: 20px;
-            font-family: 'Elektrix', sans-serif;
-            font-size: 2em;
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.8),
-                0 0 15px rgba(255, 255, 255, 0.6),
-                0 0 20px var(--cor-amarelo-cbjr);
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-            box-shadow: 0 18px 50px rgba(0,0,0,0.8);
-            border: 2px solid var(--cor-amarelo-cbjr);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            pointer-events: all;
-            width: auto;
-            max-width: 650px;
-            min-height: 250px;
-            box-sizing: border-box;
-
-            /* Limita a altura para caber em telas menores e permite rolagem interna
-               se o conteúdo exceder o espaço disponível. */
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        #welcome-screen.show {
-            opacity: 1;
-        }
-
-        #welcome-screen h3 {
-            font-size: 1.8em;
-            margin-bottom: 30px;
-            color: var(--cor-amarelo-cbjr);
-            text-shadow:
-                0 0 10px rgba(255, 255, 255, 1),
-                0 0 25px var(--cor-amarelo-cbjr);
-        }
-
-        /* CORREÇÃO AQUI: Ajustado para garantir que os botões se ajustem em telas pequenas */
-        #welcome-screen .message-buttons,
-        #bonus-music-screen .message-buttons {
-            margin-top: 35px;
-            display: grid;
-            /* Mostra os botões em duas colunas também em dispositivos menores para uma experiência semelhante à do desktop */
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-            width: 100%; /* Ocupa a largura total do pai */
-            max-width: 450px; /* Limita a largura para botões em telas maiores */
-            justify-content: center;
-            box-sizing: border-box; /* Garante que padding/border são incluídos na largura */
-        }
-
-        /* Ajuste para 2 colunas em telas maiores para os botões do menu principal */
-        @media (min-width: 500px) {
-            #welcome-screen .message-buttons,
-            #bonus-music-screen .message-buttons {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        /* Ajustes específicos para os botões dentro de welcome-screen .message-buttons
-            para garantir que se ajustem e não 'estourem' */
-        @media (max-width: 480px) {
-            #welcome-screen .message-buttons,
-            #bonus-music-screen .message-buttons {
-                gap: 10px; /* Reduz o espaço entre os botões */
-            }
-            #welcome-screen .message-buttons button,
-            #bonus-music-screen .message-buttons button {
-                font-size: 1em; /* Reduz a fonte dos botões */
-                padding: 12px 20px; /* Reduz o padding dos botões */
-                min-height: unset; /* Permite que o botão seja menor se o conteúdo for pequeno */
-            }
-        }
-
-
-        #welcome-screen p.intro-text {
-            font-family: Arial, sans-serif;
-            font-size: 1.1em;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 25px;
-            max-width: 95%;
-        }
-
-        /* Animação para a intro ao carregar (opcional) */
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-        #welcome-screen.show.initial-load {
-            animation: fadeInScale 0.9s ease-out forwards;
-        }
-
-        /* --- Estilos para a lista de feedback de erros no Bônus --- */
-        .erros-lista {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-            width: 95%;
-            max-width: 500px;
-            text-align: left;
-        }
-        .erros-lista h4 {
-            font-family: 'Elektrix', sans-serif;
-            color: var(--cor-amarelo-cbjr);
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        .erros-lista ul {
-            list-style-type: none;
-            padding-left: 0;
-            margin: 0;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Charlie Brown Jr</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JCN94Y3P0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1JCN94Y3P0');
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Variáveis CSS para facilitar a manutenção */
+        :root {
+            --cor-amarelo-cbjr: #f1c40f;
+            --cor-preto-principal: #343434;
+            --cor-verde-correto: #2ecc71;
+            --cor-vermelho-incorreto: #e74c3c;
+            /* Mais transparência para a caixa de mensagem principal */
+            --cor-fundo-transparente: rgba(0, 0, 0, 0.4);
+            --cor-texto-claro: white;
+            --cor-texto-escuro: black;
+
+            --cor-fundo-audio-player-com-cor: rgba(0, 0, 0, 0.4);
+            --cor-verde-vibrante: #1ed760; /* Usado no Spotify, mais vibrante */
+
+            /* NOVO: Cor para a barra de vida */
+            --cor-vida: #e74c3c;
+            --cor-vida-fundo: rgba(231, 76, 60, 0.2);
+
+            /* NOVO: Cores para a tela de conclusão/nível secreto */
+            --cor-secreto-fundo: rgba(0, 0, 0, 0.85);
+            --cor-secreto-texto: var(--cor-amarelo-cbjr);
+            --cor-secreto-borda: #fff;
+            --cor-secreto-sombra: rgba(241, 196, 15, 0.8);
+
+            /* NOVO: Cores para o Nível Rádio CBJR */
+            --cor-bonus-fundo: rgba(0, 50, 0, 0.9);
+            --cor-bonus-texto: #1ed760;
+            --cor-bonus-input-fundo: rgba(255, 255, 255, 0.15);
+            --cor-bonus-input-borda: var(--cor-verde-vibrante);
+
+            /* NOVO: Cores para a tela de Conquista do Bônus */
+            --cor-bonus-conquista-fundo: rgba(0, 0, 0, 0.95);
+            --cor-bonus-conquista-texto: var(--cor-amarelo-cbjr);
+            --cor-bonus-conquista-borda: var(--cor-verde-vibrante);
+            --cor-bonus-conquista-sombra: rgba(30, 215, 96, 0.8);
+        }
+
+        /* Ajustes responsivos para telas menores */
+        @media (max-width: 600px) {
+            /* Expande a área do jogador para a largura total e reduz ainda mais o padding em telas pequenas */
+            .bonus-player-area {
+                width: 100%;
+                padding: 15px 10px;
+            }
+            /* Pontuação em coluna e centralizada */
+            .bonus-score-display {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                max-width: 100%;
+            }
+            .bonus-score-display .score-item {
+                width: 100%;
+                min-width: unset;
+            }
+            /* Botões do controle em coluna */
+            .bonus-controls {
+                flex-direction: column;
+                width: 100%;
+                gap: 15px;
+            }
+            #bonus-music-screen .bonus-controls button {
+                width: 100%;
+            }
+            /* Reduz tamanho do título da música no modo bônus */
+            #bonus-music-screen #bonus-current-song-title {
+                font-size: 1.6em;
+            }
+            /* Ajusta largura do input de resposta para ocupar toda a tela */
+            #bonus-music-screen #bonus-answer-input {
+                max-width: 100%;
+            }
+        }
+
+        /* Ajustes adicionais para telas muito pequenas (até 480px de largura) */
+        @media (max-width: 480px) {
+            /* Ajusta ainda mais o player de áudio para não sobrepor os botões de menu */
+            #audio-player-wrapper {
+                top: 10px;
+                right: 10px;
+                max-width: 200px;
+                padding: 8px;
+            }
+            #audio-player-wrapper .player-content {
+                gap: 6px;
+            }
+            #audio-player-wrapper #current-song {
+                font-size: 0.9em;
+            }
+            /* Garante que os botões de boas-vindas fiquem lado a lado mesmo em telas menores */
+            #welcome-screen .message-buttons,
+            #bonus-music-screen .message-buttons {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            #welcome-screen .message-buttons button,
+            #bonus-music-screen .message-buttons button {
+                font-size: 0.9em;
+                padding: 10px 15px;
+            }
+        }
+
+        @font-face {
+            font-family: 'Elektrix';
+            src: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff2') format('woff2'),
+                 url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Elektrix-Bold.woff') format('woff'),
+                 url('https://cdn.jsdelivr.net/gh/charlibriano/Quiz-CBJR/Elektrix%20Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-display: swap;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 2px 2px 10px var(--cor-preto-principal);
+            }
+            50% {
+                transform: scale(1.08);
+                text-shadow: 4px 4px 20px var(--cor-amarelo-cbjr);
+            }
+            100% {
+                transform: scale(1);
+                text-shadow: 2px 2px 10px var(--cor-preto-principal);
+            }
+        }
+
+        /* Keyframes para o brilho */
+        @keyframes glow-correct {
+            0% { box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
+            50% { box-shadow: 0 0 25px var(--cor-verde-correto); }
+            100% { box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
+        }
+
+        @keyframes glow-incorrect {
+            0% { box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
+            50% { box-shadow: 0 0 25px var(--cor-vermelho-incorreto); }
+            100% { box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
+        }
+
+        /* NOVO: Keyframes para transição de entrada das respostas (DURAÇÃO AUMENTADA) */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* NOVO: Keyframes para o efeito de tremor */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            50% { transform: translateX(8px); }
+            75% { transform: translateX(-8px); }
+            100% { transform: translateX(0); }
+        }
+        /* NOVO: Keyframe para o tremor do input (melhorado para bônus) */
+        @keyframes shake-input {
+            0%, 100% { transform: translateX(0); }
+            10% { transform: translateX(-6px); }
+            20% { transform: translateX(6px); }
+            30% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            50% { transform: translateX(-6px); }
+            60% { transform: translateX(6px); }
+            70% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+            90% { transform: translateX(-6px); }
+        }
+        /* NOVO: Keyframe para o pulso/bounce do input (melhorado para bônus) */
+        @keyframes pulse-input {
+            0% { transform: scale(1); box-shadow: 0 0 15px var(--cor-verde-correto); }
+            50% { transform: scale(1.03); box-shadow: 0 0 30px var(--cor-verde-correto); }
+            100% { transform: scale(1); box-shadow: 0 0 15px var(--cor-verde-correto); }
+        }
+
+        /* NOVO: Keyframes para o brilho neon da tela de bônus */
+        @keyframes neon-pulse {
+            0%, 100% {
+                border-color: var(--cor-verde-vibrante);
+                box-shadow: 0 0 15px var(--cor-verde-vibrante),
+                            0 0 30px var(--cor-verde-vibrante),
+                            0 0 45px var(--cor-verde-vibrante),
+                            inset 0 0 15px var(--cor-verde-vibrante);
+            }
+            50% {
+                border-color: var(--cor-amarelo-cbjr);
+                box-shadow: 0 0 20px var(--cor-amarelo-cbjr),
+                            0 0 40px var(--cor-amarelo-cbjr),
+                            0 0 60px var(--cor-amarelo-cbjr),
+                            inset 0 0 20px var(--cor-amarelo-cbjr);
+            }
+        }
+
+        /* NOVO: Keyframes para o tremor da tela secreta */
+        @keyframes strong-shake {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            10% { transform: translate(-50%, -50%) rotate(-2deg); }
+            20% { transform: translate(-50%, -50%) rotate(2deg); }
+            30% { transform: translate(-50%, -50%) rotate(-2deg); }
+            40% { transform: translate(-50%, -50%) rotate(2deg); }
+            50% { transform: translate(-50%, -50%) rotate(0deg); }
+            60% { transform: translate(-50%, -50%) rotate(-2.5deg); }
+            70% { transform: translate(-50%, -50%) rotate(2.5deg); }
+            80% { transform: translate(-50%, -50%) rotate(-2.5deg); }
+            90% { transform: translate(-50%, -50%) rotate(2.5deg); }
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--cor-preto-principal);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--cor-texto-claro);
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding-bottom: 180px;
+            transition: background-image 1s ease-in-out;
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background-size: cover;
+            }
+        }
+
+        header h1 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 3em;
+            color: var(--cor-amarelo-cbjr);
+            text-shadow: 0 0 12px var(--cor-amarelo-cbjr),
+                         0 0 25px rgba(241, 196, 15, 0.7),
+                         0 0 40px rgba(241, 196, 15, 0.5);
+            padding: 30px 50px;
+            border-radius: 25px;
+            display: inline-block;
+            animation: pulse 2.5s infinite;
+            line-height: 1.2;
+            margin-top: 25px;
+        }
+        /* Mobile adjustment for header H1 */
+        @media (max-width: 400px) {
+            header h1 {
+                font-size: 2.2em;
+                padding: 20px 30px;
+            }
+        }
+
+        /* Remove header animation on smaller screens to evitar o efeito de flutuação */
+        @media (max-width: 768px) {
+            header h1 {
+                animation: none;
+            }
+        }
+
+
+        .container {
+            max-width: 1000px;
+            width: 95%;
+            background-color: var(--cor-fundo-transparente);
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .quiz-info-bottom {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            width: 100%;
+            font-size: 1.1em;
+        }
+        .quiz-info-bottom p {
+            margin: 0;
+            padding: 0 8px;
+            font-weight: bold;
+        }
+        @media (max-width: 480px) {
+            .quiz-info-bottom {
+                font-size: 0.95em;
+                gap: 8px;
+                margin-top: 20px;
+                padding-top: 10px;
+            }
+        }
+
+        /* Estilo para o display de vidas */
+        #lives-display {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            display: flex;
+            gap: 8px;
+            font-size: 1.3em;
+            color: var(--cor-vida);
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+        }
+        #lives-display span {
+            font-size: 1.6em;
+            line-height: 1;
+        }
+        #lives-display span:last-child {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 1.3em;
+        }
+
+        /* Power-ups */
+        #power-ups-container {
+            width: 90%;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            z-index: 10;
+            flex-wrap: wrap;
+        }
+
+        .power-up-btn {
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-amarelo-cbjr);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 1em;
+            font-family: 'Elektrix', sans-serif;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .power-up-btn:hover:not(:disabled) {
+            background-color: var(--cor-amarelo-cbjr);
+            color: var(--cor-preto-principal);
+            transform: scale(1.08);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.8), 0 0 15px var(--cor-amarelo-cbjr);
+        }
+
+        .power-up-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: rgba(241, 196, 15, 0.3);
+            color: rgba(241, 196, 15, 0.3);
+            box-shadow: none;
+        }
+
+        .power-up-btn .power-up-count {
+            background-color: var(--cor-verde-correto);
+            color: var(--cor-texto-claro);
+            font-size: 0.8em;
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            #power-ups-container {
+                gap: 10px;
+                margin-top: 25px;
+                margin-bottom: 25px;
+            }
+            .power-up-btn {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+        }
+        @media (max-width: 480px) {
+            #power-ups-container {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                gap: 8px;
+            }
+            .power-up-btn {
+                padding: 8px 12px;
+                font-size: 0.8em;
+            }
+        }
+
+        .question {
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .question.fade-out {
+            opacity: 0;
+        }
+
+        .question h3 {
+            font-size: 2.2em;
+            font-family: 'Elektrix', sans-serif;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                         0 0 20px var(--cor-amarelo-cbjr),
+                         0 0 30px rgba(241, 196, 15, 0.6);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        /* Mobile adjustment for question H3 */
+        @media (max-width: 400px) {
+            .question h3 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+        }
+
+
+        .question h3.shake {
+            animation: shake 0.25s 3;
+        }
+
+        /* REMOVENDO CRONÔMETRO VISUAL */
+        .timer-display {
+            display: none;
+        }
+
+        /* Container para respostas e curiosidade lado a lado */
+        .question-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+            align-items: center;
+        }
+
+        @media (min-width: 769px) {
+            .question-content {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+        }
+
+        /* Ajustes para o answers-container para nova estrutura */
+        .answers-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            flex-grow: 1;
+            min-width: 55%;
+            width: auto;
+        }
+
+        .question button {
+            padding: 18px 15px;
+            font-size: 1.3em;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            width: 100%;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-sizing: border-box;
+            white-space: normal;
+            word-wrap: break-word;
+            position: relative;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        /* DURAÇÃO AUMENTADA AQUI */
+        .question button.show {
+            animation: fadeInSlideUp 0.9s ease-out forwards;
+        }
+
+        /* Estilo para o atalho de teclado */
+        .question button .keyboard-shortcut {
+            position: absolute;
+            top: 7px;
+            left: 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.6);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+        /* Mobile adjustment for keyboard shortcut text */
+        @media (max-width: 400px) {
+            .question button .keyboard-shortcut {
+                font-size: 0.7em;
+                top: 5px;
+                left: 5px;
+            }
+        }
+
+        .question button:hover:not(:disabled) {
+            transform: scale(1.06);
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .question button.correct {
+            background-color: var(--cor-verde-correto);
+            border-color: var(--cor-verde-correto);
+            color: var(--cor-texto-claro);
+        }
+
+        .question button.incorrect {
+            background-color: var(--cor-vermelho-incorreto);
+            border-color: var(--cor-vermelho-incorreto);
+            color: var(--cor-texto-claro);
+        }
+
+        /* Estilos de brilho aplicados via JS */
+        .answer-button.glow-correct {
+            animation: glow-correct 1.8s ease-out forwards;
+        }
+
+        .answer-button.glow-incorrect {
+            animation: glow-incorrect 1.8s ease-out forwards;
+        }
+
+        .question button .feedback-icon {
+            margin-left: 10px;
+            color: white;
+            font-size: 1.3em;
+        }
+
+        /* Antiga curiosity-box - agora estará oculta, o conteúdo vai para curiosity-sidebar-box */
+        .curiosity-box {
+            display: none;
+        }
+
+        /* Estilo para a caixa de curiosidade ao lado */
+        .curiosity-sidebar-box {
+            background-color: var(--cor-fundo-transparente);
+            color: var(--cor-texto-claro);
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1em;
+            line-height: 1.6;
+            text-align: left;
+            flex-basis: 40%;
+            max-width: 45%;
+            min-width: 280px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            pointer-events: none;
+            align-self: flex-start;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin-top: 0;
+            margin-bottom: 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+        }
+        /* Mobile adjustment for curiosity box - revert to block flow */
+        @media (max-width: 768px) {
+            .curiosity-sidebar-box {
+                flex-basis: 90%;
+                max-width: 90%;
+                text-align: center;
+                align-self: center;
+                margin-top: 20px;
+            }
+        }
+
+        /* DURAÇÃO RESTAURADA e ANIMAÇÃO REMOVIDA */
+        .curiosity-sidebar-box.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .curiosity-sidebar-box strong {
+            color: var(--cor-amarelo-cbjr);
+            font-family: 'Elektrix', sans-serif;
+            font-size: 1.2em;
+            display: block;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+        }
+
+        /* NOVO: Estilo para a mensagem de combo */
+        #combo-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(241, 196, 15, 0.9);
+            color: var(--cor-preto-principal);
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2.8em;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.6);
+            z-index: 2500;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            box-shadow: 0 0 25px rgba(0,0,0,0.7);
+            white-space: nowrap;
+            display: none;
+        }
+
+        #combo-message.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.15);
+            display: block;
+        }
+
+        /* NOVO: Estilo para o pop-up de conquista */
+        #achievement-popup {
+            position: fixed;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--cor-verde-correto);
+            color: var(--cor-texto-claro);
+            padding: 20px 30px;
+            border-radius: 12px;
+            font-family: 'Elektrix', sans-serif;
+            font-size: 1.8em;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+            z-index: 3000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            display: none;
+            animation: fadeInOut 3.5s forwards;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -50px); }
+            15% { opacity: 1; transform: translate(-50%, 0); }
+            85% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, -50px); }
+        }
+        #achievement-popup.show {
+            display: block;
+        }
+
+        /* NOVO: Estilos para a tela de conquistas */
+        #achievements-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            pointer-events: none;
+        }
+        #achievements-screen.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #achievements-screen h2 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 3em;
+            color: var(--cor-amarelo-cbjr);
+            margin-bottom: 35px;
+            text-shadow: 4px 4px 18px var(--cor-preto-principal), 0 0 20px var(--cor-amarelo-cbjr);
+        }
+        #achievements-list {
+            list-style: none;
+            padding: 0;
+            width: 90%;
+            max-width: 900px;
+            margin-bottom: 40px;
+            text-align: left;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            justify-content: center;
+        }
+
+        /* Estilo para o CARD de conquista */
+        .achievement-card {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8);
+            transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 140px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: var(--cor-texto-claro);
+            text-align: center;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-8px);
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .achievement-card.unlocked {
+            border-color: var(--cor-verde-correto);
+            background-color: rgba(46, 204, 113, 0.25);
+        }
+
+        .achievement-card.unlocked:hover {
+            background-color: rgba(46, 204, 113, 0.5);
+        }
+
+        .achievement-card h3 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 1.4em;
+            color: var(--cor-amarelo-cbjr);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .achievement-card .achievement-icon {
+            font-size: 1.5em;
+            line-height: 1;
+            vertical-align: middle;
+        }
+
+        .achievement-card p {
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .achievement-card .status {
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .achievement-card .status.unlocked {
+            color: var(--cor-verde-correto);
+        }
+
+        .achievement-card .status.locked {
+            color: var(--cor-vermelho-incorreto);
+        }
+
+        /* Media Query para forçar 2 colunas em telas maiores que 600px */
+        @media (min-width: 601px) {
+            #achievements-list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+        }
+
+        /* Media Query para telas menores (smartphones) */
+        @media (max-width: 600px) {
+            /* Em telas pequenas, mantenha o layout de conquistas em duas ou três colunas,
+               usando colunas flexíveis para preservar a estética do desktop. */
+            #achievements-list {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 15px;
+                width: 98%;
+            }
+            .achievement-card {
+                padding: 15px;
+                min-height: 90px;
+            }
+            .achievement-card h3 {
+                font-size: 1em;
+                margin-bottom: 6px;
+                /* Garante que nomes longos quebrem em várias linhas e não se sobreponham. */
+                word-break: break-word;
+                hyphens: auto;
+                line-height: 1.2;
+            }
+            .achievement-card p {
+                font-size: 0.8em;
+                margin-bottom: 10px;
+            }
+            .achievement-card .status {
+                font-size: 0.7em;
+            }
+            #close-achievements-btn {
+                font-size: 0.9em;
+                padding: 10px 18px;
+            }
+            #start-bonus-music-btn {
+                font-size: 0.9em;
+                padding: 10px 18px;
+            }
+        }
+        /* Media Query for very small screens to adjust header */
+        @media (max-width: 400px) {
+            header h1 {
+                font-size: 2.2em;
+                padding: 20px 30px;
+            }
+            .question h3 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            .question button {
+                font-size: 1.1em;
+                padding: 15px 10px;
+                height: 75px;
+            }
+            .question button .keyboard-shortcut {
+                font-size: 0.7em;
+                top: 5px;
+                left: 5px;
+            }
+        }
+
+
+        #restart-btn {
+            padding: 15px 30px;
+            margin-top: 20px;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            border-radius: 10px;
+            font-size: 1.5em;
+            transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+        }
+        #restart-btn:hover {
+            transform: scale(1.05);
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.8), 0 0 15px var(--cor-amarelo-cbjr);
+        }
+
+        /* --- ALTERADO: Adicionado o seletor para os botões da tela de bônus --- */
+        #level-up-message .message-buttons button,
+        #welcome-screen .message-buttons button,
+        #bonus-music-screen .message-buttons button {
+            padding: 15px 30px;
+            font-size: 1.3em;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.25s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            text-shadow: 0 0 10px rgba(255,255,255,0.9);
+            margin-top: 25px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+            gap: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Elektrix', sans-serif;
+            width: 100%; /* Adicionado para que ocupe a largura total */
+            min-height: 65px; /* Adicionado para garantir um tamanho mínimo */
+        }
+        /* --- ALTERADO: Adicionado o seletor para o hover dos botões da tela de bônus --- */
+        #level-up-message button:hover,
+        #welcome-screen button:hover,
+        #bonus-music-screen .message-buttons button:hover {
+            transform: scale(1.08);
+            background-color: var(--cor-amarelo-cbjr);
+            color: var(--cor-preto-principal);
+            text-shadow: none;
+            box-shadow: 0 0 20px var(--cor-amarelo-cbjr);
+        }
+        /* --- ALTERADO: Adicionado o seletor para os ícones dos botões da tela de bônus --- */
+        #welcome-screen button i,
+        #bonus-music-screen .message-buttons button i {
+            color: var(--cor-amarelo-cbjr);
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+        /* --- ALTERADO: Adicionado o seletor para o hover dos ícones da tela de bônus --- */
+        #welcome-screen button:hover i,
+        #bonus-music-screen .message-buttons button:hover i {
+            color: var(--cor-preto-principal);
+        }
+
+        /* REMOVENDO POP-UP DE PONTUAÇÃO VISUAL */
+        #points-popup {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+
+        /* --- PLAYER ATUALIZADO E CORRIGIDO --- */
+        /* --- PLAYER ATUALIZADO E CORRIGIDO (MOVIDO PARA O TOPO DIREITO) --- */
+        #audio-player-wrapper {
+            position: fixed;
+            top: 20px;                      /* ALTERADO: Distância do topo */
+            right: 20px;                    /* ALTERADO: Distância da direita */
+            /* REMOVIDO: bottom, left, e transform */
+            max-width: 280px;               /* AJUSTADO: Um pouco mais de largura para o novo formato */
+            width: auto;                    /* AJUSTADO: Largura automática */
+            padding: 15px;                  /* AJUSTADO: Um pouco mais de respiro interno */
+            background: rgba(0, 0, 0, 0.6); /* AJUSTADO: Um pouco mais de opacidade */
+            backdrop-filter: blur(8px);     /* NOVO: Efeito de desfoque para um visual moderno */
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.7); /* ALTERADO: Sombra para baixo */
+            z-index: 2200;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-sizing: border-box;
+            min-height: 80px;
+            flex-wrap: wrap;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+        }
+        /* Classe para ocultar o player */
+        #audio-player-wrapper.hidden-player {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Quando o player é movido para dentro da tela de boas‑vindas, ele deve perder o posicionamento fixo
+           e passar a ocupar toda a largura da caixa de boas‑vindas. Isso evita que o player se sobreponha
+           a outros elementos e garante que fique logo abaixo do texto de introdução. */
+        #audio-player-wrapper.inside-welcome {
+            position: relative !important;
+            top: auto !important;
+            right: auto !important;
+            left: auto !important;
+            bottom: auto !important;
+            width: 100% !important;
+            max-width: none !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            margin-top: 10px !important;
+            padding: 8px !important;
+            z-index: 1 !important;
+            border-radius: 10px !important;
+        }
+
+        /* Ajustes adicionais quando o player está dentro da tela de boas‑vindas. A coluna é mantida,
+           mas os controles e texto são alinhados para caber de forma compacta. */
+        #audio-player-wrapper.inside-welcome .player-content {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        /* Em telas pequenas, fora da tela de boas‑vindas, o player deve ser ainda mais compacto.
+           Reduzimos largura, altura e espaçamentos para melhorar a experiência no quiz principal. */
+        @media (max-width: 600px) {
+          #audio-player-wrapper:not(.inside-welcome) {
+            /* Torne o player ainda mais compacto nas telas pequenas. */
+            width: 180px !important;
+            max-width: 180px !important;
+            min-height: 90px !important;
+            max-height: 90px !important;
+            padding: 6px !important;
+            gap: 4px !important;
+          }
+          /* Diminuímos o tamanho dos ícones principais para que o player ocupe menos espaço visual. */
+          #audio-player-wrapper:not(.inside-welcome) .audio-main-controls button i {
+            font-size: 1em !important;
+          }
+          #audio-player-wrapper:not(.inside-welcome) #current-song {
+            font-size: 0.8em !important;
+          }
+
+          /* Ajusta os botões do player para serem menores em telas pequenas */
+          #audio-player-wrapper:not(.inside-welcome) .audio-main-controls button {
+            width: 28px !important;
+            height: 28px !important;
+            padding: 4px !important;
+          }
+          #audio-player-wrapper:not(.inside-welcome) .audio-main-controls button i {
+            font-size: 0.8em !important;
+          }
+
+        /* Estilo para o botão de sair do quiz (sutil e discreto) */
+        #exit-quiz-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            color: var(--cor-texto-claro);
+            font-size: 0.9em;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        #exit-quiz-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ===============================================================
+           Regras baseadas em classes do <body> para controlar a posição
+           e visibilidade do player em diferentes modos de jogo. As classes
+           intro-active, quiz-active e radio-active são adicionadas/ removidas
+           dinamicamente no script para refletir o estado atual do aplicativo.
+           =============================================================== */
+        /* No modo de boas‑vindas (intro-active), o player fica logo abaixo
+           da caixa de introdução. Ele se expande para a largura completa
+           da caixa e deixa de ser fixo. */
+        body.intro-active #audio-player-wrapper {
+            position: relative !important;
+            top: auto !important;
+            right: auto !important;
+            left: auto !important;
+            bottom: auto !important;
+            width: 100% !important;
+            max-width: none !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            margin-top: 10px !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            z-index: 1 !important;
+        }
+        /* No modo Rádio (radio-active), o player fica completamente oculto,
+           pois o usuário precisa adivinhar a música apenas ouvindo. */
+        body.radio-active #audio-player-wrapper {
+            display: none !important;
+        }
+        /* No modo Quiz (quiz-active), o player permanece fixo no canto
+           superior direito, porém com dimensões compactas para não
+           interferir na experiência. */
+        body.quiz-active #audio-player-wrapper {
+            position: fixed !important;
+            top: 10px !important;
+            right: 10px !important;
+            left: auto !important;
+            bottom: auto !important;
+            width: 200px !important;
+            max-width: 200px !important;
+            /* Reduzimos ainda mais a altura do player para ficar ainda mais discreto no quiz. */
+            min-height: 90px !important;
+            max-height: 90px !important;
+            padding: 6px !important;
+            gap: 4px !important;
+            z-index: 6000 !important;
+        }
+        }
+
+        .player-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 8px; /* Reduced gap */
+        }
+
+        #current-song {
+            color: var(--cor-verde-vibrante);
+            font-size: 1.1em; /* Reduced font size */
+            font-weight: bold;
+            text-shadow: none;
+            margin-bottom: 2px; /* Reduced margin */
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            text-align: center;
+            animation: none;
+            animation-play-state: paused;
+            height: 1.3em; /* Adjusted height */
+            line-height: 1.3em;
+            position: relative;
+        }
+
+        /* O elemento real que vai rolar DENTRO de #current-song */
+        @keyframes marquee-text {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(var(--marquee-distance)); }
+        }
+        /* Classe que ativa a animação e ajusta o span interno */
+        #current-song.should-marquee span {
+            display: inline-block;
+            white-space: nowrap;
+            animation-play-state: running;
+            text-align: left;
+            position: absolute;
+            left: 0;
+            top: 0;
+            will-change: transform;
+        }
+
+        #audio {
+            display: none;
+        }
+
+        .progress-bar-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 2px; /* Reduced gap */
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 3px; /* Thinner */
+            background-color: #535353;
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--cor-verde-vibrante);
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+
+        .time-display {
+            color: var(--cor-verde-vibrante);
+            font-size: 0.75em; /* Reduced font size */
+            width: 100%;
+            margin-top: 0; /* Reduced margin */
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .audio-main-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px; /* Reduced gap significantly */
+            width: 100%;
+            margin-top: 5px; /* Reduced margin */
+        }
+
+        .audio-control-btn {
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.2s ease, fill 0.3s ease;
+            box-shadow: none;
+            width: 30px; /* Reduced size */
+            height: 30px; /* Reduced size */
+            flex-shrink: 0;
+        }
+
+        /* Esconde o SVG não ativo dentro do botão de repeat e mute */
+        #repeat-btn #repeat-all-svg { display: block; }
+        #repeat-btn #repeat-one-svg { display: none; }
+        #mute-btn #volume-svg { display: block; }
+        #mute-btn #mute-svg { display: none; }
+
+        .audio-control-btn svg {
+            width: 100%;
+            height: 100%;
+            fill: #b3b3b3;
+            transition: fill 0.3s ease, transform 0.2s ease;
+        }
+        /* Cor padrão para os elementos internos dos SVGs complexos (repeat e shuffle) */
+        #repeat-btn svg .repeat-outer-circle { fill: #344E5D; }
+        #repeat-btn svg .repeat-arrow-1, #repeat-btn svg .repeat-arrow-2 { fill: white; }
+        #repeat-btn #repeat-one-svg .repeat-one-circle { fill: #b3b3b3; }
+        #repeat-btn #repeat-one-svg .repeat-one-number, #repeat-btn #repeat-one-svg .repeat-one-arrows { fill: white; }
+
+        /* SHUFFLE: Cores quando INATIVO (o estado padrão) */
+        #shuffle-btn svg .shuffle-main-circle { fill: #b3b3b3; }
+        #shuffle-btn svg path:not(.shuffle-main-circle), #shuffle-btn svg polyline {
+            stroke: #535353;
+            fill: none;
+        }
+
+        .audio-control-btn:hover {
+            background-color: transparent;
+            transform: none;
+        }
+
+        .audio-control-btn:hover svg {
+            fill: #ffffff;
+            transform: scale(1.15);
+        }
+        #repeat-btn:not(.active):hover svg .repeat-outer-circle {
+            fill: #ffffff;
+        }
+        #repeat-btn:not(.active):hover svg .repeat-arrow-1,
+        #repeat-btn:not(.active):hover svg .repeat-arrow-2 {
+            fill: black;
+        }
+        #shuffle-btn:not(.active):hover svg .shuffle-main-circle {
+            fill: #ffffff;
+        }
+        #shuffle-btn:not(.active):hover svg path,
+        #shuffle-btn:not(.active):hover svg polyline {
+            stroke: black;
+            fill: none;
+        }
+        #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-circle { fill: #ffffff; }
+        #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-number, #repeat-btn:not(.active):hover #repeat-one-svg .repeat-one-arrows { fill: black; }
+
+        .audio-control-btn:active {
+            transform: none;
+        }
+        .audio-control-btn:active svg {
+            transform: scale(0.9);
+        }
+
+        .audio-control-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background-color: transparent;
+        }
+
+        .audio-control-btn:disabled svg {
+            fill: #888888;
+            transform: none;
+        }
+        #repeat-btn:disabled svg .repeat-outer-circle,
+        #shuffle-btn:disabled svg .shuffle-main-circle {
+            fill: #888888 !important;
+        }
+        #repeat-btn:disabled svg .repeat-arrow-1,
+        #repeat-btn:disabled svg .repeat-arrow-2,
+        #shuffle-btn:disabled svg path,
+        #shuffle-btn:disabled svg polyline {
+            stroke: #888888 !important;
+            fill: none !important;
+        }
+        #repeat-btn:disabled #repeat-one-svg .repeat-one-circle { fill: #888888 !important; }
+        #repeat-btn:disabled #repeat-one-svg .repeat-one-number, #repeat-btn:disabled #repeat-one-svg .repeat-one-arrows { fill: #888888 !important; }
+        #volume-svg:disabled path, #mute-svg:disabled path {
+            fill: #888888 !important;
+        }
+
+
+        /* Estilo EXCLUSIVO para o botão grande (Play/Pause) */
+        .audio-control-btn.large-button {
+            background-color: #ffffff;
+            border-radius: 50%;
+            width: 45px; /* Reduced size */
+            height: 45px; /* Reduced size */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 0 15px rgba(0,0,0,0.6);
+        }
+
+        .audio-control-btn.large-button svg {
+            width: 50%; /* Adjusted icon size */
+            height: 50%;
+            fill: var(--cor-preto-principal);
+            transform: none;
+        }
+
+        .audio-control-btn.large-button:hover {
+            transform: scale(1.06);
+            background-color: #f5f5f5;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+        .audio-control-btn.large-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Cor verde para ícones ativos (repeat e shuffle) */
+        #repeat-btn.active svg .repeat-outer-circle,
+        #shuffle-btn.active svg .shuffle-main-circle {
+            fill: var(--cor-verde-vibrante) !important;
+        }
+        #repeat-btn.active svg .repeat-arrow-1,
+        #repeat-btn.active svg .repeat-arrow-2 {
+            fill: white !important;
+        }
+        #shuffle-btn.active svg path, #shuffle-btn.active svg polyline {
+            stroke: white !important;
+            fill: none !important;
+        }
+        #repeat-btn.active #repeat-one-svg .repeat-one-circle { fill: var(--cor-verde-vibrante) !important; }
+        #repeat-btn.active #repeat-one-svg .repeat-one-number, #repeat-btn.active #repeat-one-svg .repeat-one-arrows { fill: white !important; }
+
+        /* Ícone de volume (normal ou mudo) sempre verde */
+        #volume-svg path, #mute-svg path {
+            fill: var(--cor-verde-vibrante) !important;
+        }
+
+        .audio-volume-controls {
+            display: flex;
+            gap: 8px; /* Reduced gap */
+            align-items: center;
+            justify-content: center;
+            width: 95%; /* Adjusted width */
+            max-width: 250px; /* Reduced max-width */
+            margin-top: 5px; /* Reduced margin */
+        }
+
+        #volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%; /* Ensure it fills available space */
+            height: 3px; /* Thinner */
+            background: #535353;
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        #volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px; /* Reduced size */
+            height: 14px; /* Reduced size */
+            background: var(--cor-verde-vibrante);
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: 0 0 8px rgba(0,0,0,0.7);
+            margin-top: -5px; /* Adjusted position */
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        #volume-slider::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            background: var(--cor-verde-vibrante);
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: 0 0 8px rgba(0,0,0,0.7);
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        #volume-slider:hover::-webkit-slider-thumb,
+        #volume-slider:hover::-moz-range-thumb {
+            background: var(--cor-verde-vibrante);
+            transform: scale(1.15);
+            box-shadow: 0 0 12px var(--cor-verde-vibrante), 0 0 8px rgba(0,0,0,0.9);
+        }
+        #volume-slider:active::-webkit-slider-thumb,
+        #volume-slider:active::-moz-range-thumb {
+            transform: scale(0.9);
+        }
+
+        #volume-value {
+            color: var(--cor-verde-vibrante);
+            font-size: 0.7em; /* Reduced font size */
+            width: 30px; /* Reduced width */
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        /* Estilo para a mensagem de nível e instruções */
+        #level-up-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--cor-fundo-transparente);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--cor-texto-claro);
+            padding: 40px;
+            border-radius: 20px;
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2em;
+            text-shadow:
+                0 0 8px rgba(255, 255, 255, 0.8),
+                0 0 15px rgba(255, 255, 255, 0.6),
+                0 0 20px var(--cor-amarelo-cbjr);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.8);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            pointer-events: all;
+            width: auto;
+            max-width: 750px;
+            min-width: 300px;
+            box-sizing: border-box;
+        }
+        /* Mobile adjustments for welcome/level-up screens */
+        @media (max-width: 480px) {
+            #welcome-screen,
+            #level-up-message {
+                /* Reduzimos drasticamente a fonte e o padding em dispositivos pequenos para caber na tela */
+                font-size: 1em;
+                padding: 20px 15px;
+                width: 90%;
+                max-width: 320px;
+                gap: 15px;
+                /* Posiciona mais próximo do topo e remove a tradução vertical */
+                top: 10%;
+                transform: translate(-50%, 0);
+            }
+            #welcome-screen h3,
+            #level-up-message h3 {
+                font-size: 1.2em; /* Smaller title font */
+                margin-bottom: 15px; /* Adjusted margin */
+            }
+            #welcome-screen p,
+            #level-up-message p {
+                font-size: 1em; /* Smaller paragraph font */
+                line-height: 1.4; /* Slightly more compact line-height */
+                margin-bottom: 15px; /* Reduce space after paragraphs */
+            }
+            /* Removido o estilo específico para .message-buttons aqui, pois foi movido para o #welcome-screen .message-buttons diretamente abaixo */
+            #level-up-message ul,
+            #welcome-screen ul {
+                font-size: 0.8em; /* Smaller list font */
+                padding-left: 15px; /* Adjusted padding */
+                margin: 10px auto; /* Adjusted margin */
+            }
+            #level-up-message .chorao-quote {
+                font-size: 1em; /* Smaller quote font */
+                margin-bottom: 15px; /* Adjusted margin */
+            }
+        }
+
+
+        #level-up-message.show,
+        #welcome-screen.show {
+            opacity: 1;
+        }
+        #level-up-message h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            text-shadow:
+                0 0 8px rgba(255, 255, 255, 0.8),
+                0 0 15px rgba(255, 255, 255, 0.6),
+                0 0 20px var(--cor-amarelo-cbjr);
+        }
+        /* Destaque para a frase do Chorão na passagem de nível */
+        #level-up-message .chorao-quote {
+            font-size: 1.3em;
+            margin-top: 0px;
+            margin-bottom: 25px;
+            font-family: 'Elektrix', sans-serif;
+            opacity: 1;
+            text-shadow:
+                0 0 12px rgba(255, 255, 255, 1),
+                0 0 30px var(--cor-amarelo-cbjr),
+                0 0 50px rgba(241, 196, 15, 0.7);
+            white-space: normal;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            line-height: 1.5;
+            max-width: 95%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        /* Media Query para responsividade da frase do Chorão no level-up */
+        @media (max-width: 480px) {
+            #level-up-message .chorao-quote {
+                font-size: 1.1em;
+                margin-top: 10px;
+                line-height: 1.6;
+            }
+        }
+
+        #level-up-message p, #level-up-message ul, #level-up-message li, #level-up-message strong,
+        #welcome-screen p, #welcome-screen ul, #welcome-screen li, #welcome-screen strong {
+            font-family: Arial, sans-serif;
+            text-shadow: 1px 1px 6px rgba(255, 255, 255, 0.6);
+        }
+
+        #level-up-message p,
+        #welcome-screen p {
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        #level-up-message ul,
+        #welcome-screen ul {
+            font-size: 0.85em;
+            padding-left: 20px;
+            text-align: left;
+            margin: 15px auto 20px auto;
+            max-width: 95%;
+        }
+        #level-up-message li,
+        #welcome-screen li {
+            margin-bottom: 6px;
+        }
+
+        /* Media query para telas médias (tablets e smartphones maiores) - Otimizado */
+        @media (max-width: 768px) {
+            #level-up-message {
+                padding: 30px;
+                font-size: 1.8em;
+                max-width: 95%;
+                gap: 18px;
+            }
+            #level-up-message h3 {
+                font-size: 1.4em;
+                margin-bottom: 15px;
+            }
+            #level-up-message p {
+                font-size: 1.05em;
+                line-height: 1.7;
+            }
+            #level-up-message ul {
+                font-size: 0.95em;
+                padding-left: 25px;
+                margin: 20px auto;
+            }
+            #level-up-message li {
+                margin-bottom: 10px;
+            }
+            #level-up-message .message-buttons {
+                flex-direction: row; /* Volta a ser row para tablets */
+                gap: 20px;
+            }
+            #level-up-message .message-buttons button {
+                padding: 18px 30px;
+                font-size: 1.2em;
+                width: auto; /* Permite que o botão se ajuste */
+            }
+        }
+
+        /* --- NOVO: Estilo para a tela de conclusão/nível secreto --- */
+        #completion-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            max-width: 750px;
+            background-color: var(--cor-secreto-fundo);
+            color: var(--cor-secreto-texto);
+            padding: 45px 35px;
+            border-radius: 22px;
+            box-shadow: 0 0 35px var(--cor-secreto-sombra), 0 0 70px rgba(241, 196, 15, 0.5);
+            text-align: center;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease-in-out;
+            border: 4px solid var(--cor-secreto-borda);
+            box-sizing: border-box;
+        }
+
+        #completion-screen.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #completion-screen.shake-animation {
+            animation: strong-shake 0.6s infinite alternate;
+        }
+
+        #completion-screen h2 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 3.5em;
+            color: var(--cor-secreto-texto);
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px var(--cor-secreto-sombra), 0 0 25px rgba(241, 196, 15, 0.7);
+            line-height: 1.2;
+        }
+
+        #completion-screen p {
+            font-family: Arial, sans-serif;
+            font-size: 1.2em;
+            color: var(--cor-texto-claro);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+        }
+
+        #completion-screen .message-buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        #completion-screen button {
+            padding: 18px 35px;
+            font-size: 1.4em;
+            font-family: 'Elektrix', sans-serif;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-amarelo-cbjr);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, transform 0.25s;
+            text-shadow: 0 0 8px rgba(255,255,255,0.7);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+        }
+
+        #completion-screen button:hover {
+            background-color: var(--cor-amarelo-cbjr);
+            color: var(--cor-preto-principal);
+            transform: scale(1.08);
+            box-shadow: 0 0 20px var(--cor-amarelo-cbjr);
+        }
+
+        /* Responsividade para a tela de conclusão */
+        @media (max-width: 768px) {
+            #completion-screen {
+                padding: 35px 25px;
+                width: 90%;
+            }
+            #completion-screen h2 {
+                font-size: 2.8em;
+            }
+            #completion-screen p {
+                font-size: 1.1em;
+            }
+            #completion-screen button {
+                font-size: 1.2em;
+                padding: 15px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #completion-screen {
+                padding: 25px 20px;
+            }
+            #completion-screen h2 {
+                font-size: 2.2em;
+                margin-bottom: 20px;
+            }
+            #completion-screen p {
+                font-size: 1em;
+                margin-bottom: 25px;
+            }
+            #completion-screen .message-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            #completion-screen button {
+                font-size: 1.1em;
+                padding: 12px 25px;
+            }
+        }
+
+        /* --- ESTILOS DO RANKING ONLINE --- */
+        #ranking-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.98);
+            z-index: 2100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            pointer-events: none;
+        }
+        #ranking-screen.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #ranking-screen h2 {
+            font-family: 'Elektrix', sans-serif;
+            color: var(--cor-amarelo-cbjr);
+            font-size: 3.5em;
+            margin-bottom: 35px;
+            text-shadow: 4px 4px 18px var(--cor-preto-principal), 0 0 20px var(--cor-amarelo-cbjr);
+            text-align: center;
+        }
+
+        #ranking-list {
+            list-style: none;
+            padding: 0;
+            width: 90%;
+            max-width: 550px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        #ranking-list li {
+            background-color: var(--cor-fundo-transparente);
+            margin-bottom: 12px;
+            padding: 18px 25px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--cor-texto-claro);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+        #ranking-list li:first-child {
+            background-color: rgba(241, 196, 15, 0.6);
+            color: var(--cor-preto-principal);
+            border: 3px solid var(--cor-amarelo-cbjr);
+            transform: scale(1.03);
+            font-size: 1.3em;
+            box-shadow: 0 0 20px var(--cor-amarelo-cbjr), 0 0 30px rgba(241, 196, 15, 0.7);
+        }
+        #ranking-list li:first-child span:first-child {
+            color: var(--cor-preto-principal);
+        }
+        #ranking-list li:first-child span:last-child {
+            color: var(--cor-preto-principal);
+        }
+
+        #ranking-list li span:first-child {
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 15px;
+        }
+
+        #ranking-list li span:last-child {
+            flex-shrink: 0;
+            text-align: right;
+            font-family: 'Elektrix', sans-serif;
+        }
+
+        #ranking-screen button {
+            padding: 15px 30px;
+            font-size: 1.3em;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.25s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            text-shadow: 0 0 10px rgba(255,255,255,0.9);
+            margin-top: 25px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+        }
+        #ranking-screen button:hover {
+            transform: scale(1.08);
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.8), 0 0 15px var(--cor-amarelo-cbjr);
+        }
+
+        /* Responsividade para ranking-screen */
+        @media (max-width: 600px) {
+            #ranking-screen h2 {
+                font-fsize: 2.5em;
+                margin-bottom: 25px;
+            }
+            #ranking-list li {
+                padding: 12px 18px;
+                font-size: 1.1em;
+            }
+            #ranking-list li:first-child {
+                font-size: 1.2em;
+            }
+            #ranking-screen button {
+                font-size: 1.1em;
+                padding: 12px 25px;
+            }
+        }
+        @media (max-width: 400px) {
+            #ranking-screen h2 {
+                font-size: 2em;
+                margin-bottom: 20px;
+            }
+            #ranking-list li {
+                font-size: 1em;
+            }
+            #ranking-list li:first-child {
+                font-size: 1.1em;
+            }
+            #ranking-screen button {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+
+        /* NOVO: Estilo para o pop-up de detalhes da conquista */
+        #achievement-detail-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.98);
+            color: var(--cor-texto-claro);
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.9);
+            z-index: 3500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out;
+            max-width: 85%;
+            width: 450px;
+            border: 3px solid var(--cor-amarelo-cbjr);
+        }
+        #achievement-detail-popup.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #achievement-detail-popup h3 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2.2em;
+            color: var(--cor-amarelo-cbjr);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        /* NOVO: Estilo para o nome do CD */
+        #detail-achievement-cd-name {
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: -8px;
+            margin-bottom: 15px;
+        }
+        /* ALTERADO: Aumentar o tamanho da capa do CD */
+        #detail-achievement-cover {
+            max-width: 280px !important;
+            max-height: 280px !important;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+            display: none;
+        }
+        #achievement-detail-popup p {
+            font-family: Arial, sans-serif;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+        #achievement-detail-popup .status {
+            font-size: 1em;
+            font-weight: bold;
+            color: var(--cor-verde-vibrante);
+            margin-bottom: 25px;
+        }
+        #achievement-detail-popup .status.locked {
+            color: var(--cor-vermelho-incorreto);
+        }
+        #achievement-detail-popup button {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.25s, transform 0.25s, box-shadow 0.25s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+        }
+        #achievement-detail-popup button:hover {
+            background-color: var(--cor-amarelo-cbjr);
+            color: var(--cor-preto-principal);
+            transform: scale(1.08);
+            box-shadow: 0 0 15px var(--cor-amarelo-cbjr);
+        }
+
+        /* Responsividade para o pop-up de detalhes */
+        @media (max-width: 480px) {
+            #achievement-detail-popup {
+                padding: 25px;
+                width: 95%;
+                max-width: 350px;
+            }
+            #achievement-detail-popup h3 {
+                font-size: 1.8em;
+            }
+            #achievement-detail-popup p {
+                font-size: 1em;
+            }
+            #detail-achievement-cover {
+                max-width: 180px !important;
+            }
+            #achievement-detail-popup button {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+
+        /* Ajustes para a overlay principal */
+        #main-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1500;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+        }
+
+        /* Adicionar classes para controlar a overlay com JS */
+        #main-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* NOVO: Estilos para o Nível Rádio CBJR */
+        #bonus-music-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            max-width: 650px;
+            background-color: var(--cor-bonus-fundo);
+            color: var(--cor-bonus-texto);
+            padding: 35px;
+            border-radius: 18px;
+            border: 4px solid var(--cor-verde-vibrante);
+            animation: neon-pulse 2s infinite alternate;
+            background-image: url('https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/dark-concrete-texture.png');
+            background-size: cover;
+            background-blend-mode: overlay;
+            text-align: center;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease-in-out;
+            box-sizing: border-box;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+        }
+
+        #bonus-music-screen.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #bonus-music-screen h2 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 3em;
+            color: var(--cor-bonus-texto);
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.7), 0 0 25px rgba(0, 255, 0, 0.5);
+        }
+        /* Nova classe para as instruções do bônus */
+        .bonus-instruction {
+            font-family: Arial, sans-serif;
+            font-size: 1.15em;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+        }
+
+        /* Novo: Área do player de adivinhação */
+        .bonus-player-area {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            width: 95%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            box-shadow: inset 0 0 25px rgba(0,255,0,0.6), 0 0 40px rgba(0,0,0,0.95);
+            border: 2px solid var(--cor-amarelo-cbjr);
+        }
+        /* Título da música no modo bônus (quando revelado) */
+        #bonus-music-screen #bonus-current-song-title {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2.2em;
+            color: var(--cor-amarelo-cbjr);
+            margin: 0;
+            text-shadow: 0 0 12px rgba(241, 196, 15, 0.8);
+            min-height: 1.3em;
+        }
+        /* Adicionando estilo para a curiosidade dentro da bonus-player-area */
+        #bonus-curiosity-message {
+            font-family: Arial, sans-serif;
+            font-size: 1.3em;
+            margin-top: 20px;
+            color: var(--cor-amarelo-cbjr);
+            line-height: 1.7;
+            text-align: center;
+            display: none;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 1), 0 0 20px var(--cor-amarelo-cbjr);
+            padding: 15px 25px;
+            border-radius: 12px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            box-shadow: 0 0 25px rgba(241, 196, 15, 0.6);
+            transition: opacity 0.6s ease-in-out;
+            box-sizing: border-box;
+        }
+
+        #bonus-music-screen #bonus-answer-input {
+            width: 95%;
+            max-width: 350px;
+            padding: 15px 25px;
+            margin-bottom: 0;
+            border-radius: 30px;
+            border: 3px solid var(--cor-bonus-input-borda);
+            background-color: var(--cor-bonus-input-fundo);
+            color: var(--cor-texto-claro);
+            font-size: 1.3em;
+            text-align: center;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 0 10px rgba(0,255,0,0.3);
+        }
+        /* Efeito de foco no input */
+        #bonus-music-screen #bonus-answer-input:focus {
+            outline: none;
+            border-color: var(--cor-amarelo-cbjr);
+            box-shadow: 0 0 25px var(--cor-amarelo-cbjr), inset 0 0 12px rgba(241,196,15,0.5);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        /* Classes para cores de feedback do input no Rádio CBJR */
+        #bonus-answer-input.correct-feedback {
+            border-color: var(--cor-verde-correto) !important;
+            box-shadow: 0 0 20px var(--cor-verde-correto);
+            animation: pulse-input 0.35s ease-out;
+        }
+        #bonus-answer-input.incorrect-feedback {
+            border-color: var(--cor-vermelho-incorreto) !important;
+            box-shadow: 0 0 20px var(--cor-vermelho-incorreto);
+            animation: shake-input 0.35s 2;
+        }
+
+        #bonus-music-screen #bonus-answer-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Novo: Estilos para o display de placar em mini-cards */
+        .bonus-score-display {
+            display: flex;
+            justify-content: space-around;
+            width: 95%;
+            max-width: 550px;
+            margin: 25px auto;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            color: var(--cor-texto-claro);
+            font-size: 1.05em;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.7);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            min-width: 140px;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .score-item i {
+            font-size: 1.4em;
+        }
+        .score-item.correct-count i { color: var(--cor-verde-correto); }
+        .score-item.error-count i { color: var(--cor-vermelho-incorreto); }
+        .score-item.music-progress i { color: var(--cor-amarelo-cbjr); }
+
+
+        #bonus-feedback-message {
+            font-size: 1.6em;
+            font-family: 'Elektrix', sans-serif;
+            font-weight: bold;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            color: var(--cor-texto-claro);
+            min-height: 2em;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-out;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.8);
+        }
+        #bonus-feedback-message.show {
+            opacity: 1;
+            transform: translateY(-8px);
+        }
+
+        #bonus-score-info {
+            display: none;
+        }
+
+        .bonus-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 35px;
+        }
+
+        #bonus-music-screen .bonus-controls button {
+            padding: 18px 35px;
+            font-size: 1.2em;
+            font-family: 'Elektrix', sans-serif;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-bonus-texto);
+            border: 2px solid var(--cor-bonus-texto);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-shadow: 0 0 8px rgba(255,255,255,0.7);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+        }
+        #bonus-music-screen .bonus-controls button i {
+            font-size: 1.5em;
+            color: var(--cor-bonus-texto);
+            transition: color 0.25s ease;
+        }
+
+        #bonus-music-screen .bonus-controls button:hover:not(:disabled) {
+            background-color: var(--cor-bonus-texto);
+            color: var(--cor-preto-principal);
+            transform: scale(1.08);
+            box-shadow: 0 0 20px var(--cor-bonus-texto);
+        }
+        #bonus-music-screen .bonus-controls button:hover:not(:disabled) i {
+            color: var(--cor-preto-principal);
+        }
+
+        #bonus-music-screen .bonus-controls button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: rgba(0, 255, 0, 0.2);
+            color: rgba(0, 255, 0, 0.2);
+            box-shadow: none;
+        }
+        #bonus-music-screen .bonus-controls button:disabled i {
+            color: rgba(0, 255, 0, 0.2);
+        }
+        #bonus-music-screen .bonus-controls .exit-button {
+            border-color: var(--cor-vermelho-incorreto);
+            color: var(--cor-vermelho-incorreto);
+        }
+        #bonus-music-screen .bonus-controls .exit-button i {
+            color: var(--cor-vermelho-incorreto);
+        }
+        #bonus-music-screen .bonus-controls .exit-button:hover:not(:disabled) {
+            background-color: var(--cor-vermelho-incorreto);
+            color: var(--cor-texto-claro);
+            box-shadow: 0 0 20px var(--cor-vermelho-incorreto);
+        }
+        #bonus-music-screen .bonus-controls .exit-button:hover:not(:disabled) i {
+            color: var(--cor-texto-claro);
+        }
+
+        /* Responsividade para o Nível Rádio CBJR */
+        @media (max-width: 768px) {
+            #bonus-music-screen {
+                padding: 30px 25px;
+                width: 90%;
+            }
+            #bonus-music-screen h2 {
+                font-size: 2.5em;
+            }
+            .bonus-instruction {
+                font-size: 1.05em;
+            }
+            #bonus-music-screen #bonus-current-song-title {
+                font-size: 1.8em;
+            }
+            #bonus-music-screen .bonus-controls button {
+                font-size: 1.05em;
+                padding: 15px 25px;
+            }
+            .bonus-player-area {
+                padding: 20px;
+            }
+            .score-item {
+                font-size: 1em;
+                padding: 10px 15px;
+                min-width: unset;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #bonus-music-screen {
+                padding: 25px 20px;
+            }
+            #bonus-music-screen h2 {
+                font-size: 2em;
+                margin-bottom: 20px;
+            }
+            .bonus-instruction {
+                font-size: 0.95em;
+                margin-bottom: 25px;
+            }
+            #bonus-music-screen #bonus-current-song-title {
+                font-size: 1.5em;
+            }
+            #bonus-music-screen #bonus-answer-input {
+                font-size: 1.1em;
+                padding: 12px 20px;
+            }
+            #bonus-feedback-message {
+                font-size: 1.3em;
+            }
+            .bonus-score-display {
+                flex-direction: column;
+                gap: 15px;
+                margin: 20px auto;
+                max-width: 90%;
+            }
+            .score-item {
+                width: 100%;
+            }
+            .bonus-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            #bonus-music-screen .bonus-controls button {
+                font-size: 1em;
+                padding: 15px 25px;
+                width: 100%;
+            }
+            /* Ajustes para a curiosidade em telas muito pequenas (mobile) */
+            #bonus-curiosity-message {
+                position: fixed;
+                top: 15px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 95%;
+                max-width: unset;
+                padding: 18px;
+                font-size: 1.05em;
+                line-height: 1.6;
+                z-index: 2001;
+                box-sizing: border-box;
+                animation: fadeInOutCuriosity 0.6s ease-out forwards;
+            }
+            /* Keyframe para a animação da curiosidade em mobile */
+            @keyframes fadeInOutCuriosity {
+                from { opacity: 0; transform: translate(-50%, -30px); }
+                to { opacity: 1; transform: translate(-50%, 0); }
+            }
+        }
+
+
+        /* NOVO: Estilo para a tela de CONQUISTA DO BÔNUS */
+        #bonus-achievement-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            max-width: 700px;
+            background-color: var(--cor-bonus-conquista-fundo);
+            color: var(--cor-bonus-conquista-texto);
+            padding: 45px 35px;
+            border-radius: 22px;
+            box-shadow: 0 0 40px var(--cor-bonus-conquista-sombra), 0 0 80px rgba(30, 215, 96, 0.5);
+            text-align: center;
+            z-index: 2100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease-in-out;
+            border: 4px solid var(--cor-bonus-conquista-borda);
+            box-sizing: border-box;
+        }
+
+        #bonus-achievement-screen.show {
+            opacity: 1;
+            pointer-events: all;
+            animation: pulse-border 2.5s infinite alternate;
+        }
+
+        @keyframes pulse-border {
+            0% { border-color: var(--cor-bonus-conquista-borda); box-shadow: 0 0 40px var(--cor-bonus-conquista-sombra); }
+            100% { border-color: var(--cor-amarelo-cbjr); box-shadow: 0 0 60px rgba(241, 196, 15, 0.9); }
+        }
+
+
+        #bonus-achievement-screen h2 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 3.5em;
+            color: var(--cor-bonus-conquista-texto);
+            margin-bottom: 25px;
+            text-shadow: 0 0 20px var(--cor-bonus-conquista-sombra), 0 0 30px rgba(30, 215, 96, 0.7);
+            line-height: 1.2;
+        }
+
+        #bonus-achievement-screen p {
+            font-family: Arial, sans-serif;
+            font-size: 1.2em;
+            color: var(--cor-texto-claro);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+        }
+
+        #bonus-achievement-screen img {
+            max-width: 320px;
+            max-height: 320px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+            margin: 25px 0;
+            transition: transform 0.35s ease;
+        }
+
+        #bonus-achievement-screen img:hover {
+            transform: scale(1.08);
+        }
+
+        #bonus-achievement-screen button {
+            padding: 18px 35px;
+            font-size: 1.4em;
+            font-family: 'Elektrix', sans-serif;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-bonus-conquista-texto);
+            border: 2px solid var(--cor-bonus-conquista-borda);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, transform 0.25s, border-color 0.3s;
+            text-shadow: 0 0 8px rgba(255,255,255,0.7);
+            margin-top: 35px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+        }
+
+        #bonus-achievement-screen button:hover {
+            background-color: var(--cor-bonus-conquista-borda);
+            color: var(--cor-preto-principal);
+            transform: scale(1.08);
+            box-shadow: 0 0 20px var(--cor-bonus-conquista-sombra);
+        }
+
+        /* Responsividade para a tela de CONQUISTA DO BÔNUS */
+        @media (max-width: 768px) {
+            #bonus-achievement-screen {
+                padding: 35px 25px;
+                width: 90%;
+            }
+            #bonus-achievement-screen h2 {
+                font-size: 2.8em;
+            }
+            #bonus-achievement-screen p {
+                font-size: 1.1em;
+            }
+            #bonus-achievement-screen img {
+                max-width: 250px;
+                max-height: 250px;
+            }
+            #bonus-achievement-screen button {
+                font-size: 1.2em;
+                padding: 15px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #bonus-achievement-screen {
+                padding: 25px 20px;
+            }
+            #bonus-achievement-screen h2 {
+                font-size: 2.2em;
+                margin-bottom: 20px;
+            }
+            #bonus-achievement-screen p {
+                font-size: 1em;
+                margin-bottom: 25px;
+            }
+            #bonus-achievement-screen img {
+                max-width: 180px;
+                max-height: 180px;
+            }
+            #bonus-achievement-screen button {
+                font-size: 1.1em;
+                padding: 12px 25px;
+            }
+        }
+
+        /* NOVO: Estilo para a NOVA TELA DE BOAS-VINDAS (após a introdução inicial) */
+        #welcome-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--cor-fundo-transparente);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--cor-texto-claro);
+            padding: 40px;
+            border-radius: 20px;
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2em;
+            text-shadow:
+                0 0 8px rgba(255, 255, 255, 0.8),
+                0 0 15px rgba(255, 255, 255, 0.6),
+                0 0 20px var(--cor-amarelo-cbjr);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.8);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: all;
+            width: auto;
+            max-width: 650px;
+            min-height: 250px;
+            box-sizing: border-box;
+
+            /* Limita a altura para caber em telas menores e permite rolagem interna
+               se o conteúdo exceder o espaço disponível. */
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        #welcome-screen.show {
+            opacity: 1;
+        }
+
+        #welcome-screen h3 {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            color: var(--cor-amarelo-cbjr);
+            text-shadow:
+                0 0 10px rgba(255, 255, 255, 1),
+                0 0 25px var(--cor-amarelo-cbjr);
+        }
+
+        /* CORREÇÃO AQUI: Ajustado para garantir que os botões se ajustem em telas pequenas */
+        #welcome-screen .message-buttons,
+        #bonus-music-screen .message-buttons {
+            margin-top: 35px;
+            display: grid;
+            /* Mostra os botões em duas colunas também em dispositivos menores para uma experiência semelhante à do desktop */
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            width: 100%; /* Ocupa a largura total do pai */
+            max-width: 450px; /* Limita a largura para botões em telas maiores */
+            justify-content: center;
+            box-sizing: border-box; /* Garante que padding/border são incluídos na largura */
+        }
+
+        /* Ajuste para 2 colunas em telas maiores para os botões do menu principal */
+        @media (min-width: 500px) {
+            #welcome-screen .message-buttons,
+            #bonus-music-screen .message-buttons {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        /* Ajustes específicos para os botões dentro de welcome-screen .message-buttons
+            para garantir que se ajustem e não 'estourem' */
+        @media (max-width: 480px) {
+            #welcome-screen .message-buttons,
+            #bonus-music-screen .message-buttons {
+                gap: 10px; /* Reduz o espaço entre os botões */
+            }
+            #welcome-screen .message-buttons button,
+            #bonus-music-screen .message-buttons button {
+                font-size: 1em; /* Reduz a fonte dos botões */
+                padding: 12px 20px; /* Reduz o padding dos botões */
+                min-height: unset; /* Permite que o botão seja menor se o conteúdo for pequeno */
+            }
+        }
+
+
+        #welcome-screen p.intro-text {
+            font-family: Arial, sans-serif;
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 25px;
+            max-width: 95%;
+        }
+
+        /* Animação para a intro ao carregar (opcional) */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        #welcome-screen.show.initial-load {
+            animation: fadeInScale 0.9s ease-out forwards;
+        }
+
+        /* --- Estilos para a lista de feedback de erros no Bônus --- */
+        .erros-lista {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            width: 95%;
+            max-width: 500px;
+            text-align: left;
+        }
+        .erros-lista h4 {
+            font-family: 'Elektrix', sans-serif;
+            color: var(--cor-amarelo-cbjr);
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .erros-lista ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
         }
         .erros-lista li {
             font-family: Arial, sans-serif;
