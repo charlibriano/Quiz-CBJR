@@ -3246,6 +3246,72 @@
         }
       }
     </style>
+
+<style>
+
+/* ===== Modelo 3 — Card com capa (overlay único) ===== */
+#model3-overlay{
+  position:fixed; right:18px; bottom:18px; z-index:2147483000;
+  width:min(480px, 94vw);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  user-select:none;
+}
+#model3-overlay .card{
+  background:rgba(18,20,24,.94);
+  color:#eaeaf0;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;
+  padding:12px;
+  box-shadow:0 18px 40px rgba(0,0,0,.5);
+  backdrop-filter:saturate(1.1) blur(6px);
+  position:relative;
+}
+#model3-overlay .row{ display:flex; align-items:center; gap:12px; }
+#model3-overlay .cover{ width:72px; height:72px; border-radius:10px; overflow:hidden; flex:0 0 auto; background:#0f1115; }
+#model3-overlay .cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+#model3-overlay .meta{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:8px; }
+#model3-overlay .title{ font-weight:700; font-size:15px; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#model3-overlay .artist{ font-size:12px; opacity:.85; }
+#model3-overlay .controls{ display:flex; gap:8px; flex-wrap:wrap; }
+#model3-overlay .btn{
+  height:40px; min-width:40px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.16); background:#14161b; color:#eaeaf0; cursor:pointer;
+}
+#model3-overlay .btn.play{ background:#eaeaf0; color:#0f1115; font-weight:700; }
+#model3-overlay .btn.toggle.is-active{ background:#eaeaf0; color:#0f1115; border-color:#eaeaf0; font-weight:700; }
+#model3-overlay .progress{ height:8px; background:#1f2127; border-radius:999px; margin-top:10px; cursor:pointer; }
+#model3-overlay .bar{ height:8px; width:0; background:#eaeaf0; border-radius:999px; }
+#model3-overlay .time{ display:flex; justify-content:space-between; font-size:12px; opacity:.85; margin-top:4px; }
+#model3-overlay .topbar{ position:absolute; right:6px; top:6px; display:flex; gap:6px; }
+#model3-overlay .tiny{ background:#0000; border:0; color:#eaeaf0; font-size:18px; cursor:pointer; }
+#model3-overlay.min .row, #model3-overlay.min .progress, #model3-overlay.min .time, #model3-overlay.min .vol{ display:none; }
+#model3-overlay.min .card{ padding:8px 10px; }
+#model3-overlay.min .tiny{ font-size:14px; }
+@media (max-width:520px){
+  #model3-overlay{ left:10px; right:10px; bottom:12px; width:auto; }
+}
+
+/* ===== Volume ===== */
+#model3-overlay .vol{ display:flex; align-items:center; gap:10px; margin-top:4px; }
+#model3-overlay .vol .mute{ background:#0000; border:1px solid rgba(255,255,255,.16); color:#eaeaf0; border-radius:10px; width:40px; height:36px; cursor:pointer; }
+#model3-overlay .vol .mute.is-muted{ background:#eaeaf0; color:#0f1115; border-color:#eaeaf0; }
+#model3-overlay .vol input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; height:8px; background:#1f2127; border-radius:999px; outline:none; cursor:pointer; }
+#model3-overlay .vol input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:#eaeaf0; border:1px solid rgba(0,0,0,.3); }
+#model3-overlay .vol input[type=range]::-moz-range-thumb{ width:16px; height:16px; border-radius:50%; background:#eaeaf0; border:1px solid rgba(0,0,0,.3); }
+#model3-overlay .vol input[type=range]::-ms-thumb{ width:16px; height:16px; border-radius:50%; background:#eaeaf0; border:1px solid rgba(0,0,0,.3); }
+
+/* ===== MARQUEE single sempre ===== */
+#model3-overlay .title.marquee-single { position:relative; overflow:hidden; white-space:nowrap; }
+#model3-overlay .title.marquee-single .single { display:inline-block; will-change: transform; animation: m3-single var(--m3-dur, 14s) linear infinite; }
+#model3-overlay .title.marquee-single:hover .single { animation-play-state: paused; }
+@keyframes m3-single { from { transform: translateX(0); } to { transform: translateX(calc(-1 * var(--m3-travel, 300px))); } }
+
+/* ===== Esconde com segurança a UI antiga quando o modelo 3 estiver ativo ===== */
+body.m3-ready #audio-player-wrapper{ width:0 !important; height:0 !important; overflow:hidden !important; opacity:0 !important; pointer-events:none !important; position:static !important; left:auto !important; right:auto !important; top:auto !important; bottom:auto !important; z-index:auto !important; margin:0 !important; }
+body.m3-ready button[title="Mostrar/Ocultar player"]{ display:none !important; }
+body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible !important; }
+
+</style>
 </head>
 <body>
     <header>
@@ -7105,5 +7171,209 @@ window.onload = () => {
     <div id="equalizer-footer">
         <canvas id="equalizer-canvas"></canvas>
     </div>
+
+<!-- ===== Overlay Player (Modelo 3 ÚNICO + Shuffle/Repeat + Volume) ===== -->
+<div id="model3-overlay">
+  <div class="card">
+    <div class="topbar">
+      <button class="tiny" id="m3-min" title="Minimizar/expandir">—</button>
+    </div>
+    <div class="row">
+      <div class="cover"><img id="m3-cover" alt="Capa do álbum" src="https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/CD%2010.jpeg"></div>
+      <div class="meta">
+        <div class="title" id="m3-title">—</div>
+        <div class="artist" id="m3-artist">Charlie Brown Jr.</div>
+        <div class="controls">
+          <button class="btn toggle shuf" aria-label="Aleatório" title="Aleatório (ligar/desligar)">🔀</button>
+          <button class="btn prev" aria-label="Anterior" title="Anterior">⏮</button>
+          <button class="btn play" aria-label="Tocar/Pausar" title="Tocar/Pausar">▶</button>
+          <button class="btn next" aria-label="Próxima" title="Próxima">⏭</button>
+          <button class="btn toggle rep" aria-label="Repetir" title="Repetir faixa (ligar/desligar)">🔁</button>
+        </div>
+        <div class="vol">
+          <button class="mute" id="m3-mute" title="Silenciar/ativar som">🔊</button>
+          <input id="m3-vol" type="range" min="0" max="100" value="100" aria-label="Volume">
+        </div>
+      </div>
+    </div>
+    <div class="progress" role="slider" aria-valuemin="0" aria-valuemax="100"><div class="bar"></div></div>
+    <div class="time"><span class="cur">0:00</span><span class="dur">0:00</span></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const root  = document.getElementById('model3-overlay');
+  if (!root) return;
+  document.body.classList.add('m3-ready');
+
+  const audio = document.querySelector('#audio-player-wrapper audio, #audio') || document.querySelector('audio');
+  const img   = document.getElementById('m3-cover');
+  const title = document.getElementById('m3-title');
+  const prevB = root.querySelector('.btn.prev');
+  const playB = root.querySelector('.btn.play');
+  const nextB = root.querySelector('.btn.next');
+  const shufB = root.querySelector('.btn.shuf');
+  const repB  = root.querySelector('.btn.rep');
+  const prog  = root.querySelector('.progress'); const bar = root.querySelector('.bar');
+  const curT  = root.querySelector('.cur'); const durT = root.querySelector('.dur');
+  const minB  = document.getElementById('m3-min');
+  const volR  = document.getElementById('m3-vol');
+  const muteB = document.getElementById('m3-mute');
+  minB.addEventListener('click', ()=> root.classList.toggle('min'));
+
+  img.addEventListener('error', ()=> { img.onerror=null; img.src='https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/CD%201.jpeg'; });
+
+  function selOne(arr, scope){ scope = scope || document; for(const s of arr){ const el = scope.querySelector(s); if (el) return el; } return null; }
+  const wrapper = document.getElementById('audio-player-wrapper') || document;
+  const prevOld = selOne(['#prev-btn','[id*="prev"]','.fa-step-backward','.fa-backward','[aria-label*="Anterior" i]'], wrapper);
+  const nextOld = selOne(['#next-btn','[id*="next"]','.fa-step-forward','.fa-forward','[aria-label*="Próxima" i]','[aria-label*="Proxima" i]'], wrapper);
+  const shufOld = selOne(['#shuffle-btn','[id*="shuffle"]','.fa-random','[aria-label*="aleat" i]','[aria-label*="shuffle" i]'], wrapper);
+  const repOld  = selOne(['#repeat-btn','[id*="repeat"]','.fa-repeat','[aria-label*="repet" i]','[aria-label*="repeat" i]'], wrapper);
+
+  function click(el){ if (el) el.click(); }
+  function fmt(t){ if (isNaN(t)) return '0:00'; const m=Math.floor(t/60)|0; const s=Math.floor(t%60)|0; return m+':' + String(s).padStart(2,'0'); }
+
+  window.m3Shuffle = window.m3Shuffle || false;
+  window.m3Repeat  = window.m3Repeat  || (audio ? !!audio.loop : false);
+
+  function paintToggles(){ shufB.classList.toggle('is-active', !!window.m3Shuffle); repB.classList.toggle('is-active',  !!window.m3Repeat); }
+  paintToggles();
+
+  prevB.addEventListener('click', ()=> click(prevOld));
+  nextB.addEventListener('click', ()=> click(nextOld));
+  playB.addEventListener('click', ()=> { if (!audio) return; if (audio.paused) { audio.play().catch(()=>{}); } else { audio.pause(); } });
+  shufB.addEventListener('click', ()=> { window.m3Shuffle = !window.m3Shuffle; paintToggles(); if (shufOld) { shufOld.click(); } });
+  repB.addEventListener('click', ()=> { window.m3Repeat = !window.m3Repeat; paintToggles(); if (repOld) { repOld.click(); } else if (audio) { audio.loop = window.m3Repeat; } });
+
+  // ===== Volume =====
+  let lastVol = 100;
+  function volIcon(v, muted){ if (muted || v===0) return '🔇'; if (v<=33) return '🔈'; if (v<=66) return '🔉'; return '🔊'; }
+  function paintVolume(){
+    if (!audio) return;
+    const v = Math.round(audio.volume * 100);
+    volR.value = v;
+    muteB.textContent = volIcon(v, audio.muted);
+    muteB.classList.toggle('is-muted', audio.muted || v===0);
+  }
+  if (audio){
+    if (isNaN(audio.volume)) audio.volume = 1;
+    volR.value = Math.round((audio.volume||1)*100);
+    paintVolume();
+    volR.addEventListener('input', (e)=>{
+      const v = Math.max(0, Math.min(100, parseInt(e.target.value||'0',10)));
+      if (v > 0) lastVol = v;
+      if (audio){ audio.muted = false; audio.volume = v/100; }
+      paintVolume();
+    });
+    muteB.addEventListener('click', ()=>{
+      if (!audio) return;
+      if (audio.muted || Math.round(audio.volume*100)===0){
+        const target = lastVol || 100;
+        audio.muted = false;
+        audio.volume = target/100;
+        volR.value = target;
+      } else {
+        lastVol = Math.round(audio.volume*100) || lastVol || 100;
+        audio.muted = true;
+        volR.value = 0;
+      }
+      paintVolume();
+    });
+    audio.addEventListener('volumechange', paintVolume);
+  }
+
+  // ===== CAPAS (normalização + mapping, adicionado casos "estudio coca cola") =====
+  const COVER_MAP = Object.assign({
+    'transpiracao continua prolongada': 'CD 1.jpeg',
+    'preco curto prazo longo': 'CD 2.jpeg',
+    'nadando com os tubaroes': 'CD 3.jpeg',
+    'abalando a sua fabrica': 'CD 4_.jpeg',
+    'bocas ordinarias': 'CD 5.jpeg',
+    'acustico mtv': 'CD 6_.jpeg',
+    'tamo ai na atividade': 'CD 7.jpeg',
+    'imunidade musical': 'CD 8.jpeg',
+    'ritmo ritual e responsa': 'CD 9.jpeg',
+    'estudio coca cola zero': 'CD 10.jpeg',
+    'estudio coca cola': 'CD 10.jpeg',
+    'coca cola zero': 'CD 10.jpeg',
+    'coca cola': 'CD 10.jpeg',
+    'musica popular caicara': 'CD 12.jpeg',
+    'la familia 013': 'CD 13.jpeg'
+  }, window.albumCoverMap || {});
+
+  const GH_BASE = 'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/';
+  function ghRaw(path){ return GH_BASE + String(path||'').split('/').filter(Boolean).map(encodeURIComponent).join('/'); }
+  function norm(s){
+    s = String(s||'').toLowerCase();
+    try{ s = s.normalize('NFD').replace(/[\u0300-\u036f]/g,''); }catch(e){}
+    s = s.replace(/[^a-z0-9]+/g, ' ').replace(/\s+/g,' ').trim();
+    return s;
+  }
+  function inferCoverFromSrc(src){
+    try{
+      try {
+        const d = window.currentSongData || window.currentSong || {};
+        const albumName = d.album && (d.album.name || d.album.titulo || d.album.title);
+        if (albumName){
+          const a = norm(albumName);
+          for (const k of Object.keys(COVER_MAP)) if (a.includes(norm(k))) return ghRaw(COVER_MAP[k]);
+        }
+      } catch(e){}
+      const s = norm(src||'');
+      for (const k of Object.keys(COVER_MAP)) if (s.includes(norm(k))) return ghRaw(COVER_MAP[k]);
+    }catch(e){}
+    return ghRaw('CD 1.jpeg');
+  }
+
+  // ===== Marquee sempre ligado (sem duplicar no layout) + limpeza =====
+  function cleanTitle(raw){
+    if (!raw) return '';
+    let t = String(raw);
+    t = t.replace(/charlie\\s*brown\\s*jr\\.?/ig, '');
+    t = t.replace(/\\s*[-–—|:]\\s*/g, ' ').replace(/\\s{2,}/g,' ').trim();
+    const m = t.match(/^(.{3,}?)\\s+\\1$/i); if (m) t = m[1];
+    return t;
+  }
+  function setTitleMarquee(text){
+    const clean = cleanTitle(text);
+    title.classList.add('marquee-single');
+    title.textContent = clean;
+    requestAnimationFrame(()=>{
+      const travel = title.scrollWidth + title.clientWidth + 48;
+      const dur = Math.max(12, Math.round(travel/55));
+      title.style.setProperty('--m3-travel', travel+'px');
+      title.style.setProperty('--m3-dur', dur+'s');
+      const span = document.createElement('span'); span.className = 'single'; span.textContent = clean;
+      title.textContent=''; title.appendChild(span);
+    });
+  }
+  function getLegacyTitle(){ const el = document.getElementById('current-song'); return el ? (el.textContent||'').trim() : ''; }
+
+  if (audio){
+    audio.addEventListener('loadedmetadata', ()=> { durT.textContent = fmt(audio.duration); setTitleMarquee(getLegacyTitle()); updateCover(); });
+    audio.addEventListener('timeupdate', ()=> { curT.textContent = fmt(audio.currentTime); const p=(audio.currentTime/(audio.duration||1))*100; bar.style.width = p+'%'; prog.setAttribute('aria-valuenow', Math.round(p)); });
+    audio.addEventListener('play',  ()=> { playB.textContent='⏸'; });
+    audio.addEventListener('pause', ()=> { playB.textContent='▶'; });
+  }
+
+  function updateCover(){
+    const src = audio && (audio.currentSrc || audio.src || '');
+    const url = inferCoverFromSrc(src||''); if (url) img.src = url;
+  }
+
+  prog.addEventListener('click', (e)=>{
+    if (!audio || !audio.duration) return;
+    const r = prog.getBoundingClientRect();
+    const ratio = Math.min(Math.max(0,(e.clientX - r.left)/r.width),1);
+    audio.currentTime = ratio * audio.duration;
+  });
+
+  const tEl = document.getElementById('current-song');
+  if (tEl){ new MutationObserver(()=>setTitleMarquee(getLegacyTitle())).observe(tEl, {childList:true,subtree:true,characterData:true}); }
+
+  setTitleMarquee(getLegacyTitle()); updateCover();
+})();
+</script>
 </body>
 </html>
