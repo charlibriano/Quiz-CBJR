@@ -7375,5 +7375,118 @@ window.onload = () => {
   setTitleMarquee(getLegacyTitle()); updateCover();
 })();
 </script>
+
+
+<!-- FIX capa "100% Charlie Brown Jr." (prioriza detecção e evita cair em 'Transpiração...') -->
+<script>
+(function(){
+  try{
+    const GH_BASE = 'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/';
+    function ghRaw(path){ return GH_BASE + String(path||'').split('/').filter(Boolean).map(encodeURIComponent).join('/'); }
+    function norm(s){
+      s = String(s||'').toLowerCase();
+      try{ s = s.normalize('NFD').replace(/[\u0300-\u036f]/g,''); }catch(e){}
+      return s.replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+    }
+    function pickCoverFor100(src){
+      const nfull = norm(src||'');
+      const base = (function(){
+        try{ return (new URL(src, location.href).pathname.split('/').pop()||''); }catch(e){ return ''; }
+      })();
+      const nbase = norm(base);
+      const keys = [
+        '100 charlie brown jr','100 charlie brown','100 cbjr',
+        'abalando a sua fabrica','abalando sua fabrica'
+      ];
+      for (const k of keys){
+        if (nbase.includes(norm(k)) || nfull.includes(norm(k))) return ghRaw('CD 4_.jpeg');
+      }
+      return null;
+    }
+    function getCoverEl(){
+      return document.getElementById('m3-cover')
+          || document.querySelector('.player-cover img')
+          || document.getElementById('album-cover')
+          || document.getElementById('cover')
+          || document.querySelector('img[data-role="cover"]')
+          || null;
+    }
+    function applyFix(){
+      const audio = document.querySelector('#audio-player-wrapper audio, audio');
+      const img = getCoverEl();
+      if (!audio || !img) return;
+      const src = audio.currentSrc || audio.src || '';
+      const fixUrl = pickCoverFor100(src);
+      if (fixUrl && img.src !== fixUrl){
+        img.src = fixUrl;
+      }
+    }
+    document.addEventListener('play', applyFix, true);
+    document.addEventListener('loadedmetadata', applyFix, true);
+    var _m = setInterval(applyFix, 1000);
+    setTimeout(function(){ try{ clearInterval(_m); }catch(e){} }, 5*60*1000);
+    applyFix();
+  }catch(e){}
+})();
+</script>
+
+
+
+<!-- FIX adicional: "Camisa 10 Joga Bola Até Na Chuva" deve usar CD 11.jpeg -->
+<script>
+(function(){
+  try{
+    const GH_BASE = 'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/';
+    function ghRaw(path){ return GH_BASE + String(path||'').split('/').filter(Boolean).map(encodeURIComponent).join('/'); }
+    function norm(s){
+      s = String(s||'').toLowerCase();
+      try{ s = s.normalize('NFD').replace(/[\u0300-\u036f]/g,''); }catch(e){}
+      return s.replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+    }
+    function getCoverEl(){
+      return document.getElementById('m3-cover')
+          || document.querySelector('.player-cover img')
+          || document.getElementById('album-cover')
+          || document.getElementById('cover')
+          || document.querySelector('img[data-role="cover"]')
+          || null;
+    }
+    // Palavras-chave normalizadas para "Camisa 10 Joga Bola Até Na Chuva"
+    const CAMISA_KEYS = [
+      'camisa 10', 'camisa dez',
+      'joga bola ate na chuva', 'joga bola na chuva',
+      'camisa 10 joga bola ate na chuva'
+    ];
+    function isCamisa10(strNorm){
+      for (const k of CAMISA_KEYS){
+        if (strNorm.includes(norm(k))) return true;
+      }
+      return false;
+    }
+    function pickCamisaCover(src){
+      const nfull = norm(src||'');
+      let base = '';
+      try{ base = (new URL(src, location.href).pathname.split('/').pop()||''); }catch(e){}
+      const nbase = norm(base);
+      if (isCamisa10(nbase) || isCamisa10(nfull)) return ghRaw('CD 11.jpeg');
+      return null;
+    }
+    function applyFix(){
+      const audio = document.querySelector('#audio-player-wrapper audio, audio');
+      const img = getCoverEl();
+      if (!audio || !img) return;
+      const src = audio.currentSrc || audio.src || '';
+      const fix = pickCamisaCover(src);
+      if (fix && img.src !== fix) img.src = fix;
+    }
+    document.addEventListener('play', applyFix, true);
+    document.addEventListener('loadedmetadata', applyFix, true);
+    var _t = setInterval(applyFix, 1000);
+    setTimeout(function(){ try{ clearInterval(_t); }catch(e){} }, 5*60*1000);
+    applyFix();
+  }catch(e){}
+})();
+</script>
+
 </body>
 </html>
