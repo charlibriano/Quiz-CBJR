@@ -1,19 +1,19 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Charlie Brown Jr</title>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JCN94Y3P0"></script>
-    <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quiz Charlie Brown Jr</title>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-1JCN94Y3P0"></script>
+<script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-1JCN94Y3P0');
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
         /* Variáveis CSS para facilitar a manutenção */
         :root {
             --cor-amarelo-cbjr: #f1c40f;
@@ -3106,8 +3106,8 @@
             display: none !important;
         }
     </style>
-    <!-- Final mobile-specific overrides to ensure a compact player and navigable radio list on small screens -->
-    <style>
+<!-- Final mobile-specific overrides to ensure a compact player and navigable radio list on small screens -->
+<style>
       /* On screens up to 600px wide, make the audio player a compact bar at the top and ensure the album selection list is scrollable. */
       @media (max-width: 600px) {
         /* Place the player at the top-right corner with a fixed width for better visibility on small screens */
@@ -3246,7 +3246,6 @@
         }
       }
     </style>
-
 <style>
 
 /* ===== Modelo 3 — Card com capa (overlay único) ===== */
@@ -3312,186 +3311,202 @@ body.m3-ready button[title="Mostrar/Ocultar player"]{ display:none !important; }
 body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible !important; }
 
 </style>
-</head>
+<style>
+/* === CBJR_DRAG_V16 — handle dentro do player + arraste pela faixa do topo === */
+#model3-overlay{ overflow: visible !important; }
+#model3-overlay .cbjr-grab{
+  position: absolute !important;
+  top: 10px !important; left: 10px !important;
+  width: 26px !important; height: 26px !important;
+  border-radius: 999px !important;
+  display: grid !important; place-items: center !important;
+  background: rgba(255,212,0,.95) !important; color: #111 !important;
+  border: 1px solid rgba(0,0,0,.35) !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,.35) !important;
+  font: 900 16px/1 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial !important;
+  cursor: grab !important; z-index: 10000 !important;
+  opacity: .7; transition: opacity .2s ease;
+}
+#model3-overlay .cbjr-grab:hover{ opacity: 1; }
+#model3-overlay.cbjr-dragging .cbjr-grab{ cursor: grabbing !important; }
+
+#model3-overlay .cbjr-drag-strip{
+  position: absolute !important;
+  left: 0 !important; right: 0 !important;
+  top: 0 !important; height: 34px !important;
+  cursor: grab !important;
+  z-index: 9999 !important;
+  background: linear-gradient(to bottom, rgba(255,212,0,.12), rgba(0,0,0,0)) !important;
+  border-top-left-radius: 16px !important; border-top-right-radius: 16px !important;
+  pointer-events: auto !important;
+  opacity: .0; transition: opacity .2s ease;
+}
+#model3-overlay:hover .cbjr-drag-strip{ opacity: .35; }
+#model3-overlay.cbjr-dragging .cbjr-drag-strip{ cursor: grabbing !important; opacity: .5; }
+
+/* Fallback: se #model3-overlay não existir, aplico no #audio-player-wrapper */
+#audio-player-wrapper{ overflow: visible !important; }
+#audio-player-wrapper .cbjr-grab{ top: 10px !important; left: 10px !important; }
+#audio-player-wrapper .cbjr-drag-strip{ top: 0 !important; height: 34px !important; }
+</style></head>
 <body>
-    <header>
-        <h1>Quiz: <br><br> Charlie Brown Jr</h1>
-    </header>
-
-    <div class="container">
-        <div id="lives-display" style="display: none;">
-            <spa❤️</span><span id="lives-count"></span>
-        </div>
-
-        <div id="power-ups-container" style="display: flex;">
-            <button id="fifty-fifty-btn" class="power-up-btn" title="Remove 2 respostas incorretas (F1)">
-                50/50 <span id="fifty-fifty-count" class="power-up-count">0</span>
-            </button>
-            <button id="skip-question-btn" class="power-up-btn" title="Pula a pergunta atual (F2)"> Pular <span id="skip-question-count" class="power-up-count">0</span>
-            </button>
-        </div>
-
-        <div id="quiz" style="display:none;"> </div>
-
-        <div id="quiz-info-bottom" class="quiz-info-bottom">
-            <p id="progress-text"></p>
-            <p id="score-text">Pontos: 0</p>
-            <p id="level-text"></p>
-            <p id="high-score-text">Recorde: 0</p>
-        </div>
-
-        <p id="medal"></p>
-        <button id="restart-btn" style="display:none;">Reiniciar Quiz</button>
-
-        <!-- NOVO: Botão para sair do quiz e voltar ao menu principal. Fica oculto até que o quiz seja iniciado -->
-        <button id="exit-quiz-btn" class="exit-quiz-btn" style="display:none; margin-top: 10px;">Sair do Quiz</button>
-    </div>
-
-    <div id="level-up-message" style="display:none;"></div>
-    <div id="points-popup" style="display:none;"></div>
-    <div id="combo-message" style="display:none;"></div>
-    <div id="achievement-popup" style="display:none;"></div>
-    
-    <div id="main-overlay" style="display:none;"></div>
-
-    <div id="welcome-screen" style="display:none;">
-        <h3>Bem-vindo(a) ao Quiz do Charlie Brown Jr!</h3>
-        <p class="intro-text">
+<header>
+<h1>Quiz: <br/><br/> Charlie Brown Jr</h1>
+</header>
+<div class="container">
+<div id="lives-display" style="display: none;">
+<spa❤️< span=""><span id="lives-count"></span>
+</spa❤️<></div>
+<div id="power-ups-container" style="display: flex;">
+<button class="power-up-btn" id="fifty-fifty-btn" title="Remove 2 respostas incorretas (F1)">
+                50/50 <span class="power-up-count" id="fifty-fifty-count">0</span>
+</button>
+<button class="power-up-btn" id="skip-question-btn" title="Pula a pergunta atual (F2)"> Pular <span class="power-up-count" id="skip-question-count">0</span>
+</button>
+</div>
+<div id="quiz" style="display:none;"> </div>
+<div class="quiz-info-bottom" id="quiz-info-bottom">
+<p id="progress-text"></p>
+<p id="score-text">Pontos: 0</p>
+<p id="level-text"></p>
+<p id="high-score-text">Recorde: 0</p>
+</div>
+<p id="medal"></p>
+<button id="restart-btn" style="display:none;">Reiniciar Quiz</button>
+<!-- NOVO: Botão para sair do quiz e voltar ao menu principal. Fica oculto até que o quiz seja iniciado -->
+<button class="exit-quiz-btn" id="exit-quiz-btn" style="display:none; margin-top: 10px;">Sair do Quiz</button>
+</div>
+<div id="level-up-message" style="display:none;"></div>
+<div id="points-popup" style="display:none;"></div>
+<div id="combo-message" style="display:none;"></div>
+<div id="achievement-popup" style="display:none;"></div>
+<div id="main-overlay" style="display:none;"></div>
+<div id="welcome-screen" style="display:none;">
+<h3>Bem-vindo(a) ao Quiz do Charlie Brown Jr!</h3>
+<p class="intro-text">
             Mostre que você é um verdadeiro **Marginal Alado** e teste seus conhecimentos sobre a banda que marcou gerações!
         </p>
-        <div class="message-buttons">
-            <button id="start-quiz-button-welcome"><i class="fas fa-play"></i> Entrar no Quiz</button>
-            <button id="show-achievements-button-intro"><i class="fas fa-trophy"></i> Conquistas</button>
-            <button id="show-ranking-button-intro"><i class="fas fa-ranking-star"></i> Ranking Online</button>
-            <button id="start-bonus-music-btn"><i class="fas fa-headphones-simple"></i> Rádio CBJR</button>
-        </div>
-    </div>
-
-    <div id="achievements-screen" style="display:none;">
-        <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2>
-        <div id="achievements-list"></div>
-        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-            <button id="close-achievements-btn">Voltar à Página Inicial</button>
-        </div>
-    </div>
-
-    <div id="statistics-screen" style="display:none;">
-        <h2>Estatísticas do Jogo</h2>
-        <div id="statistics-content">
-            <p>Conteúdo de estatísticas aqui...</p>
-        </div>
-        <div class="statistics-buttons">
-            <button id="statistics-restart-btn">Jogar novamente</button>
-            <button id="statistics-close-btn">Voltar ao Início</button>
-        </div>
-    </div>
-
-    <div id="completion-screen" style="display:none;">
-        <h2>Parabéns, Fera!</h2>
-        <p>Você dominou o Quiz Charlie Brown Jr! <br> Sua paixão pela banda é inabalável.</p>
-        <p>Mas, se você é um verdadeiro "marginal alado", temos um desafio final!</p>
-        <div class="message-buttons">
-            <button id="start-secret-level-btn">Nível Secreto: Hardcore!</button>
-            <button id="restart-from-completion-btn">Reiniciar Quiz</button>
-        </div>
-    </div>
-
-    <div id="ranking-screen" style="display:none;">
-        <h2>Top 10 Feras do CBJR</h2>
-        <ol id="ranking-list"></ol>
-        <button id="close-ranking-btn">Voltar ao Início</button>
-    </div>
-
-    <div id="achievement-detail-popup" style="display:none;">
-        <h3 id="detail-achievement-name"></h3>
-        <p id="detail-achievement-cd-name" style="font-family: Arial, sans-serif; font-size: 0.9em; color: rgba(255, 255, 255, 0.7); margin-top: -5px; margin-bottom: 10px;"></p>
-        <img id="detail-achievement-cover" src="" alt="Capa do CD" style="max-width: 250px; max-height: 250px; width: auto; height: auto; object-fit: contain; margin: 15px auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: none;">
-        <p id="detail-achievement-description"></p>
-        <div id="detail-achievement-status" class="status"></div>
-        <button id="close-achievement-detail-popup-btn">Fechar</button>
-    </div>
-
-    <div id="bonus-music-screen" style="display: none;">
-    </div>
-
-    <div id="bonus-achievement-screen" style="display: none;">
-        <h2 id="bonus-achievement-title"></h2>
-        <p id="bonus-achievement-message"></p>
-        <img id="bonus-achievement-cover" src="" alt="Capa do CD da Conquista" style="display: none;">
-        <button id="bonus-achievement-close-btn">Voltar ao Menu Principal</button>
-    </div>
-
-    <div id="bonus-disco-selection-screen" style="display: none;">
-    </div>
-
-    <div id="audio-player-wrapper">
-        <!-- Adiciona crossOrigin para permitir uso no equalizador -->
-        <audio id="audio" crossorigin="anonymous"></audio>
-
-        <div class="player-content">
-            <p id="current-song"></p>
-            <div class="progress-bar-area">
-                <div class="progress-container">
-                    <div id="progress-bar" class="progress-bar"></div>
-                </div>
-                <div class="time-display">
-                    <span id="current-time">0:00</span> / <span id="total-duration">0:00</span>
-                </div>
-            </div>
-
-            <div class="audio-main-controls">
-                <button id="repeat-btn" class="audio-control-btn" title="Repetir Playlist">
-                    <svg id="repeat-all-svg" viewBox="0 0 473.677 473.677" fill="currentColor">
-                        <path class="repeat-outer-circle" d="M0,236.84C0,106.026,106.036,0.002,236.835,0.002c130.807,0,236.842,106.028,236.842,236.838 c0,130.795-106.036,236.835-236.842,236.835C106.039,473.671,0,367.636,0,236.84z"></path>
-                        <g>
-                            <path class="repeat-arrow-1" d="M408.84,164.345c-9.88,0.022-19.756,0.049-29.636,0.075 c-22.217-49.815-65.828-85.797-120.912-94.428c-61.374-9.614-120.115,18.889-155.14,69.036 c-15.557,22.269,21.005,43.121,36.431,21.035c48.039-68.774,150.608-62.559,192.76,4.473c-9.125,0.022-18.253,0.045-27.377,0.067 c-2.554,0.004-4.368,1.144-5.49,2.745c-1.832,1.967-2.532,4.839-0.61,7.816c17.378,26.966,34.759,53.936,52.141,80.902 c2.921,4.532,9.226,4.495,12.12-0.045c17.243-27.052,34.49-54.104,51.733-81.16C417.714,170.388,413.956,164.334,408.84,164.345z"></path>
-                            <path class="repeat-arrow-2" d="M334.479,312.395c-47.665,68.251-149.037,62.657-191.784-2.909 c8.747-0.022,17.494-0.045,26.241-0.067c2.547-0.007,4.357-1.137,5.482-2.734c1.836-1.963,2.539-4.843,0.617-7.827 c-17.374-26.966-34.756-53.94-52.133-80.902c-2.917-4.532-9.226-4.495-12.12,0.045c-17.243,27.052-34.494,54.104-51.741,81.16 c-2.853,4.476,0.905,10.531,6.021,10.519c10.187-0.026,20.369-0.052,30.556-0.079c22.434,48.996,65.663,84.331,120.164,92.869 c61.374,9.614,120.115-18.889,155.132-69.036C386.466,311.157,349.901,290.309,334.479,312.395z"></path>
-                        </g>
-                    </svg>
-                    <svg id="repeat-one-svg" viewBox="0 0 64 64" fill="currentColor">
-                        <path class="repeat-one-circle" d="M32 2C15.432 2 2 15.432 2 32s13.432 30 30 30s30-13.432 30-30S48.568 2 32 2"></path>
-                        <path class="repeat-one-number" d="M21.039 34.938c-2.604 0-4.717 2.166-4.717 4.84c0 2.672 2.113 4.84 4.717 4.84c2.605 0 4.715-2.168 4.715-4.84c0-2.674-2.109-4.84-4.715-4.84m.746 7.804h-1.1v-4.27a3.758 3.758 0 0 1-1.422.859v-1.029c.289-.098.6-.279.936-.549a2.08 2.08 0 0 0 .693-.941h.893v5.93"></path>
-                        <path class="repeat-one-arrows" d="M17.053 23.951c1.969-2.02 4.586-3.133 7.369-3.133h11.539V17l11.369 6.736l-11.369 6.734v-3.82H24.422c-2.611 0-4.736 2.18-4.736 4.861c0 .043 0 .088.002.129a7.746 7.746 0 0 0-1.779.533a8.016 8.016 0 0 0-2.555 1.768c-.299.305-.57.631-.814.977a10.957 10.957 0 0 1-.54-3.406c0-2.856 1.084-5.541 3.053-7.561m29.896 15.123c-1.969 2.02-4.586 3.131-7.371 3.131H27.67C26.697 45.002 24.098 47 21.039 47C17.152 47 14 43.766 14 39.777s3.152-7.223 7.039-7.223c2.689 0 5.025 1.545 6.211 3.818h12.328c2.613 0 4.738-2.18 4.738-4.861c0-.125-.006-.25-.014-.371l5.154-3.053c.358 1.089.544 2.243.544 3.425c0 2.855-1.084 5.543-3.051 7.562"></path>
-                    </svg>
-                </button>
-                <button id="prev-btn" class="audio-control-btn" aria-label="Música Anterior">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg>
-                </button>
-                <button id="play-pause-btn" class="audio-control-btn large-button" aria-label="Reproduzir ou Pausar">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
-                </button>
-                <button id="next-btn" class="audio-control-btn" aria-label="Próxima Música">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 18h2V6h-2zM6 18l8.5-6L6 6z"></path></svg>
-                </button>
-                <button id="shuffle-btn" class="audio-control-btn" title="Ordem Aleatória">
-                    <svg viewBox="0 0 104 104" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor">
-                        <g>
-                            <circle class="shuffle-main-circle" cx="50" cy="50" r="50"></circle>
-                            <path class="shuffle-line-1" d="M50.315918,50.9160156 L47.6176758,42.5 C46.2752571,38.3578644 40.7110735,35 35.1870117,35 L22,35"></path>
-                            <path class="shuffle-line-2" d="M50,50 L52.4306641,57.5 C53.7730828,61.6421356 59.3372663,65 64.8613281,65 L74.8613281,65"></path>
-                            <path class="shuffle-line-3" d="M46.4071159,60 C44.122084,62.9883429 39.6694969,65.1447465 35.2426757,65.1447465 L22,65.1447465"></path>
-                            <path class="shuffle-line-4" d="M54,39.9039153 C56.3357877,37.0412346 60.6671632,35 64.9741488,35 L74.9741488,35"></path>
-                            <polyline class="shuffle-arrow-1" points="70 59 80 65 70 71"></polyline>
-                            <polyline class="shuffle-arrow-2" points="70 29 80 35 70 41"></polyline>
-                        </g>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="audio-volume-controls">
-                <button id="mute-btn" class="audio-control-btn" aria-label="Ativar ou Desativar Som">
-                    <svg id="volume-svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 4L8 8H4v8h4l4 4V4z"></path>
-                    </svg>
-                    <svg id="mute-svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
-                        <path d="M7 9v6h4l5 5V4L11 9H7zm11 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
-                    </svg>
-                </button>
-                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.4" aria-label="Volume do Áudio">
-                <span id="volume-value">70%</span>
-            </div>
-        </div>
-    </div>
+<div class="message-buttons">
+<button id="start-quiz-button-welcome"><i class="fas fa-play"></i> Entrar no Quiz</button>
+<button id="show-achievements-button-intro"><i class="fas fa-trophy"></i> Conquistas</button>
+<button id="show-ranking-button-intro"><i class="fas fa-ranking-star"></i> Ranking Online</button>
+<button id="start-bonus-music-btn"><i class="fas fa-headphones-simple"></i> Rádio CBJR</button>
+</div>
+</div>
+<div id="achievements-screen" style="display:none;">
+<h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2>
+<div id="achievements-list"></div>
+<div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+<button id="close-achievements-btn">Voltar à Página Inicial</button>
+</div>
+</div>
+<div id="statistics-screen" style="display:none;">
+<h2>Estatísticas do Jogo</h2>
+<div id="statistics-content">
+<p>Conteúdo de estatísticas aqui...</p>
+</div>
+<div class="statistics-buttons">
+<button id="statistics-restart-btn">Jogar novamente</button>
+<button id="statistics-close-btn">Voltar ao Início</button>
+</div>
+</div>
+<div id="completion-screen" style="display:none;">
+<h2>Parabéns, Fera!</h2>
+<p>Você dominou o Quiz Charlie Brown Jr! <br/> Sua paixão pela banda é inabalável.</p>
+<p>Mas, se você é um verdadeiro "marginal alado", temos um desafio final!</p>
+<div class="message-buttons">
+<button id="start-secret-level-btn">Nível Secreto: Hardcore!</button>
+<button id="restart-from-completion-btn">Reiniciar Quiz</button>
+</div>
+</div>
+<div id="ranking-screen" style="display:none;">
+<h2>Top 10 Feras do CBJR</h2>
+<ol id="ranking-list"></ol>
+<button id="close-ranking-btn">Voltar ao Início</button>
+</div>
+<div id="achievement-detail-popup" style="display:none;">
+<h3 id="detail-achievement-name"></h3>
+<p id="detail-achievement-cd-name" style="font-family: Arial, sans-serif; font-size: 0.9em; color: rgba(255, 255, 255, 0.7); margin-top: -5px; margin-bottom: 10px;"></p>
+<img alt="Capa do CD" id="detail-achievement-cover" src="" style="max-width: 250px; max-height: 250px; width: auto; height: auto; object-fit: contain; margin: 15px auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: none;"/>
+<p id="detail-achievement-description"></p>
+<div class="status" id="detail-achievement-status"></div>
+<button id="close-achievement-detail-popup-btn">Fechar</button>
+</div>
+<div id="bonus-music-screen" style="display: none;">
+</div>
+<div id="bonus-achievement-screen" style="display: none;">
+<h2 id="bonus-achievement-title"></h2>
+<p id="bonus-achievement-message"></p>
+<img alt="Capa do CD da Conquista" id="bonus-achievement-cover" src="" style="display: none;"/>
+<button id="bonus-achievement-close-btn">Voltar ao Menu Principal</button>
+</div>
+<div id="bonus-disco-selection-screen" style="display: none;">
+</div>
+<div id="audio-player-wrapper">
+<!-- Adiciona crossOrigin para permitir uso no equalizador -->
+<audio crossorigin="anonymous" id="audio"></audio>
+<div class="player-content">
+<p id="current-song"></p>
+<div class="progress-bar-area">
+<div class="progress-container">
+<div class="progress-bar" id="progress-bar"></div>
+</div>
+<div class="time-display">
+<span id="current-time">0:00</span> / <span id="total-duration">0:00</span>
+</div>
+</div>
+<div class="audio-main-controls">
+<button class="audio-control-btn" id="repeat-btn" title="Repetir Playlist">
+<svg fill="currentColor" id="repeat-all-svg" viewbox="0 0 473.677 473.677">
+<path class="repeat-outer-circle" d="M0,236.84C0,106.026,106.036,0.002,236.835,0.002c130.807,0,236.842,106.028,236.842,236.838 c0,130.795-106.036,236.835-236.842,236.835C106.039,473.671,0,367.636,0,236.84z"></path>
+<g>
+<path class="repeat-arrow-1" d="M408.84,164.345c-9.88,0.022-19.756,0.049-29.636,0.075 c-22.217-49.815-65.828-85.797-120.912-94.428c-61.374-9.614-120.115,18.889-155.14,69.036 c-15.557,22.269,21.005,43.121,36.431,21.035c48.039-68.774,150.608-62.559,192.76,4.473c-9.125,0.022-18.253,0.045-27.377,0.067 c-2.554,0.004-4.368,1.144-5.49,2.745c-1.832,1.967-2.532,4.839-0.61,7.816c17.378,26.966,34.759,53.936,52.141,80.902 c2.921,4.532,9.226,4.495,12.12-0.045c17.243-27.052,34.49-54.104,51.733-81.16C417.714,170.388,413.956,164.334,408.84,164.345z"></path>
+<path class="repeat-arrow-2" d="M334.479,312.395c-47.665,68.251-149.037,62.657-191.784-2.909 c8.747-0.022,17.494-0.045,26.241-0.067c2.547-0.007,4.357-1.137,5.482-2.734c1.836-1.963,2.539-4.843,0.617-7.827 c-17.374-26.966-34.756-53.94-52.133-80.902c-2.917-4.532-9.226-4.495-12.12,0.045c-17.243,27.052-34.494,54.104-51.741,81.16 c-2.853,4.476,0.905,10.531,6.021,10.519c10.187-0.026,20.369-0.052,30.556-0.079c22.434,48.996,65.663,84.331,120.164,92.869 c61.374,9.614,120.115-18.889,155.132-69.036C386.466,311.157,349.901,290.309,334.479,312.395z"></path>
+</g>
+</svg>
+<svg fill="currentColor" id="repeat-one-svg" viewbox="0 0 64 64">
+<path class="repeat-one-circle" d="M32 2C15.432 2 2 15.432 2 32s13.432 30 30 30s30-13.432 30-30S48.568 2 32 2"></path>
+<path class="repeat-one-number" d="M21.039 34.938c-2.604 0-4.717 2.166-4.717 4.84c0 2.672 2.113 4.84 4.717 4.84c2.605 0 4.715-2.168 4.715-4.84c0-2.674-2.109-4.84-4.715-4.84m.746 7.804h-1.1v-4.27a3.758 3.758 0 0 1-1.422.859v-1.029c.289-.098.6-.279.936-.549a2.08 2.08 0 0 0 .693-.941h.893v5.93"></path>
+<path class="repeat-one-arrows" d="M17.053 23.951c1.969-2.02 4.586-3.133 7.369-3.133h11.539V17l11.369 6.736l-11.369 6.734v-3.82H24.422c-2.611 0-4.736 2.18-4.736 4.861c0 .043 0 .088.002.129a7.746 7.746 0 0 0-1.779.533a8.016 8.016 0 0 0-2.555 1.768c-.299.305-.57.631-.814.977a10.957 10.957 0 0 1-.54-3.406c0-2.856 1.084-5.541 3.053-7.561m29.896 15.123c-1.969 2.02-4.586 3.131-7.371 3.131H27.67C26.697 45.002 24.098 47 21.039 47C17.152 47 14 43.766 14 39.777s3.152-7.223 7.039-7.223c2.689 0 5.025 1.545 6.211 3.818h12.328c2.613 0 4.738-2.18 4.738-4.861c0-.125-.006-.25-.014-.371l5.154-3.053c.358 1.089.544 2.243.544 3.425c0 2.855-1.084 5.543-3.051 7.562"></path>
+</svg>
+</button>
+<button aria-label="Música Anterior" class="audio-control-btn" id="prev-btn">
+<svg fill="currentColor" viewbox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg>
+</button>
+<button aria-label="Reproduzir ou Pausar" class="audio-control-btn large-button" id="play-pause-btn">
+<svg fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+</button>
+<button aria-label="Próxima Música" class="audio-control-btn" id="next-btn">
+<svg fill="currentColor" viewbox="0 0 24 24"><path d="M16 18h2V6h-2zM6 18l8.5-6L6 6z"></path></svg>
+</button>
+<button class="audio-control-btn" id="shuffle-btn" title="Ordem Aleatória">
+<svg fill="currentColor" version="1.1" viewbox="0 0 104 104" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g>
+<circle class="shuffle-main-circle" cx="50" cy="50" r="50"></circle>
+<path class="shuffle-line-1" d="M50.315918,50.9160156 L47.6176758,42.5 C46.2752571,38.3578644 40.7110735,35 35.1870117,35 L22,35"></path>
+<path class="shuffle-line-2" d="M50,50 L52.4306641,57.5 C53.7730828,61.6421356 59.3372663,65 64.8613281,65 L74.8613281,65"></path>
+<path class="shuffle-line-3" d="M46.4071159,60 C44.122084,62.9883429 39.6694969,65.1447465 35.2426757,65.1447465 L22,65.1447465"></path>
+<path class="shuffle-line-4" d="M54,39.9039153 C56.3357877,37.0412346 60.6671632,35 64.9741488,35 L74.9741488,35"></path>
+<polyline class="shuffle-arrow-1" points="70 59 80 65 70 71"></polyline>
+<polyline class="shuffle-arrow-2" points="70 29 80 35 70 41"></polyline>
+</g>
+</svg>
+</button>
+</div>
+<div class="audio-volume-controls">
+<button aria-label="Ativar ou Desativar Som" class="audio-control-btn" id="mute-btn">
+<svg fill="currentColor" id="volume-svg" viewbox="0 0 24 24">
+<path d="M12 4L8 8H4v8h4l4 4V4z"></path>
+</svg>
+<svg fill="currentColor" id="mute-svg" style="display: none;" viewbox="0 0 24 24">
+<path d="M7 9v6h4l5 5V4L11 9H7zm11 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
+</svg>
+</button>
+<input aria-label="Volume do Áudio" id="volume-slider" max="1" min="0" step="0.01" type="range" value="0.4"/>
+<span id="volume-value">70%</span>
+</div>
+</div>
+</div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -7167,40 +7182,38 @@ window.onload = () => {
     elements.closeAchievementDetailPopupBtn.onclick = closeAchievementDetailPopup;
 };
 </script>
-    <!-- Equalizador musical no rodapé: visível apenas no quiz principal -->
-    <div id="equalizer-footer">
-        <canvas id="equalizer-canvas"></canvas>
-    </div>
-
+<!-- Equalizador musical no rodapé: visível apenas no quiz principal -->
+<div id="equalizer-footer">
+<canvas id="equalizer-canvas"></canvas>
+</div>
 <!-- ===== Overlay Player (Modelo 3 ÚNICO + Shuffle/Repeat + Volume) ===== -->
 <div id="model3-overlay">
-  <div class="card">
-    <div class="topbar">
-      <button class="tiny" id="m3-min" title="Minimizar/expandir">—</button>
-    </div>
-    <div class="row">
-      <div class="cover"><img id="m3-cover" alt="Capa do álbum" src="https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/CD%2010.jpeg"></div>
-      <div class="meta">
-        <div class="title" id="m3-title">—</div>
-        <div class="artist" id="m3-artist">Charlie Brown Jr.</div>
-        <div class="controls">
-          <button class="btn toggle shuf" aria-label="Aleatório" title="Aleatório (ligar/desligar)">🔀</button>
-          <button class="btn prev" aria-label="Anterior" title="Anterior">⏮</button>
-          <button class="btn play" aria-label="Tocar/Pausar" title="Tocar/Pausar">▶</button>
-          <button class="btn next" aria-label="Próxima" title="Próxima">⏭</button>
-          <button class="btn toggle rep" aria-label="Repetir" title="Repetir faixa (ligar/desligar)">🔁</button>
-        </div>
-        <div class="vol">
-          <button class="mute" id="m3-mute" title="Silenciar/ativar som">🔊</button>
-          <input id="m3-vol" type="range" min="0" max="100" value="100" aria-label="Volume">
-        </div>
-      </div>
-    </div>
-    <div class="progress" role="slider" aria-valuemin="0" aria-valuemax="100"><div class="bar"></div></div>
-    <div class="time"><span class="cur">0:00</span><span class="dur">0:00</span></div>
-  </div>
+<div class="card">
+<div class="topbar">
+<button class="tiny" id="m3-min" title="Minimizar/expandir">—</button>
 </div>
-
+<div class="row">
+<div class="cover"><img alt="Capa do álbum" id="m3-cover" src="https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/CD%2010.jpeg"/></div>
+<div class="meta">
+<div class="title" id="m3-title">—</div>
+<div class="artist" id="m3-artist">Charlie Brown Jr.</div>
+<div class="controls">
+<button aria-label="Aleatório" class="btn toggle shuf" title="Aleatório (ligar/desligar)">🔀</button>
+<button aria-label="Anterior" class="btn prev" title="Anterior">⏮</button>
+<button aria-label="Tocar/Pausar" class="btn play" title="Tocar/Pausar">▶</button>
+<button aria-label="Próxima" class="btn next" title="Próxima">⏭</button>
+<button aria-label="Repetir" class="btn toggle rep" title="Repetir faixa (ligar/desligar)">🔁</button>
+</div>
+<div class="vol">
+<button class="mute" id="m3-mute" title="Silenciar/ativar som">🔊</button>
+<input aria-label="Volume" id="m3-vol" max="100" min="0" type="range" value="100"/>
+</div>
+</div>
+</div>
+<div aria-valuemax="100" aria-valuemin="0" class="progress" role="slider"><div class="bar"></div></div>
+<div class="time"><span class="cur">0:00</span><span class="dur">0:00</span></div>
+</div>
+</div>
 <script>
 (function(){
   const root  = document.getElementById('model3-overlay');
@@ -7375,8 +7388,6 @@ window.onload = () => {
   setTitleMarquee(getLegacyTitle()); updateCover();
 })();
 </script>
-
-
 <!-- FIX capa "100% Charlie Brown Jr." (prioriza detecção e evita cair em 'Transpiração...') -->
 <script>
 (function(){
@@ -7429,9 +7440,6 @@ window.onload = () => {
   }catch(e){}
 })();
 </script>
-
-
-
 <!-- FIX adicional: "Camisa 10 Joga Bola Até Na Chuva" deve usar CD 11.jpeg -->
 <script>
 (function(){
@@ -7488,5 +7496,124 @@ window.onload = () => {
 })();
 </script>
 
+<script>
+/* === CBJR_DRAG_V16 — drag direto no player (handle + faixa de título), botão flutuante removido === */
+(function(){
+  const KEY = 'cbjr_drag_v16_tx_ty';
+  const Q = (s)=>document.querySelector(s);
+  function getTarget(){
+    return Q('#model3-overlay') || Q('#audio-player-wrapper') || Q('[id*="player"]');
+  }
+  function ensureUI(t){
+    // handle
+    let g = t.querySelector('.cbjr-grab');
+    if(!g){
+      g = document.createElement('div');
+      g.className = 'cbjr-grab';
+      g.title = 'Arraste para mover o player';
+      g.textContent = '≡';
+      t.appendChild(g);
+    }
+    // strip
+    let strip = t.querySelector('.cbjr-drag-strip');
+    if(!strip){
+      strip = document.createElement('div');
+      strip.className = 'cbjr-drag-strip';
+      t.appendChild(strip);
+    }
+    return {g, strip};
+  }
+  function parseTranslate(tm){
+    if(!tm || tm === 'none') return {tx:0, ty:0};
+    const m = tm.match(/matrix\([^,]+,[^,]+,[^,]+,[^,]+,([^,]+),([^,\)]+)\)/);
+    if(m){ return {tx: parseFloat(m[1])||0, ty: parseFloat(m[2])||0}; }
+    const n = tm.match(/translate(?:3d)?\(([-\d\.]+)px,\s*([-\d\.]+)px/);
+    if(n){ return {tx: parseFloat(n[1])||0, ty: parseFloat(n[2])||0}; }
+    return {tx:0, ty:0};
+  }
+  function canStartFromTarget(e, t){
+    // Só começa se clicar na handle, na strip, ou se for SHIFT em qualquer área não interativa
+    const inter = e.target.closest('button, a, input, [role="button"], .no-drag, .slider, .progress, .seekbar');
+    if(inter) return false;
+    if(e.target.closest('.cbjr-grab') || e.target.closest('.cbjr-drag-strip')) return true;
+    if(e.shiftKey) return true;
+    return false;
+  }
+  function init(){
+    const t = getTarget();
+    if(!t) return;
+    const {g, strip} = ensureUI(t);
+
+    // restaura
+    try{
+      const s = JSON.parse(localStorage.getItem(KEY)||'null');
+      if(s && (s.tx || s.ty)) t.style.transform = `translate(${s.tx}px, ${s.ty}px)`;
+    }catch(_){}
+
+    let dragging=false, sx=0, sy=0, startTX=0, startTY=0;
+
+    function begin(e){
+      if(!canStartFromTarget(e, t)) return;
+      const tm = getComputedStyle(t).transform;
+      const cur = parseTranslate(tm);
+      startTX = cur.tx; startTY = cur.ty;
+      sx = e.clientX; sy = e.clientY;
+      dragging = true; t.classList.add('cbjr-dragging');
+      try{ (e.target).setPointerCapture && (e.target).setPointerCapture(e.pointerId); }catch(_){}
+      e.preventDefault(); e.stopPropagation();
+    }
+    function move(e){
+      if(!dragging) return;
+      const dx = e.clientX - sx;
+      const dy = e.clientY - sy;
+      t.style.transform = `translate(${startTX + dx}px, ${startTY + dy}px)`;
+    }
+    function end(){
+      if(!dragging) return;
+      dragging=false; t.classList.remove('cbjr-dragging');
+      const tm = getComputedStyle(t).transform;
+      const cur = parseTranslate(tm);
+      try{ localStorage.setItem(KEY, JSON.stringify(cur)); }catch(_){}
+    }
+
+    // eventos no próprio player (handle + strip) — e fallback SHIFT em qualquer área do card
+    g.addEventListener('pointerdown', begin, {capture:true});
+    strip.addEventListener('pointerdown', begin, {capture:true});
+    t.addEventListener('pointerdown', begin, {capture:true}); // permitirá SHIFT + arrastar em qualquer área vazia
+    window.addEventListener('pointermove', move, {passive:false});
+    window.addEventListener('pointerup', end, {passive:true});
+
+    // touch
+    let touchStart = null, startX=0, startY=0;
+    function tBegin(e){
+      const tgt = e.touches[0];
+      startX = tgt.clientX; startY = tgt.clientY;
+      const fake = { clientX:startX, clientY:startY, target:e.target, shiftKey:false, pointerId: 1 };
+      begin(fake);
+    }
+    function tMove(e){
+      if(!dragging) return;
+      const tgt = e.touches[0];
+      const fake = { clientX:tgt.clientX, clientY:tgt.clientY };
+      move(fake);
+      e.preventDefault();
+    }
+    function tEnd(){ end(); }
+    g.addEventListener('touchstart', tBegin, {passive:true});
+    g.addEventListener('touchmove', tMove, {passive:false});
+    g.addEventListener('touchend', tEnd, {passive:true});
+    strip.addEventListener('touchstart', tBegin, {passive:true});
+    strip.addEventListener('touchmove', tMove, {passive:false});
+    strip.addEventListener('touchend', tEnd, {passive:true});
+
+    // Observa mudanças pra recriar handle/strip se o overlay for re-renderizado
+    const mo = new MutationObserver(()=> ensureUI(t));
+    mo.observe(t, {childList:true, subtree:true});
+  }
+
+  if (document.readyState === 'complete' || document.readyState === 'interactive') init();
+  else document.addEventListener('DOMContentLoaded', init, {once:true});
+})();
+</script>
 </body>
 </html>
