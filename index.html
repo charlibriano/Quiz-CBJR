@@ -3311,43 +3311,21 @@ body.m3-ready button[title="Mostrar/Ocultar player"]{ display:none !important; }
 body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible !important; }
 
 </style>
-<style>
-/* === CBJR_DRAG_V16 — handle dentro do player + arraste pela faixa do topo === */
-#model3-overlay{ overflow: visible !important; }
-#model3-overlay .cbjr-grab{
-  position: absolute !important;
-  top: 10px !important; left: 10px !important;
-  width: 26px !important; height: 26px !important;
-  border-radius: 999px !important;
-  display: grid !important; place-items: center !important;
-  background: rgba(255,212,0,.95) !important; color: #111 !important;
-  border: 1px solid rgba(0,0,0,.35) !important;
-  box-shadow: 0 6px 18px rgba(0,0,0,.35) !important;
-  font: 900 16px/1 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial !important;
-  cursor: grab !important; z-index: 10000 !important;
-  opacity: .7; transition: opacity .2s ease;
-}
-#model3-overlay .cbjr-grab:hover{ opacity: 1; }
-#model3-overlay.cbjr-dragging .cbjr-grab{ cursor: grabbing !important; }
-
-#model3-overlay .cbjr-drag-strip{
-  position: absolute !important;
-  left: 0 !important; right: 0 !important;
-  top: 0 !important; height: 34px !important;
-  cursor: grab !important;
-  z-index: 9999 !important;
-  background: linear-gradient(to bottom, rgba(255,212,0,.12), rgba(0,0,0,0)) !important;
-  border-top-left-radius: 16px !important; border-top-right-radius: 16px !important;
-  pointer-events: auto !important;
-  opacity: .0; transition: opacity .2s ease;
-}
-#model3-overlay:hover .cbjr-drag-strip{ opacity: .35; }
-#model3-overlay.cbjr-dragging .cbjr-drag-strip{ cursor: grabbing !important; opacity: .5; }
-
-/* Fallback: se #model3-overlay não existir, aplico no #audio-player-wrapper */
-#audio-player-wrapper{ overflow: visible !important; }
-#audio-player-wrapper .cbjr-grab{ top: 10px !important; left: 10px !important; }
-#audio-player-wrapper .cbjr-drag-strip{ top: 0 !important; height: 34px !important; }
+<style id="CBJR_LYRICS_V23_CSS">
+#cbjr-lyrics-toggle{position:absolute; top:.5rem; right:.5rem; z-index:200000; border:none; border-radius:999px; width:36px; height:36px; display:grid; place-items:center; background:#ffcc00; color:#111; font-weight:700; box-shadow:0 4px 14px rgba(0,0,0,.35); cursor:pointer;}
+#cbjr-lyrics-toggle:hover{filter:brightness(1.1)}
+#cbjr-lyrics-fallback{position:fixed; right:18px; bottom:18px; display:none; width:52px; height:52px; border-radius:999px; border:none; background:#ffcc00; color:#111; font-weight:700; box-shadow:0 6px 20px rgba(0,0,0,.45); z-index:200000;}
+#cbjr-lyrics-modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.55); z-index:200001;}
+#cbjr-lyrics-box{width:min(860px,92vw); max-height:78vh; background:#14161a; color:#dbe1ea; border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,.55); overflow:hidden; border:1px solid rgba(255,255,255,.08);}
+#cbjr-lyrics-head{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:14px 16px; background:linear-gradient(180deg,#1b1e22,#14161a); border-bottom:1px solid rgba(255,255,255,.08);}
+#cbjr-lyrics-title{font-weight:700; letter-spacing:.2px}
+#cbjr-lyrics-controls button{margin-left:6px; padding:.4rem .6rem; border-radius:10px; border:none; background:#2a2f36; color:#e9eef7; cursor:pointer;}
+#cbjr-lyrics-list{padding:14px 18px; overflow:auto; max-height:calc(78vh - 58px);}
+#cbjr-lyrics-list .line{padding:6px 6px; opacity:.6}
+#cbjr-lyrics-list .line.active{opacity:1; background:rgba(255,204,0,.12); border-radius:8px;}
+#cbjr-lyrics-empty{opacity:.7; text-align:center; padding:28px 10px}
+.cbjr-grab{position:absolute; top:6px; left:8px; width:22px; height:22px; display:grid; place-items:center; border-radius:6px; background:rgba(255,255,255,.08); color:#eee; font-size:13px; cursor:grab; user-select:none;}
+.cbjr-drag-strip{position:absolute; inset:0 0 auto 28px; height:22px; cursor:grab;}
 </style></head>
 <body>
 <header>
@@ -3644,7 +3622,7 @@ const questionsByLevel = [
     {
         fraseChorao: "A arte maior é o jeito de cada um... vivo pra ser feliz, não vivo pra ser comum.",
         perguntas: [
-            { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
+            { pergunta: "Qual jogo de videogame incluiu a música 'Confisco', do Charlie Brown Jr., em sua trilha sonora?", respostas: ["Guitarro Hero III", "Tony Hawk's Pro Skater 1+2", "FIFA Street", "Need for Speed Underground"], correta: "Tony Hawk's Pro Skafater 1+2", curiosidade: "A faixa 'Confisco', do álbum 'Preço Curto... Prazo Longo', foi incluída na trilha sonora do jogo 'Tony Hawk's Pro Skater 1+2', lançado em 2020, marcando a presença da banda no universo gamer." },
             { pergunta: "Qual banda internacional teve o Charlie Brown Jr. como banda de abertura em suas turnês no Brasil nos anos de 2004 e 2012?", respostas: ["Limp Bizkit", "Green Day", "Foo Fighters", "Linkin Park"], correta: "Linkin Park", curiosidade: "O Charlie Brown Jr. abriu shows do Linkin Park no Brasil em duas ocasiões: em 2004, durante a turnê do álbum 'Meteora', e novamente em 2012, na turnê de 'Living Things', com uma apresentação marcante na Arena Anhembi, em São Paulo." },
             { pergunta: "Qual gravadora lançou os primeiros <br><br> álbuns do Charlie Brown Jr.?", respostas: ["Sony Music", "Deckdisc", "EMI", "Virgin Records"], correta: "Virgin Records", curiosidade: "A Virgin Records foi a gravadora responsável pelos primeiros álbuns da banda, incluindo 'Transpiração Contínua Prolongada'." },
             { pergunta: "Qual o nome do festival famoso em que o Charlie Brown Jr. costumava se apresentar e era(muito aclamado?", respostas: ["Rock in Rio", "Lollapalooza", "SWU", "Planeta Atlântida"], correta: "Planeta Atlântida", curiosidade: "O Charlie Brown Jr. se tornou uma das bandas más esperadas e aclamadas do festival Planeta Atlântida, com apresentações memoráveis." },
@@ -7496,123 +7474,293 @@ window.onload = () => {
 })();
 </script>
 
-<script>
-/* === CBJR_DRAG_V16 — drag direto no player (handle + faixa de título), botão flutuante removido === */
-(function(){
-  const KEY = 'cbjr_drag_v16_tx_ty';
-  const Q = (s)=>document.querySelector(s);
-  function getTarget(){
-    return Q('#model3-overlay') || Q('#audio-player-wrapper') || Q('[id*="player"]');
-  }
-  function ensureUI(t){
-    // handle
-    let g = t.querySelector('.cbjr-grab');
-    if(!g){
-      g = document.createElement('div');
-      g.className = 'cbjr-grab';
-      g.title = 'Arraste para mover o player';
-      g.textContent = '≡';
-      t.appendChild(g);
-    }
-    // strip
-    let strip = t.querySelector('.cbjr-drag-strip');
-    if(!strip){
-      strip = document.createElement('div');
-      strip.className = 'cbjr-drag-strip';
-      t.appendChild(strip);
-    }
-    return {g, strip};
-  }
-  function parseTranslate(tm){
-    if(!tm || tm === 'none') return {tx:0, ty:0};
-    const m = tm.match(/matrix\([^,]+,[^,]+,[^,]+,[^,]+,([^,]+),([^,\)]+)\)/);
-    if(m){ return {tx: parseFloat(m[1])||0, ty: parseFloat(m[2])||0}; }
-    const n = tm.match(/translate(?:3d)?\(([-\d\.]+)px,\s*([-\d\.]+)px/);
-    if(n){ return {tx: parseFloat(n[1])||0, ty: parseFloat(n[2])||0}; }
-    return {tx:0, ty:0};
-  }
-  function canStartFromTarget(e, t){
-    // Só começa se clicar na handle, na strip, ou se for SHIFT em qualquer área não interativa
-    const inter = e.target.closest('button, a, input, [role="button"], .no-drag, .slider, .progress, .seekbar');
-    if(inter) return false;
-    if(e.target.closest('.cbjr-grab') || e.target.closest('.cbjr-drag-strip')) return true;
-    if(e.shiftKey) return true;
-    return false;
-  }
-  function init(){
-    const t = getTarget();
-    if(!t) return;
-    const {g, strip} = ensureUI(t);
+<script id="CBJR_DRAG_LYRICS_V24">
+(()=>{
+  const LOG=(...a)=>{ try{ console.debug('[CBJR]',...a); }catch(_){} };
 
-    // restaura
-    try{
-      const s = JSON.parse(localStorage.getItem(KEY)||'null');
-      if(s && (s.tx || s.ty)) t.style.transform = `translate(${s.tx}px, ${s.ty}px)`;
-    }catch(_){}
-
-    let dragging=false, sx=0, sy=0, startTX=0, startTY=0;
-
-    function begin(e){
-      if(!canStartFromTarget(e, t)) return;
-      const tm = getComputedStyle(t).transform;
-      const cur = parseTranslate(tm);
-      startTX = cur.tx; startTY = cur.ty;
-      sx = e.clientX; sy = e.clientY;
-      dragging = true; t.classList.add('cbjr-dragging');
-      try{ (e.target).setPointerCapture && (e.target).setPointerCapture(e.pointerId); }catch(_){}
-      e.preventDefault(); e.stopPropagation();
+  (function(){
+    const KEY='cbjr_drag_v17_tx_ty', $=s=>document.querySelector(s);
+    const getTarget=()=>$('#model3-overlay')||$('#audio-player-wrapper')||document.querySelector('[id*="player"]');
+    const parseTM=tm=>{
+      if(!tm||tm==='none') return {tx:0,ty:0};
+      let m=tm.match(/matrix\([^,]+,[^,]+,[^,]+,[^,]+,([^,]+),([^,\)]+)\)/);
+      if(m) return {tx:parseFloat(m[1])||0, ty:parseFloat(m[2])||0};
+      let n=tm.match(/translate(?:3d)?\(([-\d\.]+)px,\s*([-\d\.]+)px/);
+      if(n) return {tx:parseFloat(n[1])||0, ty:parseFloat(n[2])||0};
+      return {tx:0,ty:0};
+    };
+    function ensureUI(t){
+      let pin=t.querySelector('.cbjr-grab'); if(!pin){ pin=document.createElement('div'); pin.className='cbjr-grab'; pin.title='Arraste para mover'; pin.textContent='≡'; t.appendChild(pin); }
+      let strip=t.querySelector('.cbjr-drag-strip'); if(!strip){ strip=document.createElement('div'); strip.className='cbjr-drag-strip'; t.appendChild(strip); }
     }
-    function move(e){
-      if(!dragging) return;
-      const dx = e.clientX - sx;
-      const dy = e.clientY - sy;
-      t.style.transform = `translate(${startTX + dx}px, ${startTY + dy}px)`;
+    function canStart(e){ return !e.target.closest('#cbjr-lyrics-toggle, [data-no-drag], button, a, input, [role="button"], .slider, .progress, .seekbar'); }
+    function init(){
+      const t=getTarget(); if(!t){ return; }
+      ensureUI(t);
+      try{ const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s&&(s.tx||s.ty)) t.style.transform=`translate(${s.tx}px,${s.ty}px)`; }catch(_){}
+      let dragging=false,sx=0,sy=0,startTX=0,startTY=0;
+      function begin(e){
+        if(!(e.target.closest('.cbjr-grab')||e.target.closest('.cbjr-drag-strip')||canStart(e))) return;
+        const cur=parseTM(getComputedStyle(t).transform);
+        startTX=cur.tx; startTY=cur.ty; sx=e.clientX; sy=e.clientY; dragging=true; t.classList.add('cbjr-dragging');
+        try{ e.target.setPointerCapture&&e.target.setPointerCapture(e.pointerId);}catch(_){}
+        e.preventDefault&&e.preventDefault(); e.stopPropagation&&e.stopPropagation();
+      }
+      function move(e){ if(!dragging) return; const dx=e.clientX-sx,dy=e.clientY-sy; t.style.transform=`translate(${startTX+dx}px,${startTY+dy}px)`; }
+      function end(){
+        if(!dragging) return; dragging=false; t.classList.remove('cbjr-dragging');
+        const cur=parseTM(getComputedStyle(t).transform), r=t.getBoundingClientRect(), snap=12;
+        let nx=cur.tx,ny=cur.ty;
+        if(r.left<snap) nx-=r.left;
+        if(innerWidth-r.right<snap) nx+=innerWidth-r.right;
+        if(r.top<snap) ny-=r.top;
+        if(innerHeight-r.bottom<snap) ny+=innerHeight-r.bottom;
+        t.style.transform=`translate(${nx}px,${ny}px)`;
+        try{ localStorage.setItem(KEY, JSON.stringify({tx:nx,ty:ny})); }catch(_){ }
+      }
+      t.addEventListener('pointerdown',begin,{capture:true});
+      addEventListener('pointermove',move,{passive:false});
+      addEventListener('pointerup',end,{passive:true});
+      t.addEventListener('touchstart',e=>begin({clientX:e.touches[0].clientX,clientY:e.touches[0].clientY,target:e.target,pointerId:1,preventDefault:()=>{},stopPropagation:()=>{}}),{passive:true});
+      t.addEventListener('touchmove',e=>{move({clientX:e.touches[0].clientX,clientY:e.touches[0].clientY}); e.preventDefault();},{passive:false});
+      t.addEventListener('touchend',end,{passive:true});
     }
-    function end(){
-      if(!dragging) return;
-      dragging=false; t.classList.remove('cbjr-dragging');
-      const tm = getComputedStyle(t).transform;
-      const cur = parseTranslate(tm);
-      try{ localStorage.setItem(KEY, JSON.stringify(cur)); }catch(_){}
+    if(document.readyState==='complete'||document.readyState==='interactive') init(); else addEventListener('DOMContentLoaded',init,{once:true});
+    setInterval(init, 1200);
+    new MutationObserver(init).observe(document.body,{childList:true,subtree:true});
+  })();
+
+  (function(){
+    const KEY_OFF='cbjr_lrc_offset_by_track_v3';
+    const KEY_LRC='cbjr_lrc_cache_by_track_v1';
+    const $=s=>document.querySelector(s);
+    const qOverlay=()=>$('#model3-overlay')||$('#audio-player-wrapper')||document.querySelector('[id*="player"]');
+    const qAudio=(r)=> (r&&r.querySelector('audio')) || $('#model3-overlay audio') || document.querySelector('audio');
+
+    function ensureUI(){
+      let m=$('#cbjr-lyrics-modal');
+      if(!m){
+        m=document.createElement('div'); m.id='cbjr-lyrics-modal';
+        m.innerHTML=`<div id="cbjr-lyrics-box" role="dialog" aria-modal="true">
+          <div id="cbjr-lyrics-head">
+            <div id="cbjr-lyrics-title">Letra sincronizada</div>
+            <div id="cbjr-lyrics-controls">
+              <button id="cbjr-lyrics-minus" title="Atrasar -0.1s">−0.1s</button>
+              <button id="cbjr-lyrics-plus"  title="Adiantar +0.1s">+0.1s</button>
+              <button id="cbjr-lyrics-close" title="Fechar">✕</button>
+            </div>
+          </div>
+          <div id="cbjr-lyrics-list"><div id="cbjr-lyrics-empty">Carregando…</div></div>
+        </div>`;
+        document.body.appendChild(m);
+      }
+      let fb=$('#cbjr-lyrics-fallback');
+      if(!fb){
+        fb=document.createElement('button'); fb.id='cbjr-lyrics-fallback'; fb.textContent='♪'; fb.title='Letra (fallback)';
+        fb.style.display='none'; document.body.appendChild(fb);
+      }
+    }
+    function placeBtn(){
+      const ov=qOverlay(); const fb=$('#cbjr-lyrics-fallback');
+      if(!ov){
+        if(fb) fb.style.display='grid';
+        return null;
+      }
+      if(fb) fb.style.display='none';
+      let b=ov.querySelector('#cbjr-lyrics-toggle');
+      if(!b){
+        b=document.createElement('button'); b.id='cbjr-lyrics-toggle'; b.textContent='♪'; b.title='Letra sincronizada';
+        b.setAttribute('aria-label','Abrir letra sincronizada');
+        ov.appendChild(b);
+      }
+      return b;
     }
 
-    // eventos no próprio player (handle + strip) — e fallback SHIFT em qualquer área do card
-    g.addEventListener('pointerdown', begin, {capture:true});
-    strip.addEventListener('pointerdown', begin, {capture:true});
-    t.addEventListener('pointerdown', begin, {capture:true}); // permitirá SHIFT + arrastar em qualquer área vazia
-    window.addEventListener('pointermove', move, {passive:false});
-    window.addEventListener('pointerup', end, {passive:true});
-
-    // touch
-    let touchStart = null, startX=0, startY=0;
-    function tBegin(e){
-      const tgt = e.touches[0];
-      startX = tgt.clientX; startY = tgt.clientY;
-      const fake = { clientX:startX, clientY:startY, target:e.target, shiftKey:false, pointerId: 1 };
-      begin(fake);
+    const stripAcc=s=> (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    function cleanTitle(s){
+      if(!s) return '';
+      s = s.replace(/^\s*\d{1,3}\s*[-–.:)]*\s*/,'');          
+      s = s.replace(/\s*\((?:ao vivo|live|ac[uú]stico|remaster(?:izado|ed)?|vers[aã]o.*?|bonus.*?)\)\s*/ig,'');
+      s = s.replace(/\s*-\s*(ao vivo|live|ac[uú]stico|remaster(?:izado|ed)?|bonus.*)$/ig,'');
+      s = s.replace(/\s+/g,' ').trim();
+      return s;
     }
-    function tMove(e){
-      if(!dragging) return;
-      const tgt = e.touches[0];
-      const fake = { clientX:tgt.clientX, clientY:tgt.clientY };
-      move(fake);
-      e.preventDefault();
+    function meta(){
+      const ov=qOverlay(), au=qAudio(ov);
+      const src=(au?.currentSrc||au?.src||'').split('?')[0];
+      const file=decodeURIComponent(src.split('/').pop()||'').replace(/\.[^.]+$/,'');
+      const by=file.split(' - ');
+      const uiT=$('#song-title, .song-title, .current-title')?.textContent?.trim()||'';
+      const uiA=$('#song-artist, .song-artist, .current-artist')?.textContent?.trim()||'';
+      const dT=ov?.dataset?.title||'', dA=ov?.dataset?.artist||'';
+      let title=dT||uiT||(by.length>1?by[1]:file);
+      let artist=dA||uiA||(by.length>1?by[0]:'Charlie Brown Jr.');
+      return {title:cleanTitle(title.replace(/_/g,' ')), artist:(artist||'Charlie Brown Jr.').replace(/_/g,' '), src};
     }
-    function tEnd(){ end(); }
-    g.addEventListener('touchstart', tBegin, {passive:true});
-    g.addEventListener('touchmove', tMove, {passive:false});
-    g.addEventListener('touchend', tEnd, {passive:true});
-    strip.addEventListener('touchstart', tBegin, {passive:true});
-    strip.addEventListener('touchmove', tMove, {passive:false});
-    strip.addEventListener('touchend', tEnd, {passive:true});
 
-    // Observa mudanças pra recriar handle/strip se o overlay for re-renderizado
-    const mo = new MutationObserver(()=> ensureUI(t));
-    mo.observe(t, {childList:true, subtree:true});
-  }
+    async function lrclibQuery(t,a){
+      const qs=new URLSearchParams({track_name:t, artist_name:a});
+      try{
+        const r=await fetch('https://lrclib.net/api/search?'+qs.toString(),{cache:'no-store'});
+        if(!r.ok) return null;
+        const arr=await r.json(); if(!Array.isArray(arr)||!arr.length) return null;
+        const norm=s=>(s||'').toLowerCase().normalize('NFKD').replace(/[^\w\s]/g,'').replace(/\s+/g,' ').trim();
+        const nt=norm(t), na=norm(a);
+        let best=null,score=-1;
+        for(const it of arr){
+          const sc=(it.trackName?(norm(it.trackName)===nt?3:(norm(it.trackName).includes(nt)?2:0)):0)
+                  +(it.artistName?(norm(it.artistName)===na?3:(norm(it.artistName).includes(na)?2:0)):0)
+                  +(it.syncedLyrics?2:0)+(it.plainLyrics?1:0);
+          if(sc>score){ score=sc; best=it; }
+        }
+        if(!best) return null;
+        if(best.syncedLyrics && best.syncedLyrics.trim()) return {kind:'lrc', text:best.syncedLyrics};
+        if(best.plainLyrics && best.plainLyrics.trim()) return {kind:'plain', text:best.plainLyrics};
+      }catch(_){}
+      return null;
+    }
 
-  if (document.readyState === 'complete' || document.readyState === 'interactive') init();
-  else document.addEventListener('DOMContentLoaded', init, {once:true});
+    async function lrclibSmart(q){
+      const t0=q.title, a0=q.artist;
+      const t1=cleanTitle(t0);
+      const t2=stripAcc(t1), a2=stripAcc(a0);
+      const tries=[ [t0,a0], [t1,a0], [t2,a2] ];
+      for(const [t,a] of tries){
+        const hit=await lrclibQuery(t,a);
+        if(hit) return hit;
+      }
+      return null;
+    }
+
+    const autoSync=(plain,dur)=>{
+      const lines=(plain||'').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+      if(!lines.length||!dur) return null;
+      const step=Math.max(1.5, dur/(lines.length+2));
+      let t=0.8;
+      const pad=n=>n<10?('0'+n):(''+n);
+      const fmt=s=>{const mm=Math.floor(s/60),ss=Math.floor(s%60),cs=Math.floor((s*100)%100);return `[${pad(mm)}:${pad(ss)}.${(cs<10?'0':'')+cs}]`;};
+      return lines.map(ln=>{const out=`${fmt(t)} ${ln}`; t+=step; return out;}).join('\n');
+    };
+
+    function parseLRC(txt){
+      const L=txt.split(/\r?\n/), out=[], meta={offset:0};
+      for(const raw of L){
+        const mt=raw.match(/^\[(ti|ar|al|by|offset):\s*(.*?)\s*\]$/i);
+        if(mt){ if(mt[1].toLowerCase()==='offset') meta.offset=parseFloat(mt[2])||0; continue; }
+        const times=[...raw.matchAll(/\[(\d{1,2}):(\d{2})(?:[.:](\d{1,3}))?\]/g)];
+        if(!times.length) continue;
+        const lyric=raw.replace(/\[[^\]]+]/g,'').trim();
+        for(const t of times){
+          const mm=+t[1]||0, ss=+t[2]||0, cs=+(t[3]||'0')||0;
+          const ms=cs<10?cs*100:(cs<100?cs*10:cs);
+          out.push({t:mm*60+ss+ms/1000, text:lyric});
+        }
+      }
+      out.sort((a,b)=>a.t-b.t);
+      return {lines:out, meta};
+    }
+
+    function render(list, parsed){
+      list.innerHTML='';
+      if(!parsed || !parsed.lines.length){ list.innerHTML='<div id="cbjr-lyrics-empty">Letra não encontrada para esta faixa.</div>'; return; }
+      for(const {t,text} of parsed.lines){
+        const d=document.createElement('div'); d.className='line'; d.dataset.t=t; d.textContent=text||'…'; list.appendChild(d);
+      }
+    }
+    function curIdx(lines,sec){ let lo=0,hi=lines.length-1,ans=-1; while(lo<=hi){ const mid=(lo+hi)>>1; if(lines[mid].t<=sec){ ans=mid; lo=mid+1; } else hi=mid-1; } return ans; }
+
+    function wire(au){
+      const modal=$('#cbjr-lyrics-modal'), list=$('#cbjr-lyrics-list'),
+            title=$('#cbjr-lyrics-title'),
+            close=$('#cbjr-lyrics-close'),
+            plus=$('#cbjr-lyrics-plus'), minus=$('#cbjr-lyrics-minus');
+
+      let parsed=null, raf=null, last=-1, trackKey='', offsets={}, cache={};
+      try{ offsets=JSON.parse(localStorage.getItem(KEY_OFF)||'{}'); }catch(_){ offsets={}; }
+      try{ cache=JSON.parse(localStorage.getItem(KEY_LRC)||'{}'); }catch(_){ cache={}; }
+
+      function tick(){
+        if(!parsed) return;
+        const user=(offsets[trackKey]||0)/1000, base=(parsed.meta?.offset||0)/1000, sec=(au.currentTime||0)+base+user;
+        const idx=curIdx(parsed.lines,sec);
+        if(idx!==last){
+          const prev=list.querySelector('.line.active'); if(prev) prev.classList.remove('active');
+          if(idx>=0){
+            const el=list.children[idx]; if(el){
+              el.classList.add('active');
+              const y=el.offsetTop-(list.clientHeight/2-el.clientHeight/2);
+              list.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+            }
+          }
+          last=idx;
+        }
+        raf=requestAnimationFrame(tick);
+      }
+
+      async function load(){
+        cancelAnimationFrame(raf); raf=null; last=-1; parsed=null;
+        list.innerHTML='<div id="cbjr-lyrics-empty">Carregando…</div>';
+        const m=meta(); title.textContent=`${m.title||'Faixa'} — ${m.artist||'Artista'}`;
+        trackKey = (m.src&&m.src.split('/').pop()) || m.title+'—'+m.artist;
+        const dur=isFinite(au.duration)?au.duration:0;
+
+        let cache;
+        try{ cache=JSON.parse(localStorage.getItem(KEY_LRC)||'{}'); }catch(_){ cache={}; }
+        if(cache[trackKey]){ parsed=parseLRC(cache[trackKey]); render(list,parsed); raf=requestAnimationFrame(tick); return; }
+
+        let lrc=null;
+        try{
+          const hit=await lrclibSmart(m);
+          if(hit && hit.kind==='lrc') lrc=hit.text;
+          else if(hit && hit.kind==='plain') lrc=autoSync(hit.text,dur)||null;
+        }catch(_){}
+        if(!lrc){ parsed={lines:[]}; render(list,parsed); return; }
+
+        cache[trackKey]=lrc; try{ localStorage.setItem(KEY_LRC, JSON.stringify(cache)); }catch(_){}
+        parsed=parseLRC(lrc); render(list,parsed); raf=requestAnimationFrame(tick);
+      }
+
+      function open(){ modal.style.display='flex'; cancelAnimationFrame(raf); raf=requestAnimationFrame(tick); }
+      function closeM(){ modal.style.display='none'; cancelAnimationFrame(raf); raf=null; }
+      close.onclick=closeM; modal.addEventListener('click',e=>{ if(e.target===modal) closeM(); });
+
+      function bump(ms){ if(!trackKey) return; let ofs={}; try{ ofs=JSON.parse(localStorage.getItem(KEY_OFF)||'{}'); }catch(_){}
+      ofs[trackKey]=Math.round((ofs[trackKey]||0)+ms); try{ localStorage.setItem(KEY_OFF, JSON.stringify(ofs)); }catch(_){ } }
+      minus.onclick=()=>bump(-100); plus.onclick=()=>bump(+100);
+
+      let lastSrc='';
+      (function watch(){ const s=(qAudio(qOverlay())?.currentSrc||au.currentSrc||''); if(s && s!==lastSrc){ lastSrc=s; if(modal.style.display==='flex') load(); last=-1; } requestAnimationFrame(watch); })();
+
+      addEventListener('keydown',e=>{ if(e.key.toLowerCase()==='l'){ if(modal.style.display==='flex') closeM(); else load().then(open);} });
+
+      return {load,open,close:closeM};
+    }
+
+    function boot(){
+      ensureUI();
+      const ov=qOverlay(); const au=qAudio(ov)||qAudio();
+      if(!au){ setTimeout(boot,500); return; }
+      const api=wire(au);
+
+      function apply(){
+        const btn=placeBtn();
+        const fb=$('#cbjr-lyrics-fallback');
+        if(btn){
+          btn.onclick=()=>{ const m=$('#cbjr-lyrics-modal'); if(m.style.display==='flex') api.close(); else api.load().then(api.open); };
+          if(fb) fb.style.display='none';
+        }else if(fb){
+          fb.style.display='grid';
+          fb.onclick=()=>{ const m=$('#cbjr-lyrics-modal'); if(m.style.display==='flex') api.close(); else api.load().then(api.open); };
+        }
+      }
+      apply();
+      setInterval(apply, 1200);
+      new MutationObserver(apply).observe(document.body,{childList:true,subtree:true});
+    }
+
+    if(document.readyState==='complete'||document.readyState==='interactive') boot();
+    else addEventListener('DOMContentLoaded',boot,{once:true});
+  })();
 })();
 </script>
 </body>
