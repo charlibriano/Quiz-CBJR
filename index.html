@@ -3328,19 +3328,71 @@ body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible 
 #cbjr-lyrics-controls button{padding:.45rem .7rem; border:none; border-radius:999px; background:#242a32; color:#e9eef7; box-shadow:inset 0 1px 0 rgba(255,255,255,.06); cursor:pointer; font-weight:700;}
 #cbjr-lyrics-controls button:hover{filter:brightness(1.08)}
 #cbjr-lyrics-close{background:#2c3138}
-#cbjr-lyrics-list{padding:16px 18px 18px; overflow:auto; max-height:calc(82vh - 70px); scrollbar-width:thin;}
+#cbjr-lyrics-list{ column-count:1; padding:16px 18px 18px; overflow:auto; max-height:calc(82vh - 70px); scrollbar-width:thin;}
 #cbjr-lyrics-list::-webkit-scrollbar{height:10px; width:10px}
 #cbjr-lyrics-list::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#3b4149,#2a2f36); border-radius:10px}
-#cbjr-lyrics-list .line{position:relative; text-align:center; padding:8px 14px; margin:4px 0; color:#dbe1ea; opacity:.75; transition:.25s ease; font-size:18px; line-height:1.65; border-radius:12px;}
+#cbjr-lyrics-list .line{position:relative; display:block; padding:6px 0; text-align:center; font-size:18px; line-height:1.65; opacity:.78;}
 #cbjr-lyrics-list .line:hover{opacity:.9}
-#cbjr-lyrics-list .line.active{opacity:1; color:#0b0d0f; background:linear-gradient(90deg,#ffd84e 0%, #ffeaa2 100%); font-weight:800; transform:translateY(-1px); box-shadow:0 10px 26px rgba(255,216,78,.12);}
-#cbjr-lyrics-list .line.active::after{content:""; position:absolute; inset:0; width:var(--p,0%); background:linear-gradient(90deg, rgba(0,0,0,.0), rgba(255,255,255,.18) 40%, rgba(255,255,255,.0) 86%); border-radius:inherit; mix-blend-mode:overlay; pointer-events:none}
+#cbjr-lyrics-list .line.active{opacity:1;}
+#cbjr-lyrics-list .line.active::after /* disabled by karaoke-wipe */{content:""; position:absolute; inset:0; width:var(--p,0%); background:linear-gradient(90deg, rgba(0,0,0,.0), rgba(255,255,255,.18) 40%, rgba(255,255,255,.0) 86%); border-radius:inherit; mix-blend-mode:overlay; pointer-events:none}
 #cbjr-lyrics-empty{opacity:.75; text-align:center; padding:28px 10px}
 #cbjr-lyrics-toggle{position:absolute; top:.5rem; right:.5rem; z-index:200000; border:none; border-radius:999px; width:36px; height:36px; display:grid; place-items:center; background:#ffd84e; color:#111; font-weight:800; box-shadow:0 10px 26px rgba(0,0,0,.35); cursor:pointer;}
 #cbjr-lyrics-toggle:hover{filter:brightness(1.07)}
 #cbjr-lyrics-fallback{position:fixed; right:18px; bottom:18px; display:none; width:52px; height:52px; border-radius:999px; border:none; background:#ffd84e; color:#111; font-weight:800; box-shadow:0 10px 32px rgba(0,0,0,.45); z-index:200000;}
 .cbjr-grab{position:absolute; top:6px; left:8px; width:22px; height:22px; display:grid; place-items:center; border-radius:6px; background:rgba(255,255,255,.08); color:#eee; font-size:13px; cursor:grab; user-select:none;}
 .cbjr-drag-strip{position:absolute; inset:0 0 auto 28px; height:22px; cursor:grab;}
+
+#cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-list .line .inner{position:relative; display:inline-block; border-radius:12px;}
+#cbjr-lyrics-list .line .text{display:inline; padding:10px 14px; transition:none;}
+#cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-list .line .over{position:absolute; inset:0 auto 0 0; width:var(--p,0%); overflow:hidden; pointer-events:none;
+  border-radius:12px; background:linear-gradient(90deg,#ffd84e 0%, #ffeaa2 70%); color:#0b0d0f; padding:10px 14px; transition:none; white-space:nowrap;}
+/* suaviza não-ativa */
+#cbjr-lyrics-list .line{opacity:.75;}
+#cbjr-lyrics-list .line.active{opacity:1;}
+
+/* Karaoke wipe refined: only line.active shows overlay; clip-path controls fill % */
+#cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-list .line .inner{position:relative; display:inline-block; padding:10px 14px; border-radius:12px;}
+#cbjr-lyrics-list .line .text{display:inline; white-space:nowrap;}
+#cbjr-lyrics-list .line .under{color:#d5d8dc;}
+#cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-list .line .over{
+  position:absolute; inset:0; width:100%; height:100%; border-radius:12px;
+  background:linear-gradient(90deg,#ffd84e 0%, #ffeaa2 70%); color:#0b0d0f;
+  /* hide overlay by default; show only when line is active */
+  opacity:0; pointer-events:none;
+  /* reveal only left portion equal to --p; avoids "bolinha" com padding */
+  clip-path: inset(0 calc(100% - var(--p, 0%)) 0 0);
+}
+#cbjr-lyrics-list .line.active .over{ opacity:1; }
+
+/* === KARAOKE INK STYLE (letters-only highlight, slimmer & elegant) === */
+#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .inner{ padding:0 2px; border-radius:4px; }
+#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .under{ color: #e6eaef; }
+#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-list .line .over{
+  background: linear-gradient(90deg,#ffe27a 0%, #ffd84e 60%, #ffcd26 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 10px rgba(255,216,78,.25);
+  /* keep clip-path for progress */
+  clip-path: inset(0 calc(100% - var(--p, 0%)) 0 0);
+  opacity: 0;
+}
+#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line.active .over{ opacity: 1; }
+/* Optional: soft underline for current line (very subtle) */
+
+
+/* === Karaoke INK definitive rules === */
+#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .inner{ position:relative; display:inline-block; padding:0 2px; border-radius:4px; }
+#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .text{ padding:0; }
+#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .under{ color:#e6eaef; }
+#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .over{
+  position:absolute; left:0; right:0; top:0; bottom:0; width:100%; height:100%;
+  color:#ffd84e; background:none; z-index:2;
+  opacity:0; pointer-events:none; white-space:nowrap;
+  clip-path: inset(0 calc(100% - var(--p, 0%)) 0 0);
+  will-change: clip-path;
+}
+#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line.active .over{ opacity:1; }
 </style></head>
 <body>
 <header>
@@ -5412,6 +5464,24 @@ function closeAchievementsScreen() {
     }, { once: true });
 }
 
+
+// Helper: safely render question text while allowing <br> line breaks and a few placeholders ("br", [br], \n)
+function setQuestionHTML(el, raw){
+  try{
+    let s = String(raw == null ? '' : raw);
+    // normalize common placeholders to <br>
+    s = s
+      .replace(/&lt;br\s*\/?&gt;/gi, '<br>')
+      .replace(/"\s*br\s*"/gi, '<br>')   // case from data like "br"
+      .replace(/\[\s*br\s*\]/gi, '<br>') // [br]
+      .replace(/\(\s*br\s*\)/gi, '<br>'); // (br)
+    // convert newlines to <br>
+    s = s.replace(/\r?\n/g, '<br>');
+    el.innerHTML = s;
+  }catch(e){
+    el.textContent = raw;
+  }
+}
 function showQuestion() {
     console.log(`showQuestion: Exibindo Pergunta Nível ${quizState.currentLevel + 1}, Pergunta ${quizState.currentQuestionIndexInLevel + 1}. Vidas: ${quizState.lives}`);
     if (quizState.quizPaused) {
@@ -5448,7 +5518,7 @@ function showQuestion() {
         const existing = elements.quiz.querySelector('.question');
         if (existing) {
             const qh = existing.querySelector('#current-question-text');
-            if (qh) qh.textContent = questionData.pergunta;
+            if (qh) setQuestionHTML(qh, questionData.pergunta);
             const btns = existing.querySelectorAll('.answer-button');
             const total = Math.min(btns.length, shuffledAnswers.length);
             for (let i = 0; i < total; i++) {
@@ -5479,7 +5549,7 @@ function showQuestion() {
     shuffleArray(shuffledAnswers);
 
     questionElement.innerHTML = `
-        <h3 id="current-question-text">${questionData.pergunta}</h3>
+        <h3 id="current-question-text"></h3>
         <div class="question-content">
             <div class="answers-container">
                 ${shuffledAnswers.map((resposta, index) => `
@@ -5492,6 +5562,9 @@ function showQuestion() {
             </div>
         </div>
     `;
+        // Apply safe HTML with <br> support
+        setQuestionHTML(questionElement.querySelector('#current-question-text'), questionData.pergunta);
+
 
     const currentQuizContent = elements.quiz.querySelector('.question');
 const useFast = (window.QUIZ_FAST_MODE === true);
@@ -7607,6 +7680,7 @@ window.onload = () => {
       let modal=$('#cbjr-lyrics-modal');
       if(!modal){
         modal=document.createElement('div'); modal.id='cbjr-lyrics-modal';
+        modal.classList.add('karaoke-ink');
         modal.innerHTML=`<div id="cbjr-lyrics-box" role="dialog" aria-modal="true">
           <div id="cbjr-lyrics-head">
             <div id="cbjr-lyrics-meta">
@@ -7729,7 +7803,11 @@ window.onload = () => {
       list.innerHTML='';
       if(!parsed || !parsed.lines.length){ list.innerHTML='<div id="cbjr-lyrics-empty">Letra não encontrada para esta faixa.</div>'; return; }
       for(const {t,text} of parsed.lines){
-        const d=document.createElement('div'); d.className='line'; d.dataset.t=t; d.textContent=text||'…'; list.appendChild(d);
+        const d=document.createElement('div'); d.className='line'; d.dataset.t=t;
+        const inner=document.createElement('span'); inner.className='inner';
+        const under=document.createElement('span'); under.className='text under'; under.textContent=text||'…';
+        const over=document.createElement('span'); over.className='text over'; over.setAttribute('aria-hidden','true'); over.textContent=text||'…';
+        inner.appendChild(under); inner.appendChild(over); d.appendChild(inner); list.appendChild(d);
       }
     }
     function curIdx(lines,sec){ let lo=0,hi=lines.length-1,ans=-1; while(lo<=hi){ const mid=(lo+hi)>>1; if(lines[mid].t<=sec){ ans=mid; lo=mid+1; } else hi=mid-1; } return ans; }
@@ -7751,12 +7829,12 @@ window.onload = () => {
         const user=(offsets[trackKey]||0)/1000, base=(parsed.meta?.offset||0)/1000, sec=(au.currentTime||0)+base+user;
         const idx=curIdx(parsed.lines,sec);
         if(idx!==last){
-          if(lastEl){ lastEl.classList.remove('active'); lastEl.style.removeProperty('--p'); }
+          if(lastEl){ lastEl.classList.remove('active'); lastEl.style.setProperty('--p','0%'); }
           if(idx>=0){
             const el=list.children[idx]; if(el){
               el.classList.add('active'); lastEl=el;
               const y=el.offsetTop-(list.clientHeight/2-el.clientHeight/2);
-              list.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+              list.scrollTo({top:Math.max(0,y),behavior:'auto'});
             }
           }
           last=idx;
