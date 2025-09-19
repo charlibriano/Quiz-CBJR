@@ -682,7 +682,6 @@
 
         /* NOVO: Estilos para a tela de conquistas */
         #achievements-screen {
-            overscroll-behavior: contain;
             position: fixed;
             top: 0;
             left: 0;
@@ -724,9 +723,6 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
             justify-content: center;
-        
-            max-height: calc(100vh - 240px);
-            overflow-y: auto;
         }
 
         /* Estilo para o CARD de conquista */
@@ -1081,14 +1077,15 @@
            superior direito, porém com dimensões compactas para não
            interferir na experiência. */
         body.quiz-active #audio-player-wrapper {
+            /* No modo quiz, reposiciona o player próximo ao rodapé, acima do equalizador, para garantir que seja visível em todas as resoluções. */
             position: fixed !important;
-            top: 10px !important;
+            bottom: 70px !important;   /* altura do equalizador (60px) + margem adicional */
             right: 10px !important;
             left: auto !important;
-            bottom: auto !important;
+            top: auto !important;
             width: 200px !important;
             max-width: 200px !important;
-            /* Reduzimos ainda mais a altura do player para ficar ainda mais discreto no quiz. */
+            /* Reduzimos ainda mais a altura do player para ficar discreto no quiz. */
             min-height: 90px !important;
             max-height: 90px !important;
             padding: 6px !important;
@@ -3315,84 +3312,61 @@ body.m3-ready button[title="Mostrar/Ocultar player"]{ display:none !important; }
 body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible !important; }
 
 </style>
-<style id="CBJR_LYRICS_V26_CSS">
-#cbjr-lyrics-modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:radial-gradient(1000px 600px at 50% 0%, rgba(255,216,78,.08), transparent), rgba(0,0,0,.55); z-index:200001;}
-#cbjr-lyrics-box{width:min(920px,94vw); max-height:82vh; background:rgba(14,16,20,.86); backdrop-filter: blur(12px) saturate(1.2); border-radius:18px; overflow:hidden; border:1px solid rgba(255,216,78,.25); box-shadow:0 18px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06);}
-#cbjr-lyrics-head{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 16px; background:linear-gradient(180deg,rgba(23,26,31,.9),rgba(17,20,24,.9)); border-bottom:1px solid rgba(255,255,255,.07);}
-#cbjr-lyrics-meta{display:flex; align-items:center; gap:12px; min-width:0;}
-#cbjr-lyrics-cover{width:46px; height:46px; border-radius:10px; object-fit:cover; box-shadow:0 8px 22px rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.15);}
-#cbjr-lyrics-title-wrap{min-width:0;}
-#cbjr-lyrics-title{font-weight:800; font-size:18px; letter-spacing:.2px; color:#f6f8fc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-#cbjr-lyrics-artist{font-size:13px; opacity:.75; color:#dfe6f3; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-#cbjr-lyrics-controls{display:flex; align-items:center; gap:8px;}
-#cbjr-lyrics-controls button{padding:.45rem .7rem; border:none; border-radius:999px; background:#242a32; color:#e9eef7; box-shadow:inset 0 1px 0 rgba(255,255,255,.06); cursor:pointer; font-weight:700;}
-#cbjr-lyrics-controls button:hover{filter:brightness(1.08)}
-#cbjr-lyrics-close{background:#2c3138}
-#cbjr-lyrics-list{ column-count:1; padding:16px 18px 18px; overflow:auto; max-height:calc(82vh - 70px); scrollbar-width:thin;}
-#cbjr-lyrics-list::-webkit-scrollbar{height:10px; width:10px}
-#cbjr-lyrics-list::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#3b4149,#2a2f36); border-radius:10px}
-#cbjr-lyrics-list .line{position:relative; display:block; padding:6px 0; text-align:center; font-size:18px; line-height:1.65; opacity:.78;}
-#cbjr-lyrics-list .line:hover{opacity:.9}
-#cbjr-lyrics-list .line.active{opacity:1;}
-#cbjr-lyrics-list .line.active::after /* disabled by karaoke-wipe */{content:""; position:absolute; inset:0; width:var(--p,0%); background:linear-gradient(90deg, rgba(0,0,0,.0), rgba(255,255,255,.18) 40%, rgba(255,255,255,.0) 86%); border-radius:inherit; mix-blend-mode:overlay; pointer-events:none}
-#cbjr-lyrics-empty{opacity:.75; text-align:center; padding:28px 10px}
-#cbjr-lyrics-toggle{position:absolute; top:.5rem; right:.5rem; z-index:200000; border:none; border-radius:999px; width:36px; height:36px; display:grid; place-items:center; background:#ffd84e; color:#111; font-weight:800; box-shadow:0 10px 26px rgba(0,0,0,.35); cursor:pointer;}
-#cbjr-lyrics-toggle:hover{filter:brightness(1.07)}
-#cbjr-lyrics-fallback{position:fixed; right:18px; bottom:18px; display:none; width:52px; height:52px; border-radius:999px; border:none; background:#ffd84e; color:#111; font-weight:800; box-shadow:0 10px 32px rgba(0,0,0,.45); z-index:200000;}
+<style id="CBJR_LYRICS_V23_CSS">
+#cbjr-lyrics-toggle{position:absolute; top:.5rem; right:.5rem; z-index:200000; border:none; border-radius:999px; width:36px; height:36px; display:grid; place-items:center; background:#ffcc00; color:#111; font-weight:700; box-shadow:0 4px 14px rgba(0,0,0,.35); cursor:pointer;}
+#cbjr-lyrics-toggle:hover{filter:brightness(1.1)}
+#cbjr-lyrics-fallback{position:fixed; right:18px; bottom:18px; display:none; width:52px; height:52px; border-radius:999px; border:none; background:#ffcc00; color:#111; font-weight:700; box-shadow:0 6px 20px rgba(0,0,0,.45); z-index:200000;}
+/*
+ * Adjust the lyrics overlay so it behaves like a smaller floating panel.
+ * We remove the dark full‑screen backdrop and reposition the panel to the bottom
+ * left of the screen so it doesn’t obscure the quiz or the player.  Pointer
+ * events are disabled on the full overlay to allow interaction with the quiz
+ * behind it, while the panel itself remains clickable.  The width and height
+ * of the panel are capped so it doesn’t dominate the view.  On small screens
+ * (phones), the panel expands to most of the width but still leaves room for
+ * interaction with the quiz.
+ */
+#cbjr-lyrics-modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:flex-end;
+    justify-content:flex-start;
+    /* remove dark overlay so the quiz remains visible */
+    background:transparent;
+    /* allow clicks through the overlay except on the box */
+    pointer-events:none;
+    z-index:200001;
+}
+#cbjr-lyrics-box{
+    /* limit the size of the panel on larger screens */
+    width:min(500px, 90vw);
+    max-height:50vh;
+    margin:0 0 1rem 1rem;
+    background:#14161a;
+    color:#dbe1ea;
+    border-radius:16px;
+    box-shadow:0 10px 40px rgba(0,0,0,.55);
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);
+    /* enable interaction inside the lyrics box */
+    pointer-events:auto;
+}
+#cbjr-lyrics-head{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:14px 16px; background:linear-gradient(180deg,#1b1e22,#14161a); border-bottom:1px solid rgba(255,255,255,.08);}
+#cbjr-lyrics-title{font-weight:700; letter-spacing:.2px}
+#cbjr-lyrics-controls button{margin-left:6px; padding:.4rem .6rem; border-radius:10px; border:none; background:#2a2f36; color:#e9eef7; cursor:pointer;}
+#cbjr-lyrics-list{padding:14px 18px; overflow:auto; max-height:calc(50vh - 58px);}   
+#cbjr-lyrics-list .line{padding:6px 6px; opacity:.6}
+        /* Destaca apenas o texto da linha atual em amarelo, sem colorir o bloco inteiro */
+        #cbjr-lyrics-list .line.active{
+            opacity:1;
+            background:none;
+            color: var(--cor-amarelo-cbjr);
+            font-weight: bold;
+        }
+#cbjr-lyrics-empty{opacity:.7; text-align:center; padding:28px 10px}
 .cbjr-grab{position:absolute; top:6px; left:8px; width:22px; height:22px; display:grid; place-items:center; border-radius:6px; background:rgba(255,255,255,.08); color:#eee; font-size:13px; cursor:grab; user-select:none;}
 .cbjr-drag-strip{position:absolute; inset:0 0 auto 28px; height:22px; cursor:grab;}
-
-#cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-list .line .inner{position:relative; display:inline-block; border-radius:12px;}
-#cbjr-lyrics-list .line .text{display:inline; padding:10px 14px; transition:none;}
-#cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-list .line .over{position:absolute; inset:0 auto 0 0; width:var(--p,0%); overflow:hidden; pointer-events:none;
-  border-radius:12px; background:linear-gradient(90deg,#ffd84e 0%, #ffeaa2 70%); color:#0b0d0f; padding:10px 14px; transition:none; white-space:nowrap;}
-/* suaviza não-ativa */
-#cbjr-lyrics-list .line{opacity:.75;}
-#cbjr-lyrics-list .line.active{opacity:1;}
-
-/* Karaoke wipe refined: only line.active shows overlay; clip-path controls fill % */
-#cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-list .line .inner{position:relative; display:inline-block; padding:10px 14px; border-radius:12px;}
-#cbjr-lyrics-list .line .text{display:inline; white-space:nowrap;}
-#cbjr-lyrics-list .line .under{color:#d5d8dc;}
-#cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-list .line .over{
-  position:absolute; inset:0; width:100%; height:100%; border-radius:12px;
-  background:linear-gradient(90deg,#ffd84e 0%, #ffeaa2 70%); color:#0b0d0f;
-  /* hide overlay by default; show only when line is active */
-  opacity:0; pointer-events:none;
-  /* reveal only left portion equal to --p; avoids "bolinha" com padding */
-  clip-path: inset(0 calc(100% - var(--p, 0%)) 0 0);
-}
-#cbjr-lyrics-list .line.active .over{ opacity:1; }
-
-/* === KARAOKE INK STYLE (letters-only highlight, slimmer & elegant) === */
-#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .inner{ padding:0 2px; border-radius:4px; }
-#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .under{ color: #e6eaef; }
-#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-modal:not(.karaoke-ink) #cbjr-lyrics-list .line .over{
-  background: linear-gradient(90deg,#ffe27a 0%, #ffd84e 60%, #ffcd26 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 10px rgba(255,216,78,.25);
-  /* keep clip-path for progress */
-  clip-path: inset(0 calc(100% - var(--p, 0%)) 0 0);
-  opacity: 0;
-}
-#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line.active .over{ opacity: 1; }
-/* Optional: soft underline for current line (very subtle) */
-
-
-/* === Karaoke INK definitive rules === */
-#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .inner{ position:relative; display:inline-block; padding:0 2px; border-radius:4px; }
-#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .text{ padding:0; }
-#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .under{ color:#e6eaef; }
-#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line .over{
-  position:absolute; left:0; right:0; top:0; bottom:0; width:100%; height:100%;
-  color:#ffd84e; background:none; z-index:2;
-  opacity:0; pointer-events:none; white-space:nowrap;
-  clip-path: inset(0 calc(100% - var(--p, 0%)) 0 0);
-  will-change: clip-path;
-}
-#cbjr-lyrics-modal.karaoke-ink #cbjr-lyrics-list .line.active .over{ opacity:1; }
 </style></head>
 <body>
 <header>
@@ -3419,7 +3393,8 @@ body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible 
 <p id="medal"></p>
 <button id="restart-btn" style="display:none;">Reiniciar Quiz</button>
 <!-- NOVO: Botão para sair do quiz e voltar ao menu principal. Fica oculto até que o quiz seja iniciado -->
-<button class="exit-quiz-btn" id="exit-quiz-btn" style="display:none; margin-top: 10px;">Salvar &amp; Sair</button>
+<!-- Modificado: botão agora exibe "Salvar e Sair" -->
+<button class="exit-quiz-btn" id="exit-quiz-btn" style="display:none; margin-top: 10px;">Salvar e Sair</button>
 </div>
 <div id="level-up-message" style="display:none;"></div>
 <div id="points-popup" style="display:none;"></div>
@@ -4267,6 +4242,62 @@ function loadSong(song = null) {
 
     elements.audio.src = currentSongData.url;
 
+    // === Início da correção: Definição de título e artista no wrapper ===
+    // Ao carregar uma música, definimos os atributos data-title e data-artist no contêiner
+    // do player para que o buscador de letras consiga identificar corretamente a faixa.
+    // Remove prefixos como "Estúdio ..." ou "100%" separando pelo caractere ':'
+    // e mantendo apenas o último segmento como nome da música. Também trata casos em que
+    // o título inclui o artista antes do hífen.
+    try {
+        let rawTitle = currentSongData.title || '';
+        let cleanedTitle = rawTitle;
+        // Se houver um ':' no título, pega o segmento após o último ':'
+        if (cleanedTitle.includes(':')) {
+            const parts = cleanedTitle.split(':');
+            cleanedTitle = parts[parts.length - 1].trim();
+        }
+        // Se o título restante ainda contiver ' - ', pode ser no formato 'Artista - Música'
+        if (cleanedTitle.includes(' - ')) {
+            const hyphenParts = cleanedTitle.split(' - ');
+            if (hyphenParts.length === 2) {
+                cleanedTitle = hyphenParts[1].trim();
+            }
+        }
+        // Função auxiliar para higienizar o título, removendo prefixos indesejados como números, porcentagens,
+        // o próprio nome da banda, conteúdos entre parênteses e descritores como "Acústico", "Ao Vivo", etc.
+        function sanitizeTitle(t) {
+            if (!t) return '';
+            let out = t;
+            // Remove prefixos numéricos com ou sem porcentagem (ex.: "100% " ou "50% ")
+            out = out.replace(/^\s*\d{1,3}%?\s*/, '');
+            // Remove prefixo com apenas sinal de porcentagem (ex.: "% " no início)
+            out = out.replace(/^\s*%+\s*/, '');
+            // Remove o nome da banda se vier antes de um hífen no título (ex.: "Charlie Brown Jr - ")
+            out = out.replace(/^Charlie\s*Brown\s*Jr\.?\s*-\s*/i, '');
+            // Remove o nome da banda se estiver no início sem hífen (ex.: "Charlie Brown Jr Zóio...")
+            out = out.replace(/^Charlie\s*Brown\s*Jr\.?\s*/i, '');
+            // Remove conteúdos entre parênteses (ex.: "(ao vivo)", "(Acústico)")
+            out = out.replace(/\s*\(.*?\)\s*/g, ' ');
+            // Remove palavras-chave como "acústico", "acustico", "ao vivo", "live", "versão...", "bonus...", "remaster..."
+            out = out.replace(/\b(ac[uú]stico|acustico|ao\s+vivo|live|vers[aã]o\s*[^\s]*|bonus\s*[^\s]*|remaster(?:izado|ed)?|remasterizado)\b/gi, ' ');
+            // Remove hifens e dois-pontos restantes, substituindo-os por espaço
+            out = out.replace(/[-–:]/g, ' ');
+            // Remove qualquer pontuação restante (mantendo letras, números e acentos)
+            out = out.replace(/[^0-9A-Za-zÀ-ÿ\s]/g, ' ');
+            // Remove múltiplos espaços e trim
+            out = out.replace(/\s+/g, ' ').trim();
+            return out;
+        }
+        // Higieniza o título após remoção de prefixos colon/hífen
+        const finalTitle = sanitizeTitle(cleanedTitle);
+        // Atribui os atributos data-title e data-artist no wrapper do player
+        elements.audioPlayerWrapper.dataset.title = finalTitle;
+        elements.audioPlayerWrapper.dataset.artist = (currentSongData.artist || 'Charlie Brown Jr.').trim();
+    } catch (e) {
+        console.warn('Erro ao definir atributos data-title e data-artist:', e);
+    }
+    // === Fim da correção ===
+
     elements.playPauseBtn.disabled = false;
     elements.prevBtn.disabled = false;
     elements.nextBtn.disabled = false;
@@ -4701,6 +4732,46 @@ function showIntroMessage() {
         bonusBtn.onclick = showDiscoSelectionScreen;
     }
 
+    // === Início da correção: inserir botão "Continuar Quiz" se houver progresso salvo ===
+    try {
+        let hasSavedProgress = false;
+        let savedDifficulty = null;
+        const savedProgressJSON = localStorage.getItem('cobjr_quiz_progress');
+        if (savedProgressJSON) {
+            const saved = JSON.parse(savedProgressJSON);
+            if (saved && saved.quizState && saved.quizState.currentDifficulty) {
+                hasSavedProgress = true;
+                savedDifficulty = saved.quizState.currentDifficulty;
+            }
+        }
+        if (hasSavedProgress) {
+            const container = elements.welcomeScreen.querySelector('.message-buttons');
+            if (container) {
+                const continueBtn = document.createElement('button');
+                continueBtn.id = 'continue-quiz-button';
+                continueBtn.innerHTML = '<i class="fas fa-redo"></i> Continuar Quiz';
+                continueBtn.onclick = () => {
+                    try {
+                        const progJSON = localStorage.getItem('cobjr_quiz_progress');
+                        if (progJSON) {
+                            const prog = JSON.parse(progJSON);
+                            if (prog && prog.quizState && prog.quizState.currentDifficulty) {
+                                startQuiz(prog.quizState.currentDifficulty);
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Erro ao tentar continuar quiz salvo:', e);
+                    }
+                };
+                // Insere o botão no início da lista de botões para dar destaque
+                container.prepend(continueBtn);
+            }
+        }
+    } catch (e) {
+        console.error('Erro ao verificar progresso salvo:', e);
+    }
+    // === Fim da correção ===
+
     // Ao exibir a tela de boas‑vindas, mova o player para dentro da caixa de introdução.
     // Isso garante que o player apareça logo abaixo da mensagem de boas‑vindas e
     // permaneça visível, permitindo que o usuário escute músicas sem iniciar o quiz.
@@ -4758,7 +4829,6 @@ function showDifficultyScreen() {
             Selecione uma dificuldade para começar o quiz principal.
         </p>
         <div class="message-buttons">
-            <button id="resume-progress-btn" style="display:none"><i class="fa-solid fa-rotate-right"></i> Continuar de onde parei</button>
             <button id="start-easy-btn"><i class="fas fa-skate"></i> Fácil</button>
             <button id="start-normal-btn"><i class="fas fa-brain"></i> Normal</button>
             <button id="start-hard-btn"><i class="fas fa-skull"></i> Difícil</button>
@@ -4774,21 +4844,6 @@ function showDifficultyScreen() {
     elements.startHardBtn.onclick = () => startQuiz('hard');
     
     document.getElementById('back-to-main-menu-from-difficulty-btn').onclick = showIntroMessage;
-    // Exibe "Continuar de onde parei" quando existe progresso salvo e casa com a dificuldade
-    try {
-        const saved = JSON.parse(localStorage.getItem('cobjr_quiz_progress') || 'null');
-        const resumeBtn = document.getElementById('resume-progress-btn');
-        const savedDiff = saved && saved.quizState && saved.quizState.currentDifficulty;
-        if (resumeBtn) {
-            if (savedDiff === 'easy' || savedDiff === 'normal' || savedDiff === 'hard') {
-                resumeBtn.style.display = '';
-                resumeBtn.onclick = () => startQuiz(savedDiff);
-            } else {
-                resumeBtn.style.display = 'none';
-            }
-        }
-    } catch (e) { console.warn('Resume validation error', e); }
-
 }
 
 // ---------------------------------------------------------------------------
@@ -4873,12 +4928,8 @@ function startQuiz(difficulty) {
                     quizState.currentLevelQuestions = savedProgress.currentLevelQuestions;
                 }
                 // Esconder a tela de boas‑vindas e mostrar a área do quiz
-                elements.welcomeScreen.classList.remove('show');
                 elements.welcomeScreen.style.display = 'none';
-                try { hideMainOverlay(); } catch(e) {}
                 elements.quiz.style.display = 'flex';
-                elements.quiz.style.pointerEvents = 'all';
-                document.querySelectorAll('.answer-button').forEach(b=>{b.disabled=false; b.style.pointerEvents=''; b.classList.remove('correct','incorrect','glow-correct','glow-incorrect');});
                 elements.livesDisplay.style.display = '';
                 elements.powerUpsContainer.style.display = '';
                 // Atualizar HUD e mostrar a pergunta atual
@@ -4892,8 +4943,12 @@ function startQuiz(difficulty) {
                     exitBtn.style.display = 'inline-block';
                     exitBtn.onclick = exitQuiz;
                 }
-                try { hideMainOverlay(); } catch(e) {}
+                // Oculta o overlay principal para que a tela do quiz fique interativa
+                hideMainOverlay();
+
                 showQuestion();
+                // Garante que o usuário possa interagir com o quiz ao retomar progresso salvo
+                elements.quiz.style.pointerEvents = 'all';
                 return;
             }
         }
@@ -4913,8 +4968,6 @@ function startQuiz(difficulty) {
         hideMainOverlay();
         
         elements.quiz.style.display = 'flex';
-                elements.quiz.style.pointerEvents = 'all';
-                document.querySelectorAll('.answer-button').forEach(b=>{b.disabled=false; b.style.pointerEvents=''; b.classList.remove('correct','incorrect','glow-correct','glow-incorrect');});
         
         Object.assign(quizState, {
             currentLevel: 0,
@@ -5464,24 +5517,6 @@ function closeAchievementsScreen() {
     }, { once: true });
 }
 
-
-// Helper: safely render question text while allowing <br> line breaks and a few placeholders ("br", [br], \n)
-function setQuestionHTML(el, raw){
-  try{
-    let s = String(raw == null ? '' : raw);
-    // normalize common placeholders to <br>
-    s = s
-      .replace(/&lt;br\s*\/?&gt;/gi, '<br>')
-      .replace(/"\s*br\s*"/gi, '<br>')   // case from data like "br"
-      .replace(/\[\s*br\s*\]/gi, '<br>') // [br]
-      .replace(/\(\s*br\s*\)/gi, '<br>'); // (br)
-    // convert newlines to <br>
-    s = s.replace(/\r?\n/g, '<br>');
-    el.innerHTML = s;
-  }catch(e){
-    el.textContent = raw;
-  }
-}
 function showQuestion() {
     console.log(`showQuestion: Exibindo Pergunta Nível ${quizState.currentLevel + 1}, Pergunta ${quizState.currentQuestionIndexInLevel + 1}. Vidas: ${quizState.lives}`);
     if (quizState.quizPaused) {
@@ -5513,43 +5548,10 @@ function showQuestion() {
 
     const questionData = quizState.currentLevelQuestions[quizState.currentQuestionIndexInLevel];
     const shuffledAnswers = [...questionData.respostas];
-    // FAST_MODE: se já existe um contêiner de pergunta, apenas reutiliza e atualiza os botões (evita recriar DOM)
-    if (window.QUIZ_FAST_MODE === true) {
-        const existing = elements.quiz.querySelector('.question');
-        if (existing) {
-            const qh = existing.querySelector('#current-question-text');
-            if (qh) setQuestionHTML(qh, questionData.pergunta);
-            const btns = existing.querySelectorAll('.answer-button');
-            const total = Math.min(btns.length, shuffledAnswers.length);
-            for (let i = 0; i < total; i++) {
-                const b = btns[i];
-                const resp = shuffledAnswers[i];
-                b.dataset.answer = resp;
-                b.dataset.correct = questionData.correta;
-                b.innerHTML = '<span class="keyboard-shortcut">' + (i+1) + '</span>' + resp;
-                b.disabled = false;
-                b.style.pointerEvents = '';
-                b.classList.remove('correct','incorrect','glow-correct','glow-incorrect');
-            }
-            // Se tiver mais respostas do que botões, ignora as extras; se tiver menos, oculta os excedentes
-            for (let j = total; j < btns.length; j++) {
-                btns[j].style.display = 'none';
-            }
-            // Garante que curiosidades sejam reiniciadas
-            const cur = existing.querySelector('.curiosity-sidebar-box');
-            if (cur) cur.innerHTML = '';
-            quizState.isProcessingAnswer = false;
-            elements.quiz.style.pointerEvents = 'all';
-            updateQuizInfo();
-            startTimer();
-            return;
-        }
-    }
-
     shuffleArray(shuffledAnswers);
 
     questionElement.innerHTML = `
-        <h3 id="current-question-text"></h3>
+        <h3 id="current-question-text">${questionData.pergunta}</h3>
         <div class="question-content">
             <div class="answers-container">
                 ${shuffledAnswers.map((resposta, index) => `
@@ -5562,26 +5564,34 @@ function showQuestion() {
             </div>
         </div>
     `;
-        // Apply safe HTML with <br> support
-        setQuestionHTML(questionElement.querySelector('#current-question-text'), questionData.pergunta);
-
 
     const currentQuizContent = elements.quiz.querySelector('.question');
-const useFast = (window.QUIZ_FAST_MODE === true);
-if (currentQuizContent && !useFast) {
-    currentQuizContent.classList.add('fade-out');
-    currentQuizContent.addEventListener('transitionend', function handler() {
+    if (currentQuizContent) {
+        currentQuizContent.classList.add('fade-out');
+        currentQuizContent.addEventListener('transitionend', function handler() {
+            elements.quiz.innerHTML = '';
+            elements.quiz.appendChild(questionElement);
+            
+            questionElement.querySelectorAll('.answer-button').forEach((button, i) => {
+                setTimeout(() => {
+                    button.classList.add('show');
+                }, i * 100);
+            });
+            updateQuizInfo();
+            startTimer();
+            currentQuizContent.removeEventListener('transitionend', handler);
+        }, { once: true });
+    } else {
         elements.quiz.innerHTML = '';
         elements.quiz.appendChild(questionElement);
-        questionElement.querySelectorAll('.answer-button').forEach((button, i) => { setTimeout(() => { button.classList.add('show'); }, i * 80); });
-        updateQuizInfo(); startTimer(); currentQuizContent.removeEventListener('transitionend', handler);
-    }, { once: true });
-} else {
-    elements.quiz.innerHTML = '';
-    elements.quiz.appendChild(questionElement);
-    questionElement.querySelectorAll('.answer-button').forEach((button, i) => { if (useFast) { button.classList.add('show'); } else { setTimeout(() => { button.classList.add('show'); }, i * 80); } });
-    updateQuizInfo(); startTimer();
-}
+        questionElement.querySelectorAll('.answer-button').forEach((button, i) => {
+            setTimeout(() => {
+                button.classList.add('show');
+            }, i * 100);
+        });
+        updateQuizInfo();
+        startTimer();
+    }
 }
 
 function handleQuizClick(event) {
@@ -5665,19 +5675,12 @@ function handleQuizClick(event) {
 
     const clickedButton = event.target.closest('.answer-button');
     if (clickedButton) {
-        event.stopPropagation();
-        try {
-            if (quizState.isProcessingAnswer) return;
-            quizState.isProcessingAnswer = true;
-            elements.quiz.style.pointerEvents = 'none';
-            const answer = clickedButton.dataset.answer;
-            const correta = clickedButton.dataset.correct;
-            checkAnswer(clickedButton, answer, correta);
-        } catch (err) {
-            console.warn('handleQuizClick falhou; restaurando UI', err);
-            quizState.isProcessingAnswer = false;
-            elements.quiz.style.pointerEvents = 'all';
-        }
+        quizState.isProcessingAnswer = true;
+        elements.quiz.style.pointerEvents = 'none';
+
+        const answer = clickedButton.dataset.answer;
+        const correta = clickedButton.dataset.correct;
+        checkAnswer(clickedButton, answer, correta);
     }
 }
 
@@ -7613,15 +7616,14 @@ window.onload = () => {
   }catch(e){}
 })();
 </script>
-<script id="CBJR_LYRICS_V26_JS">
-(()=>{
-  const $=s=>document.querySelector(s);
-  const qOverlay=()=>$('#model3-overlay')||$('#audio-player-wrapper')||document.querySelector('[id*="player"]');
-  const qAudio=(r)=> (r&&r.querySelector('audio')) || $('#model3-overlay audio') || document.querySelector('audio');
 
-  // Drag do player
-  (function dragInit(){
-    const KEY='cbjr_drag_v17_tx_ty';
+<script id="CBJR_DRAG_LYRICS_V24">
+(()=>{
+  const LOG=(...a)=>{ try{ console.debug('[CBJR]',...a); }catch(_){} };
+
+  (function(){
+    const KEY='cbjr_drag_v17_tx_ty', $=s=>document.querySelector(s);
+    const getTarget=()=>$('#model3-overlay')||$('#audio-player-wrapper')||document.querySelector('[id*="player"]');
     const parseTM=tm=>{
       if(!tm||tm==='none') return {tx:0,ty:0};
       let m=tm.match(/matrix\([^,]+,[^,]+,[^,]+,[^,]+,([^,]+),([^,\)]+)\)/);
@@ -7636,7 +7638,7 @@ window.onload = () => {
     }
     function canStart(e){ return !e.target.closest('#cbjr-lyrics-toggle, [data-no-drag], button, a, input, [role="button"], .slider, .progress, .seekbar'); }
     function init(){
-      const t=qOverlay(); if(!t){ return; }
+      const t=getTarget(); if(!t){ return; }
       ensureUI(t);
       try{ const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s&&(s.tx||s.ty)) t.style.transform=`translate(${s.tx}px,${s.ty}px)`; }catch(_){}
       let dragging=false,sx=0,sy=0,startTX=0,startTY=0;
@@ -7671,25 +7673,20 @@ window.onload = () => {
     new MutationObserver(init).observe(document.body,{childList:true,subtree:true});
   })();
 
-  // Letras
-  (function lyricsInit(){
+  (function(){
     const KEY_OFF='cbjr_lrc_offset_by_track_v3';
     const KEY_LRC='cbjr_lrc_cache_by_track_v1';
+    const $=s=>document.querySelector(s);
+    const qOverlay=()=>$('#model3-overlay')||$('#audio-player-wrapper')||document.querySelector('[id*="player"]');
+    const qAudio=(r)=> (r&&r.querySelector('audio')) || $('#model3-overlay audio') || document.querySelector('audio');
 
     function ensureUI(){
-      let modal=$('#cbjr-lyrics-modal');
-      if(!modal){
-        modal=document.createElement('div'); modal.id='cbjr-lyrics-modal';
-        modal.classList.add('karaoke-ink');
-        modal.innerHTML=`<div id="cbjr-lyrics-box" role="dialog" aria-modal="true">
+      let m=$('#cbjr-lyrics-modal');
+      if(!m){
+        m=document.createElement('div'); m.id='cbjr-lyrics-modal';
+        m.innerHTML=`<div id="cbjr-lyrics-box" role="dialog" aria-modal="true">
           <div id="cbjr-lyrics-head">
-            <div id="cbjr-lyrics-meta">
-              <img id="cbjr-lyrics-cover" alt="capa" src="">
-              <div id="cbjr-lyrics-title-wrap">
-                <div id="cbjr-lyrics-title">Letra</div>
-                <div id="cbjr-lyrics-artist"></div>
-              </div>
-            </div>
+            <div id="cbjr-lyrics-title">Letra sincronizada</div>
             <div id="cbjr-lyrics-controls">
               <button id="cbjr-lyrics-minus" title="Atrasar -0.1s">−0.1s</button>
               <button id="cbjr-lyrics-plus"  title="Adiantar +0.1s">+0.1s</button>
@@ -7698,34 +7695,38 @@ window.onload = () => {
           </div>
           <div id="cbjr-lyrics-list"><div id="cbjr-lyrics-empty">Carregando…</div></div>
         </div>`;
-        document.body.appendChild(modal);
+        document.body.appendChild(m);
       }
-      if(!$('#cbjr-lyrics-fallback')){
-        const fb=document.createElement('button'); fb.id='cbjr-lyrics-fallback'; fb.textContent='♪'; fb.title='Letra (fallback)'; fb.style.display='none'; document.body.appendChild(fb);
+      let fb=$('#cbjr-lyrics-fallback');
+      if(!fb){
+        fb=document.createElement('button'); fb.id='cbjr-lyrics-fallback'; fb.textContent='♪'; fb.title='Letra (fallback)';
+        fb.style.display='none'; document.body.appendChild(fb);
       }
     }
-
     function placeBtn(){
       const ov=qOverlay(); const fb=$('#cbjr-lyrics-fallback');
-      if(!ov){ if(fb) fb.style.display='grid'; return null; }
+      if(!ov){
+        if(fb) fb.style.display='grid';
+        return null;
+      }
       if(fb) fb.style.display='none';
       let b=ov.querySelector('#cbjr-lyrics-toggle');
-      if(!b){ b=document.createElement('button'); b.id='cbjr-lyrics-toggle'; b.textContent='♪'; b.title='Letra sincronizada'; ov.appendChild(b); }
+      if(!b){
+        b=document.createElement('button'); b.id='cbjr-lyrics-toggle'; b.textContent='♪'; b.title='Letra sincronizada';
+        b.setAttribute('aria-label','Abrir letra sincronizada');
+        ov.appendChild(b);
+      }
       return b;
     }
 
+    const stripAcc=s=> (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
     function cleanTitle(s){
       if(!s) return '';
-      s=s.replace(/^\s*\d{1,3}\s*[-–.:)]*\s*/,'')
-         .replace(/\s*\((?:ao vivo|live|ac[uú]stico|remaster(?:izado|ed)?|vers[aã]o.*?|bonus.*?)\)\s*/ig,'')
-         .replace(/\s*-\s*(ao vivo|live|ac[uú]stico|remaster(?:izado|ed)?|bonus.*)$/ig,'')
-         .replace(/\s+/g,' ').trim();
+      s = s.replace(/^\s*\d{1,3}\s*[-–.:)]*\s*/,'');          
+      s = s.replace(/\s*\((?:ao vivo|live|ac[uú]stico|remaster(?:izado|ed)?|vers[aã]o.*?|bonus.*?)\)\s*/ig,'');
+      s = s.replace(/\s*-\s*(ao vivo|live|ac[uú]stico|remaster(?:izado|ed)?|bonus.*)$/ig,'');
+      s = s.replace(/\s+/g,' ').trim();
       return s;
-    }
-    function coverSrc(){
-      const ov=qOverlay();
-      const img = ov?.querySelector('img');
-      return (img && (img.currentSrc||img.src)) || '';
     }
     function meta(){
       const ov=qOverlay(), au=qAudio(ov);
@@ -7737,51 +7738,61 @@ window.onload = () => {
       const dT=ov?.dataset?.title||'', dA=ov?.dataset?.artist||'';
       let title=dT||uiT||(by.length>1?by[1]:file);
       let artist=dA||uiA||(by.length>1?by[0]:'Charlie Brown Jr.');
-      return {title:cleanTitle(title.replace(/_/g,' ')), artist:(artist||'Charlie Brown Jr.').replace(/_/g,' '), src, dur:(qAudio(ov)?.duration||0), cover:coverSrc()};
+      return {title:cleanTitle(title.replace(/_/g,' ')), artist:(artist||'Charlie Brown Jr.').replace(/_/g,' '), src};
     }
 
-    async function fetchWithFallback(url){
-      try{
-        const r=await fetch(url,{mode:'cors'});
-        if(r.ok) return r;
-        throw new Error('HTTP '+r.status);
-      }catch(e){
-        const prox='https://cors.isomorphic-git.org/';
-        const r=await fetch(prox+url,{mode:'cors'});
-        if(r.ok) return r;
-        throw e;
-      }
-    }
     async function lrclibQuery(t,a){
       const qs=new URLSearchParams({track_name:t, artist_name:a});
-      const url='https://lrclib.net/api/search?'+qs.toString();
-      const r=await fetchWithFallback(url);
-      const arr=await r.json();
-      if(!Array.isArray(arr)||!arr.length) return null;
-      const norm=s=>(s||'').toLowerCase().normalize('NFKD').replace(/[^\w\s]/g,'').replace(/\s+/g,' ').trim();
-      const nt=norm(t), na=norm(a);
-      let best=null,score=-1;
-      for(const it of arr){
-        const sc=(it.trackName?(norm(it.trackName)===nt?3:(norm(it.trackName).includes(nt)?2:0)):0)
-                +(it.artistName?(norm(it.artistName)===na?3:(norm(it.artistName).includes(na)?2:0)):0)
-                +(it.syncedLyrics?2:0)+(it.plainLyrics?1:0);
-        if(sc>score){ score=sc; best=it; }
-      }
-      if(!best) return null;
-      if(best.syncedLyrics && best.syncedLyrics.trim()) return {kind:'lrc', text:best.syncedLyrics};
-      if(best.plainLyrics && best.plainLyrics.trim()) return {kind:'plain', text:best.plainLyrics};
+      try{
+        const r=await fetch('https://lrclib.net/api/search?'+qs.toString(),{cache:'no-store'});
+        if(!r.ok) return null;
+        const arr=await r.json(); if(!Array.isArray(arr)||!arr.length) return null;
+        const norm=s=>(s||'').toLowerCase().normalize('NFKD').replace(/[^\w\s]/g,'').replace(/\s+/g,' ').trim();
+        const nt=norm(t), na=norm(a);
+        let best=null,score=-1;
+        for(const it of arr){
+          const trackNorm = it.trackName ? norm(it.trackName) : '';
+          const artistNorm = it.artistName ? norm(it.artistName) : '';
+          // Desconsidera resultados que não contenham a faixa ou o artista pesquisados
+          if(nt && trackNorm && !trackNorm.includes(nt)) continue;
+          if(na && artistNorm && !artistNorm.includes(na)) continue;
+          // Atribui pontuações mais altas para correspondências exatas e parciais
+          let sc = 0;
+          if(trackNorm){ sc += (trackNorm === nt ? 3 : 2); }
+          if(artistNorm){ sc += (artistNorm === na ? 3 : 2); }
+          sc += (it.syncedLyrics?2:0) + (it.plainLyrics?1:0);
+          if(sc>score){ score=sc; best=it; }
+        }
+        if(!best) return null;
+        if(best.syncedLyrics && best.syncedLyrics.trim()) return {kind:'lrc', text:best.syncedLyrics};
+        if(best.plainLyrics && best.plainLyrics.trim()) return {kind:'plain', text:best.plainLyrics};
+      }catch(_){}
       return null;
     }
+
+    async function lrclibSmart(q){
+      const t0=q.title, a0=q.artist;
+      const t1=cleanTitle(t0);
+      const t2=stripAcc(t1), a2=stripAcc(a0);
+      const tries=[ [t0,a0], [t1,a0], [t2,a2] ];
+      for(const [t,a] of tries){
+        const hit=await lrclibQuery(t,a);
+        if(hit) return hit;
+      }
+      return null;
+    }
+
     const autoSync=(plain,dur)=>{
       const lines=(plain||'').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
       if(!lines.length||!dur) return null;
-      const step=Math.max(1.5, dur/(lines.length+2));
-      let t=0.8;
+      // Ajuste fino: velocidade ligeiramente maior e início mais cedo para sincronizar melhor
+      const step=Math.max(1.0, dur/(lines.length+2));
+      let t=0.5;
       const pad=n=>n<10?('0'+n):(''+n);
-      const fmt=s=>{const mm=Math.floor(s/60),ss=Math.floor(s%60),cs=Math.floor((s*100)%100);
-        return `[${pad(mm)}:${pad(ss)}.${(cs<10?'0':'')+cs}]`};
+      const fmt=s=>{const mm=Math.floor(s/60),ss=Math.floor(s%60),cs=Math.floor((s*100)%100);return `[${pad(mm)}:${pad(ss)}.${(cs<10?'0':'')+cs}]`;};
       return lines.map(ln=>{const out=`${fmt(t)} ${ln}`; t+=step; return out;}).join('\n');
     };
+
     function parseLRC(txt){
       const L=txt.split(/\r?\n/), out=[], meta={offset:0};
       for(const raw of L){
@@ -7799,15 +7810,12 @@ window.onload = () => {
       out.sort((a,b)=>a.t-b.t);
       return {lines:out, meta};
     }
+
     function render(list, parsed){
       list.innerHTML='';
       if(!parsed || !parsed.lines.length){ list.innerHTML='<div id="cbjr-lyrics-empty">Letra não encontrada para esta faixa.</div>'; return; }
       for(const {t,text} of parsed.lines){
-        const d=document.createElement('div'); d.className='line'; d.dataset.t=t;
-        const inner=document.createElement('span'); inner.className='inner';
-        const under=document.createElement('span'); under.className='text under'; under.textContent=text||'…';
-        const over=document.createElement('span'); over.className='text over'; over.setAttribute('aria-hidden','true'); over.textContent=text||'…';
-        inner.appendChild(under); inner.appendChild(over); d.appendChild(inner); list.appendChild(d);
+        const d=document.createElement('div'); d.className='line'; d.dataset.t=t; d.textContent=text||'…'; list.appendChild(d);
       }
     }
     function curIdx(lines,sec){ let lo=0,hi=lines.length-1,ans=-1; while(lo<=hi){ const mid=(lo+hi)>>1; if(lines[mid].t<=sec){ ans=mid; lo=mid+1; } else hi=mid-1; } return ans; }
@@ -7815,12 +7823,10 @@ window.onload = () => {
     function wire(au){
       const modal=$('#cbjr-lyrics-modal'), list=$('#cbjr-lyrics-list'),
             title=$('#cbjr-lyrics-title'),
-            artist=$('#cbjr-lyrics-artist'),
-            cover=$('#cbjr-lyrics-cover'),
             close=$('#cbjr-lyrics-close'),
             plus=$('#cbjr-lyrics-plus'), minus=$('#cbjr-lyrics-minus');
 
-      let parsed=null, raf=null, last=-1, lastEl=null, trackKey='', offsets={}, cache={};
+      let parsed=null, raf=null, last=-1, trackKey='', offsets={}, cache={};
       try{ offsets=JSON.parse(localStorage.getItem(KEY_OFF)||'{}'); }catch(_){ offsets={}; }
       try{ cache=JSON.parse(localStorage.getItem(KEY_LRC)||'{}'); }catch(_){ cache={}; }
 
@@ -7829,46 +7835,38 @@ window.onload = () => {
         const user=(offsets[trackKey]||0)/1000, base=(parsed.meta?.offset||0)/1000, sec=(au.currentTime||0)+base+user;
         const idx=curIdx(parsed.lines,sec);
         if(idx!==last){
-          if(lastEl){ lastEl.classList.remove('active'); lastEl.style.setProperty('--p','0%'); }
+          const prev=list.querySelector('.line.active'); if(prev) prev.classList.remove('active');
           if(idx>=0){
             const el=list.children[idx]; if(el){
-              el.classList.add('active'); lastEl=el;
+              el.classList.add('active');
               const y=el.offsetTop-(list.clientHeight/2-el.clientHeight/2);
-              list.scrollTo({top:Math.max(0,y),behavior:'auto'});
+              list.scrollTo({top:Math.max(0,y),behavior:'smooth'});
             }
           }
           last=idx;
-        }
-        if(last>=0){
-          const aT=parsed.lines[last].t;
-          const bT=(last+1<parsed.lines.length? parsed.lines[last+1].t : aT+3);
-          const ratio=Math.max(0,Math.min(1,(sec-aT)/(bT-aT||1)));
-          if(lastEl) lastEl.style.setProperty('--p', (ratio*100).toFixed(2)+'%');
         }
         raf=requestAnimationFrame(tick);
       }
 
       async function load(){
-        cancelAnimationFrame(raf); raf=null; last=-1; parsed=null; lastEl=null;
+        cancelAnimationFrame(raf); raf=null; last=-1; parsed=null;
         list.innerHTML='<div id="cbjr-lyrics-empty">Carregando…</div>';
-        const m=meta();
-        title.textContent=m.title||'Faixa';
-        artist.textContent=m.artist||'';
-        if(m.cover) cover.src=m.cover;
-        trackKey=(m.src&&m.src.split('/').pop()) || m.title+'—'+m.artist;
+        const m=meta(); title.textContent=`${m.title||'Faixa'} — ${m.artist||'Artista'}`;
+        trackKey = (m.src&&m.src.split('/').pop()) || m.title+'—'+m.artist;
         const dur=isFinite(au.duration)?au.duration:0;
 
+        let cache;
+        try{ cache=JSON.parse(localStorage.getItem(KEY_LRC)||'{}'); }catch(_){ cache={}; }
         if(cache[trackKey]){ parsed=parseLRC(cache[trackKey]); render(list,parsed); raf=requestAnimationFrame(tick); return; }
 
         let lrc=null;
         try{
-          const hit=await lrclibQuery(m.title, m.artist);
+          const hit=await lrclibSmart(m);
           if(hit && hit.kind==='lrc') lrc=hit.text;
           else if(hit && hit.kind==='plain') lrc=autoSync(hit.text,dur)||null;
-        }catch(err){
-          list.innerHTML='<div id="cbjr-lyrics-empty">Falha ao buscar letras.</div>'; console.warn('Lyrics fetch error:', err); return;
-        }
+        }catch(_){}
         if(!lrc){ parsed={lines:[]}; render(list,parsed); return; }
+
         cache[trackKey]=lrc; try{ localStorage.setItem(KEY_LRC, JSON.stringify(cache)); }catch(_){}
         parsed=parseLRC(lrc); render(list,parsed); raf=requestAnimationFrame(tick);
       }
@@ -7877,11 +7875,14 @@ window.onload = () => {
       function closeM(){ modal.style.display='none'; cancelAnimationFrame(raf); raf=null; }
       close.onclick=closeM; modal.addEventListener('click',e=>{ if(e.target===modal) closeM(); });
 
-      function bump(ms){ if(!trackKey) return; offsets[trackKey]=Math.round((offsets[trackKey]||0)+ms); try{ localStorage.setItem(KEY_OFF, JSON.stringify(offsets)); }catch(_){ } }
+      function bump(ms){ if(!trackKey) return; let ofs={}; try{ ofs=JSON.parse(localStorage.getItem(KEY_OFF)||'{}'); }catch(_){}
+      ofs[trackKey]=Math.round((ofs[trackKey]||0)+ms); try{ localStorage.setItem(KEY_OFF, JSON.stringify(ofs)); }catch(_){ } }
       minus.onclick=()=>bump(-100); plus.onclick=()=>bump(+100);
 
       let lastSrc='';
       (function watch(){ const s=(qAudio(qOverlay())?.currentSrc||au.currentSrc||''); if(s && s!==lastSrc){ lastSrc=s; if(modal.style.display==='flex') load(); last=-1; } requestAnimationFrame(watch); })();
+
+      addEventListener('keydown',e=>{ if(e.key.toLowerCase()==='l'){ if(modal.style.display==='flex') closeM(); else load().then(open);} });
 
       return {load,open,close:closeM};
     }
@@ -7913,7 +7914,5 @@ window.onload = () => {
   })();
 })();
 </script>
-<!-- FAST MODE -->
-<script>window.QUIZ_FAST_MODE = true;</script>
 </body>
 </html>
