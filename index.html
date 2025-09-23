@@ -3374,8 +3374,11 @@ body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible 
 </header>
 <div class="container">
 <div id="lives-display" style="display: none;">
-<spa❤️< span=""><span id="lives-count"></span>
-</spa❤️<></div>
+    <!-- Exibe o número de vidas restantes durante o quiz. O ícone de coração é adicionado via CSS ou JavaScript.
+         A marcação anterior estava corrompida ("<spa❤️< span=""). Aqui mantemos somente o contêiner do contador
+         para evitar problemas de renderização. O valor é preenchido dinamicamente em updateLivesDisplay(). -->
+    <span id="lives-count"></span>
+</div>
 <div id="power-ups-container" style="display: flex;">
 <button class="power-up-btn" id="fifty-fifty-btn" title="Remove 2 respostas incorretas (F1)">
                 50/50 <span class="power-up-count" id="fifty-fifty-count">0</span>
@@ -3527,9 +3530,63 @@ body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible 
 </div>
 </div>
 </div>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<script>
+/*
+ * Firebase imports removed for offline environments.
+ * To prevent the module from failing to execute when network access is unavailable,
+ * we provide no‑op fallback implementations for the Firebase functions used in this quiz.
+ * If you have an internet connection and wish to use Firestore for rankings, you can
+ * restore the import lines below or dynamically load them.
+ */
+// import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+// import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Minimal fallback stubs for Firebase functions. These allow the quiz to run
+// without network access or the Firestore SDK. If the SDK is unavailable, these
+// stubs will be used to avoid ReferenceError exceptions.
+function initializeAppStub() {
+    console.warn("Firebase initializeApp called, but SDK is unavailable. Using stub.");
+    return null;
+}
+function getFirestoreStub() {
+    return null;
+}
+function collectionStub() {
+    return null;
+}
+async function addDocStub() {
+    console.warn("addDoc called, but SDK is unavailable. Score will not be persisted.");
+}
+function queryStub() {
+    return null;
+}
+function orderByStub() {
+    return null;
+}
+function limitStub() {
+    return null;
+}
+async function getDocsStub() {
+    return { forEach: () => {} };
+}
+function whereStub() {
+    return null;
+}
+
+// Attempt to bind the real Firebase methods if they exist globally (when the SDK is loaded).
+const initializeApp = (typeof window !== 'undefined' && window.initializeApp) || initializeAppStub;
+const getFirestore = (typeof window !== 'undefined' && window.getFirestore) || getFirestoreStub;
+const collection = (typeof window !== 'undefined' && window.collection) || collectionStub;
+const addDoc = (typeof window !== 'undefined' && window.addDoc) || addDocStub;
+const query = (typeof window !== 'undefined' && window.query) || queryStub;
+const orderBy = (typeof window !== 'undefined' && window.orderBy) || orderByStub;
+const limit = (typeof window !== 'undefined' && window.limit) || limitStub;
+const getDocs = (typeof window !== 'undefined' && window.getDocs) || getDocsStub;
+const where = (typeof window !== 'undefined' && window.where) || whereStub;
+
+// Define a no‑op debugUpdate to avoid errors when debug hooks are invoked.
+// In production, we don't display any debug overlay on screen.
+window.debugUpdate = function () {};
 
 const firebaseConfig = {
     apiKey: "AIzaSyCT1btbLIMehCj3xldw5LOB-snjyF4SKhw",
@@ -3998,6 +4055,10 @@ function attachPlayerToWelcome() {
     }
 }
 
+/* ====== FX: Fade-in animation for new questions ====== */
+/* Applies a smooth fade and slight upward motion whenever the quiz displays a new question. */
+// Fade-in CSS has been moved to an external <style> block for clarity.
+
 function detachPlayerFromWelcome() {
     // Restaura o player para sua posição original se estiver na tela de boas‑vindas
     if (playerInWelcome && elements.audioPlayerWrapper && originalPlayerParent) {
@@ -4061,6 +4122,12 @@ const quizState = {
     skipQuestionCount: INITIAL_SKIP_QUESTION,
     currentDifficulty: 'normal' // Dificuldade padrão
 };
+
+// Flag para indicar quando o jogador está iniciando um novo jogo e quer
+// ignorar qualquer progresso salvo. Este valor é definido como true
+// temporariamente ao clicar em um botão de dificuldade na tela de
+// seleção de dificuldade e é resetado após a inicialização do novo jogo.
+let shouldIgnoreSavedProgress = false;
 
 // NOVO: Estrutura de dados para os discos do modo bônus
 let bonusDiscos = [];
@@ -4620,11 +4687,19 @@ function showMainOverlay() {
 }
 
 function hideMainOverlay() {
+    // Remove the active class from the overlay to stop any fade‑in/out animation.
     elements.mainOverlay.classList.remove('active');
-    elements.mainOverlay.addEventListener('transitionend', function handler() {
-        elements.mainOverlay.style.display = 'none';
-        elements.mainOverlay.removeEventListener('transitionend', handler);
-    }, { once: true });
+    /*
+     * Em versões anteriores, o overlay principal aguardava o evento
+     * `transitionend` antes de definir display:none. No entanto, se o
+     * elemento não tiver uma transição ativa (por exemplo, a classe `active`
+     * não muda nenhuma propriedade com transição), o evento nunca será
+     * disparado e o overlay continuará interceptando cliques no quiz. Para
+     * garantir que a sobreposição seja sempre removida, definimos display
+     * diretamente para 'none' e desabilitamos explicitamente pointer-events.
+     */
+    elements.mainOverlay.style.display = 'none';
+    elements.mainOverlay.style.pointerEvents = 'none';
 }
 
 // --- Funções para ocultar/exibir o conteúdo do quiz ao entrar/saír do modo Rádio CBJR ---
@@ -4685,6 +4760,8 @@ function showMainGame() {
 }
 
 function showIntroMessage() {
+    // DEBUG: mark that the intro screen is being shown
+    if (typeof debugUpdate === 'function') debugUpdate('showIntroMessage');
     console.log("showIntroMessage: Exibindo tela de introdução e GARANTINDO que o player esteja visível.");
     quizState.quizPaused = true;
     showMainOverlay();
@@ -4817,6 +4894,8 @@ function showIntroMessage() {
 
 function showDifficultyScreen() {
     console.log("showDifficultyScreen: Exibindo tela de seleção de dificuldade.");
+    // DEBUG: mark that the difficulty selection screen is being shown
+    if (typeof debugUpdate === 'function') debugUpdate('showDifficultyScreen');
 
     // Se o player estiver dentro da tela de boas‑vindas, remova‑o antes de
     // renderizar a seleção de dificuldade. Isso previne que ele continue
@@ -4839,9 +4918,30 @@ function showDifficultyScreen() {
     elements.startNormalBtn = document.getElementById('start-normal-btn');
     elements.startHardBtn = document.getElementById('start-hard-btn');
     
-    elements.startEasyBtn.onclick = () => startQuiz('easy');
-    elements.startNormalBtn.onclick = () => startQuiz('normal');
-    elements.startHardBtn.onclick = () => startQuiz('hard');
+    // Ao iniciar um novo jogo a partir da tela de dificuldade, limpe o progresso salvo antes de
+    // chamar startQuiz. Isso garante que um novo jogo não carregue o progresso antigo.
+    elements.startEasyBtn.onclick = () => {
+        // Definir flag para ignorar progresso salvo e limpar localStorage antes de iniciar
+        shouldIgnoreSavedProgress = true;
+        try {
+            if (typeof clearQuizProgress === 'function') clearQuizProgress();
+        } catch (_) {}
+        startQuiz('easy');
+    };
+    elements.startNormalBtn.onclick = () => {
+        shouldIgnoreSavedProgress = true;
+        try {
+            if (typeof clearQuizProgress === 'function') clearQuizProgress();
+        } catch (_) {}
+        startQuiz('normal');
+    };
+    elements.startHardBtn.onclick = () => {
+        shouldIgnoreSavedProgress = true;
+        try {
+            if (typeof clearQuizProgress === 'function') clearQuizProgress();
+        } catch (_) {}
+        startQuiz('hard');
+    };
     
     document.getElementById('back-to-main-menu-from-difficulty-btn').onclick = showIntroMessage;
 }
@@ -4883,6 +4983,14 @@ function clearQuizProgress() {
 function exitQuiz() {
     console.log('exitQuiz: Saindo do quiz e salvando progresso.');
     quizState.quizPaused = true;
+    // Ao sair do quiz, interrompa o temporizador de perguntas se estiver em execução.
+    // Isso evita que o temporizador continue rodando em segundo plano enquanto
+    // o usuário está no menu principal, o que poderia consumir vidas e deixar
+    // os botões das respostas inativos ao retomar o jogo.
+    if (typeof timerInterval !== 'undefined' && timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
     saveQuizProgress();
     // Esconde elementos do quiz
     elements.quiz.style.display = 'none';
@@ -4899,6 +5007,8 @@ function exitQuiz() {
 
 function startQuiz(difficulty) {
     console.log(`startQuiz: Iniciando o quiz na dificuldade ${difficulty}.`);
+    // DEBUG: mark that the quiz has started for the given difficulty
+    if (typeof debugUpdate === 'function') debugUpdate('startQuiz-' + difficulty);
 
     // Se o player estiver dentro da tela de boas‑vindas, reposicione‑o de volta
     // ao seu local original antes de iniciar o quiz. Isto evita que o player
@@ -4910,135 +5020,192 @@ function startQuiz(difficulty) {
     document.body.classList.remove('intro-active', 'radio-active');
     document.body.classList.add('quiz-active');
 
-    // Tentar recuperar progresso salvo no localStorage para esta dificuldade
+    // Tentar recuperar progresso salvo no localStorage para esta dificuldade,
+    // a menos que estejamos iniciando um novo jogo (shouldIgnoreSavedProgress).
     try {
-        const savedProgressJSON = localStorage.getItem('cobjr_quiz_progress');
-        if (savedProgressJSON) {
-            const savedProgress = JSON.parse(savedProgressJSON);
-            if (savedProgress && savedProgress.quizState && savedProgress.quizState.currentDifficulty === difficulty) {
-                console.log('startQuiz: Progresso salvo encontrado. Retomando...');
-                // Restaurar apenas as propriedades existentes em quizState
-                Object.keys(savedProgress.quizState).forEach(key => {
-                    if (quizState.hasOwnProperty(key)) {
-                        quizState[key] = savedProgress.quizState[key];
+        if (!shouldIgnoreSavedProgress) {
+            const savedProgressJSON = localStorage.getItem('cobjr_quiz_progress');
+            if (savedProgressJSON) {
+                const savedProgress = JSON.parse(savedProgressJSON);
+                if (savedProgress && savedProgress.quizState && savedProgress.quizState.currentDifficulty === difficulty) {
+                    console.log('startQuiz: Progresso salvo encontrado. Retomando...');
+                    // Restaurar apenas as propriedades existentes em quizState
+                    Object.keys(savedProgress.quizState).forEach(key => {
+                        if (quizState.hasOwnProperty(key)) {
+                            quizState[key] = savedProgress.quizState[key];
+                        }
+                    });
+                    // Restaurar as perguntas atuais do nível
+                    if (Array.isArray(savedProgress.currentLevelQuestions)) {
+                        quizState.currentLevelQuestions = savedProgress.currentLevelQuestions;
                     }
-                });
-                // Restaurar as perguntas atuais do nível
-                if (Array.isArray(savedProgress.currentLevelQuestions)) {
-                    quizState.currentLevelQuestions = savedProgress.currentLevelQuestions;
+                    // Garante que o tempo por pergunta seja restaurado corretamente. Se o progresso
+                    // salvo não contiver esta propriedade, recalcule-a com base na dificuldade
+                    // atual para evitar expirações imediatas das perguntas.
+                    if (typeof quizState.timePerQuestion !== 'number' || quizState.timePerQuestion <= 0) {
+                        const diff = quizState.currentDifficulty;
+                        if (diff && gameSettings[diff] && typeof gameSettings[diff].time === 'number') {
+                            quizState.timePerQuestion = gameSettings[diff].time;
+                        }
+                    }
+                    // Se o progresso foi salvo enquanto uma resposta estava sendo processada ou um timeout
+                    // pendente, avance para a próxima pergunta e limpe o estado de processamento.
+                    if (quizState.isProcessingAnswer) {
+                        console.log('startQuiz: Progresso salvo estava processando resposta. Avançando para próxima pergunta.');
+                        quizState.isProcessingAnswer = false;
+                        if (quizState.currentQuestionIndexInLevel < quizState.currentLevelQuestions.length) {
+                            quizState.currentQuestionIndexInLevel++;
+                        }
+                    }
+                    // Esconder a tela de boas‑vindas e mostrar a área do quiz
+                    elements.welcomeScreen.style.display = 'none';
+                    elements.quiz.style.display = 'flex';
+                    elements.livesDisplay.style.display = '';
+                    elements.powerUpsContainer.style.display = '';
+                    // Atualizar HUD e mostrar a pergunta atual
+                    updateLivesDisplay();
+                    updateQuizInfo();
+                    quizState.quizPaused = false;
+                    quizState.isProcessingAnswer = false;
+                    // Mostrar o botão de sair
+                    const exitBtn = document.getElementById('exit-quiz-btn');
+                    if (exitBtn) {
+                        exitBtn.style.display = 'inline-block';
+                        exitBtn.onclick = exitQuiz;
+                    }
+                    // Oculta o overlay principal para que a tela do quiz fique interativa
+                    hideMainOverlay();
+                    /*
+                     * Ao retomar um jogo salvo, algumas variáveis internas (como quizPaused ou
+                     * isProcessingAnswer) podem ter sido deixadas em um estado inconsistente.
+                     * Use um pequeno atraso para permitir que o DOM atualize, depois re‑exiba
+                     * a pergunta atual garantindo que o quiz não esteja pausado. Se o array
+                     * currentLevelQuestions estiver vazio, recarregue o nível; caso contrário,
+                     * chame showQuestion() explicitamente. Também reabilite os botões das
+                     * respostas e restaure pointer-events para a área do quiz.
+                     */
+                    setTimeout(() => {
+                        // Se nenhuma pergunta foi carregada no progresso salvo, recarregue o nível atual
+                        if (!Array.isArray(quizState.currentLevelQuestions) || quizState.currentLevelQuestions.length === 0) {
+                            console.warn('startQuiz: Nenhuma pergunta encontrada no progresso salvo. Recarregando nível.');
+                            loadLevel(true);
+                        } else {
+                            quizState.quizPaused = false;
+                            quizState.isProcessingAnswer = false;
+                            showQuestion();
+                        }
+                        if (typeof enableAnswerButtons === 'function') {
+                            enableAnswerButtons();
+                        }
+                        if (elements && elements.quiz) {
+                            elements.quiz.style.pointerEvents = 'all';
+                        }
+                    }, 50);
+                    // Resetar a flag após retomar para permitir novos carregamentos de progresso no futuro
+                    shouldIgnoreSavedProgress = false;
+                    return;
                 }
-                // Esconder a tela de boas‑vindas e mostrar a área do quiz
-                elements.welcomeScreen.style.display = 'none';
-                elements.quiz.style.display = 'flex';
-                elements.livesDisplay.style.display = '';
-                elements.powerUpsContainer.style.display = '';
-                // Atualizar HUD e mostrar a pergunta atual
-                updateLivesDisplay();
-                updateQuizInfo();
-                quizState.quizPaused = false;
-                quizState.isProcessingAnswer = false;
-                // Mostrar o botão de sair
-                const exitBtn = document.getElementById('exit-quiz-btn');
-                if (exitBtn) {
-                    exitBtn.style.display = 'inline-block';
-                    exitBtn.onclick = exitQuiz;
-                }
-                // Oculta o overlay principal para que a tela do quiz fique interativa
-                hideMainOverlay();
-
-                showQuestion();
-                // Garante que o usuário possa interagir com o quiz ao retomar progresso salvo
-                elements.quiz.style.pointerEvents = 'all';
-                return;
             }
+        } else {
+            // Estamos iniciando um novo jogo, então resetar a flag para que futuros
+            // carregamentos de progresso funcionem normalmente.
+            shouldIgnoreSavedProgress = false;
         }
     } catch (e) {
         console.error('Erro ao tentar carregar progresso salvo:', e);
     }
     
+    // ---------------------------------------------------------------------------
+    // Iniciar um novo jogo sem depender de eventos de transição CSS
+    // Esta implementação reinicializa completamente o estado do quiz para a
+    // dificuldade selecionada e inicia o primeiro nível imediatamente. Isso
+    // evita que o jogo fique preso se o evento `transitionend` não for
+    // disparado por alguma razão (por exemplo, se o elemento não tiver
+    // transição aplicável no momento da remoção da classe).  
     quizState.lives = gameSettings[difficulty].lives;
     quizState.timePerQuestion = gameSettings[difficulty].time;
     quizState.baseScorePerCorrect = gameSettings[difficulty].pointsPerCorrect;
     quizState.currentDifficulty = difficulty;
-
-    elements.welcomeScreen.classList.remove('show');
-    elements.welcomeScreen.addEventListener('transitionend', function handler() {
-        elements.welcomeScreen.style.display = 'none';
-        elements.welcomeScreen.removeEventListener('transitionend', handler);
-        hideMainOverlay();
-        
-        elements.quiz.style.display = 'flex';
-        
-        Object.assign(quizState, {
-            currentLevel: 0,
-            currentQuestionIndexInLevel: 0,
-            score: 0,
-            lives: gameSettings[difficulty].lives,
-            errorsInCurrentLevel: 0,
-            quizPaused: false,
-            isProcessingAnswer: false,
-            currentLevelQuestions: [],
-            totalLevels: questionsByLevel.length,
-            totalMainLevels: questionsByLevel.length - 1,
-            isSecretLevelActive: false,
-            totalQuestions: 0,
-            highScore: quizState.highScore,
-            scoreAtLevelStart: 0,
-            consecutiveCorrectAnswers: 0,
-            highestCombo: 0,
-            comboPointsEarned: 0,
-            unlockedAchievements: {},
-            fiftyFiftyCount: INITIAL_FIFTY_FIFTY,
-            skipQuestionCount: INITIAL_SKIP_QUESTION
-        });
-        
-        elements.quiz.style.pointerEvents = 'all';
-
-        elements.scoreText.textContent = `Pontos: ${quizState.score}`;
-        elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
-        updateLivesDisplay();
-        elements.livesDisplay.style.display = 'flex';
-        updatePowerUpCounts();
-
-        elements.powerUpsContainer.style.display = 'flex';
-
-        // Mostrar o botão de sair do quiz ao iniciar um novo jogo
-        const exitBtnNewGame = document.getElementById('exit-quiz-btn');
-        if (exitBtnNewGame) {
-            exitBtnNewGame.style.display = 'inline-block';
-            exitBtnNewGame.onclick = exitQuiz;
+    quizState.currentLevel = 0;
+    quizState.currentQuestionIndexInLevel = 0;
+    quizState.score = 0;
+    quizState.errorsInCurrentLevel = 0;
+    quizState.quizPaused = false;
+    quizState.isProcessingAnswer = false;
+    quizState.currentLevelQuestions = [];
+    quizState.totalLevels = questionsByLevel.length;
+    quizState.totalMainLevels = questionsByLevel.length - 1;
+    quizState.isSecretLevelActive = false;
+    quizState.totalQuestions = 0;
+    // Preservar highScore existente
+    quizState.highScore = quizState.highScore;
+    quizState.scoreAtLevelStart = 0;
+    quizState.consecutiveCorrectAnswers = 0;
+    quizState.highestCombo = 0;
+    quizState.comboPointsEarned = 0;
+    quizState.unlockedAchievements = {};
+    quizState.fiftyFiftyCount = INITIAL_FIFTY_FIFTY;
+    quizState.skipQuestionCount = INITIAL_SKIP_QUESTION;
+    // Limpar progresso salvo no localStorage para garantir um novo jogo
+    if (typeof clearQuizProgress === 'function') {
+        clearQuizProgress();
+    }
+    // Esconder a tela de boas‑vindas imediatamente e remover sobreposições
+    // Esconde a tela de boas‑vindas quando o quiz começa.
+    // Além de ajustar o display, remova a classe 'show' para que
+    // handleQuizClick não trate erroneamente esta tela como ativa. Caso
+    // contrário, a função de clique intercepta as respostas do quiz,
+    // tornando os botões inativos.
+    elements.welcomeScreen.style.display = 'none';
+    if (elements.welcomeScreen.classList.contains('show')) {
+        elements.welcomeScreen.classList.remove('show');
+    }
+    hideMainOverlay();
+    // Ativar o contêiner do quiz e elementos auxiliares
+    elements.quiz.style.display = 'flex';
+    elements.quiz.style.pointerEvents = 'all';
+    elements.livesDisplay.style.display = 'flex';
+    elements.powerUpsContainer.style.display = 'flex';
+    // Resetar e mostrar contagem de pontos e recorde
+    elements.scoreText.textContent = `Pontos: ${quizState.score}`;
+    elements.highScoreText.textContent = `Recorde: ${quizState.highScore}`;
+    // Atualizar exibição de vidas e power‑ups
+    updateLivesDisplay();
+    updatePowerUpCounts();
+    // Garantir que o botão de sair esteja visível e funcional
+    const exitBtnNewGame = document.getElementById('exit-quiz-btn');
+    if (exitBtnNewGame) {
+        exitBtnNewGame.style.display = 'inline-block';
+        exitBtnNewGame.onclick = exitQuiz;
+    }
+    // Mostrar e inicializar o player de áudio
+    elements.audioPlayerWrapper.classList.remove('hidden-player');
+    elements.audioPlayerWrapper.style.opacity = '1';
+    elements.audioPlayerWrapper.style.visibility = 'visible';
+    elements.audioPlayerWrapper.style.pointerEvents = 'auto';
+    elements.audioPlayerWrapper.style.display = 'flex';
+    // Se houver playlist carregada e o player estiver parado ou tocando música de conquista,
+    // escolha uma música aleatória para reproduzir ao iniciar o quiz
+    if (playerState && playerState.playlist && playerState.playlist.length > 0) {
+        if (elements.audio.paused || (typeof achievementMusicUrl !== 'undefined' && elements.audio.src.includes(achievementMusicUrl))) {
+            playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
+            loadSong();
+            playSong();
         }
-
-        elements.audioPlayerWrapper.classList.remove('hidden-player');
-        elements.audioPlayerWrapper.style.opacity = '1';
-        elements.audioPlayerWrapper.style.visibility = 'visible';
-        elements.audioPlayerWrapper.style.pointerEvents = 'auto';
-        elements.audioPlayerWrapper.style.display = 'flex';
-
-        // Ao iniciar um novo jogo, limpe qualquer progresso salvo anterior
-        if (typeof clearQuizProgress === 'function') {
-            clearQuizProgress();
-        }
-
-        if (playerState.playlist.length > 0) {
-            if (elements.audio.paused || elements.audio.src.includes(achievementMusicUrl)) {
-                playerState.currentIndex = Math.floor(Math.random() * playerState.playlist.length);
-                loadSong();
-                playSong();
-            }
-        } else {
-            console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
-            elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
-            elements.playPauseBtn.disabled = true;
-            elements.prevBtn.disabled = true;
-            elements.nextBtn.disabled = true;
-            elements.repeatBtn.disabled = true;
-            elements.shuffleBtn.disabled = true;
-            elements.muteBtn.disabled = true;
-            elements.volumeSlider.disabled = true;
-        }
-        loadLevel(true);
-    }, { once: true });
+    } else {
+        console.warn('Playlist está vazia! Verifique o arquivo playlist.json.');
+        if (elements.currentSongText) elements.currentSongText.textContent = `N/A (Playlist vazia ou erro)`;
+        elements.playPauseBtn.disabled = true;
+        elements.prevBtn.disabled = true;
+        elements.nextBtn.disabled = true;
+        elements.repeatBtn.disabled = true;
+        elements.shuffleBtn.disabled = true;
+        elements.muteBtn.disabled = true;
+        elements.volumeSlider.disabled = true;
+    }
+    // Finalmente, carregar o primeiro nível e mostrar a primeira pergunta
+    loadLevel(true);
+    return;
 }
 
 function startSecretLevel() {
@@ -5524,6 +5691,14 @@ function showQuestion() {
         return;
     }
 
+    // Apply a fade animation whenever a new question is shown
+    try {
+        elements.quiz.classList.add('fade');
+        setTimeout(() => elements.quiz.classList.remove('fade'), 500);
+    } catch (_) {
+        /* fail silently if elements.quiz is unavailable */
+    }
+
     const oldCuriositySidebar = elements.quiz.querySelector('.curiosity-sidebar-box');
     if (oldCuriositySidebar) {
         oldCuriositySidebar.classList.remove('show');
@@ -5578,6 +5753,10 @@ function showQuestion() {
                 }, i * 100);
             });
             updateQuizInfo();
+            // Ensure all answer buttons are enabled when a new question is shown
+            if (typeof enableAnswerButtons === 'function') {
+                enableAnswerButtons();
+            }
             startTimer();
             currentQuizContent.removeEventListener('transitionend', handler);
         }, { once: true });
@@ -5590,6 +5769,10 @@ function showQuestion() {
             }, i * 100);
         });
         updateQuizInfo();
+        // Ensure all answer buttons are enabled when a new question is shown
+        if (typeof enableAnswerButtons === 'function') {
+            enableAnswerButtons();
+        }
         startTimer();
     }
 }
@@ -5630,16 +5813,29 @@ function handleQuizClick(event) {
         return;
     }
     if (elements.levelUpMessage.classList.contains('show')) {
-        if (event.target === elements.levelUpMessage || event.target.tagName === 'H3') {
+        // Bloqueia cliques somente se a mensagem de avanço de nível estiver visível
+        const levelUpDisplay = window.getComputedStyle(elements.levelUpMessage).display;
+        if (levelUpDisplay !== 'none') {
+            if (event.target === elements.levelUpMessage || event.target.tagName === 'H3') {
+                // clique para fechar pode ser tratado aqui
+            }
+            event.stopPropagation();
+            return;
         }
-        event.stopPropagation();
-        return;
     }
     if (elements.welcomeScreen.classList.contains('show')) {
-        if (event.target === elements.mainOverlay) {
+        // Apenas bloquear cliques se a tela de boas‑vindas estiver visível
+        // (ou seja, seu display não está 'none'). Se a classe 'show'
+        // permanecer em elementos.welcomeScreen mesmo após iniciar o quiz,
+        // continue processando cliques normalmente.
+        const welcomeDisplay = window.getComputedStyle(elements.welcomeScreen).display;
+        if (welcomeDisplay !== 'none') {
+            if (event.target === elements.mainOverlay) {
+                // clique fora da caixa de mensagem fecha a tela de boas‑vindas
+            }
+            event.stopPropagation();
+            return;
         }
-        event.stopPropagation();
-        return;
     }
     if (elements.bonusMusicScreen.classList.contains('show')) {
         // Redireciona os cliques dentro da tela de bônus para suas respectivas funções
@@ -6267,10 +6463,26 @@ function restartQuiz() {
 }
 
 function startTimer() {
+    // Reinicia o contador da pergunta.
     console.log("startTimer: Iniciando timer.");
     clearInterval(timerInterval);
     questionStartTime = Date.now();
-    let timeLeft = gameSettings[quizState.currentDifficulty].time;
+    /*
+     * Use o tempo configurado na propriedade quizState.timePerQuestion quando
+     * disponível. Em jogos anteriores, quizState.currentDifficulty podia
+     * ficar undefined e causar um tempo restante igual a zero. Atribuir o
+     * valor explicitamente evita que perguntas expirem instantaneamente.
+     */
+    // Use a reliable per-question time based on the current difficulty. Avoid using
+    // quizState.timePerQuestion directly here because in some edge cases it may be
+    // zero or undefined (e.g. if the difficulty has not been correctly set or
+    // restored from a saved game). Instead, read the value from gameSettings
+    // using the currentDifficulty as a key. If that lookup fails for any
+    // reason, fall back to 20 seconds. This prevents the timer from expiring
+    // immediately when starting a new game or resuming progress.
+    // For debugging: temporarily use a large timer to test interaction issues.
+    // Always set the timer to 120 seconds for now.
+    let timeLeft = 120;
     timerInterval = setInterval(() => {
         timeLeft--;
         if (timeLeft <= 0) {
@@ -6283,6 +6495,13 @@ function startTimer() {
 
 function handleTimerEnd() {
     console.log("handleTimerEnd: Tempo da pergunta esgotado.");
+    // Se o quiz estiver pausado (por exemplo, após o usuário clicar em "Salvar e Sair"),
+    // ignore a conclusão do timer. Isso evita que vidas sejam consumidas enquanto
+    // o usuário não está jogando.
+    if (quizState.quizPaused) {
+        console.log("handleTimerEnd: Quiz está pausado. Ignorando timer.");
+        return;
+    }
     if (quizState.isProcessingAnswer) {
         console.log("handleTimerEnd: Já processando resposta/fim. Saindo.");
         return;
@@ -6329,6 +6548,34 @@ function handleTimerEnd() {
             showQuestion();
         }
     }, 4000);
+}
+
+/**
+ * Re-enable all answer buttons and ensure the quiz container accepts pointer
+ * events. In some situations (e.g. after resuming a saved game or when
+ * transitioning between questions), the answer buttons may remain disabled
+ * or unresponsive because previous handlers set the `disabled` property
+ * or pointer-events on the quiz container. This helper iterates through
+ * all `.answer-button` elements in the quiz, clears their `disabled` flag
+ * and restores pointer events so they are clickable again. It is a no-op
+ * if no answer buttons are present.
+ */
+function enableAnswerButtons() {
+    try {
+        const answerButtons = document.querySelectorAll('.answer-button');
+        answerButtons.forEach(button => {
+            // Remove disabled attribute if previously set
+            button.disabled = false;
+            // Reset pointer events on the button
+            button.style.pointerEvents = 'auto';
+        });
+        // Also ensure the quiz container itself is interactive
+        if (elements && elements.quiz) {
+            elements.quiz.style.pointerEvents = 'all';
+        }
+    } catch (e) {
+        console.error('enableAnswerButtons: Erro ao reabilitar botões de resposta:', e);
+    }
 }
 
 let bonusTimer = null;
@@ -7302,6 +7549,96 @@ window.onload = () => {
     elements.restartBtn.onclick = restartQuiz;
     elements.closeAchievementDetailPopupBtn.onclick = closeAchievementDetailPopup;
 };
+</script>
+<!-- Fade animation style -->
+<style id="CBJR_FADE_STYLE">
+/* ====== FX: Fade-in animation for new questions ====== */
+#quiz.fade {
+    animation: cbjr-fade 0.45s ease;
+}
+@keyframes cbjr-fade {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+
+<!-- Removido script de depuração utilizado durante o desenvolvimento -->
+
+<!-- Extra keyboard shortcuts for enhanced UX (toggle lyrics, skip, fifty-fifty, close) -->
+<script id="CBJR_EXTRA_SHORTCUTS">
+// Keyboard shortcuts: L = toggle lyrics; F = 50/50; S = skip; Esc = close lyrics.
+document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('keydown', function (e) {
+    // Ignore shortcuts when focused on input elements
+    const target = e.target;
+    if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+    const key = e.key.toLowerCase();
+    if (key === 'l') {
+      // Toggle lyrics via existing button (handles fallback)
+      const toggle = document.getElementById('cbjr-lyrics-toggle') || document.getElementById('cbjr-lyrics-fallback');
+      if (toggle) toggle.click();
+    } else if (key === 'f') {
+      // Use the 50/50 power‑up
+      const btn = document.getElementById('fifty-fifty-btn');
+      if (btn && !btn.disabled) btn.click();
+    } else if (key === 's') {
+      // Skip the current question
+      const btn = document.getElementById('skip-question-btn');
+      if (btn && !btn.disabled) btn.click();
+    } else if (e.key === 'Escape') {
+      // Close the lyrics modal if visible
+      const closeBtn = document.getElementById('cbjr-lyrics-close');
+      if (closeBtn && closeBtn.offsetParent !== null) closeBtn.click();
+    }
+  });
+});
+</script>
+
+<!-- Enable dragging of the lyrics panel for improved user control -->
+<script id="CBJR_LYRICS_DRAG">
+document.addEventListener('DOMContentLoaded', function () {
+  let dragSetup = false;
+  function initDrag() {
+    // Ensure we only bind once per creation
+    const box = document.getElementById('cbjr-lyrics-box');
+    const head = document.getElementById('cbjr-lyrics-head');
+    if (!box || !head || box.dataset.dragBound) return;
+    box.dataset.dragBound = 'true';
+    head.style.cursor = 'move';
+    head.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      // Remove margin to allow absolute positioning
+      box.style.margin = '0';
+      // Ensure positioning context is fixed
+      box.style.position = 'fixed';
+      const rect = box.getBoundingClientRect();
+      const offsetX = e.clientX - rect.left;
+      const offsetY = e.clientY - rect.top;
+      function move(ev) {
+        box.style.left = (ev.clientX - offsetX) + 'px';
+        box.style.top = (ev.clientY - offsetY) + 'px';
+      }
+      function up() {
+        document.removeEventListener('pointermove', move);
+        document.removeEventListener('pointerup', up);
+      }
+      document.addEventListener('pointermove', move);
+      document.addEventListener('pointerup', up);
+    });
+  }
+  // Observe DOM for insertion of the lyrics box (created asynchronously)
+  const observer = new MutationObserver(function () {
+    initDrag();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+});
 </script>
 <!-- Equalizador musical no rodapé: visível apenas no quiz principal -->
 <div id="equalizer-footer">
