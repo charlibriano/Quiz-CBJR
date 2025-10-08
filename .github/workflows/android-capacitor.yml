@@ -13,6 +13,8 @@ jobs:
     env:
       ANDROID_HOME: /usr/local/lib/android/sdk
       ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      CI: "1"
+      CAPACITOR_DISABLE_TELEMETRY: "1"
 
     steps:
       # 1) Código
@@ -51,11 +53,12 @@ jobs:
         run: |
           set -e
 
-          # cria projeto limpo
+          # projeto limpo
           rm -rf capapp
           mkdir -p capapp
           cd capapp
           npm init -y >/dev/null
+          npm config set fund false >/dev/null
           npm i -D @capacitor/cli >/dev/null
           npm i @capacitor/core >/dev/null
           npm i -D @capacitor/android >/dev/null
@@ -72,7 +75,7 @@ jobs:
 
           cd ..
 
-          # Detecta de onde copiar os arquivos do site
+          # Detecta origem da web
           if [ -f "www/index.html" ]; then
             WEB_SRC="www"
           elif [ -f "index.html" ]; then
@@ -83,7 +86,6 @@ jobs:
           fi
 
           echo "Copiando web de '$WEB_SRC' para 'capapp/www'…"
-          # evita recursão e lixo grande
           rsync -a --delete \
             --exclude '.git' \
             --exclude '.github' \
@@ -94,17 +96,20 @@ jobs:
             "${WEB_SRC}/" capapp/www/
 
           cd capapp
-          npx cap init QuizCBJR br.com.quizcbjr --web-dir=www --no-interactive
+
+          # IMPORTANTE: sem --no-interactive (essa versão não aceita)
+          npx cap init QuizCBJR br.com.quizcbjr --web-dir=www
+
           npx cap add android
 
-      # 5) Patches seguros de Gradle/AGP/SDK 35
+      # 5) Patches Gradle/AGP/SDK 35
       - name: Ajustes Gradle/Settings básicos
         working-directory: capapp/android
         run: |
           set -e
-          # Gradle 8.6 (estável pro AGP 8.6)
+          # Gradle 8.6
           sed -i 's#distributionUrl=.*#distributionUrl=https\://services.gradle.org/distributions/gradle-8.6-all.zip#' gradle/wrapper/gradle-wrapper.properties || true
-          # Força AGP 8.6 se necessário
+          # AGP 8.6 se houver build.gradle raiz
           if grep -q "com.android.tools.build:gradle" build.gradle 2>/dev/null; then
             sed -i 's/com\.android\.tools\.build:gradle:[0-9.]\+/com.android.tools.build:gradle:8.6.0/' build.gradle || true
           fi
@@ -127,7 +132,7 @@ jobs:
           rootProject.name = 'capapp'
           include(':app')
           EOF
-          # gradle.properties / variables.gradle mínimos
+          # gradle.properties / variables.gradle
           cat > gradle.properties <<'EOF'
           android.useAndroidX=true
           android.enableJetifier=true
@@ -161,7 +166,7 @@ jobs:
           set -e
           ./gradlew --no-daemon assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      # 7) Upload dos artefatos (o que existir)
+      # 7) Upload artefatos
       - name: Upload AAB
         uses: actions/upload-artifact@v4
         with:
