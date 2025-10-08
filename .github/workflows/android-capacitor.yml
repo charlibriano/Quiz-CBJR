@@ -2,24 +2,26 @@ name: Android (Capacitor) Build — minimal
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   workflow_dispatch:
-
-permissions:
-  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     env:
-      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
       ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
 
     steps:
+      # 1) Código
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
+      # 2) Node + Java 17
       - name: Node 20
         uses: actions/setup-node@v4
         with:
@@ -31,28 +33,34 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      # 3) Android SDK (cmdline-tools + pacotes)
       - name: Android SDK
         run: |
           set -e
-          echo "SDK em: $ANDROID_SDK_ROOT"
-          yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null
-          "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" \
-            "platform-tools" "build-tools;35.0.0" "platforms;android-35"
+          mkdir -p "$ANDROID_HOME/cmdline-tools"
+          cd "$ANDROID_HOME/cmdline-tools"
+          curl -sL https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o cmdtools.zip
+          mkdir -p latest
+          unzip -q cmdtools.zip -d latest
+          rm -f cmdtools.zip
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_HOME" \
+            "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
+      # 4) Preparar projeto Capacitor (SEM loop na cópia)
       - name: Capacitor + copiar web
         run: |
           set -e
+
+          # cria projeto limpo
           rm -rf capapp
           mkdir -p capapp
           cd capapp
-
-          # pacotes base
           npm init -y >/dev/null
           npm i -D @capacitor/cli >/dev/null
           npm i @capacitor/core >/dev/null
           npm i -D @capacitor/android >/dev/null
 
-          # criar config básico
+          # config básico
           cat > capacitor.config.json <<'JSON'
           {
             "appId": "br.com.quizcbjr",
@@ -62,8 +70,9 @@ jobs:
           }
           JSON
 
-          # detectar origem web (www/ ou raiz do repo)
           cd ..
+
+          # Detecta de onde copiar os arquivos do site
           if [ -f "www/index.html" ]; then
             WEB_SRC="www"
           elif [ -f "index.html" ]; then
@@ -73,44 +82,34 @@ jobs:
             exit 1
           fi
 
-          # copiar web para capapp/www
-          rm -rf capapp/www
-          mkdir -p capapp/www
-          rsync -a --delete "${WEB_SRC}/" capapp/www/
+          echo "Copiando web de '$WEB_SRC' para 'capapp/www'…"
+          # evita recursão e lixo grande
+          rsync -a --delete \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude 'capapp' \
+            --exclude 'android' \
+            --exclude 'ios' \
+            --exclude 'node_modules' \
+            "${WEB_SRC}/" capapp/www/
 
-          # inicializar/add android
           cd capapp
           npx cap init QuizCBJR br.com.quizcbjr --web-dir=www --no-interactive
           npx cap add android
 
+      # 5) Patches seguros de Gradle/AGP/SDK 35
       - name: Ajustes Gradle/Settings básicos
         working-directory: capapp/android
         run: |
           set -e
-          # gradle.properties
-          cat > gradle.properties <<'PROPS'
-          android.useAndroidX=true
-          android.enableJetifier=true
-          org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
-          PROPS
-
-          # variables.gradle (valores seguros p/ AGP 8.x + SDK 35)
-          cat > variables.gradle <<'GRAD'
-          ext {
-            minSdkVersion = 22
-            compileSdkVersion = 35
-            targetSdkVersion = 35
-            androidxAppCompatVersion = '1.6.1'
-            androidxCoordinatorLayoutVersion = '1.2.0'
-            coreSplashScreenVersion = '1.0.1'
-            junitVersion = '4.13.2'
-            androidxJunitVersion = '1.1.5'
-            androidxEspressoCoreVersion = '3.5.1'
-          }
-          GRAD
-
-          # settings.gradle moderno (evita problemas de encoding)
-          cat > settings.gradle <<'SETG'
+          # Gradle 8.6 (estável pro AGP 8.6)
+          sed -i 's#distributionUrl=.*#distributionUrl=https\://services.gradle.org/distributions/gradle-8.6-all.zip#' gradle/wrapper/gradle-wrapper.properties || true
+          # Força AGP 8.6 se necessário
+          if grep -q "com.android.tools.build:gradle" build.gradle 2>/dev/null; then
+            sed -i 's/com\.android\.tools\.build:gradle:[0-9.]\+/com.android.tools.build:gradle:8.6.0/' build.gradle || true
+          fi
+          # settings.gradle moderno
+          cat > settings.gradle <<'EOF'
           pluginManagement {
             repositories {
               google()
@@ -125,50 +124,58 @@ jobs:
               mavenCentral()
             }
           }
-          rootProject.name = "capapp"
-          include(":app")
-          SETG
+          rootProject.name = 'capapp'
+          include(':app')
+          EOF
+          # gradle.properties / variables.gradle mínimos
+          cat > gradle.properties <<'EOF'
+          android.useAndroidX=true
+          android.enableJetifier=true
+          org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
+          EOF
+          cat > variables.gradle <<'EOF'
+          ext {
+            minSdkVersion = 22
+            compileSdkVersion = 35
+            targetSdkVersion = 35
+          }
+          EOF
 
-      - name: Wrapper Gradle 8.6
-        working-directory: capapp/android
-        run: |
-          set -e
-          ./gradlew wrapper --gradle-version 8.6 --distribution-type all
-
+      # 6) Build: AAB (release) com fallback para APK (debug)
       - name: Build AAB (release)
-        id: build_aab
+        id: buildaab
         working-directory: capapp/android
         run: |
           set -e
-          # Sync web -> android/app/src/main/assets/public
-          npx cap sync android
+          ./gradlew --no-daemon -Dorg.gradle.configuration-cache=false clean bundleRelease --stacktrace --info | tee ../../aab_build.log
+          if [ ! -f "app/build/outputs/bundle/release/app-release.aab" ]; then
+            echo "aab_missing=true" >> $GITHUB_OUTPUT
+          else
+            echo "aab_missing=false" >> $GITHUB_OUTPUT
+          fi
 
-          # tentar bundleRelease; se falhar, não quebrar o job (vamos tentar APK depois)
-          set +e
-          ./gradlew --no-daemon clean bundleRelease --stacktrace --info | tee ../../aab_build.log
-          RC=$?
-          echo "aab_rc=$RC" >> $GITHUB_OUTPUT
-          exit 0
-
-      - name: Fallback APK (debug)
-        if: steps.build_aab.outputs.aab_rc != '0'
+      - name: Fallback APK (debug) + logs
+        if: steps.buildaab.outputs.aab_missing == 'true'
         working-directory: capapp/android
         run: |
           set -e
-          ./gradlew --no-daemon assembleDebug --stacktrace --info | tee ../../apk_build_debug.log
+          ./gradlew --no-daemon assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      - name: Localizar e listar APK/AAB gerados
-        run: |
-          echo "Listando .apk/.aab gerados em capapp/android ..."
-          find capapp/android -type f \( -name "*.apk" -o -name "*.aab" \) -print || true
-
-      - name: Upload artefatos (APK/AAB + logs)
+      # 7) Upload dos artefatos (o que existir)
+      - name: Upload AAB
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
-          path: |
-            capapp/android/**/*.apk
-            capapp/android/**/*.aab
-            capapp/aab_build.log
-            capapp/apk_build_debug.log
+          name: QuizCBJR-release-aab
+          path: capapp/android/app/build/outputs/bundle/release/*.aab
           if-no-files-found: warn
+
+      - name: Upload APK/Logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-and-logs
+          path: |
+            capapp/android/app/build/outputs/apk/debug/*.apk
+            aab_build.log
+            gradle_build_debug.log
+          if-no-files-found: ignore
+          compression-level: 6
