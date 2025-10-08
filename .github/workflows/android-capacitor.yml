@@ -1,4 +1,4 @@
-name: Android (Capacitor) Build — v-final-dbg
+name: Android (Capacitor) Build — minimal
 
 on:
   workflow_dispatch:
@@ -32,17 +32,6 @@ jobs:
           yes | sdkmanager --licenses >/dev/null
           sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
-      - name: Diagnóstico do repo (árvore e onde está index.html)
-        run: |
-          echo "::group::Árvore do repo (topo)"; ls -la; echo "::endgroup::"
-          if [ -f "./index.html" ]; then
-            echo "index.html ENCONTRADO na raiz."
-          elif [ -f "./www/index.html" ]; then
-            echo "index.html ENCONTRADO em ./www."
-          else
-            echo "index.html NÃO encontrado na raiz nem em ./www."
-          fi
-
       - name: Capacitor + copiar web
         run: |
           set -e
@@ -55,12 +44,9 @@ jobs:
           else
             echo "index.html nao encontrado (raiz ou ./www)"; exit 1
           fi
-          echo "::group::Árvore de capapp/www"; ls -la capapp/www | sed -e 's/^/  /'; echo "::endgroup::"
-
           cd capapp
           npm init -y
           npm i @capacitor/cli @capacitor/core @capacitor/android
-
           cat > capacitor.config.json <<'EOF'
           {
             "appId": "br.com.quizcbjr",
@@ -71,47 +57,25 @@ jobs:
             "server": { "cleartext": true, "allowNavigation": ["*"] }
           }
           EOF
-
           npx cap add android
 
-      - name: Ajustes Gradle/Settings (seguros)
+      - name: Ajustes Gradle/Settings básicos
         working-directory: ./capapp/android
         run: |
           set -e
           cat > settings.gradle <<'EOF'
           pluginManagement {
-              repositories {
-                  google()
-                  mavenCentral()
-                  gradlePluginPortal()
-              }
+              repositories { google(); mavenCentral(); gradlePluginPortal() }
           }
           dependencyResolutionManagement {
               repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-              repositories {
-                  google()
-                  mavenCentral()
-              }
+              repositories { google(); mavenCentral() }
           }
           rootProject.name = "capapp"
           include(":app")
           EOF
-
-          cat > gradle.properties <<'EOF'
-          android.useAndroidX=true
-          android.enableJetifier=true
-          org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
-          EOF
-
-          cat > variables.gradle <<'EOF'
-          ext {
-              minSdkVersion = 22
-              compileSdkVersion = 35
-              targetSdkVersion = 35
-          }
-          EOF
-
-          # Namespace e Java 17
+          printf '%s\n' "android.useAndroidX=true" "android.enableJetifier=true" "org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8" > gradle.properties
+          printf '%s\n' "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
           if ! grep -q 'namespace ' app/build.gradle; then
             awk '{print} /android[[:space:]]*\{/ && !seen++ {print "    namespace \"br.com.quizcbjr\""}' app/build.gradle > t && mv t app/build.gradle
           fi
@@ -127,48 +91,9 @@ jobs:
           EOF
           fi
 
-      - name: Build AAB (AGP padrão gerado pelo Capacitor)
-        id: build_aab
+      - name: Build AAB (release)
         working-directory: ./capapp/android
-        run: |
-          set -e
-          echo "Gradle wrapper properties:"
-          cat gradle/wrapper/gradle-wrapper.properties || true
-          ./gradlew --version || true
-          ./gradlew --no-daemon clean bundleRelease --stacktrace --info | tee ../../aab_build.log
-
-      - name: Upload log (AAB)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: logs-aab
-          path: capapp/aab_build.log
-          if-no-files-found: warn
-
-      - name: Se AAB falhar, tentar AGP 8.6
-        if: failure()
-        working-directory: ./capapp/android
-        run: |
-          set -e
-          sed -i 's#^distributionUrl=.*#distributionUrl=https://services.gradle.org/distributions/gradle-8.6-all.zip#' gradle/wrapper/gradle-wrapper.properties
-          if grep -q "com.android.tools.build:gradle" build.gradle; then
-            sed -i 's/com\.android\.tools\.build:gradle:[0-9\.]\+/com.android.tools.build:gradle:8.6.0/g' build.gradle
-          else
-            cat > z_inject_build.gradle <<'EOF'
-buildscript { repositories { google(); mavenCentral() } dependencies { classpath 'com.android.tools.build:gradle:8.6.0' } }
-allprojects { repositories { google(); mavenCentral() } }
-EOF
-            cat z_inject_build.gradle build.gradle > build.gradle.new && mv build.gradle.new build.gradle && rm -f z_inject_build.gradle
-          fi
-          ./gradlew --no-daemon clean bundleRelease --stacktrace --info | tee ../../aab_build_agp86.log
-
-      - name: Upload log (AGP 8.6)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: logs-aab-agp86
-          path: capapp/aab_build_agp86.log
-          if-no-files-found: warn
+        run: ./gradlew --no-daemon clean bundleRelease --stacktrace --info | tee ../../gradle_build.log
 
       - name: Upload AAB
         if: success()
@@ -177,17 +102,19 @@ EOF
           name: QuizCBJR-release-aab
           path: capapp/android/app/build/outputs/bundle/release/*.aab
 
-      - name: Fallback APK (debug)
+      - name: Fallback APK (debug) + logs
         if: failure()
         working-directory: ./capapp/android
-        run: ./gradlew --no-daemon assembleDebug --stacktrace --info | tee ../../apk_debug.log
+        run: |
+          ./gradlew --no-daemon assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      - name: Upload APK e log
+      - name: Upload APK/Logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: apk-debug-and-logs
+          name: build-artifacts-and-logs
           path: |
             capapp/android/app/build/outputs/apk/debug/*.apk
-            capapp/apk_debug.log
-          if-no-files-found: warn
+            capapp/gradle_build.log
+            capapp/gradle_build_debug.log
+          if-no-files-found: ignore
