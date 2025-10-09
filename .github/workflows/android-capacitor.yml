@@ -24,14 +24,12 @@ jobs:
         with:
           node-version: 20
 
-      # ************ BLOCO CORRIGIDO ************
+      # CORRIGIDO: Removida a linha 'cache: none'
       - name: Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
-          # Linha 'cache: none' REMOVIDA para corrigir o erro.
-          # O caching agora está desativado por omissão.
 
       - name: Android SDK
         uses: android-actions/setup-android@v3
@@ -81,7 +79,8 @@ jobs:
         working-directory: capapp
         run: |
           set -e
-          npx cap init "Quiz CBJR" "br.com.quizcbjr" --web-dir=www --npm-client=npm --yes
+          # CORRIGIDO: Removida a flag "--npm-client=npm"
+          npx cap init "Quiz CBJR" "br.com.quizcbjr" --web-dir=www --yes 
           yes | npx cap add android
           npx cap sync android
 
