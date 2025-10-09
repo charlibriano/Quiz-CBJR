@@ -14,9 +14,11 @@ jobs:
       CAPACITOR_DISABLE_TELEMETRY: "1"
 
     steps:
+      # 1) Código
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 2) Toolchain
       - name: Node 20
         uses: actions/setup-node@v4
         with:
@@ -27,7 +29,8 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-          cache: gradle
+          # sem cache de Gradle (evita “No file matched to **/*.gradle*”)
+          cache: none
 
       - name: Android SDK
         uses: android-actions/setup-android@v3
@@ -36,7 +39,7 @@ jobs:
         run: |
           sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0" >/dev/null
 
-      # ==== Capacitor + copiar web ====
+      # 3) Projeto Capacitor recém criado
       - name: Preparar capapp
         run: |
           set -e
@@ -46,7 +49,6 @@ jobs:
           npm init -y >/dev/null
           npm i -D @capacitor/cli >/dev/null
           npm i @capacitor/core @capacitor/android >/dev/null
-          # capacitor.config.json
           cat > capacitor.config.json <<'JSON'
           {
             "appId": "br.com.quizcbjr",
@@ -56,41 +58,38 @@ jobs:
           }
           JSON
 
+      # 4) Copia do site para capapp/www (usa ./www se existir; senão raiz+pastas comuns)
       - name: Copiando web do repo para capapp/www
         run: |
           set -e
           mkdir -p capapp/www
-          # Se o repo tem /www usa-a; senão copia a raiz (index.html na raiz)
           if [ -f ./www/index.html ]; then
             cp -a ./www/. capapp/www/
           else
             cp -a ./*.html capapp/www/ 2>/dev/null || true
             cp -a ./*.htm  capapp/www/ 2>/dev/null || true
-            cp -a ./assets capapp/www/ 2>/dev/null || true
-            cp -a ./img capapp/www/     2>/dev/null || true
-            cp -a ./css capapp/www/     2>/dev/null || true
-            cp -a ./js capapp/www/      2>/dev/null || true
+            for d in assets img css js; do
+              [ -d "$d" ] && cp -a "$d" capapp/www/ || true
+            done
           fi
           test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www"; exit 2; }
           echo "OK index.html -> capapp/www"
 
+      # 5) Capacitor init + add android (sem --skip-deps)
       - name: Capacitor init + Android
         working-directory: capapp
         run: |
           set -e
-          # cap init sem flags inválidas, 100% não-interativo
-          npx cap init "Quiz CBJR" br.com.quizcbjr --web-dir=www --npm-client=npm --yes
-          npx cap add android
+          npx cap init "Quiz CBJR" "br.com.quizcbjr" --web-dir=www --npm-client=npm --yes
+          yes | npx cap add android
           npx cap sync android
 
-      # ==== Ajustes Gradle/Settings básicos ====
+      # 6) Ajustes de Gradle/Settings p/ AGP 8 e SDK 35
       - name: Ajustes Gradle/Settings
         working-directory: capapp/android
         run: |
           set -e
-          # wrapper -> Gradle 8.6
           ./gradlew wrapper --gradle-version 8.6 --distribution-type all
-          # settings.gradle (AGP 8.x exige estes blocos)
           cat > settings.gradle <<'EOF'
           pluginManagement {
             repositories {
@@ -109,11 +108,10 @@ jobs:
           rootProject.name = "capapp"
           include(":app")
           EOF
-          # build.gradle raiz - garantir AGP 8.6.0 se houver bloco buildscript
+          # Se build.gradle raiz tiver plugin AGP antigo, força 8.6.0
           if grep -q "com.android.tools.build:gradle" build.gradle; then
             sed -i 's/com\.android\.tools\.build:gradle:[0-9.]\+/com.android.tools.build:gradle:8.6.0/g' build.gradle
           fi
-          # gradle.properties & variables.gradle coerentes com SDK 35
           cat > gradle.properties <<'PROPS'
           android.useAndroidX=true
           android.enableJetifier=true
@@ -121,7 +119,7 @@ jobs:
           PROPS
           echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
 
-      # ==== Build AAB (release) com fallback p/ APK (debug) ====
+      # 7) Build AAB; se falhar, tenta APK debug
       - name: Build AAB (release)
         id: aab
         working-directory: capapp/android
@@ -134,12 +132,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: QuizCBJR-release-aab
-          path: |
-            capapp/android/app/build/outputs/bundle/release/*.aab
+          path: capapp/android/app/build/outputs/bundle/release/*.aab
           if-no-files-found: warn
           compression-level: 6
-          overwrite: false
-          include-hidden-files: false
 
       - name: Fallback APK (debug) + logs
         if: failure()
@@ -158,5 +153,3 @@ jobs:
             capapp/gradle_build_debug.log
           if-no-files-found: ignore
           compression-level: 6
-          overwrite: false
-          include-hidden-files: false
