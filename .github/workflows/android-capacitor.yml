@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 20
 
-      # CORRIGIDO: Removida a linha 'cache: none'
+      # CORRIGIDO: Java 17 com cache: none removido
       - name: Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
@@ -57,7 +57,7 @@ jobs:
           }
           JSON
 
-      # 4) Copia do site para capapp/www (usa ./www se existir; senão raiz+pastas comuns)
+      # 4) Copia do site para capapp/www
       - name: Copiando web do repo para capapp/www
         run: |
           set -e
@@ -74,13 +74,12 @@ jobs:
           test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www"; exit 2; }
           echo "OK index.html -> capapp/www"
 
-      # 5) Capacitor init + add android (sem --skip-deps)
+      # 5) Capacitor add android (COMANDO INICIALIZADOR REMOVIDO)
       - name: Capacitor init + Android
         working-directory: capapp
         run: |
           set -e
-          # CORRIGIDO: Removida a flag "--npm-client=npm"
-          npx cap init "Quiz CBJR" "br.com.quizcbjr" --web-dir=www --yes 
+          # Otimizado: Removido o comando 'npx cap init', já que o projeto foi preparado no Passo 3.
           yes | npx cap add android
           npx cap sync android
 
