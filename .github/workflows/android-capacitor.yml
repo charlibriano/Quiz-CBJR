@@ -24,13 +24,14 @@ jobs:
         with:
           node-version: 20
 
+      # ************ BLOCO CORRIGIDO ************
       - name: Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
-          # sem cache de Gradle (evita “No file matched to **/*.gradle*”)
-          cache: none
+          # Linha 'cache: none' REMOVIDA para corrigir o erro.
+          # O caching agora está desativado por omissão.
 
       - name: Android SDK
         uses: android-actions/setup-android@v3
@@ -119,16 +120,15 @@ jobs:
           PROPS
           echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
 
-      # 7) NOVO PASSO: Build APK (debug) - Simples e não exige chave de assinatura
+      # 7) Build APK (debug)
       - name: Build APK (debug)
         id: apk
         working-directory: capapp/android
         run: |
           set -e
-          # O assembleDebug gera o APK sem precisar de keystore
           ./gradlew :app:assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      # 8) NOVO PASSO: Upload APK e Logs
+      # 8) Upload APK e Logs
       - name: Upload APK e Logs
         uses: actions/upload-artifact@v4
         with:
