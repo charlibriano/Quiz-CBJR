@@ -74,12 +74,11 @@ jobs:
           test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www"; exit 2; }
           echo "OK index.html -> capapp/www"
 
-      # 5) Capacitor add android (COMANDO INICIALIZADOR REMOVIDO)
+      # 5) Capacitor add android (COMANDO INIT REMOVIDO)
       - name: Capacitor init + Android
         working-directory: capapp
         run: |
           set -e
-          # Otimizado: Removido o comando 'npx cap init', já que o projeto foi preparado no Passo 3.
           yes | npx cap add android
           npx cap sync android
 
@@ -126,13 +125,13 @@ jobs:
           set -e
           ./gradlew :app:assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      # 8) Upload APK e Logs
+      # 8) Upload APK e Logs (CORRIGIDO: Otimizado para encontrar o arquivo)
       - name: Upload APK e Logs
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-and-logs
           path: |
-            capapp/android/app/build/outputs/apk/debug/*.apk
+            capapp/android/app/build/outputs/apk/debug/
             capapp/gradle_build_debug.log
           if-no-files-found: ignore
           compression-level: 6
