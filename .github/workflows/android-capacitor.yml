@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 20
 
-      # CORRIGIDO: Java 17 com cache: none removido
+      # CORRIGIDO: Java 17 com cache: none removido (Resolve o erro "unknown package manager specified: none")
       - name: Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
@@ -74,7 +74,7 @@ jobs:
           test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www"; exit 2; }
           echo "OK index.html -> capapp/www"
 
-      # 5) Capacitor add android (COMANDO INIT E FLAGS REMOVIDOS)
+      # 5) Capacitor add android (CORRIGIDO: Removido npx cap init e --yes)
       - name: Capacitor init + Android
         working-directory: capapp
         run: |
@@ -82,12 +82,18 @@ jobs:
           yes | npx cap add android
           npx cap sync android
 
-      # 6) Ajustes de Gradle/Settings p/ AGP 8 e SDK 35
-      - name: Ajustes Gradle/Settings
+      # 6) Ajustes de Gradle/Settings p/ AGP 8 e SDK 35 (COMPLETAMENTE REVISADO)
+      - name: Ajustes e Limpeza do Gradle
         working-directory: capapp/android
         run: |
           set -e
+          # 6.1) Atualiza o Gradle Wrapper para uma versão estável
           ./gradlew wrapper --gradle-version 8.6 --distribution-type all
+
+          # 6.2) Define as variáveis de versão do SDK para Capacitor
+          echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35; agpVersion = '8.6.0' }" > variables.gradle
+
+          # 6.3) Configurações globais do Gradle (Necessárias para Gradle 8+)
           cat > settings.gradle <<'EOF'
           pluginManagement {
             repositories {
@@ -106,26 +112,40 @@ jobs:
           rootProject.name = "capapp"
           include(":app")
           EOF
-          # Se build.gradle raiz tiver plugin AGP antigo, força 8.6.0
-          if grep -q "com.android.tools.build:gradle" build.gradle; then
-            sed -i 's/com\.android\.tools\.build:gradle:[0-9.]\+/com.android.tools.build:gradle:8.6.0/g' build.gradle
-          fi
+
+          # 6.4) Limpeza do build.gradle (Raiz) - Resolve o erro de sintaxe e o conflito de repositórios
+          # Sobrescreve o build.gradle para uma versão limpa que apenas aplica o AGP e o Kotlin
+          cat > build.gradle <<'GRADLE'
+          buildscript {
+              def agp_version = '8.6.0'
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+              dependencies {
+                  classpath "com.android.tools.build:gradle:$agpVersion"
+                  classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23"
+              }
+          }
+
+          allprojects {
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+          
+          task clean(type: Delete) {
+              delete rootProject.buildDir
+          }
+          GRADLE
+          
+          # 6.5) Adiciona propriedades padrões
           cat > gradle.properties <<'PROPS'
           android.useAndroidX=true
           android.enableJetifier=true
           org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
           PROPS
-          echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
-
-      # 6.1) NOVO PASSO: Limpeza do Build.gradle raiz (Resolve o erro 'Google repository added')
-      - name: Limpeza do Build.gradle raiz
-        working-directory: capapp/android
-        run: |
-          set -e
-          # Remove o bloco buildscript { repositories { ... } }
-          sed -i '/buildscript {/,/}/d' build.gradle
-          # Remove o bloco allprojects { repositories { ... } }
-          sed -i '/allprojects {/,/}/d' build.gradle
 
 
       # 7) Build APK (debug)
