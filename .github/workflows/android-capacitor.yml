@@ -119,37 +119,22 @@ jobs:
           PROPS
           echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
 
-      # 7) Build AAB; se falhar, tenta APK debug
-      - name: Build AAB (release)
-        id: aab
+      # 7) NOVO PASSO: Build APK (debug) - Simples e não exige chave de assinatura
+      - name: Build APK (debug)
+        id: apk
         working-directory: capapp/android
         run: |
           set -e
-          ./gradlew :app:clean :app:bundleRelease --stacktrace --info | tee ../../gradle_build.log
-
-      - name: Upload AAB
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: QuizCBJR-release-aab
-          path: capapp/android/app/build/outputs/bundle/release/*.aab
-          if-no-files-found: warn
-          compression-level: 6
-
-      - name: Fallback APK (debug) + logs
-        if: failure()
-        working-directory: capapp/android
-        run: |
-          set -e
+          # O assembleDebug gera o APK sem precisar de keystore
           ./gradlew :app:assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      - name: Upload APK/Logs
+      # 8) NOVO PASSO: Upload APK e Logs
+      - name: Upload APK e Logs
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-and-logs
           path: |
             capapp/android/app/build/outputs/apk/debug/*.apk
-            capapp/gradle_build.log
             capapp/gradle_build_debug.log
           if-no-files-found: ignore
           compression-level: 6
