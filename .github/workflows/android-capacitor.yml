@@ -24,7 +24,6 @@ jobs:
         with:
           node-version: 20
 
-      # CORRIGIDO: Java 17 com cache: none removido (Era a causa do "unknown package manager specified: none")
       - name: Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
@@ -74,24 +73,21 @@ jobs:
           test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www"; exit 2; }
           echo "OK index.html -> capapp/www"
 
-      # 5) Capacitor add android
+      # 5) Capacitor add android (init desnecessário porque já temos capacitor.config.json)
       - name: Capacitor init + Android
         working-directory: capapp
         run: |
           set -e
-          # Removido npx cap init e flags, pois o projeto foi preparado no Passo 3.
           yes | npx cap add android
           npx cap sync android
 
       # 6) Ajustes de Gradle/Settings p/ AGP 8 e SDK 35
-      - name: Ajustes de Configuração do Gradle
+      - name: Ajustes Gradle/Settings
         working-directory: capapp/android
         run: |
           set -e
-          # 6.1) Atualiza o Gradle Wrapper para uma versão estável
+          chmod +x ./gradlew
           ./gradlew wrapper --gradle-version 8.6 --distribution-type all
-
-          # 6.2) Configurações globais do Gradle (Resolve o erro de repositórios do Gradle 8)
           cat > settings.gradle <<'EOF'
           pluginManagement {
             repositories {
@@ -110,32 +106,48 @@ jobs:
           rootProject.name = "capapp"
           include(":app")
           EOF
-
-          # 6.3) Variáveis de versão do SDK para Capacitor
+          if grep -q "com.android.tools.build:gradle" build.gradle; then
+            sed -i 's/com\.android\.tools\.build:gradle:[0-9.]\+/com.android.tools.build:gradle:8.6.0/g' build.gradle
+          fi
+          cat > gradle.properties <<'PROPS'
+          android.useAndroidX=true
+          android.enableJetifier=true
+          org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
+          PROPS
           echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
-          
-          # 6.4) Corrigir build.gradle do APLICATIVO (app/build.gradle) para usar as variáveis e compilar
-          # Este comando garante que as variáveis de versão sejam usadas pelo app.
-          # Adiciona 'apply from: "..."' no topo do app/build.gradle.
-          sed -i '1s/^/apply from: "..\/variables.gradle"\n/' app/build.gradle
 
-
-      # 7) Build APK (debug)
-      - name: Build APK (debug)
-        id: apk
+      # 7) Build AAB (release)
+      - name: Build AAB (release)
+        id: aab
         working-directory: capapp/android
         run: |
           set -e
-          # Usando 'assembleRelease' pois é mais robusto em ambientes de CI, mesmo que debug.
+          ./gradlew :app:clean :app:bundleRelease --stacktrace --info | tee ../../gradle_build.log
+
+      - name: Upload AAB
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: QuizCBJR-release-aab
+          path: capapp/android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: warn
+          compression-level: 6
+
+      # 8) Fallback: APK (debug) + logs se o AAB falhar
+      - name: Fallback APK (debug)
+        if: failure()
+        working-directory: capapp/android
+        run: |
+          set -e
           ./gradlew :app:assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      # 8) Upload APK e Logs (Corrigido para encontrar os arquivos)
       - name: Upload APK e Logs
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-and-logs
           path: |
-            capapp/android/app/build/outputs/apk/debug/
+            capapp/android/app/build/outputs/apk/debug/*.apk
+            capapp/gradle_build.log
             capapp/gradle_build_debug.log
           if-no-files-found: ignore
           compression-level: 6
