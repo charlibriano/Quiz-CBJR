@@ -24,7 +24,6 @@ jobs:
         with:
           node-version: 20
 
-      # Java 17 - CORRIGIDO: removida a linha 'cache: none' que causava erro.
       - name: Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
@@ -74,15 +73,15 @@ jobs:
           test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www"; exit 2; }
           echo "OK index.html -> capapp/www"
 
-      # 5) Capacitor add android (CORRIGIDO: Removido o npx cap init completo e o comando 'yes |' desnecessário)
+      # 5) Capacitor add android
       - name: Capacitor add Android
         working-directory: capapp
         run: |
           set -e
-          npx cap add android # Este comando sozinho é suficiente
+          npx cap add android
           npx cap sync android
 
-      # 6) CORREÇÃO DE GRADLE 8 (Maneira estável)
+      # 6) CORREÇÃO DE GRADLE 8 (Estável)
       - name: Correção de Gradle (SDK e AGP)
         working-directory: capapp/android
         run: |
@@ -95,7 +94,6 @@ jobs:
           echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
           
           # 6.3) Configuração do Gradle 8 (Resolve o erro de repositórios)
-          # Isso é essencial para o Gradle 8+.
           cat > settings.gradle <<'EOF'
           pluginManagement {
             repositories {
@@ -133,11 +131,12 @@ jobs:
           set -e
           ./gradlew :app:assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      # 8) Upload APK e Logs (Corrigido para encontrar os arquivos)
+      # 8) Upload APK e Logs
       - name: Upload APK e Logs
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-and-logs
+          # CORREÇÃO AQUI: Adicionar '/*.apk' para incluir o arquivo.
           path: |
             capapp/android/app/build/outputs/apk/debug/*.apk
             capapp/gradle_build_debug.log
