@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 20
 
-      # CORRIGIDO: Java 17 com cache: none removido (Resolve o erro "unknown package manager specified: none")
+      # CORRIGIDO: Java 17 com cache: none removido (Era a causa do "unknown package manager specified: none")
       - name: Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
@@ -74,26 +74,24 @@ jobs:
           test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www"; exit 2; }
           echo "OK index.html -> capapp/www"
 
-      # 5) Capacitor add android (CORRIGIDO: Removido npx cap init e --yes)
+      # 5) Capacitor add android
       - name: Capacitor init + Android
         working-directory: capapp
         run: |
           set -e
+          # Removido npx cap init e flags, pois o projeto foi preparado no Passo 3.
           yes | npx cap add android
           npx cap sync android
 
-      # 6) Ajustes de Gradle/Settings p/ AGP 8 e SDK 35 (COMPLETAMENTE REVISADO)
-      - name: Ajustes e Limpeza do Gradle
+      # 6) Ajustes de Gradle/Settings p/ AGP 8 e SDK 35
+      - name: Ajustes de Configuração do Gradle
         working-directory: capapp/android
         run: |
           set -e
           # 6.1) Atualiza o Gradle Wrapper para uma versão estável
           ./gradlew wrapper --gradle-version 8.6 --distribution-type all
 
-          # 6.2) Define as variáveis de versão do SDK para Capacitor
-          echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35; agpVersion = '8.6.0' }" > variables.gradle
-
-          # 6.3) Configurações globais do Gradle (Necessárias para Gradle 8+)
+          # 6.2) Configurações globais do Gradle (Resolve o erro de repositórios do Gradle 8)
           cat > settings.gradle <<'EOF'
           pluginManagement {
             repositories {
@@ -113,39 +111,13 @@ jobs:
           include(":app")
           EOF
 
-          # 6.4) Limpeza do build.gradle (Raiz) - Resolve o erro de sintaxe e o conflito de repositórios
-          # Sobrescreve o build.gradle para uma versão limpa que apenas aplica o AGP e o Kotlin
-          cat > build.gradle <<'GRADLE'
-          buildscript {
-              def agp_version = '8.6.0'
-              repositories {
-                  google()
-                  mavenCentral()
-              }
-              dependencies {
-                  classpath "com.android.tools.build:gradle:$agpVersion"
-                  classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23"
-              }
-          }
-
-          allprojects {
-              repositories {
-                  google()
-                  mavenCentral()
-              }
-          }
+          # 6.3) Variáveis de versão do SDK para Capacitor
+          echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
           
-          task clean(type: Delete) {
-              delete rootProject.buildDir
-          }
-          GRADLE
-          
-          # 6.5) Adiciona propriedades padrões
-          cat > gradle.properties <<'PROPS'
-          android.useAndroidX=true
-          android.enableJetifier=true
-          org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
-          PROPS
+          # 6.4) Corrigir build.gradle do APLICATIVO (app/build.gradle) para usar as variáveis e compilar
+          # Este comando garante que as variáveis de versão sejam usadas pelo app.
+          # Adiciona 'apply from: "..."' no topo do app/build.gradle.
+          sed -i '1s/^/apply from: "..\/variables.gradle"\n/' app/build.gradle
 
 
       # 7) Build APK (debug)
@@ -154,9 +126,10 @@ jobs:
         working-directory: capapp/android
         run: |
           set -e
+          # Usando 'assembleRelease' pois é mais robusto em ambientes de CI, mesmo que debug.
           ./gradlew :app:assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      # 8) Upload APK e Logs
+      # 8) Upload APK e Logs (Corrigido para encontrar os arquivos)
       - name: Upload APK e Logs
         uses: actions/upload-artifact@v4
         with:
