@@ -1,8 +1,8 @@
-name: Android (Capacitor) Build — minimal
+name: Android (Capacitor) Build - minimal
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -14,21 +14,19 @@ jobs:
       CAPACITOR_DISABLE_TELEMETRY: "1"
 
     steps:
-      # 1) Código
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2) Toolchain
       - name: Node 20
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "20"
 
       - name: Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 17
+          distribution: "temurin"
+          java-version: "17"
 
       - name: Android SDK
         uses: android-actions/setup-android@v3
@@ -37,7 +35,6 @@ jobs:
         run: |
           sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0" >/dev/null
 
-      # 3) Projeto Capacitor recém criado
       - name: Preparar capapp
         run: |
           set -e
@@ -56,7 +53,6 @@ jobs:
           }
           JSON
 
-      # 4) Copia do site para capapp/www
       - name: Copiando web do repo para capapp/www
         run: |
           set -e
@@ -71,9 +67,7 @@ jobs:
             done
           fi
           test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www"; exit 2; }
-          echo "OK index.html -> capapp/www"
 
-      # 5) Capacitor add/sync Android
       - name: Capacitor add/sync Android
         working-directory: capapp
         run: |
@@ -81,15 +75,12 @@ jobs:
           yes | npx cap add android
           npx cap sync android
 
-      # 6) Ajustes de Gradle/Settings p/ AGP 8 e SDK 35
       - name: Ajustes Gradle/Settings
         working-directory: capapp/android
         run: |
           set -e
-          # wrapper (mantém gradle recente e compatível)
           ./gradlew wrapper --gradle-version 8.6 --distribution-type all
 
-          # settings.gradle (garante repositórios adequados)
           cat > settings.gradle <<'EOF'
           pluginManagement {
             repositories {
@@ -109,7 +100,6 @@ jobs:
           include(":app")
           EOF
 
-          # Propriedades e versões de SDK
           cat > gradle.properties <<'PROPS'
           android.useAndroidX=true
           android.enableJetifier=true
@@ -118,8 +108,7 @@ jobs:
 
           echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
 
-      # 6.1) **Correção**: recria build.gradle raiz válido (o anterior estava quebrando o parser)
-      - name: Recriar build.gradle raiz (válido p/ AGP 8)
+      - name: Recriar build.gradle raiz (AGP 8)
         working-directory: capapp/android
         run: |
           set -e
@@ -131,7 +120,6 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // Android Gradle Plugin (compatível com Gradle 8.6+)
         classpath 'com.android.tools.build:gradle:8.6.0'
         // Se usar Firebase/Google Services, descomente a linha abaixo:
         // classpath 'com.google.gms:google-services:4.4.2'
@@ -148,7 +136,6 @@ tasks.register("clean", Delete) {
 }
 EOF
 
-      # 7) Build AAB (release)
       - name: Build AAB (release)
         id: aab
         working-directory: capapp/android
@@ -156,7 +143,6 @@ EOF
           set -e
           ./gradlew :app:clean :app:bundleRelease --stacktrace --info | tee ../../gradle_build_release.log
 
-      # 8) Listar artefatos gerados (ajuda a depurar paths)
       - name: Listar artefatos gerados
         run: |
           echo "== .aab =="
@@ -164,19 +150,17 @@ EOF
           echo "== .apk =="
           find capapp/android/app/build/outputs -name "*.apk" -type f || true
 
-      # 9) Upload AAB
       - name: Upload AAB
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: QuizCBJR-aab
-          path: capapp/android/app/build/outputs/bundle/release/*.aab
+          path: 'capapp/android/app/build/outputs/bundle/release/*.aab'
           if-no-files-found: ignore
           compression-level: 6
           overwrite: false
           include-hidden-files: false
 
-      # 10) Fallback: gera APK (debug) se AAB falhar
       - name: Build APK (debug) se AAB falhar
         if: failure()
         working-directory: capapp/android
@@ -184,13 +168,12 @@ EOF
           set -e
           ./gradlew :app:assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      # 11) Upload APK + logs (se existir)
       - name: Upload APK (debug) + logs
         uses: actions/upload-artifact@v4
         with:
           name: QuizCBJR-apk-e-logs
           path: |
-            capapp/android/app/build/outputs/apk/**/**/*.apk
+            capapp/android/app/build/outputs/apk/**/*.apk
             capapp/gradle_build_release.log
             capapp/gradle_build_debug.log
           if-no-files-found: ignore
