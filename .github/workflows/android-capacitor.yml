@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 20
 
-      # Java 17 - Corrigido para remover o 'cache: none'
+      # Java 17 - CORRIGIDO: removida a linha 'cache: none' que causava erro.
       - name: Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
@@ -74,17 +74,16 @@ jobs:
           test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www"; exit 2; }
           echo "OK index.html -> capapp/www"
 
-      # 5) Capacitor add android (COMANDO INIT PROBLEMÁTICO REMOVIDO)
-      - name: Capacitor init + Android
+      # 5) Capacitor add android (CORRIGIDO: Removido o npx cap init completo e o comando 'yes |' desnecessário)
+      - name: Capacitor add Android
         working-directory: capapp
         run: |
           set -e
-          # O npx cap init foi removido para evitar o erro 'unknown option'
-          yes | npx cap add android
+          npx cap add android # Este comando sozinho é suficiente
           npx cap sync android
 
-      # 6) CORREÇÃO FINAL DE GRADLE (Focada no app/build.gradle para maior estabilidade)
-      - name: Correção Final de Gradle (Target/Compile SDK)
+      # 6) CORREÇÃO DE GRADLE 8 (Maneira estável)
+      - name: Correção de Gradle (SDK e AGP)
         working-directory: capapp/android
         run: |
           set -e
@@ -92,10 +91,11 @@ jobs:
           chmod +x ./gradlew
           ./gradlew wrapper --gradle-version 8.6 --distribution-type all
 
-          # 6.2) Variáveis de versão do SDK para Capacitor (Necessário para a correção 6.4)
+          # 6.2) Variáveis de versão do SDK para Capacitor
           echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
           
-          # 6.3) Configuração do Gradle 8 (Resolve o erro de repositórios do Gradle 8)
+          # 6.3) Configuração do Gradle 8 (Resolve o erro de repositórios)
+          # Isso é essencial para o Gradle 8+.
           cat > settings.gradle <<'EOF'
           pluginManagement {
             repositories {
@@ -115,18 +115,17 @@ jobs:
           include(":app")
           EOF
           
-          # 6.4) Corrigir build.gradle do APLICATIVO (app/build.gradle) para usar as variáveis e compilar
-          # Injeta 'apply from: "..."' no topo do app/build.gradle.
+          # 6.4) Injeta as variáveis de versão no app/build.gradle
           sed -i '1s/^/apply from: "..\/variables.gradle"\n/' app/build.gradle
           
-          # 6.5) Garante que o Gradle 8 não falhe por causa de jetifier (opcionalmente)
+          # 6.5) Propriedades de build
           cat > gradle.properties <<'PROPS'
           android.useAndroidX=true
           android.enableJetifier=true
           org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
           PROPS
 
-      # 7) Build APK (debug) - Removido o AAB para simplificar o sucesso
+      # 7) Build APK (debug)
       - name: Build APK (debug)
         id: apk
         working-directory: capapp/android
@@ -134,13 +133,13 @@ jobs:
           set -e
           ./gradlew :app:assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      # 8) Upload APK e Logs
+      # 8) Upload APK e Logs (Corrigido para encontrar os arquivos)
       - name: Upload APK e Logs
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-and-logs
           path: |
-            capapp/android/app/build/outputs/apk/debug/
+            capapp/android/app/build/outputs/apk/debug/*.apk
             capapp/gradle_build_debug.log
           if-no-files-found: ignore
           compression-level: 6
