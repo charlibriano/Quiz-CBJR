@@ -37,7 +37,7 @@ jobs:
         run: |
           sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0" >/dev/null
 
-      # 3) Projeto Capacitor
+      # 3) Projeto Capacitor recém criado
       - name: Preparar capapp
         run: |
           set -e
@@ -56,6 +56,7 @@ jobs:
           }
           JSON
 
+      # 4) Copia do site para capapp/www
       - name: Copiando web do repo para capapp/www
         run: |
           set -e
@@ -72,6 +73,7 @@ jobs:
           test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www"; exit 2; }
           echo "OK index.html -> capapp/www"
 
+      # 5) Capacitor add/sync Android
       - name: Capacitor add/sync Android
         working-directory: capapp
         run: |
@@ -79,12 +81,15 @@ jobs:
           yes | npx cap add android
           npx cap sync android
 
-      # 4) Ajustes Gradle/Settings para AGP 8 e SDK 35
+      # 6) Ajustes de Gradle/Settings p/ AGP 8 e SDK 35
       - name: Ajustes Gradle/Settings
         working-directory: capapp/android
         run: |
           set -e
+          # wrapper (mantém gradle recente e compatível)
           ./gradlew wrapper --gradle-version 8.6 --distribution-type all
+
+          # settings.gradle (garante repositórios adequados)
           cat > settings.gradle <<'EOF'
           pluginManagement {
             repositories {
@@ -103,22 +108,47 @@ jobs:
           rootProject.name = "capapp"
           include(":app")
           EOF
-          # Se build.gradle raiz tiver plugin AGP antigo, força 8.6.0
-          if grep -q "com.android.tools.build:gradle" build.gradle; then
-            sed -i 's/com\.android\.tools\.build:gradle:[0-9.]\+/com.android.tools.build:gradle:8.6.0/g' build.gradle
-          fi
-          # Remove blocos herdados que quebram o build (buildscript/allprojects)
-          sed -i '/buildscript {/,/}/d' build.gradle
-          sed -i '/allprojects {/,/}/d' build.gradle
-          # Propriedades
+
+          # Propriedades e versões de SDK
           cat > gradle.properties <<'PROPS'
           android.useAndroidX=true
           android.enableJetifier=true
           org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
           PROPS
+
           echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
 
-      # 5) Build AAB (release)
+      # 6.1) **Correção**: recria build.gradle raiz válido (o anterior estava quebrando o parser)
+      - name: Recriar build.gradle raiz (válido p/ AGP 8)
+        working-directory: capapp/android
+        run: |
+          set -e
+          cat > build.gradle <<'EOF'
+// Top-level build file for the Android project (Capacitor)
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Android Gradle Plugin (compatível com Gradle 8.6+)
+        classpath 'com.android.tools.build:gradle:8.6.0'
+        // Se usar Firebase/Google Services, descomente a linha abaixo:
+        // classpath 'com.google.gms:google-services:4.4.2'
+    }
+}
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
+EOF
+
+      # 7) Build AAB (release)
       - name: Build AAB (release)
         id: aab
         working-directory: capapp/android
@@ -126,42 +156,44 @@ jobs:
           set -e
           ./gradlew :app:clean :app:bundleRelease --stacktrace --info | tee ../../gradle_build_release.log
 
-      # 6) Se AAB falhar, build APK (debug)
+      # 8) Listar artefatos gerados (ajuda a depurar paths)
+      - name: Listar artefatos gerados
+        run: |
+          echo "== .aab =="
+          find capapp/android/app/build/outputs -name "*.aab" -type f || true
+          echo "== .apk =="
+          find capapp/android/app/build/outputs -name "*.apk" -type f || true
+
+      # 9) Upload AAB
+      - name: Upload AAB
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: QuizCBJR-aab
+          path: capapp/android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: ignore
+          compression-level: 6
+          overwrite: false
+          include-hidden-files: false
+
+      # 10) Fallback: gera APK (debug) se AAB falhar
       - name: Build APK (debug) se AAB falhar
         if: failure()
-        id: apk
         working-directory: capapp/android
         run: |
           set -e
           ./gradlew :app:assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
 
-      # 7) Mostrar o que foi gerado (sempre)
-      - name: Listar artefatos gerados
-        if: always()
-        working-directory: capapp/android
-        run: |
-          echo "== conteúdo de app/build/outputs =="
-          find app/build/outputs -maxdepth 4 -type f -printf "%p\n" || true
-
-      # 8) Upload do AAB (não falha se não encontrar)
-      - name: Upload AAB
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: QuizCBJR-aab
-          path: capapp/android/app/build/outputs/**/*.aab
-          if-no-files-found: ignore
-          compression-level: 6
-
-      # 9) Upload APK e logs (não falha se não encontrar)
+      # 11) Upload APK + logs (se existir)
       - name: Upload APK (debug) + logs
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: QuizCBJR-apk-e-logs
           path: |
-            capapp/android/app/build/outputs/**/*.apk
+            capapp/android/app/build/outputs/apk/**/**/*.apk
             capapp/gradle_build_release.log
             capapp/gradle_build_debug.log
           if-no-files-found: ignore
           compression-level: 6
+          overwrite: false
+          include-hidden-files: false
