@@ -69,12 +69,6 @@ jobs:
           # Se você tiver um projeto web real, os arquivos devem estar na raiz do seu repositório
           # e serão copiados para capapp/www neste passo.
           
-          # Se o seu projeto web estiver na raiz do repositório (ex: index.html, assets/, etc.)
-          # então você pode descomentar e ajustar as linhas abaixo:
-          # cp -a ./*.html capapp/www/ 2>/dev/null || true
-          # cp -a ./*.htm  capapp/www/ 2>/dev/null || true
-          # for d in assets img css js; do [ -d "$d" ] && cp -a "$d" capapp/www/ || true; done
-          
           # Para este exemplo, estamos apenas garantindo que o index.html básico exista.
           test -f capapp/www/index.html
 
@@ -86,7 +80,7 @@ jobs:
           npx cap sync android
 
       - name: Configurar Memória do Gradle
-        working-directory: capapp
+        working-directory: capapp/android
         run: |
           echo "org.gradle.jvmargs=-Xmx4g" >> gradle.properties
 
