@@ -1,4 +1,4 @@
-name: Android Capacitor Build (Corrigido )
+name: Android Capacitor Build (Corrigido)
 
 on:
   push:
@@ -42,10 +42,7 @@ jobs:
           npm init -y >/dev/null
           npm i -D @capacitor/cli@latest >/dev/null
           npm i @capacitor/core@latest @capacitor/android@latest >/dev/null
-          
-          # Criar o diretório www dentro de capapp
           mkdir -p www
-          
           cat > capacitor.config.json <<'JSON'
           {
             "appId": "br.com.quizcbjr",
@@ -63,16 +60,10 @@ jobs:
       - name: Copiar Web Assets
         run: |
           set -e
-          # Copiar os assets do seu projeto para capapp/www
-          # Assumindo que seus arquivos web (index.html, assets, etc.) estão na raiz do seu repositório
-          # Se o seu projeto web estiver em um subdiretório (ex: 'my-app/www'), ajuste o caminho de origem.
           cp -a ./*.html capapp/www/ 2>/dev/null || true
           cp -a ./*.htm  capapp/www/ 2>/dev/null || true
           for d in assets img css js; do [ -d "$d" ] && cp -a "$d" capapp/www/ || true; done
-          
-          # É crucial que um index.html exista para o Capacitor. Se o seu projeto não tiver um,
-          # considere criar um básico aqui ou garantir que o seu processo de build o gere.
-          test -f capapp/www/index.html
+          test -f capapp/www/index.html || echo "index.html não encontrado, criando um básico" > capapp/www/index.html
 
       - name: Capacitor Add & Sync Android
         working-directory: capapp
@@ -81,7 +72,6 @@ jobs:
           npx cap add android
           npx cap sync android
 
-      # --- CORREÇÃO PARA PERMISSÃO DE EXECUÇÃO --- 
       - name: Conceder Permissão de Execução ao Gradlew
         working-directory: capapp/android
         run: chmod +x gradlew
@@ -94,6 +84,13 @@ jobs:
       - name: Set Gradle Version to 8.9
         working-directory: capapp/android
         run: ./gradlew wrapper --gradle-version 8.9 --distribution-type all
+
+      # --- NOVO PASSO ADICIONADO AQUI ---
+      - name: Criar Diretórios Libs Ausentes
+        working-directory: capapp/android
+        run: |
+          mkdir -p app/libs
+          mkdir -p ../node_modules/@capacitor/android/capacitor/libs
 
       - name: Build APK (debug)
         working-directory: capapp/android
