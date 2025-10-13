@@ -76,10 +76,15 @@ jobs:
           npx cap add android
           npx cap sync android
 
-      # --- NOVO PASSO ADICIONADO AQUI ---
-      - name: Set Gradle Version
+      - name: Configurar Memória do Gradle
         working-directory: capapp/android
-        run: ./gradlew wrapper --gradle-version 8.4 --distribution-type all
+        run: |
+          echo "org.gradle.jvmargs=-Xmx4g" >> gradle.properties
+
+      # --- CORREÇÃO APLICADA AQUI --- 
+      - name: Set Gradle Version to 8.9
+        working-directory: capapp/android
+        run: ./gradlew wrapper --gradle-version 8.9 --distribution-type all
 
       - name: Build APK (debug)
         working-directory: capapp/android
