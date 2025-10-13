@@ -1,57 +1,147 @@
-name: Build Android APK
+name: Android (Capacitor) Build — minimal
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CI: "1"
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      CAPACITOR_DISABLE_TELEMETRY: "1"
 
     steps:
-      - name: Checkout do Repositório
+      # 1) Checkout do código
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configurar Node.js
+      # 2) Ferramentas de build
+      - name: Setup Node 20
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
 
-      - name: Configurar Java (JDK)
+      - name: Setup Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: 17
 
-      - name: Configurar Android SDK
+      - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Instalar Dependências e Inicializar Capacitor
+      - name: Instalar pacotes do Android SDK
         run: |
+          sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
+      # 3) Criar projeto Capacitor (capapp)
+      - name: Criar capapp e instalar dependências
+        run: |
+          set -e
+          rm -rf capapp
+          mkdir capapp
+          cd capapp
           npm init -y
-          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
-          npx cap init "Quiz CBJR" "br.com.quizcbjr" --web-dir "www"
+          npm install --save @capacitor/core @capacitor/android
+          npm install --save-dev @capacitor/cli
+          cat > capacitor.config.json <<'JSON'
+          {
+            "appId": "br.com.quizcbjr",
+            "appName": "Quiz CBJR",
+            "webDir": "www",
+            "bundledWebRuntime": false
+          }
+          JSON
 
-      - name: Copiar Arquivos Web para o Diretório www
+      # 4) Copiar arquivos web para capapp/www
+      - name: Copiar web do repositório para capapp/www
         run: |
-          mkdir -p www
-          cp -r assets css img js *.html *.htm www/ 2>/dev/null || true
+          set -e
+          mkdir -p capapp/www
+          # Se houver diretório www com index.html usa tudo; senão copia arquivos da raiz
+          if [ -f ./www/index.html ]; then
+            cp -a ./www/. capapp/www/
+          else
+            cp -a ./*.html capapp/www/ 2>/dev/null || true
+            for d in assets img css js; do
+              [ -d "$d" ] && cp -a "$d" capapp/www/
+            done
+          fi
+          test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www" && exit 2; }
 
-      - name: Adicionar Plataforma Android
-        run: npx cap add android
-
-      - name: Conceder Permissão de Execução ao Gradlew
-        run: chmod +x android/gradlew
-
-      - name: Limpar e Construir o APK de Debug
+      # 5) Inicializar Capacitor e adicionar Android
+      - name: Inicializar e sincronizar Android
+        working-directory: capapp
         run: |
-          cd android
-          ./gradlew clean assembleDebug --stacktrace
+          set -e
+          # cria arquivo package.json conforme necessário, mas não instala dependências aqui
+          npx cap init "Quiz CBJR" "br.com.quizcbjr" --web-dir=www --npm-client=npm
+          npx cap add android
+          npx cap sync android
 
-      - name: Fazer Upload do Artefato APK
+      # 6) Ajustar wrapper Gradle e settings.gradle
+      - name: Ajustes de Gradle e Settings
+        working-directory: capapp/android
+        run: |
+          set -e
+          # Atualiza wrapper para gradle 8.6
+          ./gradlew wrapper --gradle-version 8.6 --distribution-type all
+          # Configura novo settings.gradle para AGP 8.x
+          cat > settings.gradle <<'EOF'
+          pluginManagement {
+            repositories {
+              google()
+              mavenCentral()
+              gradlePluginPortal()
+            }
+          }
+          dependencyResolutionManagement {
+            repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+            repositories {
+              google()
+              mavenCentral()
+            }
+          }
+          rootProject.name = "capapp"
+          include(":app")
+          EOF
+          # Remove blocos buildscript e allprojects que podem conflitar
+          sed -i '/buildscript {/,/}/d' build.gradle
+          sed -i '/allprojects {/,/}/d' build.gradle
+          # Substitui properties e variables
+          cat > gradle.properties <<'PROPS'
+          android.useAndroidX=true
+          android.enableJetifier=true
+          org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
+          PROPS
+          echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
+
+      # 7) Build release; se falhar, fallback para debug
+      - name: Build AAB (release)
+        id: build_aab
+        working-directory: capapp/android
+        run: |
+          set -e
+          ./gradlew :app:bundleRelease --stacktrace --info | tee ../../gradle_build_release.log
+
+      - name: Build APK (debug) se AAB falhar
+        if: failure()
+        working-directory: capapp/android
+        run: |
+          set -e
+          ./gradlew :app:assembleDebug --stacktrace --info | tee ../../gradle_build_debug.log
+
+      # 8) Fazer upload dos artefatos (.aab ou .apk) e dos logs
+      - name: Upload AAB e APK e logs
         uses: actions/upload-artifact@v4
         with:
-          name: QuizCBJR-debug.apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
+          name: build-artifacts-and-logs
+          path: |
+            capapp/android/app/build/outputs/**/*.aab
+            capapp/android/app/build/outputs/**/*.apk
+            capapp/gradle_build_release.log
+            capapp/gradle_build_debug.log
+          if-no-files-found: warn
