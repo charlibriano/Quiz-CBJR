@@ -27,39 +27,29 @@ jobs:
       - name: Configurar Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Instalar pacotes do Android SDK
-        run: sdkmanager --install "platform-tools" "platforms;android-34" "build-tools;34.0.0" >/dev/null
-
-      - name: Instalar Dependências Node.js
+      # --- PASSO FUNDAMENTAL ADICIONADO AQUI ---
+      - name: Inicializar Projeto Node.js e Instalar Capacitor
         run: |
-          npm install
-          npm install -g @capacitor/cli
-          npm install @capacitor/core @capacitor/android
+          npm init -y
+          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
 
-      - name: Inicializar Capacitor e Adicionar Plataforma Android
-        run: |
-          npx cap init "Quiz CBJR" "br.com.quizcbjr" --web-dir "www"
-          npx cap add android
+      - name: Inicializar Capacitor no Projeto
+        run: npx cap init "Quiz CBJR" "br.com.quizcbjr" --web-dir "www"
 
       - name: Copiar Arquivos Web para o Diretório www
         run: |
           mkdir -p www
-          # Copia todos os arquivos e diretórios da raiz do seu projeto para www
-          # Ajuste este comando se seus arquivos web estiverem em um subdiretório específico
-          cp -r ./* www/ 2>/dev/null || true
-          # Garante que um index.html exista, mesmo que seja um placeholder
-          test -f www/index.html || echo "<!DOCTYPE html><html><head><title>Capacitor App</title></head><body><h1>Hello Capacitor!</h1></body></html>" > www/index.html
+          cp -r assets css img js *.html *.htm www/ 2>/dev/null || true
 
-      - name: Sincronizar Capacitor com Android
-        run: npx cap sync android
+      - name: Adicionar Plataforma Android
+        run: npx cap add android
 
       - name: Conceder Permissão de Execução ao Gradlew
         run: chmod +x android/gradlew
 
       - name: Limpar e Construir o APK de Debug
-        run: |
-          cd android
-          ./gradlew clean assembleDebug --stacktrace
+        working-directory: ./android
+        run: ./gradlew clean assembleDebug --stacktrace
 
       - name: Fazer Upload do Artefato APK
         uses: actions/upload-artifact@v4
