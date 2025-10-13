@@ -1,4 +1,4 @@
-name: Android Capacitor Build (Corrigido)
+name: Build Android APK
 
 on:
   push:
@@ -8,99 +8,50 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      CI: "1"
-      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
-      CAPACITOR_DISABLE_TELEMETRY: "1"
 
     steps:
-      - name: Checkout
+      - name: Checkout do Repositório
         uses: actions/checkout@v4
 
-      - name: Node 20
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Java 17 (Temurin)
+      - name: Configurar Java (JDK)
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Android SDK
+      - name: Configurar Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Instalar pacotes SDK
-        run: sdkmanager --install "platform-tools" "platforms;android-34" "build-tools;34.0.0" >/dev/null
-
-      - name: Preparar App Capacitor
+      - name: Instalar Dependências e Inicializar Capacitor
         run: |
-          set -e
-          rm -rf capapp
-          mkdir -p capapp && cd capapp
-          npm init -y >/dev/null
-          npm i -D @capacitor/cli@latest >/dev/null
-          npm i @capacitor/core@latest @capacitor/android@latest >/dev/null
+          npm init -y
+          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
+          npx cap init "Quiz CBJR" "br.com.quizcbjr" --web-dir "www"
+
+      - name: Copiar Arquivos Web para o Diretório www
+        run: |
           mkdir -p www
-          cat > capacitor.config.json <<'JSON'
-          {
-            "appId": "br.com.quizcbjr",
-            "appName": "Quiz CBJR",
-            "webDir": "www",
-            "bundledWebRuntime": false,
-            "android": {
-              "compileSdkVersion": 34,
-              "targetSdkVersion": 34,
-              "minSdkVersion": 22
-            }
-          }
-          JSON
+          cp -r assets css img js *.html *.htm www/ 2>/dev/null || true
 
-      - name: Copiar Web Assets
-        run: |
-          set -e
-          cp -a ./*.html capapp/www/ 2>/dev/null || true
-          cp -a ./*.htm  capapp/www/ 2>/dev/null || true
-          for d in assets img css js; do [ -d "$d" ] && cp -a "$d" capapp/www/ || true; done
-          test -f capapp/www/index.html || echo "index.html não encontrado, criando um básico" > capapp/www/index.html
-
-      - name: Capacitor Add & Sync Android
-        working-directory: capapp
-        run: |
-          set -e
-          npx cap add android
-          npx cap sync android
+      - name: Adicionar Plataforma Android
+        run: npx cap add android
 
       - name: Conceder Permissão de Execução ao Gradlew
-        working-directory: capapp/android
-        run: chmod +x gradlew
+        run: chmod +x android/gradlew
 
-      - name: Configurar Memória do Gradle
-        working-directory: capapp/android
+      - name: Limpar e Construir o APK de Debug
         run: |
-          echo "org.gradle.jvmargs=-Xmx4g" >> gradle.properties
+          cd android
+          ./gradlew clean assembleDebug --stacktrace
 
-      - name: Set Gradle Version to 8.9
-        working-directory: capapp/android
-        run: ./gradlew wrapper --gradle-version 8.9 --distribution-type all
-
-      # --- NOVO PASSO ADICIONADO AQUI ---
-      - name: Criar Diretórios Libs Ausentes
-        working-directory: capapp/android
-        run: |
-          mkdir -p app/libs
-          mkdir -p ../node_modules/@capacitor/android/capacitor/libs
-
-      - name: Build APK (debug)
-        working-directory: capapp/android
-        run: |
-          set -e
-          ./gradlew :app:clean :app:assembleDebug --stacktrace --info
-
-      - name: Upload APK Artifact
+      - name: Fazer Upload do Artefato APK
         uses: actions/upload-artifact@v4
         with:
-          name: QuizCBJR-debug-apk
-          path: capapp/android/app/build/outputs/apk/debug/app-debug.apk
+          name: QuizCBJR-debug.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
