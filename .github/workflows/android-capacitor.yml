@@ -43,9 +43,8 @@ jobs:
           npm i -D @capacitor/cli@latest >/dev/null
           npm i @capacitor/core@latest @capacitor/android@latest >/dev/null
           
-          # --- Adicionado: Criar um index.html básico para o Capacitor --- 
+          # Criar o diretório www dentro de capapp
           mkdir -p www
-          echo '<!DOCTYPE html><html><head><title>Quiz CBJR</title></head><body><h1>Hello Capacitor!</h1></body></html>' > www/index.html
           
           cat > capacitor.config.json <<'JSON'
           {
@@ -64,12 +63,15 @@ jobs:
       - name: Copiar Web Assets
         run: |
           set -e
-          # --- Removido: A lógica de cópia de assets foi simplificada --- 
-          # O Capacitor espera que os assets estejam em 'www' antes de adicionar a plataforma
-          # Se você tiver um projeto web real, os arquivos devem estar na raiz do seu repositório
-          # e serão copiados para capapp/www neste passo.
+          # Copiar os assets do seu projeto para capapp/www
+          # Assumindo que seus arquivos web (index.html, assets, etc.) estão na raiz do seu repositório
+          # Se o seu projeto web estiver em um subdiretório (ex: 'my-app/www'), ajuste o caminho de origem.
+          cp -a ./*.html capapp/www/ 2>/dev/null || true
+          cp -a ./*.htm  capapp/www/ 2>/dev/null || true
+          for d in assets img css js; do [ -d "$d" ] && cp -a "$d" capapp/www/ || true; done
           
-          # Para este exemplo, estamos apenas garantindo que o index.html básico exista.
+          # É crucial que um index.html exista para o Capacitor. Se o seu projeto não tiver um,
+          # considere criar um básico aqui ou garantir que o seu processo de build o gere.
           test -f capapp/www/index.html
 
       - name: Capacitor Add & Sync Android
@@ -78,6 +80,11 @@ jobs:
           set -e
           npx cap add android
           npx cap sync android
+
+      # --- NOVO PASSO ADICIONADO AQUI --- 
+      - name: Conceder Permissão de Execução ao Gradlew
+        working-directory: capapp/android
+        run: chmod +x gradlew
 
       - name: Configurar Memória do Gradle
         working-directory: capapp/android
