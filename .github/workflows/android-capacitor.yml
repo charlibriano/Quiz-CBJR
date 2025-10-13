@@ -1,4 +1,4 @@
-name: Android Capacitor Build (Corrigido)
+name: Android Capacitor Build (Corrigido )
 
 on:
   push:
@@ -81,7 +81,7 @@ jobs:
           npx cap add android
           npx cap sync android
 
-      # --- NOVO PASSO ADICIONADO AQUI --- 
+      # --- CORREÇÃO PARA PERMISSÃO DE EXECUÇÃO --- 
       - name: Conceder Permissão de Execução ao Gradlew
         working-directory: capapp/android
         run: chmod +x gradlew
