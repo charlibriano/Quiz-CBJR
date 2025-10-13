@@ -1,8 +1,8 @@
-name: Android (Capacitor) Build - minimal
+name: Android Capacitor Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -20,27 +20,25 @@ jobs:
       - name: Node 20
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: '20'
 
       - name: Java 17 (Temurin)
         uses: actions/setup-java@v4
         with:
-          distribution: "temurin"
-          java-version: "17"
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Android SDK
         uses: android-actions/setup-android@v3
 
       - name: SDK packages
-        run: |
-          sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0" >/dev/null
+        run: sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0" >/dev/null
 
       - name: Preparar capapp
         run: |
           set -e
           rm -rf capapp
-          mkdir -p capapp
-          cd capapp
+          mkdir -p capapp && cd capapp
           npm init -y >/dev/null
           npm i -D @capacitor/cli >/dev/null
           npm i @capacitor/core @capacitor/android >/dev/null
@@ -53,7 +51,7 @@ jobs:
           }
           JSON
 
-      - name: Copiando web do repo para capapp/www
+      - name: Copiar web
         run: |
           set -e
           mkdir -p capapp/www
@@ -62,11 +60,9 @@ jobs:
           else
             cp -a ./*.html capapp/www/ 2>/dev/null || true
             cp -a ./*.htm  capapp/www/ 2>/dev/null || true
-            for d in assets img css js; do
-              [ -d "$d" ] && cp -a "$d" capapp/www/ || true
-            done
+            for d in assets img css js; do [ -d "$d" ] && cp -a "$d" capapp/www/ || true; done
           fi
-          test -f capapp/www/index.html || { echo "index.html nao encontrado em capapp/www"; exit 2; }
+          test -f capapp/www/index.html
 
       - name: Capacitor add/sync Android
         working-directory: capapp
@@ -80,75 +76,37 @@ jobs:
         run: |
           set -e
           ./gradlew wrapper --gradle-version 8.6 --distribution-type all
-
           cat > settings.gradle <<'EOF'
           pluginManagement {
-            repositories {
-              google()
-              mavenCentral()
-              gradlePluginPortal()
-            }
+            repositories { google(); mavenCentral(); gradlePluginPortal() }
           }
           dependencyResolutionManagement {
             repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-            repositories {
-              google()
-              mavenCentral()
-            }
+            repositories { google(); mavenCentral() }
           }
           rootProject.name = "capapp"
           include(":app")
           EOF
-
           cat > gradle.properties <<'PROPS'
           android.useAndroidX=true
           android.enableJetifier=true
           org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
           PROPS
-
           echo "ext { minSdkVersion = 22; compileSdkVersion = 35; targetSdkVersion = 35 }" > variables.gradle
-
-      - name: Recriar build.gradle raiz (AGP 8)
-        working-directory: capapp/android
-        run: |
-          set -e
           cat > build.gradle <<'EOF'
-// Top-level build file for the Android project (Capacitor)
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.6.0'
-        // Se usar Firebase/Google Services, descomente a linha abaixo:
-        // classpath 'com.google.gms:google-services:4.4.2'
-    }
-}
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
-}
-EOF
+          buildscript {
+            repositories { google(); mavenCentral() }
+            dependencies { classpath 'com.android.tools.build:gradle:8.6.0' }
+          }
+          allprojects { repositories { google(); mavenCentral() } }
+          tasks.register("clean", Delete) { delete rootProject.buildDir }
+          EOF
 
       - name: Build AAB (release)
-        id: aab
         working-directory: capapp/android
         run: |
           set -e
           ./gradlew :app:clean :app:bundleRelease --stacktrace --info | tee ../../gradle_build_release.log
-
-      - name: Listar artefatos gerados
-        run: |
-          echo "== .aab =="
-          find capapp/android/app/build/outputs -name "*.aab" -type f || true
-          echo "== .apk =="
-          find capapp/android/app/build/outputs -name "*.apk" -type f || true
 
       - name: Upload AAB
         if: success()
