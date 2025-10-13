@@ -1,4 +1,3 @@
-build-corrigido.yml
 name: Android Capacitor Build (Corrigido)
 
 on:
@@ -89,4 +88,3 @@ jobs:
           name: QuizCBJR-debug-apk
           path: capapp/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
-Preciso de ajuda para criar meu aplicativo - Manus
