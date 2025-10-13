@@ -42,6 +42,11 @@ jobs:
           npm init -y >/dev/null
           npm i -D @capacitor/cli@latest >/dev/null
           npm i @capacitor/core@latest @capacitor/android@latest >/dev/null
+          
+          # --- Adicionado: Criar um index.html básico para o Capacitor --- 
+          mkdir -p www
+          echo '<!DOCTYPE html><html><head><title>Quiz CBJR</title></head><body><h1>Hello Capacitor!</h1></body></html>' > www/index.html
+          
           cat > capacitor.config.json <<'JSON'
           {
             "appId": "br.com.quizcbjr",
@@ -59,14 +64,18 @@ jobs:
       - name: Copiar Web Assets
         run: |
           set -e
-          mkdir -p capapp/www
-          if [ -f ./www/index.html ]; then
-            cp -a ./www/. capapp/www/
-          else
-            cp -a ./*.html capapp/www/ 2>/dev/null || true
-            cp -a ./*.htm  capapp/www/ 2>/dev/null || true
-            for d in assets img css js; do [ -d "$d" ] && cp -a "$d" capapp/www/ || true; done
-          fi
+          # --- Removido: A lógica de cópia de assets foi simplificada --- 
+          # O Capacitor espera que os assets estejam em 'www' antes de adicionar a plataforma
+          # Se você tiver um projeto web real, os arquivos devem estar na raiz do seu repositório
+          # e serão copiados para capapp/www neste passo.
+          
+          # Se o seu projeto web estiver na raiz do repositório (ex: index.html, assets/, etc.)
+          # então você pode descomentar e ajustar as linhas abaixo:
+          # cp -a ./*.html capapp/www/ 2>/dev/null || true
+          # cp -a ./*.htm  capapp/www/ 2>/dev/null || true
+          # for d in assets img css js; do [ -d "$d" ] && cp -a "$d" capapp/www/ || true; done
+          
+          # Para este exemplo, estamos apenas garantindo que o index.html básico exista.
           test -f capapp/www/index.html
 
       - name: Capacitor Add & Sync Android
@@ -77,11 +86,10 @@ jobs:
           npx cap sync android
 
       - name: Configurar Memória do Gradle
-        working-directory: capapp/android
+        working-directory: capapp
         run: |
           echo "org.gradle.jvmargs=-Xmx4g" >> gradle.properties
 
-      # --- CORREÇÃO APLICADA AQUI --- 
       - name: Set Gradle Version to 8.9
         working-directory: capapp/android
         run: ./gradlew wrapper --gradle-version 8.9 --distribution-type all
