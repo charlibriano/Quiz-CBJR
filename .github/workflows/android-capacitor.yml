@@ -1,59 +1,109 @@
-name: Build Android APK
+name: Build Android AAB
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+  push:
+    branches: [ "main" ]
 
 jobs:
-  build:
+  build-aab:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do Repositório
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configurar Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
+          cache: 'npm'
 
-      # --- CORREÇÃO FUNDAMENTAL APLICADA AQUI ---
-      - name: Configurar Java (JDK 21)
+      - name: Install web & capacitor deps
+        run: |
+          npm ci || npm i
+          npm i -D @capacitor/cli
+          npm i @capacitor/android
+
+      - name: Build web
+        run: |
+          # Ajuste este passo conforme seu projeto:
+          # se você tiver "build" no package.json, ele roda;
+          # se não tiver, ele só copia sua pasta de site para 'dist'.
+          if [ -f package.json ] && cat package.json | grep -q "\"build\""; then
+            npm run build
+          else
+            mkdir -p dist
+            if [ -d public ]; then
+              cp -r public/* dist/ || true
+            elif [ -d src ]; then
+              cp -r src/* dist/ || true
+            else
+              echo "Sem script de build e sem pastas padrão; garanta que sua versão web esteja em dist/."
+            fi
+          fi
+
+      - name: Capacitor sync (gera android/)
+        run: |
+          npx cap sync android
+
+          # Se quiser forçar o applicationId via secret:
+          if [ -n "${{ secrets.CAPACITOR_ANDROID_PACKAGE }}" ]; then
+            sed -i "s/applicationId \".*\"/applicationId \"${{ secrets.CAPACITOR_ANDROID_PACKAGE }}\"/g" android/app/build.gradle || true
+          fi
+
+      - name: Setup Java (JDK 17)
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '17'
 
-      - name: Configurar Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Inicializar Projeto Node.js e Instalar Capacitor
+      - name: Decode keystore
         run: |
-          npm init -y
-          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
+          # Converte o keystore enviado como secret Base64 para arquivo físico
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/upload-key.jks
 
-      - name: Inicializar Capacitor no Projeto
-        run: npx cap init "Quiz CBJR" "br.com.quizcbjr" --web-dir "www"
-
-      - name: Copiar Arquivos Web para o Diretório www
+      - name: Configure signing
         run: |
-          mkdir -p www
-          cp -r assets css img js *.html *.htm www/ 2>/dev/null || true
+          # Injeta segredos no gradle.properties
+          cat >> android/gradle.properties <<'EOF'
+          MYAPP_UPLOAD_STORE_FILE=upload-key.jks
+          MYAPP_UPLOAD_KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}
+          MYAPP_UPLOAD_STORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          MYAPP_UPLOAD_KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}
+          EOF
 
-      - name: Adicionar Plataforma Android
-        run: npx cap add android
+          # Adiciona bloco de signingConfigs se não existir
+          if ! grep -q "signingConfigs" android/app/build.gradle; then
+            sed -i '/android {$/a \
+    signingConfigs {\n\
+        release {\n\
+            storeFile file(MYAPP_UPLOAD_STORE_FILE)\n\
+            storePassword MYAPP_UPLOAD_STORE_PASSWORD\n\
+            keyAlias MYAPP_UPLOAD_KEY_ALIAS\n\
+            keyPassword MYAPP_UPLOAD_KEY_PASSWORD\n\
+        }\n\
+    }' android/app/build.gradle
+          fi
 
-      - name: Conceder Permissão de Execução ao Gradlew
-        run: chmod +x android/gradlew
+          # Garante que o buildType release use a assinatura
+          awk '{
+            print
+            if ($0 ~ /buildTypes\s*{/) inBuildTypes=1
+            if (inBuildTypes && $0 ~ /release\s*{/) {inRelease=1}
+            if (inRelease && $0 ~ /}/) {
+              print "            signingConfig signingConfigs.release"
+              inRelease=0
+            }
+            if (inBuildTypes && $0 ~ /}/) inBuildTypes=0
+          }' android/app/build.gradle > android/app/build.gradle.tmp && mv android/app/build.gradle.tmp android/app/build.gradle
 
-      - name: Limpar e Construir o APK de Debug
-        working-directory: ./android
-        run: ./gradlew clean assembleDebug --stacktrace
+      - name: Build AAB (release)
+        working-directory: android
+        run: ./gradlew clean bundleRelease --no-daemon
 
-      - name: Fazer Upload do Artefato APK
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: QuizCBJR-debug.apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
+          name: app-release-aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
