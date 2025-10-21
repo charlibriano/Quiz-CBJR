@@ -2223,6 +2223,53 @@
             color: var(--cor-texto-claro);
         }
 
+        /* NOVO: Estilos para as opções de músicas no modo Rádio CBJR */
+        .bonus-options {
+            max-height: 220px;
+            overflow-y: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .bonus-option {
+            flex: 1 1 calc(50% - 20px);
+            background-color: var(--cor-bonus-input-fundo);
+            border: 1px solid var(--cor-bonus-input-borda);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: var(--cor-texto-claro);
+            font-family: 'Elektrix', sans-serif;
+            font-size: 1em;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.25s, transform 0.25s, box-shadow 0.25s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+        }
+        .bonus-option:hover:not(.correct):not(.incorrect) {
+            transform: scale(1.06);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.8);
+        }
+        .bonus-option.correct {
+            background-color: var(--cor-verde-correto) !important;
+            color: var(--cor-preto-principal);
+        }
+        .bonus-option.incorrect {
+            background-color: var(--cor-vermelho-incorreto) !important;
+            color: var(--cor-preto-principal);
+        }
+        .bonus-option.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        @media (max-width: 600px) {
+            .bonus-option {
+                flex: 1 1 calc(100% - 20px);
+            }
+        }
+
         /* Responsividade para o Nível Rádio CBJR */
         @media (max-width: 768px) {
             #bonus-music-screen {
@@ -4150,7 +4197,12 @@ const bonusGameState = {
     // Armazena o tempo gasto em cada música e o instante de início da música atual.
     // Cada entrada de timePerSong tem o formato { title: string, time: number }
     timePerSong: [],
-    songStartTime: null
+    songStartTime: null,
+    // NOVO: Estado das opções de músicas para o modo Rádio CBJR.
+    // Mantém o estado de cada título de música (normalizado) como 'unanswered', 'correct' ou 'incorrect'.
+    bonusOptionStates: {},
+    // NOVO: Flag para controlar se o jogador pode selecionar uma opção no modo Rádio CBJR.
+    awaitingAnswer: false
 };
 
 // Variáveis de controle de tempo
@@ -6736,10 +6788,12 @@ function startBonusMusicGame(discoIndex) {
 
     elements.bonusMusicScreen.innerHTML = `
         <h2>Rádio CBJR: ${selectedAlbum.nome}</h2>
-        <p class="bonus-instruction">Ouça o trecho e digite o nome da música.</p>
+        <p class="bonus-instruction">Ouça o trecho e escolha o nome da música.</p>
         <div class="bonus-player-area">
             <p id="bonus-current-song-title" style="display: none;"></p>
-            <input type="text" id="bonus-answer-input" placeholder="Qual é a música?">
+            <!-- Escondemos o input tradicional e adicionamos um container para as opções -->
+            <input type="text" id="bonus-answer-input" style="display:none;" placeholder="Qual é a música?">
+            <div id="bonus-options-container" class="bonus-options"></div>
             <p id="bonus-feedback-message"></p>
             <p id="bonus-curiosity-message" style="display: none;"></p>
         </div>
@@ -6749,7 +6803,7 @@ function startBonusMusicGame(discoIndex) {
             <div class="score-item music-progress"><i class="fas fa-music"></i> Música: <span id="bonus-current-song-number">1</span>/<span id="bonus-total-songs">${songsInAlbum}</span></div>
         </div>
         <div class="bonus-controls">
-            <button id="bonus-submit-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
+            <button id="bonus-submit-btn" style="display:none;"><i class="fas fa-paper-plane"></i> Enviar</button>
             <button id="bonus-skip-btn"><i class="fas fa-forward-step"></i> Pular</button>
             <button id="bonus-exit-btn" class="exit-button"><i class="fas fa-door-open"></i> Sair</button>
         </div>
@@ -6768,24 +6822,32 @@ function startBonusMusicGame(discoIndex) {
     elements.bonusTotalSongs = document.getElementById('bonus-total-songs');
     elements.bonusCurrentSongTitle = document.getElementById('bonus-current-song-title');
     elements.bonusCuriosityMessage = document.getElementById('bonus-curiosity-message');
+    elements.bonusOptionsContainer = document.getElementById('bonus-options-container');
     
-    elements.bonusSubmitBtn.onclick = checkBonusAnswer;
+    // Ocultamos o botão de enviar, pois a seleção é feita diretamente nos botões de música.
+    elements.bonusSubmitBtn.onclick = () => {};
     elements.bonusSkipBtn.onclick = () => {
-        if (elements.bonusAnswerInput.disabled) return;
+        // Se o jogador já respondeu (opção desativada), não faz nada
+        if (!bonusGameState.awaitingAnswer) return;
+        bonusGameState.awaitingAnswer = false;
         bonusGameState.bonusErrorsCount++;
-        // Ao salvar o erro, garanta que o título da música seja extraído corretamente
+        // Salva erro de pulo
         const songObj = bonusGameState.currentBonusSong || {};
         const fullName = songObj.title || songObj.titulo || '';
         const shortName = getShortTitle(fullName);
         bonusGameState.missedSongs.push({ userAnswer: '-- PULO --', correctAnswer: shortName });
+        // Pausa o áudio e desativa contadores
         elements.audio.pause();
         if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
+        // Mensagem de pulo
         elements.bonusFeedbackMessage.textContent = "Música pulada! ⏩";
         elements.bonusFeedbackMessage.style.color = 'var(--cor-amarelo-cbjr)';
         elements.bonusFeedbackMessage.classList.add('show');
+        // Desativa inputs e opções de seleção
         elements.bonusAnswerInput.disabled = true;
         elements.bonusSubmitBtn.disabled = true;
         elements.bonusSkipBtn.disabled = true;
+        disableBonusOptions();
         updateBonusScoreInfo();
         if (bonusTimer) clearTimeout(bonusTimer);
         bonusTimer = setTimeout(() => {
@@ -6812,10 +6874,13 @@ function startBonusMusicGame(discoIndex) {
     // Reinicia o controle de tempo para o novo disco
     bonusGameState.timePerSong = [];
     bonusGameState.songStartTime = null;
-    
+    // Inicializa o estado das opções e permite seleção
+    initializeBonusOptions(selectedAlbum.musicas);
+    bonusGameState.awaitingAnswer = true;
+
     updateBonusScoreInfo();
     loadBonusSongForBonus();
-    elements.bonusAnswerInput.focus();
+    // Não precisamos focar no input, pois as opções são selecionadas por clique.
 }
 
 function loadBonusSongForBonus(skipped = false) {
@@ -6833,6 +6898,10 @@ function loadBonusSongForBonus(skipped = false) {
         clearInterval(bonusCountdownTimer);
         bonusCountdownTimer = null;
     }
+
+    // Reinicia o estado de seleção para a nova música
+    bonusGameState.awaitingAnswer = true;
+    renderBonusOptions();
 
     if (bonusGameState.currentBonusSongIndex >= bonusGameState.songsToGuess.length) {
         endBonusMusicGame();
@@ -6862,40 +6931,41 @@ function loadBonusSongForBonus(skipped = false) {
                 timeDisplay.style.color = 'var(--cor-vermelho-incorreto)';
                 timeDisplay.style.animation = 'shake 0.3s infinite';
             }
-            if (timeLeft <= 0) {
-                clearInterval(bonusCountdownTimer);
-                elements.bonusAnswerInput.disabled = true;
-                elements.bonusSubmitBtn.disabled = true;
-                elements.bonusSkipBtn.disabled = true;
-                elements.bonusFeedbackMessage.textContent = "Tempo esgotado! ⏳";
-                elements.bonusFeedbackMessage.style.color = 'var(--cor-vermelho-incorreto)';
-                elements.bonusFeedbackMessage.classList.add('show');
-                timeDisplay.style.animation = 'none';
-                
-                // Garante que a resposta correta seja extraída com fallback
-                {
-                    const songObj = bonusGameState.currentBonusSong || {};
-                    const fullName = songObj.title || songObj.titulo || '';
-                    const shortName = getShortTitle(fullName);
-                    bonusGameState.missedSongs.push({ userAnswer: '-- TEMPO ESGOTADO --', correctAnswer: shortName });
+                if (timeLeft <= 0) {
+                    clearInterval(bonusCountdownTimer);
+                    // Quando o tempo esgota, desativa seleção e registra erro
+                    bonusGameState.awaitingAnswer = false;
+                    disableBonusOptions();
+                    elements.bonusAnswerInput.disabled = true;
+                    if (elements.bonusSubmitBtn) elements.bonusSubmitBtn.disabled = true;
+                    elements.bonusSkipBtn.disabled = true;
+                    elements.bonusFeedbackMessage.textContent = "Tempo esgotado! ⏳";
+                    elements.bonusFeedbackMessage.style.color = 'var(--cor-vermelho-incorreto)';
+                    elements.bonusFeedbackMessage.classList.add('show');
+                    timeDisplay.style.animation = 'none';
+                    // Salva erro por tempo esgotado
+                    {
+                        const songObj = bonusGameState.currentBonusSong || {};
+                        const fullName = songObj.title || songObj.titulo || '';
+                        const shortName = getShortTitle(fullName);
+                        bonusGameState.missedSongs.push({ userAnswer: '-- TEMPO ESGOTADO --', correctAnswer: shortName });
+                    }
+                    setTimeout(() => {
+                        bonusGameState.bonusErrorsCount++;
+                        updateBonusScoreInfo();
+                        handleBonusEndTurn();
+                    }, 2000);
                 }
-
-                setTimeout(() => {
-                    bonusGameState.bonusErrorsCount++;
-                    updateBonusScoreInfo();
-                    handleBonusEndTurn();
-                }, 2000);
-            }
         }, 1000);
     } else {
         const timeDisplay = document.getElementById('bonus-time-display');
         if (timeDisplay) { timeDisplay.remove(); }
     }
 
-
+    // Sempre reativa seleção e exibe opções para cada nova música
     elements.bonusAnswerInput.value = '';
     elements.bonusAnswerInput.disabled = false;
-    elements.bonusSubmitBtn.disabled = false;
+    if (elements.bonusSubmitBtn) elements.bonusSubmitBtn.disabled = false;
     elements.bonusSkipBtn.disabled = false;
     elements.bonusFeedbackMessage.textContent = skipped ? "Música pulada! ⏩" : "";
     elements.bonusFeedbackMessage.style.color = 'var(--cor-texto-claro)';
@@ -7116,6 +7186,141 @@ function updateBonusScoreInfo() {
     } else {
         elements.bonusSkipBtn.disabled = false;
     }
+}
+
+// NOVAS FUNÇÕES: Gerenciamento de opções para o modo Rádio CBJR
+function initializeBonusOptions(albumSongs) {
+    // Inicializa o mapeamento de estados para cada música do álbum (normalizado)
+    bonusGameState.bonusOptionStates = {};
+    albumSongs.forEach(song => {
+        const fullName = song.title || song.titulo || '';
+        const normalized = normalizeText(fullName).trim();
+        bonusGameState.bonusOptionStates[normalized] = 'unanswered';
+    });
+    renderBonusOptions();
+}
+
+function renderBonusOptions() {
+    const container = document.getElementById('bonus-options-container');
+    if (!container) return;
+    // Limpa o container para re-renderização
+    container.innerHTML = '';
+    const album = bonusDiscos[bonusGameState.currentDiscoIndex] || {};
+    const songs = album.musicas || [];
+    songs.forEach(song => {
+        const fullName = song.title || song.titulo || '';
+        const shortName = getShortTitle(fullName);
+        const normalized = normalizeText(fullName).trim();
+        const state = bonusGameState.bonusOptionStates[normalized] || 'unanswered';
+        const btn = document.createElement('button');
+        btn.classList.add('bonus-option');
+        btn.textContent = shortName;
+        if (state === 'correct') {
+            btn.classList.add('correct');
+        } else if (state === 'incorrect') {
+            btn.classList.add('incorrect');
+        }
+        btn.dataset.title = fullName;
+        btn.dataset.normalized = normalized;
+        btn.addEventListener('click', handleBonusOptionClick);
+        container.appendChild(btn);
+    });
+}
+
+function handleBonusOptionClick(event) {
+    if (!bonusGameState.awaitingAnswer) return;
+    bonusGameState.awaitingAnswer = false;
+    const btn = event.currentTarget;
+    const selectedFullName = btn.dataset.title || '';
+    const selectedNormalized = btn.dataset.normalized || '';
+    const userAnswer = normalizeText(selectedFullName).trim();
+    const correctFullName = bonusGameState.currentBonusSong.title || bonusGameState.currentBonusSong.titulo || '';
+    const correctAnswer = normalizeText(correctFullName).trim();
+    const shortNameCorrect = getShortTitle(correctFullName);
+    const musicCuriosity = bonusGameState.currentBonusSong.curiosidade;
+
+    // Registra o tempo gasto na música
+    if (bonusGameState.songStartTime) {
+        const nowTime = Date.now();
+        let timeTaken = (nowTime - bonusGameState.songStartTime) / 1000;
+        if (bonusSettings && typeof bonusSettings.time === 'number') {
+            timeTaken = Math.min(timeTaken, bonusSettings.time);
+        }
+        if (!Array.isArray(bonusGameState.timePerSong)) {
+            bonusGameState.timePerSong = [];
+        }
+        bonusGameState.timePerSong.push({ title: correctFullName, time: timeTaken });
+        bonusGameState.songStartTime = null;
+    }
+
+    let isCorrect = false;
+    if (userAnswer && correctAnswer) {
+        if (userAnswer === correctAnswer || correctAnswer.includes(userAnswer) || userAnswer.includes(correctAnswer)) {
+            isCorrect = true;
+        }
+    }
+    // Respostas alternativas aceitas (mesmo dicionário usado no input)
+    const alternativeAnswers = {
+        "lugar ao sol chorao e champignon": ["lugar ao sol"],
+        "vanessa da mata uma crianca com seu olhar": ["uma crianca com seu olhar"],
+        "molengols groove": ["molengos groove", "molengol groove"]
+    };
+    if (!isCorrect) {
+        for (const key in alternativeAnswers) {
+            if (correctAnswer.includes(key) && alternativeAnswers[key].includes(userAnswer)) {
+                isCorrect = true;
+                break;
+            }
+        }
+    }
+
+    // Desativa todas as opções durante o feedback
+    disableBonusOptions();
+
+    if (isCorrect) {
+        bonusGameState.bonusCorrectCount++;
+        bonusGameState.bonusOptionStates[selectedNormalized] = 'correct';
+        elements.bonusFeedbackMessage.textContent = "CORRETO! ✅";
+        elements.bonusFeedbackMessage.style.color = 'var(--cor-verde-correto)';
+        elements.bonusCurrentSongTitle.style.display = 'block';
+        elements.bonusCurrentSongTitle.textContent = shortNameCorrect;
+    } else {
+        bonusGameState.bonusErrorsCount++;
+        bonusGameState.bonusOptionStates[selectedNormalized] = 'incorrect';
+        bonusGameState.missedSongs.push({ userAnswer: getShortTitle(selectedFullName), correctAnswer: getShortTitle(correctFullName) });
+        elements.bonusFeedbackMessage.textContent = "INCORRETO! ❌";
+        elements.bonusFeedbackMessage.style.color = 'var(--cor-vermelho-incorreto)';
+        elements.bonusCurrentSongTitle.style.display = 'block';
+        elements.bonusCurrentSongTitle.textContent = `A música era: ${shortNameCorrect}`;
+    }
+    // Exibe curiosidade se houver
+    if (musicCuriosity) {
+        elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`;
+        elements.bonusCuriosityMessage.style.display = 'block';
+        elements.bonusCuriosityMessage.style.opacity = '1';
+    }
+    elements.bonusFeedbackMessage.classList.add('show');
+    updateBonusScoreInfo();
+    // Pausa áudio e limpa cronômetro de contagem
+    elements.audio.pause();
+    if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
+    // Re-renderiza as opções para refletir o estado atualizado
+    renderBonusOptions();
+    // Desativa botões de pular/enviar até a próxima música
+    elements.bonusSkipBtn.disabled = true;
+    if (elements.bonusSubmitBtn) elements.bonusSubmitBtn.disabled = true;
+    const displayDuration = 6000;
+    if (bonusTimer) clearTimeout(bonusTimer);
+    bonusTimer = setTimeout(() => {
+        handleBonusEndTurn();
+    }, displayDuration);
+}
+
+function disableBonusOptions() {
+    const allOptions = document.querySelectorAll('.bonus-option');
+    allOptions.forEach(opt => {
+        opt.classList.add('disabled');
+    });
 }
 
 function endBonusMusicGame() {
