@@ -3359,6 +3359,7 @@ body.m3-ready button[title="Mostrar/Ocultar player"]{ display:none !important; }
 body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible !important; }
 
 </style>
+
 <style id="CBJR_LYRICS_V23_CSS">
 #cbjr-lyrics-toggle{position:absolute; top:.5rem; right:.5rem; z-index:200000; border:none; border-radius:999px; width:36px; height:36px; display:grid; place-items:center; background:#ffcc00; color:#111; font-weight:700; box-shadow:0 4px 14px rgba(0,0,0,.35); cursor:pointer;}
 #cbjr-lyrics-toggle:hover{filter:brightness(1.1)}
@@ -3414,7 +3415,56 @@ body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible 
 #cbjr-lyrics-empty{opacity:.7; text-align:center; padding:28px 10px}
 .cbjr-grab{position:absolute; top:6px; left:8px; width:22px; height:22px; display:grid; place-items:center; border-radius:6px; background:rgba(255,255,255,.08); color:#eee; font-size:13px; cursor:grab; user-select:none;}
 .cbjr-drag-strip{position:absolute; inset:0 0 auto 28px; height:22px; cursor:grab;}
-</style></head>
+</style>
+    <!-- Custom styles for Rádio CBJR 3x3 grid -->
+    <style id="radio-3x3-css">
+    /* Ajustes de layout para o modo Rádio (grade 3×3).
+       Estas regras são aplicadas apenas quando o corpo está com a classe `radio-active`,
+       ou seja, durante o jogo da Rádio CBJR. Elas tornam as opções de música uma grade
+       3×3 de botões transparentes sobre a capa do CD e escondem as opções já respondidas
+       (corretas ou incorretas), revelando a capa aos poucos. */
+    body.radio-active .bonus-options {
+        /* Tornamos a grade visível e permitimos que o número de colunas seja ajustado via JavaScript.
+           A propriedade grid-template-columns não usa !important para que estilos inline possam sobrescrevê-la. */
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: auto !important;
+        gap: 12px;
+        /* Permite que todas as músicas apareçam sem barra de rolagem interna */
+        overflow-y: visible;
+        max-height: none;
+        align-content: start;
+    }
+    body.radio-active .bonus-option {
+        /* Botões com fundo escuro para esconder a capa até que sejam removidos.
+           Isso mantém o suspense e revela o CD aos poucos à medida que as respostas somem. */
+        background: rgba(0, 0, 0, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 12px;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+        color: var(--cor-texto-claro);
+        font-weight: 700;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+        transition: transform 0.15s ease, opacity 0.15s ease;
+        padding: 14px 10px;
+    }
+    body.radio-active .bonus-option:hover:not(.correct):not(.incorrect) {
+        transform: translateY(-2px);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5), 0 4px 10px rgba(0,0,0,0.6);
+    }
+    body.radio-active .bonus-option.correct {
+        /* Opções corretas desaparecem para revelar a capa */
+        display: none !important;
+    }
+    /* Opções incorretas permanecem visíveis para que o jogador veja onde errou */
+    /* Em telas menores, reduz o número de colunas para 2 para manter legibilidade */
+    @media (max-width: 600px) {
+        body.radio-active .bonus-options {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+    }
+    </style>
+</head>
 <body>
 <header>
 <h1>Quiz: <br/><br/> Charlie Brown Jr</h1>
@@ -4324,16 +4374,23 @@ function normalizeText(text) {
 // Remove prefixos de artista e álbum, números de faixa e textos entre colchetes.
 function getShortTitle(fullTitle) {
     if (!fullTitle) return '';
-    let title = fullTitle;
-    // Remove tudo antes do primeiro hífen (band/album)
-    if (title.includes(' - ')) {
-        title = title.split(' - ').pop();
+    let title = String(fullTitle);
+    // Remove prefixos de banda e artistas convidados no início.
+    // Ex.: "Charlie Brown Jr - ...", "Charlie Brown Jr- ...", "Charlie Brown Jr. & Negra Li- ..."
+    title = title.replace(/^\s*charlie\s*brown\s*jr\.?\s*(?:&\s*[^-]+)?\s*[-–—]\s*/i, '');
+    // Depois de remover prefixos de banda, se ainda houver um hífen separando número de faixa ou álbum, pega apenas a última parte.
+    // Usamos um hífen isolado (com ou sem espaços) para evitar capturar hifens em nomes.
+    const dashMatch = title.match(/\s*[-–—]\s*/);
+    if (dashMatch && title.split(/\s*[-–—]\s*/).length > 1) {
+        // Mantém apenas o trecho após o último hífen
+        title = title.split(/\s*[-–—]\s*/).pop();
     }
-    // Remove números iniciais e hifens (ex: "12 Corra Vagabundo" ou "15- Escalas Tropicais")
-    title = title.replace(/^\s*\d+\s*-?\s*/g, '');
-    // Remove conteúdo entre colchetes ou parênteses, como [1997]
+    // Remove números ou códigos no início (ex: "12 Corra Vagabundo", "01- Escalas Tropicais")
+    title = title.replace(/^\s*\d+\s*[-–—]?\s*/, '');
+    // Remove conteúdo entre colchetes ou parênteses, como [1997] ou (Acústico)
     title = title.replace(/\[[^\]]*\]/g, '').replace(/\([^)]*\)/g, '');
-    // Remove espaços extras e retorna
+    // Remove quaisquer pontos duplicados ou traços repetidos no final
+    title = title.replace(/[\.]+$/g, '').trim();
     return title.trim();
 }
 
@@ -6640,6 +6697,14 @@ function showDiscoSelectionScreen() {
     // para que ele volte à sua posição original quando retornar ao menu ou quiz.
     detachPlayerFromWelcome();
 
+    // Ao abrir a tela de seleção de discos, removemos qualquer plano de fundo de capa
+    // previamente aplicado (de um disco já jogado). Assim, esta tela mantém o estilo
+    // padrão do site ao voltar do modo Rádio.
+    document.body.style.backgroundImage = '';
+    document.body.style.backgroundSize = '';
+    document.body.style.backgroundPosition = '';
+    document.body.style.backgroundRepeat = '';
+
     // Defina o estado do corpo para modo Rádio. Isto esconderá o player
     // completamente via CSS, pois o usuário só deve ouvir a música.
     document.body.classList.remove('intro-active', 'quiz-active');
@@ -6784,6 +6849,99 @@ function startBonusMusicGame(discoIndex) {
         // Atualiza a referência de bonusDiscos com o álbum mapeado
         bonusDiscos[discoIndex] = selectedAlbum;
     }
+
+    // === Ajuste personalizado de títulos de músicas ===
+    // Após garantir a propriedade 'title', normalizamos e corrigimos os nomes de faixas para remover
+    // prefixos de banda ou álbum e aplicar correções específicas de cada CD.
+    if (selectedAlbum && Array.isArray(selectedAlbum.musicas)) {
+        try {
+            // Função local de normalização para evitar dependências externas não definidas em escopos diferentes.
+            const _norm = (s) => {
+                s = String(s || '').toLowerCase();
+                try {
+                    s = s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                } catch (e) {}
+                return s.replace(/[^a-z0-9]+/g, ' ').replace(/\s+/g, ' ').trim();
+            };
+            const albumNameNorm = _norm(selectedAlbum.nome || selectedAlbum.titulo || '');
+            // Para cada faixa, criaremos um título corrigido (title) e um título curto (shortTitle) para exibição.
+            selectedAlbum.musicas = selectedAlbum.musicas.map(song => {
+                const originalTitle = song.title || song.titulo || '';
+                const fullNorm = _norm(originalTitle);
+                let newTitle;
+                let shortTitle;
+                // Correções específicas por álbum
+                if (albumNameNorm.includes('transpiracao continua prolongada')) {
+                    if (fullNorm.includes('corra vagabundo')) {
+                        newTitle = shortTitle = 'Corra Vagabundo';
+                    }
+                } else if (albumNameNorm.includes('preco curto prazo longo')) {
+                    // Se a faixa começa com 12+1 (com espaços ou não), mantenha como 12+1
+                    const trimmed = originalTitle.trim();
+                    if (/^12\s*\+\s*1/i.test(trimmed)) {
+                        newTitle = shortTitle = '12+1';
+                    } else if (/^333$/i.test(trimmed) || /^333\s+/i.test(trimmed)) {
+                        newTitle = shortTitle = '333';
+                    }
+                } else if (albumNameNorm.includes('nadando com os tubaroes')) {
+                    // "Rubão" aparece como "O Dono Do Mundo"
+                    if (fullNorm.includes('o dono do mundo')) {
+                        newTitle = shortTitle = 'Rubão';
+                    }
+                } else if (albumNameNorm.includes('abalando') || albumNameNorm.includes('100')) {
+                    // Corrige abreviação de T.F.D.P (registrado como T F D ou similar)
+                    const lower = originalTitle.toLowerCase();
+                    if (/\bt\s*f\s*d\b/.test(lower) || /\bt\s*f\s*\.\s*d\b/.test(lower) || /\bt\s*f\s*d\s*p\b/.test(lower)) {
+                        newTitle = shortTitle = 'T.F.D.P';
+                    } else if (/limusine|limousine|limosine/i.test(originalTitle) && /trem/i.test(originalTitle)) {
+                        newTitle = shortTitle = 'Você vai de limusine e eu vou de trem';
+                    }
+                } else if (albumNameNorm.includes('bocas ordinarias')) {
+                    if (/turne\s*internacional/i.test(originalTitle)) {
+                        newTitle = shortTitle = 'Bocas ordinárias, guerrilhas';
+                    }
+                } else if (albumNameNorm.includes('acustico')) {
+                    // Para álbuns acústicos, remova prefixos de banda e mantenha hífens internos.
+                    let s = originalTitle;
+                    s = s.replace(/^\s*charlie\s*brown\s*jr(?:\.|&[^-]*)?\s*[-–—]?\s*/i, '').trim();
+                    // Remove colchetes, parênteses e ponto final
+                    s = s.replace(/\[[^\]]*\]/g, '').replace(/\([^)]*\)/g, '').replace(/[\.]+$/g, '').trim();
+                    s = s.replace(/\s*-\s*/g, '-');
+                    const sNorm = _norm(s);
+                    if (sNorm === 'hd' || sNorm === 'hd)') {
+                        newTitle = shortTitle = 'Charlie Brown Jr';
+                    } else if (sNorm.includes('charlie') && sNorm.includes('marcelo')) {
+                        newTitle = shortTitle = 'Hoje';
+                    } else if (sNorm === 'letra' || sNorm === 'letra)') {
+                        newTitle = shortTitle = 'Zoio de Lula';
+                    } else {
+                        newTitle = shortTitle = s;
+                    }
+                }
+                // Se nenhum ajuste específico foi feito, use getShortTitle como fallback
+                if (!newTitle) {
+                    newTitle = getShortTitle(originalTitle);
+                    shortTitle = newTitle;
+                }
+                newTitle = newTitle.replace(/[()]/g, '').trim();
+                shortTitle = shortTitle.replace(/[()]/g, '').trim();
+                return { ...song, title: newTitle, shortTitle: shortTitle };
+            });
+        } catch (e) {
+            console.error('Erro ao ajustar nomes das músicas para o disco:', e);
+        }
+        // Atualiza novamente bonusDiscos para refletir as alterações
+        bonusDiscos[discoIndex] = selectedAlbum;
+    }
+    // Ao iniciar um disco no modo Rádio, preparamos o caminho da capa do álbum. Em vez de
+    // definir a imagem como plano de fundo do corpo inteiro (o que causava a capa
+    // aparecer atrás de todo o site), usamos esta URL mais tarde para aplicar a
+    // imagem apenas dentro da área das opções. Assim, o CD é revelado como se fosse
+    // um encarte, e o restante do layout permanece intacto.
+    let albumCoverURL = '';
+    if (selectedAlbum && selectedAlbum.capa) {
+        albumCoverURL = `https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/${selectedAlbum.capa}`;
+    }
     const songsInAlbum = selectedAlbum.musicas.length;
 
     elements.bonusMusicScreen.innerHTML = `
@@ -6809,6 +6967,39 @@ function startBonusMusicGame(discoIndex) {
         </div>
     `;
 
+    // === Ajustes visuais para o modo Rádio ===
+    // A partir daqui, o modo Rádio passa a utilizar a imagem da capa
+    // apenas dentro da área de opções (bonus-player-area). Isso cria um efeito de
+    // "encarte" onde as opções de música cobrem a capa e vão sendo removidas.
+    // Também removemos o contorno verde e a animação neon do painel para
+    // proporcionar um layout mais limpo e focado na imagem.
+    const bonusScreen = elements.bonusMusicScreen;
+    // Adiciona uma classe auxiliar para fins de estilização via CSS se necessário
+    bonusScreen.classList.add('radio-embed');
+    // Seleciona a área do player onde as opções são exibidas
+    const playerAreaEl = bonusScreen.querySelector('.bonus-player-area');
+    if (playerAreaEl && albumCoverURL) {
+        // Aplica a capa com sobreposição escura para manter a legibilidade
+        playerAreaEl.style.background = `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('${albumCoverURL}')`;
+        playerAreaEl.style.backgroundSize = 'cover';
+        playerAreaEl.style.backgroundPosition = 'center';
+        playerAreaEl.style.backgroundRepeat = 'no-repeat';
+        // Remove qualquer borda ou sombra definidas pelo tema original do CBJR para evitar halos verdes
+        playerAreaEl.style.boxShadow = 'none';
+        playerAreaEl.style.border = 'none';
+    }
+    // Remove bordas neon e animações do painel principal
+    bonusScreen.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+    bonusScreen.style.border = 'none';
+    bonusScreen.style.animation = 'none';
+    bonusScreen.style.boxShadow = '0 15px 40px rgba(0,0,0,0.8)';
+    // Ajusta o título para cor clara com sombra suave
+    const bonusHeader = bonusScreen.querySelector('h2');
+    if (bonusHeader) {
+        bonusHeader.style.color = '#ffffff';
+        bonusHeader.style.textShadow = '0 0 12px rgba(255,255,255,0.8)';
+    }
+
     // Recria as referências aos elementos internos dinamicamente
     elements.bonusAnswerInput = document.getElementById('bonus-answer-input');
     elements.bonusSubmitBtn = document.getElementById('bonus-submit-btn');
@@ -6823,6 +7014,25 @@ function startBonusMusicGame(discoIndex) {
     elements.bonusCurrentSongTitle = document.getElementById('bonus-current-song-title');
     elements.bonusCuriosityMessage = document.getElementById('bonus-curiosity-message');
     elements.bonusOptionsContainer = document.getElementById('bonus-options-container');
+
+    // Define dinamicamente o número de colunas na grade de opções com base na quantidade total de músicas.
+    // Queremos que todas as músicas estejam visíveis sem rolagem interna. Para álbuns pequenos usamos 3 colunas;
+    // para álbuns com mais faixas, 4 colunas proporcionam uma distribuição equilibrada.
+    try {
+        const totalSongs = songsInAlbum;
+        let colCount = Math.ceil(Math.sqrt(totalSongs));
+        // Garante que o número de colunas fique entre 3 e 4.
+        colCount = Math.max(3, Math.min(4, colCount));
+        const optionsContainer = elements.bonusOptionsContainer;
+        if (optionsContainer) {
+            optionsContainer.style.gridTemplateColumns = `repeat(${colCount}, 1fr)`;
+            // Assegura que a grade não tenha rolagem interna e possa expandir conforme necessário
+            optionsContainer.style.overflowY = 'visible';
+            optionsContainer.style.maxHeight = 'none';
+        }
+    } catch (e) {
+        console.error('Erro ao calcular colunas para a grade de opções:', e);
+    }
     
     // Ocultamos o botão de enviar, pois a seleção é feita diretamente nos botões de música.
     elements.bonusSubmitBtn.onclick = () => {};
@@ -7003,6 +7213,33 @@ function hideBonusMusicScreen() {
         // Restaura a exibição do quiz quando o usuário sai do modo Rádio
         showMainGame();
         showIntroMessage();
+
+        // Remove quaisquer estilos específicos do modo Rádio e restaura valores padrão.
+        // Remove classe de estilização extra, se presente
+        const bonusScreen = elements.bonusMusicScreen;
+        bonusScreen.classList.remove('radio-embed');
+        // Limpa estilos inline aplicados durante o jogo
+        bonusScreen.style.backgroundColor = '';
+        bonusScreen.style.border = '';
+        bonusScreen.style.animation = '';
+        bonusScreen.style.boxShadow = '';
+        const playerAreaEl = bonusScreen.querySelector('.bonus-player-area');
+        if (playerAreaEl) {
+            playerAreaEl.style.background = '';
+            playerAreaEl.style.backgroundSize = '';
+            playerAreaEl.style.backgroundPosition = '';
+            playerAreaEl.style.backgroundRepeat = '';
+        }
+        const bonusHeader = bonusScreen.querySelector('h2');
+        if (bonusHeader) {
+            bonusHeader.style.color = '';
+            bonusHeader.style.textShadow = '';
+        }
+        // Limpamos também o plano de fundo do corpo por segurança (pode estar vazio se não tiver sido definido)
+        document.body.style.backgroundImage = '';
+        document.body.style.backgroundSize = '';
+        document.body.style.backgroundPosition = '';
+        document.body.style.backgroundRepeat = '';
 
     }, { once: true });
 }
@@ -7197,6 +7434,11 @@ function initializeBonusOptions(albumSongs) {
         const normalized = normalizeText(fullName).trim();
         bonusGameState.bonusOptionStates[normalized] = 'unanswered';
     });
+    // Configura as opções exibidas para o modo Rádio mostrando todas as músicas do álbum de uma só vez.
+    // Isso evita a necessidade de rolagem e permite que o usuário visualize todas as faixas ao mesmo tempo.
+    bonusGameState.displayedBonusOptions = Array.isArray(albumSongs) ? [...albumSongs] : [];
+    // nextOptionIndex não será utilizado quando todas as músicas são exibidas; ainda assim, mantemos para compatibilidade.
+    bonusGameState.nextOptionIndex = albumSongs.length;
     renderBonusOptions();
 }
 
@@ -7205,11 +7447,13 @@ function renderBonusOptions() {
     if (!container) return;
     // Limpa o container para re-renderização
     container.innerHTML = '';
-    const album = bonusDiscos[bonusGameState.currentDiscoIndex] || {};
-    const songs = album.musicas || [];
+    // Renderize apenas as músicas atualmente exibidas (para o modo Rádio grade 3×3).
+    const songs = bonusGameState.displayedBonusOptions || [];
     songs.forEach(song => {
         const fullName = song.title || song.titulo || '';
-        const shortName = getShortTitle(fullName);
+        // Se a música possui shortTitle definido (corrigido no startBonusMusicGame), use-o diretamente.
+        // Caso contrário, faça o processamento padrão com getShortTitle.
+        const shortName = song.shortTitle || getShortTitle(fullName);
         const normalized = normalizeText(fullName).trim();
         const state = bonusGameState.bonusOptionStates[normalized] || 'unanswered';
         const btn = document.createElement('button');
@@ -7293,6 +7537,22 @@ function handleBonusOptionClick(event) {
         elements.bonusCurrentSongTitle.style.display = 'block';
         elements.bonusCurrentSongTitle.textContent = `A música era: ${shortNameCorrect}`;
     }
+
+    // Atualiza a lista de opções exibidas: remove a selecionada somente se a resposta estiver correta.
+    if (isCorrect) {
+        bonusGameState.displayedBonusOptions = (bonusGameState.displayedBonusOptions || []).filter(song => {
+            const fullName = song.title || song.titulo || '';
+            const normalized = normalizeText(fullName).trim();
+            return normalized !== selectedNormalized;
+        });
+        // Re-renderiza as opções imediatamente para refletir a remoção.
+        renderBonusOptions();
+    } else {
+        // Para respostas incorretas, mantém todas as opções. Apenas atualizamos a classe de estado.
+        renderBonusOptions();
+    }
+    // Desativa as novas opções durante o feedback
+    disableBonusOptions();
     // Exibe curiosidade se houver
     if (musicCuriosity) {
         elements.bonusCuriosityMessage.innerHTML = `<strong>Você Sabia?</strong> ${musicCuriosity}`;
@@ -7304,8 +7564,8 @@ function handleBonusOptionClick(event) {
     // Pausa áudio e limpa cronômetro de contagem
     elements.audio.pause();
     if (bonusCountdownTimer) clearInterval(bonusCountdownTimer);
-    // Re-renderiza as opções para refletir o estado atualizado
-    renderBonusOptions();
+    // A re-renderização das opções é feita logo após remover/adicionar na grade. Não precisamos
+    // chamar renderBonusOptions() novamente aqui.
     // Desativa botões de pular/enviar até a próxima música
     elements.bonusSkipBtn.disabled = true;
     if (elements.bonusSubmitBtn) elements.bonusSubmitBtn.disabled = true;
@@ -7384,6 +7644,32 @@ function endBonusMusicGame() {
     const fastestName = fastestSong ? getShortTitle(fastestSong.title) : '';
     const slowestName = slowestSong ? getShortTitle(slowestSong.title) : '';
 
+    // Verifica a porcentagem de acertos e, se >= 90%, mostra uma tela especial de desbloqueio do CD antes do resumo final.
+    {
+        const totalSongs = bonusGameState.songsToGuess.length;
+        const percentCorrect = totalSongs > 0 ? (correctAnswersInRound / totalSongs) : 0;
+        // Prepara dados resumidos para construir o relatório final posteriormente.
+        const summaryData = {
+            correctAnswers: correctAnswersInRound,
+            totalSongs: totalSongs,
+            unlockedNewDisco: unlockedNewDisco,
+            bonusProgressTotalScore: bonusProgress.totalScore,
+            totalDurationText: totalDurationText,
+            fastestName: fastestName,
+            fastestDurationText: fastestDurationText,
+            slowestName: slowestName,
+            slowestDurationText: slowestDurationText
+        };
+        // Se o jogador acertou 90% ou mais das músicas, exibe a tela de desbloqueio do CD.
+        if (percentCorrect >= 0.9) {
+            showCdUnlocked(summaryData);
+            return;
+        }
+        // Caso contrário, renderiza diretamente o resumo final do disco.
+        renderBonusSummary(summaryData);
+        return;
+    }
+
     // Mensagens separadas
     const performanceHtml = `<p style="font-family: Arial, sans-serif;">Você acertou ${correctAnswersInRound} de ${bonusGameState.songsToGuess.length} músicas.</p>`;
     const unlockHtml = unlockedNewDisco ? `<p style="color: var(--cor-verde-vibrante); font-weight: bold; font-family: Arial, sans-serif;">Disco ${bonusGameState.currentDiscoIndex + 2} desbloqueado!</p>` : '';
@@ -7395,10 +7681,35 @@ function endBonusMusicGame() {
 
     // Feedback personalizado destacado
     let feedbackHtml = '';
+    // Calcula se o jogador completou este disco sem erros e se todos os discos foram gabaritados
+    let allPerfectDisc = false;
+    let allPerfectRun = false;
+    try {
+        const progress2 = JSON.parse(localStorage.getItem('cobjr_bonus_progress')) || {};
+        const scoreHistory2 = progress2.scorePerDisco || {};
+        allPerfectDisc = (correctAnswersInRound === bonusGameState.songsToGuess.length);
+        allPerfectRun = true;
+        for (let i = 0; i < bonusDiscos.length; i++) {
+            const total = (bonusDiscos[i] && bonusDiscos[i].musicas) ? bonusDiscos[i].musicas.length : 0;
+            if ((scoreHistory2[i] || 0) < total) {
+                allPerfectRun = false;
+                break;
+            }
+        }
+    } catch(e) {
+        allPerfectDisc = false;
+        allPerfectRun = false;
+    }
     if (bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors) {
         feedbackHtml = `<p style="margin-top: 20px; font-size: 1.4em; color: var(--cor-vermelho-incorreto); font-weight: bold; font-family: Arial, sans-serif;">Mano, você arranhou o disco, volte e tente novamente!</p>`;
     } else if (bonusGameState.bonusErrorsCount === 0) {
-        feedbackHtml = `<p style="margin-top: 20px; font-size: 1.4em; color: var(--cor-verde-vibrante); font-weight: bold; font-family: Arial, sans-serif;">Aê parceiro você foi foda, desbloqueou o próximo CD!</p>`;
+        if (allPerfectDisc && allPerfectRun) {
+            feedbackHtml = `<p style="margin-top: 20px; font-size: 1.6em; color: var(--cor-verde-vibrante); font-weight: bold; font-family: Arial, sans-serif;">Incrível! Você gabaritou todos os álbuns sem errar nenhuma música! 👑🎸</p>`;
+        } else if (allPerfectDisc) {
+            feedbackHtml = `<p style="margin-top: 20px; font-size: 1.5em; color: var(--cor-amarelo-cbjr); font-weight: bold; font-family: Arial, sans-serif;">Parabéns! Você acertou todas as músicas deste álbum!</p>`;
+        } else {
+            feedbackHtml = `<p style="margin-top: 20px; font-size: 1.4em; color: var(--cor-verde-vibrante); font-weight: bold; font-family: Arial, sans-serif;">Aê parceiro você foi foda, desbloqueou o próximo CD!</p>`;
+        }
     }
 
     let errosHtml = '';
@@ -7445,6 +7756,163 @@ function endBonusMusicGame() {
         }
     };
 
+}
+
+// === Funções auxiliares para o resumo e desbloqueio do CD ===
+// Exibe uma tela especial quando o jogador acerta 90% ou mais das músicas de um disco.
+function showCdUnlocked(summaryData) {
+    const { correctAnswers, totalSongs } = summaryData;
+    const discoInfo = bonusDiscos[bonusGameState.currentDiscoIndex] || {};
+    const albumName = discoInfo.nome || '';
+    const capa = discoInfo.capa || '';
+    let coverURL = '';
+    if (capa) {
+        coverURL = `https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/${capa}`;
+    }
+    // Monta a tela de desbloqueio com a capa em destaque
+    let overlayHtml = '';
+    // Verifica se este disco foi gabaritado e se todos os discos já foram completados sem erros
+    let allPerfect = false;
+    try {
+        const progress3 = JSON.parse(localStorage.getItem('cobjr_bonus_progress')) || {};
+        const scoreHistory3 = progress3.scorePerDisco || {};
+        allPerfect = true;
+        for (let i = 0; i < bonusDiscos.length; i++) {
+            const total = (bonusDiscos[i] && bonusDiscos[i].musicas) ? bonusDiscos[i].musicas.length : 0;
+            if ((scoreHistory3[i] || 0) < total) {
+                allPerfect = false;
+                break;
+            }
+        }
+    } catch(e) { allPerfect = false; }
+    // Define textos de cabeçalho e mensagem dependendo da performance
+    let headerText = 'Você conseguiu!';
+    let messageHtml = `Você acertou ${correctAnswers} de ${totalSongs} músicas e desbloqueou o álbum <strong>${albumName}</strong>!`;
+    if (correctAnswers === totalSongs) {
+        if (allPerfect) {
+            headerText = 'Todos os álbuns gabaritados!';
+            messageHtml = 'Você acertou todas as músicas de todos os álbuns! 👑🎸';
+        } else {
+            headerText = 'Álbum gabaritado!';
+            messageHtml = `Você acertou todas as músicas do álbum <strong>${albumName}</strong>!`;
+        }
+    }
+    overlayHtml += `<h2 style="font-size: 2em; margin-bottom: 20px;">${headerText}</h2>`;
+    if (coverURL) {
+        overlayHtml += `<img src="${coverURL}" alt="Capa do CD" style="max-width:90%; border-radius:12px; box-shadow:0 0 30px rgba(0,0,0,0.7); margin-bottom:20px;">`;
+    }
+    overlayHtml += `<p style="font-family: Arial, sans-serif; font-size: 1.2em; margin-bottom:20px;">${messageHtml}</p>`;
+    overlayHtml += '<button id="show-summary-btn" style="padding: 12px 24px; font-size: 1em; border-radius: 8px;">Ver Resultado</button>';
+    elements.bonusMusicScreen.innerHTML = overlayHtml;
+    // Garante que o painel mantenha o fundo escuro e sem bordas neon
+    const bonusScreen = elements.bonusMusicScreen;
+    bonusScreen.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+    bonusScreen.style.border = 'none';
+    bonusScreen.style.animation = 'none';
+    bonusScreen.style.boxShadow = '0 15px 40px rgba(0,0,0,0.8)';
+    const summaryBtn = document.getElementById('show-summary-btn');
+    if (summaryBtn) {
+        summaryBtn.onclick = () => {
+            renderBonusSummary(summaryData);
+        };
+    }
+}
+
+// Renderiza a tela de resumo final do disco, com estatísticas e opções para enviar pontuação ou voltar à seleção de discos.
+function renderBonusSummary(data) {
+    const { correctAnswers, totalSongs, unlockedNewDisco, bonusProgressTotalScore, totalDurationText, fastestName, fastestDurationText, slowestName, slowestDurationText } = data;
+    // Monta partes do resumo
+    const performanceHtml = `<p style="font-family: Arial, sans-serif;">Você acertou ${correctAnswers} de ${totalSongs} músicas.</p>`;
+    const unlockHtml = unlockedNewDisco ? `<p style="color: var(--cor-verde-vibrante); font-weight: bold; font-family: Arial, sans-serif;">Disco ${bonusGameState.currentDiscoIndex + 2} desbloqueado!</p>` : '';
+    const scoreHtml = `<p style="font-family: Arial, sans-serif;">Sua pontuação total na Rádio é: <b style="color: var(--cor-amarelo-cbjr);">${bonusProgressTotalScore}</b></p>`;
+    const timeHtml = totalDurationText ? `<p style="font-family: Arial, sans-serif;">Você concluiu em ${totalDurationText}.</p>` : '';
+    const fastestHtml = fastestName ? `<p style="font-family: Arial, sans-serif;">Música mais rápida: ${fastestName} (${fastestDurationText})</p>` : '';
+    const slowestHtml = slowestName ? `<p style="font-family: Arial, sans-serif;">Música mais lenta: ${slowestName} (${slowestDurationText})</p>` : '';
+    let feedbackHtml = '';
+    // Verifica se o usuário completou este disco sem erros e se todos os discos foram completados perfeitamente
+    let allPerfect = false;
+    try {
+        const progress = JSON.parse(localStorage.getItem('cobjr_bonus_progress')) || {};
+        const scoreHistory = progress.scorePerDisco || {};
+        allPerfect = true;
+        for (let i = 0; i < bonusDiscos.length; i++) {
+            const total = (bonusDiscos[i] && bonusDiscos[i].musicas) ? bonusDiscos[i].musicas.length : 0;
+            if ((scoreHistory[i] || 0) < total) {
+                allPerfect = false;
+                break;
+            }
+        }
+    } catch(e) { allPerfect = false; }
+    if (bonusGameState.bonusErrorsCount >= bonusGameState.maxBonusErrors) {
+        feedbackHtml = '<p style="margin-top: 20px; font-size: 1.4em; color: var(--cor-vermelho-incorreto); font-weight: bold; font-family: Arial, sans-serif;">Mano, você arranhou o disco, volte e tente novamente!</p>';
+    } else if (bonusGameState.bonusErrorsCount === 0) {
+        // Quando não houve erros, diferencia entre gabarito deste álbum e gabarito total
+        if (correctAnswers === totalSongs && allPerfect) {
+            feedbackHtml = '<p style="margin-top: 20px; font-size: 1.6em; color: var(--cor-verde-vibrante); font-weight: bold; font-family: Arial, sans-serif;">Incrível! Você gabaritou todos os álbuns sem errar nenhuma música! 👑🎸</p>';
+        } else if (correctAnswers === totalSongs) {
+            feedbackHtml = '<p style="margin-top: 20px; font-size: 1.5em; color: var(--cor-amarelo-cbjr); font-weight: bold; font-family: Arial, sans-serif;">Parabéns! Você acertou todas as músicas deste álbum!</p>';
+        } else {
+            feedbackHtml = '<p style="margin-top: 20px; font-size: 1.4em; color: var(--cor-verde-vibrante); font-weight: bold; font-family: Arial, sans-serif;">Aê parceiro você foi foda, desbloqueou o próximo CD!</p>';
+        }
+    }
+    let errosHtml = '';
+    if (Array.isArray(bonusGameState.missedSongs) && bonusGameState.missedSongs.length > 0) {
+        errosHtml = '<div class="erros-lista"><h4 style="margin-top: 20px;">Seus erros neste disco:</h4><ul>' +
+            bonusGameState.missedSongs.map(missed => {
+                const userAns = missed.userAnswer || '-- PULO --';
+                return `<li><span class="correct-answer"><b>Correta:</b> ${missed.correctAnswer}</span><span class="user-answer"><b>Sua resposta:</b> ${userAns}</span></li>`;
+            }).join('') + '</ul></div>';
+    }
+    // Concatena o HTML completo do resumo
+    let html = '';
+    html += '<h2>Fim do Disco!</h2>';
+    html += performanceHtml;
+    html += unlockHtml;
+    html += scoreHtml;
+    html += timeHtml;
+    html += fastestHtml;
+    html += slowestHtml;
+    html += feedbackHtml;
+    html += errosHtml;
+    html += '<div style="margin-top: 25px; width: 95%; max-width: 400px;">' +
+            '<input type="text" id="bonus-player-name-input" placeholder="Seu nome para o ranking" maxlength="20" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 100%; font-size: 1em; text-align: center; background-color: rgba(255,255,255,0.1); color: white;">' +
+            '<button id="bonus-submit-score-btn" style="margin-top: 12px; padding: 10px 20px; font-size: 1em;">Enviar Pontuação Total</button>' +
+            '</div>' +
+            '<div class="bonus-controls" style="margin-top: 30px;">' +
+            '<button id="bonus-back-to-discos-btn">Voltar para os Discos</button>' +
+            '</div>';
+    elements.bonusMusicScreen.innerHTML = html;
+    // Reaplica estilos do painel para o resumo final
+    const bonusScreen = elements.bonusMusicScreen;
+    bonusScreen.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+    bonusScreen.style.border = 'none';
+    bonusScreen.style.animation = 'none';
+    bonusScreen.style.boxShadow = '0 15px 40px rgba(0,0,0,0.8)';
+    // Configura botão de voltar
+    const backBtn = document.getElementById('bonus-back-to-discos-btn');
+    if (backBtn) {
+        backBtn.onclick = () => {
+            elements.bonusMusicScreen.classList.remove('show');
+            elements.bonusMusicScreen.style.display = 'none';
+            showDiscoSelectionScreen();
+        };
+    }
+    // Configura botão de enviar pontuação
+    const submitScoreBtn = document.getElementById('bonus-submit-score-btn');
+    if (submitScoreBtn) {
+        submitScoreBtn.onclick = () => {
+            const playerNameField = document.getElementById('bonus-player-name-input');
+            const playerName = playerNameField ? playerNameField.value.trim() : '';
+            if (playerName) {
+                saveScore(playerName, data.bonusProgressTotalScore, 'bonus');
+                submitScoreBtn.disabled = true;
+                if (playerNameField) playerNameField.disabled = true;
+                alert('Pontuação enviada com sucesso!');
+            } else {
+                alert('Por favor, digite seu nome para enviar a pontuação.');
+            }
+        };
+    }
 }
 
 function showBonusAchievementScreen(timeTaken, totalSongs) {
