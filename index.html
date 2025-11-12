@@ -6715,6 +6715,19 @@ function showDiscoSelectionScreen() {
     if (exitBtn) {
         exitBtn.style.display = 'none';
     }
+
+    // Hide the audio player wrapper while in Rádio mode. Although CSS should hide the player
+    // when the body has the `radio-active` class, some players may still appear due to other
+    // styles. Force hiding it here to prevent it overlapping the album list.
+    if (elements && elements.audioPlayerWrapper) {
+        try {
+            // Usa setProperty com !important para garantir que o estilo de exibição
+            // sobreponha quaisquer outras regras CSS.
+            elements.audioPlayerWrapper.style.setProperty('display', 'none', 'important');
+        } catch (e) {
+            console.warn('Não foi possível ocultar o player na seleção de discos:', e);
+        }
+    }
     // Ao entrar no modo Rádio, esconda o quiz principal
     hideMainGame();
 
@@ -6828,6 +6841,18 @@ function startBonusMusicGame(discoIndex) {
     const exitBtn = document.getElementById('exit-quiz-btn');
     if (exitBtn) {
         exitBtn.style.display = 'none';
+    }
+
+    // Hide the audio player when starting a Rádio game. This ensures the player
+    // does not cover the options grid for albums with many tracks.
+    if (elements && elements.audioPlayerWrapper) {
+        try {
+            // Usa setProperty com !important para garantir que o player não apareça
+            // em hipótese alguma enquanto estiver em modo Rádio.
+            elements.audioPlayerWrapper.style.setProperty('display', 'none', 'important');
+        } catch (e) {
+            console.warn('Não foi possível ocultar o player no início do jogo de Rádio:', e);
+        }
     }
     
     hideMainOverlay();
@@ -7213,6 +7238,16 @@ function hideBonusMusicScreen() {
         // Restaura a exibição do quiz quando o usuário sai do modo Rádio
         showMainGame();
         showIntroMessage();
+
+        // Ao sair do modo Rádio, exibe novamente o player de áudio
+        if (elements && elements.audioPlayerWrapper) {
+            try {
+                // Remove a propriedade display com !important para restaurar o comportamento padrão
+                elements.audioPlayerWrapper.style.removeProperty('display');
+            } catch (e) {
+                console.warn('Não foi possível restaurar o player ao sair do modo Rádio:', e);
+            }
+        }
 
         // Remove quaisquer estilos específicos do modo Rádio e restaura valores padrão.
         // Remove classe de estilização extra, se presente
@@ -8924,5 +8959,35 @@ document.addEventListener('DOMContentLoaded', function () {
   })();
 })();
 </script>
+    <!-- Força o player de áudio a ficar oculto durante o modo Rádio. Este estilo é
+         adicionado no final para garantir precedência sobre qualquer outra regra anterior. -->
+    <style id="radio-hide-player">
+      body.radio-active #audio-player-wrapper {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+      /* Também ocultamos todos os elementos internos do player, caso algum script
+         injete elementos com estilos próprios após o carregamento. */
+      body.radio-active #audio-player-wrapper *,
+      body.radio-active #audio-player-wrapper *::before,
+      body.radio-active #audio-player-wrapper *::after {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+
+      /* Oculta o mini-player moderno (Model3) no modo Rádio. Este overlay
+         persiste na interface mesmo quando o player padrão é escondido, e pode
+         sobrepor as opções de músicas em álbuns com muitas faixas. */
+      body.radio-active #model3-overlay {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+    </style>
 </body>
 </html>
