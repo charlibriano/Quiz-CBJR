@@ -4252,7 +4252,12 @@ const bonusGameState = {
     // Mantém o estado de cada título de música (normalizado) como 'unanswered', 'correct' ou 'incorrect'.
     bonusOptionStates: {},
     // NOVO: Flag para controlar se o jogador pode selecionar uma opção no modo Rádio CBJR.
-    awaitingAnswer: false
+    awaitingAnswer: false,
+
+    // Nível de dificuldade selecionado para a Rádio CBJR.
+    // Por padrão, usamos o modo "normal" onde a música começa do início.
+    // No modo "hard", a música inicia em um trecho aleatório (início, meio ou fim).
+    difficulty: 'normal'
 };
 
 // Variáveis de controle de tempo
@@ -6770,7 +6775,12 @@ function showDiscoSelectionScreen() {
         <p class="intro-text">
             Selecione um álbum para adivinhar os clássicos da banda.
         </p>
-        <p style="font-size: 1.2em; margin-bottom: 25px;">Sua Pontuação Total: <b style="color: var(--cor-amarelo-cbjr);">${bonusProgress.totalScore}</b></p>
+        <p style="font-size: 1.2em; margin-bottom: 15px;">Sua Pontuação Total: <b style="color: var(--cor-amarelo-cbjr);">${bonusProgress.totalScore}</b></p>
+        <!-- Seletor de dificuldade para a Rádio CBJR -->
+        <div id="difficulty-selector" style="display:flex; justify-content:center; gap:12px; margin-bottom: 20px;">
+            <button id="mode-normal-btn" class="difficulty-btn" data-mode="normal" style="padding: 8px 16px; font-size: 1em; border-radius: 6px; border: 1px solid var(--cor-amarelo-cbjr); background-color: #222; color: var(--cor-amarelo-cbjr); cursor: pointer;">Normal</button>
+            <button id="mode-hard-btn" class="difficulty-btn" data-mode="hard" style="padding: 8px 16px; font-size: 1em; border-radius: 6px; border: 1px solid var(--cor-amarelo-cbjr); background-color: #222; color: var(--cor-amarelo-cbjr); cursor: pointer;">Hard</button>
+        </div>
         <div id="disco-list-container" class="disco-list-container">
             ${discosHTML}
         </div>
@@ -6780,6 +6790,40 @@ function showDiscoSelectionScreen() {
 
     elements.bonusDiscoSelectionScreen.style.display = 'flex';
     elements.bonusDiscoSelectionScreen.classList.add('show');
+
+    // === Configuração do seletor de dificuldade ===
+    try {
+        const normalBtn = document.getElementById('mode-normal-btn');
+        const hardBtn = document.getElementById('mode-hard-btn');
+        if (normalBtn && hardBtn) {
+            // Lê a cor amarela definida nas variáveis CSS para aplicar nos botões
+            const rootStyles = getComputedStyle(document.documentElement);
+            const highlightColor = rootStyles.getPropertyValue('--cor-amarelo-cbjr') || '#f1c40f';
+            const darkBg = '#222';
+
+            // Função auxiliar para atualizar estilos conforme seleção
+            const setModeStyles = (mode) => {
+                bonusGameState.difficulty = mode;
+                if (mode === 'normal') {
+                    normalBtn.style.backgroundColor = highlightColor.trim();
+                    normalBtn.style.color = '#000';
+                    hardBtn.style.backgroundColor = darkBg;
+                    hardBtn.style.color = highlightColor.trim();
+                } else {
+                    hardBtn.style.backgroundColor = highlightColor.trim();
+                    hardBtn.style.color = '#000';
+                    normalBtn.style.backgroundColor = darkBg;
+                    normalBtn.style.color = highlightColor.trim();
+                }
+            };
+            // Define o modo padrão ao abrir a seleção
+            setModeStyles('normal');
+            normalBtn.addEventListener('click', () => setModeStyles('normal'));
+            hardBtn.addEventListener('click', () => setModeStyles('hard'));
+        }
+    } catch (e) {
+        console.warn('Erro ao configurar seletor de dificuldade:', e);
+    }
 
     // Garante que o equalizador esteja oculto quando a lista de discos é exibida
     const eqFooterDuringBonus = document.getElementById('equalizer-footer');
@@ -7211,7 +7255,36 @@ function loadBonusSongForBonus(skipped = false) {
     bonusGameState.songStartTime = Date.now();
 
     loadSong(bonusGameState.currentBonusSong);
+    // Define início da faixa conforme o nível de dificuldade selecionado.
+    // No modo normal, sempre começamos do início (0). No modo hard, escolhemos
+    // um ponto aleatório entre o início e quase o final da música para dificultar.
+    // Caso a duração ainda não esteja carregada (metadata), aguardamos o evento
+    // 'loadedmetadata' para definir o ponto de início.
     elements.audio.currentTime = 0;
+    if (bonusGameState.difficulty === 'hard') {
+        const setRandomStart = () => {
+            try {
+                const d = elements.audio.duration || 0;
+                if (d > 0) {
+                    // Define um ponto aleatório entre o início e 5 segundos antes do fim
+                    let randomStart = Math.random() * Math.max(0, d - 5);
+                    elements.audio.currentTime = randomStart;
+                }
+            } catch (err) {
+                console.warn('Erro ao definir início aleatório da faixa:', err);
+            } finally {
+                elements.audio.removeEventListener('loadedmetadata', setRandomStart);
+            }
+        };
+        // Se a duração já estiver disponível, ajusta imediatamente; caso contrário, aguarda metadata
+        if (!isNaN(elements.audio.duration) && elements.audio.duration > 0) {
+            const d = elements.audio.duration;
+            let randomStart = Math.random() * Math.max(0, d - 5);
+            elements.audio.currentTime = randomStart;
+        } else {
+            elements.audio.addEventListener('loadedmetadata', setRandomStart);
+        }
+    }
     playSong();
     elements.bonusAnswerInput.focus();
     console.log(`Rádio CBJR: Música carregada: ${bonusGameState.currentBonusSong.title}`);
