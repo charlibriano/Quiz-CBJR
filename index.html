@@ -1054,24 +1054,75 @@
            da caixa de introdução. Ele se expande para a largura completa
            da caixa e deixa de ser fixo. */
         body.intro-active #audio-player-wrapper {
-            position: relative !important;
-            top: auto !important;
-            right: auto !important;
-            left: auto !important;
-            bottom: auto !important;
-            width: 100% !important;
-            max-width: none !important;
-            min-height: 0 !important;
-            max-height: none !important;
-            margin-top: 10px !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-            z-index: 1 !important;
+            /* Oculta completamente o player de áudio na tela de boas‑vindas para evitar distrações
+               e garantir que os cartões fiquem centralizados na interface. */
+            display: none !important;
+        }
+
+        /* Para garantir que o player de áudio não apareça por engano na tela de boas‑vindas, mesmo se
+           o contêiner do player for posicionado depois do welcome-screen no DOM, esta regra de
+           combinações específicas também o esconde. */
+        body.intro-active #welcome-screen + #audio-player-wrapper {
+            display: none !important;
+        }
+
+        /* Responsividade adicional: em telas muito estreitas, reduz ainda mais
+           as dimensões dos cartões, fontes e margens para que a tela inicial
+           caiba confortavelmente sem necessidade de zoom ou rolagem vertical. */
+        @media (max-width: 600px) {
+            body.intro-active #welcome-screen {
+                width: 96%;
+                max-width: 480px;
+            }
+            body.intro-active #welcome-screen .intro-cards-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .intro-card {
+                max-width: none;
+                width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 12px 10px;
+                /* Altura mínima reduzida para telas estreitas, garantindo que os quatro cartões caibam com menos rolagem */
+                min-height: 110px;
+            }
+            .intro-card h4 {
+                font-size: 1.0em;
+            }
+            .intro-card p {
+                font-size: 0.7em;
+            }
+            .intro-actions {
+                margin-top: 12px;
+            }
+        }
+
+        /* Oculta o player de áudio sempre que não estivermos em um modo ativo (quiz, rádio ou letras).
+           Isso garante que, na tela inicial e em outras telas passivas, o player não interfira no layout. */
+        body:not(.quiz-active):not(.radio-active):not(.letters-active) #audio-player-wrapper {
+            display: none !important;
         }
         /* No modo Rádio (radio-active), o player fica completamente oculto,
            pois o usuário precisa adivinhar a música apenas ouvindo. */
         body.radio-active #audio-player-wrapper {
             display: none !important;
+        }
+        /* No modo Letras (letters-active), reposicionamos o player próximo ao rodapé,
+           de forma semelhante ao modo quiz para não interferir com o conteúdo. */
+        body.letters-active #audio-player-wrapper {
+            position: fixed !important;
+            bottom: 70px !important;
+            right: 10px !important;
+            left: auto !important;
+            top: auto !important;
+            width: 200px !important;
+            max-width: 200px !important;
+            min-height: 90px !important;
+            max-height: 90px !important;
+            padding: 6px !important;
+            gap: 4px !important;
+            z-index: 6000 !important;
         }
         /* No modo Quiz (quiz-active), o player permanece fixo no canto
            superior direito, porém com dimensões compactas para não
@@ -1426,8 +1477,10 @@
             gap: 20px;
             pointer-events: all;
             width: auto;
-            max-width: 750px;
-            min-width: 300px;
+            /* Permite que o contêiner de boas‑vindas ocupe uma área maior em telas grandes. */
+            max-width: 1100px;
+            /* Remove largura mínima fixa para permitir ajuste baseado no conteúdo e mídia queries. */
+            /* min-width foi removido */
             box-sizing: border-box;
         }
         /* Mobile adjustments for welcome/level-up screens */
@@ -1484,7 +1537,7 @@
         }
         /* Destaque para a frase do Chorão na passagem de nível */
         #level-up-message .chorao-quote {
-            font-size: 1.3em;
+            font-size: 1.2em;
             margin-top: 0px;
             margin-bottom: 25px;
             font-family: 'Elektrix', sans-serif;
@@ -1523,7 +1576,7 @@
         }
         #level-up-message ul,
         #welcome-screen ul {
-            font-size: 0.85em;
+            font-size: 0.8em;
             padding-left: 20px;
             text-align: left;
             margin: 15px auto 20px auto;
@@ -1752,7 +1805,8 @@
             color: var(--cor-preto-principal);
             border: 3px solid var(--cor-amarelo-cbjr);
             transform: scale(1.03);
-            font-size: 1.3em;
+            /* Tamanho de fonte mais compacto para caber melhor em resoluções médias/grandes */
+            font-size: 1.1em;
             box-shadow: 0 0 20px var(--cor-amarelo-cbjr), 0 0 30px rgba(241, 196, 15, 0.7);
         }
         #ranking-list li:first-child span:first-child {
@@ -2527,14 +2581,15 @@
             justify-content: center;
             pointer-events: all;
             width: auto;
-            max-width: 650px;
-            min-height: 250px;
+            /* Aumenta a largura máxima para permitir que os cartões fiquem lado a lado em telas maiores */
+            max-width: 1100px;
+            min-height: 300px;
             box-sizing: border-box;
 
-            /* Limita a altura para caber em telas menores e permite rolagem interna
-               se o conteúdo exceder o espaço disponível. */
+            /* Limita a altura para caber em telas menores. A rolagem interna do contêiner tratará o conteúdo excedente. */
             max-height: 90vh;
-            overflow-y: auto;
+            /* Permite rolagem vertical dentro do contêiner de boas‑vindas, exibindo sempre a barra de rolagem para indicar que há mais conteúdo. */
+            overflow-y: scroll;
         }
 
         #welcome-screen.show {
@@ -2771,7 +2826,7 @@
             line-height: 1.2;
         }
         .disco-subtitle {
-            font-size: 0.85em;
+            font-size: 0.75em;
             margin-top: 5px;
             color: rgba(255, 255, 255, 0.8);
         }
@@ -2832,14 +2887,16 @@
                 -webkit-backdrop-filter: none;
             }
 
-            /* Tela de boas-vindas: reduz tamanho da fonte, largura e posiciona
-               mais próximo ao topo para que o conteúdo caiba melhor e não dê
-               sensação de flutuação. */
+        /* Tela de boas‑vindas (modo responsivo até 768px).  
+         * Nesta faixa de largura mostramos os cartões em até duas colunas.
+         * Ajustamos a largura máxima para 600px (suficiente para dois cards de 240px + gap) e
+         * usamos width em porcentagem para ocupar boa parte da tela.
+         */
             #welcome-screen {
                 font-size: 1.2em;
                 padding: 25px 20px;
-                width: 90%;
-                max-width: 450px;
+                width: 95%;
+                max-width: 600px;
                 top: 15%;
                 transform: translate(-50%, 0);
                 gap: 20px;
@@ -3153,6 +3210,331 @@
         .hide-game {
             display: none !important;
         }
+
+        /*
+         * Layout de boas‑vindas aprimorado
+         * --------------------------------
+         * A tela inicial utiliza cartões (cards) para cada modo
+         * (Quiz, Rádio, Letras, Conquistas). Esses cartões são exibidos em
+         * uma grade responsiva com ícones grandes, títulos em destaque e
+         * descrições breves. As transições de hover proporcionam um efeito
+         * visual atraente, convidando o usuário a interagir. O bloco de
+         * ações abaixo da grade acomoda botões secundários como Ranking e
+         * Continuar Quiz.
+         */
+        .intro-cards-container {
+            /* Utiliza grid para dispor os cartões de forma uniforme.  
+               Duas colunas em desktops e tablets e uma coluna em telas menores. */
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            justify-items: center;
+            align-items: stretch;
+            /* Ajustes de espaçamento: diminui o espaço entre os cartões e reduz a margem superior
+               para que todos os elementos caibam melhor na tela inicial sem exigir rolagem. */
+            gap: 20px;
+            margin-top: 15px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .intro-card {
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            /* Reduz o acolchoamento e a largura máxima dos cartões para caberem confortavelmente
+               em duas colunas mesmo em resoluções menores. */
+            /* Reduz ainda mais o acolchoamento para diminuir a altura total dos cartões
+               e melhorar a responsividade em resoluções médias e grandes. */
+            padding: 14px 12px;
+            width: 100%;
+            max-width: 260px;
+            /* Define uma altura mínima ainda mais compacta para que todos os quatro cartões
+               caibam na tela inicial sem exigir rolagem em monitores comuns. */
+            min-height: 130px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+            transition: transform 0.25s ease, box-shadow 0.3s ease, background-color 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* Em telas muito estreitas, cada cartão ocupa toda a largura. */
+        @media (max-width: 600px) {
+            .intro-cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .intro-card:hover {
+            transform: translateY(-6px) scale(1.05);
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.9), 0 0 18px var(--cor-amarelo-cbjr);
+        }
+        .intro-card .card-icon {
+            /* Ícones ligeiramente menores para equilibrar a composição dos cartões */
+            font-size: 2.0em;
+            color: var(--cor-amarelo-cbjr);
+            margin-bottom: 12px;
+        }
+        .intro-card h4 {
+            font-family: 'Elektrix', sans-serif;
+            color: var(--cor-amarelo-cbjr);
+            font-size: 1.3em;
+            margin: 0 0 6px;
+        }
+        .intro-card p {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.5;
+            margin: 0;
+            flex: 1;
+        }
+
+        .intro-actions {
+            /* Reduz o espaçamento antes dos botões de ações para otimizar espaço vertical */
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .intro-actions button {
+            background-color: transparent;
+            border: 1px solid var(--cor-amarelo-cbjr);
+            color: var(--cor-amarelo-cbjr);
+            font-family: 'Elektrix', sans-serif;
+            padding: 10px 22px;
+            font-size: 0.95em;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .intro-actions button:hover {
+            background-color: var(--cor-amarelo-cbjr);
+            color: var(--cor-preto-principal);
+            transform: translateY(-2px);
+        }
+        .intro-actions button i {
+            margin-right: 6px;
+        }
+
+        /* Ajuste final: garante que o #welcome-screen tenha um layout amplo e sem rolagem interna
+           quando a página inicial (intro-active) estiver visível. Isso sobrescreve definições
+           anteriores de largura e posição, permitindo que os cartões fiquem lado a lado. */
+        body.intro-active #welcome-screen {
+            /* Define uma largura generosa para que os cartões fiquem
+               alinhados horizontalmente em telas grandes e sem rolagem interna. */
+            width: 90%;
+            max-width: 1100px;
+            /* Centraliza o modal na tela */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Limita a altura do modal para ocupar a maior parte da viewport e habilita
+               rolagem interna. Assim, em resoluções onde o conteúdo é maior que a tela,
+               o usuário pode rolar dentro do painel de boas‑vindas para acessar todas as opções. */
+            max-height: 85vh !important;
+            overflow-y: auto;
+        }
+
+        /* Layout responsivo para os cartões na tela inicial. Ao ativar a
+           classe 'intro-active', usamos um grid que distribui os cartões
+           horizontalmente em telas largas e se ajusta em telas menores.
+           Esta regra substitui definições anteriores e evita listas verticais. */
+        body.intro-active #welcome-screen .intro-cards-container {
+            /* Organiza as cartas em duas colunas em telas largas. Cada cartão
+               tem a mesma largura, garantindo um layout equilibrado. */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+            margin-top: 25px;
+        }
+        @media (max-width: 768px) {
+            body.intro-active #welcome-screen .intro-cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (min-width: 1200px) {
+            body.intro-active #welcome-screen .intro-cards-container {
+                /* Em telas muito largas, mantém duas colunas para foco visual */
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Oculta o player de áudio na tela de introdução para não distrair
+           o usuário e evitar que o componente sobreponha os cartões.
+           O player será exibido novamente quando outras telas estiverem ativas. */
+        /* Oculta totalmente o player de áudio durante a tela de introdução,
+           independente de estar ou não posicionado dentro da caixa de boas‑vindas. */
+        body.intro-active #audio-player-wrapper {
+            display: none !important;
+        }
+    </style>
+    <!-- Styles for Modo Letras -->
+    <style id="letters-mode-css">
+        body.letters-active .container,
+        body.letters-active header,
+        body.letters-active #welcome-screen,
+        body.letters-active #bonus-music-screen,
+        body.letters-active #bonus-disco-selection-screen,
+        body.letters-active #bonus-achievement-screen {
+            display: none;
+        }
+        #letters-screen {
+            /* O modo Letras utiliza a mesma caixa central do quiz e rádio, centralizada e com rolagem externa */
+            position: relative;
+            width: 80%;
+            max-width: 850px;
+            margin: 8vh auto;
+            padding: 32px 36px;
+            background: rgba(5, 5, 15, 0.8);
+            backdrop-filter: blur(6px);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            border-radius: 18px;
+            color: var(--cor-texto-claro);
+            max-height: none;
+            overflow: visible;
+            display: none;
+            z-index: 5000;
+        }
+        #letters-screen.show {
+            display: block;
+        }
+        #letters-screen h2 {
+            font-family: 'Elektrix', sans-serif;
+            color: var(--cor-amarelo-cbjr);
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 2em;
+        }
+        #letters-screen .letters-status-bar {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1em;
+        }
+        #letters-screen .letters-phrase {
+            margin: 20px 0;
+            font-size: 1.4em;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.4;
+            color: var(--cor-texto-claro);
+            text-shadow: 0 0 8px rgba(241, 196, 15, 0.3);
+        }
+        #letters-screen .letters-options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        #letters-screen .letters-option-btn {
+            padding: 12px;
+            background-color: var(--cor-preto-principal);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            color: var(--cor-texto-claro);
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        #letters-screen .letters-option-btn.correct {
+            background-color: var(--cor-verde-correto);
+            border-color: var(--cor-verde-correto);
+        }
+        #letters-screen .letters-option-btn.incorrect {
+            background-color: var(--cor-vermelho-incorreto);
+            border-color: var(--cor-vermelho-incorreto);
+        }
+        #letters-screen .letters-option-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        /* ===== Estilos para a seleção de álbuns do Modo Letras ===== */
+        #letters-selection {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 700px;
+            background-color: var(--cor-fundo-transparente);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            border-radius: 12px;
+            padding: 20px;
+            color: var(--cor-texto-claro);
+            z-index: 5000;
+            display: none;
+        }
+        #letters-selection.show {
+            display: block;
+        }
+        #letters-selection .letters-album-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        #letters-selection .letters-album-card {
+            width: 150px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #letters-selection .letters-album-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid var(--cor-amarelo-cbjr);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        #letters-selection .letters-album-card h3 {
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: var(--cor-amarelo-cbjr);
+            font-family: 'Elektrix', sans-serif;
+        }
+        #letters-selection .exit-button {
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-amarelo-cbjr);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        #letters-selection .exit-button:hover {
+            background-color: var(--cor-amarelo-cbjr);
+            color: var(--cor-preto-principal);
+        }
+        /* Feedback message for each question */
+        #letters-screen .letters-feedback {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        #letters-screen .letters-final {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #letters-screen .letters-final button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 2px solid var(--cor-amarelo-cbjr);
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-amarelo-cbjr);
+            cursor: pointer;
+            font-size: 1em;
+        }
     </style>
 <!-- Final mobile-specific overrides to ensure a compact player and navigable radio list on small screens -->
 <style>
@@ -3435,19 +3817,18 @@ body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible 
         max-height: none;
         align-content: start;
     }
-    body.radio-active .bonus-option {
-        /* Botões com fundo escuro para esconder a capa até que sejam removidos.
-           Isso mantém o suspense e revela o CD aos poucos à medida que as respostas somem. */
-        background: rgba(0, 0, 0, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        border-radius: 12px;
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
-        color: var(--cor-texto-claro);
-        font-weight: 700;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.7);
-        transition: transform 0.15s ease, opacity 0.15s ease;
-        padding: 14px 10px;
-    }
+        body.radio-active .bonus-option {
+            /* Botões do modo Rádio com fundo em gradiente e leve transparência para uniformizar a arte de fundo */
+            background: linear-gradient(135deg, rgba(30, 30, 60, 0.85), rgba(60, 60, 100, 0.85));
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.6);
+            color: var(--cor-texto-claro);
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            padding: 14px 10px;
+        }
     body.radio-active .bonus-option:hover:not(.correct):not(.incorrect) {
         transform: translateY(-2px);
         box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5), 0 4px 10px rgba(0,0,0,0.6);
@@ -3463,6 +3844,270 @@ body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible 
             grid-template-columns: repeat(2, 1fr) !important;
         }
     }
+    </style>
+<style>
+        /* === Estilos para a navegação de categorias de conquistas === */
+        /* Contêiner que agrupa os cartões de categorias (Quiz/Rádio/Letras) */
+        #achievements-category-container {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            justify-items: center;
+            width: 90%;
+            max-width: 900px;
+        }
+        /* Cartão que representa uma categoria de conquistas */
+        .category-card {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            padding: 30px 20px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.8);
+            transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid rgba(255,255,255,0.2);
+            color: var(--cor-texto-claro);
+            text-align: center;
+            min-height: 160px;
+            width: 100%;
+        }
+
+        /* =============================================================== */
+        /* Início de: Tematização do Quiz, Rádio e Modo Letras             */
+        /* Estes estilos aprimoram a aparência das telas de jogo,          */
+        /* usando gradientes, bordas luminosas e cabeçalhos personalizados */
+        /* para mergulhar o usuário no universo Charlie Brown Jr.          */
+
+        /* ---------- Plano de fundo geral por modo ---------- */
+        body.quiz-active {
+            /* Fundo escuro com sutil gradiente para a tela do quiz; sem repetição de imagem e cobrindo toda a tela */
+            background: radial-gradient(circle at center, rgba(15, 15, 20, 0.9), #000000);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center top;
+        }
+        body.radio-active {
+            /* Fundo levemente diferente para modo rádio; sem repetição de imagem e cobrindo toda a tela */
+            background: radial-gradient(circle at center, rgba(10, 10, 15, 0.9), #010004);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center top;
+        }
+        body.letters-active {
+            /* Fundo inspirado em notas musicais para modo letras; sem repetição e cobrindo toda a tela */
+            background: radial-gradient(circle at center, rgba(5, 10, 15, 0.9), #000307);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center top;
+        }
+
+        /* ---------- Contêiner dos modos de jogo ---------- */
+        body.quiz-active #quiz,
+        body.letters-active #letters-screen {
+            /* Caixa central dos modos: centralizada com largura moderada para evitar cortes em telas comuns */
+            width: 80%;
+            max-width: 850px;
+            margin: 8vh auto 0 auto;
+            padding: 24px 32px;
+            background: rgba(5, 5, 15, 0.8);
+            backdrop-filter: blur(6px);
+            border-radius: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow:
+                0 0 20px rgba(241, 196, 15, 0.3),
+                0 0 60px rgba(255, 255, 255, 0.15);
+            max-height: none;
+            overflow: visible;
+            position: relative;
+        }
+
+        /* ---------- Cabeçalhos dinâmicos para cada modo ---------- */
+        body.quiz-active #quiz::before {
+            content: 'Modo Quiz';
+            display: block;
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2em;
+            color: var(--cor-amarelo-cbjr);
+            text-align: center;
+            margin-bottom: 18px;
+            text-shadow:
+                0 0 10px rgba(241, 196, 15, 0.8),
+                0 0 25px rgba(241, 196, 15, 0.6);
+        }
+        body.radio-active #bonus-music-screen::before {
+            content: 'Rádio CBJR';
+            display: block;
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2em;
+            color: var(--cor-amarelo-cbjr);
+            text-align: center;
+            margin-bottom: 18px;
+            text-shadow:
+                0 0 10px rgba(241, 196, 15, 0.8),
+                0 0 25px rgba(241, 196, 15, 0.6);
+        }
+        body.letters-active #letters-screen::before {
+            content: 'Modo Letras';
+            display: block;
+            font-family: 'Elektrix', sans-serif;
+            font-size: 2em;
+            color: var(--cor-amarelo-cbjr);
+            text-align: center;
+            margin-bottom: 18px;
+            text-shadow:
+                0 0 10px rgba(241, 196, 15, 0.8),
+                0 0 25px rgba(241, 196, 15, 0.6);
+        }
+
+        /* ---------- Estilização de botões de resposta no quiz ---------- */
+        body.quiz-active .question button {
+            background: linear-gradient(135deg, rgba(30, 30, 60, 0.9), rgba(60, 60, 100, 0.9));
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        body.quiz-active .question button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, rgba(60, 60, 100, 0.9), rgba(100, 100, 140, 0.9));
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), 0 0 20px rgba(241, 196, 15, 0.3);
+        }
+
+        /* ---------- Estilização de opções no modo rádio ---------- */
+        body.radio-active .bonus-option {
+            /* Botões do modo Rádio com fundo em gradiente e leve transparência para uniformizar a arte de fundo */
+            background: linear-gradient(135deg, rgba(30, 30, 60, 0.85), rgba(60, 60, 100, 0.85));
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            color: var(--cor-texto-claro);
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.6);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        body.radio-active .bonus-option:hover:not(.correct):not(.incorrect) {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, rgba(60, 60, 100, 0.9), rgba(100, 100, 140, 0.9));
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow:
+                0 8px 18px rgba(0, 0, 0, 0.8),
+                0 0 25px rgba(241, 196, 15, 0.25);
+        }
+
+        /* ---------- Estilização de opções no modo letras ---------- */
+        body.letters-active #letters-screen .letters-option-btn {
+            background: linear-gradient(135deg, rgba(30, 30, 60, 0.85), rgba(60, 60, 100, 0.85));
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            color: var(--cor-texto-claro);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        body.letters-active #letters-screen .letters-option-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, rgba(60, 60, 100, 0.9), rgba(100, 100, 140, 0.9));
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.8), 0 0 25px rgba(241, 196, 15, 0.25);
+        }
+        body.letters-active #letters-screen .letters-option-btn.correct {
+            background-color: var(--cor-verde-correto);
+            border-color: var(--cor-verde-correto);
+            color: var(--cor-preto-principal);
+        }
+        body.letters-active #letters-screen .letters-option-btn.incorrect {
+            background-color: var(--cor-vermelho-incorreto);
+            border-color: var(--cor-vermelho-incorreto);
+            color: var(--cor-preto-principal);
+        }
+
+        /* ---------- Estilização da frase no modo letras ---------- */
+        body.letters-active #letters-screen .letters-phrase {
+            font-size: 1.3em;
+            font-weight: 500;
+            margin: 30px 0;
+            line-height: 1.6;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+        }
+
+        /* ---------- Tinta e contorno para grupos de opções ---------- */
+        /* No quiz, envolve as perguntas e respostas em uma caixa translúcida */
+        body.quiz-active .question {
+            background-color: rgba(0, 0, 0, 0.55);
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(241, 196, 15, 0.25), 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+        /* No rádio, coloca fundo sob as opções para destacar o grid */
+        body.radio-active .bonus-options {
+            background-color: rgba(0, 0, 0, 0.55);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(241, 196, 15, 0.25), 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+        /* No modo letras, destaca o grid de respostas com uma caixa translúcida */
+        body.letters-active #letters-screen .letters-options-grid {
+            background-color: rgba(0, 0, 0, 0.55);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(241, 196, 15, 0.25), 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Fim de estilização dos modos de jogo */
+        /* =============================================================== */
+        .category-card:hover {
+            transform: translateY(-8px);
+            background-color: rgba(0,0,0,0.9);
+        }
+        .category-card h3 {
+            font-family: 'Elektrix', sans-serif;
+            font-size: 1.6em;
+            color: var(--cor-amarelo-cbjr);
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+        }
+        .category-card p {
+            font-family: Arial, sans-serif;
+            font-size: 0.9em;
+            margin: 0;
+            opacity: 0.9;
+        }
+        /* Botão para voltar das conquistas de uma categoria para a lista de categorias */
+        #back-to-categories-btn {
+            padding: 12px 20px;
+            background-color: var(--cor-preto-principal);
+            color: var(--cor-texto-claro);
+            border: 2px solid var(--cor-amarelo-cbjr);
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.25s ease, background-color 0.25s ease;
+        }
+        #back-to-categories-btn:hover {
+            transform: translateY(-4px);
+            background-color: rgba(0,0,0,0.8);
+        }
+        /* Ajustes para telas menores */
+        @media (max-width: 600px) {
+            #achievements-category-container {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 15px;
+            }
+            .category-card {
+                padding: 20px 15px;
+                min-height: 120px;
+            }
+            .category-card h3 {
+                font-size: 1.2em;
+            }
+            .category-card p {
+            font-size: 0.75em;
+            }
+        }
+        /* === Fim dos estilos para a navegação de categorias === */
     </style>
 </head>
 <body>
@@ -3504,7 +4149,7 @@ body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible 
 <div id="welcome-screen" style="display:none;">
 <h3>Bem-vindo(a) ao Quiz do Charlie Brown Jr!</h3>
 <p class="intro-text">
-            Mostre que você é um verdadeiro **Marginal Alado** e teste seus conhecimentos sobre a banda que marcou gerações!
+            Explore o universo CBJR: responda perguntas no <strong>Quiz</strong>, descubra músicas na <strong>Rádio</strong> ou complete trechos no <strong>Modo&nbsp;Letras</strong>.
         </p>
 <div class="message-buttons">
 <button id="start-quiz-button-welcome"><i class="fas fa-play"></i> Entrar no Quiz</button>
@@ -3514,11 +4159,19 @@ body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible 
 </div>
 </div>
 <div id="achievements-screen" style="display:none;">
-<h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2>
-<div id="achievements-list"></div>
-<div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-<button id="close-achievements-btn">Voltar à Página Inicial</button>
-</div>
+    <h2 style="font-family: 'Elektrix', sans-serif;">Minhas Conquistas</h2>
+    <!-- Navegação de categorias: o jogador escolhe entre conquistas do Quiz, Rádio ou Letras -->
+    <div id="achievements-category-container" class="category-container"></div>
+    <!-- Container de conquistas específicas da categoria selecionada -->
+    <div id="category-achievements-container" style="display:none; flex-direction: column; align-items: center; width: 100%;">
+        <h3 id="category-title" style="font-family: 'Elektrix', sans-serif; margin-bottom: 10px;"></h3>
+        <p id="category-progress" style="font-family: Arial, sans-serif; margin-bottom: 20px; font-size: 0.9em;"></p>
+        <div id="achievements-list"></div>
+        <button id="back-to-categories-btn" style="margin-top: 20px;">Voltar</button>
+    </div>
+    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+        <button id="close-achievements-btn">Voltar à Página Inicial</button>
+    </div>
 </div>
 <div id="statistics-screen" style="display:none;">
 <h2>Estatísticas do Jogo</h2>
@@ -3562,6 +4215,428 @@ body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible 
 </div>
 <div id="bonus-disco-selection-screen" style="display: none;">
 </div>
+<!-- Tela do Modo Letras -->
+<!-- Seleção de Álbum do Modo Letras -->
+<div id="letters-selection" style="display: none;"></div>
+<!-- Tela do Modo Letras -->
+<div id="letters-screen" style="display: none;"></div>
+<!-- Fim da tela do Modo Letras -->
+<script>
+// === MODO LETRAS (Lyrics Mode) ===
+const lettersMode = {
+    // Map of available albums for the letters game.  Each entry includes
+    // a unique id, a display name, the URL to the JSON with lyrics and
+    // a cover image file for album selection.  The cover paths mirror those
+    // used in the rádio mode (radio_albuns.json).
+    albumMap: {
+        // Transpiração Contínua e Prolongada (1997)
+        'tcp': {
+            id: 'tcp',
+            name: 'Transpiração Contínua e Prolongada',
+            url: 'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/tcp_lyrics.json',
+            cover: 'CD%201.jpeg'
+        },
+        // Preço Curto Prazo Longo (1999)
+        'pcpl': {
+            id: 'pcpl',
+            name: 'Preço Curto Prazo Longo',
+            url: 'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/PCPL.json',
+            cover: 'CD%202.jpeg'
+        },
+        // Nadando com os Tubarões (2000)
+        'nadando': {
+            id: 'nadando',
+            name: 'Nadando com os Tubarões',
+            url: 'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Nadando%20com%20os%20Tubaroes.json',
+            cover: 'CD%203.jpeg'
+        },
+        // 100% Charlie Brown Jr. – Abalando Sua Fábrica (2001)
+        'cbjr100': {
+            id: 'cbjr100',
+            name: '100% Charlie Brown Jr.',
+            url: 'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/100%25_CBJR.json',
+            cover: 'CD%204_.jpeg'
+        },
+        // Bocas Ordinárias (2002)
+        'bocas': {
+            id: 'bocas',
+            name: 'Bocas Ordinárias',
+            url: 'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Bocas%20Ordinarias.json',
+            cover: 'CD%205.jpeg'
+        },
+        // Tamo Aí na Atividade (2004)
+        'atividade': {
+            id: 'atividade',
+            name: 'Tamo Aí na Atividade',
+            url: 'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Tamo%20ai%20na%20Atividade.json',
+            cover: 'CD%207.jpeg'
+        },
+        // Imunidade Musical (2005)
+        'imunidade': {
+            id: 'imunidade',
+            name: 'Imunidade Musical',
+            url: 'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Imunidade%20Musical.json',
+            cover: 'CD%208.jpeg'
+        },
+        // Ritmo, Ritual e Responsa (2007)
+        'ritmo': {
+            id: 'ritmo',
+            name: 'Ritmo, Ritual e Responsa',
+            url: 'https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/Ritmo%20Ritual%20e%20Responsa.json',
+            cover: 'CD%209.jpeg'
+        }
+    },
+    // Define a fixed order for unlocking albums.  The first album is always
+    // available; each subsequent album becomes selectable only after the
+    // previous one has been completed.  This order mirrors the discography
+    // sequence used in the rádio mode.
+    albumOrder: ['tcp', 'pcpl', 'nadando', 'cbjr100', 'bocas', 'atividade', 'imunidade', 'ritmo'],
+    // The id of the currently selected album.  Defaults to the first in the order.
+    currentAlbumId: 'tcp',
+    // Stores the generated questions for the current album.  Each entry
+    // includes a snippet (lyric excerpt), the correct answer, and shuffled
+    // options.  This array is rebuilt whenever a new album is started.
+    questions: [],
+    // Index of the current question within the questions array.
+    currentIndex: 0,
+    // Count of correct answers given by the player.
+    correct: 0,
+    // Count of incorrect answers (errors) made by the player.
+    errors: 0,
+    // Maximum number of errors allowed before game over.
+    maxErrors: 5,
+    // Interval id for the countdown timer.  Cleared when a question ends.
+    timer: null,
+    // Time (in seconds) allowed per question.
+    timePerQuestion: 15
+};
+
+// Mostra a seleção de álbuns para o modo Letras.  Esta tela lista
+// todos os álbuns disponíveis com suas capas e nomes.  O jogador
+// escolhe um álbum para começar o quiz de letras.  Se o jogador
+// clicar em "Voltar", a seleção é fechada e retorna ao menu principal.
+function showLettersAlbumSelection() {
+    // Esconde o conteúdo principal do quiz e marca o corpo como ativo para o modo letras
+    try { if (typeof hideMainGame === 'function') hideMainGame(); } catch (e) {}
+    document.body.classList.add('letters-active');
+    // Seleciona o contêiner de seleção de álbuns
+    const selection = document.getElementById('letters-selection');
+    if (!selection) return;
+    // Carrega a lista de álbuns já concluídos (se houver) a partir do localStorage.
+    const completed = JSON.parse(localStorage.getItem('cbjr_letters_completed') || '[]');
+    // Calcula quais álbuns estão desbloqueados.  O primeiro álbum sempre
+    // aparece; o próximo só é desbloqueado se o anterior estiver na lista
+    // de concluídos.  Permite re-jogar qualquer álbum já liberado.
+    const unlocked = [];
+    for (const id of lettersMode.albumOrder) {
+        unlocked.push(id);
+        if (!completed.includes(id)) {
+            break;
+        }
+    }
+    // Constrói a grade de álbuns apenas com os álbuns desbloqueados.
+    const albumCardsHtml = unlocked.map(id => {
+        const album = lettersMode.albumMap[id];
+        const coverUrl = album.cover ? `https://raw.githubusercontent.com/charlibriano/Quiz-CBJR/main/${album.cover}` : '';
+        return `
+            <div class="letters-album-card" data-album-id="${album.id}">
+                <img src="${coverUrl}" alt="${album.name}">
+                <h3>${album.name}</h3>
+            </div>
+        `;
+    }).join('');
+    // Monta o HTML da tela de seleção.  Listamos somente os discos
+    // desbloqueados e fornecemos um botão de retorno ao menu.
+    selection.innerHTML = `
+        <h2 style="text-align:center; margin-bottom: 20px; font-family: 'Elektrix', sans-serif; color: var(--cor-amarelo-cbjr);">Selecione o Álbum</h2>
+        <div class="letters-album-grid">${albumCardsHtml}</div>
+        <div style="text-align:center; margin-top: 20px;">
+            <button id="letters-selection-exit-btn" class="exit-button"><i class="fas fa-door-open"></i> Voltar ao menu</button>
+        </div>
+    `;
+    // Exibe a seleção de álbuns
+    selection.style.display = 'block';
+    selection.classList.add('show');
+    // Adiciona ouvintes para cada card de álbum
+    selection.querySelectorAll('.letters-album-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const albumId = card.getAttribute('data-album-id');
+            // Esconde a seleção antes de iniciar o modo
+            selection.style.display = 'none';
+            selection.classList.remove('show');
+            // Inicia o modo letras com o álbum escolhido
+            startLettersMode(albumId);
+        });
+    });
+    // Botão de saída retorna ao menu principal
+    const exitBtn = document.getElementById('letters-selection-exit-btn');
+    if (exitBtn) {
+        exitBtn.addEventListener('click', () => {
+            selection.style.display = 'none';
+            selection.classList.remove('show');
+            document.body.classList.remove('letters-active');
+            // Mostra novamente o conteúdo principal do quiz e menu
+            try { if (typeof showMainGame === 'function') showMainGame(); } catch (e) {}
+            try { if (typeof showIntroMessage === 'function') showIntroMessage(); } catch (e) {}
+        });
+    }
+}
+async function startLettersMode(albumId = 'tcp') {
+    try { quizState.quizPaused = true; } catch (e) {}
+    lettersMode.currentAlbumId = albumId;
+    lettersMode.correct = 0;
+    lettersMode.errors = 0;
+    lettersMode.currentIndex = 0;
+    if (typeof hideMainGame === 'function') {
+        hideMainGame();
+    }
+    document.body.classList.add('letters-active');
+    const album = lettersMode.albumMap[albumId];
+    let data;
+    try {
+        const resp = await fetch(album.url);
+        data = await resp.json();
+    } catch (err) {
+        console.error('Erro ao carregar letras:', err);
+        alert('Erro ao carregar letras do álbum.');
+        return;
+    }
+    lettersMode.questions = data.musicas.map(song => {
+        const lines = Array.isArray(song.linhas) ? song.linhas : [];
+        const snippetLength = 3;
+        // Encontra todos os índices onde snippetLength linhas consecutivas não estão vazias
+        const validStartIndices = [];
+        for (let i = 0; i <= lines.length - snippetLength; i++) {
+            let valid = true;
+            for (let j = 0; j < snippetLength; j++) {
+                const ln = lines[i + j];
+                if (!ln || ln.trim() === '') {
+                    valid = false;
+                    break;
+                }
+            }
+            if (valid) validStartIndices.push(i);
+        }
+        let phrase;
+        if (validStartIndices.length > 0) {
+            const randIdx = validStartIndices[Math.floor(Math.random() * validStartIndices.length)];
+            phrase = lines.slice(randIdx, randIdx + snippetLength).map(l => l.trim()).join('<br>');
+        } else {
+            // Fallback: usa as primeiras linhas não vazias disponíveis
+            const nonEmpty = lines.filter(l => l && l.trim() !== '');
+            phrase = nonEmpty.slice(0, snippetLength).map(l => l.trim()).join('<br>');
+        }
+        // Gera lista de títulos como opções, incluindo o correto e três aleatórios
+        const titles = data.musicas.map(m => m.titulo);
+        const options = [ song.titulo ];
+        while (options.length < 4) {
+            const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+            if (!options.includes(randomTitle)) options.push(randomTitle);
+        }
+        // Retorna o objeto de pergunta sem embaralhar; a embaralhamento é feito ao exibir
+        return {
+            phrase: phrase,
+            correct: song.titulo,
+            options: options
+        };
+    });
+    showLettersQuestion();
+    // Auto-play the audio when entering Modo Letras, similar to quiz
+    if (typeof playSong === 'function' && playerState && playerState.playlist && playerState.playlist.length > 0) {
+        if (elements.audio.paused || (typeof achievementMusicUrl !== 'undefined' && elements.audio.src.includes(achievementMusicUrl))) {
+            // keep current song if available, otherwise random selection is performed in startQuiz
+            playSong();
+        }
+    }
+}
+function showLettersQuestion() {
+    const screen = document.getElementById('letters-screen');
+    if (!screen) return;
+    screen.style.display = 'block';
+    screen.classList.add('show');
+    if (lettersMode.currentIndex >= lettersMode.questions.length || lettersMode.errors >= lettersMode.maxErrors) {
+        endLettersGame();
+        return;
+    }
+    const q = lettersMode.questions[lettersMode.currentIndex];
+    const statusBar = `
+      <div class="letters-status-bar">
+        <span>Questão ${lettersMode.currentIndex + 1} / ${lettersMode.questions.length}</span>
+        <span>Acertos: ${lettersMode.correct}</span>
+        <span>Erros: ${lettersMode.errors} / ${lettersMode.maxErrors}</span>
+        <span>Tempo: <span id="letters-timer">${lettersMode.timePerQuestion}</span>s</span>
+      </div>
+    `;
+    // Shuffle the options each time a question is shown so that answers are in a random order.
+    const shuffledOptions = [...q.options];
+    for (let i = shuffledOptions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+    }
+    const optionsHtml = shuffledOptions.map(opt => {
+        // Store the option text directly in a data attribute so we can compare it without relying on indices.
+        return `<button class="letters-option-btn" data-option="${opt}">${opt}</button>`;
+    }).join('');
+    screen.innerHTML = `
+      <h2>Modo Letras</h2>
+      ${statusBar}
+      <div class="letters-phrase">${q.phrase}</div>
+      <div class="letters-options-grid">${optionsHtml}</div>
+      <p id="letters-feedback-message" class="letters-feedback"></p>
+    `;
+    const buttons = screen.querySelectorAll('.letters-option-btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const selected = btn.getAttribute('data-option');
+            handleLettersAnswer(selected);
+        }, { once: true });
+    });
+    startLettersTimer();
+}
+function startLettersTimer() {
+    clearInterval(lettersMode.timer);
+    let timeLeft = lettersMode.timePerQuestion;
+    lettersMode.timer = setInterval(() => {
+        timeLeft--;
+        const timerSpan = document.getElementById('letters-timer');
+        if (timerSpan) timerSpan.textContent = timeLeft;
+        if (timeLeft <= 0) {
+            clearInterval(lettersMode.timer);
+            handleLettersAnswer(null, true);
+        }
+    }, 1000);
+}
+function handleLettersAnswer(selectedOption, isTimeout = false) {
+    clearInterval(lettersMode.timer);
+    const screen = document.getElementById('letters-screen');
+    const q = lettersMode.questions[lettersMode.currentIndex];
+    const buttons = screen.querySelectorAll('.letters-option-btn');
+    // Determine which option was selected, unless it was a timeout.
+    let answerChosen = null;
+    if (!isTimeout && selectedOption !== null && selectedOption !== undefined) {
+        answerChosen = selectedOption;
+    }
+    buttons.forEach(btn => {
+        const text = btn.textContent;
+        // Only highlight the option chosen by the user.  If a timeout occurred, no answer is highlighted.
+        if (answerChosen && text === answerChosen) {
+            if (answerChosen === q.correct) {
+                btn.classList.add('correct');
+            } else {
+                btn.classList.add('incorrect');
+            }
+        }
+        btn.disabled = true;
+    });
+    // Update the score/error counts based on whether the chosen answer matches the correct answer.
+    if (!isTimeout && answerChosen === q.correct) {
+        lettersMode.correct++;
+    } else {
+        lettersMode.errors++;
+    }
+    // Display feedback message for this question
+    const feedbackEl = document.getElementById('letters-feedback-message');
+    if (feedbackEl) {
+        if (isTimeout) {
+            feedbackEl.textContent = 'Tempo esgotado!';
+            feedbackEl.style.color = 'var(--cor-vermelho-incorreto)';
+        } else if (answerChosen === q.correct) {
+            feedbackEl.textContent = 'Resposta correta!';
+            feedbackEl.style.color = 'var(--cor-verde-correto)';
+        } else {
+            feedbackEl.textContent = 'Resposta incorreta!';
+            feedbackEl.style.color = 'var(--cor-vermelho-incorreto)';
+        }
+    }
+    setTimeout(() => {
+        lettersMode.currentIndex++;
+        showLettersQuestion();
+    }, 1000);
+}
+function endLettersGame() {
+    clearInterval(lettersMode.timer);
+    const screen = document.getElementById('letters-screen');
+    const total = lettersMode.questions.length;
+    // Determine if the album was completed.  We consider the album completed
+    // only if the player did not exceed the maximum number of errors.
+    const completedAlbum = lettersMode.errors < lettersMode.maxErrors;
+    // If the album is completed, update the list of completed albums in
+    // localStorage so that the next album can be unlocked.
+    if (completedAlbum) {
+        const completed = JSON.parse(localStorage.getItem('cbjr_letters_completed') || '[]');
+        if (!completed.includes(lettersMode.currentAlbumId)) {
+            completed.push(lettersMode.currentAlbumId);
+            localStorage.setItem('cbjr_letters_completed', JSON.stringify(completed));
+        }
+        // Unlock specific achievement for this album in Modo Letras
+        const letterAchId = `letters_${lettersMode.currentAlbumId}_completed`;
+        if (typeof unlockAchievement === 'function' && achievements[letterAchId]) {
+            unlockAchievement(letterAchId);
+        }
+        // If all albums in Modo Letras are completed, unlock the global letters achievement
+        const completedAlbumsNow = JSON.parse(localStorage.getItem('cbjr_letters_completed') || '[]');
+        if (completedAlbumsNow.length >= lettersMode.albumOrder.length && achievements['letters_all_completed']) {
+            if (typeof unlockAchievement === 'function') {
+                unlockAchievement('letters_all_completed');
+            }
+        }
+    }
+    // Compose a more expressive title and summary for the final screen.
+    const albumName = lettersMode.albumMap[lettersMode.currentAlbumId]?.name || '';
+    const titleText = completedAlbum
+        ? `Parabéns! Você concluiu o álbum <em>${albumName}</em>`
+        : 'Fim de jogo!';
+    // Determine next album unlocked message, if any
+    let nextAlbumMessage = '';
+    if (completedAlbum) {
+        const completedAlbumsList = JSON.parse(localStorage.getItem('cbjr_letters_completed') || '[]');
+        const nextAlbumId = lettersMode.albumOrder.find(id => !completedAlbumsList.includes(id));
+        if (nextAlbumId) {
+            const nextName = lettersMode.albumMap[nextAlbumId]?.name || '';
+            nextAlbumMessage = `<br><br>Você desbloqueou o próximo álbum: <strong>${nextName}</strong>. Vamos ver se conhece mais!`;
+        }
+    }
+    const summaryText = completedAlbum
+        ? `Você acertou <strong>${lettersMode.correct}</strong> de <strong>${total}</strong> perguntas e terminou todas as músicas.${nextAlbumMessage}`
+        : `Você errou <strong>${lettersMode.errors}</strong> vezes (máximo ${lettersMode.maxErrors}) e o jogo terminou. Acertos: <strong>${lettersMode.correct}</strong> de <strong>${total}</strong>.`;
+    screen.innerHTML = `
+      <h2 style="font-family: 'Elektrix', sans-serif; color: var(--cor-amarelo-cbjr); text-align:center;">${titleText}</h2>
+      <p class="letters-final-summary" style="text-align:center; margin: 15px 0;">${summaryText}</p>
+      <div class="letters-final" style="display:flex; justify-content:center; gap:20px;">
+        <button id="letters-restart-btn">Tentar novamente</button>
+        <button id="letters-exit-btn">Voltar ao Menu</button>
+      </div>
+    `;
+    const restartBtn = document.getElementById('letters-restart-btn');
+    if (restartBtn) {
+        restartBtn.addEventListener('click', () => {
+            // Restart the entire Letters Mode to generate new random phrases and option orders.
+            startLettersMode(lettersMode.currentAlbumId);
+        }, { once: true });
+    }
+    const exitBtn = document.getElementById('letters-exit-btn');
+    if (exitBtn) {
+        exitBtn.addEventListener('click', () => {
+            exitLettersMode();
+        }, { once: true });
+    }
+}
+function exitLettersMode() {
+    clearInterval(lettersMode.timer);
+    const screen = document.getElementById('letters-screen');
+    if (screen) {
+        screen.style.display = 'none';
+        screen.classList.remove('show');
+    }
+    document.body.classList.remove('letters-active');
+    if (typeof showMainGame === 'function') {
+        showMainGame();
+    }
+    if (typeof showIntroMessage === 'function') {
+        showIntroMessage();
+    }
+}
+</script>
 <div id="audio-player-wrapper">
 <!-- Adiciona crossOrigin para permitir uso no equalizador -->
 <audio crossorigin="anonymous" id="audio"></audio>
@@ -3973,6 +5048,86 @@ const achievements = {
         description: "Acerte TODAS as músicas no Nível Rádio CBJR.",
         coverFile: "CD%20bonus.jpeg", // Adicione uma imagem para esta capa
         unlocked: false
+    },
+    // Novas conquistas para o modo Rádio
+    "bonus_album_perfectionist": {
+        name: "Perfeição no Disco (Rádio)",
+        description: "Complete um álbum na Rádio sem errar nenhuma música.",
+        coverFile: "CD%20bonus.jpeg",
+        unlocked: false
+    },
+    "bonus_hard_album_completed": {
+        name: "DJ Hardcore (Rádio)",
+        description: "Complete um álbum em modo Hard com pelo menos 90% de acerto.",
+        coverFile: "CD%20bonus.jpeg",
+        unlocked: false
+    },
+    "bonus_fast_guess": {
+        name: "Orelha Absoluta (Rádio)",
+        description: "Acerte uma música em menos de 5 segundos.",
+        coverFile: "CD%20bonus.jpeg",
+        unlocked: false
+    },
+    "bonus_all_albums_completed": {
+        name: "Rei Supremo da Rádio",
+        description: "Complete todos os discos na Rádio com perfeição.",
+        coverFile: "CD%20bonus.jpeg",
+        unlocked: false
+    },
+    // Conquistas do Modo Letras
+    "letters_tcp_completed": {
+        name: "Transpiração Contínua e Prolongada (Modo Letras)",
+        description: "Complete o Modo Letras para o álbum Transpiração Contínua e Prolongada.",
+        coverFile: "CD%201.jpeg",
+        unlocked: false
+    },
+    "letters_pcpl_completed": {
+        name: "Preço Curto Prazo Longo (Modo Letras)",
+        description: "Complete o Modo Letras para o álbum Preço Curto Prazo Longo.",
+        coverFile: "CD%202.jpeg",
+        unlocked: false
+    },
+    "letters_nadando_completed": {
+        name: "Nadando com os Tubarões (Modo Letras)",
+        description: "Complete o Modo Letras para o álbum Nadando com os Tubarões.",
+        coverFile: "CD%203.jpeg",
+        unlocked: false
+    },
+    "letters_cbjr100_completed": {
+        name: "100% Charlie Brown Jr. (Modo Letras)",
+        description: "Complete o Modo Letras para o álbum 100% Charlie Brown Jr.",
+        coverFile: "CD%204_.jpeg",
+        unlocked: false
+    },
+    "letters_bocas_completed": {
+        name: "Bocas Ordinárias (Modo Letras)",
+        description: "Complete o Modo Letras para o álbum Bocas Ordinárias.",
+        coverFile: "CD%205.jpeg",
+        unlocked: false
+    },
+    "letters_atividade_completed": {
+        name: "Tamo Aí na Atividade (Modo Letras)",
+        description: "Complete o Modo Letras para o álbum Tamo Aí na Atividade.",
+        coverFile: "CD%207.jpeg",
+        unlocked: false
+    },
+    "letters_imunidade_completed": {
+        name: "Imunidade Musical (Modo Letras)",
+        description: "Complete o Modo Letras para o álbum Imunidade Musical.",
+        coverFile: "CD%208.jpeg",
+        unlocked: false
+    },
+    "letters_ritmo_completed": {
+        name: "Ritmo, Ritual e Responsa (Modo Letras)",
+        description: "Complete o Modo Letras para o álbum Ritmo, Ritual e Responsa.",
+        coverFile: "CD%209.jpeg",
+        unlocked: false
+    },
+    "letters_all_completed": {
+        name: "Coleção Completa (Modo Letras)",
+        description: "Complete o Modo Letras para todos os álbuns.",
+        coverFile: "CD%20bonus.jpeg",
+        unlocked: false
     }
 };
 
@@ -3993,6 +5148,23 @@ const achievementCdCovers = {
     "secret_level_completed": "CD%2013.jpeg",
     "used_skip": "CD%2013.jpeg", // Mantido como um CD genérico para este power-up
     "bonus_music_master": "CD%20bonus.jpeg" // Nova capa para o bônus
+    ,
+    // Mapas de capas para conquistas do Modo Letras
+    "letters_tcp_completed": "CD%201.jpeg",
+    "letters_pcpl_completed": "CD%202.jpeg",
+    "letters_nadando_completed": "CD%203.jpeg",
+    "letters_cbjr100_completed": "CD%204_.jpeg",
+    "letters_bocas_completed": "CD%205.jpeg",
+    "letters_atividade_completed": "CD%207.jpeg",
+    "letters_imunidade_completed": "CD%208.jpeg",
+    "letters_ritmo_completed": "CD%209.jpeg",
+    "letters_all_completed": "CD%20bonus.jpeg"
+    ,
+    // Capas para novas conquistas do modo Rádio
+    "bonus_album_perfectionist": "CD%20bonus.jpeg",
+    "bonus_hard_album_completed": "CD%20bonus.jpeg",
+    "bonus_fast_guess": "CD%20bonus.jpeg",
+    "bonus_all_albums_completed": "CD%20bonus.jpeg"
 };
 
 // NOVO: Mapeamento dos nomes dos CDs para exibir no pop-up de detalhes
@@ -4128,7 +5300,14 @@ const elements = {
     statisticsCloseBtn: document.getElementById('statistics-close-btn'),
     
     // NOVO: Referência para o wrapper do player de áudio para ocultar/mostrar
-    audioPlayerWrapper: document.getElementById('audio-player-wrapper')
+    audioPlayerWrapper: document.getElementById('audio-player-wrapper'),
+    
+    // NOVOS: Elementos para a navegação de conquistas por categoria
+    achievementsCategoryContainer: document.getElementById('achievements-category-container'),
+    categoryAchievementsContainer: document.getElementById('category-achievements-container'),
+    categoryTitle: document.getElementById('category-title'),
+    categoryProgress: document.getElementById('category-progress'),
+    backToCategoriesBtn: document.getElementById('back-to-categories-btn')
 };
 
 // --- Variáveis e funções para reposicionar o player de áudio ---
@@ -4891,36 +6070,76 @@ function showIntroMessage() {
         exitBtn.style.display = 'none';
     }
 
-    // Recria o HTML da tela de boas-vindas para garantir que ela esteja sempre completa
+    // Recria o HTML da tela de boas-vindas com um layout mais moderno e atrativo
     elements.welcomeScreen.innerHTML = `
-        <h3>Bem-vindo(a) ao Quiz do Charlie Brown Jr!</h3>
-        <p class="intro-text">
-            Mostre que você é um verdadeiro **Marginal Alado** e teste seus conhecimentos sobre a banda que marcou gerações!
+        <h3 style="font-family: 'Elektrix', sans-serif; font-size: 2.2em; margin-bottom: 10px; text-align:center;">Bem‑vindo(a) ao universo Charlie Brown Jr</h3>
+        <p class="intro-text" style="font-family: Arial, sans-serif; font-size: 1.1em; opacity: 0.9; max-width: 800px; margin: 0 auto; text-align:center;">
+            Explore o universo CBJR: responda perguntas no <strong>Quiz</strong>, descubra músicas na <strong>Rádio</strong> ou complete trechos no <strong>Modo&nbsp;Letras</strong>.
         </p>
-        <div class="message-buttons">
-            <button id="start-quiz-button-welcome"><i class="fas fa-play"></i> Entrar no Quiz</button>
-            <button id="show-achievements-button-intro"><i class="fas fa-trophy"></i> Conquistas</button>
-            <button id="show-ranking-button-intro"><i class="fas fa-ranking-star"></i> Ranking Online</button>
-            <button id="start-bonus-music-btn"><i class="fas fa-headphones-simple"></i> Rádio CBJR</button>
+        <!-- Resumo de progresso das modalidades será preenchido dinamicamente via JS -->
+        <div id="intro-summary" class="intro-summary" style="font-family: Arial, sans-serif; font-size: 0.95em; opacity: 0.85; color: var(--cor-texto-claro); margin: 10px auto 20px; text-align:center;">
+            <!-- Conteúdo será definido em showIntroMessage() -->
+        </div>
+        <div class="intro-cards-container">
+            <div class="intro-card" id="card-quiz">
+                <div class="card-icon"><i class="fas fa-gamepad"></i></div>
+                <h4>Modo Quiz</h4>
+                <p>Responda perguntas sobre a discografia, curiosidades e história da banda.</p>
+            </div>
+            <div class="intro-card" id="card-radio">
+                <div class="card-icon"><i class="fas fa-headphones"></i></div>
+                <h4>Rádio CBJR</h4>
+                <p>Acerte o nome da música só pelo som. Escolha Normal ou Hard para mais desafio.</p>
+            </div>
+            <div class="intro-card" id="card-letters">
+                <div class="card-icon"><i class="fas fa-music"></i></div>
+                <h4>Modo Letras</h4>
+                <p>Descubra a música por trechos de letras e desbloqueie novos álbuns.</p>
+            </div>
+            <div class="intro-card" id="card-achievements">
+                <div class="card-icon"><i class="fas fa-trophy"></i></div>
+                <h4>Conquistas</h4>
+                <p>Acompanhe suas conquistas e veja o quão profundo é seu conhecimento.</p>
+            </div>
+        </div>
+        <div class="intro-actions">
+            <button id="show-ranking-button-intro" class="secondary-action"><i class="fas fa-ranking-star"></i> Ranking Online</button>
         </div>
     `;
 
-    // Busca os botões e adiciona os eventos
-    const startBtn = elements.welcomeScreen.querySelector('#start-quiz-button-welcome');
-    if (startBtn) {
-        startBtn.onclick = showDifficultyScreen;
+    // Associa eventos aos cartões da tela inicial
+    const quizCardEl = elements.welcomeScreen.querySelector('#card-quiz');
+    if (quizCardEl) {
+        quizCardEl.onclick = () => {
+            // Sempre leva o usuário à seleção de dificuldade
+            showDifficultyScreen();
+        };
     }
-    const achievementsBtn = elements.welcomeScreen.querySelector('#show-achievements-button-intro');
-    if (achievementsBtn) {
-        achievementsBtn.onclick = showAchievementsScreen;
+    const radioCardEl = elements.welcomeScreen.querySelector('#card-radio');
+    if (radioCardEl) {
+        radioCardEl.onclick = () => {
+            // Abre a seleção de discos para o modo Rádio
+            showDiscoSelectionScreen();
+        };
     }
+    const lettersCardEl = elements.welcomeScreen.querySelector('#card-letters');
+    if (lettersCardEl) {
+        lettersCardEl.onclick = () => {
+            if (typeof showLettersAlbumSelection === 'function') {
+                showLettersAlbumSelection();
+            } else {
+                startLettersMode('tcp');
+            }
+        };
+    }
+    const achievementsCardEl = elements.welcomeScreen.querySelector('#card-achievements');
+    if (achievementsCardEl) {
+        achievementsCardEl.onclick = showAchievementsScreen;
+    }
+    // Botão de ranking permanece como ação separada
     const rankingBtn = elements.welcomeScreen.querySelector('#show-ranking-button-intro');
     if (rankingBtn) {
         rankingBtn.onclick = () => showRankingScreen('quiz');
-    }
-    const bonusBtn = elements.welcomeScreen.querySelector('#start-bonus-music-btn');
-    if (bonusBtn) {
-        bonusBtn.onclick = showDiscoSelectionScreen;
     }
 
     // === Início da correção: inserir botão "Continuar Quiz" se houver progresso salvo ===
@@ -4936,8 +6155,8 @@ function showIntroMessage() {
             }
         }
         if (hasSavedProgress) {
-            const container = elements.welcomeScreen.querySelector('.message-buttons');
-            if (container) {
+            const actionsContainer = elements.welcomeScreen.querySelector('.intro-actions');
+            if (actionsContainer) {
                 const continueBtn = document.createElement('button');
                 continueBtn.id = 'continue-quiz-button';
                 continueBtn.innerHTML = '<i class="fas fa-redo"></i> Continuar Quiz';
@@ -4954,12 +6173,78 @@ function showIntroMessage() {
                         console.error('Erro ao tentar continuar quiz salvo:', e);
                     }
                 };
-                // Insere o botão no início da lista de botões para dar destaque
-                container.prepend(continueBtn);
+                // Insere o botão no início da barra de ações para dar destaque
+                actionsContainer.prepend(continueBtn);
             }
         }
     } catch (e) {
         console.error('Erro ao verificar progresso salvo:', e);
+    }
+
+    // Atualiza o resumo de progresso das modalidades (Quiz, Rádio e Letras)
+    try {
+        const summaryEl = elements.welcomeScreen.querySelector('#intro-summary');
+        if (summaryEl) {
+            // Progresso do Quiz
+            let quizProgressNum = 0;
+            let quizTotalNum = 0;
+            try {
+                const savedQuizJSON = localStorage.getItem('cobjr_quiz_progress');
+                if (savedQuizJSON) {
+                    const savedQuiz = JSON.parse(savedQuizJSON);
+                    if (savedQuiz && savedQuiz.quizState) {
+                        quizProgressNum = savedQuiz.quizState.currentLevel || 0;
+                        // totalMainLevels se definido, senão totalLevels
+                        quizTotalNum = savedQuiz.quizState.totalMainLevels || savedQuiz.quizState.totalLevels || 0;
+                    }
+                }
+                if (!quizTotalNum && quizState && typeof quizState.totalMainLevels === 'number') {
+                    quizTotalNum = quizState.totalMainLevels;
+                }
+            } catch (err) {
+                console.warn('Erro ao calcular progresso do Quiz:', err);
+            }
+            // Progresso da Rádio
+            let radioTotal = Array.isArray(bonusDiscos) ? bonusDiscos.length : 0;
+            let radioCompleted = 0;
+            try {
+                const bonusProgJSON = localStorage.getItem('cobjr_bonus_progress');
+                if (bonusProgJSON) {
+                    const bonusProg = JSON.parse(bonusProgJSON);
+                    const scoreHistory = bonusProg.scorePerDisco || {};
+                    if (Array.isArray(bonusDiscos)) {
+                        for (let i = 0; i < bonusDiscos.length; i++) {
+                            const disc = bonusDiscos[i];
+                            const totalSongsInDisc = Array.isArray(disc.musicas) ? disc.musicas.length : 0;
+                            const discScore = scoreHistory[i] || 0;
+                            if (totalSongsInDisc > 0 && discScore >= totalSongsInDisc) {
+                                radioCompleted++;
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                console.warn('Erro ao calcular progresso da Rádio:', err);
+            }
+            // Progresso do Modo Letras
+            let lettersTotal = 0;
+            let lettersCompleted = 0;
+            try {
+                lettersTotal = Object.keys(lettersMode && lettersMode.albumMap ? lettersMode.albumMap : {}).length;
+                const lettersCompletedJSON = localStorage.getItem('cbjr_letters_completed');
+                if (lettersCompletedJSON) {
+                    const completedList = JSON.parse(lettersCompletedJSON);
+                    if (Array.isArray(completedList)) {
+                        lettersCompleted = completedList.length;
+                    }
+                }
+            } catch (err) {
+                console.warn('Erro ao calcular progresso de Letras:', err);
+            }
+            summaryEl.innerHTML = `<strong>Progresso:</strong> Quiz ${quizProgressNum}/${quizTotalNum} • Rádio ${radioCompleted}/${radioTotal} • Letras ${lettersCompleted}/${lettersTotal}`;
+        }
+    } catch (err) {
+        console.error('Erro ao atualizar resumo de progresso:', err);
     }
     // === Fim da correção ===
 
@@ -5133,6 +6418,16 @@ function startQuiz(difficulty) {
     // assume uma posição fixa compacta no canto superior direito.
     document.body.classList.remove('intro-active', 'radio-active');
     document.body.classList.add('quiz-active');
+
+    // Inicie automaticamente a música se houver um player carregado.
+    // Isso garante que o áudio comece a tocar sem que o usuário tenha que clicar no botão play.
+    try {
+        if (typeof playSong === 'function') {
+            playSong();
+        }
+    } catch (e) {
+        console.warn('Não foi possível iniciar a música automaticamente ao iniciar o quiz:', e);
+    }
 
     // Tentar recuperar progresso salvo no localStorage para esta dificuldade,
     // a menos que estejamos iniciando um novo jogo (shouldIgnoreSavedProgress).
@@ -5700,41 +6995,108 @@ function showAchievementsScreen() {
     elements.achievementsScreen.style.display = 'flex';
     setTimeout(() => elements.achievementsScreen.classList.add('show'), 10); // Pequeno delay para a transição funcionar
 
-    // Limpa e popula a lista
+    // Esconde qualquer listagem anterior e exibe a navegação por categorias
+    elements.categoryAchievementsContainer.style.display = 'none';
+    elements.achievementsCategoryContainer.style.display = 'grid';
     elements.achievementsList.innerHTML = '';
-    const sortedAchievementIds = Object.keys(achievements).sort((a, b) => {
-        const cdA = achievementCdCovers[a];
-        const cdB = achievementCdCovers[b];
-        const nameA = cdNames[cdA] || achievements[a].name;
-        const nameB = cdNames[cdB] || achievements[b].name;
-        const yearMatchA = nameA.match(/\((\d{4})\)/);
-        const yearA = yearMatchA ? parseInt(yearMatchA[1]) : 9999;
-        const yearMatchB = nameB.match(/\((\d{4})\)/);
-        const yearB = yearMatchB ? parseInt(yearMatchB[1]) : 9999;
-        if (yearA !== yearB) return yearA - yearB;
-        return achievements[a].name.localeCompare(achievements[b].name);
-    });
+    // Renderiza os cartões de categorias com progresso
+    renderCategoryCards();
+    // Configura botões de navegação
+    elements.backToCategoriesBtn.onclick = backToCategories;
+    document.getElementById('close-achievements-btn').onclick = closeAchievementsScreen;
+}
 
-    sortedAchievementIds.forEach(id => {
+// ==================================================================
+// NOVAS FUNÇÕES: Gerenciamento de categorias de conquistas (Quiz / Rádio / Letras)
+// Estas funções implementam a navegação entre categorias de conquistas e
+// a apresentação de conquistas específicas de cada categoria.
+
+// Determina a categoria de uma conquista com base no seu ID.
+function getAchievementCategory(id) {
+    // Conquistas do modo Letras começam com "letters_"
+    if (id.startsWith('letters_')) {
+        return 'letters';
+    }
+    // Conquistas do modo Rádio contêm "bonus" (para "bonus_music_master" etc.)
+    if (id.includes('bonus')) {
+        return 'radio';
+    }
+    // Todas as demais conquistas são do quiz principal
+    return 'quiz';
+}
+
+// Definições das categorias e ícones
+const achievementCategories = {
+    quiz: { name: 'Quiz', icon: '🎯' },
+    radio: { name: 'Rádio', icon: '🎵' },
+    letters: { name: 'Letras', icon: '📝' }
+};
+
+// Renderiza os cartões de categoria na tela de conquistas
+function renderCategoryCards() {
+    const container = elements.achievementsCategoryContainer;
+    container.innerHTML = '';
+    Object.keys(achievementCategories).forEach(catKey => {
+        const catDef = achievementCategories[catKey];
+        // Conta quantas conquistas existem e quantas estão desbloqueadas
+        let total = 0;
+        let unlocked = 0;
+        Object.keys(achievements).forEach(id => {
+            if (getAchievementCategory(id) === catKey) {
+                total++;
+                if (achievements[id].unlocked) unlocked++;
+            }
+        });
+        const card = document.createElement('div');
+        card.className = 'category-card';
+        card.dataset.category = catKey;
+        card.innerHTML = `
+            <h3>${catDef.icon} ${catDef.name}</h3>
+            <p>${unlocked} de ${total} desbloqueadas</p>
+        `;
+        card.addEventListener('click', () => showCategoryAchievements(catKey));
+        container.appendChild(card);
+    });
+}
+
+// Mostra as conquistas de uma categoria específica
+function showCategoryAchievements(catKey) {
+    // Oculta a lista de categorias e mostra a lista da categoria selecionada
+    elements.achievementsCategoryContainer.style.display = 'none';
+    elements.categoryAchievementsContainer.style.display = 'flex';
+    // Atualiza título e progresso
+    const catDef = achievementCategories[catKey];
+    elements.categoryTitle.textContent = `Conquistas - ${catDef.name}`;
+    // Calcula total e desbloqueadas
+    const ids = Object.keys(achievements).filter(id => getAchievementCategory(id) === catKey);
+    let total = ids.length;
+    let unlocked = ids.reduce((acc, id) => acc + (achievements[id].unlocked ? 1 : 0), 0);
+    elements.categoryProgress.textContent = `${unlocked} de ${total} conquistas desbloqueadas`;
+    // Limpa lista e popula as conquistas desta categoria
+    const listEl = elements.achievementsList;
+    listEl.innerHTML = '';
+    // Ordena conquistas alfabeticamente pelo nome
+    ids.sort((a, b) => achievements[a].name.localeCompare(achievements[b].name));
+    ids.forEach(id => {
         const achievement = achievements[id];
         const isUnlocked = achievement.unlocked;
         const card = document.createElement('div');
         card.className = `achievement-card ${isUnlocked ? 'unlocked' : ''}`;
         card.dataset.achievementId = id;
-        
-        card.addEventListener('click', () => showAchievementDetailPopup(id));
-
         card.innerHTML = `
-            <h3>
-                <span>${achievement.name}</span> <span class="achievement-icon">${isUnlocked ? '🏆' : '🔒'}</span>
-            </h3>
+            <h3><span>${achievement.name}</span> <span class="achievement-icon">${isUnlocked ? '🏆' : '🔒'}</span></h3>
             <p>${achievement.description}</p>
             <div class="status ${isUnlocked ? 'unlocked' : 'locked'}">${isUnlocked ? 'Desbloqueada' : 'Bloqueada'}</div>
         `;
-        elements.achievementsList.appendChild(card);
+        card.addEventListener('click', () => showAchievementDetailPopup(id));
+        listEl.appendChild(card);
     });
+}
 
-    document.getElementById('close-achievements-btn').onclick = closeAchievementsScreen;
+// Retorna à lista de categorias a partir de uma categoria específica
+function backToCategories() {
+    elements.categoryAchievementsContainer.style.display = 'none';
+    elements.achievementsCategoryContainer.style.display = 'grid';
 }
 // ==================================================================
 // FIM DA CORREÇÃO DA TELA DE CONQUISTAS
@@ -7768,6 +9130,44 @@ function endBonusMusicGame() {
             slowestName: slowestName,
             slowestDurationText: slowestDurationText
         };
+        // Antes de decidir qual resumo mostrar, avalia conquistas relacionadas ao desempenho do disco.
+        try {
+            // Conquista: acerte uma música em menos de 5 segundos
+            if (fastestSong && typeof fastestSong.time === 'number' && fastestSong.time <= 5) {
+                if (typeof unlockAchievement === 'function') unlockAchievement('bonus_fast_guess');
+            }
+            // Conquista: complete o álbum sem errar nenhuma música
+            if (correctAnswersInRound === totalSongs) {
+                if (typeof unlockAchievement === 'function') unlockAchievement('bonus_album_perfectionist');
+            }
+            // Conquista: complete o álbum em modo Hard com pelo menos 90% de acerto
+            if (bonusGameState.difficulty === 'hard' && percentCorrect >= 0.9) {
+                if (typeof unlockAchievement === 'function') unlockAchievement('bonus_hard_album_completed');
+            }
+            // Conquista: complete todos os álbuns com perfeição (sem errar nenhuma música)
+            {
+                let allPerfectTmp = true;
+                try {
+                    const progress2 = JSON.parse(localStorage.getItem('cobjr_bonus_progress')) || {};
+                    const scoreHistory2 = progress2.scorePerDisco || {};
+                    for (let i = 0; i < bonusDiscos.length; i++) {
+                        const totalDisc = (bonusDiscos[i] && bonusDiscos[i].musicas) ? bonusDiscos[i].musicas.length : 0;
+                        if ((scoreHistory2[i] || 0) < totalDisc) {
+                            allPerfectTmp = false;
+                            break;
+                        }
+                    }
+                } catch (e) {
+                    allPerfectTmp = false;
+                }
+                if (allPerfectTmp) {
+                    if (typeof unlockAchievement === 'function') unlockAchievement('bonus_all_albums_completed');
+                }
+            }
+        } catch (err) {
+            console.warn('Erro ao avaliar conquistas no resumo do disco:', err);
+        }
+
         // Se o jogador acertou 90% ou mais das músicas, exibe a tela de desbloqueio do CD.
         if (percentCorrect >= 0.9) {
             showCdUnlocked(summaryData);
@@ -7824,6 +9224,7 @@ function endBonusMusicGame() {
     if (bonusGameState.missedSongs.length > 0) {
         errosHtml = `<div class="erros-lista"><h4 style="margin-top: 20px;">Seus erros neste disco:</h4><ul>${bonusGameState.missedSongs.map(missed => `<li><span class="correct-answer"><b>Correta:</b> ${missed.correctAnswer}</span><span class="user-answer"><b>Sua resposta:</b> ${missed.userAnswer || '-- PULO --'}</span></li>`).join('')}</ul></div>`;
     }
+
 
     elements.bonusMusicScreen.innerHTML = `
         <h2>${title}</h2>
