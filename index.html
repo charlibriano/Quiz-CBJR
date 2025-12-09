@@ -3345,33 +3345,25 @@
            classe 'intro-active', usamos um grid que distribui os cartões
            horizontalmente em telas largas e se ajusta em telas menores.
            Esta regra substitui definições anteriores e evita listas verticais. */
+        /* Distribui os cartões em uma grade responsiva. Utiliza auto-fit para
+           permitir duas colunas em telas médias e grandes e ajusta para uma
+           coluna apenas quando o espaço não comporta duas cartas. O uso de
+           minmax garante que cada cartão tenha no mínimo 160px sem exceder
+           a largura disponível. */
         body.intro-active #welcome-screen .intro-cards-container {
-            /* Organiza as cartas em duas colunas em telas largas. Cada cartão
-               tem a mesma largura, garantindo um layout equilibrado. */
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
             width: 100%;
-            margin-top: 25px;
-        }
-        @media (max-width: 768px) {
-            body.intro-active #welcome-screen .intro-cards-container {
-                grid-template-columns: 1fr;
-            }
-        }
-        @media (min-width: 1200px) {
-            body.intro-active #welcome-screen .intro-cards-container {
-                /* Em telas muito largas, mantém duas colunas para foco visual */
-                grid-template-columns: 1fr 1fr;
-            }
+            margin-top: 20px;
         }
 
-        /* Oculta o player de áudio na tela de introdução para não distrair
-           o usuário e evitar que o componente sobreponha os cartões.
-           O player será exibido novamente quando outras telas estiverem ativas. */
-        /* Oculta totalmente o player de áudio durante a tela de introdução,
-           independente de estar ou não posicionado dentro da caixa de boas‑vindas. */
-        body.intro-active #audio-player-wrapper {
+        /* Oculta o player de áudio quando não está em um modo que necessita dele.
+           Assim, o componente não sobrepõe os cartões ou os botões de resposta.
+           O player será exibido apenas no modo Rádio. */
+        body.intro-active #audio-player-wrapper,
+        body.quiz-active #audio-player-wrapper,
+        body.letters-active #audio-player-wrapper {
             display: none !important;
         }
     </style>
