@@ -1143,6 +1143,13 @@
             gap: 4px !important;
             z-index: 6000 !important;
         }
+
+        /* Sobrescreve a posição e o tamanho do player de áudio para sumir no modo
+           Quiz e no modo Letras. O player permanece visível apenas no modo Rádio. */
+        body.quiz-active #audio-player-wrapper,
+        body.letters-active #audio-player-wrapper {
+            display: none !important;
+        }
         }
 
         .player-content {
@@ -3244,12 +3251,12 @@
                em duas colunas mesmo em resoluções menores. */
             /* Reduz ainda mais o acolchoamento para diminuir a altura total dos cartões
                e melhorar a responsividade em resoluções médias e grandes. */
-            padding: 14px 12px;
+            padding: 12px 10px;
             width: 100%;
-            max-width: 260px;
-            /* Define uma altura mínima ainda mais compacta para que todos os quatro cartões
-               caibam na tela inicial sem exigir rolagem em monitores comuns. */
-            min-height: 130px;
+            max-width: 220px;
+            /* Ajusta a altura mínima para caber melhor em telas pequenas, permitindo
+               que todos os cartões sejam exibidos sem rolagem vertical na maioria dos aparelhos. */
+            min-height: 120px;
             text-align: center;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
@@ -3352,8 +3359,10 @@
            a largura disponível. */
         body.intro-active #welcome-screen .intro-cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 20px;
+            /* Cartões responsivos: cada coluna tem no mínimo 140px, permitindo
+               duas colunas mesmo em telas estreitas (~320px) sem quebrar a grade. */
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
             width: 100%;
             margin-top: 20px;
         }
@@ -3900,9 +3909,13 @@ body.m3-ready #audio-player-wrapper *{ opacity:1 !important; visibility:visible 
         body.quiz-active #quiz,
         body.letters-active #letters-screen {
             /* Caixa central dos modos: centralizada com largura moderada para evitar cortes em telas comuns */
-            width: 80%;
-            max-width: 850px;
-            margin: 8vh auto 0 auto;
+            /* Em modos de jogo, reduzimos a largura e a margem para que o contêiner
+               ocupe a maior parte da tela sem forçar o usuário a rolar. 90% de largura
+               com limite de 650px oferece um bom equilíbrio entre conforto e visibilidade
+               em dispositivos móveis e desktop. */
+            width: 90%;
+            max-width: 650px;
+            margin: 6vh auto;
             padding: 24px 32px;
             background: rgba(5, 5, 15, 0.8);
             backdrop-filter: blur(6px);
